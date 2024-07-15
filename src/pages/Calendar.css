@@ -2,10 +2,26 @@
   background-color: #1f1f1f;
   color: white;
   text-align: center;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 .dayHeader {
   color: white;
+}
+
+.fc-daygrid-day, .fc-daygrid-day-frame, .fc-col-header-cell {
+  border: none !important;
+  outline: none !important;
+}
+
+.fc-daygrid-day-number {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
 }
 
 .fc-day-sun a {
