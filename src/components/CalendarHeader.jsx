@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
-import NextButton from './NextButton';
-import PrevButton from './PrevButton';
+import NextButton from './RightButton';
+import PrevButton from './LeftButton';
 
 const StyledHeader = styled.div`
   display: flex;

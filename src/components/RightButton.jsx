@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const NextButton = ({ text }) => {
+const RightButton = ({ text }) => {
   return <button type="button">{text}</button>;
 };
 
-NextButton.propTypes = {
+RightButton.propTypes = {
   text: PropTypes.string.isRequired,
 };
 
-export default NextButton;
+export default RightButton;

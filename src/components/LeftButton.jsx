@@ -1,7 +1,7 @@
 import React from 'react';
 
-const PrevButton = () => {
+const LeftButton = () => {
   return <button type="button">&lt;</button>;
 };
 
-export default PrevButton;
+export default LeftButton;
