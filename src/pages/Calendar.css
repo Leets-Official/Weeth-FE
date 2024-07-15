@@ -1,0 +1,17 @@
+.App {
+  background-color: #1f1f1f;
+  color: white;
+  text-align: center;
+}
+
+.dayHeader {
+  color: white;
+}
+
+.fc-day-sun a {
+  color: #ff5858;
+}
+
+.fc-day-sat a {
+  color: #508fff;
+}
