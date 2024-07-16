@@ -1,5 +1,5 @@
 import './App.css';
-import { Route, Routes, Link, useNavigate } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import './assets/fonts/fonts.css';
 
 import Attendance from './pages/Attendance';
@@ -7,7 +7,7 @@ import Calendar from './pages/Calendar';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
-import EventDetails from './components/EventDetail';
+import EventDetails from './pages/EventDetail';
 
 import { ThemeProvider } from 'styled-components';
 import theme from './styles/theme';

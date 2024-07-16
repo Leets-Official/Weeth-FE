@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import BoardTitle from './BoardTitle';
+import BoardTitle from '../components/BoardTitle';
 
 const ContentBlock = styled.div`
   background-color: #2e2e2e;
@@ -9,10 +9,17 @@ const ContentBlock = styled.div`
   margin: 10px;
 `;
 
+const Line = styled.div`
+  border: 1px solid;
+  margin: 10px;
+  transform: scaleY(0.2);
+`;
+
 const EventDetails = () => {
   return (
     <div>
       <BoardTitle />
+      <Line />
       <ContentBlock>
         <div>2024년 7월 18일 목요일</div>
         <div>19:00 ~ 21:00</div>
