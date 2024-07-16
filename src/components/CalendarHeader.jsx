@@ -2,8 +2,8 @@ import styled from 'styled-components';
 import Modal from 'react-modal';
 import React, { useState } from 'react';
 
-import NextButton from './RightButton';
-import PrevButton from './LeftButton';
+import RightButton from './RightButton';
+import LeftButton from './LeftButton';
 
 Modal.setAppElement('#root');
 
@@ -11,7 +11,6 @@ const StyledHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px;
 `;
 
 const DatePicker = styled.div`
@@ -54,7 +53,7 @@ const Header = () => {
 
   return (
     <StyledHeader>
-      <PrevButton />
+      <LeftButton />
       <DatePicker>
         <h2>
           {todayYear}년 {todayMonth}월
@@ -63,7 +62,7 @@ const Header = () => {
           ▼
         </button>
       </DatePicker>
-      <NextButton text="⋮" />
+      <RightButton text="⋮" />
 
       <Modal
         className="modal"
