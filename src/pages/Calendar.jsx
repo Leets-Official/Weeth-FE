@@ -27,14 +27,12 @@ const Calendar = () => {
     <div className="App">
       <CalendarHeader />
       {/* 테스트 코드 */}
-      <button type="button" onClick={() => changeCalenderType('month')}>month</button>
-      <button type="button" onClick={() => changeCalenderType('year')}>year</button>
+      <div className='content'>
+        <button type="button" onClick={() => changeCalenderType('month')}>month</button>
+        <button type="button" onClick={() => changeCalenderType('year')}>year</button>
 
-      {calendarType === 'month' ? <MonthCalendar mockEvent={mockEvent}/> : <YearCalendar />}
-      
-      {/* <MonthCalendar mockEvent={mockEvent}/>
-      <YearCalendar /> */}
-
+        {calendarType === 'month' ? <MonthCalendar mockEvent={mockEvent}/> : <YearCalendar />}
+      </div>
     </div>
   );
 }

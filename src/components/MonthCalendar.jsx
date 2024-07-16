@@ -3,10 +3,15 @@ import PropTypes from 'prop-types';
 
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
+import styled from 'styled-components';
+
+const CalendarContainer = styled.div`
+  width: 100vw;
+`;
 
 const MonthCalendar = ({ mockEvent }) => {
   return (
-    <div>
+    <CalendarContainer>
       <FullCalendar
         className="calendar"
         defaultView="dayGridMonth"
@@ -18,7 +23,7 @@ const MonthCalendar = ({ mockEvent }) => {
         fixedWeekCount={false}
         dayCellContent={(arg) => arg.date.getDate()}
       />
-    </div>
+    </CalendarContainer>
   );
 };
 
