@@ -20,12 +20,6 @@ const Detail = styled.div`
   }
 `;
 
-const Line = styled.div`
-  border: 1px solid;
-  margin-top: 10px;
-  transform: scaleY(0.2);
-`;
-
 const BoardTitle = () => {
   return (
     <Title>
@@ -38,7 +32,6 @@ const BoardTitle = () => {
         <div>게시자</div>
         <div>2024/06/10 18:32</div>
       </Detail>
-      <Line />
     </Title>
   );
 };
