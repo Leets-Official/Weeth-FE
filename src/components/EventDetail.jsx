@@ -5,7 +5,6 @@ import BoardTitle from './BoardTitle';
 const ContentBlock = styled.div`
   background-color: #2e2e2e;
   padding: 15px;
-  width: 80vw;
   border-radius: 20px;
   margin: 10px;
 `;
