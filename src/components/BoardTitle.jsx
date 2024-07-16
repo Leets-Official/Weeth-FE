@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import LeftButton from './LeftButton';
 import RightButton from './RightButton';
 
 const Title = styled.div`
@@ -29,6 +30,7 @@ const BoardTitle = () => {
   return (
     <Title>
       <StyledHeader>
+        <LeftButton />
         <RightButton text="⋮" />
       </StyledHeader>
       <h2>중간 발표</h2>
