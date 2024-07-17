@@ -10,7 +10,7 @@ const Container = styled.div`
   width: 100vw;
   padding: 20px; 
   margin-top: 50px;
-  margin-left: 100px;
+  margin-left: 60px;
 `;
 
 const Header = styled.header`
@@ -23,11 +23,11 @@ const Header = styled.header`
 
 const Main = styled.main`
   flex: 1;
-  width: 100%;
+  width: 100vw;
 `;
 
 const Footer = styled.footer`
-  width: 100%;
+  width: 100vw;
 `;
 
 const Home = () => {
