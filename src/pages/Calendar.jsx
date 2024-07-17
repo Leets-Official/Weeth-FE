@@ -2,9 +2,9 @@ import './Calendar.css'
 
 import React, {useState} from 'react';
 
-import CalendarHeader from '../components/CalendarHeader';
-import MonthCalendar from '../components/MonthCalendar';
-import YearCalendar from '../components/YearCalendar';
+import CalendarHeader from '../components/Calendar/CalendarHeader';
+import MonthCalendar from '../components/Calendar/MonthCalendar';
+import YearCalendar from '../components/Calendar/YearCalendar';
 
 /*
 end 날짜는 실제 날짜보다 하루 길게 잡아야함!
