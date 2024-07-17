@@ -2,8 +2,8 @@ import styled from 'styled-components';
 import Modal from 'react-modal';
 import React, { useState } from 'react';
 
-import RightButton from './RightButton';
-import LeftButton from './LeftButton';
+import RightButton from '../Header/RightButton';
+import LeftButton from '../Header/LeftButton';
 
 Modal.setAppElement('#root');
 

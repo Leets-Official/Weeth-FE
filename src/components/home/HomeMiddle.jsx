@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import Caption from '../Caption';
-import RightButton from '../RightButton';
+import RightButton from '../Header/RightButton';
 import './HomeMiddle.css';
 import theme from '../../styles/theme';
 
