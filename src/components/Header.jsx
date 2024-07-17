@@ -14,7 +14,6 @@ const StyledHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px;
 `;
 
 const Header = () => {
@@ -22,8 +21,7 @@ const Header = () => {
     <StyledHeader>
       <LeftButton />
       <Title text="게시판" />
-      <RightButton text="완료" />
-      {/* <RightButton text="다음" /> */}
+      <RightButton text="⋮" />
     </StyledHeader>
   );
 };
