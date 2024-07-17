@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import LeftButton from './LeftButton';
-import RightButton from './RightButton';
+import LeftButton from './Header/LeftButton';
+import RightButton from './Header/RightButton';
 
 const Title = styled.div`
   margin: 10px;
