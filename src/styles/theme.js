@@ -1,10 +1,10 @@
 const theme = {
   color: {
     main: {
-      mainColor: '##00DDA8',
-      positive: '##508FFF',
-      negative: '##FF5858',
-      pointPurple: '##6F50CB',
+      mainColor: '#00DDA8',
+      positive: '#508FFF',
+      negative: '#FF5858',
+      pointPurple: '#6F50CB',
       pointPink: '#D968D3',
     },
     grayScale: {
