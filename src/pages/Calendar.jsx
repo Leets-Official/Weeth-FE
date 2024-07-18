@@ -25,7 +25,7 @@ const Calendar = () => {
   }
 
   return (
-    <div className="App">
+    <div className="calendar">
       <CalendarHeader />
       <ToggleButton />
       {/* 테스트 코드 */}
