@@ -27,13 +27,12 @@ const Calendar = () => {
   return (
     <div className="calendar">
       <CalendarHeader />
-      <ToggleButton />
       {/* 테스트 코드 */}
-      <div className='content'>
+        <div className='content'>
+        <ToggleButton />
+        {calendarType === 'month' ? <MonthCalendar mockEvent={mockEvent}/> : <YearCalendar />}
         <button type="button" onClick={() => changeCalenderType('month')}>month</button>
         <button type="button" onClick={() => changeCalenderType('year')}>year</button>
-
-        {calendarType === 'month' ? <MonthCalendar mockEvent={mockEvent}/> : <YearCalendar />}
       </div>
     </div>
   );

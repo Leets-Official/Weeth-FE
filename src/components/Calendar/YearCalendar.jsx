@@ -6,9 +6,9 @@ import MonthlyEvent from './MonthlyEvent';
 const MonthlyBox = styled.div`
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  width: 90vw;
+  width: 100%;
 `;
 
 const mockEventYear = {

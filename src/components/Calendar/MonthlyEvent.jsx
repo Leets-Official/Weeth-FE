@@ -9,9 +9,10 @@ const StyledYear = styled.div`
 `;
 
 const MonthlyContent = styled.div`
+  display: flex;
   background-color: #2e2e2e;
-  padding: 15px;
-  width: 30vw;
+  padding: 20px;
+  width: 100%;
   border-radius: 20px;
   margin: 10px;
 `;
