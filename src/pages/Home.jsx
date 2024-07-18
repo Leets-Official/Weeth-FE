@@ -14,9 +14,12 @@ const Container = styled.div`
 
 const Header = styled.header`
   font-family: ${theme.font.family.pretendard_semiBold};
+  background-color:  ${theme.color.grayScale.gray12};
   color: ${theme.color.main.mainColor};
   border: none;
   font-size: 40px;
+  padding: 9px 0px 15px 25px;
+  margin: 45px 0px;
 `;
 
 const Main = styled.main`
