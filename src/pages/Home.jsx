@@ -1,8 +1,8 @@
 import React from 'react';
 import styled, { ThemeProvider } from 'styled-components';
 import theme from '../styles/theme';
-import HomeMiddle from '../components/Home/HomeMain';
-import HomeFooter from '../components/Home/HomeFooter';
+import HomeMiddle from '../components/home/HomeMain';
+import HomeFooter from '../components/home/HomeFooter';
 
 const Container = styled.div`
   display: flex;
