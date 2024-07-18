@@ -4,13 +4,11 @@ import theme from '../../styles/theme';
 const StyledHomeFooter = styled.div`
   font-family: ${theme.font.family.pretendard_semiBold};
   font-size: 18px;
-  margin-left: 10px;
 `;
 
 const ScrollContainer = styled.div`
   display: flex;
   overflow-x: auto;
-  padding: 10px;
   &::-webkit-scrollbar {
     height: 8px;
   }
@@ -29,7 +27,7 @@ const GridItem = styled.div`
   padding: 10px 20px;
   background-color: ${({ color }) => color || theme.color.grayScale.gray18};
   font-family: ${theme.font.family.pretendard_semiBold};
-  width: 20vw;
+  width: 20%;
   height: 10vw;
   color: #fff;
   border-radius: 10px;

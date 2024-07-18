@@ -2,20 +2,19 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import Caption from '../Caption';
 import RightButton from '../Header/RightButton';
-import './HomeMiddle.css';
+import './HomeMain.css';
 import theme from '../../styles/theme';
 
 const StyledHomeMiddle = styled.div`
   display: flex;
   flex-direction: column;
   align-items: start;
-  padding: 10px;
-  width: 100vw;
+  width: 100%;
 `;
 
 const GridContainer = styled.div`
   display: grid;
-  width: 100vw;
+  width: 100%;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: repeat(3, 1fr);
   grid-template-areas:
@@ -94,10 +93,7 @@ const HomeMiddle = () => {
           <br />
           일정 캘린더
           <PlaceholderImage>
-            <img
-              src="../../assets/images/ic_home_calendar.png"
-              alt="캘린더 이미지"
-            />
+            <img src="public\images\ic_home_attend.png" alt="캘린더 이미지" />
           </PlaceholderImage>
         </CalendarItem>
         <PenaltyItem
