@@ -76,8 +76,10 @@ const HomeMiddle = () => {
         3기
       </Caption>
       <div className="user-info">
-        <div className="name">김위드</div>
-        <div className="nick-name">Elite님</div>
+        <div className="user-container">
+          <div className="name">김위드</div>
+          <div className="nick-name">Elite님</div>
+        </div>
         <div className="right-button">
           <RightButton text=">" />
         </div>
