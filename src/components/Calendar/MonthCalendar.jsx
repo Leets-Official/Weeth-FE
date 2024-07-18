@@ -6,7 +6,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import styled from 'styled-components';
 
 const CalendarContainer = styled.div`
-  width: 100vw;
+  width: 100%;
 `;
 
 const MonthCalendar = ({ mockEvent }) => {
