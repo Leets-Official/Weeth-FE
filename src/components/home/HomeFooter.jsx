@@ -4,13 +4,15 @@ import theme from '../../styles/theme';
 const StyledHomeFooter = styled.div`
   font-family: ${theme.font.family.pretendard_semiBold};
   font-size: 18px;
-  margin-left: 10px;
+  width: 86.8%;
+  margin: 8% 6.6% 0px 6.6%;
 `;
 
 const ScrollContainer = styled.div`
   display: flex;
+  width: 94%;
+  margin: 4% 3% 0px 3%;
   overflow-x: auto;
-  padding: 10px;
   &::-webkit-scrollbar {
     height: 8px;
   }
@@ -29,8 +31,8 @@ const GridItem = styled.div`
   padding: 10px 20px;
   background-color: ${({ color }) => color || theme.color.grayScale.gray18};
   font-family: ${theme.font.family.pretendard_semiBold};
-  width: 20vw;
-  height: 10vw;
+  width: 34%;
+  height: 87px;
   color: #fff;
   border-radius: 10px;
   display: flex;
@@ -46,18 +48,14 @@ const GridItem = styled.div`
 const HomeFooter = () => {
   return (
     <>
-      <StyledHomeFooter>
-        <h3>From Leets</h3>
-      </StyledHomeFooter>
+      <StyledHomeFooter>From Leets</StyledHomeFooter>
       <ScrollContainer>
         <GridItem>홈페이지</GridItem>
         <GridItem>Instagram</GridItem>
         <GridItem>Discord</GridItem>
         <GridItem>Github</GridItem>
       </ScrollContainer>
-      <StyledHomeFooter>
-        <h3>Leets의 프로젝트를 둘러보세요!</h3>
-      </StyledHomeFooter>
+      <StyledHomeFooter>Leets의 프로젝트를 둘러보세요!</StyledHomeFooter>
       <ScrollContainer>
         <GridItem>MoodMate</GridItem>
         <GridItem>filing</GridItem>
