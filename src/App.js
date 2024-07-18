@@ -17,7 +17,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <Routes>
         <Route path="/" element={<Login />} />
-        <Route path="/attendacne" element={<Attendance />} />
+        <Route path="/attendance" element={<Attendance />} />
         <Route path="/calendar" element={<Calendar />} />
         <Route path="/home" element={<Home />} />
         <Route path="/signup" element={<Signup />} />
