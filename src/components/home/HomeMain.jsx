@@ -5,6 +5,10 @@ import RightButton from '../Header/RightButton';
 import './HomeMain.css';
 import theme from '../../styles/theme';
 
+import calendar from '../../assets/images/ic_home_calendar.png';
+import attend from '../../assets/images/ic_home_attend.png';
+import board from '../../assets/images/ic_home_board.png';
+
 const StyledHomeMiddle = styled.div`
   display: flex;
   flex-direction: column;
@@ -12,9 +16,14 @@ const StyledHomeMiddle = styled.div`
   width: 100%;
 `;
 
+const CaptionContainer = styled.div`
+  margin-left: 7%;
+`;
+
 const GridContainer = styled.div`
   display: grid;
-  width: 100%;
+  width: 94%;
+  margin: 7.3% 3% 0px 3%;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: repeat(3, 1fr);
   grid-template-areas:
@@ -23,13 +32,12 @@ const GridContainer = styled.div`
     'board member'
     'board fee';
   gap: 10px;
-  margin-top: 20px;
 `;
 
 const GridItem = styled.div`
   background-color: ${({ color }) => color || theme.color.grayScale.gray18};
   font-family: ${theme.font.family.pretendard_semiBold};
-  font-size: 20px;
+  font-size: 18px;
   color: #fff;
   padding: 20px;
   border-radius: 10px;
@@ -59,9 +67,12 @@ const FeeItem = styled(GridItem)`
 `;
 
 const PlaceholderImage = styled.div`
+  display: flex;
+  padding-right: 8%;
+  align-items: center;
+  justify-content: center;
   background-color: ${({ color }) => color || theme.color.grayScale.gray18};
-  width: 90px;
-  height: 90px;
+  width: 19%;
   border-radius: 5px;
   align-self: flex-end;
   justify-self: flex-start;
@@ -71,9 +82,11 @@ const HomeMiddle = () => {
   const navi = useNavigate();
   return (
     <StyledHomeMiddle>
-      <Caption color="#ffffff" textColor="#000000">
-        3기
-      </Caption>
+      <CaptionContainer>
+        <Caption color="#ffffff" textColor="#000000">
+          3기
+        </Caption>
+      </CaptionContainer>
       <div className="user-info">
         <div className="user-container">
           <div className="name">김위드</div>
@@ -93,7 +106,7 @@ const HomeMiddle = () => {
           <br />
           일정 캘린더
           <PlaceholderImage>
-            <img src="public\images\ic_home_attend.png" alt="캘린더 이미지" />
+            <img src={calendar} alt="캘린더 이미지" />
           </PlaceholderImage>
         </CalendarItem>
         <PenaltyItem
@@ -103,10 +116,7 @@ const HomeMiddle = () => {
         >
           출석 패널티
           <PlaceholderImage>
-            <img
-              src="../../assets/images/ic_home_attend.png"
-              alt="출석 이미지"
-            />
+            <img src={attend} alt="출석 이미지" />
           </PlaceholderImage>
         </PenaltyItem>
         <BoardItem
@@ -116,10 +126,7 @@ const HomeMiddle = () => {
         >
           게시판
           <PlaceholderImage>
-            <img
-              src="../../assets/images/ic_home_board.png"
-              alt="게시판 이미지"
-            />
+            <img src={board} alt="게시판 이미지" />
           </PlaceholderImage>
         </BoardItem>
         <MemberItem>
