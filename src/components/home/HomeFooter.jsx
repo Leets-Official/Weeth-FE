@@ -2,14 +2,14 @@ import styled from 'styled-components';
 import theme from '../../styles/theme';
 
 const StyledHomeFooter = styled.div`
-  margin-top: 30px;
-  margin-left: -20px;
+  font-family: ${theme.font.family.pretendard_semiBold};
+  font-size: 18px;
+  margin-left: 10px;
 `;
 
 const ScrollContainer = styled.div`
   display: flex;
   overflow-x: auto;
-  margin-left: -20px;
   padding: 10px;
   &::-webkit-scrollbar {
     height: 8px;
