@@ -8,9 +8,8 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   width: 100vw;
-  padding: 20px; 
-  margin-top: 50px;
-  margin-left: 60px;
+  margin : 50px 20px 50px 20px;
+  
 `;
 
 const Header = styled.header`
@@ -19,15 +18,17 @@ const Header = styled.header`
   border: none;
   cursor: pointer;
   font-size: 40px;
+  margin-left: 45px;
 `;
 
 const Main = styled.main`
-  flex: 1;
   width: 100vw;
+   margin : 40px 20px 0px 20px;
 `;
 
 const Footer = styled.footer`
   width: 100vw;
+  margin : 30px 20px 50px 20px;
 `;
 
 const Home = () => {

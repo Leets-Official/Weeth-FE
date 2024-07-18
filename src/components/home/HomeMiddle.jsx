@@ -1,18 +1,16 @@
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 import Caption from '../Caption';
 import RightButton from '../RightButton';
 import './HomeMiddle.css';
 import theme from '../../styles/theme';
 
 const StyledHomeMiddle = styled.div`
-  margin-top: 40px;
-  margin-left: -20px;
   display: flex;
   flex-direction: column;
   align-items: start;
-  width: fit-content;
   padding: 10px;
-  position: relative;
+  width: 100vw;
 `;
 
 const GridContainer = styled.div`
@@ -27,7 +25,6 @@ const GridContainer = styled.div`
     'board fee';
   gap: 10px;
   margin-top: 20px;
-  margin-row: 50px;
 `;
 
 const GridItem = styled.div`
@@ -63,15 +60,16 @@ const FeeItem = styled(GridItem)`
 `;
 
 const PlaceholderImage = styled.div`
-  background-color: #555;
-  width: 60px;
-  height: 60px;
+  background-color: ${({ color }) => color || theme.color.grayScale.gray18};
+  width: 90px;
+  height: 90px;
   border-radius: 5px;
   align-self: flex-end;
   justify-self: flex-start;
 `;
 
 const HomeMiddle = () => {
+  const navi = useNavigate();
   return (
     <StyledHomeMiddle>
       <Caption color="#ffffff" textColor="#000000">
@@ -85,19 +83,46 @@ const HomeMiddle = () => {
         </div>
       </div>
       <GridContainer>
-        <CalendarItem>
+        <CalendarItem
+          onClick={() => {
+            navi(`/calendar`);
+          }}
+        >
           동아리
           <br />
           일정 캘린더
-          <PlaceholderImage />
+          <PlaceholderImage>
+            <img
+              src="../../assets/images/ic_home_calendar.png"
+              alt="캘린더 이미지"
+            />
+          </PlaceholderImage>
         </CalendarItem>
-        <PenaltyItem>
+        <PenaltyItem
+          onClick={() => {
+            navi(`/attendance`);
+          }}
+        >
           출석 패널티
-          <PlaceholderImage />
+          <PlaceholderImage>
+            <img
+              src="../../assets/images/ic_home_attend.png"
+              alt="출석 이미지"
+            />
+          </PlaceholderImage>
         </PenaltyItem>
-        <BoardItem>
+        <BoardItem
+          onClick={() => {
+            navi(`/board`);
+          }}
+        >
           게시판
-          <PlaceholderImage />
+          <PlaceholderImage>
+            <img
+              src="../../assets/images/ic_home_board.png"
+              alt="게시판 이미지"
+            />
+          </PlaceholderImage>
         </BoardItem>
         <MemberItem>
           멤버
