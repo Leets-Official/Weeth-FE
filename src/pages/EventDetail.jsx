@@ -2,6 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import BoardTitle from '../components/BoardTitle';
 
+const StyledEventDetails = styled.div`
+  width: 370px;
+`;
+
 const ContentBlock = styled.div`
   background-color: #2e2e2e;
   padding: 15px;
@@ -17,7 +21,7 @@ const Line = styled.div`
 
 const EventDetails = () => {
   return (
-    <div>
+    <StyledEventDetails>
       <BoardTitle />
       <Line />
       <ContentBlock>
@@ -42,7 +46,7 @@ const EventDetails = () => {
           체크 부탁드립니다~!
         </div>
       </ContentBlock>
-    </div>
+    </StyledEventDetails>
   );
 };
 
