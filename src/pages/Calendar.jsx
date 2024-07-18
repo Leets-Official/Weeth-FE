@@ -5,6 +5,7 @@ import React, {useState} from 'react';
 import CalendarHeader from '../components/Calendar/CalendarHeader';
 import MonthCalendar from '../components/Calendar/MonthCalendar';
 import YearCalendar from '../components/Calendar/YearCalendar';
+import ToggleButton from '../components/Calendar/ToggleButton';
 
 /*
 end 날짜는 실제 날짜보다 하루 길게 잡아야함!
@@ -26,6 +27,7 @@ const Calendar = () => {
   return (
     <div className="App">
       <CalendarHeader />
+      <ToggleButton />
       {/* 테스트 코드 */}
       <div className='content'>
         <button type="button" onClick={() => changeCalenderType('month')}>month</button>
