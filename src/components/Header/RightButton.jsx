@@ -1,12 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 
-const RightButton = ({ text }) => {
-  return <button type="button">{text}</button>;
+import more from '../../assets/images/Vector.png';
+
+const ImgButton = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  cursor: pointer;
+  padding: 3px 10px;
+`;
+
+const RightButton = ({ onClick }) => {
+  return (
+    <ImgButton onClick={onClick}>
+      <img src={more} alt="more" />
+    </ImgButton>
+  );
 };
 
 RightButton.propTypes = {
-  text: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired,
 };
 
 export default RightButton;
