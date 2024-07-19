@@ -1,4 +1,7 @@
 import styled from 'styled-components';
+
+import { useNavigate } from 'react-router-dom';
+
 import MyPageHeader from '../components/Header/MyPageHeader';
 import mockUser from '../components/mockData/mockUser';
 
@@ -40,13 +43,15 @@ const Green = styled.div`
   color: #00dda8;
 `;
 
-const Edit = styled.div`
+const ImgButton = styled.div`
   display: flex;
   justify-content: flex-end;
   margin: 15px 25px 0px 0px;
+  cursor: pointer;
 `;
 
 const MyPage = () => {
+  const navi = useNavigate();
   return (
     <StyledDetails>
       <MyPageHeader isEdit={false} />
@@ -108,9 +113,13 @@ const MyPage = () => {
         </Info>
         <Line />
       </div>
-      <Edit>
+      <ImgButton
+        onClick={() => {
+          navi(`/edit`);
+        }}
+      >
         <img src={icEdit} alt="Edit" />
-      </Edit>
+      </ImgButton>
     </StyledDetails>
   );
 };
