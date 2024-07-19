@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-import LeftButton from './LeftButton';
-import Title from './Title';
-import RightButton from './RightButton';
+import LeftButton from '../Header/LeftButton';
+import Title from '../Header/Title';
+import TextButton from '../Header/TextButton';
 
 /* eslint-disable no-alert */
 
@@ -11,7 +11,7 @@ const StyledHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 45px 25px 20px 25px;
+  margin: 45px 25px 20px 25px;
 `;
 
 const TitleWrapper = styled.div`
@@ -20,16 +20,20 @@ const TitleWrapper = styled.div`
   transform: translateX(-50%);
 `;
 
+//  해당 함수에 온클릭 이벤트 작성
+const onClickButton = () => {};
+
 const MyPageHeader = ({ isEdit }) => {
   return (
     <StyledHeader>
-      <LeftButton />
+      <LeftButton onClick={onClickButton} />
       <TitleWrapper>
         <Title text="My" />
       </TitleWrapper>
       {isEdit ? (
-        <RightButton
+        <TextButton
           text="완료"
+          color="green"
           onClick={() => window.confirm('저장하시겠습니까?')}
         />
       ) : null}

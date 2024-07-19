@@ -7,9 +7,10 @@ const Button = styled.button`
   width: 17%;
   color: white;
   cursor: pointer;
+  font-weight: 600; //semi-bold
 `;
 
-const Generation = () => {
+const Category = () => {
   return (
     <div>
       <Button>전체</Button>
@@ -20,4 +21,4 @@ const Generation = () => {
   );
 };
 
-export default Generation;
+export default Category;

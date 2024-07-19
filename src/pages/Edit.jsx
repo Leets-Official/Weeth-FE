@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
-import MyPageHeader from '../components/Header/MyPageHeader';
-import InfoInput from '../components/InfoInput';
+import MyPageHeader from '../components/MyPage/MyPageHeader';
+import InfoInput from '../components/MyPage/InfoInput';
 import mockUser from '../components/mockData/mockUser';
 
 const StyledEdit = styled.div`

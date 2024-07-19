@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import UserHeader from '../components/Header/MemberHeader';
+import UserHeader from '../components/Member/MemberHeader';
 import mockUser from '../components/mockData/mockUser';
 
 import icName from '../assets/images/Property 1=이름.png';

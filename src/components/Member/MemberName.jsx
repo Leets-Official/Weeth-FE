@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-import FE from '../assets/images/Property 1=FE.png';
-import BE from '../assets/images/Property 1=BE.png';
-import D from '../assets/images/Property 1=_DE.png';
-import MA from '../assets/images/Property 1=MA.png';
+import FE from '../../assets/images/Property 1=FE.png';
+import BE from '../../assets/images/Property 1=BE.png';
+import D from '../../assets/images/Property 1=_DE.png';
+import MA from '../../assets/images/Property 1=MA.png';
 
 const MemberWrapper = styled.div`
   padding-left: 10px;
