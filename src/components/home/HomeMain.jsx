@@ -129,7 +129,11 @@ const HomeMiddle = () => {
             <img src={board} alt="게시판 이미지" />
           </PlaceholderImage>
         </BoardItem>
-        <MemberItem>
+        <MemberItem
+          onClick={() => {
+            navi(`/member`);
+          }}
+        >
           멤버
           <PlaceholderImage />
         </MemberItem>
