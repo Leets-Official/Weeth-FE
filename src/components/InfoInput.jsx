@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
@@ -20,18 +22,24 @@ const Input = styled.input`
   padding-right: 10px;
 `;
 
-const InfoInput = ({ text, value }) => {
+const InfoInput = ({ text, origValue }) => {
+  const [value, setValue] = useState(origValue);
+
+  const onChangeValue = (e) => {
+    setValue(e.target.value);
+  };
+
   return (
     <StyledInfoInput>
       <div>{text}</div>
-      <Input value={value} />
+      <Input value={value} onChange={onChangeValue} />
     </StyledInfoInput>
   );
 };
 
 InfoInput.propTypes = {
   text: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired,
+  origValue: PropTypes.string.isRequired,
 };
 
 export default InfoInput;
