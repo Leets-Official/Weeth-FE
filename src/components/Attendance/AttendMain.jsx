@@ -4,7 +4,7 @@ import { useState } from 'react';
 import theme from '../../styles/theme';
 import RightButton from '../Header/RightButton';
 import Button from '../Button';
-import AttendModal from './ModalAttend';
+import AttendModal from './Modal/ModalAttend';
 import './AttendMain.css';
 
 // 출석률 게이지 임시 값

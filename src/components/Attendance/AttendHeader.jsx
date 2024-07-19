@@ -1,6 +1,8 @@
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import LeftButton from '../Header/LeftButton';
 import Title from '../Header/Title';
+
 /*
 Title, RightButton은 props로 문자열을 받음
 해당 문자열이 버튼에 출력됨!
@@ -14,14 +16,18 @@ const StyledAttendHeader = styled.div`
   margin-top: 45px;
 `;
 
-const AttendHeader = () => {
+const AttendHeader = ({ text }) => {
   return (
     <StyledAttendHeader>
       <LeftButton />
-      <Title text="출석" />
+      <Title text={text} />
       <div> </div>
     </StyledAttendHeader>
   );
+};
+
+AttendHeader.propTypes = {
+  text: PropTypes.string.isRequired,
 };
 
 export default AttendHeader;
