@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import MemberHeader from '../components/Header/MemberHeader';
-import Generation from '../components/Header/Generation';
-import MemberName from '../components/MemberName';
+import MemberHeader from '../components/Member/MemberHeader';
+import Category from '../components/Member/Category';
+import MemberName from '../components/Member/MemberName';
 import mockUser from '../components/mockData/mockUser';
 
 const StyledMember = styled.div`
@@ -21,7 +21,7 @@ const Member = () => {
   return (
     <StyledMember>
       <MemberHeader />
-      <Generation />
+      <Category />
       <MemberList>
         {mockUser.map((user) => (
           <MemberName

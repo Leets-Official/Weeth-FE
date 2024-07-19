@@ -1,12 +1,12 @@
 import styled from 'styled-components';
 
-import LeftButton from './LeftButton';
-import Title from './Title';
+import LeftButton from '../Header/LeftButton';
+import Title from '../Header/Title';
 
 const StyledHeader = styled.div`
   display: flex;
   align-items: center;
-  padding: 45px 25px 20px 25px;
+  margin: 45px 25px 20px 25px;
 `;
 
 const TitleWrapper = styled.div`
@@ -15,10 +15,13 @@ const TitleWrapper = styled.div`
   transform: translateX(-50%);
 `;
 
+//  해당 함수에 온클릭 이벤트 작성
+const onClickLeftButton = () => {};
+
 const UserHeader = () => {
   return (
     <StyledHeader>
-      <LeftButton />
+      <LeftButton onClick={onClickLeftButton} />
       <TitleWrapper>
         <Title text="멤버" />
       </TitleWrapper>

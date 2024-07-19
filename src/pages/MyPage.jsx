@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 import { useNavigate } from 'react-router-dom';
 
-import MyPageHeader from '../components/Header/MyPageHeader';
+import MyPageHeader from '../components/MyPage/MyPageHeader';
 import mockUser from '../components/mockData/mockUser';
 
 import icName from '../assets/images/Property 1=이름.png';
