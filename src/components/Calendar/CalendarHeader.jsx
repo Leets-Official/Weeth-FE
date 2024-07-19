@@ -5,18 +5,27 @@ import React, { useState } from 'react';
 import RightButton from '../Header/RightButton';
 import LeftButton from '../Header/LeftButton';
 
+import under from '../../assets/images/_.png';
+
 Modal.setAppElement('#root');
 
 const StyledHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 45px 25px 20px 25px;
 `;
 
 const DatePicker = styled.div`
   display: flex;
-  justify-content: space-between;
   align-items: center;
+`;
+
+const ImgButton = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin: 5px;
+  cursor: pointer;
 `;
 
 const ModalContent = styled.div`
@@ -55,12 +64,12 @@ const Header = () => {
     <StyledHeader>
       <LeftButton />
       <DatePicker>
-        <h2>
+        <div>
           {todayYear}년 {todayMonth}월
-        </h2>
-        <button type="button" onClick={openDateModal}>
-          ▼
-        </button>
+        </div>
+        <ImgButton onClick={openDateModal}>
+          <img src={under} alt="select" />
+        </ImgButton>
       </DatePicker>
       <RightButton text="⋮" />
 
