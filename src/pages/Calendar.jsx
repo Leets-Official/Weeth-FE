@@ -27,9 +27,7 @@ const Calendar = () => {
 
   return (
     <div className="calendar">
-      <Header />
       <CalendarHeader />
-      {/* 테스트 코드 */}
         <div className='content'>
         <ToggleButton />
         {calendarType === 'month' ? <MonthCalendar mockEvent={mockEvent}/> : <YearCalendar />}
