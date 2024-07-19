@@ -2,6 +2,13 @@ import styled from 'styled-components';
 import UserHeader from '../components/Header/MemberHeader';
 import mockUser from '../components/mockData/mockUser';
 
+import icName from '../assets/images/Property 1=이름.png';
+import icId from '../assets/images/Property 1=학번.png';
+import icDepartment from '../assets/images/Property 1=학과.png';
+import icCardinal from '../assets/images/Property 1=기수.png';
+import icPosition from '../assets/images/Property 1=역할.png';
+import icEmail from '../assets/images/Property 1=메일.png';
+
 const StyledDetails = styled.div`
   width: 370px;
 `;
@@ -13,12 +20,17 @@ const Line = styled.div`
   margin: auto;
 `;
 
-const InfoWrapper = styled.div``;
-
 const Info = styled.div`
   display: flex;
-  justify-content: space-between;
+  align-items: center;
   margin: 25px;
+`;
+
+const Text = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-left: 10px;
 `;
 
 const Green = styled.div`
@@ -29,38 +41,56 @@ const UserDetail = () => {
   return (
     <StyledDetails>
       <UserHeader />
-      <InfoWrapper>
+      <div>
         <Info>
-          <div>이름</div>
-          <Green>{mockUser[0].name}</Green>
+          <img src={icName} alt="name" />
+          <Text>
+            <div>이름</div>
+            <Green>{mockUser[0].name}</Green>
+          </Text>
         </Info>
         <Line />
         <Info>
-          <div>학번</div>
-          <Green>{mockUser[0].studentId}</Green>
+          <img src={icId} alt="id" />
+          <Text>
+            <div>학번</div>
+            <Green>{mockUser[0].studentId}</Green>
+          </Text>
         </Info>
         <Line />
         <Info>
-          <div>학과</div>
-          <Green>{mockUser[0].department}</Green>
+          <img src={icDepartment} alt="department" />
+          <Text>
+            <div>학과</div>
+            <Green>{mockUser[0].department}</Green>
+          </Text>
         </Info>
         <Line />
         <Info>
-          <div>기수</div>
-          <Green>{mockUser[0].cardinal}</Green>
+          <img src={icCardinal} alt="cardinal" />
+          <Text>
+            <div>기수</div>
+            <Green>{mockUser[0].cardinal}</Green>
+          </Text>
         </Info>
         <Line />
         <Info>
-          <div>역할</div>
-          <Green>{mockUser[0].position}</Green>
+          <img src={icPosition} alt="positon" />
+          <Text>
+            <div>역할</div>
+            <Green>{mockUser[0].position}</Green>
+          </Text>
         </Info>
         <Line />
         <Info>
-          <div>메일</div>
-          <Green>{mockUser[0].email}</Green>
+          <img src={icEmail} alt="email" />
+          <Text>
+            <div>메일</div>
+            <Green>{mockUser[0].email}</Green>
+          </Text>
         </Info>
         <Line />
-      </InfoWrapper>
+      </div>
     </StyledDetails>
   );
 };
