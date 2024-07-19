@@ -1,0 +1,44 @@
+.modal {
+    display: none; 
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.8); /* 반투명한 배경 */
+  }
+  
+  .openModal {
+    display: block; /* 모달 열기 */
+  }
+  
+  .modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* 중앙 정렬 */
+    width: 270px;
+    height: 489px;
+    background-color: #2F2F2F;
+    border-radius: 14px;
+    padding: 10px;
+  }
+  
+  .modal-content > h2 {
+    margin-top: 80px;
+  }
+  
+  .modal-buttons {
+    display: flex;
+    justify-content: center;
+    margin: 30px auto;
+  }
+  
+  .modal-buttons button {
+    margin: 0 10px;
+    padding: 10px 20px;
+    background-color: white;
+  }
+  

@@ -1,9 +1,10 @@
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 import theme from '../../styles/theme';
 import RightButton from '../Header/RightButton';
 import Button from '../Button';
-
+import AttendModal from './ModalAttend';
 import './AttendMain.css';
 
 // 출석률 게이지 임시 값
@@ -49,6 +50,11 @@ const StyledBox = styled.div`
 
 const AttendMain = () => {
   const navi = useNavigate();
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const handleOpenModal = () => setModalOpen(true);
+  const handleCloseModal = () => setModalOpen(false);
+
   return (
     <StyledAttend>
       <div>김위드 님의 출석률은</div>
@@ -57,7 +63,7 @@ const AttendMain = () => {
         <RightButton
           text=">"
           onClick={() => {
-            navi(`/attendCheck`);
+            navi('/attendCheck');
           }}
         />
       </div>
@@ -67,8 +73,8 @@ const AttendMain = () => {
       <StyledBox>
         <div>v</div>
         <div>오늘은 일정이 없어요</div>
-        <div>동아리원과 스터디를 하는 건 어떄요?</div>
-        <Button>출석하기</Button>
+        <div>동아리원과 스터디를 하는 건 어때요?</div>
+        <Button onClick={handleOpenModal}>출석하기</Button>
       </StyledBox>
       <StyledBox>
         <div>i</div>
@@ -81,15 +87,18 @@ const AttendMain = () => {
           <br />
           어떤 이유인지 알아볼까요?
         </div>
-        <div className="oenalty-info">
+        <div className="penalty-info">
           패널티를 받는 기준은 아래와 같아요
           <br />
-          -정기 모임에 출석을 하지 않았을때
+          - 정기 모임에 출석을 하지 않았을 때
           <br />
-          -미션을 제출하지 않았을 때<br />
-          -스터디 발표를 하지 않았을 때<br />
+          - 미션을 제출하지 않았을 때
+          <br />
+          - 스터디 발표를 하지 않았을 때
+          <br />
         </div>
       </StyledBox>
+      <AttendModal open={modalOpen} close={handleCloseModal} />
     </StyledAttend>
   );
 };
