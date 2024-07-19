@@ -4,22 +4,19 @@ import LeftButton from './LeftButton';
 import RightButton from './RightButton';
 import Title from './Title';
 
-/*
-Title, RightButton은 props로 문자열을 받음
-해당 문자열이 버튼에 출력됨!
-이걸 가지고 BoardHeader, CalendarHeader.. 이런 식으로 가져다 쓰면 됨.
-*/
-
 const StyledHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
 `;
 
+//  해당 함수에 온클릭 이벤트 작성
+const onClickButton = () => {};
+
 const Header = () => {
   return (
     <StyledHeader>
-      <LeftButton />
+      <LeftButton onClick={onClickButton} />
       <Title text="게시판" />
       <RightButton text="⋮" />
     </StyledHeader>

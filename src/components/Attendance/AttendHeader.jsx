@@ -1,11 +1,6 @@
 import styled from 'styled-components';
 import LeftButton from '../Header/LeftButton';
 import Title from '../Header/Title';
-/*
-Title, RightButton은 props로 문자열을 받음
-해당 문자열이 버튼에 출력됨!
-이걸 가지고 BoardAttendHeader, CalendarAttendHeader.. 이런 식으로 가져다 쓰면 됨.
-*/
 
 const StyledAttendHeader = styled.div`
   display: flex;
@@ -14,10 +9,13 @@ const StyledAttendHeader = styled.div`
   margin-top: 45px;
 `;
 
+//  해당 함수에 온클릭 이벤트 작성
+const onClickButton = () => {};
+
 const AttendHeader = () => {
   return (
     <StyledAttendHeader>
-      <LeftButton />
+      <LeftButton onClick={onClickButton} />
       <Title text="출석" />
       <div> </div>
     </StyledAttendHeader>

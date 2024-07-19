@@ -15,10 +15,13 @@ const TitleWrapper = styled.div`
   transform: translateX(-50%);
 `;
 
+//  해당 함수에 온클릭 이벤트 작성
+const onClickButton = () => {};
+
 const UserHeader = () => {
   return (
     <StyledHeader>
-      <LeftButton />
+      <LeftButton onClick={onClickButton} />
       <TitleWrapper>
         <Title text="멤버" />
       </TitleWrapper>
