@@ -10,11 +10,6 @@ const ImgButton = styled.div`
   cursor: pointer;
 `;
 
-/*
-LeftButton은 < 이거로만 사용돼서 다른 옵션은 추가하지 않았음!
-onClick props는 onClickButton 함수를 삭제하고 익명함수를 사용해도 됨
-*/
-
 const LeftButton = ({ onClick }) => {
   return (
     <ImgButton onClick={onClick}>

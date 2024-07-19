@@ -13,7 +13,7 @@ const StyledHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 45px 25px 20px 25px;
+  margin: 45px 25px 20px 25px; //기본 헤더 마진
 `;
 
 const DatePicker = styled.div`
@@ -50,8 +50,8 @@ const StyledInput = styled.input`
 const todayYear = new Date().getFullYear();
 const todayMonth = new Date().getMonth() + 1;
 
-//  해당 함수에 온클릭 이벤트 작성
-const onClickButton = () => {};
+const onClickLeftButton = () => {};
+const onClickRightButton = () => {};
 
 const Header = () => {
   const [dateModalIsOpen, setDateModalIsOpen] = useState(false);
@@ -65,7 +65,7 @@ const Header = () => {
 
   return (
     <StyledHeader>
-      <LeftButton onClick={onClickButton} />
+      <LeftButton onClick={onClickLeftButton} />
       <DatePicker>
         <div>
           {todayYear}년 {todayMonth}월
@@ -74,7 +74,7 @@ const Header = () => {
           <img src={under} alt="select" />
         </ImgButton>
       </DatePicker>
-      <RightButton text="⋮" />
+      <RightButton onClick={onClickRightButton} />
 
       <Modal
         className="modal"
