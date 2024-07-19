@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 const StyledText = styled.div`
   font-size: 18pt;
+  font-weight: 600; //semi-bold
 `;
 
 const Title = ({ text }) => {

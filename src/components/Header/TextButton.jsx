@@ -3,6 +3,8 @@ import styled from 'styled-components';
 
 const StyledText = styled.div`
   color: ${(props) => (props.color === 'green' ? '#00dda8' : '#ffffff')};
+  cursor: pointer;
+  font-weight: 600; //semi-bold
 `;
 
 const TextButton = ({ text, color, onClick }) => {

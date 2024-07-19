@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import LeftButton from '../Header/LeftButton';
 import Title from '../Header/Title';
-import RightButton from '../Header/RightButton';
+import TextButton from '../Header/TextButton';
 
 /* eslint-disable no-alert */
 
@@ -31,8 +31,9 @@ const MyPageHeader = ({ isEdit }) => {
         <Title text="My" />
       </TitleWrapper>
       {isEdit ? (
-        <RightButton
+        <TextButton
           text="완료"
+          color="green"
           onClick={() => window.confirm('저장하시겠습니까?')}
         />
       ) : null}

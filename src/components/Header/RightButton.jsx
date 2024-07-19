@@ -8,7 +8,7 @@ const ImgButton = styled.div`
   display: flex;
   justify-content: flex-end;
   cursor: pointer;
-  margin: 3px 10px;
+  padding: 3px 10px;
 `;
 
 const RightButton = ({ onClick }) => {
