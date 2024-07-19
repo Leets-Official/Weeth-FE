@@ -7,6 +7,19 @@ import styled from 'styled-components';
 
 const CalendarContainer = styled.div`
   width: 100%;
+  .fc-day-today {
+    background-color: transparent !important;
+  }
+
+  .fc-scrollgrid,
+  .fc-theme-standard td,
+  .fc-theme-standard th {
+    border-color: #1f1f1f !important; /* 테두리 색상 변경 */
+  }
+
+  .fc-col-header-cell {
+    background-color: #1f1f1f !important;
+  }
 `;
 
 const MonthCalendar = ({ mockEvent }) => {
@@ -22,6 +35,7 @@ const MonthCalendar = ({ mockEvent }) => {
         headerToolbar={false}
         fixedWeekCount={false}
         dayCellContent={(arg) => arg.date.getDate()}
+        height="auto"
       />
     </CalendarContainer>
   );
