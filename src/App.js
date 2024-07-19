@@ -10,6 +10,7 @@ import Signup from './pages/Signup';
 import EventDetails from './pages/EventDetail';
 import Member from './pages/Member';
 import MemberDetail from './pages/MemberDetail';
+import MyPage from './pages/MyPage';
 
 import { ThemeProvider } from 'styled-components';
 import theme from './styles/theme';
@@ -26,6 +27,7 @@ function App() {
         <Route path="/event" element={<EventDetails />} />
         <Route path="/member" element={<Member />} />
         <Route path="/member/detail" element={<MemberDetail />} />
+        <Route path="/mypage" element={<MyPage />} />
       </Routes>
     </ThemeProvider>
   );
