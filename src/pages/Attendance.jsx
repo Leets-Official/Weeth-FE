@@ -11,13 +11,6 @@ const Container = styled.div`
   max-width: 370px;
 `;
 
-// const Header = styled.header`
-//   font-family: ${theme.font.family.pretendard_semiBold};
-//   color: ${theme.color.main.mainColor};
-//   border: none;
-//   font-size: 40px;
-// `;
-
 const Main = styled.main`
   width: 100%;
 `;
@@ -31,7 +24,7 @@ const Attendance = () => {
     <ThemeProvider theme={theme}>
       <Container>
         <Main>
-          <AttendHeader />
+          <AttendHeader text="출석" />
         </Main>
         <Footer>
           <AttendMain />
