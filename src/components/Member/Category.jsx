@@ -7,6 +7,7 @@ const Button = styled.button`
   width: 17%;
   color: white;
   cursor: pointer;
+  font-weight: 600; //semi-bold
 `;
 
 const Category = () => {
