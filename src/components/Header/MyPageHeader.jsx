@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 import LeftButton from './LeftButton';
 import Title from './Title';
@@ -17,16 +18,20 @@ const TitleWrapper = styled.div`
   transform: translateX(-50%);
 `;
 
-const MyPageHeader = () => {
+const MyPageHeader = ({ isEdit }) => {
   return (
     <StyledHeader>
       <LeftButton />
       <TitleWrapper>
         <Title text="My" />
       </TitleWrapper>
-      <RightButton text="완료" />
+      {isEdit ? <RightButton text="완료" /> : null}
     </StyledHeader>
   );
+};
+
+MyPageHeader.propTypes = {
+  isEdit: PropTypes.bool.isRequired,
 };
 
 export default MyPageHeader;
