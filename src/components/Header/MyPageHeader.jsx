@@ -5,6 +5,8 @@ import LeftButton from './LeftButton';
 import Title from './Title';
 import RightButton from './RightButton';
 
+/* eslint-disable no-alert */
+
 const StyledHeader = styled.div`
   display: flex;
   justify-content: space-between;
@@ -25,7 +27,12 @@ const MyPageHeader = ({ isEdit }) => {
       <TitleWrapper>
         <Title text="My" />
       </TitleWrapper>
-      {isEdit ? <RightButton text="완료" /> : null}
+      {isEdit ? (
+        <RightButton
+          text="완료"
+          onClick={() => window.confirm('저장하시겠습니까?')}
+        />
+      ) : null}
     </StyledHeader>
   );
 };
