@@ -49,7 +49,7 @@ const Edit = styled.div`
 const MyPage = () => {
   return (
     <StyledDetails>
-      <MyPageHeader />
+      <MyPageHeader isEdit={false} />
       <div>
         <Info>
           <img src={icName} alt="name" />
