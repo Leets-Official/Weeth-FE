@@ -21,6 +21,11 @@ const DatePicker = styled.div`
   align-items: center;
 `;
 
+const Title = styled.div`
+  font-size: 18pt;
+  font-weight: 600;
+`;
+
 const ImgButton = styled.div`
   display: flex;
   justify-content: flex-end;
@@ -67,9 +72,9 @@ const Header = () => {
     <StyledHeader>
       <LeftButton onClick={onClickLeftButton} />
       <DatePicker>
-        <div>
+        <Title>
           {todayYear}년 {todayMonth}월
-        </div>
+        </Title>
         <ImgButton onClick={openDateModal}>
           <img src={under} alt="select" />
         </ImgButton>

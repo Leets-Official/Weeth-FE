@@ -1,5 +1,3 @@
-import './Calendar.css'
-
 import React, {useState} from 'react';
 import styled from 'styled-components';
 
