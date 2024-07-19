@@ -6,6 +6,7 @@ import CalendarHeader from '../components/Calendar/CalendarHeader';
 import MonthCalendar from '../components/Calendar/MonthCalendar';
 import YearCalendar from '../components/Calendar/YearCalendar';
 import ToggleButton from '../components/Calendar/ToggleButton';
+import Header from '../components/Header/Header';
 
 /*
 end 날짜는 실제 날짜보다 하루 길게 잡아야함!
@@ -26,6 +27,7 @@ const Calendar = () => {
 
   return (
     <div className="calendar">
+      <Header />
       <CalendarHeader />
       {/* 테스트 코드 */}
         <div className='content'>
