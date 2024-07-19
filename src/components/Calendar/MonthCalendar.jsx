@@ -20,6 +20,22 @@ const CalendarContainer = styled.div`
   .fc-col-header-cell {
     background-color: #1f1f1f !important;
   }
+
+  .fc-daygrid-day-number {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+  }
+
+  .fc-day-sun a {
+    color: #ff5858;
+  }
+
+  .fc-day-sat a {
+    color: #508fff;
+  }
 `;
 
 const MonthCalendar = ({ mockEvent }) => {

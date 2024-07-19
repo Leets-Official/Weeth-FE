@@ -1,11 +1,24 @@
 import './Calendar.css'
 
 import React, {useState} from 'react';
+import styled from 'styled-components';
 
 import CalendarHeader from '../components/Calendar/CalendarHeader';
 import MonthCalendar from '../components/Calendar/MonthCalendar';
 import YearCalendar from '../components/Calendar/YearCalendar';
 import ToggleButton from '../components/Calendar/ToggleButton';
+
+const StyledCalendar = styled.div`
+  width: 370px;
+  height: 800px;
+`;
+
+const Content = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
 
 /*
 end 날짜는 실제 날짜보다 하루 길게 잡아야함!
@@ -25,15 +38,15 @@ const Calendar = () => {
   }
 
   return (
-    <div className="calendar">
+    <StyledCalendar>
       <CalendarHeader />
-        <div className='content'>
+        <Content>
         <ToggleButton />
         {calendarType === 'month' ? <MonthCalendar mockEvent={mockEvent}/> : <YearCalendar />}
         <button type="button" onClick={() => changeCalenderType('month')}>month</button>
         <button type="button" onClick={() => changeCalenderType('year')}>year</button>
-      </div>
-    </div>
+      </Content>
+    </StyledCalendar>
   );
 }
 
