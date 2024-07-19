@@ -9,7 +9,7 @@ const Button = styled.button`
   cursor: pointer;
 `;
 
-const Generation = () => {
+const Category = () => {
   return (
     <div>
       <Button>전체</Button>
@@ -20,4 +20,4 @@ const Generation = () => {
   );
 };
 
-export default Generation;
+export default Category;
