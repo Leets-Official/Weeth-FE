@@ -6,7 +6,7 @@ import Title from './Title';
 const StyledHeader = styled.div`
   display: flex;
   align-items: center;
-  margin: 10px;
+  padding: 45px 25px 20px 25px;
 `;
 
 const TitleWrapper = styled.div`

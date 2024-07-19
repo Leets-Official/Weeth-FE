@@ -9,6 +9,7 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import EventDetails from './pages/EventDetail';
 import User from './pages/User';
+import UserDetail from './pages/UserDetail';
 
 import { ThemeProvider } from 'styled-components';
 import theme from './styles/theme';
@@ -24,6 +25,7 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/event" element={<EventDetails />} />
         <Route path="/user" element={<User />} />
+        <Route path="/user/detail" element={<UserDetail />} />
       </Routes>
     </ThemeProvider>
   );
