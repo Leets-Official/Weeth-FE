@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-import LeftButton from './LeftButton';
-import Title from './Title';
-import RightButton from './RightButton';
+import LeftButton from '../Header/LeftButton';
+import Title from '../Header/Title';
+import RightButton from '../Header/RightButton';
 
 /* eslint-disable no-alert */
 
