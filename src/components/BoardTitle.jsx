@@ -20,11 +20,14 @@ const Detail = styled.div`
   }
 `;
 
+//  해당 함수에 온클릭 이벤트 작성
+const onClickButton = () => {};
+
 const BoardTitle = () => {
   return (
     <Title>
       <StyledHeader>
-        <LeftButton />
+        <LeftButton onClick={onClickButton} />
         <RightButton text="⋮" />
       </StyledHeader>
       <h2>중간 발표</h2>

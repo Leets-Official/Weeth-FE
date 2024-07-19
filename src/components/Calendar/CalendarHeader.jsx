@@ -50,6 +50,9 @@ const StyledInput = styled.input`
 const todayYear = new Date().getFullYear();
 const todayMonth = new Date().getMonth() + 1;
 
+//  해당 함수에 온클릭 이벤트 작성
+const onClickButton = () => {};
+
 const Header = () => {
   const [dateModalIsOpen, setDateModalIsOpen] = useState(false);
 
@@ -62,7 +65,7 @@ const Header = () => {
 
   return (
     <StyledHeader>
-      <LeftButton />
+      <LeftButton onClick={onClickButton} />
       <DatePicker>
         <div>
           {todayYear}년 {todayMonth}월
