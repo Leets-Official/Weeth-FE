@@ -31,7 +31,7 @@ const TextWrapper = styled.div`
   margin-left: 10px;
 `;
 
-const UserName = ({ name, cardinal, position }) => {
+const MemberName = ({ name, cardinal, position }) => {
   let imgSrc;
   let alt;
 
@@ -62,10 +62,10 @@ const UserName = ({ name, cardinal, position }) => {
   );
 };
 
-UserName.propTypes = {
+MemberName.propTypes = {
   name: PropTypes.string.isRequired,
   cardinal: PropTypes.number.isRequired,
   position: PropTypes.string.isRequired,
 };
 
-export default UserName;
+export default MemberName;

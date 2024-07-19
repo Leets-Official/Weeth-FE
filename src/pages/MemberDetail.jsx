@@ -1,5 +1,6 @@
 import styled from 'styled-components';
-import UserHeader from '../components/Header/UserHeader';
+import UserHeader from '../components/Header/MemberHeader';
+import mockUser from '../components/mockData/mockUser';
 
 const StyledDetails = styled.div`
   width: 370px;
@@ -31,32 +32,32 @@ const UserDetail = () => {
       <InfoWrapper>
         <Info>
           <div>이름</div>
-          <Green>이강혁</Green>
+          <Green>{mockUser[0].name}</Green>
         </Info>
         <Line />
         <Info>
           <div>학번</div>
-          <Green>이강혁</Green>
+          <Green>{mockUser[0].studentId}</Green>
         </Info>
         <Line />
         <Info>
           <div>학과</div>
-          <Green>이강혁</Green>
+          <Green>{mockUser[0].department}</Green>
         </Info>
         <Line />
         <Info>
           <div>기수</div>
-          <Green>이강혁</Green>
+          <Green>{mockUser[0].cardinal}</Green>
         </Info>
         <Line />
         <Info>
           <div>역할</div>
-          <Green>이강혁</Green>
+          <Green>{mockUser[0].position}</Green>
         </Info>
         <Line />
         <Info>
           <div>메일</div>
-          <Green>이강혁</Green>
+          <Green>{mockUser[0].email}</Green>
         </Info>
         <Line />
       </InfoWrapper>
