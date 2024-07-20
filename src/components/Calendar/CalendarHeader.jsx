@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import Modal from 'react-modal';
 import React, { useState } from 'react';
+import theme from '../../styles/theme';
 
 import IndexButton from '../Header/IndexButton';
 import LeftButton from '../Header/LeftButton';
@@ -24,7 +25,7 @@ const TitleWrapper = styled.div`
 
 const Title = styled.div`
   font-size: 18px;
-  font-weight: 600;
+  font-family: ${theme.font.family.pretendard_semiBold};
 `;
 
 const ImgButton = styled.div`
