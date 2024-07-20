@@ -7,7 +7,7 @@ const StyledInfoInput = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 16px 25px 8px 25px;
+  padding: 16px 25px 8px 25px;
 `;
 
 const Input = styled.input`
@@ -20,6 +20,7 @@ const Input = styled.input`
   color: white;
   text-align: right;
   padding-right: 10px;
+  font-size: 16px;
 `;
 
 const InfoInput = ({ text, origValue }) => {
