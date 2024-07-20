@@ -6,6 +6,7 @@ import Attendance from './pages/Attendance';
 import Calendar from './pages/Calendar';
 import Home from './pages/Home';
 import Login from './pages/Login';
+import Profile from './pages/Profile';
 import Signup from './pages/Signup';
 import EventDetails from './pages/EventDetail';
 import AttendCheck from './pages/AttendCheck';
@@ -27,6 +28,7 @@ function App() {
         <Route path="/calendar" element={<Calendar />} />
         <Route path="/home" element={<Home />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/profile" element={<Profile />} />
         <Route path="/event" element={<EventDetails />} />
         <Route path="/attendCheck" element={<AttendCheck />} />
         <Route path="/member" element={<Member />} />
