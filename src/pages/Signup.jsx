@@ -66,15 +66,7 @@ const Signup = () => {
   };
 
   return (
-    <Container>
-      <SignupHeader />
-        <TextMargin1>
-          <SignupTextComponent
-            text="ID로 사용할 메일을 적어주세요"
-            value=''
-            
-          />
-        </TextMargin1>
+    <Container>Signup
     </Container>
   );
 };
