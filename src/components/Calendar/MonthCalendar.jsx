@@ -18,11 +18,12 @@ const CalendarContainer = styled.div`
   .fc-scrollgrid,
   .fc-theme-standard td,
   .fc-theme-standard th {
-    border-color: #1f1f1f !important; /* 테두리 색상 변경 */
+    border-color: #1f1f1f !important;
   }
 
   .fc-col-header-cell {
     background-color: #1f1f1f !important;
+    padding-bottom: 15px !important;
   }
 
   .fc-daygrid-day-number {
