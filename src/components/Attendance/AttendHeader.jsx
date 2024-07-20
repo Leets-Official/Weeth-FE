@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 import LeftButton from '../Header/LeftButton';
 import Title from '../Header/Title';
 
@@ -11,6 +10,7 @@ Title, RightButton은 props로 문자열을 받음
 
 const StyledAttendHeader = styled.div`
   display: flex;
+  font-size: 18px;
   justify-content: space-between;
   align-items: center;
   margin: 45px 25px 20px 25px; //기본 헤더 마진
@@ -20,11 +20,11 @@ const StyledAttendHeader = styled.div`
 // 오른쪽 버튼이 없어서 정렬이 안 맞을 경우에는
 // TitleWrapper 스타일 사용~!
 // */
-// const TitleWrapper = styled.div`
-//   // position: absolute;
-//   // left: 50%;
-//   // transform: translateX(-50%);
-// `;
+const TitleWrapper = styled.div`
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+`;
 
 /*
 LeftButton은 모든 페이지에서 동일하게 사용되어
@@ -45,22 +45,22 @@ onClick은 아래 함수에 각각의 함수를 작성
 @@@@안 하면 에러남@@@@
 */
 
-// const onClickLeftButton = () => {};
+// 뒤로가기
+const onClickLeftButton = () => {
+  window.history.back();
+};
 // const onClickRightButton = () => {};
 // const onClickTextButton = () => {};
 
-const AttendHeader = ({ text }) => {
+const AttendHeader = () => {
   return (
     <StyledAttendHeader>
-      <LeftButton />
-      <Title text={text} />
-      <div> </div>
+      <LeftButton onClick={onClickLeftButton} />
+      <TitleWrapper>
+        <Title text="출석" />
+      </TitleWrapper>
     </StyledAttendHeader>
   );
-};
-
-AttendHeader.propTypes = {
-  text: PropTypes.string.isRequired,
 };
 
 export default AttendHeader;

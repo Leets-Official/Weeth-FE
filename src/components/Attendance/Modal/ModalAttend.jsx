@@ -9,7 +9,7 @@ const Line = styled.div`
   transform: scaleY(0.2);
 `;
 
-const AttendModal = ({ open, close }) => {
+const ModalAttend = ({ open, close }) => {
   return (
     <div className={open ? 'openModal modal' : 'modal'}>
       {open && (
@@ -40,9 +40,9 @@ const AttendModal = ({ open, close }) => {
   );
 };
 
-AttendModal.propTypes = {
+ModalAttend.propTypes = {
   open: PropTypes.bool.isRequired,
   close: PropTypes.func.isRequired,
 };
 
-export default AttendModal;
+export default ModalAttend;

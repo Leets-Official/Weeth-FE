@@ -18,6 +18,8 @@ import Edit from './pages/Edit';
 import { ThemeProvider } from 'styled-components';
 import theme from './styles/theme';
 
+import Button from './components/Button/Button';
+
 
 function App() {
   return (

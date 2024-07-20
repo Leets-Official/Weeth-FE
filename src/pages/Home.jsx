@@ -1,7 +1,7 @@
 import React from 'react';
 import styled, { ThemeProvider } from 'styled-components';
 import theme from '../styles/theme';
-import HomeMiddle from '../components/home/HomeMain';
+import HomeMain from '../components/home/HomeMain';
 import HomeFooter from '../components/home/HomeFooter';
 
 const Container = styled.div`
@@ -36,7 +36,7 @@ const Home = () => {
       <Container>
         <Header>Weeth</Header>
         <Main>
-          <HomeMiddle />
+          <HomeMain />
         </Main>
         <Footer>
           <HomeFooter />
