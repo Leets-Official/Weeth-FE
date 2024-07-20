@@ -20,6 +20,10 @@ const Line = styled.div`
   margin: auto;
 `;
 
+const InfoWrapper = styled.div`
+  padding-top: 20px;
+`;
+
 const Info = styled.div`
   display: flex;
   align-items: center;
@@ -41,7 +45,7 @@ const UserDetail = () => {
   return (
     <StyledDetails>
       <UserHeader />
-      <div>
+      <InfoWrapper>
         <Info>
           <img src={icName} alt="name" />
           <Text>
@@ -90,7 +94,7 @@ const UserDetail = () => {
           </Text>
         </Info>
         <Line />
-      </div>
+      </InfoWrapper>
     </StyledDetails>
   );
 };
