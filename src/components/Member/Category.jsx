@@ -1,6 +1,10 @@
 import styled from 'styled-components';
 import { useState } from 'react';
 
+const StyledCategory = styled.div`
+  padding-top: 20px;
+`;
+
 const Button = styled.button`
   background-color: transparent;
   border: none;
@@ -50,7 +54,7 @@ const Category = () => {
   };
 
   return (
-    <div>
+    <StyledCategory>
       <Button type="button" checked={isAll} onClick={onClickAll}>
         전체
       </Button>
@@ -63,7 +67,7 @@ const Category = () => {
       <Button type="button" checked={is3} onClick={onClick3}>
         3기
       </Button>
-    </div>
+    </StyledCategory>
   );
 };
 
