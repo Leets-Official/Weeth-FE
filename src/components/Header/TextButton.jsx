@@ -1,10 +1,11 @@
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import theme from '../../styles/theme';
 
 const StyledText = styled.div`
   color: ${(props) => (props.color === 'green' ? '#00dda8' : '#ffffff')};
   cursor: pointer;
-  font-weight: 600; //semi-bold
+  font-family: ${theme.font.family.pretendard_semiBold};
 `;
 
 const TextButton = ({ text, color, onClick }) => {

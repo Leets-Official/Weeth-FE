@@ -100,7 +100,7 @@ const HomeMain = () => {
         <div className="right-button">
           <RightButton
             onClick={() => {
-              navi(`/member`);
+              navi(`/mypage`);
             }}
           />
         </div>
