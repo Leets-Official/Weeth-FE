@@ -2,10 +2,10 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import theme from '../../styles/theme';
-import RightButton from '../Header/RightButton';
-import Button from '../Button';
+import Button from '../Button/Button';
 import AttendModal from './Modal/ModalAttend';
 import './AttendMain.css';
+import RightButton from '../Header/RightButton';
 
 // 출석률 게이지 임시 값
 const ATTEND_GAUGE = 80;
@@ -61,7 +61,6 @@ const AttendMain = () => {
       <div className="attend-percent">
         <div>{ATTEND_GAUGE}%</div>
         <RightButton
-          text=">"
           onClick={() => {
             navi('/attendCheck');
           }}
