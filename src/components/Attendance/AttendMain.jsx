@@ -193,16 +193,6 @@ const AttendMain = () => {
               <br />
               어떤 이유인지 알아볼까요?
             </div>
-            <PenaltyInfo>
-              패널티를 받는 기준은 아래와 같아요
-              <br />
-              - 정기 모임에 출석을 하지 않았을 때
-              <br />
-              - 미션을 제출하지 않았을 때
-              <br />
-              - 스터디 발표를 하지 않았을 때
-              <br />
-            </PenaltyInfo>
           </div>
         ) : (
           // 패널티 없을 때 패널티 컴포넌트
@@ -210,18 +200,20 @@ const AttendMain = () => {
             <div className="no-penalty-info">
               <SemiBold>패널티를 받은 이력이 없네요!</SemiBold>
             </div>
-            <PenaltyInfo>
-              패널티를 받는 기준은 아래와 같아요
-              <br />
-              - 정기 모임에 출석을 하지 않았을 때
-              <br />
-              - 미션을 제출하지 않았을 때
-              <br />
-              - 스터디 발표를 하지 않았을 때
-              <br />
-            </PenaltyInfo>
           </div>
         )}
+        <div>
+          <PenaltyInfo>
+            패널티를 받는 기준은 아래와 같아요
+            <br />
+            - 정기 모임에 출석을 하지 않았을 때
+            <br />
+            - 미션을 제출하지 않았을 때
+            <br />
+            - 스터디 발표를 하지 않았을 때
+            <br />
+          </PenaltyInfo>
+        </div>
       </StyledBox>
       <ModalAttend open={modalOpen} close={handleCloseModal} />
       <ModalPenalty open={penaltyModalOpen} close={handleClosePenaltyModal} />
