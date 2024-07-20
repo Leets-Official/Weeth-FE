@@ -26,6 +26,10 @@ const Line = styled.div`
   margin: auto;
 `;
 
+const InfoWrapper = styled.div`
+  padding-top: 20px;
+`;
+
 const Info = styled.div`
   display: flex;
   align-items: center;
@@ -55,7 +59,7 @@ const MyPage = () => {
   return (
     <StyledDetails>
       <MyPageHeader isEdit={false} />
-      <div>
+      <InfoWrapper>
         <Info>
           <img src={icName} alt="name" />
           <Text>
@@ -112,7 +116,7 @@ const MyPage = () => {
           </Text>
         </Info>
         <Line />
-      </div>
+      </InfoWrapper>
       <ImgButton
         onClick={() => {
           navi(`/edit`);

@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import theme from '../styles/theme';
 import MemberHeader from '../components/Member/MemberHeader';
 import Category from '../components/Member/Category';
 import MemberName from '../components/Member/MemberName';
@@ -6,6 +7,11 @@ import mockUser from '../components/mockData/mockUser';
 
 const StyledMember = styled.div`
   width: 370px;
+  font-family: ${theme.font.family.pretendard_regular};
+`;
+
+const CategoryWrapper = styled.div`
+  margin: 0 30px;
 `;
 
 const MemberList = styled.div`
@@ -14,6 +20,7 @@ const MemberList = styled.div`
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
   height: 100%;
+  max-width: 350px;
   margin: 0px 10px;
 `;
 
@@ -21,7 +28,9 @@ const Member = () => {
   return (
     <StyledMember>
       <MemberHeader />
-      <Category />
+      <CategoryWrapper>
+        <Category />
+      </CategoryWrapper>
       <MemberList>
         {mockUser.map((user) => (
           <MemberName
