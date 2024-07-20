@@ -15,6 +15,8 @@ import icEmail from '../assets/images/Property 1=메일.png';
 
 import icEdit from '../assets/images/_수정.png';
 
+/* eslint-disable no-alert */
+
 const StyledDetails = styled.div`
   width: 370px;
 `;
@@ -24,6 +26,10 @@ const Line = styled.div`
   width: 325px;
   transform: scaleY(0.2);
   margin: auto;
+`;
+
+const InfoWrapper = styled.div`
+  padding-top: 20px;
 `;
 
 const Info = styled.div`
@@ -50,12 +56,21 @@ const ImgButton = styled.div`
   cursor: pointer;
 `;
 
+const NegativeButton = styled.div`
+  background-color: transparent;
+  border: none;
+  color: #ff5858;
+  font-size: 12px;
+  margin-left: 25px;
+  margin-top: 68px;
+`;
+
 const MyPage = () => {
   const navi = useNavigate();
   return (
     <StyledDetails>
       <MyPageHeader isEdit={false} />
-      <div>
+      <InfoWrapper>
         <Info>
           <img src={icName} alt="name" />
           <Text>
@@ -112,7 +127,7 @@ const MyPage = () => {
           </Text>
         </Info>
         <Line />
-      </div>
+      </InfoWrapper>
       <ImgButton
         onClick={() => {
           navi(`/edit`);
@@ -120,6 +135,13 @@ const MyPage = () => {
       >
         <img src={icEdit} alt="Edit" />
       </ImgButton>
+      <NegativeButton
+        onClick={() => {
+          window.confirm('탈퇴하시겠습니까?');
+        }}
+      >
+        탈퇴하기
+      </NegativeButton>
     </StyledDetails>
   );
 };

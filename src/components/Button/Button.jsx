@@ -17,7 +17,7 @@ const BasicButton = styled.button`
   align-items: center;
   justify-content: center;
   font-size: 16px;
-  width: calc(370px * 0.84);;
+  width: calc(370px * 0.84);
   height: 50px; 
 `;
 // 화면 너비인 370의 84%가 버튼의 너비
