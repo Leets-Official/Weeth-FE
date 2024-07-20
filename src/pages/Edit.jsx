@@ -8,6 +8,10 @@ const StyledEdit = styled.div`
   width: 370px;
 `;
 
+const InfoWrapper = styled.div`
+  padding-top: 20px;
+`;
+
 const Cardinal = styled.div`
   display: flex;
   justify-content: space-between;
@@ -33,16 +37,18 @@ const Edit = () => {
   return (
     <StyledEdit>
       <MyPageHeader isEdit />
-      <InfoInput text="이름" origValue={mockUser[0].name} />
-      <InfoInput text="학번" origValue={mockUser[0].studentId} />
-      <InfoInput text="학과" origValue={mockUser[0].department} />
-      <InfoInput text="핸드폰" origValue={mockUser[0].tel} />
-      <Cardinal>
-        <div>기수</div>
-        <TextBox>{mockUser[0].cardinal}</TextBox>
-      </Cardinal>
-      <InfoInput text="역할" origValue={mockUser[0].position} />
-      <InfoInput text="메일" origValue={mockUser[0].email} />
+      <InfoWrapper>
+        <InfoInput text="이름" origValue={mockUser[0].name} />
+        <InfoInput text="학번" origValue={mockUser[0].studentId} />
+        <InfoInput text="학과" origValue={mockUser[0].department} />
+        <InfoInput text="핸드폰" origValue={mockUser[0].tel} />
+        <Cardinal>
+          <div>기수</div>
+          <TextBox>{mockUser[0].cardinal}</TextBox>
+        </Cardinal>
+        <InfoInput text="역할" origValue={mockUser[0].position} />
+        <InfoInput text="메일" origValue={mockUser[0].email} />
+      </InfoWrapper>
     </StyledEdit>
   );
 };
