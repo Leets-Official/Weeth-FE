@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import Modal from 'react-modal';
 import React, { useState } from 'react';
 
-import RightButton from '../Header/RightButton';
+import IndexButton from '../Header/IndexButton';
 import LeftButton from '../Header/LeftButton';
 import ModalContent from './ModalContent';
 
@@ -51,7 +51,7 @@ const todayYear = new Date().getFullYear();
 const todayMonth = new Date().getMonth() + 1;
 
 const onClickLeftButton = () => {};
-const onClickRightButton = () => {};
+const onClickIndexButton = () => {};
 
 const Header = () => {
   const [dateModalIsOpen, setDateModalIsOpen] = useState(false);
@@ -74,7 +74,7 @@ const Header = () => {
           <img src={under} alt="select" />
         </ImgButton>
       </TitleWrapper>
-      <RightButton onClick={onClickRightButton} />
+      <IndexButton onClick={onClickIndexButton} />
 
       <Modal
         className="modal"
