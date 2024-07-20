@@ -8,6 +8,10 @@ const StyledMember = styled.div`
   width: 370px;
 `;
 
+const CategoryWrapper = styled.div`
+  margin: 0 30px;
+`;
+
 const MemberList = styled.div`
   position: absolute;
   background-color: #2e2e2e;
@@ -21,7 +25,9 @@ const Member = () => {
   return (
     <StyledMember>
       <MemberHeader />
-      <Category />
+      <CategoryWrapper>
+        <Category />
+      </CategoryWrapper>
       <MemberList>
         {mockUser.map((user) => (
           <MemberName
