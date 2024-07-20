@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { useState } from 'react';
+import theme from '../../styles/theme';
 
 const StyledCategory = styled.div`
   padding-top: 20px;
@@ -16,7 +17,7 @@ const Button = styled.button`
   color: white;
   cursor: pointer;
   font-size: 16px;
-  font-weight: 600; //semi-bold
+  font-family: ${theme.font.family.pretendard_semiBold};
 `;
 
 const Category = () => {

@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import theme from '../styles/theme';
 import MemberHeader from '../components/Member/MemberHeader';
 import Category from '../components/Member/Category';
 import MemberName from '../components/Member/MemberName';
@@ -6,6 +7,7 @@ import mockUser from '../components/mockData/mockUser';
 
 const StyledMember = styled.div`
   width: 370px;
+  font-family: ${theme.font.family.pretendard_regular};
 `;
 
 const CategoryWrapper = styled.div`
