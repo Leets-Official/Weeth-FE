@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 import LeftButton from '../Header/LeftButton';
 import Title from '../Header/Title';
 
@@ -11,6 +10,7 @@ Title, RightButton은 props로 문자열을 받음
 
 const StyledAttendHeader = styled.div`
   display: flex;
+  font-size: 18px;
   justify-content: space-between;
   align-items: center;
   margin: 45px 25px 20px 25px; //기본 헤더 마진
@@ -52,19 +52,15 @@ const onClickLeftButton = () => {
 // const onClickRightButton = () => {};
 // const onClickTextButton = () => {};
 
-const AttendHeader = ({ text }) => {
+const AttendHeader = () => {
   return (
     <StyledAttendHeader>
       <LeftButton onClick={onClickLeftButton} />
       <TitleWrapper>
-        <Title text={text} />
+        <Title text="출석" />
       </TitleWrapper>
     </StyledAttendHeader>
   );
-};
-
-AttendHeader.propTypes = {
-  text: PropTypes.string.isRequired,
 };
 
 export default AttendHeader;
