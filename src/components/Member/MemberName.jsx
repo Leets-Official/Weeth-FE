@@ -7,8 +7,7 @@ import D from '../../assets/images/Property 1=_DE.png';
 import MA from '../../assets/images/Property 1=MA.png';
 
 const MemberWrapper = styled.div`
-  padding-left: 10px;
-  padding-top: 20px;
+  padding: 20px 10px 0px 10px;
 `;
 
 const MemberContent = styled.div`
@@ -18,8 +17,10 @@ const MemberContent = styled.div`
 
 const Line = styled.div`
   border: 1px solid;
+  color: #4d4d4d;
   width: 325px;
-  margin: 10px 10px 0px 10px;
+  margin: auto;
+  margin-top: 10px;
   transform: scaleY(0.2);
 `;
 
