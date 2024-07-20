@@ -7,6 +7,10 @@ import styled from 'styled-components';
 
 const CalendarContainer = styled.div`
   width: 100%;
+  .fc {
+    font-size: 12px;
+  }
+
   .fc-day-today {
     background-color: transparent !important;
   }
@@ -35,6 +39,37 @@ const CalendarContainer = styled.div`
 
   .fc-day-sat a {
     color: #508fff;
+  }
+
+  .fc-event,
+  .fc-event-dot {
+    padding: 3px 10px;
+    background-color: #2f2f2f !important;
+    border: none;
+    border-radius: 20px;
+    color: #ffffff !important;
+  }
+
+  .fc-daygrid-event.fc-daygrid-block-event:first-child {
+    border-top-left-radius: 20px !important;
+    border-bottom-left-radius: 20px !important;
+  }
+
+  .fc-daygrid-event.fc-daygrid-block-event:last-child {
+    border-top-right-radius: 20px !important;
+    border-bottom-right-radius: 20px !important;
+  }
+
+  .fc-daygrid-event-dot {
+    display: none !important;
+  }
+
+  .fc-event-time {
+    display: none !important;
+  }
+
+  .fc-event-title {
+    font-weight: 400;
   }
 `;
 
