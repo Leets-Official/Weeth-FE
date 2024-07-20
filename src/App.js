@@ -9,6 +9,10 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import EventDetails from './pages/EventDetail';
 import AttendCheck from './pages/AttendCheck';
+import Member from './pages/Member';
+import MemberDetail from './pages/MemberDetail';
+import MyPage from './pages/MyPage';
+import Edit from './pages/Edit';
 
 import { ThemeProvider } from 'styled-components';
 import theme from './styles/theme';
@@ -25,6 +29,10 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/event" element={<EventDetails />} />
         <Route path="/attendCheck" element={<AttendCheck />} />
+        <Route path="/member" element={<Member />} />
+        <Route path="/member/detail" element={<MemberDetail />} />
+        <Route path="/mypage" element={<MyPage />} />
+        <Route path="/edit" element={<Edit />} />
       </Routes>
     </ThemeProvider>
   );
