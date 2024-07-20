@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 
 import RightButton from '../Header/RightButton';
 import LeftButton from '../Header/LeftButton';
+import ModalContent from './ModalContent';
 
 import under from '../../assets/images/_.png';
 
@@ -33,30 +34,16 @@ const ImgButton = styled.div`
   cursor: pointer;
 `;
 
-const ModalContent = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: row;
-  padding: 20px;
-  background: #4d4d4d;
-  color: white;
-  border-radius: 10px;
-  width: 300px;
-  margin: auto;
-  position: relative;
-`;
-
-const StyledInput = styled.input`
-  padding: 10px;
-  width: 100px;
-`;
-
 const modalStyles = {
   overlay: {
     backgroundColor: 'rgba(31,31,31,0.5)',
     backdropFilter: 'blur(2px)',
     zIndex: 1000,
+    width: '85%',
+    height: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+    margin: '100px auto',
   },
 };
 
@@ -95,12 +82,7 @@ const Header = () => {
         onRequestClose={closeDateModal}
         style={modalStyles}
       >
-        <ModalContent>
-          <StyledInput type="text" value="2024" />
-          <div>년</div>
-          <StyledInput type="text" value="7" />
-          <div>월</div>
-        </ModalContent>
+        <ModalContent origYear={2024} origMonth={7} />
       </Modal>
     </StyledHeader>
   );
