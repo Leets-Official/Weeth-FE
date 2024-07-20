@@ -18,6 +18,7 @@ const MemberList = styled.div`
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
   height: 100%;
+  max-width: 350px;
   margin: 0px 10px;
 `;
 
