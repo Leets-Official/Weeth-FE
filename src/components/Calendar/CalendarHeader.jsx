@@ -16,7 +16,7 @@ const StyledHeader = styled.div`
   margin: 45px 25px 20px 25px; //기본 헤더 마진
 `;
 
-const DatePicker = styled.div`
+const TitleWrapper = styled.div`
   display: flex;
   align-items: center;
 `;
@@ -52,6 +52,14 @@ const StyledInput = styled.input`
   width: 100px;
 `;
 
+const modalStyles = {
+  overlay: {
+    backgroundColor: 'rgba(31,31,31,0.5)',
+    backdropFilter: 'blur(2px)',
+    zIndex: 1000,
+  },
+};
+
 const todayYear = new Date().getFullYear();
 const todayMonth = new Date().getMonth() + 1;
 
@@ -71,25 +79,26 @@ const Header = () => {
   return (
     <StyledHeader>
       <LeftButton onClick={onClickLeftButton} />
-      <DatePicker>
+      <TitleWrapper>
         <Title>
           {todayYear}년 {todayMonth}월
         </Title>
         <ImgButton onClick={openDateModal}>
           <img src={under} alt="select" />
         </ImgButton>
-      </DatePicker>
+      </TitleWrapper>
       <RightButton onClick={onClickRightButton} />
 
       <Modal
         className="modal"
         isOpen={dateModalIsOpen}
         onRequestClose={closeDateModal}
+        style={modalStyles}
       >
         <ModalContent>
-          <StyledInput type="text" placeholder="2024" />
+          <StyledInput type="text" value="2024" />
           <div>년</div>
-          <StyledInput type="text" placeholder="7" />
+          <StyledInput type="text" value="7" />
           <div>월</div>
         </ModalContent>
       </Modal>
