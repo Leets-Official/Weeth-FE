@@ -23,10 +23,6 @@ const Line = styled.div`
   transform: scaleY(0.2);
 `;
 
-const Gen = styled.div`
-  font-size: 9pt;
-`;
-
 const TextWrapper = styled.div`
   margin-left: 10px;
 `;
@@ -54,7 +50,7 @@ const MemberName = ({ name, cardinal, position }) => {
         <img src={imgSrc} alt={alt} />
         <TextWrapper>
           <div>{name}</div>
-          <Gen>{cardinal}기</Gen>
+          <div>{cardinal}기</div>
         </TextWrapper>
       </MemberContent>
       <Line />

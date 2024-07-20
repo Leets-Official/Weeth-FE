@@ -23,7 +23,7 @@ const TitleWrapper = styled.div`
 `;
 
 const Title = styled.div`
-  font-size: 18pt;
+  font-size: 18px;
   font-weight: 600;
 `;
 
