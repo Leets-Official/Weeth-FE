@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import LeftButton from './Header/LeftButton';
-import RightButton from './Header/RightButton';
+import IndexButton from './Header/IndexButton';
 
 const StyledTitle = styled.div`
   margin: 45px 25px 20px 25px; //기본 헤더 마진
@@ -24,7 +24,7 @@ const Detail = styled.div`
 LeftButton은 모든 페이지에서 동일하게 사용되어
 onClick 외에 다른 props를 설정하지 않았음
 
-RightButton(⋮)과 Text버튼(글자 입력 가능) 중 한가지만 선택하여 사용
+IndexButton(⋮)과 Text버튼(글자 입력 가능) 중 한가지만 선택하여 사용
 두개의 버튼 모두 onClick 함수를 props로 받습니다
 
 TextButton Props
@@ -40,14 +40,14 @@ onClick은 아래 함수에 각각의 함수를 작성
 */
 
 const onClickLeftButton = () => {};
-const onClickRightButton = () => {};
+const onClickIndexButton = () => {};
 
 const BoardTitle = () => {
   return (
     <StyledTitle>
       <StyledHeader>
         <LeftButton onClick={onClickLeftButton} />
-        <RightButton onClick={onClickRightButton} />
+        <IndexButton onClick={onClickIndexButton} />
       </StyledHeader>
       <h2>중간 발표</h2>
       <Detail>
