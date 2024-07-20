@@ -17,9 +17,9 @@ const BasicButton = styled.button`{  width: 58px;
   align-items: center;
   justify-content: center;
   font-size: 16px;}`;
-const Button = ({ children, color, textColor }) => (
+const Button = ({ children, color, textColor, onClick }) => (
   <ThemeProvider theme={theme}>
-    <BasicButton color={color} textColor={textColor}>
+    <BasicButton color={color} textColor={textColor} onClick={onClick}>
       {children}
     </BasicButton>
   </ThemeProvider>
