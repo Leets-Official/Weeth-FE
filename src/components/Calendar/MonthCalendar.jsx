@@ -18,12 +18,12 @@ const CalendarContainer = styled.div`
   .fc-scrollgrid,
   .fc-theme-standard td,
   .fc-theme-standard th {
-    border-color: #1f1f1f !important;
+    border-color: #1f1f1f;
   }
 
   .fc-col-header-cell {
-    background-color: #1f1f1f !important;
-    padding-bottom: 15px !important;
+    background-color: #1f1f1f;
+    padding-bottom: 15px;
   }
 
   .fc-daygrid-day-number {
@@ -48,25 +48,24 @@ const CalendarContainer = styled.div`
     background-color: #2f2f2f !important;
     border: none;
     border-radius: 20px;
-    color: #ffffff !important;
   }
 
   .fc-daygrid-event.fc-daygrid-block-event:first-child {
-    border-top-left-radius: 20px !important;
-    border-bottom-left-radius: 20px !important;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
   }
 
   .fc-daygrid-event.fc-daygrid-block-event:last-child {
-    border-top-right-radius: 20px !important;
-    border-bottom-right-radius: 20px !important;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
   }
 
   .fc-daygrid-event-dot {
-    display: none !important;
+    display: none;
   }
 
   .fc-event-time {
-    display: none !important;
+    display: none;
   }
 
   .fc-event-title {
