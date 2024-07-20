@@ -7,6 +7,10 @@
     font-size: 32px;
     margin-top: 5%;
   }
+
+  .penalty-container{
+    width: 100%;
+  }
   
   .name-container {
     display: flex;
@@ -14,12 +18,45 @@
     font-size: 16px;
     margin-top: 6.6%;
   }
+
+  .button-container{
+    display: flex;
+    flex-direction: row;
+    margin-top: 20px;
+  }
   
   .attend-text {
     margin-top: -2px;
   }
-  
-  .right-button {
-    position: absolute;
-    right: 0;
+
+  .penalty-info{
+    margin-top: 15px;
+    font-size: 14px;
+    line-height: 1.8;
   }
+
+  .no-penalty-info{
+    margin-top: 15px;
+    font-size: 16px;  
+  }
+
+  .attend-project{
+    margin-top: 20px;
+    font-size: 16px;
+  }
+
+  .attend-date{
+    margin-top: 15px;
+    font-size: 14px;
+  }
+
+  .attend-place{
+    margin-top: 15px;
+    font-size: 14px;
+  }
+
+  .attend-button{
+    margin-top: 20px;
+  }
+
+

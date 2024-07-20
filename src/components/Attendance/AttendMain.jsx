@@ -3,12 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import theme from '../../styles/theme';
 import Button from '../Button/Button';
-import AttendModal from './Modal/ModalAttend';
+import ModalAttend from './Modal/ModalAttend';
 import './AttendMain.css';
 import RightButton from '../Header/RightButton';
 
 import check from '../../assets/images/ic_check.png';
 import warning from '../../assets/images/ic_warning.png';
+import ModalPenalty from './Modal/ModalPenalty';
 
 // 출석률 게이지 임시 값
 const ATTEND_GAUGE = 80;
@@ -55,6 +56,8 @@ const StyledBox = styled.div`
 const SemiBold = styled.div`
   font-family: ${theme.font.family.pretendard_semiBold};
   include-font-padding: false;
+  display: flex;
+  flex-direction: row;
 `;
 
 const TitleWrapper = styled.div`
@@ -70,23 +73,46 @@ const RightButtonWrapper = styled.div`
   justify-content: flex-end;
 `;
 
+const PenaltyInfo = styled.div`
+  color: ${theme.color.grayScale.gray65};
+  margin-top: 20px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  line-height: 1.6;
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  width: 97%;
+  margin-right: 3%;
+`;
+
 const AttendMain = () => {
   const navi = useNavigate();
   const [modalOpen, setModalOpen] = useState(false);
+  const [penaltyModalOpen, setPenaltyModalOpen] = useState(false);
   // const [hasEvent,setHasEvent] = useState(true);
   // const [hasPenalty, setHasPenalty] = useState(true);
 
-  // 일단 일정 있고 패널티 있는 게 디폴트
+  // 일단 일정 있고 패널티 있는 게 true
   const hasSchedule = true;
   const hasPenalty = true;
+
+  // 출석체크 모달
   const handleOpenModal = () => setModalOpen(true);
   const handleCloseModal = () => setModalOpen(false);
+
+  // 패널티 모달
+  const handleOpenPenaltyModal = () => setPenaltyModalOpen(true);
+  const handleClosePenaltyModal = () => setPenaltyModalOpen(false);
 
   return (
     <StyledAttend>
       <div className="name-container">
         <SemiBold>
-          <div className="attend-name">김위드</div>
+          <div className="attend-name">김위드&nbsp;</div>
         </SemiBold>
         <div className="attend-text">님의 출석률은</div>
       </div>
@@ -107,19 +133,46 @@ const AttendMain = () => {
       <Progress>
         <Dealt dealt={dealt} />
       </Progress>
-      <StyledBox>
+      <StyledBox height="200px">
         <img src={check} alt="v" />
         {hasSchedule ? (
           // 일정 있을 때 출석 컴포넌트
-          <div>
-            <div>일정 있음</div>
-            <Button onClick={handleOpenModal}>출석하기</Button>
+          <div className="attend-container">
+            <SemiBold>
+              <div className="attend-project">
+                오늘은 &quot;프로젝트 중간 발표&quot;가 있는 날이에요
+              </div>
+            </SemiBold>
+            <div className="attend-date">
+              날짜 : 2024년 7월 18일 (19:00 ~ 20:30)
+            </div>
+            <div className="attend-place">장소 : 가천관 247호</div>
+            <div className="attend-button">
+              <Button
+                color={theme.color.grayScale.gray30}
+                onClick={handleOpenModal}
+              >
+                출석하기
+              </Button>
+            </div>
           </div>
         ) : (
           // 일정 없을 때 출석 컴포넌트
-          <div>
-            <div>일정 없음</div>
-            <Button>출석하기</Button>
+          <div className="attend-container">
+            <SemiBold>
+              <div className="attend-project">오늘은 일정이 없어요</div>
+            </SemiBold>
+            <div className="attend-place">
+              동아리원과 스터디를 하는건 어때요?
+            </div>
+            <div className="attend-button">
+              <Button
+                color={theme.color.grayScale.gray30}
+                textColor={theme.color.grayScale.gray20}
+              >
+                출석하기
+              </Button>
+            </div>
           </div>
         )}
       </StyledBox>
@@ -127,16 +180,51 @@ const AttendMain = () => {
         <img src={warning} alt="!" />
         {hasPenalty ? (
           // 패널티 있을 때 패널티 컴포넌트
-          <div>
-            <div>패널티 있음</div>
-            <Button onClick={handleOpenModal}>출석하기</Button>
+          <div className="penalty-container">
+            <ButtonContainer>
+              <SemiBold>
+                패널티&nbsp;
+                <div style={{ color: theme.color.main.negative }}>1회</div>
+              </SemiBold>
+              <RightButton onClick={handleOpenPenaltyModal} />
+            </ButtonContainer>
+            <div className="penalty-info">
+              패널티가 1회 적립이 되었어요.
+              <br />
+              어떤 이유인지 알아볼까요?
+            </div>
+            <PenaltyInfo>
+              패널티를 받는 기준은 아래와 같아요
+              <br />
+              - 정기 모임에 출석을 하지 않았을 때
+              <br />
+              - 미션을 제출하지 않았을 때
+              <br />
+              - 스터디 발표를 하지 않았을 때
+              <br />
+            </PenaltyInfo>
           </div>
         ) : (
           // 패널티 없을 때 패널티 컴포넌트
-          <div>패널티 없음</div>
+          <div className="penalty-container">
+            <div className="no-penalty-info">
+              <SemiBold>패널티를 받은 이력이 없네요!</SemiBold>
+            </div>
+            <PenaltyInfo>
+              패널티를 받는 기준은 아래와 같아요
+              <br />
+              - 정기 모임에 출석을 하지 않았을 때
+              <br />
+              - 미션을 제출하지 않았을 때
+              <br />
+              - 스터디 발표를 하지 않았을 때
+              <br />
+            </PenaltyInfo>
+          </div>
         )}
       </StyledBox>
-      <AttendModal open={modalOpen} close={handleCloseModal} />
+      <ModalAttend open={modalOpen} close={handleCloseModal} />
+      <ModalPenalty open={penaltyModalOpen} close={handleClosePenaltyModal} />
     </StyledAttend>
   );
 };
