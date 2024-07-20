@@ -9,7 +9,7 @@ import calendar from '../../assets/images/ic_home_calendar.png';
 import attend from '../../assets/images/ic_home_attend.png';
 import board from '../../assets/images/ic_home_board.png';
 
-const StyledHomeMiddle = styled.div`
+const StyledHomeMain = styled.div`
   display: flex;
   flex-direction: column;
   align-items: start;
@@ -25,9 +25,8 @@ const GridContainer = styled.div`
   width: 94%;
   margin: 7.3% 3% 0px 3%;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: repeat(3, 1fr);
+  grid-template-rows: auto auto auto;
   grid-template-areas:
-    'calendar penalty'
     'calendar penalty'
     'board member'
     'board fee';
@@ -60,10 +59,16 @@ const BoardItem = styled(GridItem)`
 
 const MemberItem = styled(GridItem)`
   grid-area: member;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
 `;
 
 const FeeItem = styled(GridItem)`
   grid-area: fee;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
 `;
 
 const PlaceholderImage = styled.div`
@@ -78,10 +83,10 @@ const PlaceholderImage = styled.div`
   justify-self: flex-start;
 `;
 
-const HomeMiddle = () => {
+const HomeMain = () => {
   const navi = useNavigate();
   return (
-    <StyledHomeMiddle>
+    <StyledHomeMain>
       <CaptionContainer>
         <Caption color="#ffffff" textColor="#000000">
           3기
@@ -93,7 +98,11 @@ const HomeMiddle = () => {
           <div className="nick-name">Elite님</div>
         </div>
         <div className="right-button">
-          <RightButton text=">" />
+          <RightButton
+            onClick={() => {
+              navi(`/mypage`);
+            }}
+          />
         </div>
       </div>
       <GridContainer>
@@ -142,8 +151,8 @@ const HomeMiddle = () => {
           <PlaceholderImage />
         </FeeItem>
       </GridContainer>
-    </StyledHomeMiddle>
+    </StyledHomeMain>
   );
 };
 
-export default HomeMiddle;
+export default HomeMain;

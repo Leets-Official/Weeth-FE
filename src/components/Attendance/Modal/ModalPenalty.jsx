@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './ModalAttendCheck.css';
+import './ModalPenalty.css';
 import styled from 'styled-components';
 
 const Line = styled.div`
@@ -9,7 +9,7 @@ const Line = styled.div`
   transform: scaleY(0.2);
 `;
 
-const ModalAttendCheck = ({ open, close }) => {
+const ModalPenalty = ({ open, close }) => {
   return (
     <div className={open ? 'openModal modal' : 'modal'}>
       {open && (
@@ -40,9 +40,9 @@ const ModalAttendCheck = ({ open, close }) => {
   );
 };
 
-ModalAttendCheck.propTypes = {
+ModalPenalty.propTypes = {
   open: PropTypes.bool.isRequired,
   close: PropTypes.func.isRequired,
 };
 
-export default ModalAttendCheck;
+export default ModalPenalty;

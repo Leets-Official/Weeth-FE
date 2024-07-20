@@ -20,9 +20,9 @@ const theme = {
       white: '#ffffff',
       gray12: '#1F1F1F',
       gray18: '#2F2F2F',
-      gray20: '#4D4D4D',
-      gray30: '#A6A6A6',
-      gray65: '#333333',
+      gray20: '#333333',
+      gray30: '#4D4D4D',
+      gray65: '#A6A6A6',
     },
   },
 

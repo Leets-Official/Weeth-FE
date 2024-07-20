@@ -25,11 +25,9 @@ const BasicButton = styled.button`
 `;
 
 const SmallImageButton = ({ children, color, textColor, icon, altText }) => (
-  <ThemeProvider theme={theme}>
-    <BasicButton color={color} textColor={textColor}>
-      {icon ? <img src={icon} alt={altText || 'icon'} /> : children}
-    </BasicButton>
-  </ThemeProvider>
+  <BasicButton color={color} textColor={textColor}>
+    {icon ? <img src={icon} alt={altText || 'icon'} /> : children}
+  </BasicButton>
 );
 
 export default SmallImageButton;
