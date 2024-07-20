@@ -8,7 +8,7 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Profile from './pages/Profile';
 import Signup from './pages/Signup';
-import EventDetails from './pages/EventDetail';
+import EventDetails from './pages/EventDetails';
 import AttendCheck from './pages/AttendCheck';
 import Member from './pages/Member';
 import MemberDetail from './pages/MemberDetail';
