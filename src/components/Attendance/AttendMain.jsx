@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import theme from '../../styles/theme';
 import RightButton from '../Header/RightButton';
-import Button from '../Button';
+import Button from '../Button/Button';
 import AttendModal from './Modal/ModalAttend';
 import './AttendMain.css';
 
