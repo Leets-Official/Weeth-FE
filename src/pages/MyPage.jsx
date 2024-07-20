@@ -15,6 +15,8 @@ import icEmail from '../assets/images/Property 1=메일.png';
 
 import icEdit from '../assets/images/_수정.png';
 
+/* eslint-disable no-alert */
+
 const StyledDetails = styled.div`
   width: 370px;
 `;
@@ -52,6 +54,15 @@ const ImgButton = styled.div`
   justify-content: flex-end;
   margin: 15px 25px 0px 0px;
   cursor: pointer;
+`;
+
+const NegativeButton = styled.div`
+  background-color: transparent;
+  border: none;
+  color: #ff5858;
+  font-size: 12px;
+  margin-left: 25px;
+  margin-top: 68px;
 `;
 
 const MyPage = () => {
@@ -124,6 +135,13 @@ const MyPage = () => {
       >
         <img src={icEdit} alt="Edit" />
       </ImgButton>
+      <NegativeButton
+        onClick={() => {
+          window.confirm('탈퇴하시겠습니까?');
+        }}
+      >
+        탈퇴하기
+      </NegativeButton>
     </StyledDetails>
   );
 };
