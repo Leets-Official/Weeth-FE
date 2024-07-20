@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 
 import RightButton from '../Header/RightButton';
 import LeftButton from '../Header/LeftButton';
+import ModalContent from './ModalContent';
 
 import under from '../../assets/images/_.png';
 
@@ -16,9 +17,14 @@ const StyledHeader = styled.div`
   margin: 45px 25px 20px 25px; //기본 헤더 마진
 `;
 
-const DatePicker = styled.div`
+const TitleWrapper = styled.div`
   display: flex;
   align-items: center;
+`;
+
+const Title = styled.div`
+  font-size: 18pt;
+  font-weight: 600;
 `;
 
 const ImgButton = styled.div`
@@ -28,24 +34,18 @@ const ImgButton = styled.div`
   cursor: pointer;
 `;
 
-const ModalContent = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: row;
-  padding: 20px;
-  background: #4d4d4d;
-  color: white;
-  border-radius: 10px;
-  width: 300px;
-  margin: auto;
-  position: relative;
-`;
-
-const StyledInput = styled.input`
-  padding: 10px;
-  width: 100px;
-`;
+const modalStyles = {
+  overlay: {
+    backgroundColor: 'rgba(31,31,31,0.5)',
+    backdropFilter: 'blur(2px)',
+    zIndex: 1000,
+    width: '85%',
+    height: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+    margin: '100px auto',
+  },
+};
 
 const todayYear = new Date().getFullYear();
 const todayMonth = new Date().getMonth() + 1;
@@ -66,27 +66,23 @@ const Header = () => {
   return (
     <StyledHeader>
       <LeftButton onClick={onClickLeftButton} />
-      <DatePicker>
-        <div>
+      <TitleWrapper>
+        <Title>
           {todayYear}년 {todayMonth}월
-        </div>
+        </Title>
         <ImgButton onClick={openDateModal}>
           <img src={under} alt="select" />
         </ImgButton>
-      </DatePicker>
+      </TitleWrapper>
       <RightButton onClick={onClickRightButton} />
 
       <Modal
         className="modal"
         isOpen={dateModalIsOpen}
         onRequestClose={closeDateModal}
+        style={modalStyles}
       >
-        <ModalContent>
-          <StyledInput type="text" placeholder="2024" />
-          <div>년</div>
-          <StyledInput type="text" placeholder="7" />
-          <div>월</div>
-        </ModalContent>
+        <ModalContent origYear={2024} origMonth={7} />
       </Modal>
     </StyledHeader>
   );
