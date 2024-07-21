@@ -1,9 +1,11 @@
 import styled from 'styled-components';
 import { useState } from 'react';
+import PropTypes from 'prop-types';
 import theme from '../../styles/theme';
 
 const StyledCategory = styled.div`
   padding-top: 20px;
+  font-family: ${theme.font.family.pretendard_regulars};
 `;
 
 const Button = styled.button`
@@ -20,56 +22,65 @@ const Button = styled.button`
   font-family: ${theme.font.family.pretendard_semiBold};
 `;
 
-const Category = () => {
-  const [isAll, setIsAll] = useState(false);
-  const [is1, setIs1] = useState(false);
-  const [is2, setIs2] = useState(false);
-  const [is3, setIs3] = useState(false);
+const Category = ({ setSelectedCardinal }) => {
+  const [selectedCategory, setSelectedCategory] = useState('all');
 
   const onClickAll = () => {
-    setIsAll(!isAll);
-    setIs1(false);
-    setIs2(false);
-    setIs3(false);
+    setSelectedCategory('all');
+    setSelectedCardinal(null);
   };
 
   const onClick1 = () => {
-    setIs1(!is1);
-    setIsAll(false);
-    setIs2(false);
-    setIs3(false);
+    setSelectedCategory('1');
+    setSelectedCardinal(1);
   };
 
   const onClick2 = () => {
-    setIs2(!is2);
-    setIsAll(false);
-    setIs1(false);
-    setIs3(false);
+    setSelectedCategory('2');
+    setSelectedCardinal(2);
   };
 
   const onClick3 = () => {
-    setIs3(!is3);
-    setIsAll(false);
-    setIs1(false);
-    setIs2(false);
+    setSelectedCategory('3');
+    setSelectedCardinal(3);
   };
 
   return (
     <StyledCategory>
-      <Button type="button" checked={isAll} onClick={onClickAll}>
+      <Button
+        type="button"
+        checked={selectedCategory === 'all'}
+        onClick={onClickAll}
+      >
         전체
       </Button>
-      <Button type="button" checked={is1} onClick={onClick1}>
+      <Button
+        type="button"
+        checked={selectedCategory === '1'}
+        onClick={onClick1}
+      >
         1기
       </Button>
-      <Button type="button" checked={is2} onClick={onClick2}>
+      <Button
+        type="button"
+        checked={selectedCategory === '2'}
+        onClick={onClick2}
+      >
         2기
       </Button>
-      <Button type="button" checked={is3} onClick={onClick3}>
+      <Button
+        type="button"
+        checked={selectedCategory === '3'}
+        onClick={onClick3}
+      >
         3기
       </Button>
     </StyledCategory>
   );
+};
+
+Category.propTypes = {
+  setSelectedCardinal: PropTypes.string.isRequired,
 };
 
 export default Category;
