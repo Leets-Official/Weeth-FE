@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
+import theme from '../../styles/theme';
 
 const Switch = styled.label`
   position: relative;
@@ -48,6 +50,8 @@ const TextMonth = styled.span`
   position: absolute;
   left: 18%;
   color: ${(props) => (props.checked ? '#a6a6a6' : '#ffffff')};
+  font-family: ${theme.font.family.pretendard_semiBold};
+  font-size: 12px;
   z-index: 1;
 `;
 
@@ -55,14 +59,17 @@ const TextYear = styled.span`
   position: absolute;
   right: 22%;
   color: ${(props) => (props.checked ? '#ffffff' : '#a6a6a6')};
+  font-family: ${theme.font.family.pretendard_semiBold};
+  font-size: 12px;
   z-index: 1;
 `;
 
-const ToggleSwitch = () => {
+const ToggleButton = ({ onToggle }) => {
   const [isToggled, setIsToggled] = useState(false);
 
   const handleToggle = () => {
     setIsToggled(!isToggled);
+    onToggle(!isToggled);
   };
 
   return (
@@ -83,4 +90,8 @@ const ToggleSwitch = () => {
   );
 };
 
-export default ToggleSwitch;
+ToggleButton.propTypes = {
+  onToggle: PropTypes.func.isRequired,
+};
+
+export default ToggleButton;

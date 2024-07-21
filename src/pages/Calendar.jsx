@@ -27,18 +27,19 @@ const mockEvent = [
 const Calendar = () => {
 
   const [calendarType, setCalenderType] = useState('month');
-  const changeCalenderType = (type) => {
-    setCalenderType(type);
+
+  const onToggle = (isToggled) => {
+    setCalenderType(isToggled ? 'year' : 'month');
   }
 
   return (
     <StyledCalendar>
       <CalendarHeader />
         <Content>
-        <ToggleButton />
+        <ToggleButton onToggle={onToggle} />
         {calendarType === 'month' ? <MonthCalendar mockEvent={mockEvent}/> : <YearCalendar />}
-        <button type="button" onClick={() => changeCalenderType('month')}>month</button>
-        <button type="button" onClick={() => changeCalenderType('year')}>year</button>
+        {/* <button type="button" onClick={() => changeCalenderType('month')}>month</button>
+        <button type="button" onClick={() => changeCalenderType('year')}>year</button> */}
       </Content>
     </StyledCalendar>
   );
