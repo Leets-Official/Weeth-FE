@@ -46,6 +46,9 @@ const modalStyles = {
     justifyContent: 'center',
     margin: '100px auto',
   },
+  sidebar: {
+    display: 'none', // pc에서 모달 영역 테두리 제거
+  },
 };
 
 const todayYear = new Date().getFullYear();
@@ -78,7 +81,7 @@ const Header = () => {
       <IndexButton onClick={onClickIndexButton} />
 
       <Modal
-        className="modal"
+        className="calendar-modal"
         isOpen={dateModalIsOpen}
         onRequestClose={closeDateModal}
         style={modalStyles}
