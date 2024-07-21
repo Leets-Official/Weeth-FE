@@ -101,6 +101,7 @@ const MeetingTitle = styled.div`
   flex-direction: row;
   margin-left: 2%;
   font-size: 16px;
+  font-family: ${theme.font.family.pretendard_semiBold};
 `;
 const MeetingInfo = styled.div`
   display: flex;
@@ -109,6 +110,9 @@ const MeetingInfo = styled.div`
   margin-left: 5%;
   font-size: 14px;
   line-height: 1.7;
+`;
+const StyledText = styled.div`
+  margin-top: -2.5px;
 `;
 
 const SmallBox = ({ title, num }) => {
@@ -162,7 +166,8 @@ const AttendCheckMain = () => {
     <Container>
       <Header>
         <SemiTitle>
-          <SemiBold>김위드</SemiBold> 님의 출석횟수
+          <SemiBold>김위드</SemiBold>
+          <StyledText>&nbsp;님의 출석횟수</StyledText>
         </SemiTitle>
         <Penalty>
           <SemiBold>3회</SemiBold>

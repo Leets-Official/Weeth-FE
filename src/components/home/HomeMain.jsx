@@ -43,6 +43,7 @@ const GridItem = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  cursor: pointer;
 `;
 
 const CalendarItem = styled(GridItem)`
