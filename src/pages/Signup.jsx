@@ -13,34 +13,24 @@ const Container = styled.div`
   padding-top: 0; /* 상단 여백 제거 */
 `;
 
-const TextMargin1 = styled.div`
+const TextMargin = styled.div`
   margin-bottom: 15px;
 `;
 
 const CheckButton = styled.button`
-  margin-top: 1.8%;
-  text-align: right; /* 이걸 바꿈 maring-right: 7% */
+  margin-top: 15px;
+  margin-right: 7%;  // 수정된 부분
+  margin-top: 0;
+  text-align: right;
   background: none;
   border: none;
-  color: ${props => props.checked ? (props.isDuplicate ? '#ff5858' : '#508fff') : '#508fff'};
+  color: ${props => props.checked ? (props.isDuplicate ? <props className="theme color main Negative"></props> : props.theme.color.main.Positive) : '#508fff'};
   cursor: pointer;
   font-family: 'Pretendard', sans-serif;
   font-size: 14px;
   font-weight: 600;
-  text-decoration: ${props => props.checked ? 'none' : 'underline'};
+  text-decoration: ${props => props.underline ? 'underline' : 'none'};
 
-  &:hover {
-    text-decoration: ${props => props.checked ? 'none' : 'underline'};
-  }
-`;
-
-const StatusMessage = styled.div`
-  margin-left: 25px;
-  margin-top: 10px;
-  font-family: 'Pretendard', sans-serif;
-  font-size: 14px;
-  font-weight: 600;
-  color: ${props => (props.isDuplicate ? '#ff5858' : '#508fff')};
 `;
 
 const HeaderMargin = styled.div`
@@ -81,8 +71,19 @@ const Signup = () => {
       />
       <HeaderMargin />
       <SignupWhite text="ID로 사용할 메일을 적어주세요" />
-      <TextMargin1 />
-      <SignupTextComponent />
+      <TextMargin />
+      <SignupTextComponent value={email} onChange={(e) => setEmail(e.target.value)} />
+      <TextMargin />
+      {!isChecked && (
+      <CheckButton onClick={handleCheckEmail} underline>
+        가입 여부 확인
+      </CheckButton>
+      )}
+      {isChecked && (
+        <CheckButton isDuplicate={emailStatus === 'duplicate'}>
+          {emailStatus === 'duplicate' ? '이미 가입된 ID입니다' : '사용 가능한 ID입니다'}
+        </CheckButton>
+      )}
     </Container>
   );
 };

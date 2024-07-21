@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import LeftButton from '../Header/LeftButton';
 // import RightButton from '../Header/RightButton';
-import TextButton from '../Header/TextButton';
+import RegisterStatus from './RegisterStatus';
 
 const StyledHeader = styled.div`
   display: flex;
@@ -34,11 +34,10 @@ const SignupHeader = ({
     <StyledHeader>
       <LeftButton onClick={onClickLeftButton} />
 
-      <TextButton
-        onClick={onClickTextButton}
-        disabled={!isRightButtonEnabled}
+      <RegisterStatus
         text={nextButtonText}
-        style={{ color: isRightButtonEnabled ? '#00DDA8' : '#white' }}
+        color={isRightButtonEnabled ? 'green' : 'white'}
+        onClick={onClickTextButton}
       />
     </StyledHeader>
   );
