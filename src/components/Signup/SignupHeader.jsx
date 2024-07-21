@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
 import LeftButton from '../Header/LeftButton';
 // import RightButton from '../Header/RightButton';
 import RegisterStatus from './RegisterStatus';
+import TextButton from '../Header/TextButton';
 
 const StyledHeader = styled.div`
   display: flex;
@@ -30,19 +31,63 @@ const SignupHeader = ({
   onClickTextButton,
   nextButtonText,
 }) => {
-  return (
-    <StyledHeader>
-      <LeftButton onClick={onClickLeftButton} />
+  const [page, setPage] = useState(0); // 0: 첫 번째 화면, 1: 두 번째 화면
 
-      <RegisterStatus
-        text={nextButtonText}
-        color={isRightButtonEnabled ? 'green' : 'white'}
-        onClick={onClickTextButton}
-      />
-    </StyledHeader>
+  const handleLeftButtonClick = () => {
+    if (page === 0) {
+      onClickLeftButton(); // 이전 페이지로 이동
+    } else {
+      setPage(0); // 첫 번째 화면으로 이동
+    }
+  };
+
+  const handleRightButtonClick = () => {
+    if (page === 1) {
+      setPage(0); // 이전 렌더링(첫 번째 화면)으로 돌아가기
+    }
+  };
+
+  return (
+    <>
+      <StyledHeader>
+        <LeftButton onClick={handleLeftButtonClick} />
+
+        <RegisterStatus
+          text={nextButtonText}
+          color={isRightButtonEnabled ? 'green' : 'white'}
+          onClick={onClickTextButton}
+        />
+      </StyledHeader>
+      {page === 0 ? (
+        <FirstPageComponent onClickNext={() => setPage(1)} />
+      ) : (
+        <SecondPageComponent onClickPrev={handleRightButtonClick} />
+      )}
+    </>
   );
 };
 
+const FirstPageComponent = ({ onClickNext }) => (
+  <div>
+    {/* 첫 번째 화면 내용 */}
+    <TextButton onClick={onClickNext}>다음</TextButton>
+  </div>
+);
+
+const SecondPageComponent = ({ onClickPrev }) => (
+  <div>
+    {/* 두 번째 화면 내용 */}
+    <LeftButton onClick={onClickPrev}>이전 렌더링으로 돌아가기</LeftButton>
+  </div>
+);
+
+FirstPageComponent.propTypes = {
+  onClickNext: PropTypes.func.isRequired,
+};
+
+SecondPageComponent.propTypes = {
+  onClickPrev: PropTypes.func.isRequired,
+};
 SignupHeader.propTypes = {
   onClickLeftButton: PropTypes.func.isRequired,
   isRightButtonEnabled: PropTypes.bool.isRequired,
