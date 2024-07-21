@@ -17,6 +17,15 @@ const TextMargin = styled.div`
   margin-bottom: 15px;
 `;
 
+const PasswordInputWrapper = styled.div`
+  position: relative;
+`;
+
+const PasswordInput = styled.input`
+  width: 100%;
+  padding-right: 40px; /* 오른쪽 여백 추가 */
+`;
+
 const CheckButton = styled.button`
   margin-top: 15px;
   margin-right: 7%;  // 수정된 부분
@@ -37,10 +46,13 @@ const HeaderMargin = styled.div`
   height: 228px;
 `;
 
+const MiddleMargin = styled.div
+
 const Signup = () => {
   const [email, setEmail] = useState('');
   const [emailStatus, setEmailStatus] = useState(null); // null: 초기 상태, 'duplicate': 중복, 'available': 사용 가능
   const [isChecked, setIsChecked] = useState(false);
+  const [nextClicked, setNextClicked] = useState(false);
 
   const checkDuplicate = (email) => {
     const existingEmails = ['weetha123@gmail.com', 'test@naver.com'];
@@ -55,10 +67,15 @@ const Signup = () => {
 
   const handleNextClick = () => {
     console.log('다음 버튼 클릭됨');
+    setNextClicked(true);
   };
 
   const handlePrevClick = () => {
     console.log('이전 페이지로 이동');
+  };
+
+  const togglePasswordVisibility = () => {
+    setPasswordVisible(!passwordVisible);
   };
 
   return (
@@ -74,12 +91,12 @@ const Signup = () => {
       <TextMargin />
       <SignupTextComponent value={email} onChange={(e) => setEmail(e.target.value)} />
       <TextMargin />
-      {!isChecked && (
+      {!nextClicked && !isChecked && (
       <CheckButton onClick={handleCheckEmail} underline>
         가입 여부 확인
       </CheckButton>
       )}
-      {isChecked && (
+      {!nextClicked && isChecked && (
         <CheckButton isDuplicate={emailStatus === 'duplicate'}>
           {emailStatus === 'duplicate' ? '이미 가입된 ID입니다' : '사용 가능한 ID입니다'}
         </CheckButton>
