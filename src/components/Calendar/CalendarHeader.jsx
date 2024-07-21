@@ -1,8 +1,9 @@
 import styled from 'styled-components';
 import Modal from 'react-modal';
 import React, { useState } from 'react';
-import theme from '../../styles/theme';
+import PropTypes from 'prop-types';
 
+import theme from '../../styles/theme';
 import IndexButton from '../Header/IndexButton';
 import LeftButton from '../Header/LeftButton';
 import ModalContent from './ModalContent';
@@ -65,13 +66,10 @@ const modalStyles = {
   },
 };
 
-const todayYear = new Date().getFullYear();
-const todayMonth = new Date().getMonth() + 1;
-
 const onClickLeftButton = () => {};
 const onClickIndexButton = () => {};
 
-const Header = () => {
+const CalendarHeader = ({ todayMonth, todayYear }) => {
   const [dateModalIsOpen, setDateModalIsOpen] = useState(false);
 
   const openDateModal = () => {
@@ -113,4 +111,9 @@ const Header = () => {
   );
 };
 
-export default Header;
+CalendarHeader.propTypes = {
+  todayMonth: PropTypes.number.isRequired,
+  todayYear: PropTypes.number.isRequired,
+};
+
+export default CalendarHeader;

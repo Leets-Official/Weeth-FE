@@ -1,34 +1,35 @@
 import React from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 import MonthlyEvent from './MonthlyEvent';
-import mockEventYear from '../mockData/mockEventYear';
 
 const MonthlyBox = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
-  width: 100%;
+  width: 340px;
 `;
 
-const YearCalendar = () => {
+const month = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+
+const YearCalendar = ({ todayMonth }) => {
   return (
     <MonthlyBox>
-      <MonthlyEvent mockEventYear={mockEventYear} />
-      <MonthlyEvent mockEventYear={mockEventYear} />
-      <MonthlyEvent mockEventYear={mockEventYear} />
-      <MonthlyEvent mockEventYear={mockEventYear} />
-      <MonthlyEvent mockEventYear={mockEventYear} />
-      <MonthlyEvent mockEventYear={mockEventYear} />
-      <MonthlyEvent mockEventYear={mockEventYear} />
-      <MonthlyEvent mockEventYear={mockEventYear} />
-      <MonthlyEvent mockEventYear={mockEventYear} />
-      <MonthlyEvent mockEventYear={mockEventYear} />
-      <MonthlyEvent mockEventYear={mockEventYear} />
-      <MonthlyEvent mockEventYear={mockEventYear} />
+      {month.map((monthItem) => (
+        <MonthlyEvent
+          key={monthItem}
+          month={monthItem}
+          todayMonth={todayMonth}
+        />
+      ))}
     </MonthlyBox>
   );
+};
+
+YearCalendar.propTypes = {
+  todayMonth: PropTypes.number.isRequired,
 };
 
 export default YearCalendar;
