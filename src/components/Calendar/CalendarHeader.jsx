@@ -32,7 +32,13 @@ const TitleWrapper = styled.div`
   transform: translateX(-50%);
 `;
 
-const Title = styled.div`
+const TitleYear = styled.div`
+  font-size: 18px;
+  font-family: ${theme.font.family.pretendard_semiBold};
+  padding-right: 5px;
+`;
+
+const TitleMonth = styled.div`
   font-size: 18px;
   font-family: ${theme.font.family.pretendard_semiBold};
 `;
@@ -90,9 +96,8 @@ const CalendarHeader = ({ todayMonth, todayYear, isYear }) => {
     <StyledHeader>
       <LeftButton onClick={onClickLeftButton} />
       <TitleWrapper>
-        <Title>
-          {todayYear}년{isYear ? null : `${todayMonth}월`}
-        </Title>
+        <TitleYear>{todayYear}년</TitleYear>
+        <TitleMonth>{isYear ? null : `${todayMonth}월`}</TitleMonth>
         <ImgButton onClick={openMonthModal}>
           <img src={under} alt="select" />
         </ImgButton>
