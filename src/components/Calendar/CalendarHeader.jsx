@@ -69,7 +69,7 @@ const modalStyles = {
 const onClickLeftButton = () => {};
 const onClickIndexButton = () => {};
 
-const CalendarHeader = ({ todayMonth, todayYear }) => {
+const CalendarHeader = ({ todayMonth, todayYear, isMonth }) => {
   const [dateModalIsOpen, setDateModalIsOpen] = useState(false);
 
   const openDateModal = () => {
@@ -88,7 +88,7 @@ const CalendarHeader = ({ todayMonth, todayYear }) => {
       <LeftButton onClick={onClickLeftButton} />
       <TitleWrapper>
         <Title>
-          {todayYear}년 {todayMonth}월
+          {todayYear}년{isMonth ? null : `${todayMonth}월`}
         </Title>
         <ImgButton onClick={openDateModal}>
           <img src={under} alt="select" />
@@ -114,6 +114,7 @@ const CalendarHeader = ({ todayMonth, todayYear }) => {
 CalendarHeader.propTypes = {
   todayMonth: PropTypes.number.isRequired,
   todayYear: PropTypes.number.isRequired,
+  isMonth: PropTypes.bool.isRequired,
 };
 
 export default CalendarHeader;

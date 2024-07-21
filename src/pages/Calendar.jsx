@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import CalendarHeader from '../components/Calendar/CalendarHeader';
@@ -27,24 +27,23 @@ const todayYear = new Date().getFullYear();
 const todayMonth = new Date().getMonth() + 1;
 
 const Calendar = () => {
+  const [calendarType, setCalendarType] = useState('month');
+  const [isMonth, setIsMonth] = useState(true);
 
-  const [calendarType, setCalenderType] = useState('month');
-
-  const onToggle = (isToggled) => {
-    setCalenderType(isToggled ? 'year' : 'month');
-  }
+  const onToggle = (isMonth) => {
+    setCalendarType(isMonth ? 'year' : 'month');
+    setIsMonth(isMonth);
+  };
 
   return (
     <StyledCalendar>
-      <CalendarHeader todayMonth={todayMonth} todayYear={todayYear} />
-        <Content>
+      <CalendarHeader todayMonth={todayMonth} todayYear={todayYear} isMonth={isMonth} />
+      <Content>
         <ToggleButton onToggle={onToggle} />
         {calendarType === 'month' ? <MonthCalendar mockEvent={mockEvent}/> : <YearCalendar todayMonth={todayMonth}/>}
-        {/* <button type="button" onClick={() => changeCalenderType('month')}>month</button>
-        <button type="button" onClick={() => changeCalenderType('year')}>year</button> */}
       </Content>
     </StyledCalendar>
   );
-}
+};
 
 export default Calendar;
