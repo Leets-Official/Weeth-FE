@@ -24,6 +24,7 @@ const StyledInput = styled.input`
   text-align: right;
   margin: 0px 10px;
   padding-right: 10px;
+  font-size: 16px;
 `;
 
 const Text = styled.div`
