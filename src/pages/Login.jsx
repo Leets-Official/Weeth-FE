@@ -3,6 +3,8 @@ import styled, { ThemeProvider } from 'styled-components';
 import theme from '../styles/theme';
 import Button from '../components/Button/Button';
 
+/* 높이를 810px로 잡고 각각의 margin을 px로 잡았습니다 */
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -33,11 +35,11 @@ const ButtonWrapper = styled.div`
 
 const SignupButton = styled(Button)`
   width: 100%; /* Adjusted width */
-  margin-top: 126px;
 `;
 
 const LoginButton = styled(Button)`
   width: 100%; /* Adjusted width */
+  margin-bottom: 198px;
 `;
 
 const Login = () => {
