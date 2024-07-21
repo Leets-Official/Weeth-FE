@@ -1,44 +1,88 @@
 .modal {
-    display: none; 
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.8); /* 반투명한 배경 */
-  }
-  
-  .openModal {
-    display: block; /* 모달 열기 */
-  }
-  
-  .modal-content {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%); /* 중앙 정렬 */
-    width: 270px;
-    height: 489px;
-    background-color: #2F2F2F;
-    border-radius: 14px;
-    padding: 10px;
-  }
-  
-  .modal-content > h2 {
-    margin-top: 80px;
-  }
-  
-  .modal-buttons {
-    display: flex;
-    justify-content: center;
-    margin: 30px auto;
-  }
-  
-  .modal-buttons button {
-    margin: 0 10px;
-    padding: 10px 20px;
-    background-color: white;
-  }
-  
+  display: none; 
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.8); /* 반투명한 배경 */
+  backdrop-filter: blur(5px);
+}
+
+.openModal {
+  display: block; /* 모달 열기 */
+}
+
+.modal-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* 중앙 정렬 */
+  width: calc(370*0.84);
+  height: 489px;
+  background-color: #2F2F2F;
+  border-radius: 14px;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-title {
+  display: flex;
+  flex-direction: row;
+  font-size: 16px;
+  margin-top: 25px;
+}
+
+.modal-text {
+  display: flex;
+  flex-direction: row;
+  font-size: 14px;
+  color: #A6A6A6;
+  margin-top: 20px;
+}
+
+.modal-date {
+  display: flex;
+  flex-direction: row;
+  font-size: 14px;
+  margin-top: 15px;
+}
+
+.modal-place {
+  display: flex;
+  flex-direction: row;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+.modal-input {
+  width: 100%;
+  height: 45px;
+  padding: 8px;
+  margin-top: 14px;
+  border-radius: 4px;
+  border: none;
+  background-color: #1F1F1F;
+  color: #ffff;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0 0 0;
+}
+
+.modal-penalty{
+  font-size: 32px;
+  margin-top: 19px;
+}
