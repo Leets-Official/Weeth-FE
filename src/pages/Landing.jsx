@@ -22,7 +22,7 @@ const StyledTitle = styled.div`
   font-weight: 700;
   font-size: 64px;
   line-height: 76.38px;
-  color: #00DDA8;
+  color: #00dda8;
   text-align: center;
 `;
 
@@ -43,19 +43,10 @@ const LoginButton = styled(Button)`
   margin-bottom: 198px;
 `;
 
-const Login = () => {
-  
+const Landing = () => {
   const [signupClicked, setSignupClicked] = useState(false);
   const [loginClicked, setLoginClicked] = useState(false);
   const navi = useNavigate();
-
-  const handleSignupClick = () => {
-    setSignupClicked(!signupClicked);
-  };
-
-  const handleLoginClick = () => {
-    setLoginClicked(!loginClicked);
-  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -63,19 +54,31 @@ const Login = () => {
         <StyledTitle>Weeth</StyledTitle>
         <ButtonWrapper>
           <SignupButton
-            color={signupClicked ? "#0E9871" : theme.color.main.mainColor}
-            textColor={signupClicked ? "#097154" : theme.color.grayScale.white} /* Temporary colors */
-            onClick={(handleSignupClick) => {
+            color={signupClicked ? '#0E9871' : theme.color.main.mainColor}
+            textColor={
+              signupClicked ? '#097154' : theme.color.grayScale.white
+            } /* Temporary colors */
+            onClick={() => {
+              setSignupClicked(true);
               navi(`/signup`);
             }}
           >
             회원가입
           </SignupButton>
           <LoginButton
-            color={loginClicked ? theme.color.grayScale.gray20 : theme.color.grayScale.gray30} /* Adjusted conditional logic */
-            textColor={loginClicked ? theme.color.grayScale.gray12 : theme.color.grayScale.white} /* Temporary colors */
-            onClick={(handleLoginClick) => {
-              navi(`/signin`); /* 경로 바꾸면 나중에 수정하기 */
+            color={
+              loginClicked
+                ? theme.color.grayScale.gray20
+                : theme.color.grayScale.gray30
+            }
+            textColor={
+              loginClicked
+                ? theme.color.grayScale.gray12
+                : theme.color.grayScale.white
+            } /* Temporary colors */
+            onClick={() => {
+              setLoginClicked(true);
+              navi(`/login`); /* 경로 바꾸면 나중에 수정하기 */
             }}
           >
             로그인
@@ -86,4 +89,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Landing;
