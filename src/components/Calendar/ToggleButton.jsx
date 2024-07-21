@@ -65,11 +65,11 @@ const TextYear = styled.span`
 `;
 
 const ToggleButton = ({ onToggle }) => {
-  const [isMonth, setIsMonth] = useState(false);
+  const [isYear, setIsMonth] = useState(false);
 
   const handleToggle = () => {
-    setIsMonth(!isMonth);
-    onToggle(!isMonth);
+    setIsMonth(!isYear);
+    onToggle(!isYear);
   };
 
   return (
@@ -77,13 +77,13 @@ const ToggleButton = ({ onToggle }) => {
       <Switch>
         <Checkbox
           type="checkbox"
-          checked={isMonth}
+          checked={isYear}
           onChange={handleToggle}
           text="text"
         />
-        <Slider checked={isMonth}>
-          <TextMonth checked={isMonth}>Month</TextMonth>
-          <TextYear checked={isMonth}>Year</TextYear>
+        <Slider checked={isYear}>
+          <TextMonth checked={isYear}>Month</TextMonth>
+          <TextYear checked={isYear}>Year</TextYear>
         </Slider>
       </Switch>
     </div>
