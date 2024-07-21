@@ -105,7 +105,7 @@ const CalendarHeader = ({ todayMonth, todayYear }) => {
         <ButttonWrapper>
           <TextButton text="완료" color="green" onClick={onClickTextButton} />
         </ButttonWrapper>
-        <ModalContent origYear={2024} origMonth={7} />
+        <ModalContent origYear={todayYear} origMonth={todayMonth} />
       </Modal>
     </StyledHeader>
   );
