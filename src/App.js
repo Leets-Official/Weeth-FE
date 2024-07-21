@@ -5,6 +5,7 @@ import './assets/fonts/fonts.css';
 import Attendance from './pages/Attendance';
 import Calendar from './pages/Calendar';
 import Home from './pages/Home';
+import Landing from './pages/Landing';
 import Login from './pages/Login';
 import Profile from './pages/Profile';
 import Signup from './pages/Signup';
@@ -25,7 +26,8 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <Routes>
-        <Route path="/" element={<Login />} />
+        <Route path="/" element={<Landing />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/attendance" element={<Attendance />} />
         <Route path="/calendar" element={<Calendar />} />
         <Route path="/home" element={<Home />} />
