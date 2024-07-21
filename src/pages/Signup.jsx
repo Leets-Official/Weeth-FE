@@ -43,6 +43,10 @@ const StatusMessage = styled.div`
   color: ${props => (props.isDuplicate ? '#ff5858' : '#508fff')};
 `;
 
+const HeaderMargin = styled.div`
+  height: 228px;
+`;
+
 const Signup = () => {
   const [email, setEmail] = useState('');
   const [emailStatus, setEmailStatus] = useState(null); // null: 초기 상태, 'duplicate': 중복, 'available': 사용 가능
@@ -69,6 +73,13 @@ const Signup = () => {
 
   return (
     <Container>
+      <SignupHeader
+        onClickLeftButton={handlePrevClick}
+        isRightButtonEnabled={isChecked}
+        onClickTextButton={handleNextClick}
+        nextButtonText="다음"  // 추가된 부분
+      />
+      <HeaderMargin />
       <SignupWhite text="ID로 사용할 메일을 적어주세요" />
       <TextMargin1 />
       <SignupTextComponent />
