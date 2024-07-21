@@ -60,19 +60,6 @@ const modalStyles = {
     justifyContent: 'center',
     margin: '45px auto',
   },
-  nonBlurArea: {
-    width: '100%',
-    height: '45px',
-    backgroundColor: 'transparent',
-  },
-  blurArea: {
-    backdropFilter: 'blur(2px)',
-    width: '100%',
-    height: 'calc(100% - 45px)',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   sidebar: {
     display: 'none', // pc에서 모달 영역 테두리 제거
   },
