@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled, { ThemeProvider } from 'styled-components';
 import theme from '../styles/theme';
 import Button from '../components/Button/Button';
@@ -43,8 +44,10 @@ const LoginButton = styled(Button)`
 `;
 
 const Login = () => {
+  
   const [signupClicked, setSignupClicked] = useState(false);
   const [loginClicked, setLoginClicked] = useState(false);
+  const navi = useNavigate();
 
   const handleSignupClick = () => {
     setSignupClicked(!signupClicked);
@@ -62,14 +65,18 @@ const Login = () => {
           <SignupButton
             color={signupClicked ? "#0E9871" : theme.color.main.mainColor}
             textColor={signupClicked ? "#097154" : theme.color.grayScale.white} /* Temporary colors */
-            onClick={handleSignupClick}
+            onClick={(handleSignupClick) => {
+              navi(`/signup`);
+            }}
           >
             회원가입
           </SignupButton>
           <LoginButton
             color={loginClicked ? theme.color.grayScale.gray20 : theme.color.grayScale.gray30} /* Adjusted conditional logic */
             textColor={loginClicked ? theme.color.grayScale.gray12 : theme.color.grayScale.white} /* Temporary colors */
-            onClick={handleLoginClick}
+            onClick={(handleLoginClick) => {
+              navi(`/signin`); /* 경로 바꾸면 나중에 수정하기 */
+            }}
           >
             로그인
           </LoginButton>
