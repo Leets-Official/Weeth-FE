@@ -6,7 +6,9 @@ import PropTypes from 'prop-types';
 const StyledContent = styled.div`
   display: flex;
   align-items: center;
-  width: 300px;
+  justify-content: center;
+  width: ${(props) => (props.isYear ? '121px' : '275px')};
+  height: 38px;
   background: #2f2f2f;
   border-radius: 14px;
   padding: 20px;
@@ -14,8 +16,8 @@ const StyledContent = styled.div`
 `;
 
 const StyledInput = styled.input`
-  height: 45px;
-  width: 33%;
+  height: 43px;
+  width: 90px;
   outline: none;
   border: none;
   border-radius: 4px;
@@ -31,7 +33,7 @@ const Text = styled.div`
   margin-right: 15px;
 `;
 
-const ModalContent = ({ origYear, origMonth }) => {
+const ModalContent = ({ origYear, origMonth, isYear }) => {
   const [year, setYear] = useState(origYear);
   const [month, setMonth] = useState(origMonth);
 
@@ -43,8 +45,16 @@ const ModalContent = ({ origYear, origMonth }) => {
     setMonth(e.target.value);
   };
 
+  if (isYear) {
+    return (
+      <StyledContent isYear={isYear}>
+        <StyledInput type="number" value={year} onChange={onChangeYear} />
+        <Text>년</Text>
+      </StyledContent>
+    );
+  }
   return (
-    <StyledContent>
+    <StyledContent isYear={isYear}>
       <StyledInput type="number" value={year} onChange={onChangeYear} />
       <Text>년</Text>
       <StyledInput type="number" value={month} onChange={onChangeMonth} />
@@ -56,6 +66,7 @@ const ModalContent = ({ origYear, origMonth }) => {
 ModalContent.propTypes = {
   origYear: PropTypes.number.isRequired,
   origMonth: PropTypes.number.isRequired,
+  isYear: PropTypes.bool.isRequired,
 };
 
 export default ModalContent;

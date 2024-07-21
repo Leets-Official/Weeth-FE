@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import theme from '../../styles/theme';
 import IndexButton from '../Header/IndexButton';
 import LeftButton from '../Header/LeftButton';
-import ModalContent from './ModalContent';
+import ModalMonthContent from './ModalMonthContent';
 import TextButton from '../Header/TextButton';
 
 import under from '../../assets/images/_.png';
@@ -45,9 +45,12 @@ const ImgButton = styled.div`
 `;
 
 const ButttonWrapper = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: 20px;
+  position: fixed;
+  top: -54px;
+  right: 20px;
+  // display: flex;
+  // justify-content: flex-end;
+  // margin-bottom: 20px;
 `;
 
 const modalStyles = {
@@ -59,7 +62,7 @@ const modalStyles = {
     height: '100%',
     display: 'flex',
     justifyContent: 'center',
-    margin: '45px auto',
+    margin: '100px auto',
   },
   sidebar: {
     display: 'none', // pc에서 모달 영역 테두리 제거
@@ -69,18 +72,18 @@ const modalStyles = {
 const onClickLeftButton = () => {};
 const onClickIndexButton = () => {};
 
-const CalendarHeader = ({ todayMonth, todayYear, isMonth }) => {
-  const [dateModalIsOpen, setDateModalIsOpen] = useState(false);
+const CalendarHeader = ({ todayMonth, todayYear, isYear }) => {
+  const [dateModalIsOpen, setMonthModalIsOpen] = useState(false);
 
-  const openDateModal = () => {
-    setDateModalIsOpen(true);
+  const openMonthModal = () => {
+    setMonthModalIsOpen(true);
   };
-  const closeDateModal = () => {
-    setDateModalIsOpen(false);
+  const closeMonthModal = () => {
+    setMonthModalIsOpen(false);
   };
 
   const onClickTextButton = () => {
-    closeDateModal();
+    closeMonthModal();
   };
 
   return (
@@ -88,9 +91,9 @@ const CalendarHeader = ({ todayMonth, todayYear, isMonth }) => {
       <LeftButton onClick={onClickLeftButton} />
       <TitleWrapper>
         <Title>
-          {todayYear}년{isMonth ? null : `${todayMonth}월`}
+          {todayYear}년{isYear ? null : `${todayMonth}월`}
         </Title>
-        <ImgButton onClick={openDateModal}>
+        <ImgButton onClick={openMonthModal}>
           <img src={under} alt="select" />
         </ImgButton>
       </TitleWrapper>
@@ -99,13 +102,17 @@ const CalendarHeader = ({ todayMonth, todayYear, isMonth }) => {
       <Modal
         className="calendar-modal"
         isOpen={dateModalIsOpen}
-        onRequestClose={closeDateModal}
+        onRequestClose={closeMonthModal}
         style={modalStyles}
       >
         <ButttonWrapper>
           <TextButton text="완료" color="green" onClick={onClickTextButton} />
         </ButttonWrapper>
-        <ModalContent origYear={todayYear} origMonth={todayMonth} />
+        <ModalMonthContent
+          origYear={todayYear}
+          origMonth={todayMonth}
+          isYear={isYear}
+        />
       </Modal>
     </StyledHeader>
   );
@@ -114,7 +121,7 @@ const CalendarHeader = ({ todayMonth, todayYear, isMonth }) => {
 CalendarHeader.propTypes = {
   todayMonth: PropTypes.number.isRequired,
   todayYear: PropTypes.number.isRequired,
-  isMonth: PropTypes.bool.isRequired,
+  isYear: PropTypes.bool.isRequired,
 };
 
 export default CalendarHeader;
