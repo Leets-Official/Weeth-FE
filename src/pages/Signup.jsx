@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import SignupHeader from '../components/Signup/SignupHeader';
 import SignupTextComponent from '../components/Signup/SignupTextComponent';
+import SignupWhite from '../components/Signup/SignupWhite';
 
 
 const Container = styled.div`
@@ -9,10 +10,11 @@ const Container = styled.div`
   flex-direction: column;
   width: 370px;
   max-width: 370px;
+  padding-top: 0; /* 상단 여백 제거 */
 `;
 
 const TextMargin1 = styled.div`
-  margin-top: 39%;
+  margin-bottom: 15px;
 `;
 
 const CheckButton = styled.button`
@@ -66,7 +68,10 @@ const Signup = () => {
   };
 
   return (
-    <Container>Signup
+    <Container>
+      <SignupWhite text="ID로 사용할 메일을 적어주세요" />
+      <TextMargin1 />
+      <SignupTextComponent />
     </Container>
   );
 };
