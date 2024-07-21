@@ -1,4 +1,6 @@
 import styled from 'styled-components';
+import { useState } from 'react';
+
 import theme from '../styles/theme';
 import MemberHeader from '../components/Member/MemberHeader';
 import Category from '../components/Member/Category';
@@ -25,15 +27,23 @@ const MemberList = styled.div`
 `;
 
 const Member = () => {
+  const [selectedCardinal, setSelectedCardinal] = useState(null);
+
+  const filteredUsers =
+    selectedCardinal === null
+      ? mockUser
+      : mockUser.filter((user) => user.cardinal === selectedCardinal);
+
   return (
     <StyledMember>
       <MemberHeader />
       <CategoryWrapper>
-        <Category />
+        <Category setSelectedCardinal={setSelectedCardinal} />
       </CategoryWrapper>
       <MemberList>
-        {mockUser.map((user) => (
+        {filteredUsers.map((user) => (
           <MemberName
+            key={user.name}
             name={user.name}
             cardinal={user.cardinal}
             position={user.position}
