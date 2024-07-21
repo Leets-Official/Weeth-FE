@@ -28,7 +28,7 @@ const todayMonth = new Date().getMonth() + 1;
 
 const Calendar = () => {
   const [calendarType, setCalendarType] = useState('month');
-  const [isYear, setIsYear] = useState(true);
+  const [isYear, setIsYear] = useState(false);
 
   const onToggle = (isYear) => {
     setCalendarType(isYear ? 'year' : 'month');
