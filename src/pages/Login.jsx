@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled, { ThemeProvider } from 'styled-components';
 import theme from '../styles/theme';
-// import SmallButton from '../components/Button/SmallButton';
+import Button from '../components/Button/Button';
 
 const Container = styled.div`
   display: flex;
@@ -14,7 +14,7 @@ const Container = styled.div`
 const StyledTitle = styled.div`
   width: 53%;
   height: 76px;
-  margin: 297px 24% 126px 24%;
+  margin: 297px 24% 126px 24%; /* Adjusted margin */
   font-family: ${theme.font.family.pretendard_regular};
   font-weight: 700;
   font-size: 64px;
@@ -23,43 +23,58 @@ const StyledTitle = styled.div`
   text-align: center;
 `;
 
-/* const ButtonWrapper = styled.div`
+const ButtonWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-`; */
+  width: 100%;
+  gap: 15px;
+`;
 
+const SignupButton = styled(Button)`
+  width: 100%; /* Adjusted width */
+  margin-top: 126px;
+`;
 
-/* const StyledButton = styled.button`
-  width: 85%;
-  height: 76px;
-  background-color: ${props => (props.primary ? '#00DDA8' : '#333333')};
-  color: ${props => (props.primary ? '#000000' : '#7f7f7f')};
-  font-family: ${props => props.theme.font.family.pretendard_semiBold};
-  font-size: 24px;
-  font-weight: 700;
-  margin-top: 20px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-
-  &:hover {
-    opacity: 0.9;
-  }
-`; */
+const LoginButton = styled(Button)`
+  width: 100%; /* Adjusted width */
+`;
 
 const Login = () => {
+  const [signupClicked, setSignupClicked] = useState(false);
+  const [loginClicked, setLoginClicked] = useState(false);
+
+  const handleSignupClick = () => {
+    setSignupClicked(!signupClicked);
+  };
+
+  const handleLoginClick = () => {
+    setLoginClicked(!loginClicked);
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <Container>
         <StyledTitle>Weeth</StyledTitle>
-        
+        <ButtonWrapper>
+          <SignupButton
+            color={signupClicked ? "#0E9871" : theme.color.main.mainColor}
+            textColor={signupClicked ? "#097154" : theme.color.grayScale.white} /* Temporary colors */
+            onClick={handleSignupClick}
+          >
+            회원가입
+          </SignupButton>
+          <LoginButton
+            color={loginClicked ? theme.color.grayScale.gray20 : theme.color.grayScale.gray30} /* Adjusted conditional logic */
+            textColor={loginClicked ? theme.color.grayScale.gray12 : theme.color.grayScale.white} /* Temporary colors */
+            onClick={handleLoginClick}
+          >
+            로그인
+          </LoginButton>
+        </ButtonWrapper>
       </Container>
     </ThemeProvider>
   );
 };
 
 export default Login;
-
-/* <SmallButton color="#00DDA8" textColor="#000000" width="197px" height="76px">회원가입</SmallButton>
-          <SmallButton color="#333333" textColor="#7f7f7f" width="197px" height="76px">로그인</SmallButton> */
