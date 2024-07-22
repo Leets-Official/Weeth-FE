@@ -4,17 +4,17 @@ import PropTypes from 'prop-types';
 import theme from '../../styles/theme';
 
 const StyledCategory = styled.div`
-  padding-top: 20px;
+  padding-top: 30px;
   font-family: ${theme.font.family.pretendard_regular};
   display: flex;
-  justify-content: space-around; /* 중앙에 위치하고 균등하게 배치 */
+  justify-content: space-around;
 `;
 
 const Button = styled.button`
   background-color: transparent;
   border: none;
   height: 39px;
-  width: 30%; /* 버튼 너비 조정 */
+  width: 30%;
   border: 2px solid;
   border-width: 0 0 2px;
   border-color: ${(props) => (props.checked ? 'white' : 'transparent')};
