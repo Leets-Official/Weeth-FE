@@ -3,7 +3,8 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import SignupHeader from '../components/Signup/SignupHeader';
 import SignupTextComponent from '../components/Signup/SignupTextComponent';
-import Icon from '../assets/images/Icon.png';
+import { ReactComponent as ToggleVisibleIcon } from '../assets/images/ic_toggleVisible.svg';
+import { ReactComponent as ToggleInvisibleIcon } from '../assets/images/ic_toggleInvisible.svg';
 
 const Container = styled.div`
   display: flex;
@@ -43,12 +44,8 @@ const ToggleVisibilityButton = styled.button`
   background: none;
   border: none;
   cursor: pointer;
-  position: absolute;
-  top: 50%;
-  right: 10px;
-  transform: translateY(-50%);
 
-  img {
+  svg {
     width: 22px;
     height: 22px;
   }
@@ -128,7 +125,6 @@ const Signup = () => {
         isRightButtonEnabled={isChecked}
         onClickTextButton={handleNextClick}
         nextButtonText={page === 0 ? "다음" : "완료"}
-        page={page}
       />
       <HeaderMargin height={headerHeight} />
       <SignupTextComponent
@@ -149,7 +145,7 @@ const Signup = () => {
       )}
       <TextMargin />
       {nextClicked && (
-        <> 
+        <>
           <InputMargin />
           <SignupTextComponent
             text="사용할 비밀번호를 입력해주세요"
@@ -159,7 +155,7 @@ const Signup = () => {
             type={passwordVisible ? 'text' : 'password'}
           >
             <ToggleVisibilityButton onClick={togglePasswordVisibility}>
-              <img src={Icon} alt="Toggle visibility" />
+              {passwordVisible ? <ToggleInvisibleIcon /> : <ToggleVisibleIcon />}
             </ToggleVisibilityButton>
           </SignupTextComponent>
         </>
