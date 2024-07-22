@@ -30,6 +30,10 @@ const CheckButton = styled.button`
   text-decoration: ${props => props.underline ? 'underline' : 'none'};
 `;
 
+const TextMargin = styled.div`
+  margin-top: 15px;
+`;
+
 const ToggleVisibilityButton = styled.button`
   width: 6%;
   height: 22px;
@@ -139,6 +143,7 @@ const Signup = () => {
           {emailStatus === 'duplicate' ? '이미 가입된 ID입니다' : '사용 가능한 ID입니다'}
         </CheckButton>
       )}
+      <TextMargin />
       {nextClicked && (
         <>
           <SignupTextComponent
