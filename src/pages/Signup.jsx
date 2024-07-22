@@ -9,7 +9,7 @@ const Container = styled.div`
   flex-direction: column;
   width: 370px;
   max-width: 370px;
-  padding-top: 0; /* 상단 여백 제거 */
+  padding-top: 0; /* 상단 여백 제거. */
 `;
 
 const HeaderMargin = styled.div`
