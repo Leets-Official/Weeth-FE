@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import SignupHeader from '../components/Signup/SignupHeader';
 import SignupTextComponent from '../components/Signup/SignupTextComponent';
-import theme from '../styles/theme';
+import Icon from '../assets/images/Icon.png';
 
 const Container = styled.div`
   display: flex;
@@ -40,18 +40,17 @@ const InputMargin = styled.div`
 `;
 
 const ToggleVisibilityButton = styled.button`
-  width: 6%;
-  height: 22px;
-  padding: 1px 0;
   background: none;
   border: none;
-  color: ${theme.main.grayScale.white};
-  margin-left: 10px;
   cursor: pointer;
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
 
-  svg {
-    color: white;
-    fill: white;
+  img {
+    width: 22px;
+    height: 22px;
   }
 `;
 
@@ -150,15 +149,19 @@ const Signup = () => {
       )}
       <TextMargin />
       {nextClicked && (
-        <> <InputMargin />
+        <> 
+          <InputMargin />
           <SignupTextComponent
             text="사용할 비밀번호를 입력해주세요"
             value={password}
             onChange={handlePasswordChange}
             placeholder=""
             type={passwordVisible ? 'text' : 'password'}
-          />
-          <ToggleVisibilityButton onClick={togglePasswordVisibility} />
+          >
+            <ToggleVisibilityButton onClick={togglePasswordVisibility}>
+              <img src={Icon} alt="Toggle visibility" />
+            </ToggleVisibilityButton>
+          </SignupTextComponent>
         </>
       )}
     </Container>
