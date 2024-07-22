@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import MyPageHeader from '../components/MyPage/MyPageHeader';
 import InfoInput from '../components/MyPage/InfoInput';
 import mockUser from '../components/mockData/mockUser';
+import theme from '../styles/theme';
 
 const StyledEdit = styled.div`
   width: 370px;
@@ -28,7 +29,7 @@ const TextBox = styled.div`
   outline: none;
   border: none;
   border-radius: 4px;
-  background-color: #2f2f2f;
+  background-color: ${theme.color.grayScale.gray18};
   color: white;
   padding-right: 10px;
 `;
