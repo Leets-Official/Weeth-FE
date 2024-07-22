@@ -9,7 +9,7 @@ import LeftButton from '../Header/LeftButton';
 import ModalMonthContent from './ModalMonthContent';
 import TextButton from '../Header/TextButton';
 
-import under from '../../assets/images/_.png';
+import under from '../../assets/images/ic_under.svg';
 
 Modal.setAppElement('#root');
 
