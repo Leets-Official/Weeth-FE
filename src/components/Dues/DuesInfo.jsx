@@ -40,6 +40,7 @@ const Text = styled.div`
 `;
 
 const SmallText = styled.div`
+  margin-top: 7px;
   font-size: 12px;
   color: rgba(255, 255, 255, 0.5);
 `;

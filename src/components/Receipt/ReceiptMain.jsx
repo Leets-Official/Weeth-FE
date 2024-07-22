@@ -17,7 +17,7 @@ const Line = styled.div`
 const StyledMonth = styled.div`
   font-family: ${theme.font.family.pretendard_semiBold};
   font-size: 18px;
-  margin: 15px 6% 0 0;
+  margin: 15px 0 0 6%;
 `;
 
 const ReceiptMain = () => {

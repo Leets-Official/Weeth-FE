@@ -4,8 +4,8 @@ import Caption from '../Caption';
 import theme from '../../styles/theme';
 
 const MemberWrapper = styled.div`
-  width; 100%;
-  padding: 20px 10px 0px 10px;
+  width; 88%;
+  margin: 16px 6% 0 6%;
   font-family: ${theme.font.family.pretendard_regular};
 `;
 
@@ -40,6 +40,7 @@ const Text = styled.div`
 `;
 
 const SmallText = styled.div`
+  margin-top: 7px;
   font-size: 12px;
   color: rgba(255, 255, 255, 0.5);
 `;
