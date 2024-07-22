@@ -5,23 +5,22 @@ import theme from '../styles/theme';
 const StyledPosting = styled.div`
   width: 370px;
 `;
-
 const StyledText = styled.div`
-  font-family: ${theme.font.family.pretendard_semiBold};
-  color: ${theme.color.grayScale.gray65};
+  margin-left: 7%;
+  color: ${theme.color.grayScale.white};
   font-size: 16px;
-  font-weight: 600;
   line-height: 19.09px;
 `;
 
 /* 임시 */
 const StyledTitle = styled.input`
-  width: 100%;
+  width: 88%;
   margin-top: 20px;
+  margin-bottom: 20px;
   background: transparent;
   border: none;
-  color: ${theme.color.grayScale.gray65};
-  font-size: 16px;
+  color: ${theme.color.grayScale.white};
+  font-family: ${theme.font.family.pretendard_semiBold};
   font-weight: 600;
   outline: none;
 `;
@@ -29,22 +28,22 @@ const StyledTitle = styled.input`
 const StyledLine = styled.div`
   width: 88%;
   height: 1px;
-  margin: 20px 7%;
+  margin: 0 7%;
   background-color: ${theme.color.grayScale.gray30};
 `;
 
 const StyledContent = styled.textarea`
-  width: 100%;
+  width: 88%;
+  margin-top: 12px;
   background: transparent;
   border: none;
-  border-bottom: 1px solid ${theme.color.grayScale.gray65};
-  color: ${theme.color.grayScale.gray65};
-  font-size: 16px;
-  font-weight: 600;
+  color: ${theme.color.grayScale.white};
+  font-family: ${theme.font.family.pretendard_regular};
+  font-weight: 400;
   padding: 10px 0;
   outline: none;
   resize: none;
-  height: 300px;
+  height: 455px;
 `;
 
 const BoardPosting = () => {
@@ -53,7 +52,9 @@ const BoardPosting = () => {
       <BoardHeader />
       <StyledText>
         <StyledTitle type="text" placeholder="제목" />
-        <StyledLine />
+      </StyledText>
+      <StyledLine />
+      <StyledText>
         <StyledContent placeholder="내용을 입력하세요." />
       </StyledText>
     </StyledPosting>
