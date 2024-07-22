@@ -19,6 +19,7 @@ import Dues from './pages/Dues';
 
 import { ThemeProvider } from 'styled-components';
 import theme from './styles/theme';
+import Receipt from './pages/Receipt';
 
 
 
@@ -40,6 +41,7 @@ function App() {
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/edit" element={<Edit />} />
         <Route path="/dues" element={<Dues />} />
+        <Route path="/receipt" element={<Receipt />} />
       </Routes>
     </ThemeProvider>
   );

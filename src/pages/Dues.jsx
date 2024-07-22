@@ -31,7 +31,7 @@ const DuesListBox = styled.div`
 
 const DuesList = styled.div`
   width: 92%;
-  margin: 20px 10px 0 10px;
+  margin: 0 10px;
 `;
 
 const Line = styled.div`
