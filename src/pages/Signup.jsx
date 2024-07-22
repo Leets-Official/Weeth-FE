@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 import SignupHeader from '../components/Signup/SignupHeader';
 import SignupTextComponent from '../components/Signup/SignupTextComponent';
 
@@ -56,9 +57,11 @@ const ToggleVisibilityButton = styled.button`
 
 
 const Signup = () => {
+  const navi = useNavigate();
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [emailStatus, setEmailStatus] = useState(null); // null: 초기 상태, 'duplicate': 중복, 'available': 사용 가능
+  const [emailStatus, setEmailStatus] = useState(null); // null:초기 상태, 'duplicate': 중복, 'available': 사용 가능
   const [isChecked, setIsChecked] = useState(false);
   const [nextClicked, setNextClicked] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -77,9 +80,14 @@ const Signup = () => {
   };
 
   const handleNextClick = () => {
-    console.log('다음 버튼 클릭됨');
-    setNextClicked(true);
-    setHeaderHeight(208); // ?
+    if (page === 1) {
+      // Perform any necessary final actions before navigation
+      navi('/profile'); // Navigate to the next page
+    } else {
+      setNextClicked(true);
+      setHeaderHeight(208);
+      setPage(1);
+    }
   };
 
   const handlePrevClick = () => {
