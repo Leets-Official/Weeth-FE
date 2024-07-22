@@ -1,4 +1,6 @@
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
+import { useNavigate } from 'react-router-dom';
 import receipt from '../../assets/images/ic_receipt.svg';
 import theme from '../../styles/theme';
 
@@ -39,19 +41,26 @@ const BasicCaption = styled.button`
   justify-content: center;
 `;
 
-const ImgCaption = () => (
-  <BasicCaption>
+const ImgCaption = ({ navi }) => (
+  <BasicCaption onClick={() => navi('/receipt')}>
     <img src={receipt} alt="영수증" />
   </BasicCaption>
 );
+
+ImgCaption.propTypes = {
+  navi: PropTypes.func.isRequired,
+};
+
 const DuesTitle = () => {
+  const navi = useNavigate();
+
   return (
     <DuesBox>
       <DuesTextBox>
         <div>2024학년 1학기</div>
         <UpdateText>최근 업데이트: 2024/06/10 18:32</UpdateText>
       </DuesTextBox>
-      <ImgCaption />
+      <ImgCaption navi={navi} />
     </DuesBox>
   );
 };
