@@ -88,7 +88,7 @@ const Signup = () => {
     }
   };
 
-  const handlePrevClick = () => {
+  const onClickLeftButton = () => {
     if (page > 0) {
       setPage(prevPage => prevPage - 1);
       setPageStates(prev => prev.slice(0, -1));
@@ -121,7 +121,7 @@ const Signup = () => {
   return (
     <Container>
       <SignupHeader
-        onClickLeftButton={handlePrevClick}
+        onClickLeftButton={onClickLeftButton}
         isRightButtonEnabled={isChecked}
         onClickTextButton={handleNextClick}
         nextButtonText={page === 0 ? "다음" : "완료"}

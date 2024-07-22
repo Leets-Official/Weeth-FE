@@ -49,8 +49,7 @@ const ImgButton = styled.div`
 const ButttonWrapper = styled.div`
   position: fixed;
   width: 370px;
-  top: -41px;
-  left: 330px;
+  transform: translate(290px, -50px);
 `;
 
 const modalStyles = {
