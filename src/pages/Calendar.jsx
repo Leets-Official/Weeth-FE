@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import CalendarHeader from '../components/Calendar/CalendarHeader';
@@ -8,7 +8,6 @@ import ToggleButton from '../components/Calendar/ToggleButton';
 
 const StyledCalendar = styled.div`
   width: 370px;
-  height: 800px;
 `;
 
 const Content = styled.div`
@@ -24,24 +23,27 @@ const mockEvent = [
   { title: '몇주에 걸친 일정', start: '2024-06-30T19:00:00.000', end: '2024-08-01T19:00:00.000'},
 ];
 
-const Calendar = () => {
+const todayYear = new Date().getFullYear();
+const todayMonth = new Date().getMonth() + 1;
 
-  const [calendarType, setCalenderType] = useState('month');
-  const changeCalenderType = (type) => {
-    setCalenderType(type);
-  }
+const Calendar = () => {
+  const [calendarType, setCalendarType] = useState('month');
+  const [isYear, setIsYear] = useState(false);
+
+  const onToggle = (isYear) => {
+    setCalendarType(isYear ? 'year' : 'month');
+    setIsYear(isYear);
+  };
 
   return (
     <StyledCalendar>
-      <CalendarHeader />
-        <Content>
-        <ToggleButton />
-        {calendarType === 'month' ? <MonthCalendar mockEvent={mockEvent}/> : <YearCalendar />}
-        <button type="button" onClick={() => changeCalenderType('month')}>month</button>
-        <button type="button" onClick={() => changeCalenderType('year')}>year</button>
+      <CalendarHeader todayMonth={todayMonth} todayYear={todayYear} isYear={isYear} />
+      <Content>
+        <ToggleButton onToggle={onToggle} />
+        {calendarType === 'month' ? <MonthCalendar mockEvent={mockEvent}/> : <YearCalendar todayMonth={todayMonth}/>}
       </Content>
     </StyledCalendar>
   );
-}
+};
 
 export default Calendar;
