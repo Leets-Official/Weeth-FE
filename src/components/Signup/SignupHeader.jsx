@@ -19,22 +19,16 @@ const SignupHeader = ({
   onClickTextButton,
   nextButtonText,
   page,
-}) => {
-  return (
-    <StyledHeader>
-      {page === 0 ? (
-        <LeftButton onClick={onClickLeftButton} />
-      ) : (
-        <BackButton onClick={onClickLeftButton} />
-      )}
-      <TextButton
-        text={nextButtonText}
-        color={isRightButtonEnabled ? 'green' : 'white'}
-        onClick={onClickTextButton}
-      />
-    </StyledHeader>
-  );
-};
+}) => (
+  <StyledHeader>
+    {page === 0 ? <LeftButton /> : <BackButton onClick={onClickLeftButton} />}
+    <TextButton
+      text={nextButtonText}
+      color={isRightButtonEnabled ? 'green' : 'white'}
+      onClick={onClickTextButton}
+    />
+  </StyledHeader>
+);
 
 SignupHeader.propTypes = {
   onClickLeftButton: PropTypes.func.isRequired,
