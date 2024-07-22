@@ -99,7 +99,7 @@ const Signup = () => {
   };
 
   const togglePasswordVisibility = () => {
-    setPasswordVisible(!passwordVisible);
+    setPasswordVisible(prevState => !prevState);
   };
 
   const handleEmailChange = (e) => {
@@ -155,7 +155,7 @@ const Signup = () => {
             type={passwordVisible ? 'text' : 'password'}
           >
             <ToggleVisibilityButton onClick={togglePasswordVisibility}>
-              {passwordVisible ? <ToggleInvisibleIcon /> : <ToggleVisibleIcon />}
+              {passwordVisible ? <ToggleVisibleIcon /> : <ToggleInvisibleIcon />}
             </ToggleVisibilityButton>
           </SignupTextComponent>
         </>
