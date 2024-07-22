@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import MiddleButton from '../../Button/MiddleButton';
 import theme from '../../../styles/theme';
-import icClose from '../../../assets/images/ic_close.png';
-import check from '../../../assets/images/ic_check.png';
+import icClose from '../../../assets/images/ic_close.svg';
+import check from '../../../assets/images/ic_check.svg';
 import './ModalAttend.css';
 
 const StyledModal = styled.div`

@@ -5,9 +5,9 @@ import RightButton from '../Header/RightButton';
 import './HomeMain.css';
 import theme from '../../styles/theme';
 
-import calendar from '../../assets/images/ic_home_calendar.png';
-import attend from '../../assets/images/ic_home_attend.png';
-import board from '../../assets/images/ic_home_board.png';
+import calendar from '../../assets/images/ic_home_calendar.svg';
+import attend from '../../assets/images/ic_home_attend.svg';
+import board from '../../assets/images/ic_home_board.svg';
 
 const StyledHomeMain = styled.div`
   display: flex;
