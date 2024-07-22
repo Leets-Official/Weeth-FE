@@ -15,10 +15,14 @@ import icEmail from '../assets/images/ic_mail.svg';
 
 import icEdit from '../assets/images/ic_edit.svg';
 
+import theme from '../styles/theme';
+
 /* eslint-disable no-alert */
 
 const StyledDetails = styled.div`
   width: 370px;
+  // 해당페이지는 컴포넌트화될 예정이므로 따로 추가하지 않음
+  // 추후에 만들어질 컴포넌트에서 설정하겟습니당
 `;
 
 const Line = styled.div`
@@ -45,8 +49,8 @@ const Text = styled.div`
   margin-left: 10px;
 `;
 
-const Green = styled.div`
-  color: #00dda8;
+const MainColor = styled.div`
+  color: ${theme.color.main.mainColor};
 `;
 
 const ImgButton = styled.div`
@@ -59,7 +63,7 @@ const ImgButton = styled.div`
 const NegativeButton = styled.div`
   background-color: transparent;
   border: none;
-  color: #ff5858;
+  color: ${theme.color.main.negative};
   font-size: 12px;
   margin-left: 25px;
   margin-top: 68px;
@@ -76,7 +80,7 @@ const MyPage = () => {
           <img src={icName} alt="name" />
           <Text>
             <div>이름</div>
-            <Green>{mockUser[0].name}</Green>
+            <MainColor>{mockUser[0].name}</MainColor>
           </Text>
         </Info>
         <Line />
@@ -84,7 +88,7 @@ const MyPage = () => {
           <img src={icId} alt="id" />
           <Text>
             <div>학번</div>
-            <Green>{mockUser[0].studentId}</Green>
+            <MainColor>{mockUser[0].studentId}</MainColor>
           </Text>
         </Info>
         <Line />
@@ -92,7 +96,7 @@ const MyPage = () => {
           <img src={icDepartment} alt="department" />
           <Text>
             <div>학과</div>
-            <Green>{mockUser[0].department}</Green>
+            <MainColor>{mockUser[0].department}</MainColor>
           </Text>
         </Info>
         <Line />
@@ -100,7 +104,7 @@ const MyPage = () => {
           <img src={icPhone} alt="phoe" />
           <Text>
             <div>핸드폰</div>
-            <Green>{mockUser[0].tel}</Green>
+            <MainColor>{mockUser[0].tel}</MainColor>
           </Text>
         </Info>
         <Line />
@@ -108,7 +112,7 @@ const MyPage = () => {
           <img src={icCardinal} alt="cardinal" />
           <Text>
             <div>기수</div>
-            <Green>{mockUser[0].cardinal}</Green>
+            <MainColor>{mockUser[0].cardinal}</MainColor>
           </Text>
         </Info>
         <Line />
@@ -116,7 +120,7 @@ const MyPage = () => {
           <img src={icPosition} alt="positon" />
           <Text>
             <div>역할</div>
-            <Green>{mockUser[0].position}</Green>
+            <MainColor>{mockUser[0].position}</MainColor>
           </Text>
         </Info>
         <Line />
@@ -124,7 +128,7 @@ const MyPage = () => {
           <img src={icEmail} alt="email" />
           <Text>
             <div>메일</div>
-            <Green>{mockUser[0].email}</Green>
+            <MainColor>{mockUser[0].email}</MainColor>
           </Text>
         </Info>
         <Line />

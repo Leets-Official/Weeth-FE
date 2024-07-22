@@ -6,8 +6,12 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import styled from 'styled-components';
 import { format } from 'date-fns';
 
+import theme from '../../styles/theme';
+
 const CalendarContainer = styled.div`
   width: 100%;
+  font-family: ${theme.font.family.pretendard_regular};
+  font-size: 16px;
   z-index: 2;
 
   .fc {
@@ -21,11 +25,11 @@ const CalendarContainer = styled.div`
   .fc-scrollgrid,
   .fc-theme-standard td,
   .fc-theme-standard th {
-    border-color: #1f1f1f;
+    border-color: ${theme.color.grayScale.gray12};
   }
 
   .fc-col-header-cell {
-    background-color: #1f1f1f;
+    background-color: ${theme.color.grayScale.gray12};
     padding-bottom: 15px;
   }
 
@@ -38,17 +42,17 @@ const CalendarContainer = styled.div`
   }
 
   .fc-day-sun a {
-    color: #ff5858;
+    color: ${theme.color.main.negative};
   }
 
   .fc-day-sat a {
-    color: #508fff;
+    color: ${theme.color.main.pointBlue};
   }
 
   .fc-event,
   .fc-event-dot {
     padding: 3px 10px;
-    background-color: #2f2f2f !important;
+    background-color: ${theme.color.grayScale.gray18}; !important;
     border: none;
     border-radius: 20px;
   }
@@ -83,7 +87,7 @@ const Today = styled.div`
   position: absolute;
   top: 1px;
   right: 7px;
-  background: #14e398;
+  background: ${theme.color.main.mainColor};
   border-radius: 10px;
   width: 38px;
   height: 22px;
