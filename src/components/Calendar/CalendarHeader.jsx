@@ -9,7 +9,7 @@ import LeftButton from '../Header/LeftButton';
 import ModalMonthContent from './ModalMonthContent';
 import TextButton from '../Header/TextButton';
 
-import under from '../../assets/images/_.png';
+import under from '../../assets/images/ic_under.svg';
 
 Modal.setAppElement('#root');
 
@@ -18,10 +18,6 @@ const StyledHeader = styled.div`
   justify-content: space-between;
   align-items: center;
   margin: 45px 25px 20px 25px; //기본 헤더 마진
-
-  .guide-sidebar {
-    display: none;
-  }
 `;
 
 const TitleWrapper = styled.div`
@@ -52,26 +48,26 @@ const ImgButton = styled.div`
 
 const ButttonWrapper = styled.div`
   position: fixed;
-  top: -54px;
-  right: 20px;
-  // display: flex;
-  // justify-content: flex-end;
-  // margin-bottom: 20px;
+  width: 370px;
+  top: -41px;
+  left: 330px;
 `;
 
 const modalStyles = {
   overlay: {
-    backgroundColor: 'rgba(31,31,31,0.5)',
+    backgroundColor: 'rgba(0,0,0,0.5)',
     backdropFilter: 'blur(5px)',
     zIndex: 1000,
     width: '100%',
-    height: '100%',
+    height: 'calc(100vh - 10px)',
+    top: '10px',
     display: 'flex',
     justifyContent: 'center',
-    margin: '100px auto',
+    alignItems: 'flex-start',
+    margin: '75px auto', // 블러가 시작되는 위치를 정하고
   },
-  sidebar: {
-    display: 'none', // pc에서 모달 영역 테두리 제거
+  content: {
+    margin: '10px auto', // 모달은 블러 시작점으로부터 10px 떨어진 곳에 위치
   },
 };
 

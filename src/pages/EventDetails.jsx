@@ -2,6 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 import BoardTitle from '../components/BoardTitle';
 
+import icCalendar from '../assets/images/date.svg';
+import icClock from '../assets/images/clock.svg';
+
 const StyledEventDetails = styled.div`
   width: 370px;
 `;
@@ -13,8 +16,18 @@ const ContentBlock = styled.div`
   margin: 10px;
 `;
 
+const TimeInfo = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
+const Icon = styled.img`
+  padding-right: 5px;
+`;
+
 const Line = styled.div`
   border: 1px solid;
+  color: #4d4d4d;
   margin: 10px;
   transform: scaleY(0.2);
 `;
@@ -25,8 +38,14 @@ const EventDetails = () => {
       <BoardTitle />
       <Line />
       <ContentBlock>
-        <div>2024년 7월 18일 목요일</div>
-        <div>19:00 ~ 21:00</div>
+        <TimeInfo>
+          <Icon src={icCalendar} alt="calenar" />
+          <div>2024년 7월 18일 목요일</div>
+        </TimeInfo>
+        <TimeInfo>
+          <Icon src={icClock} alt="clock" />
+          <div>19:00 ~ 21:00</div>
+        </TimeInfo>
       </ContentBlock>
       <ContentBlock>
         <div>
