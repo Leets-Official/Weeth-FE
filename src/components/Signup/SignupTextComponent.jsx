@@ -11,6 +11,10 @@ const SignupContainer = styled.div`
   margin-top: 0; /* 상단 여백을 제거! */
 `;
 
+const Margin = styled.div`
+  margin-bottom: 15px;
+`;
+
 const StyledTextInput = styled.input`
   width: 87%;
   margin: 0 7%;
@@ -31,15 +35,16 @@ const StyledTextInput = styled.input`
   }
 `;
 
-const SignupTextComponent = ({ text, value, onChange, placeholder }) => {
+const SignupTextComponent = ({ text, value, onChange, placeholder, type }) => {
   return (
     <SignupContainer>
       <SignupWhite text={text} />
-
+      <Margin />
       <StyledTextInput
         value={value} // 현재 입력된 값
         onChange={onChange} // 값이 변경될 때 호출되는 함수
         placeholder={placeholder} // 비어 있을 때 보여줄 안내 문구
+        type={type}
       />
     </SignupContainer>
   );
@@ -50,10 +55,12 @@ SignupTextComponent.propTypes = {
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   placeholder: PropTypes.string,
+  type: PropTypes.string,
 };
 
 SignupTextComponent.defaultProps = {
   placeholder: 'ex) weeth@gmail.com',
+  type: 'text',
 };
 
 export default SignupTextComponent;
