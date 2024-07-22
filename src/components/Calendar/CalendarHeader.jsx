@@ -52,11 +52,9 @@ const ImgButton = styled.div`
 
 const ButttonWrapper = styled.div`
   position: fixed;
+  width: 370px;
   top: -54px;
-  right: 20px;
-  // display: flex;
-  // justify-content: flex-end;
-  // margin-bottom: 20px;
+  left: 330px;
 `;
 
 const modalStyles = {
