@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-import next from '../../assets/images/Right.png';
+import next from '../../assets/images/ic_right.svg';
 
 const ImgButton = styled.div`
   display: flex;
