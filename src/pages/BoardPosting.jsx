@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import BoardHeader from '../components/Board/PostingHeader';
+import { ReactComponent as FileAttach } from '../assets/images/ic_board_fileAttach.svg';
 import theme from '../styles/theme';
 
 const StyledPosting = styled.div`
@@ -57,6 +58,7 @@ const BoardPosting = () => {
       <StyledText>
         <StyledContent placeholder="내용을 입력하세요." />
       </StyledText>
+      <FileAttach />
     </StyledPosting>
   );
 };
