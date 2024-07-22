@@ -45,9 +45,15 @@ const ToggleVisibilityButton = styled.button`
   background: none;
   border: none;
   color: white; /* 나중에 theme */
-  cursor: pointer;
   margin-left: 10px;
+  cursor: pointer;
+
+  i, svg {
+    color: white;
+    fill: white;
+  }
 `;
+
 
 const Signup = () => {
   const [email, setEmail] = useState('');
@@ -90,7 +96,7 @@ const Signup = () => {
         onClickLeftButton={handlePrevClick}
         isRightButtonEnabled={isChecked}
         onClickTextButton={handleNextClick}
-        nextButtonText="다음"  // 추가된 부분
+        nextButtonText={page === 0 ? "다음" : "완료"}  // 추가된 부분
         page={page}
         setPage={setPage} // Pass setPage as a prop
       />
