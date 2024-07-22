@@ -47,6 +47,11 @@ const StyledContent = styled.textarea`
   height: 455px;
 `;
 
+const StyledFileAttach = styled.div`
+  margin-left: 7%;
+  margin-bottom: 148px;
+`;
+
 const BoardPosting = () => {
   return (
     <StyledPosting>
@@ -58,7 +63,9 @@ const BoardPosting = () => {
       <StyledText>
         <StyledContent placeholder="내용을 입력하세요." />
       </StyledText>
-      <FileAttach />
+      <StyledFileAttach>
+        <FileAttach />
+      </StyledFileAttach>
     </StyledPosting>
   );
 };

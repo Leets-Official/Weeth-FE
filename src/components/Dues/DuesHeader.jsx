@@ -1,6 +1,4 @@
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
-
 import LeftButton from '../Header/LeftButton';
 import Title from '../Header/Title';
 
@@ -20,15 +18,9 @@ const TitleWrapper = styled.div`
 // const onClickLeftButton = () => {};
 
 const DuesHeader = () => {
-  const navi = useNavigate();
-
   return (
     <StyledHeader>
-      <LeftButton
-        onClick={() => {
-          navi(-1);
-        }}
-      />
+      <LeftButton />
       <TitleWrapper>
         <Title text="회비" />
       </TitleWrapper>

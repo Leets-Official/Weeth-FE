@@ -5,15 +5,15 @@ import { useNavigate } from 'react-router-dom';
 import MyPageHeader from '../components/MyPage/MyPageHeader';
 import mockUser from '../components/mockData/mockUser';
 
-import icName from '../assets/images/Property 1=이름.png';
-import icId from '../assets/images/Property 1=학번.png';
-import icDepartment from '../assets/images/Property 1=학과.png';
-import icCardinal from '../assets/images/Property 1=기수.png';
-import icPhone from '../assets/images/Property 1=핸드폰.png';
-import icPosition from '../assets/images/Property 1=역할.png';
-import icEmail from '../assets/images/Property 1=메일.png';
+import icName from '../assets/images/ic_name.svg';
+import icId from '../assets/images/ic_studentID.svg';
+import icDepartment from '../assets/images/ic_department.svg';
+import icCardinal from '../assets/images/ic_cardinal.svg';
+import icPhone from '../assets/images/ic_phone.svg';
+import icPosition from '../assets/images/ic_position.svg';
+import icEmail from '../assets/images/ic_mail.svg';
 
-import icEdit from '../assets/images/_수정.png';
+import icEdit from '../assets/images/ic_edit.svg';
 
 /* eslint-disable no-alert */
 
@@ -63,6 +63,7 @@ const NegativeButton = styled.div`
   font-size: 12px;
   margin-left: 25px;
   margin-top: 68px;
+  cursor: pointer;
 `;
 
 const MyPage = () => {
