@@ -63,6 +63,7 @@ const NegativeButton = styled.div`
   font-size: 12px;
   margin-left: 25px;
   margin-top: 68px;
+  cursor: pointer;
 `;
 
 const MyPage = () => {
