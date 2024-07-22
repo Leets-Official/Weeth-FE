@@ -30,7 +30,7 @@ const MyPageHeader = ({ isEdit }) => {
       {isEdit ? (
         <TextButton
           text="완료"
-          color="green"
+          color="mainColor"
           onClick={() => window.confirm('저장하시겠습니까?')}
         />
       ) : null}

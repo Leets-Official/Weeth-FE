@@ -49,7 +49,7 @@ TextButton Props
 onClick
 text : 버튼에 나타날 글자를 입력
 color : 버튼의 색상을 선택, 아무것도 설정하지 않으면 흰색,
-        green은 대표색상인 #00DDA8로 나타납니다
+        mainColor은 대표색상인 #00DDA8로 나타납니다
 
 onClick은 아래 함수에 각각의 함수를 작성
 버튼에게 할당된 클릭 이벤트가 없을 때(가 없겟지만..)
