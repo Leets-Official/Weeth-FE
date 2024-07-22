@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import { useNavigate } from 'react-router-dom';
 
 import LeftButton from '../Header/LeftButton';
 import Title from '../Header/Title';
@@ -22,15 +21,9 @@ const TitleWrapper = styled.div`
 `;
 
 const MyPageHeader = ({ isEdit }) => {
-  const navi = useNavigate();
-
   return (
     <StyledHeader>
-      <LeftButton
-        onClick={() => {
-          navi(-1);
-        }}
-      />
+      <LeftButton />
       <TitleWrapper>
         <Title text="My" />
       </TitleWrapper>
