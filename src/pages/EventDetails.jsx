@@ -27,6 +27,7 @@ const Icon = styled.img`
 
 const Line = styled.div`
   border: 1px solid;
+  color: #4d4d4d;
   margin: 10px;
   transform: scaleY(0.2);
 `;
