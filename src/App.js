@@ -15,11 +15,11 @@ import Member from './pages/Member';
 import MemberDetail from './pages/MemberDetail';
 import MyPage from './pages/MyPage';
 import Edit from './pages/Edit';
+import Dues from './pages/Dues';
 
 import { ThemeProvider } from 'styled-components';
 import theme from './styles/theme';
 
-import Button from './components/Button/Button';
 
 
 function App() {
@@ -39,6 +39,7 @@ function App() {
         <Route path="/member/detail" element={<MemberDetail />} />
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/edit" element={<Edit />} />
+        <Route path="/dues" element={<Dues />} />
       </Routes>
     </ThemeProvider>
   );

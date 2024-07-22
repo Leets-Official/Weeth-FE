@@ -147,7 +147,11 @@ const HomeMain = () => {
           멤버
           <PlaceholderImage />
         </MemberItem>
-        <FeeItem>
+        <FeeItem
+          onClick={() => {
+            navi(`/dues`);
+          }}
+        >
           회비
           <PlaceholderImage />
         </FeeItem>
