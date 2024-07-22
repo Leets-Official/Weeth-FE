@@ -2,13 +2,12 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import theme from '../../styles/theme';
-import Button from '../Button/Button';
-import ModalAttend from './Modal/ModalAttend';
 import './AttendMain.css';
 import RightButton from '../Header/RightButton';
-
-import check from '../../assets/images/ic_check.png';
-import warning from '../../assets/images/ic_warning.png';
+import Button from '../Button/Button';
+import ModalAttend from './Modal/ModalAttend';
+import check from '../../assets/images/ic_check.svg';
+import warning from '../../assets/images/ic_warning.svg';
 import ModalPenalty from './Modal/ModalPenalty';
 
 // 출석률 게이지 임시 값

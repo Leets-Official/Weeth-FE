@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 
-import prev from '../../assets/images/Frame 45.png';
+import prev from '../../assets/images/ic_left.svg';
 
 const ImgButton = styled.div`
   display: flex;

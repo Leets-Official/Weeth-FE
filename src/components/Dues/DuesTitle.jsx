@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import receipt from '../../assets/images/ic_receipt.png';
+import receipt from '../../assets/images/ic_receipt.svg';
 import theme from '../../styles/theme';
 
 const DuesBox = styled.div`
