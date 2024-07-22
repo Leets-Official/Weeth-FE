@@ -49,12 +49,8 @@ const ImgButton = styled.div`
 const ButttonWrapper = styled.div`
   position: fixed;
   width: 370px;
-  top: -54px;
+  top: -44px;
   left: 330px;
-`;
-
-const StyledModal = styled.div`
-  border: none;
 `;
 
 const modalStyles = {
@@ -66,7 +62,7 @@ const modalStyles = {
     height: '100%',
     display: 'flex',
     justifyContent: 'center',
-    margin: '100px auto',
+    margin: '90px auto',
   },
 };
 
@@ -98,23 +94,21 @@ const CalendarHeader = ({ todayMonth, todayYear, isYear }) => {
       </TitleWrapper>
       {dateModalIsOpen ? null : <IndexButton onClick={onClickIndexButton} />}
 
-      <StyledModal>
-        <Modal
-          className="calendar-modal"
-          isOpen={dateModalIsOpen}
-          onRequestClose={closeMonthModal}
-          style={modalStyles}
-        >
-          <ButttonWrapper>
-            <TextButton text="완료" color="green" onClick={onClickTextButton} />
-          </ButttonWrapper>
-          <ModalMonthContent
-            origYear={todayYear}
-            origMonth={todayMonth}
-            isYear={isYear}
-          />
-        </Modal>
-      </StyledModal>
+      <Modal
+        className="calendar-modal"
+        isOpen={dateModalIsOpen}
+        onRequestClose={closeMonthModal}
+        style={modalStyles}
+      >
+        <ButttonWrapper>
+          <TextButton text="완료" color="green" onClick={onClickTextButton} />
+        </ButttonWrapper>
+        <ModalMonthContent
+          origYear={todayYear}
+          origMonth={todayMonth}
+          isYear={isYear}
+        />
+      </Modal>
     </StyledHeader>
   );
 };
