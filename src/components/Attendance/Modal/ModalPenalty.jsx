@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import theme from '../../../styles/theme';
-import icClose from '../../../assets/images/ic_close.png';
-import check from '../../../assets/images/ic_check.png';
+import icClose from '../../../assets/images/ic_close.svg';
+import check from '../../../assets/images/ic_check.svg';
 
 const StyledModal = styled.div`
   display: ${(props) => (props.open ? 'block' : 'none')};

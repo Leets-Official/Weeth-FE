@@ -7,7 +7,7 @@ import theme from '../../styles/theme';
 const SignupContainer = styled.div`
   width: 370px;
   max-width: 370px;
-  margin-top: 0; /* 상단 여백을 제거! */
+  margin-top: 0;
 `;
 
 const Margin = styled.div`
@@ -24,27 +24,34 @@ const InputWrapper = styled.div`
 
 const StyledTextInput = styled.input`
   flex: 1;
-  padding: 12px 0 14px 4%;
+  padding: 12px 16px;
   border: none;
   border-radius: 4px;
   font-size: 16px;
-  font-family: ${theme.font.family.pretendard_regular}; /* 폰트 설정 */
+  font-family: ${theme.font.family.pretendard_regular};
   font-weight: 400;
-  line-height: 19px; /* 텍스트 높이 설정 */
+  line-height: 19px;
   color: ${theme.color.grayScale.white};
   background-color: ${theme.color.grayScale.gray18};
   outline: none;
-  box-sizing: border-box; /* 패딩 포함 높이 설정 */
+  box-sizing: border-box;
 
   &::placeholder {
-    color: ${theme.color.grayScale.gray65}; /* placeholder 텍스트 색상 설정 */
+    color: ${theme.color.grayScale.gray65};
   }
 `;
 
 const IconWrapper = styled.div`
-  padding-left: 12px; /* 입력 칸과 아이콘 사이의 간격 설정 */
+  position: absolute;
+  right: 10px;
   display: flex;
   align-items: center;
+  cursor: pointer;
+
+  svg {
+    width: 22px;
+    height: 22px;
+  }
 `;
 
 const SignupTextComponent = ({
@@ -61,9 +68,9 @@ const SignupTextComponent = ({
       <Margin />
       <InputWrapper>
         <StyledTextInput
-          value={value} // 현재 입력된 값
-          onChange={onChange} // 값이 변경될 때 호출되는 함수
-          placeholder={placeholder} // 비어 있을 때 보여줄 안내 문구
+          value={value}
+          onChange={onChange}
+          placeholder={placeholder}
           type={type}
         />
         {children && <IconWrapper>{children}</IconWrapper>}
