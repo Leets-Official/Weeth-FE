@@ -4,9 +4,12 @@ import PropTypes from 'prop-types';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import styled from 'styled-components';
+import { format } from 'date-fns';
 
 const CalendarContainer = styled.div`
   width: 100%;
+  z-index: 2;
+
   .fc {
     font-size: 12px;
   }
@@ -73,7 +76,32 @@ const CalendarContainer = styled.div`
   }
 `;
 
+const Today = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 1px;
+  right: 7px;
+  background: #14e398;
+  border-radius: 10px;
+  width: 38px;
+  height: 22px;
+  z-index: 0;
+`;
+
 const MonthCalendar = ({ mockEvent }) => {
+  const renderDayCell = (arg) => {
+    const isToday =
+      format(arg.date, 'yyyy-MM-dd') === format(new Date(), 'yyyy-MM-dd');
+    return (
+      <div>
+        {isToday && <Today>{arg.date.getDate()}</Today>}
+        <div>{arg.date.getDate()}</div>
+      </div>
+    );
+  };
+
   return (
     <CalendarContainer>
       <FullCalendar
@@ -81,11 +109,10 @@ const MonthCalendar = ({ mockEvent }) => {
         defaultView="dayGridMonth"
         plugins={[dayGridPlugin]}
         events={mockEvent}
-        eventColor="grey"
         locale="koLocale"
         headerToolbar={false}
         fixedWeekCount={false}
-        dayCellContent={(arg) => arg.date.getDate()}
+        dayCellContent={renderDayCell}
         height="auto"
       />
     </CalendarContainer>
