@@ -21,6 +21,7 @@ import BoardPosting from './pages/BoardPosting';
 
 import { ThemeProvider } from 'styled-components';
 import theme from './styles/theme';
+import Receipt from './pages/Receipt';
 
 
 
@@ -42,6 +43,7 @@ function App() {
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/edit" element={<Edit />} />
         <Route path="/dues" element={<Dues />} />
+        <Route path="/receipt" element={<Receipt />} />
         <Route path="/posting" element={<BoardPosting />} />
       </Routes>
     </ThemeProvider>
