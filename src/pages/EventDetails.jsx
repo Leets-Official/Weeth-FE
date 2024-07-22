@@ -22,7 +22,7 @@ const TimeInfo = styled.div`
 `;
 
 const Icon = styled.img`
-  padding: 0px 5px;
+  padding-right: 5px;
 `;
 
 const Line = styled.div`
