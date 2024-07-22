@@ -20,6 +20,39 @@ const StyledMonth = styled.div`
   margin: 15px 0 0 6%;
 `;
 
+const ScrollContainer = styled.div`
+  display: flex;
+  width: 88%;
+  margin: 15px 6% 0 6%;
+  overflow-x: auto;
+  &::-webkit-scrollbar {
+    height: 8px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+  }
+`;
+const GridItem = styled.div`
+  flex: 0 0 auto;
+  margin-right: 10px;
+  padding: 10px 20px;
+  background-color: ${theme.color.grayScale.gray18};
+  width: 56%;
+  height: 124px;
+  color: #fff;
+  border-radius: 10px;
+  display: flex;
+  font-size: 14px;
+  white-space: nowrap;
+  &:last-child {
+    margin-right: 0;
+  }
+`;
+
 const ReceiptMain = () => {
   return (
     <StyledReceipt>
@@ -29,6 +62,14 @@ const ReceiptMain = () => {
       <Line />
       <StyledMonth>3월</StyledMonth>
       <ReceiptInfo money="234,234원" date="2024. 03." memo="20,000 * 12명" />
+      <ScrollContainer>
+        <GridItem>영수증 사진</GridItem>
+      </ScrollContainer>
+      <ReceiptInfo money="234,234원" date="2024. 03." memo="20,000 * 12명" />
+      <ScrollContainer>
+        <GridItem>영수증 사진</GridItem>
+        <GridItem>영수증 사진</GridItem>
+      </ScrollContainer>
       <Line />
     </StyledReceipt>
   );
