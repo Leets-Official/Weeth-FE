@@ -2,12 +2,12 @@ import styled from 'styled-components';
 import MemberHeader from '../components/Member/MemberHeader';
 import mockUser from '../components/mockData/mockUser';
 
-import icName from '../assets/images/Property 1=이름.png';
-import icId from '../assets/images/Property 1=학번.png';
-import icDepartment from '../assets/images/Property 1=학과.png';
-import icCardinal from '../assets/images/Property 1=기수.png';
-import icPosition from '../assets/images/Property 1=역할.png';
-import icEmail from '../assets/images/Property 1=메일.png';
+import icName from '../assets/images/ic_name.svg';
+import icId from '../assets/images/ic_studentID.svg';
+import icDepartment from '../assets/images/ic_department.svg';
+import icCardinal from '../assets/images/ic_cardinal.svg';
+import icPosition from '../assets/images/ic_position.svg';
+import icEmail from '../assets/images/ic_mail.svg';
 
 const StyledDetails = styled.div`
   width: 370px;

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import theme from '../../styles/theme';
 
-import icDot from '../../assets/images/dot.png';
+import icDot from '../../assets/images/ic_dot.svg';
 
 const StyledYear = styled.div`
   display: flex;
