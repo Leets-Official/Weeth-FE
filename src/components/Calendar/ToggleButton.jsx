@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
+import theme from '../../styles/theme';
 
 const Switch = styled.label`
   position: relative;
@@ -48,6 +50,8 @@ const TextMonth = styled.span`
   position: absolute;
   left: 18%;
   color: ${(props) => (props.checked ? '#a6a6a6' : '#ffffff')};
+  font-family: ${theme.font.family.pretendard_semiBold};
+  font-size: 12px;
   z-index: 1;
 `;
 
@@ -55,14 +59,17 @@ const TextYear = styled.span`
   position: absolute;
   right: 22%;
   color: ${(props) => (props.checked ? '#ffffff' : '#a6a6a6')};
+  font-family: ${theme.font.family.pretendard_semiBold};
+  font-size: 12px;
   z-index: 1;
 `;
 
-const ToggleSwitch = () => {
-  const [isToggled, setIsToggled] = useState(false);
+const ToggleButton = ({ onToggle }) => {
+  const [isYear, setIsMonth] = useState(false);
 
   const handleToggle = () => {
-    setIsToggled(!isToggled);
+    setIsMonth(!isYear);
+    onToggle(!isYear);
   };
 
   return (
@@ -70,17 +77,21 @@ const ToggleSwitch = () => {
       <Switch>
         <Checkbox
           type="checkbox"
-          checked={isToggled}
+          checked={isYear}
           onChange={handleToggle}
           text="text"
         />
-        <Slider checked={isToggled}>
-          <TextMonth checked={isToggled}>Month</TextMonth>
-          <TextYear checked={isToggled}>Year</TextYear>
+        <Slider checked={isYear}>
+          <TextMonth checked={isYear}>Month</TextMonth>
+          <TextYear checked={isYear}>Year</TextYear>
         </Slider>
       </Switch>
     </div>
   );
 };
 
-export default ToggleSwitch;
+ToggleButton.propTypes = {
+  onToggle: PropTypes.func.isRequired,
+};
+
+export default ToggleButton;

@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 import MonthlyEvent from './MonthlyEvent';
 
@@ -8,38 +9,27 @@ const MonthlyBox = styled.div`
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
-  width: 100%;
+  width: 340px;
 `;
 
-const mockEventYear = {
-  7: [
-    { title: '시간 지정', start: '2024-07-18', end: '2024-07-18T19:00:00.000' },
-    { title: '시간 미지정', start: '2024-07-19', end: '2024-07-18' },
-    {
-      title: '일정을 길게 잡으면 이렇게 나와용',
-      start: '2024-07-16',
-      end: '2024-07-20',
-    },
-  ],
-};
+const month = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
-const YearCalendar = () => {
+const YearCalendar = ({ todayMonth }) => {
   return (
     <MonthlyBox>
-      <MonthlyEvent mockEventYear={mockEventYear} />
-      <MonthlyEvent mockEventYear={mockEventYear} />
-      <MonthlyEvent mockEventYear={mockEventYear} />
-      <MonthlyEvent mockEventYear={mockEventYear} />
-      <MonthlyEvent mockEventYear={mockEventYear} />
-      <MonthlyEvent mockEventYear={mockEventYear} />
-      <MonthlyEvent mockEventYear={mockEventYear} />
-      <MonthlyEvent mockEventYear={mockEventYear} />
-      <MonthlyEvent mockEventYear={mockEventYear} />
-      <MonthlyEvent mockEventYear={mockEventYear} />
-      <MonthlyEvent mockEventYear={mockEventYear} />
-      <MonthlyEvent mockEventYear={mockEventYear} />
+      {month.map((monthItem) => (
+        <MonthlyEvent
+          key={monthItem}
+          month={monthItem}
+          todayMonth={todayMonth}
+        />
+      ))}
     </MonthlyBox>
   );
+};
+
+YearCalendar.propTypes = {
+  todayMonth: PropTypes.number.isRequired,
 };
 
 export default YearCalendar;
