@@ -27,8 +27,7 @@ const TitleWrapper = styled.div`
 `;
 
 /*
-LeftButton은 모든 페이지에서 동일하게 사용되어
-onClick 외에 다른 props를 설정하지 않았음
+LeftButton은 모든 페이지에서 동일하게 사용되어 다른 props를 설정하지 않았음
 
 RightButton(⋮)과 Text버튼(글자 입력 가능) 중 한가지만 선택하여 사용
 두개의 버튼 모두 onClick 함수를 props로 받습니다
@@ -45,17 +44,13 @@ onClick은 아래 함수에 각각의 함수를 작성
 @@@@안 하면 에러남@@@@
 */
 
-// 뒤로가기
-const onClickLeftButton = () => {
-  window.history.back();
-};
 // const onClickRightButton = () => {};
 // const onClickTextButton = () => {};
 
 const AttendHeader = () => {
   return (
     <StyledAttendHeader>
-      <LeftButton onClick={onClickLeftButton} />
+      <LeftButton />
       <TitleWrapper>
         <Title text="출석" />
       </TitleWrapper>

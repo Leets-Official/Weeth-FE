@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
+import { useNavigate } from 'react-router-dom';
 
 import prev from '../../assets/images/Frame 45.png';
 
@@ -10,16 +10,18 @@ const ImgButton = styled.div`
   cursor: pointer;
 `;
 
-const LeftButton = ({ onClick }) => {
+const LeftButton = () => {
+  const navi = useNavigate();
+
   return (
-    <ImgButton onClick={onClick}>
+    <ImgButton
+      onClick={() => {
+        navi(-1);
+      }}
+    >
       <img src={prev} alt="prev" />
     </ImgButton>
   );
-};
-
-LeftButton.propTypes = {
-  onClick: PropTypes.func.isRequired,
 };
 
 export default LeftButton;

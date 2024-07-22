@@ -62,7 +62,7 @@ const ButttonWrapper = styled.div`
 const modalStyles = {
   overlay: {
     backgroundColor: 'rgba(31,31,31,0.5)',
-    backdropFilter: 'blur(2px)',
+    backdropFilter: 'blur(5px)',
     zIndex: 1000,
     width: '100%',
     height: '100%',
@@ -75,7 +75,6 @@ const modalStyles = {
   },
 };
 
-const onClickLeftButton = () => {};
 const onClickIndexButton = () => {};
 
 const CalendarHeader = ({ todayMonth, todayYear, isYear }) => {
@@ -94,7 +93,7 @@ const CalendarHeader = ({ todayMonth, todayYear, isYear }) => {
 
   return (
     <StyledHeader>
-      <LeftButton onClick={onClickLeftButton} />
+      <LeftButton />
       <TitleWrapper>
         <TitleYear>{todayYear}년</TitleYear>
         <TitleMonth>{isYear ? null : `${todayMonth}월`}</TitleMonth>
