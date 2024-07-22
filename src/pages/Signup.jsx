@@ -87,20 +87,21 @@ const Signup = () => {
         nextButtonText="다음"  // 추가된 부분
       />
       <HeaderMargin />
-      <SignupWhite text="ID로 사용할 메일을 적어주세요" />
-      <TextMargin />
-      <SignupTextComponent value={email} onChange={(e) => setEmail(e.target.value)} />
-      <TextMargin />
+      <SignupTextComponent
+        text="ID로 사용할 메일을 적어주세요"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+      />
       {!nextClicked && !isChecked && (
-      <CheckButton onClick={handleCheckEmail} underline>
-        가입 여부 확인
-      </CheckButton>
-      )}
-      {!nextClicked && isChecked && (
-        <CheckButton isDuplicate={emailStatus === 'duplicate'}>
-          {emailStatus === 'duplicate' ? '이미 가입된 ID입니다' : '사용 가능한 ID입니다'}
-        </CheckButton>
-      )}
+    <CheckButton onClick={handleCheckEmail} underline>
+      가입 여부 확인
+    </CheckButton>
+  )}
+  {!nextClicked && isChecked && (
+    <CheckButton isDuplicate={emailStatus === 'duplicate'}>
+      {emailStatus === 'duplicate' ? '이미 가입된 ID입니다' : '사용 가능한 ID입니다'}
+    </CheckButton>
+  )}
     </Container>
   );
 };
