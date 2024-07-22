@@ -16,6 +16,8 @@ import MemberDetail from './pages/MemberDetail';
 import MyPage from './pages/MyPage';
 import Edit from './pages/Edit';
 import Dues from './pages/Dues';
+import BoardPosting from './pages/BoardPosting';
+
 
 import { ThemeProvider } from 'styled-components';
 import theme from './styles/theme';
@@ -40,6 +42,7 @@ function App() {
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/edit" element={<Edit />} />
         <Route path="/dues" element={<Dues />} />
+        <Route path="/posting" element={<BoardPosting />} />
       </Routes>
     </ThemeProvider>
   );
