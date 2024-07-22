@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
 import LeftButton from '../Header/LeftButton';
+import BackButton from './BackButton';
 import RegisterStatus from './RegisterStatus';
 
 const StyledHeader = styled.div`
@@ -18,28 +19,18 @@ const SignupHeader = ({
   onClickTextButton,
   nextButtonText,
   page,
-  setPage,
 }) => {
-  const handleLeftButtonClick = () => {
-    if (page === 0) {
-      onClickLeftButton();
-    } else {
-      setPage(page - 1);
-    }
-  };
-
-  const handleNextClick = () => {
-    onClickTextButton();
-    setPage(page + 1);
-  };
-
   return (
     <StyledHeader>
-      <LeftButton onClick={handleLeftButtonClick} />
+      {page === 0 ? (
+        <LeftButton onClick={onClickLeftButton} />
+      ) : (
+        <BackButton onClick={onClickLeftButton} />
+      )}
       <RegisterStatus
         text={nextButtonText}
         color={isRightButtonEnabled ? 'green' : 'white'}
-        onClick={handleNextClick}
+        onClick={onClickTextButton}
       />
     </StyledHeader>
   );
@@ -51,7 +42,6 @@ SignupHeader.propTypes = {
   onClickTextButton: PropTypes.func.isRequired,
   nextButtonText: PropTypes.string.isRequired,
   page: PropTypes.number.isRequired,
-  setPage: PropTypes.func.isRequired,
 };
 
 export default SignupHeader;
