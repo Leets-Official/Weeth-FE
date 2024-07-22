@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import SignupHeader from '../components/Signup/SignupHeader';
 import SignupTextComponent from '../components/Signup/SignupTextComponent';
-import SignupWhite from '../components/Signup/SignupWhite';
-
 
 const Container = styled.div`
   display: flex;
@@ -13,19 +11,17 @@ const Container = styled.div`
   padding-top: 0; /* 상단 여백 제거 */
 `;
 
+const HeaderMargin = styled.div`
+  height: ${props => props.height}px;
+`;
+
 const TextMargin = styled.div`
+  margin-bottom: 30px;
+`;
+
+const InputMargin = styled.div`
   margin-bottom: 15px;
 `;
-
-const PasswordInputWrapper = styled.div`
-  position: relative;
-`;
-
-const PasswordInput = styled.input`
-  width: 100%;
-  padding-right: 40px; /* 오른쪽 여백 추가 */
-`;
-
 const CheckButton = styled.button`
   margin-top: 15px;
   margin-right: 7%;  // 수정된 부분
@@ -42,17 +38,26 @@ const CheckButton = styled.button`
 
 `;
 
-const HeaderMargin = styled.div`
-  height: 228px;
+const ToggleVisibilityButton = styled.button`
+  width: 6%;
+  height: 22px;
+  padding: 1px 0;
+  background: none;
+  border: none;
+  color: white; /* 나중에 theme */
+  cursor: pointer;
+  margin-left: 10px;
 `;
-
-const MiddleMargin = styled.div
 
 const Signup = () => {
   const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [emailStatus, setEmailStatus] = useState(null); // null: 초기 상태, 'duplicate': 중복, 'available': 사용 가능
   const [isChecked, setIsChecked] = useState(false);
   const [nextClicked, setNextClicked] = useState(false);
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const [page, setPage] = useState(0); 
+  const [headerHeight, setHeaderHeight] = useState(228);
 
   const checkDuplicate = (email) => {
     const existingEmails = ['weetha123@gmail.com', 'test@naver.com'];
@@ -68,6 +73,7 @@ const Signup = () => {
   const handleNextClick = () => {
     console.log('다음 버튼 클릭됨');
     setNextClicked(true);
+    setHeaderHeight(208); // ?
   };
 
   const handlePrevClick = () => {
@@ -85,23 +91,43 @@ const Signup = () => {
         isRightButtonEnabled={isChecked}
         onClickTextButton={handleNextClick}
         nextButtonText="다음"  // 추가된 부분
+        page={page}
+        setPage={setPage} // Pass setPage as a prop
       />
-      <HeaderMargin />
+      <HeaderMargin height={headerHeight} />
       <SignupTextComponent
         text="ID로 사용할 메일을 적어주세요"
         value={email}
+        placeholder="ex) weeth@gmail.com"
         onChange={(e) => setEmail(e.target.value)}
       />
+      <InputMargin />
       {!nextClicked && !isChecked && (
     <CheckButton onClick={handleCheckEmail} underline>
       가입 여부 확인
     </CheckButton>
   )}
-  {!nextClicked && isChecked && (
-    <CheckButton isDuplicate={emailStatus === 'duplicate'}>
-      {emailStatus === 'duplicate' ? '이미 가입된 ID입니다' : '사용 가능한 ID입니다'}
-    </CheckButton>
-  )}
+    {!nextClicked && isChecked && (
+        <CheckButton isDuplicate={emailStatus === 'duplicate'}>
+          {emailStatus === 'duplicate' ? (
+            '이미 가입된 ID입니다'
+          ) : (
+            '사용 가능한 ID입니다'
+          )}
+        </CheckButton>
+      )}
+      {nextClicked && (
+        <>
+          <SignupTextComponent
+            text="사용할 비밀번호를 입력해주세요"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder=""
+            type={passwordVisible ? 'text' : 'password'}
+          />
+          <ToggleVisibilityButton onClick={togglePasswordVisibility} />
+        </>
+      )}
     </Container>
   );
 };
