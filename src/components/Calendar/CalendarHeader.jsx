@@ -18,10 +18,6 @@ const StyledHeader = styled.div`
   justify-content: space-between;
   align-items: center;
   margin: 45px 25px 20px 25px; //기본 헤더 마진
-
-  .guide-sidebar {
-    display: none;
-  }
 `;
 
 const TitleWrapper = styled.div`
@@ -57,6 +53,10 @@ const ButttonWrapper = styled.div`
   left: 330px;
 `;
 
+const StyledModal = styled.div`
+  border: none;
+`;
+
 const modalStyles = {
   overlay: {
     backgroundColor: 'rgba(31,31,31,0.5)',
@@ -67,9 +67,6 @@ const modalStyles = {
     display: 'flex',
     justifyContent: 'center',
     margin: '100px auto',
-  },
-  sidebar: {
-    display: 'none', // pc에서 모달 영역 테두리 제거
   },
 };
 
@@ -101,21 +98,23 @@ const CalendarHeader = ({ todayMonth, todayYear, isYear }) => {
       </TitleWrapper>
       {dateModalIsOpen ? null : <IndexButton onClick={onClickIndexButton} />}
 
-      <Modal
-        className="calendar-modal"
-        isOpen={dateModalIsOpen}
-        onRequestClose={closeMonthModal}
-        style={modalStyles}
-      >
-        <ButttonWrapper>
-          <TextButton text="완료" color="green" onClick={onClickTextButton} />
-        </ButttonWrapper>
-        <ModalMonthContent
-          origYear={todayYear}
-          origMonth={todayMonth}
-          isYear={isYear}
-        />
-      </Modal>
+      <StyledModal>
+        <Modal
+          className="calendar-modal"
+          isOpen={dateModalIsOpen}
+          onRequestClose={closeMonthModal}
+          style={modalStyles}
+        >
+          <ButttonWrapper>
+            <TextButton text="완료" color="green" onClick={onClickTextButton} />
+          </ButttonWrapper>
+          <ModalMonthContent
+            origYear={todayYear}
+            origMonth={todayMonth}
+            isYear={isYear}
+          />
+        </Modal>
+      </StyledModal>
     </StyledHeader>
   );
 };
