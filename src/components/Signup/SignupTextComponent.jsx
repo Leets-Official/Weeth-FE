@@ -14,9 +14,16 @@ const Margin = styled.div`
   margin-bottom: 15px;
 `;
 
-const StyledTextInput = styled.input`
+const InputWrapper = styled.div`
+  display: flex;
+  align-items: center;
   width: 87%;
   margin: 0 7%;
+  position: relative;
+`;
+
+const StyledTextInput = styled.input`
+  flex: 1;
   padding: 12px 0 14px 4%;
   border: none;
   border-radius: 4px;
@@ -34,17 +41,33 @@ const StyledTextInput = styled.input`
   }
 `;
 
-const SignupTextComponent = ({ text, value, onChange, placeholder, type }) => {
+const IconWrapper = styled.div`
+  padding-left: 12px; /* 입력 칸과 아이콘 사이의 간격 설정 */
+  display: flex;
+  align-items: center;
+`;
+
+const SignupTextComponent = ({
+  text,
+  value,
+  onChange,
+  placeholder,
+  type,
+  children,
+}) => {
   return (
     <SignupContainer>
       <SignupWhite text={text} />
       <Margin />
-      <StyledTextInput
-        value={value} // 현재 입력된 값
-        onChange={onChange} // 값이 변경될 때 호출되는 함수
-        placeholder={placeholder} // 비어 있을 때 보여줄 안내 문구
-        type={type}
-      />
+      <InputWrapper>
+        <StyledTextInput
+          value={value} // 현재 입력된 값
+          onChange={onChange} // 값이 변경될 때 호출되는 함수
+          placeholder={placeholder} // 비어 있을 때 보여줄 안내 문구
+          type={type}
+        />
+        {children && <IconWrapper>{children}</IconWrapper>}
+      </InputWrapper>
     </SignupContainer>
   );
 };
@@ -55,11 +78,13 @@ SignupTextComponent.propTypes = {
   onChange: PropTypes.func.isRequired,
   placeholder: PropTypes.string,
   type: PropTypes.string,
+  children: PropTypes.node,
 };
 
 SignupTextComponent.defaultProps = {
   placeholder: 'ex) weeth@gmail.com',
   type: 'text',
+  children: null,
 };
 
 export default SignupTextComponent;
