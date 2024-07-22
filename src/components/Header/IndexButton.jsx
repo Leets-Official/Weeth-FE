@@ -2,13 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-import more from '../../assets/images/Vector.png';
+import more from '../../assets/images/ic_menu.svg';
 
 const ImgButton = styled.div`
   display: flex;
   justify-content: flex-end;
   cursor: pointer;
-  padding: 3px 10px;
 `;
 
 const IndexButton = ({ onClick }) => {
