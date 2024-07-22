@@ -5,7 +5,7 @@ import theme from '../styles/theme';
 import DuesHeader from '../components/Dues/DuesHeader';
 import DueCategory from '../components/Dues/DueCategory';
 import DuesName from '../components/Dues/DuesName';
-import mockUser from '../components/mockData/mockUser';
+import mockDues from '../components/mockData/mockDues';
 import DuesTitle from '../components/Dues/DuesTitle';
 
 const StyledDues = styled.div`
@@ -30,10 +30,10 @@ const DuesList = styled.div`
 const Dues = () => {
   const [selectedCardinal, setSelectedCardinal] = useState(null);
 
-  const filteredUsers =
+  const filteredDues =
     selectedCardinal === null
-      ? mockUser
-      : mockUser.filter((user) => user.cardinal === selectedCardinal);
+      ? mockDues
+      : mockDues.filter((dues) => dues.cardinal === selectedCardinal);
 
   return (
     <StyledDues>
@@ -43,12 +43,12 @@ const Dues = () => {
         <DueCategory setSelectedCardinal={setSelectedCardinal} />
       </CategoryWrapper>
       <DuesList>
-        {filteredUsers.map((user) => (
+        {filteredDues.map((dues) => (
           <DuesName
-            key={user.name}
-            name={user.name}
-            cardinal={user.cardinal}
-            position={user.position}
+            key={dues.name}
+            name={dues.name}
+            cardinal={dues.cardinal}
+            position={dues.position}
           />
         ))}
       </DuesList>
