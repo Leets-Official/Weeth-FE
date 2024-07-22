@@ -4,6 +4,7 @@ import LeftButton from '../Header/LeftButton';
 // import IndexButton from '../Header/IndexButton';
 import TextButton from '../Header/TextButton';
 import Title from '../Header/Title';
+import theme from '../../styles/theme';
 
 const StyledHeader = styled.div`
   display: flex;
@@ -41,7 +42,13 @@ onClick은 아래 함수에 각각의 함수를 작성
 */
 
 // const onClickIndexButton = () => {};
-const onClickTextButton = () => {};
+// const onClickTextButton = () => {};
+
+// 완료 버튼 클릭 핸들러 함수
+const handleClickComplete = () => {
+  // 완료 버튼 클릭 시 수행할 작업을 여기에 작성
+  console.log('완료 버튼 클릭됨');
+};
 
 const PostingHeader = () => {
   return (
@@ -50,7 +57,11 @@ const PostingHeader = () => {
       <TitleWrapper>
         <Title text="글 쓰기" />
       </TitleWrapper>
-      <TextButton onClick={onClickTextButton} text="완료" />
+      <TextButton
+        text="완료"
+        color={theme.color.main.mainColor}
+        onClick={handleClickComplete}
+      />
     </StyledHeader>
   );
 };
