@@ -49,20 +49,25 @@ const ImgButton = styled.div`
 const ButttonWrapper = styled.div`
   position: fixed;
   width: 370px;
-  top: -44px;
+  top: -41px;
   left: 330px;
 `;
 
 const modalStyles = {
   overlay: {
-    backgroundColor: 'rgba(31,31,31,0.5)',
+    backgroundColor: 'rgba(0,0,0,0.5)',
     backdropFilter: 'blur(5px)',
     zIndex: 1000,
     width: '100%',
-    height: '100%',
+    height: 'calc(100vh - 10px)',
+    top: '10px',
     display: 'flex',
     justifyContent: 'center',
-    margin: '90px auto',
+    alignItems: 'flex-start',
+    margin: '75px auto', // 블러가 시작되는 위치를 정하고
+  },
+  content: {
+    margin: '10px auto', // 모달은 블러 시작점으로부터 10px 떨어진 곳에 위치
   },
 };
 
