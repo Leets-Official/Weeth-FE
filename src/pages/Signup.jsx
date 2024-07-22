@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import SignupHeader from '../components/Signup/SignupHeader';
 import SignupTextComponent from '../components/Signup/SignupTextComponent';
+import theme from '../styles/theme';
 
 const Container = styled.div`
   display: flex;
@@ -34,17 +35,21 @@ const TextMargin = styled.div`
   margin-top: 15px;
 `;
 
+const InputMargin = styled.div`
+  margin-bottom: 15px;
+`;
+
 const ToggleVisibilityButton = styled.button`
   width: 6%;
   height: 22px;
   padding: 1px 0;
   background: none;
   border: none;
-  color: white;
+  color: ${theme.main.grayScale.white};
   margin-left: 10px;
   cursor: pointer;
 
-  i, svg {
+  svg {
     color: white;
     fill: white;
   }
@@ -145,7 +150,7 @@ const Signup = () => {
       )}
       <TextMargin />
       {nextClicked && (
-        <>
+        <> <InputMargin />
           <SignupTextComponent
             text="사용할 비밀번호를 입력해주세요"
             value={password}
