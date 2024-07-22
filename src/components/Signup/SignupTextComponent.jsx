@@ -1,62 +1,81 @@
 import React from 'react';
 import styled from 'styled-components';
-
 import PropTypes from 'prop-types';
 import SignupWhite from './SignupWhite';
+import theme from '../../styles/theme';
 
-const Signup = styled.div`
+const SignupContainer = styled.div`
   width: 370px;
   max-width: 370px;
+  margin-top: 0;
 `;
 
-const StyledIdMail = styled.div`
-  display: flex;
-  width: 100%;
-  margin-left: 7%;
-  margin-top: 28%;
-  margin-bottom: 2%; /* 뭔가 간격이 짧은 것 같기도..? */
-  font-size: 18px;
+const Margin = styled.div`
+  margin-bottom: 15px;
 `;
 
-const StyledText = styled.div`
+const InputWrapper = styled.div`
   display: flex;
-  flex-direction: column;
   align-items: center;
-  width: auto;
+  width: 87%;
+  margin: 0 7%;
+  position: relative;
 `;
 
 const StyledTextInput = styled.input`
-  position: relative;
-  align-items: center;
-  width: 87%;
-  height: 5%; /* 뭔가 되게 굵은데??????????? */
-  margin-left: 7%;
-  margin-right: 7%; /* 위 3.24%, 오른쪽 0%, 아래 3.78%, 왼쪽 4.05% */
-  padding: 1.4% 0 1.7% 4%;
+  flex: 1;
+  padding: 12px 16px;
   border: none;
-  border-right: none;
-  border-bottom: none;
   border-radius: 4px;
   font-size: 16px;
-  color: #ffffff;
-  background-color: #2f2f2f;
+  font-family: ${theme.font.family.pretendard_regular};
+  font-weight: 400;
+  line-height: 19px;
+  color: ${theme.color.grayScale.white};
+  background-color: ${theme.color.grayScale.gray18};
   outline: none;
+  box-sizing: border-box;
+
+  &::placeholder {
+    color: ${theme.color.grayScale.gray65};
+  }
 `;
 
-const SignupTextComponent = ({ text, value, onChange, placeholder }) => {
+const IconWrapper = styled.div`
+  position: absolute;
+  right: 10px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+
+  svg {
+    width: 22px;
+    height: 22px;
+  }
+`;
+
+const SignupTextComponent = ({
+  text,
+  value,
+  onChange,
+  placeholder,
+  type,
+  children,
+}) => {
   return (
-    <Signup>
-      <StyledIdMail>
-        <SignupWhite text={text} />
-      </StyledIdMail>
-      <StyledText>
+    <SignupContainer>
+      <SignupWhite text={text} />
+      <Margin />
+      <InputWrapper>
         <StyledTextInput
-          value={value} // 현재 입력된 값
-          onChange={onChange} // 값이 변경될 때 호출되는 함수
-          placeholder={placeholder} // 비어 있을 때 보여줄 안내 문구
+          value={value}
+          onChange={onChange}
+          placeholder={placeholder}
+          type={type}
         />
-      </StyledText>
-    </Signup>
+        {children && <IconWrapper>{children}</IconWrapper>}
+      </InputWrapper>
+    </SignupContainer>
   );
 };
 
@@ -65,10 +84,14 @@ SignupTextComponent.propTypes = {
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   placeholder: PropTypes.string,
+  type: PropTypes.string,
+  children: PropTypes.node,
 };
 
 SignupTextComponent.defaultProps = {
   placeholder: 'ex) weeth@gmail.com',
+  type: 'text',
+  children: null,
 };
 
 export default SignupTextComponent;
