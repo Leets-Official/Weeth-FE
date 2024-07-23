@@ -23,6 +23,7 @@ const StyledDetails = styled.div`
   width: 370px;
   // 해당페이지는 컴포넌트화될 예정이므로 따로 추가하지 않음
   // 추후에 만들어질 컴포넌트에서 설정하겟습니당
+  padding-bottom: 183px;
 `;
 
 const Line = styled.div`
