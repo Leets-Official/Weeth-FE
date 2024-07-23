@@ -1,3 +1,4 @@
+import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import BoardHeader from '../components/Board/NoticeHeader';
 import AttachButton from '../components/Board/AttachButton';
@@ -15,11 +16,27 @@ const Container = styled.div`
   height: 100vh;
 `;
 
+const HeaderWrapper = styled.div`
+  position: fixed;
+  width: 370px;
+  background-color: ${theme.color.grayScale.black}; /* Header 배경 색상 추가 */
+  top: 0;
+  z-index: 1;
+`;
+
 const BoardRow = styled.div`
   display: flex;
   flex-direction: column;
   padding: 10px 6%;
+  margin-top: 90px;
 `;
+
+// const ScrollableContent = styled.div`
+//   flex: 1;
+//   overflow-y: auto;
+//   padding-top: 60px; /* 고정된 헤더 아래에 콘텐츠가 표시되도록 충분한 여백 추가 */
+//   padding-bottom: ${({ paddingBottom }) => paddingBottom}px;
+// `;
 
 const BoardName = styled.div`
   maring-left: 7%;
@@ -83,7 +100,7 @@ const BottomRow = styled.div`
   align-items: center;
   margin-top: 15px;
   border-bottom: 1px solid ${theme.color.grayScale.gray30};
-  padding-bottom: 10px; // 선 아래 여백 추가
+  padding-bottom: 10px; /* 선 아래 여백 추가 */
 `;
 
 const InputWrapper = styled.div`
@@ -120,43 +137,70 @@ const StyledRegisterComment = styled(RegisterComment)`
   cursor: pointer;
 `;
 
-// 콘텐츠를 스크롤 가능하게 하는 새로운 컴포넌트
-const ScrollableContent = styled.div`
-  flex: 1;
-  overflow-y: auto;
-`;
-
 const Board = () => {
+  const divRef = useRef(null);
+
+  useEffect(() => {
+    const handleVisualViewPortResize = () => {
+      const currentVisualViewport = Number(window.visualViewport?.height);
+      if (divRef.current) {
+        divRef.current.style.height = `${currentVisualViewport - 30}px`;
+        window.scrollTo(0, 40);
+      }
+    };
+
+    // 초기 실행
+    handleVisualViewPortResize();
+
+    // resize 이벤트 리스너 추가
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener(
+        'resize',
+        handleVisualViewPortResize,
+      );
+    }
+
+    // cleanup 함수로 이벤트 리스너 제거
+    return () => {
+      if (window.visualViewport) {
+        window.visualViewport.removeEventListener(
+          'resize',
+          handleVisualViewPortResize,
+        );
+      }
+    };
+  }, []);
+
   return (
     <Container>
-      <BoardHeader />
-      <ScrollableContent>
-        <BoardRow>
-          <BoardName>스터디제목</BoardName>
-          <SubRow>
-            <UserName>김위드</UserName>
-            <StyledDate>00/00 00:00</StyledDate>
-          </SubRow>
-          <BoardContent>
-            서비스의 주요 기능을 결정했다. <br />
-            1.출석 2. 일정관리,투표 3.공지사항
-          </BoardContent>
-          <ComponentRow>
-            <AttachButton filetype="HWP" />
-            <AttachButton filetype="PDF" />
-            <RightMargin />
-          </ComponentRow>
-          <BottomRow>
-            <BoardChat />
-            <CommentCount>3</CommentCount>
-          </BottomRow>
-          <BoardComment />
-        </BoardRow>
-        <InputWrapper>
-          <InputField placeholder="댓글을 입력하세요." />
-          <StyledRegisterComment />
-        </InputWrapper>
-      </ScrollableContent>
+      <HeaderWrapper>
+        <BoardHeader />
+      </HeaderWrapper>
+      <BoardRow>
+        <BoardName>스터디제목</BoardName>
+        <SubRow>
+          <UserName>김위드</UserName>
+          <StyledDate>00/00 00:00</StyledDate>
+        </SubRow>
+        <BoardContent>
+          서비스의 주요 기능을 결정했다. <br />
+          1.출석 2. 일정관리,투표 3.공지사항
+        </BoardContent>
+        <ComponentRow>
+          <AttachButton filetype="HWP" />
+          <AttachButton filetype="PDF" />
+          <RightMargin />
+        </ComponentRow>
+        <BottomRow>
+          <BoardChat />
+          <CommentCount>3</CommentCount>
+        </BottomRow>
+        <BoardComment />
+      </BoardRow>
+      <InputWrapper>
+        <InputField placeholder="댓글을 입력하세요." />
+        <StyledRegisterComment />
+      </InputWrapper>
     </Container>
   );
 };
