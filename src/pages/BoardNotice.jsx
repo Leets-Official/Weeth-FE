@@ -45,7 +45,14 @@ const BoardNotice = () => {
   return (
     <NoticeContainer>
       <NoticeHeader />
-      <NoticeMiddle />
+      <NoticeMiddle
+        title={activeTab === 'notice' ? '공지사항' : '스터디 게시판'}
+        description={
+          activeTab === 'notice'
+            ? '자세한 내용을 보려면 게시물을 클릭하세요...'
+            : '스터디 관련 게시물을 클릭하세요...'
+        }
+      />
       <TabsContainer>
         <Tab
           active={activeTab === 'notice'}
