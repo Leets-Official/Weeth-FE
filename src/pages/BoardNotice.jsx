@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import BoardComponent from '../components/Board/NoticeComponent';
+import NoticeHeader from '../components/Board/NoticeHeader';
 
 const NoticeContainer = styled.div`
   width: 370px;
@@ -8,6 +9,7 @@ const NoticeContainer = styled.div`
 const BoardNotice = () => {
   return (
     <NoticeContainer>
+      <NoticeHeader />
       <BoardComponent />
     </NoticeContainer>
   );
