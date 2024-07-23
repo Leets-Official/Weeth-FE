@@ -3,10 +3,12 @@ import BoardHeader from '../components/Board/NoticeHeader';
 import AttachButton from '../components/Board/AttachButton';
 import BoardComment from '../components/Board/BoardComment';
 import { ReactComponent as BoardChat } from '../assets/images/ic_board_chat.svg';
+import { ReactComponent as RegisterComment } from '../assets/images/ic_send.svg';
 import theme from '../styles/theme';
 
 const Container = styled.div`
   width: 370px;
+  max-width: 370px;
   color: ${theme.color.grayScale.white};
 `;
 
@@ -81,6 +83,40 @@ const BottomRow = styled.div`
   padding-bottom: 10px; // 선 아래 여백 추가
 `;
 
+const InputWrapper = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 81%;
+  margin: 10px 0 0 10%;
+`;
+
+const InputField = styled.input`
+  width: 100%;
+  height: 37px;
+  color: ${theme.color.grayScale.white};
+  background-color: ${theme.color.main.mainColor};
+  border: none;
+  border-radius: 15px;
+  font-size: 14px;
+  font-family: ${theme.font.family.pretendard_semiBold};
+  weight: 600;
+  outline: none;
+  padding: 0 48% 0 5%;
+
+  &::placeholder {
+    color: ${theme.color.grayScale.white};
+  }
+`;
+
+const StyledRegisterComment = styled(RegisterComment)`
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+`;
+
 const Board = () => {
   return (
     <Container>
@@ -106,6 +142,10 @@ const Board = () => {
         </BottomRow>
         <BoardComment />
       </BoardRow>
+      <InputWrapper>
+        <InputField placeholder="댓글을 입력하세요." />
+        <StyledRegisterComment />
+      </InputWrapper>
     </Container>
   );
 };
