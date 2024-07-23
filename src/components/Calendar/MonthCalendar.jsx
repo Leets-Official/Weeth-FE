@@ -55,6 +55,7 @@ const CalendarContainer = styled.div`
     background-color: ${theme.color.grayScale.gray18}; !important;
     border: none;
     border-radius: 20px;
+    color: white !important;
   }
 
   .fc-daygrid-event.fc-daygrid-block-event:first-child {
