@@ -1,13 +1,14 @@
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import theme from '../../styles/theme';
-import { ReactComponent as InstallIcon } from '../../assets/images/ic_board_chat.svg'; // 경로 나중에 수정
+import { ReactComponent as InstallIcon } from '../../assets/images/ic_install.svg'; // 경로 나중에 수정
 
 const Container = styled.div`
   width: 370px;
   display: flex;
   justify-content: center;
   align-items: center;
+  margin: 0;
 `;
 
 const StyledButton = styled.button`
@@ -19,15 +20,12 @@ const StyledButton = styled.button`
   background-color: #0e9871;
   border-radius: 5px;
   color: ${theme.color.grayScale.white};
-  font-family: ${theme.font.family.pretendard_semiBold};
+  font-family: ${theme.font.family.pretendard_regular};
   font-size: 14px;
   cursor: pointer;
   transition: background-color 0.3s;
   border: none;
-
-  &:hover {
-    background-color: darken(#0e9871, 10%);
-  }
+  padding: 0;
 
   .text {
     display: flex;
@@ -37,16 +35,21 @@ const StyledButton = styled.button`
   }
 
   .icon {
+    margin-top: 30px;
     margin-right: 10px;
   }
 `;
 
 const FileName = styled.div`
-  margin-bottom: 5px;
+  margin-bottom: 5px; /* 파일이름 밑 간격 */
 `;
 
 const FileType = styled.span`
-  color: ${theme.color.grayScale.gray};
+  color: ${theme.color.grayScale.white};
+`;
+
+const IconMargin = styled.div`
+  margin-bottom: 5px; /* 아이콘 밑 간격을 파일이름 밑 간격과 동일하게 설정 */
 `;
 
 const AttachButton = ({ filetype }) => {
@@ -57,7 +60,9 @@ const AttachButton = ({ filetype }) => {
           <FileName>파일이름</FileName>
           <FileType>{filetype}</FileType>
         </div>
-        <InstallIcon className="icon" />
+        <IconMargin>
+          <InstallIcon className="icon" />
+        </IconMargin>
       </StyledButton>
     </Container>
   );

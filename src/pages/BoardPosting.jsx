@@ -1,4 +1,5 @@
-import styled from 'styled-components';
+import React, { useState } from 'react';
+import styled, { keyframes } from 'styled-components';
 import BoardHeader from '../components/Board/PostingHeader';
 import { ReactComponent as FileAttach } from '../assets/images/ic_board_fileAttach.svg';
 import theme from '../styles/theme';
@@ -6,6 +7,7 @@ import theme from '../styles/theme';
 const StyledPosting = styled.div`
   width: 370px;
 `;
+
 const StyledText = styled.div`
   margin-left: 7%;
   color: ${theme.color.grayScale.white};
@@ -52,7 +54,45 @@ const StyledFileAttach = styled.div`
   margin-bottom: 148px;
 `;
 
+const slideUp = keyframes`
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+`;
+
+const Keyboard = styled.div`
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 200px;
+  background-color: #333;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: translateY(100%);
+  transition: transform 0.3s ease-in-out;
+
+  &.active {
+    animation: ${slideUp} 0.3s forwards;
+  }
+`;
+
 const BoardPosting = () => {
+  const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
+
+  const handleFocus = () => {
+    setIsKeyboardVisible(true);
+  };
+
+  const handleBlur = () => {
+    setIsKeyboardVisible(false);
+  };
+
   return (
     <StyledPosting>
       <BoardHeader />
@@ -61,11 +101,18 @@ const BoardPosting = () => {
       </StyledText>
       <StyledLine />
       <StyledText>
-        <StyledContent placeholder="내용을 입력하세요." />
+        <StyledContent
+          placeholder="내용을 입력하세요."
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+        />
       </StyledText>
       <StyledFileAttach>
         <FileAttach />
       </StyledFileAttach>
+      <Keyboard className={isKeyboardVisible ? 'active' : undefined}>
+        키보드
+      </Keyboard>
     </StyledPosting>
   );
 };

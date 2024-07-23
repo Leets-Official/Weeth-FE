@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import BoardHeader from '../components/Board/NoticeHeader';
+import AttachButton from '../components/Board/AttachButton';
 import theme from '../styles/theme';
 
 const Container = styled.div`
@@ -29,6 +30,12 @@ const SubRow = styled.div`
   font-weight: 400;
   font-size: 12px;
   line-height: 14.32px;
+`;
+
+const ComponentRow = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
 `;
 
 const UserName = styled.div`
@@ -64,6 +71,10 @@ const Board = () => {
           서비스의 주요 기능을 결정했다. <br />
           1.출석 2. 일정관리,투표 3.공지사항
         </BoardContent>
+        <ComponentRow>
+          <AttachButton filetype="HWP" />
+          <AttachButton filetype="PDF" />
+        </ComponentRow>
       </BoardRow>
     </Container>
   );
