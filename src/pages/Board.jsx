@@ -22,8 +22,6 @@ const BoardName = styled.div`
 
 const SubRow = styled.div`
   display: flex;
-  justify-content: flex-start;
-  align-items: center;
   margin-top: 10px;
   font-family: ${theme.font.family.pretendard_regular};
   color: #c1c1c1;
@@ -34,8 +32,7 @@ const SubRow = styled.div`
 
 const ComponentRow = styled.div`
   display: flex;
-  justify-content: flex-start;
-  align-items: center;
+  margin-right: 4%;
 `;
 
 const UserName = styled.div`
@@ -51,10 +48,15 @@ const BoardContent = styled.div`
   width: 88%;
   height: 43px;
   margin-top: 20px;
+  margin-right: 4%;
   font-family: ${theme.font.family.pretendard_regular};
   weight: 400;
   font-size: 16px;
   line-height: 19.09px;
+`;
+
+const RightMargin = styled.div`
+  margin-right: 27%;
 `;
 
 const Board = () => {
@@ -74,6 +76,7 @@ const Board = () => {
         <ComponentRow>
           <AttachButton filetype="HWP" />
           <AttachButton filetype="PDF" />
+          <RightMargin />
         </ComponentRow>
       </BoardRow>
     </Container>
