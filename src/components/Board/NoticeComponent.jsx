@@ -30,7 +30,7 @@ const TopRow = styled.div`
 
 const StyledText = styled.div`
   color: ${theme.color.grayScale.white};
-  font-family: Pretendard, sans-serif;
+  font-family: ${theme.font.family.pretendard_semiBold};
   font-weight: 600;
   font-size: 16px;
   line-height: 19.09px;
@@ -44,7 +44,7 @@ const StyledName = styled.div`
 
 const StyledDate = styled.div`
   color: ${theme.color.grayScale.gray65};
-  font-family: Pretendard, sans-serif;
+  font-family: ${theme.font.family.pretendard_regular};
   font-weight: 400;
   font-size: 12px;
   line-height: 14.32px;
@@ -65,7 +65,7 @@ const ContentRow = styled.div`
 const NoticeContent = styled.div`
   margin-right: 10%;
   color: ${theme.color.grayScale.gray65};
-  font-family: Pretendard, sans-serif;
+  font-family: ${theme.font.family.pretendard_regular};
   font-weight: 400;
   font-size: 12px;
   line-height: 14.32px;
@@ -81,7 +81,7 @@ const CommentCount = styled.div`
   display: flex;
   align-items: center;
   color: ${theme.color.grayScale.gray65};
-  font-family: Pretendard, sans-serif;
+  font-family: ${theme.font.family.pretendard_regular};
   font-weight: 400;
   font-size: 12px;
   line-height: 14.32px;
