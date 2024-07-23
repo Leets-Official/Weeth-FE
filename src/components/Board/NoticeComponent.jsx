@@ -89,7 +89,7 @@ const CommentCount = styled.div`
   margin-left: 4px;
 `;
 
-const NoticeComponent = ({ styledName, noticeContent, contentRow }) => {
+const NoticeComponent = ({ styledName, subTitle, content }) => {
   const navi = useNavigate();
   return (
     <Container>
@@ -102,12 +102,12 @@ const NoticeComponent = ({ styledName, noticeContent, contentRow }) => {
         </TopRow>
         <StyledNotice>
           <StyledText onClick={() => navi(`/noticeContent`)}>
-            {noticeContent}
+            {subTitle}
           </StyledText>
         </StyledNotice>
         <ContentRow>
           <NoticeContent onClick={() => navi(`/noticeContent`)}>
-            {contentRow}
+            {content}
           </NoticeContent>
           <BottomRow>
             <BoardChat />
@@ -121,8 +121,8 @@ const NoticeComponent = ({ styledName, noticeContent, contentRow }) => {
 
 NoticeComponent.propTypes = {
   styledName: PropTypes.node.isRequired,
-  noticeContent: PropTypes.node.isRequired,
-  contentRow: PropTypes.node.isRequired,
+  subTitle: PropTypes.node.isRequired,
+  content: PropTypes.node.isRequired,
 };
 
 export default NoticeComponent;
