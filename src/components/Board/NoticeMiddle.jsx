@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 import theme from '../../styles/theme';
 
 const NoticeMiddleContainer = styled.div`
@@ -43,13 +44,19 @@ const StyledButton = styled.div`
 `;
 
 const NoticeMiddle = ({ title, description, button }) => {
+  const navi = useNavigate();
+
+  const handleButtonClick = () => {
+    navi('/boardPosting');
+  };
+
   return (
     <NoticeMiddleContainer>
       <NoticeTextContainer>
         <NoticeTitle>{title}</NoticeTitle>
         <NoticeIntroduce>{description}</NoticeIntroduce>
       </NoticeTextContainer>
-      <StyledButton>{button}</StyledButton>
+      <StyledButton onClick={handleButtonClick}>{button}</StyledButton>
     </NoticeMiddleContainer>
   );
 };

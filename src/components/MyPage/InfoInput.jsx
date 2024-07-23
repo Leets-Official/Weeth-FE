@@ -3,11 +3,15 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
+import theme from '../../styles/theme';
+
 const StyledInfoInput = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 16px 25px 8px 25px;
+  font-family: ${theme.font.family.pretendard_regular};
+  font-size: 16px;
 `;
 
 const Input = styled.input`
@@ -16,7 +20,7 @@ const Input = styled.input`
   outline: none;
   border: none;
   border-radius: 4px;
-  background-color: #2f2f2f;
+  background-color: ${theme.color.grayScale.gray18};
   color: white;
   text-align: right;
   padding-right: 10px;
