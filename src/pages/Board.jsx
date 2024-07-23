@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import BoardHeader from '../components/Board/NoticeHeader';
 import AttachButton from '../components/Board/AttachButton';
+import { ReactComponent as BoardChat } from '../assets/images/ic_board_chat.svg';
 import theme from '../styles/theme';
 
 const Container = styled.div`
@@ -59,6 +60,26 @@ const RightMargin = styled.div`
   margin-right: 27%;
 `;
 
+const CommentCount = styled.div`
+  display: flex;
+  align-items: center;
+  color: ${theme.color.grayScale.gray65};
+  font-family: ${theme.font.family.pretendard_regular};
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 14.32px;
+  margin-left: 4px;
+`;
+
+const BottomRow = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-top: 15px;
+  border-bottom: 1px solid ${theme.color.grayScale.gray30};
+  padding-bottom: 10px; // 선 아래 여백 추가
+`;
+
 const Board = () => {
   return (
     <Container>
@@ -78,6 +99,10 @@ const Board = () => {
           <AttachButton filetype="PDF" />
           <RightMargin />
         </ComponentRow>
+        <BottomRow>
+          <BoardChat />
+          <CommentCount>3</CommentCount>
+        </BottomRow>
       </BoardRow>
     </Container>
   );
