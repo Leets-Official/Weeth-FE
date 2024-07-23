@@ -43,7 +43,7 @@ const StyledButton = styled.div`
   margin-left: -50px;
 `;
 
-const NoticeMiddle = ({ title, description, button }) => {
+const NoticeMiddle = ({ title, button }) => {
   const navi = useNavigate();
 
   const handleButtonClick = () => {
@@ -54,7 +54,9 @@ const NoticeMiddle = ({ title, description, button }) => {
     <NoticeMiddleContainer>
       <NoticeTextContainer>
         <NoticeTitle>{title}</NoticeTitle>
-        <NoticeIntroduce>{description}</NoticeIntroduce>
+        <NoticeIntroduce>
+          자세한 내용을 보려면 게시물을 클릭하세요.
+        </NoticeIntroduce>
       </NoticeTextContainer>
       <StyledButton onClick={handleButtonClick}>{button}</StyledButton>
     </NoticeMiddleContainer>
@@ -63,7 +65,6 @@ const NoticeMiddle = ({ title, description, button }) => {
 
 NoticeMiddle.propTypes = {
   title: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
   button: PropTypes.element,
 };
 
