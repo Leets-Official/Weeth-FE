@@ -1,35 +1,70 @@
 import styled from 'styled-components';
-import NoticeHeader from '../components/Board/NoticeHeader';
+import BoardHeader from '../components/Board/NoticeHeader';
 import theme from '../styles/theme';
 
 const Container = styled.div`
   width: 370px;
+  color: ${theme.color.grayScale.white};
 `;
 
-const AttachButton = styled.div`
+const BoardRow = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 98px;
-  height: 56px;
-  background-color: #0e9871;
-  border-radius: 5px;
-  color: ${theme.color.grayScale.white};
-  font-size: 14px;
-  cursor: pointer;
-  transition: background-color 0.3s;
+  padding: 10px 6%;
+`;
 
-  &:hover {
-    background-color: darken(#0e9871, 10%);
-  }
+const BoardName = styled.div`
+  maring-left: 7%;
+  font-size: 24px;
+  font-weight: 600;
+`;
+
+const SubRow = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-top: 10px;
+  font-family: ${theme.font.family.pretendard_regular};
+  color: #c1c1c1;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 14.32px;
+`;
+
+const UserName = styled.div`
+  padding: 0;
+  margin-right: 3%;
+`;
+
+const StyledDate = styled.div`
+  padding: 0;
+`;
+
+const BoardContent = styled.div`
+  width: 88%;
+  height: 43px;
+  margin-top: 20px;
+  font-family: ${theme.font.family.pretendard_regular};
+  weight: 400;
+  font-size: 16px;
+  line-height: 19.09px;
 `;
 
 const Board = () => {
   return (
     <Container>
-      <NoticeHeader />
-      <AttachButton />
+      <BoardHeader />
+      <BoardRow>
+        <BoardName>스터디제목</BoardName>
+        <SubRow>
+          <UserName>김위드</UserName>
+          <StyledDate>00/00 00:00</StyledDate>
+        </SubRow>
+        <BoardContent>
+          서비스의 주요 기능을 결정했다. <br />
+          1.출석 2. 일정관리,투표 3.공지사항
+        </BoardContent>
+      </BoardRow>
     </Container>
   );
 };
