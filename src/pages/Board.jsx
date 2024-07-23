@@ -10,6 +10,9 @@ const Container = styled.div`
   width: 370px;
   max-width: 370px;
   color: ${theme.color.grayScale.white};
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
 `;
 
 const BoardRow = styled.div`
@@ -117,35 +120,43 @@ const StyledRegisterComment = styled(RegisterComment)`
   cursor: pointer;
 `;
 
+// 콘텐츠를 스크롤 가능하게 하는 새로운 컴포넌트
+const ScrollableContent = styled.div`
+  flex: 1;
+  overflow-y: auto;
+`;
+
 const Board = () => {
   return (
     <Container>
       <BoardHeader />
-      <BoardRow>
-        <BoardName>스터디제목</BoardName>
-        <SubRow>
-          <UserName>김위드</UserName>
-          <StyledDate>00/00 00:00</StyledDate>
-        </SubRow>
-        <BoardContent>
-          서비스의 주요 기능을 결정했다. <br />
-          1.출석 2. 일정관리,투표 3.공지사항
-        </BoardContent>
-        <ComponentRow>
-          <AttachButton filetype="HWP" />
-          <AttachButton filetype="PDF" />
-          <RightMargin />
-        </ComponentRow>
-        <BottomRow>
-          <BoardChat />
-          <CommentCount>3</CommentCount>
-        </BottomRow>
-        <BoardComment />
-      </BoardRow>
-      <InputWrapper>
-        <InputField placeholder="댓글을 입력하세요." />
-        <StyledRegisterComment />
-      </InputWrapper>
+      <ScrollableContent>
+        <BoardRow>
+          <BoardName>스터디제목</BoardName>
+          <SubRow>
+            <UserName>김위드</UserName>
+            <StyledDate>00/00 00:00</StyledDate>
+          </SubRow>
+          <BoardContent>
+            서비스의 주요 기능을 결정했다. <br />
+            1.출석 2. 일정관리,투표 3.공지사항
+          </BoardContent>
+          <ComponentRow>
+            <AttachButton filetype="HWP" />
+            <AttachButton filetype="PDF" />
+            <RightMargin />
+          </ComponentRow>
+          <BottomRow>
+            <BoardChat />
+            <CommentCount>3</CommentCount>
+          </BottomRow>
+          <BoardComment />
+        </BoardRow>
+        <InputWrapper>
+          <InputField placeholder="댓글을 입력하세요." />
+          <StyledRegisterComment />
+        </InputWrapper>
+      </ScrollableContent>
     </Container>
   );
 };
