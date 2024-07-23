@@ -19,7 +19,7 @@ const Container = styled.div`
 const HeaderWrapper = styled.div`
   position: fixed;
   width: 370px;
-  background-color: ${theme.color.grayScale.black}; /* Header 배경 색상 추가 */
+  background-color: ${theme.color.grayScale.gray12}; /* 따로 표시해줘야 함 */
   top: 0;
   z-index: 1;
 `;
@@ -105,6 +105,7 @@ const BottomRow = styled.div`
 
 const InputWrapper = styled.div`
   position: relative;
+  bottom: ${({ paddingBottom }) => paddingBottom}px;
   display: flex;
   align-items: center;
   width: 81%;
