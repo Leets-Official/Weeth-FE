@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import MyPageHeader from '../components/MyPage/MyPageHeader';
 import InfoInput from '../components/MyPage/InfoInput';
 import mockUser from '../components/mockData/mockUser';
-import theme from '../styles/theme';
 
 const StyledEdit = styled.div`
   width: 370px;
@@ -13,25 +12,9 @@ const InfoWrapper = styled.div`
   padding-top: 20px;
 `;
 
-const Cardinal = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 16px 25px 8px 25px;
-`;
-
-const TextBox = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  width: 75%; //피그마대로 하면 핸드폰 글자가 잘림ㅜㅜ 디자이너 컨펌 필요
-  height: 45px;
-  outline: none;
-  border: none;
-  border-radius: 4px;
-  background-color: ${theme.color.grayScale.gray18};
-  color: white;
-  padding-right: 10px;
+const NoEdit = styled.div`
+  pointer-events: none;
+  touch-action: none;
 `;
 
 const Edit = () => {
@@ -43,10 +26,9 @@ const Edit = () => {
         <InfoInput text="학번" origValue={mockUser[0].studentId} />
         <InfoInput text="학과" origValue={mockUser[0].department} />
         <InfoInput text="핸드폰" origValue={mockUser[0].tel} />
-        <Cardinal>
-          <div>기수</div>
-          <TextBox>{mockUser[0].cardinal}</TextBox>
-        </Cardinal>
+        <NoEdit>
+          <InfoInput text="기수" origValue={mockUser[0].cardinal} />
+        </NoEdit>
         <InfoInput text="역할" origValue={mockUser[0].position} />
         <InfoInput text="메일" origValue={mockUser[0].email} />
       </InfoWrapper>
