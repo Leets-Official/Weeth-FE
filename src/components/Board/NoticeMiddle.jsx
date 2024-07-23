@@ -18,7 +18,7 @@ const NoticeTextContainer = styled.div`
 const NoticeTitle = styled.div`
   width: 74%;
   color: ${theme.color.grayScale.white};
-  font-family: Pretendard, sans-serif;
+  font-family: ${theme.font.family.pretendard_semiBold};
   font-weight: 600;
   font-size: 16px;
   line-height: 19.09px;
@@ -27,7 +27,7 @@ const NoticeTitle = styled.div`
 /* 여기서부터 */
 const NoticeIntroduce = styled.div`
   color: ${theme.color.grayScale.gray65};
-  font-family: Pretendard, sans-serif;
+  font-family: ${theme.font.family.pretendard_regular};
   font-weight: 400;
   font-size: 12px;
   margin-top: 10px;
