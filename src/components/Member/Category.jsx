@@ -6,6 +6,7 @@ import theme from '../../styles/theme';
 const StyledCategory = styled.div`
   padding-top: 20px;
   font-family: ${theme.font.family.pretendard_regulars};
+  font-size: 16px;
 `;
 
 const Button = styled.button`

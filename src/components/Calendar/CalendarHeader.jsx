@@ -49,8 +49,7 @@ const ImgButton = styled.div`
 const ButttonWrapper = styled.div`
   position: fixed;
   width: 370px;
-  top: -41px;
-  left: 330px;
+  transform: translate(290px, -50px);
 `;
 
 const modalStyles = {
@@ -106,7 +105,11 @@ const CalendarHeader = ({ todayMonth, todayYear, isYear }) => {
         style={modalStyles}
       >
         <ButttonWrapper>
-          <TextButton text="완료" color="green" onClick={onClickTextButton} />
+          <TextButton
+            text="완료"
+            color="mainColor"
+            onClick={onClickTextButton}
+          />
         </ButttonWrapper>
         <ModalMonthContent
           origYear={todayYear}

@@ -5,12 +5,16 @@ import BoardTitle from '../components/BoardTitle';
 import icCalendar from '../assets/images/date.svg';
 import icClock from '../assets/images/clock.svg';
 
+import theme from '../styles/theme';
+
 const StyledEventDetails = styled.div`
   width: 370px;
+  // 해당페이지는 컴포넌트화될 예정이므로 따로 추가하지 않음
+  // 추후에 만들어질 컴포넌트에서 설정하겟습니당
 `;
 
 const ContentBlock = styled.div`
-  background-color: #2e2e2e;
+  background-color: ${theme.color.grayScale.gray18};
   padding: 15px;
   border-radius: 20px;
   margin: 10px;
@@ -27,7 +31,7 @@ const Icon = styled.img`
 
 const Line = styled.div`
   border: 1px solid;
-  color: #4d4d4d;
+  color: ${theme.color.grayScale.gray30};
   margin: 10px;
   transform: scaleY(0.2);
 `;

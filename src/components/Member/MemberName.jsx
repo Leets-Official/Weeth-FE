@@ -6,8 +6,12 @@ import BE from '../../assets/images/ic_BE.svg';
 import D from '../../assets/images/ic_DE.svg';
 import MA from '../../assets/images/ic_MA.svg';
 
+import theme from '../../styles/theme';
+
 const MemberWrapper = styled.div`
   padding: 20px 10px 0px 10px;
+  font-family: ${theme.font.family.pretendard_regular};
+  font-size: 16px;
 `;
 
 const MemberContent = styled.div`
@@ -17,7 +21,7 @@ const MemberContent = styled.div`
 
 const Line = styled.div`
   border: 1px solid;
-  color: #4d4d4d;
+  color: ${theme.color.grayScale.gray30};
   width: 325px;
   margin: auto;
   margin-top: 10px;

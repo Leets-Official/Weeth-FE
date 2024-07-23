@@ -18,7 +18,7 @@ const CategoryWrapper = styled.div`
 
 const MemberList = styled.div`
   position: absolute;
-  background-color: #2e2e2e;
+  background-color: ${theme.color.grayScale.gray18};
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
   height: 100%;
