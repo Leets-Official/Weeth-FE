@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import BoardHeader from '../components/Board/NoticeHeader';
 import AttachButton from '../components/Board/AttachButton';
@@ -139,39 +139,6 @@ const StyledRegisterComment = styled(RegisterComment)`
 `;
 
 const Board = () => {
-  const divRef = useRef(null);
-
-  useEffect(() => {
-    const handleVisualViewPortResize = () => {
-      const currentVisualViewport = Number(window.visualViewport?.height);
-      if (divRef.current) {
-        divRef.current.style.height = `${currentVisualViewport - 30}px`;
-        window.scrollTo(0, 40);
-      }
-    };
-
-    // 초기 실행
-    handleVisualViewPortResize();
-
-    // resize 이벤트 리스너 추가
-    if (window.visualViewport) {
-      window.visualViewport.addEventListener(
-        'resize',
-        handleVisualViewPortResize,
-      );
-    }
-
-    // cleanup 함수로 이벤트 리스너 제거
-    return () => {
-      if (window.visualViewport) {
-        window.visualViewport.removeEventListener(
-          'resize',
-          handleVisualViewPortResize,
-        );
-      }
-    };
-  }, []);
-
   return (
     <Container>
       <HeaderWrapper>
