@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import BoardHeader from '../components/Board/NoticeHeader';
 import AttachButton from '../components/Board/AttachButton';
+import BoardComment from '../components/Board/BoardComment';
 import { ReactComponent as BoardChat } from '../assets/images/ic_board_chat.svg';
 import theme from '../styles/theme';
 
@@ -103,6 +104,7 @@ const Board = () => {
           <BoardChat />
           <CommentCount>3</CommentCount>
         </BottomRow>
+        <BoardComment />
       </BoardRow>
     </Container>
   );
