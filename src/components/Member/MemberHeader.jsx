@@ -2,11 +2,14 @@ import styled from 'styled-components';
 
 import LeftButton from '../Header/LeftButton';
 import Title from '../Header/Title';
+import theme from '../../styles/theme';
 
 const StyledHeader = styled.div`
   display: flex;
   align-items: center;
   margin: 45px 25px 20px 25px;
+  font-family: ${theme.font.family.pretendard_regular};
+  font-size: 16px;
 `;
 
 const TitleWrapper = styled.div`

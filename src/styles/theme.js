@@ -6,6 +6,7 @@ const theme = {
       negative: '#FF5858',
       pointPurple: '#6F50CB',
       pointPink: '#D968D3',
+      pointBlue: '#508fff',
     },
     grayScale: {
       black: '#000000',

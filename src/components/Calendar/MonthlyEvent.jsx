@@ -9,12 +9,14 @@ const StyledYear = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  font-family: ${theme.font.family.pretendard_regular};
+  font-size: 16px;
 `;
 
 const ContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  background-color: #2e2e2e;
+  background-color: ${theme.color.grayScale.gray18};
   padding: 10px;
   margin-bottom: 15px;
   width: 143px; //사이즈 수정 필요
@@ -38,6 +40,7 @@ const MonthName = styled.div`
   padding-left: 10px;
   padding-bottom: 7px;
   color: ${(props) => (props.isToday ? '#00dda8' : '#ffffff')};
+  //eslint 이슈로 색상코드를 작성하였음
   font-size: 18px;
   font-family: ${theme.font.family.pretendard_semiBold};
 `;
