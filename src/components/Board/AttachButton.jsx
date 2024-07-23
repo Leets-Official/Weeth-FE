@@ -5,10 +5,6 @@ import { ReactComponent as InstallIcon } from '../../assets/images/ic_install.sv
 
 const Container = styled.div`
   width: 370px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0;
 `;
 
 const StyledButton = styled.button`
@@ -17,13 +13,14 @@ const StyledButton = styled.button`
   justify-content: space-between;
   width: 98px;
   height: 56px;
+  margin-top: 40px;
+  margin-right: 0;
   background-color: #0e9871;
   border-radius: 5px;
   color: ${theme.color.grayScale.white};
   font-family: ${theme.font.family.pretendard_regular};
   font-size: 14px;
   cursor: pointer;
-  transition: background-color 0.3s;
   border: none;
   padding: 0;
 
@@ -41,7 +38,7 @@ const StyledButton = styled.button`
 `;
 
 const FileName = styled.div`
-  margin-bottom: 5px; /* 파일이름 밑 간격 */
+  margin-bottom: 5px;
 `;
 
 const FileType = styled.span`
@@ -49,7 +46,7 @@ const FileType = styled.span`
 `;
 
 const IconMargin = styled.div`
-  margin-bottom: 5px; /* 아이콘 밑 간격을 파일이름 밑 간격과 동일하게 설정 */
+  margin-bottom: 5px;
 `;
 
 const AttachButton = ({ filetype }) => {
