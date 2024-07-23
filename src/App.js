@@ -18,6 +18,7 @@ import Edit from './pages/Edit';
 import Dues from './pages/Dues';
 import BoardNotice from './pages/BoardNotice';
 import BoardPosting from './pages/BoardPosting';
+import Board from './pages/Board';
 
 import { ThemeProvider } from 'styled-components';
 import theme from './styles/theme';
@@ -46,6 +47,7 @@ function App() {
         <Route path="/receipt" element={<Receipt />} />
         <Route path="/notice" element={<BoardNotice />} />
         <Route path="/boardPosting" element={<BoardPosting />} />
+        <Route path="/board" element={<Board />} />
       </Routes>
     </ThemeProvider>
   );
