@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-
 import PropTypes from 'prop-types';
+import theme from '../../styles/theme';
 
 const StyledContent = styled.div`
   display: flex;
@@ -9,10 +9,12 @@ const StyledContent = styled.div`
   justify-content: center;
   width: ${(props) => (props.isYear ? '121px' : '275px')};
   height: 38px;
-  background: #2f2f2f;
+  background: ${theme.color.grayScale.gray18};
   border-radius: 14px;
   padding: 20px;
   margin: auto;
+  font-family: ${theme.font.family.pretendard_regular};
+  font-size: 16px;
 `;
 
 const StyledInput = styled.input`
@@ -21,7 +23,7 @@ const StyledInput = styled.input`
   outline: none;
   border: none;
   border-radius: 4px;
-  background-color: #1f1f1f;
+  background-color: ${theme.color.grayScale.gray12};
   color: white;
   text-align: right;
   margin: 0px 10px;

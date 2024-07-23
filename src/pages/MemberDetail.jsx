@@ -9,8 +9,12 @@ import icCardinal from '../assets/images/ic_cardinal.svg';
 import icPosition from '../assets/images/ic_position.svg';
 import icEmail from '../assets/images/ic_mail.svg';
 
+import theme from '../styles/theme';
+
 const StyledDetails = styled.div`
   width: 370px;
+  // 해당페이지는 컴포넌트화될 예정이므로 따로 추가하지 않음
+  // 추후에 만들어질 컴포넌트에서 설정하겟습니당
 `;
 
 const Line = styled.div`
@@ -37,8 +41,8 @@ const Text = styled.div`
   margin-left: 10px;
 `;
 
-const Green = styled.div`
-  color: #00dda8;
+const MainColor = styled.div`
+  color: ${theme.color.main.mainColor};
 `;
 
 const UserDetail = () => {
@@ -50,7 +54,7 @@ const UserDetail = () => {
           <img src={icName} alt="name" />
           <Text>
             <div>이름</div>
-            <Green>{mockUser[0].name}</Green>
+            <MainColor>{mockUser[0].name}</MainColor>
           </Text>
         </Info>
         <Line />
@@ -58,7 +62,7 @@ const UserDetail = () => {
           <img src={icId} alt="id" />
           <Text>
             <div>학번</div>
-            <Green>{mockUser[0].studentId}</Green>
+            <MainColor>{mockUser[0].studentId}</MainColor>
           </Text>
         </Info>
         <Line />
@@ -66,7 +70,7 @@ const UserDetail = () => {
           <img src={icDepartment} alt="department" />
           <Text>
             <div>학과</div>
-            <Green>{mockUser[0].department}</Green>
+            <MainColor>{mockUser[0].department}</MainColor>
           </Text>
         </Info>
         <Line />
@@ -74,7 +78,7 @@ const UserDetail = () => {
           <img src={icCardinal} alt="cardinal" />
           <Text>
             <div>기수</div>
-            <Green>{mockUser[0].cardinal}</Green>
+            <MainColor>{mockUser[0].cardinal}</MainColor>
           </Text>
         </Info>
         <Line />
@@ -82,7 +86,7 @@ const UserDetail = () => {
           <img src={icPosition} alt="positon" />
           <Text>
             <div>역할</div>
-            <Green>{mockUser[0].position}</Green>
+            <MainColor>{mockUser[0].position}</MainColor>
           </Text>
         </Info>
         <Line />
@@ -90,7 +94,7 @@ const UserDetail = () => {
           <img src={icEmail} alt="email" />
           <Text>
             <div>메일</div>
-            <Green>{mockUser[0].email}</Green>
+            <MainColor>{mockUser[0].email}</MainColor>
           </Text>
         </Info>
         <Line />

@@ -27,7 +27,7 @@ const Slider = styled.span`
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #2f2f2f;
+  background-color: ${theme.color.grayScale.gray18};
   transition: 0.4s;
   border-radius: 10px;
 
@@ -38,7 +38,7 @@ const Slider = styled.span`
     width: 170px;
     left: 2px;
     bottom: 2px;
-    background-color: #4d4d4d;
+    background-color: ${theme.color.grayScale.gray30};
     transition: 0.4s;
     border-radius: 9px;
     transform: ${(props) =>
@@ -50,6 +50,7 @@ const TextMonth = styled.span`
   position: absolute;
   left: 18%;
   color: ${(props) => (props.checked ? '#a6a6a6' : '#ffffff')};
+  //eslint 이슈로 색상코드를 작성하였음
   font-family: ${theme.font.family.pretendard_semiBold};
   font-size: 12px;
   z-index: 1;
@@ -59,6 +60,7 @@ const TextYear = styled.span`
   position: absolute;
   right: 22%;
   color: ${(props) => (props.checked ? '#ffffff' : '#a6a6a6')};
+  //eslint 이슈로 색상코드를 작성하였음
   font-family: ${theme.font.family.pretendard_semiBold};
   font-size: 12px;
   z-index: 1;

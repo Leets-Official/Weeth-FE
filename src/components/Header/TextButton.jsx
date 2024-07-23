@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import theme from '../../styles/theme';
 
 const StyledText = styled.div`
-  color: ${(props) => (props.color === 'green' ? '#00dda8' : '#ffffff')};
+  color: ${(props) => (props.color === 'mainColor' ? '#00dda8' : '#ffffff')};
   cursor: pointer;
   font-size: 18px;
   font-family: ${theme.font.family.pretendard_semiBold};
