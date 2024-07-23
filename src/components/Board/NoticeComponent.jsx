@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom'; // 아이콘 경로 수정 필요
+import { useNavigate } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { ReactComponent as BoardChat } from '../../assets/images/ic_board_chat.svg';
 import theme from '../../styles/theme';
 
@@ -88,25 +89,25 @@ const CommentCount = styled.div`
   margin-left: 4px;
 `;
 
-const NoticeComponent = () => {
+const NoticeComponent = ({ styledName, noticeContent, contentRow }) => {
   const navi = useNavigate();
   return (
     <Container>
       <BoardContainer>
         <TopRow>
           <StyledName>
-            <StyledText onClick={() => navi(`/Name`)}>홍길동</StyledText>
+            <StyledText onClick={() => navi(`/Name`)}>{styledName}</StyledText>
           </StyledName>
           <StyledDate>00/00</StyledDate>
         </TopRow>
         <StyledNotice>
           <StyledText onClick={() => navi(`/noticeContent`)}>
-            공지사항
+            {noticeContent}
           </StyledText>
         </StyledNotice>
         <ContentRow>
           <NoticeContent onClick={() => navi(`/noticeContent`)}>
-            공지사항 내용
+            {contentRow}
           </NoticeContent>
           <BottomRow>
             <BoardChat />
@@ -116,6 +117,12 @@ const NoticeComponent = () => {
       </BoardContainer>
     </Container>
   );
+};
+
+NoticeComponent.propTypes = {
+  styledName: PropTypes.node.isRequired,
+  noticeContent: PropTypes.node.isRequired,
+  contentRow: PropTypes.node.isRequired,
 };
 
 export default NoticeComponent;
