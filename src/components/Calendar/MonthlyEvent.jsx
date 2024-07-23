@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import theme from '../../styles/theme';
 
 import icDot from '../../assets/images/ic_dot.svg';
+import mockEventYear from '../mockData/mockEventYear';
 
 const StyledYear = styled.div`
   display: flex;
@@ -45,23 +46,31 @@ const MonthName = styled.div`
   font-family: ${theme.font.family.pretendard_semiBold};
 `;
 
+const EventComponent = ({ event }) => {
+  return (
+    <Content>
+      <Dot src={icDot} alt="dot" />
+      <div>{event.title}</div>
+    </Content>
+  );
+};
+
 const MonthlyEvent = ({ month, todayMonth }) => {
   const isToday = month === todayMonth;
   return (
     <StyledYear>
       <MonthName isToday={isToday}>{month}월</MonthName>
       <ContentWrapper>
-        <Content>
-          <Dot src={icDot} alt="dot" />
-          <div>첫번째 일정</div>
-        </Content>
-        <Content>
-          <Dot src={icDot} alt="dot" />
-          <div>두번째 일정</div>
-        </Content>
+        {mockEventYear[month].map((event) => (
+          <EventComponent event={event} />
+        ))}
       </ContentWrapper>
     </StyledYear>
   );
+};
+
+EventComponent.propTypes = {
+  event: PropTypes.string.isRequired,
 };
 
 MonthlyEvent.propTypes = {
