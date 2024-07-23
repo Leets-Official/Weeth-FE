@@ -17,7 +17,7 @@ import MyPage from './pages/MyPage';
 import Edit from './pages/Edit';
 import Dues from './pages/Dues';
 import BoardPosting from './pages/BoardPosting';
-
+import BoardNotice from './pages/BoardNotice';
 
 import { ThemeProvider } from 'styled-components';
 import theme from './styles/theme';
@@ -45,6 +45,7 @@ function App() {
         <Route path="/dues" element={<Dues />} />
         <Route path="/receipt" element={<Receipt />} />
         <Route path="/posting" element={<BoardPosting />} />
+        <Route path="/notice" element={<BoardNotice />} />
       </Routes>
     </ThemeProvider>
   );
