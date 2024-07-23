@@ -18,7 +18,7 @@ const StyledTitle = styled.div`
   width: 53%;
   height: 76px;
   margin: 297px 24% 126px 24%; /* Adjusted margin */
-  font-family: ${theme.font.family.pretendard_regular};
+  font-family: ${theme.font.family.pretendard_semiBold};
   font-weight: 700;
   font-size: 64px;
   line-height: 76.38px;
