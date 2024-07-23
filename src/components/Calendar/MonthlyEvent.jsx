@@ -57,6 +57,7 @@ const EventComponent = ({ event }) => {
 
 const MonthlyEvent = ({ month, todayMonth }) => {
   const isToday = month === todayMonth;
+  // props로 받은 month가 현재날짜의 달과 일치한다면 isToday = true
   return (
     <StyledYear>
       <MonthName isToday={isToday}>{month}월</MonthName>
