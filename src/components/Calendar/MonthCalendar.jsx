@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -7,6 +6,7 @@ import styled from 'styled-components';
 import { format } from 'date-fns';
 
 import theme from '../../styles/theme';
+import mockEventMonth from '../mockData/mockEventMonth';
 
 const CalendarContainer = styled.div`
   width: 100%;
@@ -94,7 +94,7 @@ const Today = styled.div`
   z-index: 0;
 `;
 
-const MonthCalendar = ({ mockEvent }) => {
+const MonthCalendar = () => {
   const renderDayCell = (arg) => {
     const isToday =
       format(arg.date, 'yyyy-MM-dd') === format(new Date(), 'yyyy-MM-dd');
@@ -112,7 +112,7 @@ const MonthCalendar = ({ mockEvent }) => {
         className="calendar"
         defaultView="dayGridMonth"
         plugins={[dayGridPlugin]}
-        events={mockEvent}
+        events={mockEventMonth}
         locale="koLocale"
         headerToolbar={false}
         fixedWeekCount={false}
@@ -121,16 +121,6 @@ const MonthCalendar = ({ mockEvent }) => {
       />
     </CalendarContainer>
   );
-};
-
-MonthCalendar.propTypes = {
-  mockEvent: PropTypes.arrayOf(
-    PropTypes.shape({
-      title: PropTypes.string.isRequired,
-      start: PropTypes.string.isRequired,
-      end: PropTypes.string.isRequired,
-    }),
-  ).isRequired,
 };
 
 export default MonthCalendar;
