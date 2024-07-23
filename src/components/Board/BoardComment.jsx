@@ -70,15 +70,15 @@ const BoardComment = () => {
         <UserName>홍길동</UserName>
         <CommentButton />
       </BottomRow>
-      <StyledComment>정말 열심히 하셨네요!</StyledComment>
+      <StyledComment>진짜 최고다</StyledComment>
       <CommentDate>00/00 00:00</CommentDate>
       <ReplyRow>
         <StyledReplyButton />
         <BoardReply>
           <BottomRow>
-            <UserName>홍길동</UserName>
+            <UserName>김위드</UserName>
           </BottomRow>
-          <StyledComment>정말 열심히 하셨네요!</StyledComment>
+          <StyledComment>고마워요!ㅎㅎ</StyledComment>
           <CommentDate>00/00 00:00</CommentDate>
         </BoardReply>
       </ReplyRow>
