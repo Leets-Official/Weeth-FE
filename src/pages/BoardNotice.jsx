@@ -39,6 +39,22 @@ const Tab = styled.div`
   }
 `;
 
+const PostingButton = styled.button`
+  width: 52px;
+  height: 28px;
+  background-color: ${theme.color.main.mainColor};
+  color: ${theme.color.grayScale.white};
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-family: ${theme.font.family.pretendard_semiBold};
+  font-size: 12px;
+  line-height: 14.32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 const BoardNotice = () => {
   const [activeTab, setActiveTab] = useState('notice');
 
@@ -52,6 +68,7 @@ const BoardNotice = () => {
             ? '자세한 내용을 보려면 게시물을 클릭하세요...'
             : '스터디 관련 게시물을 클릭하세요...'
         }
+        button={activeTab === 'board' && <PostingButton>글쓰기</PostingButton>}
       />
       <TabsContainer>
         <Tab
