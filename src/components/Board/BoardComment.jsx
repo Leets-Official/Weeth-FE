@@ -10,6 +10,11 @@ const CommentContainer = styled.div`
   justify-content: flex-start;
 `;
 
+const BoardCommented = styled.div`
+  padding: 0;
+  border-radius: 10px;
+`;
+
 const UserName = styled.div`
   width: 100%;
   font-family: ${theme.font.family.pretendard_semiBold};
@@ -61,23 +66,20 @@ const BoardReply = styled.div`
 const BoardComment = () => {
   return (
     <CommentContainer>
-      <BottomRow>
-        <UserName>홍길동</UserName>
-        <CommentButton alt="" />
-      </BottomRow>
-      <StyledComment>진짜 최고다</StyledComment>
-      <CommentDate>00/00 00:00</CommentDate>
+      <BoardCommented>
+        <BottomRow>
+          <UserName>홍길동</UserName>
+          <CommentButton alt="" />
+        </BottomRow>
+        <StyledComment>진짜 최고다</StyledComment>
+        <CommentDate>00/00 00:00</CommentDate>
+      </BoardCommented>
       <ReplyRow>
         <ReplyButton
           alt=""
           style={{
             marginRight: '10px',
             flexShrink: 0,
-            position: 'absolute',
-            right: '10px',
-            top: '50%',
-            transform: 'translateY(-50%)',
-            cursor: 'pointer',
           }}
         />
         <BoardReply>

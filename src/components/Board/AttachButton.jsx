@@ -57,7 +57,7 @@ const AttachButton = ({ filetype }) => {
           <FileType>{filetype}</FileType>
         </div>
         <IconMargin>
-          <InstallIcon className="icon" alt="" />
+          <InstallIcon className="icon" alt="{install}" />
         </IconMargin>
       </StyledButton>
     </Container>
