@@ -42,6 +42,7 @@ const EventDetails = () => {
   const { id } = useParams();
   // eslint-disable-next-line no-shadow, radix
   const event = mockEventMonth.find((event) => event.id === parseInt(id));
+  const weekday = ['일', '월', '화', '수', '목', '금', '토'];
 
   const origStartDate = event.start;
   const origEndDate = event.end;
@@ -49,10 +50,12 @@ const EventDetails = () => {
   const splittedStartDate = origStartDate.split('T'); // YYYY-MM-DD,HH:MM:SS.SSSZ
   const startDate = splittedStartDate[0].split('-', 3); // [YYYY, MM, DD]
   const startTime = splittedStartDate[1].split(':', 2); // [HH, MM]
+  const startDay = new Date(origStartDate).getDay();
 
   const splittedEndDate = origEndDate.split('T'); // YYYY-MM-DD,HH:MM:SS.SSSZ
   const endDate = splittedEndDate[0].split('-', 3); // [YYYY, MM, DD]
   const endTime = splittedEndDate[1].split(':', 2); // [HH, MM]
+  const endDay = new Date(origEndDate).getDay();
 
   let isOneday = true;
   // eslint-disable-next-line no-plusplus
@@ -64,7 +67,11 @@ const EventDetails = () => {
 
   return (
     <StyledEventDetails>
-      <BoardTitle text={event.title} />
+      <BoardTitle
+        text={event.title}
+        writer={event.userName}
+        createdAt={event.createdAt}
+      />
       <Line />
       <ContentBlock>
         {isOneday ? (
@@ -73,7 +80,8 @@ const EventDetails = () => {
             <TimeInfo>
               <Icon src={icCalendar} alt="calenar" />
               <div>
-                {startDate[0]}년 {startDate[1]}월 {startDate[2]}일
+                {startDate[0]}년 {startDate[1]}월 {startDate[2]}일{' '}
+                {weekday[startDay]}요일
               </div>
             </TimeInfo>
             <TimeInfo>
@@ -89,15 +97,15 @@ const EventDetails = () => {
             <TimeInfo>
               <Icon src={icCalendar} alt="calenar" />
               <div>
-                {startDate[0]}년 {startDate[1]}월 {startDate[2]}일{' '}
-                {startTime[0]}:{startTime[1]}에서
+                {startDate[0]}년 {startDate[1]}월 {startDate[2]}일 &#40;
+                {weekday[startDay]}&#41; {startTime[0]}:{startTime[1]}에서
               </div>
             </TimeInfo>
             <TimeInfo>
               <Icon src={icClock} alt="clock" />
               <div>
-                {endDate[0]}년 {endDate[1]}월 {endDate[2]}일 {endTime[0]}:
-                {endTime[1]}까지
+                {endDate[0]}년 {endDate[1]}월 {endDate[2]}일 &#40;
+                {weekday[endDay]}&#41; {endTime[0]}:{endTime[1]}까지
               </div>
             </TimeInfo>
           </>

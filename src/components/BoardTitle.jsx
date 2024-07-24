@@ -42,7 +42,11 @@ const Detail = styled.div`
 
 const onClickIndexButton = () => {};
 
-const BoardTitle = ({ text }) => {
+const BoardTitle = ({ text, writer, createdAt }) => {
+  const splittedCreatedAt = createdAt.split('T'); // YYYY-MM-DD,HH:MM:SS.SSSZ
+  const createdDate = splittedCreatedAt[0].replace(/-/g, '/'); // YYYY-MM-DD -> YYYY/MM/DD
+  const createdTime = splittedCreatedAt[1].split(':', 2); // [HH, MM]
+
   return (
     <StyledTitle>
       <StyledHeader>
@@ -51,8 +55,10 @@ const BoardTitle = ({ text }) => {
       </StyledHeader>
       <Title>{text}</Title>
       <Detail>
-        <Writer>게시자</Writer>
-        <WrittenTime>2024/06/10 18:32</WrittenTime>
+        <Writer>{writer}</Writer>
+        <WrittenTime>
+          {createdDate} {createdTime[0]}:{createdTime[1]}
+        </WrittenTime>
       </Detail>
     </StyledTitle>
   );
@@ -60,6 +66,8 @@ const BoardTitle = ({ text }) => {
 
 BoardTitle.propTypes = {
   text: PropTypes.string.isRequired,
+  writer: PropTypes.string.isRequired,
+  createdAt: PropTypes.string.isRequired,
 };
 
 export default BoardTitle;

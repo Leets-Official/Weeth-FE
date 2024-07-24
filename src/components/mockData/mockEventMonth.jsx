@@ -12,6 +12,8 @@ const mockEventMonth = [
     memberNumber: '모든 인원',
     start: '2024-07-18T19:00:00.000',
     end: '2024-07-18T21:00:00.000',
+    userName: '김성민',
+    createdAt: '2024-07-01T17:30:00.000',
   },
   {
     id: 2,
@@ -22,6 +24,8 @@ const mockEventMonth = [
     memberNumber: '팀 이강혁',
     start: '2024-07-16T19:00:00.000',
     end: '2024-07-19T19:00:00.000',
+    createdAt: '2024-07-08T21:26:00.000',
+    userName: '노정완',
   },
   {
     id: 3,
@@ -49,6 +53,8 @@ const mockEventMonth = [
     memberNumber: 'Leets 3기',
     start: '2024-06-30T00:00:00.000',
     end: '2024-08-01T21:00:00.000',
+    createdAt: '2024-06-18T19:09:00.000',
+    userName: '조혜원',
   },
   {
     id: 4,
@@ -60,6 +66,8 @@ const mockEventMonth = [
     memberNumber: '여기에도 글을 길게 적을 수 있답니당',
     start: '2024-07-18T19:00:00.000',
     end: '2024-07-18T19:00:00.000',
+    createdAt: '2024-07-10T09:32:00.000',
+    userName: '양태석',
   },
   {
     id: 5,
@@ -70,6 +78,8 @@ const mockEventMonth = [
     memberNumber: '팀 이강혁 FE',
     start: '2024-08-03T19:00:00.000',
     end: '2024-08-03T19:00:00.000',
+    createdAt: '2024-07-18T11:50:00.000',
+    userName: '김성민',
   },
 ];
 
