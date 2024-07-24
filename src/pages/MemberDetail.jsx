@@ -51,6 +51,25 @@ const UserDetail = () => {
   const { name, studentId, department, email, cardinal, position } =
     location.state;
 
+  let positionKo = 'none';
+
+  switch (position) {
+    case 'FE':
+      positionKo = '프론트엔드';
+      break;
+    case 'BE':
+      positionKo = '백엔드';
+      break;
+    case 'D':
+      positionKo = '디자인';
+      break;
+    case 'MA':
+      positionKo = '임원';
+      break;
+    default:
+      positionKo = '없음';
+  }
+
   return (
     <StyledDetails>
       <MemberHeader />
@@ -91,7 +110,7 @@ const UserDetail = () => {
           <img src={icPosition} alt="positon" />
           <Text>
             <div>역할</div>
-            <MainColor>{position}</MainColor>
+            <MainColor>{positionKo}</MainColor>
           </Text>
         </Info>
         <Line />
