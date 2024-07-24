@@ -1,11 +1,10 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom';
 import BoardHeader from '../components/Board/NoticeHeader';
 import AttachButton from '../components/Board/AttachButton';
 import BoardComment from '../components/Board/BoardComment';
-// import BoardPosting from './BoardPosting';
 import { ReactComponent as BoardChat } from '../assets/images/ic_board_chat.svg';
 import { ReactComponent as RegisterComment } from '../assets/images/ic_send.svg';
 import theme from '../styles/theme';
@@ -134,13 +133,18 @@ const InputField = styled.input`
   }
 `;
 
-const Board = () => {
+const Board = ({ initialBoardComment }) => {
   const location = useLocation();
   const { boardName, boardContent } = location.state || {
     boardName: '',
     boardContent: '',
   };
   const divRef = useRef(null);
+  const [boardComment, setBoardComment] = useState(initialBoardComment);
+
+  const handleBoardCommentChange = (e) => {
+    setBoardComment(e.target.value);
+  };
 
   useEffect(() => {
     const handleVisualViewPortResize = () => {
@@ -197,7 +201,12 @@ const Board = () => {
         <BoardComment />
       </BoardRow>
       <InputWrapper>
-        <InputField placeholder="댓글을 입력하세요." />
+        <InputField
+          type="text"
+          value={boardComment}
+          placeholder="댓글을 입력하세요."
+          onChange={handleBoardCommentChange}
+        />
         <RegisterComment
           alt=""
           style={{
@@ -222,5 +231,13 @@ Board.defaultProps = {
   boardName: '게시판 이름',
   boardContent: '내용',
 }; */
+
+Board.propTypes = {
+  initialBoardComment: PropTypes.string,
+};
+
+Board.defaultProps = {
+  initialBoardComment: '',
+};
 
 export default Board;
