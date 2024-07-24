@@ -91,12 +91,13 @@ const HomeMain = () => {
   const navi = useNavigate();
   const { userData, error } = useContext(UserContext);
 
+  let userName;
   if (error) {
-    return <div>Error: {error}</div>;
-  }
-
-  if (!userData) {
-    return <div>Loading...</div>;
+    userName = 'error';
+  } else if (!userData) {
+    userName = 'loading';
+  } else {
+    userName = userData.name;
   }
 
   return (
@@ -108,7 +109,7 @@ const HomeMain = () => {
       </CaptionContainer>
       <div className="user-info">
         <div className="user-container">
-          <div className="name">{userData.name}</div>
+          <div className="name">{userName}</div>
           <div className="nick-name">Elite님</div>
         </div>
         <div className="right-button">
