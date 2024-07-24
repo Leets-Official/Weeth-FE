@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 import PostingHeader from '../components/Board/PostingHeader';
+// import Board from './Board';
 import { ReactComponent as FileAttach } from '../assets/images/ic_board_fileAttach.svg';
 import theme from '../styles/theme';
 
@@ -54,65 +55,48 @@ const StyledFileAttach = styled.div`
   margin-bottom: 148px;
 `;
 
-const slideUp = keyframes`
-  from {
-    transform: translateY(100%);
-  }
-  to {
-    transform: translateY(0);
-  }
-`;
-
-const Keyboard = styled.div`
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 200px;
-  background-color: #333;
-  color: #fff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transform: translateY(100%);
-  transition: transform 0.3s ease-in-out;
-
-  &.active {
-    animation: ${slideUp} 0.3s forwards;
-  }
-`;
-
 const BoardPosting = () => {
-  const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
+  const [boardName, setBoardName] = useState('');
+  const [boardContent, setBoardContent] = useState('');
 
-  const handleFocus = () => {
+  const handleBoardNameChange = (e) => {
+    setBoardName(e.target.value);
+  };
+
+  const handleBoardContentChange = (e) => {
+    setBoardContent(e.target.value);
+  };
+
+  /* const handleFocus = () => {
     setIsKeyboardVisible(true);
-  };
+  }; 
 
-  const handleBlur = () => {
+  /* const handleBlur = () => {
     setIsKeyboardVisible(false);
-  };
+  }; */
 
   return (
     <StyledPosting>
       <PostingHeader />
       <StyledText>
-        <StyledTitle type="text" placeholder="제목" />
+        <StyledTitle
+          type="text"
+          placeholder="제목"
+          value={boardName}
+          onChange={handleBoardNameChange}
+        />
       </StyledText>
       <StyledLine />
       <StyledText>
         <StyledContent
           placeholder="내용을 입력하세요."
-          onFocus={handleFocus}
-          onBlur={handleBlur}
+          value={boardContent}
+          onChange={handleBoardContentChange}
         />
       </StyledText>
       <StyledFileAttach>
         <FileAttach />
       </StyledFileAttach>
-      <Keyboard className={isKeyboardVisible ? 'active' : undefined}>
-        키보드
-      </Keyboard>
     </StyledPosting>
   );
 };

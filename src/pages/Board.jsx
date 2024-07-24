@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import BoardHeader from '../components/Board/NoticeHeader';
 import AttachButton from '../components/Board/AttachButton';
 import BoardComment from '../components/Board/BoardComment';
@@ -10,11 +11,12 @@ import theme from '../styles/theme';
 const Container = styled.div`
   width: 370px;
   max-width: 370px;
+  height: 810px;
   color: ${theme.color.grayScale.white};
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
 `;
+
+/* Container : display: flex;
+  flex-direction: column; */
 
 const HeaderWrapper = styled.div`
   position: fixed;
@@ -104,7 +106,7 @@ const BottomRow = styled.div`
 `;
 
 const InputWrapper = styled.div`
-  position: relative;
+  position: relative; // fixed position을 사용하여 화면 하단에 고정
   bottom: ${({ paddingBottom }) => paddingBottom}px;
   display: flex;
   align-items: center;
@@ -130,7 +132,7 @@ const InputField = styled.input`
   }
 `;
 
-const Board = () => {
+const Board = ({ boardName, boardContent }) => {
   const divRef = useRef(null);
 
   useEffect(() => {
@@ -170,15 +172,12 @@ const Board = () => {
         <BoardHeader />
       </HeaderWrapper>
       <BoardRow>
-        <BoardName>스터디제목</BoardName>
+        <BoardName>{boardName}</BoardName>
         <SubRow>
           <UserName>김위드</UserName>
           <StyledDate>00/00 00:00</StyledDate>
         </SubRow>
-        <BoardContent>
-          서비스의 주요 기능을 결정했다. <br />
-          1.출석 2. 일정관리,투표 3.공지사항
-        </BoardContent>
+        <BoardContent>{boardContent}</BoardContent>
         <ComponentRow>
           <AttachButton filetype="HWP" />
           <AttachButton filetype="PDF" />
@@ -205,6 +204,11 @@ const Board = () => {
       </InputWrapper>
     </Container>
   );
+};
+
+Board.propTypes = {
+  boardName: PropTypes.string.isRequired,
+  boardContent: PropTypes.string.isRequired,
 };
 
 export default Board;
