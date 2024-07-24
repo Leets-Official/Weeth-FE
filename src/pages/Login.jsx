@@ -82,7 +82,8 @@ const Login = () => {
       >
         
           {passwordVisible
-          ? <ToggleVisibleIcon 
+          ? <ToggleVisibleIcon
+              alt=""
               onClick={togglePasswordVisibility}
               style={{
                 background: "none",
@@ -90,11 +91,12 @@ const Login = () => {
                 cursor: "pointer",
               }}/>
             : <ToggleInvisibleIcon
-              onClick={togglePasswordVisibility}
-              style={{
-                background: "none",
-                border: "none",
-                cursor: "pointer",
+                alt=""
+                onClick={togglePasswordVisibility}
+                style={{
+                  background: "none",
+                  border: "none",
+                  cursor: "pointer",
               }}/>
             }
 
