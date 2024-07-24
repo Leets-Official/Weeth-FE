@@ -1,11 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
-import BoardTitle from '../components/BoardTitle';
 
-import icCalendar from '../assets/images/date.svg';
-import icClock from '../assets/images/clock.svg';
+import { useParams } from 'react-router-dom';
 
+import icCalendar from '../assets/images/ic_date.svg';
+import icClock from '../assets/images/ic_clock.svg';
 import theme from '../styles/theme';
+import BoardTitle from '../components/BoardTitle';
+import mockEventMonth from '../components/mockData/mockEventMonth';
 
 const StyledEventDetails = styled.div`
   width: 370px;
@@ -37,37 +39,77 @@ const Line = styled.div`
 `;
 
 const EventDetails = () => {
+  const { id } = useParams();
+  // eslint-disable-next-line no-shadow, radix
+  const event = mockEventMonth.find((event) => event.id === parseInt(id));
+
+  const origStartDate = event.start;
+  const origEndDate = event.end;
+
+  const splittedStartDate = origStartDate.split('T'); // YYYY-MM-DD,HH:MM:SS.SSSZ
+  const startDate = splittedStartDate[0].split('-', 3); // [YYYY, MM, DD]
+  const startTime = splittedStartDate[1].split(':', 2); // [HH, MM]
+
+  const splittedEndDate = origEndDate.split('T'); // YYYY-MM-DD,HH:MM:SS.SSSZ
+  const endDate = splittedEndDate[0].split('-', 3); // [YYYY, MM, DD]
+  const endTime = splittedEndDate[1].split(':', 2); // [HH, MM]
+
+  let isOneday = true;
+  // eslint-disable-next-line no-plusplus
+  for (let i = 0; i < startDate.length; i++) {
+    if (startDate[i] !== endDate[i]) {
+      isOneday = false;
+    }
+  }
+
   return (
     <StyledEventDetails>
-      <BoardTitle />
+      <BoardTitle text={event.title} />
       <Line />
       <ContentBlock>
-        <TimeInfo>
-          <Icon src={icCalendar} alt="calenar" />
-          <div>2024년 7월 18일 목요일</div>
-        </TimeInfo>
-        <TimeInfo>
-          <Icon src={icClock} alt="clock" />
-          <div>19:00 ~ 21:00</div>
-        </TimeInfo>
+        {isOneday ? (
+          // 하루 일정일 때
+          <>
+            <TimeInfo>
+              <Icon src={icCalendar} alt="calenar" />
+              <div>
+                {startDate[0]}년 {startDate[1]}월 {startDate[2]}일
+              </div>
+            </TimeInfo>
+            <TimeInfo>
+              <Icon src={icClock} alt="clock" />
+              <div>
+                {startTime[0]}:{startTime[1]} ~ {endTime[0]}:{endTime[1]}
+              </div>
+            </TimeInfo>
+          </>
+        ) : (
+          // 긴 일정일 때
+          <>
+            <TimeInfo>
+              <Icon src={icCalendar} alt="calenar" />
+              <div>
+                {startDate[0]}년 {startDate[1]}월 {startDate[2]}일{' '}
+                {startTime[0]}:{startTime[1]}에서
+              </div>
+            </TimeInfo>
+            <TimeInfo>
+              <Icon src={icClock} alt="clock" />
+              <div>
+                {endDate[0]}년 {endDate[1]}월 {endDate[2]}일 {endTime[0]}:
+                {endTime[1]}까지
+              </div>
+            </TimeInfo>
+          </>
+        )}
       </ContentBlock>
       <ContentBlock>
-        <div>
-          장소 : 가천관 712호
-          <br />
-          준비물 : 개인 노트북, 발표 자료
-          <br /> 총 인원 : 모든 인원
-        </div>
+        <div>장소 : {event.location} </div>
+        <div>준비물 : {event.requiredItems} </div>
+        <div>총 인원 : {event.memberNumber}</div>
       </ContentBlock>
       <ContentBlock>
-        <div>
-          3기가 진행하는 프로젝트를 중간 상황 보고를 목적으로 발표하는 날입니다.
-          <br />
-          발표자료는 당일 18일 18시까지 자료 게시판에 게시해 주셔야합니다.
-          <br />
-          부득이한 사유로 참여하지 못하는 분, 참여하시는 분들 모두 꼭 참여여부
-          체크 부탁드립니다~!
-        </div>
+        <div>{event.content}</div>
       </ContentBlock>
     </StyledEventDetails>
   );

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import theme from '../../styles/theme';
+import TextButton from '../Header/TextButton';
 
 const StyledContent = styled.div`
   display: flex;
@@ -15,6 +16,18 @@ const StyledContent = styled.div`
   margin: auto;
   font-family: ${theme.font.family.pretendard_regular};
   font-size: 16px;
+`;
+
+const YearButton = styled.div`
+  position: fixed;
+  width: 370px;
+  transform: translate(320px, -80px);
+`;
+
+const MonthButton = styled.div`
+  position: fixed;
+  width: 370px;
+  transform: translate(320px, -80px);
 `;
 
 const StyledInput = styled.input`
@@ -35,7 +48,7 @@ const Text = styled.div`
   margin-right: 15px;
 `;
 
-const ModalContent = ({ origYear, origMonth, isYear }) => {
+const ModalContent = ({ origYear, origMonth, isYear, onClickTextButton }) => {
   const [year, setYear] = useState(origYear);
   const [month, setMonth] = useState(origMonth);
 
@@ -50,6 +63,13 @@ const ModalContent = ({ origYear, origMonth, isYear }) => {
   if (isYear) {
     return (
       <StyledContent isYear={isYear}>
+        <YearButton>
+          <TextButton
+            text="완료"
+            color="mainColor"
+            onClick={onClickTextButton}
+          />
+        </YearButton>
         <StyledInput type="number" value={year} onChange={onChangeYear} />
         <Text>년</Text>
       </StyledContent>
@@ -57,6 +77,9 @@ const ModalContent = ({ origYear, origMonth, isYear }) => {
   }
   return (
     <StyledContent isYear={isYear}>
+      <MonthButton>
+        <TextButton text="완료" color="mainColor" onClick={onClickTextButton} />
+      </MonthButton>
       <StyledInput type="number" value={year} onChange={onChangeYear} />
       <Text>년</Text>
       <StyledInput type="number" value={month} onChange={onChangeMonth} />
@@ -69,6 +92,7 @@ ModalContent.propTypes = {
   origYear: PropTypes.number.isRequired,
   origMonth: PropTypes.number.isRequired,
   isYear: PropTypes.bool.isRequired,
+  onClickTextButton: PropTypes.func.isRequired,
 };
 
 export default ModalContent;

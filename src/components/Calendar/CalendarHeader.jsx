@@ -7,7 +7,6 @@ import theme from '../../styles/theme';
 import IndexButton from '../Header/IndexButton';
 import LeftButton from '../Header/LeftButton';
 import ModalMonthContent from './ModalMonthContent';
-import TextButton from '../Header/TextButton';
 
 import under from '../../assets/images/ic_under.svg';
 
@@ -44,12 +43,6 @@ const ImgButton = styled.div`
   justify-content: flex-end;
   margin: 5px;
   cursor: pointer;
-`;
-
-const ButttonWrapper = styled.div`
-  position: fixed;
-  width: 370px;
-  transform: translate(290px, -50px);
 `;
 
 const modalStyles = {
@@ -104,17 +97,11 @@ const CalendarHeader = ({ todayMonth, todayYear, isYear }) => {
         onRequestClose={closeMonthModal}
         style={modalStyles}
       >
-        <ButttonWrapper>
-          <TextButton
-            text="완료"
-            color="mainColor"
-            onClick={onClickTextButton}
-          />
-        </ButttonWrapper>
         <ModalMonthContent
           origYear={todayYear}
           origMonth={todayMonth}
           isYear={isYear}
+          onClickTextButton={onClickTextButton}
         />
       </Modal>
     </StyledHeader>
