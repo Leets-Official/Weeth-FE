@@ -51,8 +51,6 @@ const UserDetail = () => {
   const { name, studentId, department, email, cardinal, position } =
     location.state;
 
-  console.log(location.state); // 디버깅을 위해 추가
-
   return (
     <StyledDetails>
       <MemberHeader />
