@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 // import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom';
@@ -108,40 +108,13 @@ const BottomRow = styled.div`
   padding-bottom: 10px; /* 선 아래 여백 추가 */
 `;
 
-/* const InputWrapper = styled.div`
-  position: relative; // fixed position을 사용하여 화면 하단에 고정
-  bottom: ${({ paddingBottom }) => paddingBottom}px;
-  display: flex;
-  align-items: center;
-  width: 81%;
-  margin: 10px 0 0 10%;
-`;
-
-const InputField = styled.input`
-  width: 100%;
-  height: 37px;
-  color: ${theme.color.grayScale.white};
-  background-color: ${theme.color.main.mainColor};
-  border: none;
-  border-radius: 15px;
-  font-size: 14px;
-  font-family: ${theme.font.family.pretendard_semiBold};
-  weight: 600;
-  outline: none;
-  padding: 0 48% 0 5%;
-
-  &::placeholder {
-    color: ${theme.color.grayScale.white};
-  }
-`; */
-
 const Board = () => {
   const location = useLocation();
   const { boardName, boardContent } = location.state || {
     boardName: '',
     boardContent: '',
   };
-  const divRef = useRef(null);
+
   const [comment, setComment] = useState('');
   const [comments, setComments] = useState([]);
 
@@ -160,33 +133,9 @@ const Board = () => {
     }
   };
 
-  useEffect(() => {
-    const handleVisualViewPortResize = () => {
-      const currentVisualViewport = Number(window.visualViewport?.height);
-      if (divRef.current) {
-        divRef.current.style.height = `${currentVisualViewport - 30}px`;
-        window.scrollTo(0, 40);
-      }
-    };
-
-    handleVisualViewPortResize();
-
-    if (window.visualViewport) {
-      window.visualViewport.addEventListener(
-        'resize',
-        handleVisualViewPortResize,
-      );
-    }
-
-    return () => {
-      if (window.visualViewport) {
-        window.visualViewport.removeEventListener(
-          'resize',
-          handleVisualViewPortResize,
-        );
-      }
-    };
-  }, []);
+  const handleFileChange = (e) => {
+    console.log(e.target.files[0]);
+  };
 
   return (
     <Container>
@@ -203,8 +152,8 @@ const Board = () => {
           <BoardContents>{boardContent}</BoardContents>
         </TextContainer>
         <ComponentRow>
-          <AttachButton filetype="HWP" />
-          <AttachButton filetype="PDF" />
+          <AttachButton filetype="HWP" onFileChange={handleFileChange} />
+          <AttachButton filetype="PDF" onFileChange={handleFileChange} />
           <RightMargin />
         </ComponentRow>
         <BottomRow>
