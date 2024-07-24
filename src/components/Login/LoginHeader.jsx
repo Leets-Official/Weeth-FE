@@ -1,9 +1,10 @@
+import React, { useState } from 'react';
 import styled from 'styled-components';
-
+import PropTypes from 'prop-types';
 import LeftButton from '../Header/LeftButton';
 // import IndexButton from '../Header/IndexButton';
 import TextButton from '../Header/TextButton';
-// import theme from '../../styles/theme';
+import theme from '../../styles/theme';
 
 const StyledHeader = styled.div`
   display: flex;
@@ -41,15 +42,29 @@ onClick은 아래 함수에 각각의 함수를 작성
 */
 
 // const onClickIndexButton = () => {};
-const onClickTextButton = () => {};
+// const onClickTextButton = () => {};
 
-const LoginHeader = () => {
+const LoginHeader = ({ isRightButtonEnabled }) => {
+  const [buttonColor, setButtonColor] = useState(
+    isRightButtonEnabled
+      ? theme.color.main.mainColor
+      : theme.color.grayScale.white,
+  );
+
+  const onClickTextButton = () => {
+    setButtonColor(theme.color.main.mainColor); // 버튼 클릭 시 색상을 초록색으로 변경
+  };
+
   return (
     <StyledHeader>
       <LeftButton />
-      <TextButton onClick={onClickTextButton} text="완료" />
+      <TextButton text="완료" color={buttonColor} onClick={onClickTextButton} />
     </StyledHeader>
   );
+};
+
+LoginHeader.propTypes = {
+  isRightButtonEnabled: PropTypes.bool.isRequired,
 };
 
 export default LoginHeader;
