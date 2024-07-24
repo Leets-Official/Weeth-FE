@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
-import BoardHeader from '../components/Board/PostingHeader';
+import PostingHeader from '../components/Board/PostingHeader';
 import { ReactComponent as FileAttach } from '../assets/images/ic_board_fileAttach.svg';
 import theme from '../styles/theme';
 
@@ -95,7 +95,7 @@ const BoardPosting = () => {
 
   return (
     <StyledPosting>
-      <BoardHeader />
+      <PostingHeader />
       <StyledText>
         <StyledTitle type="text" placeholder="제목" />
       </StyledText>
