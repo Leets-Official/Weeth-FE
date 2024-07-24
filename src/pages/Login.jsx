@@ -1,88 +1,108 @@
 import React, { useState } from 'react';
+import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import styled, { ThemeProvider } from 'styled-components';
-import theme from '../styles/theme';
-import Button from '../components/Button/Button';
-
-/* 높이를 810px로 잡고 각각의 margin을 px로 잡았습니다 */
+import LoginHeader from '../components/Login/LoginHeader';
+import SignupTextComponent from '../components/Signup/SignupTextComponent';
+import { ReactComponent as ToggleVisibleIcon } from '../assets/images/ic_toggleVisible.svg';
+import { ReactComponent as ToggleInvisibleIcon } from '../assets/images/ic_toggleInvisible.svg';
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
   width: 370px;
-  height: 810px;
+  max-width: 370px;
+  padding-top: 0;
 `;
 
-const StyledTitle = styled.div`
-  width: 53%;
-  height: 76px;
-  margin: 297px 24% 126px 24%; /* Adjusted margin */
-  font-family: ${theme.font.family.pretendard_regular};
-  font-weight: 700;
-  font-size: 64px;
-  line-height: 76.38px;
-  color: #00DDA8;
-  text-align: center;
+const LoginHeaderMargin = styled.div`
+  margin-bottom: 119px;
 `;
 
-const ButtonWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  gap: 15px;
+const TextMargin = styled.div`
+  margin-top: 30px;
 `;
 
-const SignupButton = styled(Button)`
-  width: 100%; /* Adjusted width */
-`;
+const ToggleVisibilityButton = styled.button`
+  background: none;
+  border: none;
+  cursor: pointer;
 
-const LoginButton = styled(Button)`
-  width: 100%; /* Adjusted width */
-  margin-bottom: 198px;
+  svg {
+    width: 22px;
+    height: 22px;
+  }
 `;
 
 const Login = () => {
-  
-  const [signupClicked, setSignupClicked] = useState(false);
-  const [loginClicked, setLoginClicked] = useState(false);
   const navi = useNavigate();
 
-  const handleSignupClick = () => {
-    setSignupClicked(!signupClicked);
+  const [page, setPage] = useState(0);
+  const [pageStates, setPageStates] = useState([
+    { email: '', password: '', isChecked: false, nextClicked: false, emailStatus: null }
+  ]);
+  const [passwordVisible, setPasswordVisible] = useState(false);
+
+  const currentState = pageStates[page];
+  const { email, password, isChecked, nextClicked, emailStatus } = currentState;
+
+  /* 주석 처리는 Signup 부분 기능 복븉 */
+
+  // const checkDuplicate = (email) => {
+  //   const existingEmails = ['weetha123@gmail.com', 'test@naver.com'];
+  //   return existingEmails.includes(email);
+  // };
+
+  // const handleCheckEmail = () => {
+  //   const isDuplicate = checkDuplicate(email);
+  //   setPageStates(prev => {
+  //     const newState = [...prev];
+  //     newState[page] = { ...newState[page], emailStatus: isDuplicate ? 'duplicate' : 'available', isChecked: true };
+  //     return newState;
+  //   });
+  // };
+
+  const togglePasswordVisibility = () => {
+    setPasswordVisible(prevState => !prevState);
   };
 
-  const handleLoginClick = () => {
-    setLoginClicked(!loginClicked);
+  // const handleEmailChange = (e) => {
+  //   setPageStates(prev => {
+  //     const newState = [...prev];
+  //     newState[page] = { ...newState[page], email: e.target.value };
+  //     return newState;
+  //   });
+  // };
+
+  const handlePasswordChange = (e) => {
+    setPageStates(prev => {
+      const newState = [...prev];
+      newState[page] = { ...newState[page], password: e.target.value };
+      return newState;
+    });
   };
 
   return (
-    <ThemeProvider theme={theme}>
-      <Container>
-        <StyledTitle>Weeth</StyledTitle>
-        <ButtonWrapper>
-          <SignupButton
-            color={signupClicked ? "#0E9871" : theme.color.main.mainColor}
-            textColor={signupClicked ? "#097154" : theme.color.grayScale.white} /* Temporary colors */
-            onClick={(handleSignupClick) => {
-              navi(`/signup`);
-            }}
+    <Container>
+      <LoginHeader />
+      <LoginHeaderMargin />
+      <SignupTextComponent
+        text="ID"
+        value={email}
+        placeholder="ex) weeth@gmail.com"
+      />
+      <TextMargin />
+      <SignupTextComponent
+            text="PW"
+            value={password}
+            onChange={handlePasswordChange}
+            placeholder=""
+            type={passwordVisible ? 'text' : 'password'}
           >
-            회원가입
-          </SignupButton>
-          <LoginButton
-            color={loginClicked ? theme.color.grayScale.gray20 : theme.color.grayScale.gray30} /* Adjusted conditional logic */
-            textColor={loginClicked ? theme.color.grayScale.gray12 : theme.color.grayScale.white} /* Temporary colors */
-            onClick={(handleLoginClick) => {
-              navi(`/signin`); /* 경로 바꾸면 나중에 수정하기 */
-            }}
-          >
-            로그인
-          </LoginButton>
-        </ButtonWrapper>
-      </Container>
-    </ThemeProvider>
+            <ToggleVisibilityButton onClick={togglePasswordVisibility}>
+              {passwordVisible ? <ToggleVisibleIcon /> : <ToggleInvisibleIcon />}
+            </ToggleVisibilityButton>
+          </SignupTextComponent>
+    </Container>
   );
 };
 
