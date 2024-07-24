@@ -34,16 +34,10 @@ const ToggleVisibilityButton = styled.button`
 `;
 
 const Login = () => {
-  const navi = useNavigate();
-
-  const [page, setPage] = useState(0);
-  const [pageStates, setPageStates] = useState([
-    { email: '', password: '', isChecked: false, nextClicked: false, emailStatus: null }
-  ]);
+  // const navi = useNavigate();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [passwordVisible, setPasswordVisible] = useState(false);
-
-  const currentState = pageStates[page];
-  const { email, password, isChecked, nextClicked, emailStatus } = currentState;
 
   /* 주석 처리는 Signup 부분 기능 복븉 */
 
@@ -73,12 +67,12 @@ const Login = () => {
   //   });
   // };
 
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
+  };
+
   const handlePasswordChange = (e) => {
-    setPageStates(prev => {
-      const newState = [...prev];
-      newState[page] = { ...newState[page], password: e.target.value };
-      return newState;
-    });
+    setPassword(e.target.value);
   };
 
   return (
@@ -88,20 +82,21 @@ const Login = () => {
       <SignupTextComponent
         text="ID"
         value={email}
+        onChange={handleEmailChange}
         placeholder="ex) weeth@gmail.com"
       />
       <TextMargin />
       <SignupTextComponent
-            text="PW"
-            value={password}
-            onChange={handlePasswordChange}
-            placeholder=""
-            type={passwordVisible ? 'text' : 'password'}
-          >
-            <ToggleVisibilityButton onClick={togglePasswordVisibility}>
-              {passwordVisible ? <ToggleVisibleIcon /> : <ToggleInvisibleIcon />}
-            </ToggleVisibilityButton>
-          </SignupTextComponent>
+        text="PW"
+        value={password}
+        onChange={handlePasswordChange}
+        placeholder=""
+        type={passwordVisible ? 'text' : 'password'}
+      >
+      <ToggleVisibilityButton onClick={togglePasswordVisibility}>
+        {passwordVisible ? <ToggleVisibleIcon /> : <ToggleInvisibleIcon />}
+      </ToggleVisibilityButton>
+      </SignupTextComponent>
     </Container>
   );
 };
