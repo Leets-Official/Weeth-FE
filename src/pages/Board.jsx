@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom';
 import BoardHeader from '../components/Board/NoticeHeader';
 import AttachButton from '../components/Board/AttachButton';
 import BoardComment from '../components/Board/BoardComment';
+// import BoardPosting from './BoardPosting';
 import { ReactComponent as BoardChat } from '../assets/images/ic_board_chat.svg';
 import { ReactComponent as RegisterComment } from '../assets/images/ic_send.svg';
 import theme from '../styles/theme';
@@ -133,17 +134,29 @@ const InputField = styled.input`
   }
 `;
 
-const Board = ({ initialBoardComment }) => {
+const Board = () => {
   const location = useLocation();
   const { boardName, boardContent } = location.state || {
     boardName: '',
     boardContent: '',
   };
   const divRef = useRef(null);
-  const [boardComment, setBoardComment] = useState(initialBoardComment);
+  const [comment, setComment] = useState('');
+  const [comments, setComments] = useState([]);
 
-  const handleBoardCommentChange = (e) => {
-    setBoardComment(e.target.value);
+  const handleCommentChange = (e) => {
+    setComment(e.target.value);
+  };
+  //
+  const handleRegisterComment = () => {
+    if (comment.trim()) {
+      const newComment = {
+        id: Date.now(),
+        text: comment,
+      };
+      setComments([...comments, newComment]);
+      setComment('');
+    }
   };
 
   useEffect(() => {
@@ -196,19 +209,20 @@ const Board = ({ initialBoardComment }) => {
         </ComponentRow>
         <BottomRow>
           <BoardChat alt="" />
-          <CommentCount>3</CommentCount>
+          <CommentCount>{comments.length}</CommentCount>
         </BottomRow>
-        <BoardComment />
+        <BoardComment comments={comments} />
       </BoardRow>
       <InputWrapper>
         <InputField
           type="text"
-          value={boardComment}
+          value={comment}
           placeholder="댓글을 입력하세요."
-          onChange={handleBoardCommentChange}
+          onChange={handleCommentChange}
         />
         <RegisterComment
           alt=""
+          onClick={handleRegisterComment}
           style={{
             position: 'absolute',
             right: '10px',
@@ -231,13 +245,5 @@ Board.defaultProps = {
   boardName: '게시판 이름',
   boardContent: '내용',
 }; */
-
-Board.propTypes = {
-  initialBoardComment: PropTypes.string,
-};
-
-Board.defaultProps = {
-  initialBoardComment: '',
-};
 
 export default Board;

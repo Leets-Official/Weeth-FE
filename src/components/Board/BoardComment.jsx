@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import { ReactComponent as CommentButton } from '../../assets/images/ic_comment.svg';
 import { ReactComponent as ReplyButton } from '../../assets/images/ic_reply.svg';
 import theme from '../../styles/theme';
@@ -63,17 +64,20 @@ const BoardReply = styled.div`
   border-radius: 10px;
 `;
 
-const BoardComment = () => {
+const BoardComment = ({ comments }) => {
+  // 댓글 목록
   return (
     <CommentContainer>
-      <BoardCommented>
-        <BottomRow>
-          <UserName>홍길동</UserName>
-          <CommentButton alt="" />
-        </BottomRow>
-        <StyledComment>진짜 최고다</StyledComment>
-        <CommentDate>00/00 00:00</CommentDate>
-      </BoardCommented>
+      {comments.map((comment) => (
+        <BoardCommented key={comment.id}>
+          <BottomRow>
+            <UserName>홍길동</UserName>
+            <CommentButton alt="" />
+          </BottomRow>
+          <StyledComment>{comment.text}</StyledComment>
+          <CommentDate>00/00 00:00</CommentDate>
+        </BoardCommented>
+      ))}
       <ReplyRow>
         <ReplyButton
           alt=""
@@ -86,12 +90,16 @@ const BoardComment = () => {
           <BottomRow>
             <UserName>김위드</UserName>
           </BottomRow>
-          <StyledComment>고마워요!ㅎㅎ</StyledComment>
+          <StyledComment>대댓글</StyledComment>
           <CommentDate>00/00 00:00</CommentDate>
         </BoardReply>
       </ReplyRow>
     </CommentContainer>
   );
+};
+
+BoardComment.propTypes = {
+  comments: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 export default BoardComment;
