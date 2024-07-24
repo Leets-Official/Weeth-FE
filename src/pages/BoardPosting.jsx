@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import PostingHeader from '../components/Board/PostingHeader';
-// import Board from './Board';
 import { ReactComponent as FileAttach } from '../assets/images/ic_board_fileAttach.svg';
 import theme from '../styles/theme';
 
@@ -55,9 +56,11 @@ const StyledFileAttach = styled.div`
   margin-bottom: 148px;
 `;
 
-const BoardPosting = () => {
-  const [boardName, setBoardName] = useState('');
-  const [boardContent, setBoardContent] = useState('');
+const BoardPosting = ({ initialBoardName, initialBoardContent }) => {
+  const navi = useNavigate();
+  const [boardName, setBoardName] = useState(initialBoardName);
+  const [boardContent, setBoardContent] = useState(initialBoardContent);
+  const [isCompleteEnabled, setIsCompleteEnabled] = useState(false);
 
   const handleBoardNameChange = (e) => {
     setBoardName(e.target.value);
@@ -75,9 +78,23 @@ const BoardPosting = () => {
     setIsKeyboardVisible(false);
   }; */
 
+  // Board.jsx로 넘어가서 썼던 내용 보낼 수 있게
+  const handleCompleteClick = () => {
+    if (isCompleteEnabled) {
+      navi('/board', { state: { boardName, boardContent } }); // ?
+    }
+  };
+
+  useEffect(() => {
+    setIsCompleteEnabled(boardName && boardContent.length >= 1); // ?
+  }, [boardName, boardContent]);
+
   return (
     <StyledPosting>
-      <PostingHeader />
+      <PostingHeader
+        isRightButtonEnabled={isCompleteEnabled}
+        onCompleteClick={handleCompleteClick}
+      />
       <StyledText>
         <StyledTitle
           type="text"
@@ -99,6 +116,16 @@ const BoardPosting = () => {
       </StyledFileAttach>
     </StyledPosting>
   );
+};
+
+BoardPosting.propTypes = {
+  initialBoardName: PropTypes.string,
+  initialBoardContent: PropTypes.string,
+};
+
+BoardPosting.defaultProps = {
+  initialBoardName: '',
+  initialBoardContent: '',
 };
 
 export default BoardPosting;

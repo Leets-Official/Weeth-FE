@@ -1,9 +1,11 @@
 import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
+import { useLocation } from 'react-router-dom';
 import BoardHeader from '../components/Board/NoticeHeader';
 import AttachButton from '../components/Board/AttachButton';
 import BoardComment from '../components/Board/BoardComment';
+// import BoardPosting from './BoardPosting';
 import { ReactComponent as BoardChat } from '../assets/images/ic_board_chat.svg';
 import { ReactComponent as RegisterComment } from '../assets/images/ic_send.svg';
 import theme from '../styles/theme';
@@ -40,7 +42,7 @@ const BoardRow = styled.div`
 //   padding-bottom: ${({ paddingBottom }) => paddingBottom}px;
 // `;
 
-const BoardName = styled.div`
+const BoardNamed = styled.div`
   maring-left: 7%;
   font-size: 24px;
   font-weight: 600;
@@ -70,7 +72,7 @@ const StyledDate = styled.div`
   padding: 0;
 `;
 
-const BoardContent = styled.div`
+const BoardContents = styled.div`
   width: 88%;
   height: 43px;
   margin-top: 20px;
@@ -132,7 +134,12 @@ const InputField = styled.input`
   }
 `;
 
-const Board = ({ boardName, boardContent }) => {
+const Board = () => {
+  const location = useLocation();
+  const { boardName, boardContent } = location.state || {
+    boardName: '',
+    boardContent: '',
+  };
   const divRef = useRef(null);
 
   useEffect(() => {
@@ -172,12 +179,12 @@ const Board = ({ boardName, boardContent }) => {
         <BoardHeader />
       </HeaderWrapper>
       <BoardRow>
-        <BoardName>{boardName}</BoardName>
+        <BoardNamed>{boardName}</BoardNamed>
         <SubRow>
           <UserName>김위드</UserName>
           <StyledDate>00/00 00:00</StyledDate>
         </SubRow>
-        <BoardContent>{boardContent}</BoardContent>
+        <BoardContents>{boardContent}</BoardContents>
         <ComponentRow>
           <AttachButton filetype="HWP" />
           <AttachButton filetype="PDF" />
@@ -206,9 +213,14 @@ const Board = ({ boardName, boardContent }) => {
   );
 };
 
-Board.propTypes = {
+/* Board.propTypes = {
   boardName: PropTypes.string.isRequired,
-  boardContent: PropTypes.string.isRequired,
+  boardContent: PropTypes.string,
 };
+
+Board.defaultProps = {
+  boardName: '게시판 이름',
+  boardContent: '내용',
+}; */
 
 export default Board;
