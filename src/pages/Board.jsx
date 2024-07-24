@@ -5,9 +5,9 @@ import { useLocation } from 'react-router-dom';
 import BoardHeader from '../components/Board/NoticeHeader';
 import AttachButton from '../components/Board/AttachButton';
 import BoardComment from '../components/Board/BoardComment';
-// import BoardPosting from './BoardPosting';
+import Typing from '../components/Board/Typing';
 import { ReactComponent as BoardChat } from '../assets/images/ic_board_chat.svg';
-import { ReactComponent as RegisterComment } from '../assets/images/ic_send.svg';
+// import { ReactComponent as RegisterComment } from '../assets/images/ic_send.svg';
 import theme from '../styles/theme';
 
 const Container = styled.div`
@@ -107,7 +107,7 @@ const BottomRow = styled.div`
   padding-bottom: 10px; /* 선 아래 여백 추가 */
 `;
 
-const InputWrapper = styled.div`
+/* const InputWrapper = styled.div`
   position: relative; // fixed position을 사용하여 화면 하단에 고정
   bottom: ${({ paddingBottom }) => paddingBottom}px;
   display: flex;
@@ -132,7 +132,7 @@ const InputField = styled.input`
   &::placeholder {
     color: ${theme.color.grayScale.white};
   }
-`;
+`; */
 
 const Board = () => {
   const location = useLocation();
@@ -147,7 +147,7 @@ const Board = () => {
   const handleCommentChange = (e) => {
     setComment(e.target.value);
   };
-  //
+
   const handleRegisterComment = () => {
     if (comment.trim()) {
       const newComment = {
@@ -168,10 +168,8 @@ const Board = () => {
       }
     };
 
-    // 초기 실행
     handleVisualViewPortResize();
 
-    // resize 이벤트 리스너 추가
     if (window.visualViewport) {
       window.visualViewport.addEventListener(
         'resize',
@@ -179,7 +177,6 @@ const Board = () => {
       );
     }
 
-    // cleanup 함수로 이벤트 리스너 제거
     return () => {
       if (window.visualViewport) {
         window.visualViewport.removeEventListener(
@@ -211,9 +208,18 @@ const Board = () => {
           <BoardChat alt="" />
           <CommentCount>{comments.length}</CommentCount>
         </BottomRow>
-        <BoardComment comments={comments} />
+        <BoardComment comments={comments} recomments={[]} />
       </BoardRow>
-      <InputWrapper>
+      <Typing
+        comment={comment}
+        handleCommentChange={handleCommentChange}
+        handleRegisterComment={handleRegisterComment}
+      />
+    </Container>
+  );
+};
+
+/* <InputWrapper>
         <InputField
           type="text"
           value={comment}
@@ -232,9 +238,6 @@ const Board = () => {
           }}
         />
       </InputWrapper>
-    </Container>
-  );
-};
 
 /* Board.propTypes = {
   boardName: PropTypes.string.isRequired,

@@ -7,6 +7,7 @@ import theme from '../../styles/theme';
 
 const CommentContainer = styled.div`
   width: 100%;
+  display: flex;
   flex-direction: column;
   justify-content: flex-start;
 `;
@@ -64,7 +65,7 @@ const BoardReply = styled.div`
   border-radius: 10px;
 `;
 
-const BoardComment = ({ comments }) => {
+const BoardComment = ({ comments, recomments }) => {
   // 댓글 목록
   return (
     <CommentContainer>
@@ -78,28 +79,32 @@ const BoardComment = ({ comments }) => {
           <CommentDate>00/00 00:00</CommentDate>
         </BoardCommented>
       ))}
-      <ReplyRow>
-        <ReplyButton
-          alt=""
-          style={{
-            marginRight: '10px',
-            flexShrink: 0,
-          }}
-        />
-        <BoardReply>
-          <BottomRow>
-            <UserName>김위드</UserName>
-          </BottomRow>
-          <StyledComment>대댓글</StyledComment>
-          <CommentDate>00/00 00:00</CommentDate>
-        </BoardReply>
-      </ReplyRow>
+
+      {recomments.map((recomment) => (
+        <ReplyRow>
+          <ReplyButton
+            alt=""
+            style={{
+              marginRight: '10px',
+              flexShrink: 0,
+            }}
+          />
+          <BoardReply key={recomment.id}>
+            <BottomRow>
+              <UserName>김위드</UserName>
+            </BottomRow>
+            <StyledComment>대댓글</StyledComment>
+            <CommentDate>00/00 00:00</CommentDate>
+          </BoardReply>
+        </ReplyRow>
+      ))}
     </CommentContainer>
   );
 };
 
 BoardComment.propTypes = {
   comments: PropTypes.arrayOf(PropTypes.string).isRequired,
+  recomments: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 export default BoardComment;
