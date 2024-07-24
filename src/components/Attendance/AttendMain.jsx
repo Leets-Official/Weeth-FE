@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import theme from '../../styles/theme';
 import './AttendMain.css';
 import RightButton from '../Header/RightButton';
@@ -9,6 +9,7 @@ import ModalAttend from './Modal/ModalAttend';
 import check from '../../assets/images/ic_check.svg';
 import warning from '../../assets/images/ic_warning.svg';
 import ModalPenalty from './Modal/ModalPenalty';
+import { UserContext } from '../../hooks/UserContext';
 
 // 출석률 게이지 임시 값
 const ATTEND_GAUGE = 80;
@@ -95,6 +96,16 @@ const AttendMain = () => {
   // const [hasEvent,setHasEvent] = useState(true);
   // const [hasPenalty, setHasPenalty] = useState(true);
 
+  const { userData, error } = useContext(UserContext);
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
+  if (!userData) {
+    return <div>Loading...</div>;
+  }
+
   // 일단 일정 있고 패널티 있는 게 true
   const hasSchedule = true;
   const hasPenalty = true;
@@ -111,7 +122,7 @@ const AttendMain = () => {
     <StyledAttend>
       <div className="name-container">
         <SemiBold>
-          <div className="attend-name">김위드&nbsp;</div>
+          <div className="attend-name">{userData.name}&nbsp;</div>
         </SemiBold>
         <div className="attend-text">님의 출석률은</div>
       </div>
