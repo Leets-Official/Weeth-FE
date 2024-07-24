@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
 import LoginHeader from '../components/Login/LoginHeader';
 import SignupTextComponent from '../components/Signup/SignupTextComponent';
 import { ReactComponent as ToggleVisibleIcon } from '../assets/images/ic_toggleVisible.svg';
@@ -34,38 +33,20 @@ const ToggleVisibilityButton = styled.button`
 `;
 
 const Login = () => {
-  // const navi = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordVisible, setPasswordVisible] = useState(false);
+  const [isCompleteEnabled, setIsCompleteEnabled] = useState(false);
 
-  /* 주석 처리는 Signup 부분 기능 복븉 */
+  const validateEmail = (email) => email.includes('@');
 
-  // const checkDuplicate = (email) => {
-  //   const existingEmails = ['weetha123@gmail.com', 'test@naver.com'];
-  //   return existingEmails.includes(email);
-  // };
-
-  // const handleCheckEmail = () => {
-  //   const isDuplicate = checkDuplicate(email);
-  //   setPageStates(prev => {
-  //     const newState = [...prev];
-  //     newState[page] = { ...newState[page], emailStatus: isDuplicate ? 'duplicate' : 'available', isChecked: true };
-  //     return newState;
-  //   });
-  // };
+  useEffect(() => {
+    setIsCompleteEnabled(validateEmail(email) && password.length >= 5);
+  }, [email, password]);
 
   const togglePasswordVisibility = () => {
-    setPasswordVisible(prevState => !prevState);
+    setPasswordVisible((prevState) => !prevState);
   };
-
-  // const handleEmailChange = (e) => {
-  //   setPageStates(prev => {
-  //     const newState = [...prev];
-  //     newState[page] = { ...newState[page], email: e.target.value };
-  //     return newState;
-  //   });
-  // };
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -77,7 +58,7 @@ const Login = () => {
 
   return (
     <Container>
-      <LoginHeader />
+      <LoginHeader isRightButtonEnabled={isCompleteEnabled} />
       <LoginHeaderMargin />
       <SignupTextComponent
         text="ID"
@@ -93,9 +74,9 @@ const Login = () => {
         placeholder=""
         type={passwordVisible ? 'text' : 'password'}
       >
-      <ToggleVisibilityButton onClick={togglePasswordVisibility}>
-        {passwordVisible ? <ToggleVisibleIcon /> : <ToggleInvisibleIcon />}
-      </ToggleVisibilityButton>
+        <ToggleVisibilityButton onClick={togglePasswordVisibility}>
+          {passwordVisible ? <ToggleVisibleIcon /> : <ToggleInvisibleIcon />}
+        </ToggleVisibilityButton>
       </SignupTextComponent>
     </Container>
   );
