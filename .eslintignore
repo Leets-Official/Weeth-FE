@@ -9,3 +9,6 @@ index.js
 SmallButton.jsx
 Caption.jsx
 MiddleButton.jsx
+
+UserAPI.jsx
+UserContext.js

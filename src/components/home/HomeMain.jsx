@@ -1,9 +1,12 @@
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
 import Caption from '../Caption';
 import RightButton from '../Header/RightButton';
 import './HomeMain.css';
 import theme from '../../styles/theme';
+
+import { UserContext } from '../../hooks/UserContext';
 
 import calendar from '../../assets/images/ic_home_calendar.svg';
 import attend from '../../assets/images/ic_home_attend.svg';
@@ -86,6 +89,16 @@ const PlaceholderImage = styled.div`
 
 const HomeMain = () => {
   const navi = useNavigate();
+  const { userData, error } = useContext(UserContext);
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
+  if (!userData) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <StyledHomeMain>
       <CaptionContainer>
@@ -95,7 +108,7 @@ const HomeMain = () => {
       </CaptionContainer>
       <div className="user-info">
         <div className="user-container">
-          <div className="name">김위드</div>
+          <div className="name">{userData.name}</div>
           <div className="nick-name">Elite님</div>
         </div>
         <div className="right-button">
