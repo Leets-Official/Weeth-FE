@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-
+import PropTypes from 'prop-types';
 import LeftButton from '../Header/LeftButton';
 // import IndexButton from '../Header/IndexButton';
 import TextButton from '../Header/TextButton';
@@ -45,11 +45,11 @@ onClick은 아래 함수에 각각의 함수를 작성
 // const onClickTextButton = () => {};
 
 // 완료 버튼 클릭 핸들러 함수
-const handleClickComplete = () => {
+/* const handleClickComplete = () => {
   // 완료 버튼 클릭 시 수행할 작업을 여기에 작성
-};
+}; */
 
-const PostingHeader = () => {
+const PostingHeader = ({ isRightButtonEnabled, onCompleteClick }) => {
   return (
     <StyledHeader>
       <LeftButton />
@@ -58,11 +58,16 @@ const PostingHeader = () => {
       </TitleWrapper>
       <TextButton
         text="완료"
-        color={theme.color.main.mainColor}
-        onClick={handleClickComplete}
+        color={isRightButtonEnabled ? 'mainColor' : theme.color.grayScale.white}
+        onClick={onCompleteClick}
       />
     </StyledHeader>
   );
+};
+
+PostingHeader.propTypes = {
+  isRightButtonEnabled: PropTypes.bool.isRequired,
+  onCompleteClick: PropTypes.func.isRequired,
 };
 
 export default PostingHeader;

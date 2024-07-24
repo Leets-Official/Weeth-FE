@@ -1,20 +1,26 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+// dimport PropTypes from 'prop-types';
+import { useLocation } from 'react-router-dom';
 import BoardHeader from '../components/Board/NoticeHeader';
 import AttachButton from '../components/Board/AttachButton';
 import BoardComment from '../components/Board/BoardComment';
+import Typing from '../components/Board/Typing';
 import { ReactComponent as BoardChat } from '../assets/images/ic_board_chat.svg';
-import { ReactComponent as RegisterComment } from '../assets/images/ic_send.svg';
+// import { ReactComponent as RegisterComment } from '../assets/images/ic_send.svg';
 import theme from '../styles/theme';
 
 const Container = styled.div`
-  width: 370px;
-  max-width: 370px;
-  color: ${theme.color.grayScale.white};
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  width: 370px;
+  max-width: 370px;
+  min-height: 810px;
+  color: ${theme.color.grayScale.white};
 `;
+
+/* Container : display: flex;
+  flex-direction: column; */
 
 const HeaderWrapper = styled.div`
   position: fixed;
@@ -29,16 +35,15 @@ const BoardRow = styled.div`
   flex-direction: column;
   padding: 10px 6%;
   margin-top: 90px;
+  flex-grow: 1;
 `;
 
-// const ScrollableContent = styled.div`
-//   flex: 1;
-//   overflow-y: auto;
-//   padding-top: 60px; /* 고정된 헤더 아래에 콘텐츠가 표시되도록 충분한 여백 추가 */
-//   padding-bottom: ${({ paddingBottom }) => paddingBottom}px;
-// `;
+const TextContainer = styled.div`
+  margin: 0 0 7%; 10px;
+  padding: 0;
+`;
 
-const BoardName = styled.div`
+const BoardNamed = styled.div`
   maring-left: 7%;
   font-size: 24px;
   font-weight: 600;
@@ -56,7 +61,8 @@ const SubRow = styled.div`
 
 const ComponentRow = styled.div`
   display: flex;
-  margin-right: 4%;
+  margin-top: 10px;
+  margin: 40px 4% 0 0;
 `;
 
 const UserName = styled.div`
@@ -68,9 +74,8 @@ const StyledDate = styled.div`
   padding: 0;
 `;
 
-const BoardContent = styled.div`
+const BoardContents = styled.div`
   width: 88%;
-  height: 43px;
   margin-top: 20px;
   margin-right: 4%;
   font-family: ${theme.font.family.pretendard_regular};
@@ -103,74 +108,34 @@ const BottomRow = styled.div`
   padding-bottom: 10px; /* 선 아래 여백 추가 */
 `;
 
-const InputWrapper = styled.div`
-  position: relative;
-  bottom: ${({ paddingBottom }) => paddingBottom}px;
-  display: flex;
-  align-items: center;
-  width: 81%;
-  margin: 10px 0 0 10%;
-`;
-
-const InputField = styled.input`
-  width: 100%;
-  height: 37px;
-  color: ${theme.color.grayScale.white};
-  background-color: ${theme.color.main.mainColor};
-  border: none;
-  border-radius: 15px;
-  font-size: 14px;
-  font-family: ${theme.font.family.pretendard_semiBold};
-  weight: 600;
-  outline: none;
-  padding: 0 48% 0 5%;
-
-  &::placeholder {
-    color: ${theme.color.grayScale.white};
-  }
-`;
-
-const StyledRegisterComment = styled(RegisterComment)`
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  cursor: pointer;
-`;
-
 const Board = () => {
-  const divRef = useRef(null);
+  const location = useLocation();
+  const { boardName, boardContent } = location.state || {
+    boardName: '',
+    boardContent: '',
+  };
 
-  useEffect(() => {
-    const handleVisualViewPortResize = () => {
-      const currentVisualViewport = Number(window.visualViewport?.height);
-      if (divRef.current) {
-        divRef.current.style.height = `${currentVisualViewport - 30}px`;
-        window.scrollTo(0, 40);
-      }
-    };
+  const [comment, setComment] = useState('');
+  const [comments, setComments] = useState([]);
 
-    // 초기 실행
-    handleVisualViewPortResize();
+  const handleCommentChange = (e) => {
+    setComment(e.target.value);
+  };
 
-    // resize 이벤트 리스너 추가
-    if (window.visualViewport) {
-      window.visualViewport.addEventListener(
-        'resize',
-        handleVisualViewPortResize,
-      );
+  const handleRegisterComment = () => {
+    if (comment.trim()) {
+      const newComment = {
+        id: Date.now(),
+        text: comment,
+      };
+      setComments([...comments, newComment]);
+      setComment('');
     }
+  };
 
-    // cleanup 함수로 이벤트 리스너 제거
-    return () => {
-      if (window.visualViewport) {
-        window.visualViewport.removeEventListener(
-          'resize',
-          handleVisualViewPortResize,
-        );
-      }
-    };
-  }, []);
+  /* const handleFileChange = (e) => {
+    console.log(e.target.files[0]);
+  }; */
 
   return (
     <Container>
@@ -178,32 +143,62 @@ const Board = () => {
         <BoardHeader />
       </HeaderWrapper>
       <BoardRow>
-        <BoardName>스터디제목</BoardName>
-        <SubRow>
-          <UserName>김위드</UserName>
-          <StyledDate>00/00 00:00</StyledDate>
-        </SubRow>
-        <BoardContent>
-          서비스의 주요 기능을 결정했다. <br />
-          1.출석 2. 일정관리,투표 3.공지사항
-        </BoardContent>
+        <TextContainer>
+          <BoardNamed>{boardName}</BoardNamed>
+          <SubRow>
+            <UserName>김위드</UserName>
+            <StyledDate>00/00 00:00</StyledDate>
+          </SubRow>
+          <BoardContents>{boardContent}</BoardContents>
+        </TextContainer>
         <ComponentRow>
           <AttachButton filetype="HWP" />
           <AttachButton filetype="PDF" />
           <RightMargin />
         </ComponentRow>
         <BottomRow>
-          <BoardChat />
-          <CommentCount>3</CommentCount>
+          <BoardChat alt="" />
+          <CommentCount>{comments.length}</CommentCount>
         </BottomRow>
-        <BoardComment />
+        <BoardComment comments={comments} recomments={[]} />
       </BoardRow>
-      <InputWrapper>
-        <InputField placeholder="댓글을 입력하세요." />
-        <StyledRegisterComment />
-      </InputWrapper>
+      <Typing
+        comment={comment}
+        handleCommentChange={handleCommentChange}
+        handleRegisterComment={handleRegisterComment}
+      />
     </Container>
   );
 };
+
+/* <InputWrapper>
+        <InputField
+          type="text"
+          value={comment}
+          placeholder="댓글을 입력하세요."
+          onChange={handleCommentChange}
+        />
+        <RegisterComment
+          alt=""
+          onClick={handleRegisterComment}
+          style={{
+            position: 'absolute',
+            right: '10px',
+            top: '50%',
+            transform: 'translateY(-50%)',
+            cursor: 'pointer',
+          }}
+        />
+      </InputWrapper>
+
+/* Board.propTypes = {
+  boardName: PropTypes.string.isRequired,
+  boardContent: PropTypes.string,
+};
+
+Board.defaultProps = {
+  boardName: '게시판 이름',
+  boardContent: '내용',
+}; */
 
 export default Board;

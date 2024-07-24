@@ -1,3 +1,4 @@
+import React, { useRef } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import theme from '../../styles/theme';
@@ -32,8 +33,7 @@ const StyledButton = styled.button`
   }
 
   .icon {
-    margin-top: 30px;
-    margin-right: 10px;
+    margin: 30px 10px 0 0;
   }
 `;
 
@@ -45,28 +45,41 @@ const FileType = styled.span`
   color: ${theme.color.grayScale.white};
 `;
 
-const IconMargin = styled.div`
-  margin-bottom: 5px;
-`;
+const AttachButton = ({ filetype, onFileChange }) => {
+  const fileInputRef = useRef(null);
 
-const AttachButton = ({ filetype }) => {
+  const handleButtonClick = () => {
+    fileInputRef.current.click();
+  };
+
   return (
     <Container>
-      <StyledButton>
+      <StyledButton onClick={handleButtonClick}>
         <div className="text">
           <FileName>파일이름</FileName>
           <FileType>{filetype}</FileType>
         </div>
-        <IconMargin>
-          <InstallIcon className="icon" />
-        </IconMargin>
+        <InstallIcon
+          className="icon"
+          alt="{install}"
+          style={{
+            marginBottom: '5px',
+          }}
+        />
       </StyledButton>
+      <input
+        type="file"
+        ref={fileInputRef}
+        onChange={onFileChange}
+        style={{ display: 'none' }}
+      />
     </Container>
   );
 };
 
 AttachButton.propTypes = {
   filetype: PropTypes.node.isRequired,
+  onFileChange: PropTypes.func.isRequired,
 };
 
 export default AttachButton;

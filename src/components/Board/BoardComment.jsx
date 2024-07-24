@@ -1,13 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import { ReactComponent as CommentButton } from '../../assets/images/ic_comment.svg';
 import { ReactComponent as ReplyButton } from '../../assets/images/ic_reply.svg';
 import theme from '../../styles/theme';
 
 const CommentContainer = styled.div`
   width: 100%;
+  display: flex;
   flex-direction: column;
   justify-content: flex-start;
+`;
+
+const BoardCommented = styled.div`
+  padding: 0;
+  border-radius: 10px;
 `;
 
 const UserName = styled.div`
@@ -50,11 +57,6 @@ const ReplyRow = styled.div`
   margin-top: 10px;
 `;
 
-const StyledReplyButton = styled(ReplyButton)`
-  margin-right: 10px;
-  flex-shrink: 0;
-`;
-
 const BoardReply = styled.div`
   flex-grow: 1;
   background-color: ${theme.color.grayScale.gray18};
@@ -63,27 +65,62 @@ const BoardReply = styled.div`
   border-radius: 10px;
 `;
 
-const BoardComment = () => {
+const BoardComment = ({ comments, recomments }) => {
+  const [showReplies, setShowReplies] = useState(false);
+
+  const handleReplyClick = () => {
+    setShowReplies(!showReplies);
+  };
+
   return (
     <CommentContainer>
-      <BottomRow>
-        <UserName>홍길동</UserName>
-        <CommentButton />
-      </BottomRow>
-      <StyledComment>진짜 최고다</StyledComment>
-      <CommentDate>00/00 00:00</CommentDate>
-      <ReplyRow>
-        <StyledReplyButton />
-        <BoardReply>
+      {comments.map((comment) => (
+        <BoardCommented key={comment.id}>
           <BottomRow>
-            <UserName>김위드</UserName>
+            <UserName>홍길동</UserName>
+            <CommentButton alt="" onClick={handleReplyClick} />
           </BottomRow>
-          <StyledComment>고마워요!ㅎㅎ</StyledComment>
+          <StyledComment>{comment.text}</StyledComment>
           <CommentDate>00/00 00:00</CommentDate>
-        </BoardReply>
-      </ReplyRow>
+
+          {showReplies &&
+            recomments.map((recomment) => (
+              <ReplyRow key={recomment.id}>
+                <ReplyButton
+                  alt=""
+                  style={{
+                    marginRight: '10px',
+                    flexShrink: 0,
+                  }}
+                />
+                <BoardReply key={recomment.id}>
+                  <BottomRow>
+                    <UserName>김위드</UserName>
+                  </BottomRow>
+                  <StyledComment>{recomment.text}</StyledComment>
+                  <CommentDate>00/00 00:00</CommentDate>
+                </BoardReply>
+              </ReplyRow>
+            ))}
+        </BoardCommented>
+      ))}
     </CommentContainer>
   );
+};
+
+BoardComment.propTypes = {
+  comments: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      text: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
+  recomments: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      text: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
 };
 
 export default BoardComment;
