@@ -1,21 +1,26 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
+// import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom';
 import BoardHeader from '../components/Board/NoticeHeader';
 import AttachButton from '../components/Board/AttachButton';
 import BoardComment from '../components/Board/BoardComment';
-import { ReactComponent as BoardChat } from '../assets/images/ic_board_chat.svg';
-import theme from '../styles/theme';
 import Typing from '../components/Board/Typing';
+import { ReactComponent as BoardChat } from '../assets/images/ic_board_chat.svg';
+// import { ReactComponent as RegisterComment } from '../assets/images/ic_send.svg';
+import theme from '../styles/theme';
 
 const Container = styled.div`
+  display: flex;
+  flex-direction: column;
   width: 370px;
   max-width: 370px;
   min-height: 810px;
   color: ${theme.color.grayScale.white};
-  display: flex;
-  flex-direction: column;
 `;
+
+/* Container : display: flex;
+  flex-direction: column; */
 
 const HeaderWrapper = styled.div`
   position: fixed;
@@ -34,11 +39,12 @@ const BoardRow = styled.div`
 `;
 
 const TextContainer = styled.div`
-  margin-bottom: 10px;
+  margin: 0 0 7%; 10px;
+  padding: 0;
 `;
 
 const BoardNamed = styled.div`
-  margin-left: 7%;
+  maring-left: 7%;
   font-size: 24px;
   font-weight: 600;
 `;
@@ -55,8 +61,8 @@ const SubRow = styled.div`
 
 const ComponentRow = styled.div`
   display: flex;
-  margin-top: 10px; /* Ensuring gap between components */
-  margin-right: 4%;
+  margin-top: 10px;
+  margin: 40px 4% 0 0;
 `;
 
 const UserName = styled.div`
@@ -73,7 +79,7 @@ const BoardContents = styled.div`
   margin-top: 20px;
   margin-right: 4%;
   font-family: ${theme.font.family.pretendard_regular};
-  font-weight: 400;
+  weight: 400;
   font-size: 16px;
   line-height: 19.09px;
 `;
@@ -101,6 +107,33 @@ const BottomRow = styled.div`
   border-bottom: 1px solid ${theme.color.grayScale.gray30};
   padding-bottom: 10px; /* 선 아래 여백 추가 */
 `;
+
+/* const InputWrapper = styled.div`
+  position: relative; // fixed position을 사용하여 화면 하단에 고정
+  bottom: ${({ paddingBottom }) => paddingBottom}px;
+  display: flex;
+  align-items: center;
+  width: 81%;
+  margin: 10px 0 0 10%;
+`;
+
+const InputField = styled.input`
+  width: 100%;
+  height: 37px;
+  color: ${theme.color.grayScale.white};
+  background-color: ${theme.color.main.mainColor};
+  border: none;
+  border-radius: 15px;
+  font-size: 14px;
+  font-family: ${theme.font.family.pretendard_semiBold};
+  weight: 600;
+  outline: none;
+  padding: 0 48% 0 5%;
+
+  &::placeholder {
+    color: ${theme.color.grayScale.white};
+  }
+`; */
 
 const Board = () => {
   const location = useLocation();
@@ -188,5 +221,35 @@ const Board = () => {
     </Container>
   );
 };
+
+/* <InputWrapper>
+        <InputField
+          type="text"
+          value={comment}
+          placeholder="댓글을 입력하세요."
+          onChange={handleCommentChange}
+        />
+        <RegisterComment
+          alt=""
+          onClick={handleRegisterComment}
+          style={{
+            position: 'absolute',
+            right: '10px',
+            top: '50%',
+            transform: 'translateY(-50%)',
+            cursor: 'pointer',
+          }}
+        />
+      </InputWrapper>
+
+/* Board.propTypes = {
+  boardName: PropTypes.string.isRequired,
+  boardContent: PropTypes.string,
+};
+
+Board.defaultProps = {
+  boardName: '게시판 이름',
+  boardContent: '내용',
+}; */
 
 export default Board;
