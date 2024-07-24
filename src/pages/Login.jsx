@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 import LoginHeader from '../components/Login/LoginHeader';
 import SignupTextComponent from '../components/Signup/SignupTextComponent';
 import { ReactComponent as ToggleVisibleIcon } from '../assets/images/ic_toggleVisible.svg';
@@ -33,6 +34,7 @@ const ToggleVisibilityButton = styled.button`
 `;
 
 const Login = () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -56,9 +58,18 @@ const Login = () => {
     setPassword(e.target.value);
   };
 
+  const handleCompleteClick = () => {
+    if (isCompleteEnabled) {
+      navigate('/home');
+    }
+  };
+
   return (
     <Container>
-      <LoginHeader isRightButtonEnabled={isCompleteEnabled} />
+      <LoginHeader 
+        isRightButtonEnabled={isCompleteEnabled} 
+        onCompleteClick={handleCompleteClick}
+      />
       <LoginHeaderMargin />
       <SignupTextComponent
         text="ID"
