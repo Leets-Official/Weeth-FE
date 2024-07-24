@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { ReactComponent as CommentButton } from '../../assets/images/ic_comment.svg';
@@ -66,45 +66,61 @@ const BoardReply = styled.div`
 `;
 
 const BoardComment = ({ comments, recomments }) => {
-  // 댓글 목록
+  const [showReplies, setShowReplies] = useState(false);
+
+  const handleReplyClick = () => {
+    setShowReplies(!showReplies);
+  };
+
   return (
     <CommentContainer>
       {comments.map((comment) => (
         <BoardCommented key={comment.id}>
           <BottomRow>
             <UserName>홍길동</UserName>
-            <CommentButton alt="" />
+            <CommentButton alt="" onClick={handleReplyClick} />
           </BottomRow>
           <StyledComment>{comment.text}</StyledComment>
           <CommentDate>00/00 00:00</CommentDate>
-        </BoardCommented>
-      ))}
 
-      {recomments.map((recomment) => (
-        <ReplyRow>
-          <ReplyButton
-            alt=""
-            style={{
-              marginRight: '10px',
-              flexShrink: 0,
-            }}
-          />
-          <BoardReply key={recomment.id}>
-            <BottomRow>
-              <UserName>김위드</UserName>
-            </BottomRow>
-            <StyledComment>대댓글</StyledComment>
-            <CommentDate>00/00 00:00</CommentDate>
-          </BoardReply>
-        </ReplyRow>
+          {showReplies &&
+            recomments.map((recomment) => (
+              <ReplyRow key={recomment.id}>
+                <ReplyButton
+                  alt=""
+                  style={{
+                    marginRight: '10px',
+                    flexShrink: 0,
+                  }}
+                />
+                <BoardReply key={recomment.id}>
+                  <BottomRow>
+                    <UserName>김위드</UserName>
+                  </BottomRow>
+                  <StyledComment>{recomment.text}</StyledComment>
+                  <CommentDate>00/00 00:00</CommentDate>
+                </BoardReply>
+              </ReplyRow>
+            ))}
+        </BoardCommented>
       ))}
     </CommentContainer>
   );
 };
 
 BoardComment.propTypes = {
-  comments: PropTypes.arrayOf(PropTypes.string).isRequired,
-  recomments: PropTypes.arrayOf(PropTypes.string).isRequired,
+  comments: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      text: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
+  recomments: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      text: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
 };
 
 export default BoardComment;
