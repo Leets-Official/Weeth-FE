@@ -4,6 +4,7 @@ import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import styled from 'styled-components';
 import { format } from 'date-fns';
+import { useNavigate } from 'react-router-dom';
 
 import theme from '../../styles/theme';
 import mockEventMonth from '../mockData/mockEventMonth';
@@ -56,9 +57,21 @@ const CalendarContainer = styled.div`
     border: none;
     border-radius: 20px;
     color: white !important;
+    cursor: pointer;
   }
 
+  .fc-event:hover {
+    padding: 3px 10px;
+    background-color: ${theme.color.main.pointBlue}; !important;
+    border: none;
+    border-radius: 20px;
+    color: white !important;
+    cursor: pointer;
+  }
+  
   .fc-daygrid-event.fc-daygrid-block-event:first-child {
+    height: 19px;
+    margin-left: 2px;
     border-top-left-radius: 20px;
     border-bottom-left-radius: 20px;
   }
@@ -78,6 +91,7 @@ const CalendarContainer = styled.div`
 
   .fc-event-title {
     font-weight: 400;
+    padding: 0px;
   }
 `;
 
@@ -96,6 +110,8 @@ const Today = styled.div`
 `;
 
 const MonthCalendar = () => {
+  const navi = useNavigate();
+
   const renderDayCell = (arg) => {
     const isToday =
       format(arg.date, 'yyyy-MM-dd') === format(new Date(), 'yyyy-MM-dd');
@@ -107,6 +123,11 @@ const MonthCalendar = () => {
     );
   };
 
+  const onClickEvent = (clickInfo) => {
+    const eventId = clickInfo.event.id;
+    navi(`/event/${eventId}`);
+  };
+
   return (
     <CalendarContainer>
       <FullCalendar
@@ -114,6 +135,7 @@ const MonthCalendar = () => {
         defaultView="dayGridMonth"
         plugins={[dayGridPlugin]}
         events={mockEventMonth}
+        eventClick={onClickEvent}
         locale="koLocale"
         headerToolbar={false}
         fixedWeekCount={false}

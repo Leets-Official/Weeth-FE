@@ -23,7 +23,7 @@ const MemberList = styled.div`
   border-top-right-radius: 20px;
   height: 100%;
   max-width: 350px;
-  margin: 0px 10px;
+  margin: 0px 10px auto;
 `;
 
 const Member = () => {
@@ -45,6 +45,9 @@ const Member = () => {
           <MemberName
             key={user.name}
             name={user.name}
+            studentId={user.studentId}
+            department={user.department}
+            email={user.email}
             cardinal={user.cardinal}
             position={user.position}
           />
