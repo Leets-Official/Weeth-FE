@@ -17,12 +17,6 @@ const Content = styled.div`
   justify-content: center;
 `;
 
-const mockEvent = [
-  { title: '일정', start: '2024-07-18T19:00:00.000', end: '2024-07-18T19:00:00.000'},
-  { title: '일정을 길게 잡으면', start: '2024-07-16T19:00:00.000', end: '2024-07-19T19:00:00.000'},
-  { title: '몇주에 걸친 일정', start: '2024-06-30T19:00:00.000', end: '2024-08-01T19:00:00.000'},
-];
-
 const todayYear = new Date().getFullYear();
 const todayMonth = new Date().getMonth() + 1;
 
@@ -40,7 +34,7 @@ const Calendar = () => {
       <CalendarHeader todayMonth={todayMonth} todayYear={todayYear} isYear={isYear} />
       <Content>
         <ToggleButton onToggle={onToggle} />
-        {calendarType === 'month' ? <MonthCalendar mockEvent={mockEvent}/> : <YearCalendar todayMonth={todayMonth}/>}
+        {calendarType === 'month' ? <MonthCalendar /> : <YearCalendar todayMonth={todayMonth}/>}
       </Content>
     </StyledCalendar>
   );
