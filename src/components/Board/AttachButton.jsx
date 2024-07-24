@@ -44,10 +44,6 @@ const FileType = styled.span`
   color: ${theme.color.grayScale.white};
 `;
 
-const IconMargin = styled.div`
-  margin-bottom: 5px;
-`;
-
 const AttachButton = ({ filetype }) => {
   return (
     <Container>
@@ -56,9 +52,13 @@ const AttachButton = ({ filetype }) => {
           <FileName>파일이름</FileName>
           <FileType>{filetype}</FileType>
         </div>
-        <IconMargin>
-          <InstallIcon className="icon" alt="{install}" />
-        </IconMargin>
+        <InstallIcon
+          className="icon"
+          alt="{install}"
+          style={{
+            marginBottom: '5px',
+          }}
+        />
       </StyledButton>
     </Container>
   );
