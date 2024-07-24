@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import MiddleButton from '../../Button/MiddleButton';
@@ -92,10 +92,26 @@ CloseButton.propTypes = {
 
 const ModalAttend = ({ open, close }) => {
   const [codeCheck, setCodeCheck] = useState(0);
+  const [inputValue, setInputValue] = useState('');
+
+  // 모달창 나갔다 들어왔을 떄 입력 창 비워지고, 하단부 화면 비워지도록
+  useEffect(() => {
+    if (!open) {
+      setCodeCheck(0);
+      setInputValue('');
+    }
+  }, [open]);
 
   const handleCompleteBtn = () => {
-    const codeRight = true;
-    setCodeCheck(codeRight ? 1 : 2);
+    setCodeCheck(inputValue ? 1 : 2);
+  };
+
+  const handleChange = (e) => {
+    // 4자리 숫자만 입력 가능
+    const { value } = e.target;
+    if (/^\d{0,4}$/.test(value)) {
+      setInputValue(value);
+    }
   };
 
   return (
@@ -124,6 +140,8 @@ const ModalAttend = ({ open, close }) => {
               className="modal-input"
               type="text"
               placeholder="코드를 입력하세요"
+              value={inputValue}
+              onChange={handleChange}
             />
           </div>
           <div className="modal-buttons">
