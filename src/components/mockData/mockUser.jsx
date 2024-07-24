@@ -12,7 +12,7 @@ const mockUser = [
     name: '박예진',
     studentId: '202434567',
     tel: '01044445555',
-    department: 'SW',
+    department: '소프트웨어전공',
     email: 'parkyejin@gmail.com',
     cardinal: 2,
     position: 'FE',

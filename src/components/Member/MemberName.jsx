@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import { useNavigate } from 'react-router-dom';
 
 import FE from '../../assets/images/ic_FE.svg';
 import BE from '../../assets/images/ic_BE.svg';
@@ -17,6 +18,7 @@ const MemberWrapper = styled.div`
 const MemberContent = styled.div`
   display: flex;
   align-items: center;
+  cursor: pointer;
 `;
 
 const Line = styled.div`
@@ -36,9 +38,17 @@ const TextWrapper = styled.div`
   margin-left: 10px;
 `;
 
-const MemberName = ({ name, cardinal, position }) => {
+const MemberName = ({
+  name,
+  studentId,
+  department,
+  email,
+  cardinal,
+  position,
+}) => {
   let imgSrc;
   let alt;
+  const navi = useNavigate();
 
   if (position === 'FE') {
     imgSrc = FE;
@@ -53,9 +63,16 @@ const MemberName = ({ name, cardinal, position }) => {
     imgSrc = MA;
     alt = 'MA';
   }
+
+  const onClickMember = () => {
+    navi(`/member/${name}`, {
+      state: { name, studentId, department, email, cardinal, position },
+    });
+  };
+
   return (
     <MemberWrapper>
-      <MemberContent>
+      <MemberContent onClick={onClickMember}>
         <img src={imgSrc} alt={alt} />
         <TextWrapper>
           <div>{name}</div>
@@ -69,6 +86,9 @@ const MemberName = ({ name, cardinal, position }) => {
 
 MemberName.propTypes = {
   name: PropTypes.string.isRequired,
+  studentId: PropTypes.string.isRequired,
+  department: PropTypes.string.isRequired,
+  email: PropTypes.string.isRequired,
   cardinal: PropTypes.number.isRequired,
   position: PropTypes.string.isRequired,
 };

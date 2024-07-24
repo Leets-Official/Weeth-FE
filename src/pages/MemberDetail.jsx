@@ -1,6 +1,7 @@
 import styled from 'styled-components';
+import { useLocation } from 'react-router-dom';
 import MemberHeader from '../components/Member/MemberHeader';
-import mockUser from '../components/mockData/mockUser';
+// import mockUser from '../components/mockData/mockUser';
 
 import icName from '../assets/images/ic_name.svg';
 import icId from '../assets/images/ic_studentID.svg';
@@ -46,6 +47,12 @@ const MainColor = styled.div`
 `;
 
 const UserDetail = () => {
+  const location = useLocation();
+  const { name, studentId, department, email, cardinal, position } =
+    location.state;
+
+  console.log(location.state); // 디버깅을 위해 추가
+
   return (
     <StyledDetails>
       <MemberHeader />
@@ -54,7 +61,7 @@ const UserDetail = () => {
           <img src={icName} alt="name" />
           <Text>
             <div>이름</div>
-            <MainColor>{mockUser[0].name}</MainColor>
+            <MainColor>{name}</MainColor>
           </Text>
         </Info>
         <Line />
@@ -62,7 +69,7 @@ const UserDetail = () => {
           <img src={icId} alt="id" />
           <Text>
             <div>학번</div>
-            <MainColor>{mockUser[0].studentId}</MainColor>
+            <MainColor>{studentId}</MainColor>
           </Text>
         </Info>
         <Line />
@@ -70,7 +77,7 @@ const UserDetail = () => {
           <img src={icDepartment} alt="department" />
           <Text>
             <div>학과</div>
-            <MainColor>{mockUser[0].department}</MainColor>
+            <MainColor>{department}</MainColor>
           </Text>
         </Info>
         <Line />
@@ -78,7 +85,7 @@ const UserDetail = () => {
           <img src={icCardinal} alt="cardinal" />
           <Text>
             <div>기수</div>
-            <MainColor>{mockUser[0].cardinal}</MainColor>
+            <MainColor>{cardinal}</MainColor>
           </Text>
         </Info>
         <Line />
@@ -86,7 +93,7 @@ const UserDetail = () => {
           <img src={icPosition} alt="positon" />
           <Text>
             <div>역할</div>
-            <MainColor>{mockUser[0].position}</MainColor>
+            <MainColor>{position}</MainColor>
           </Text>
         </Info>
         <Line />
@@ -94,7 +101,7 @@ const UserDetail = () => {
           <img src={icEmail} alt="email" />
           <Text>
             <div>메일</div>
-            <MainColor>{mockUser[0].email}</MainColor>
+            <MainColor>{email}</MainColor>
           </Text>
         </Info>
         <Line />
