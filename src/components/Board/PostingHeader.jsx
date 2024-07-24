@@ -50,29 +50,24 @@ onClick은 아래 함수에 각각의 함수를 작성
 }; */
 
 const PostingHeader = ({ isRightButtonEnabled, onCompleteClick }) => {
-
-  const PostingHeader = () => {
-    return (
-      <StyledHeader>
-        <LeftButton />
-        <TitleWrapper>
-          <Title text="글 쓰기" />
-        </TitleWrapper>
-        <TextButton
-          text="완료"
-          color={isRightButtonEnabled ? 'mainColor' : theme.color.grayScale.white}
-          onClick={onCompleteClick}
-          color={theme.color.main.mainColor}
-          onClick={handleClickComplete}
-        />
-      </StyledHeader>
-    );
-  };
-
-  PostingHeader.propTypes = {
-    isRightButtonEnabled: PropTypes.bool.isRequired,
-    onCompleteClick: PropTypes.func.isRequired,
-  };
+  return (
+    <StyledHeader>
+      <LeftButton />
+      <TitleWrapper>
+        <Title text="글 쓰기" />
+      </TitleWrapper>
+      <TextButton
+        text="완료"
+        color={isRightButtonEnabled ? 'mainColor' : theme.color.grayScale.white}
+        onClick={onCompleteClick}
+      />
+    </StyledHeader>
+  );
 };
-export default PostingHeader;
 
+PostingHeader.propTypes = {
+  isRightButtonEnabled: PropTypes.bool.isRequired,
+  onCompleteClick: PropTypes.func.isRequired,
+};
+
+export default PostingHeader;
