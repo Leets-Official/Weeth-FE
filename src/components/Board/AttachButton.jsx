@@ -32,8 +32,7 @@ const StyledButton = styled.button`
   }
 
   .icon {
-    margin-top: 30px;
-    margin-right: 10px;
+    margin: 30px 10px 0 0;
   }
 `;
 
