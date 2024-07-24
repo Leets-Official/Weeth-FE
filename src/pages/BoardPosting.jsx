@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
-import styled, { keyframes } from 'styled-components';
-import BoardHeader from '../components/Board/PostingHeader';
+import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import PostingHeader from '../components/Board/PostingHeader';
 import { ReactComponent as FileAttach } from '../assets/images/ic_board_fileAttach.svg';
 import theme from '../styles/theme';
 
@@ -54,67 +56,76 @@ const StyledFileAttach = styled.div`
   margin-bottom: 148px;
 `;
 
-const slideUp = keyframes`
-  from {
-    transform: translateY(100%);
-  }
-  to {
-    transform: translateY(0);
-  }
-`;
+const BoardPosting = ({ initialBoardName, initialBoardContent }) => {
+  const navi = useNavigate();
+  const [boardName, setBoardName] = useState(initialBoardName);
+  const [boardContent, setBoardContent] = useState(initialBoardContent);
+  const [isCompleteEnabled, setIsCompleteEnabled] = useState(false);
 
-const Keyboard = styled.div`
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 200px;
-  background-color: #333;
-  color: #fff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transform: translateY(100%);
-  transition: transform 0.3s ease-in-out;
+  const handleBoardNameChange = (e) => {
+    setBoardName(e.target.value);
+  };
 
-  &.active {
-    animation: ${slideUp} 0.3s forwards;
-  }
-`;
+  const handleBoardContentChange = (e) => {
+    setBoardContent(e.target.value);
+  };
 
-const BoardPosting = () => {
-  const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
-
-  const handleFocus = () => {
+  /* const handleFocus = () => {
     setIsKeyboardVisible(true);
+  }; 
+
+  /* const handleBlur = () => {
+    setIsKeyboardVisible(false);
+  }; */
+
+  // Board.jsx로 넘어가서 썼던 내용 보낼 수 있게
+  const handleCompleteClick = () => {
+    if (isCompleteEnabled) {
+      navi('/board', { state: { boardName, boardContent } }); // ?
+    }
   };
 
-  const handleBlur = () => {
-    setIsKeyboardVisible(false);
-  };
+  useEffect(() => {
+    setIsCompleteEnabled(boardName && boardContent.length >= 1); // ?
+  }, [boardName, boardContent]);
 
   return (
     <StyledPosting>
-      <BoardHeader />
+      <PostingHeader
+        isRightButtonEnabled={isCompleteEnabled}
+        onCompleteClick={handleCompleteClick}
+      />
       <StyledText>
-        <StyledTitle type="text" placeholder="제목" />
+        <StyledTitle
+          type="text"
+          placeholder="제목"
+          value={boardName}
+          onChange={handleBoardNameChange}
+        />
       </StyledText>
       <StyledLine />
       <StyledText>
         <StyledContent
           placeholder="내용을 입력하세요."
-          onFocus={handleFocus}
-          onBlur={handleBlur}
+          value={boardContent}
+          onChange={handleBoardContentChange}
         />
       </StyledText>
       <StyledFileAttach>
         <FileAttach />
       </StyledFileAttach>
-      <Keyboard className={isKeyboardVisible ? 'active' : undefined}>
-        키보드
-      </Keyboard>
     </StyledPosting>
   );
+};
+
+BoardPosting.propTypes = {
+  initialBoardName: PropTypes.string,
+  initialBoardContent: PropTypes.string,
+};
+
+BoardPosting.defaultProps = {
+  initialBoardName: '',
+  initialBoardContent: '',
 };
 
 export default BoardPosting;

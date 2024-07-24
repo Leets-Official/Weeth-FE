@@ -44,7 +44,7 @@ onClick은 아래 함수에 각각의 함수를 작성
 // const onClickIndexButton = () => {};
 // const onClickTextButton = () => {};
 
-const PostingHeader = () => {
+const NoticeHeader = () => {
   return (
     <StyledHeader>
       <LeftButton />
@@ -56,4 +56,4 @@ const PostingHeader = () => {
   );
 };
 
-export default PostingHeader;
+export default NoticeHeader;

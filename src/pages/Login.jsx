@@ -22,16 +22,11 @@ const TextMargin = styled.div`
   margin-top: 30px;
 `;
 
-const ToggleVisibilityButton = styled.button`
-  background: none;
-  border: none;
-  cursor: pointer;
-
-  svg {
+/* svg {
     width: 22px;
     height: 22px;
-  }
-`;
+  } */
+
 
 const Login = () => {
   const navigate = useNavigate();
@@ -85,9 +80,26 @@ const Login = () => {
         placeholder=""
         type={passwordVisible ? 'text' : 'password'}
       >
-        <ToggleVisibilityButton onClick={togglePasswordVisibility}>
-          {passwordVisible ? <ToggleVisibleIcon /> : <ToggleInvisibleIcon />}
-        </ToggleVisibilityButton>
+        
+          {passwordVisible
+          ? <ToggleVisibleIcon
+              alt=""
+              onClick={togglePasswordVisibility}
+              style={{
+                background: "none",
+                border: "none",
+                cursor: "pointer",
+              }}/>
+            : <ToggleInvisibleIcon
+                alt=""
+                onClick={togglePasswordVisibility}
+                style={{
+                  background: "none",
+                  border: "none",
+                  cursor: "pointer",
+              }}/>
+            }
+
       </SignupTextComponent>
     </Container>
   );
