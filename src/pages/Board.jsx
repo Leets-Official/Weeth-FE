@@ -130,14 +130,6 @@ const InputField = styled.input`
   }
 `;
 
-const StyledRegisterComment = styled(RegisterComment)`
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  cursor: pointer;
-`;
-
 const Board = () => {
   const divRef = useRef(null);
 
@@ -193,14 +185,23 @@ const Board = () => {
           <RightMargin />
         </ComponentRow>
         <BottomRow>
-          <BoardChat />
+          <BoardChat alt="" />
           <CommentCount>3</CommentCount>
         </BottomRow>
         <BoardComment />
       </BoardRow>
       <InputWrapper>
         <InputField placeholder="댓글을 입력하세요." />
-        <StyledRegisterComment />
+        <RegisterComment
+          alt=""
+          style={{
+            position: 'absolute',
+            right: '10px',
+            top: '50%',
+            transform: 'translateY(-50%)',
+            cursor: 'pointer',
+          }}
+        />
       </InputWrapper>
     </Container>
   );

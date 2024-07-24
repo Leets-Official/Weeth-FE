@@ -50,11 +50,6 @@ const ReplyRow = styled.div`
   margin-top: 10px;
 `;
 
-const StyledReplyButton = styled(ReplyButton)`
-  margin-right: 10px;
-  flex-shrink: 0;
-`;
-
 const BoardReply = styled.div`
   flex-grow: 1;
   background-color: ${theme.color.grayScale.gray18};
@@ -68,12 +63,23 @@ const BoardComment = () => {
     <CommentContainer>
       <BottomRow>
         <UserName>홍길동</UserName>
-        <CommentButton />
+        <CommentButton alt="" />
       </BottomRow>
       <StyledComment>진짜 최고다</StyledComment>
       <CommentDate>00/00 00:00</CommentDate>
       <ReplyRow>
-        <StyledReplyButton />
+        <ReplyButton
+          alt=""
+          style={{
+            marginRight: '10px',
+            flexShrink: 0,
+            position: 'absolute',
+            right: '10px',
+            top: '50%',
+            transform: 'translateY(-50%)',
+            cursor: 'pointer',
+          }}
+        />
         <BoardReply>
           <BottomRow>
             <UserName>김위드</UserName>
