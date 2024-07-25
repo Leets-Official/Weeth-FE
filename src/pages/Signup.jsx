@@ -20,7 +20,7 @@ const HeaderMargin = styled.div`
 
 const CheckButton = styled.button`
   margin-top: 15px;
-  margin-right: 7%;
+  margin-right: 5%;
   text-align: right;
   background: none;
   border: none;

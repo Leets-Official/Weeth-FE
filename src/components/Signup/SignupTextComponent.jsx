@@ -7,7 +7,12 @@ import theme from '../../styles/theme';
 const SignupContainer = styled.div`
   width: 370px;
   max-width: 370px;
+  align-items: flex-start;
   margin-top: 0;
+`;
+
+const SignupWhiteMargin = styled.div`
+  margin-left: 7%;
 `;
 
 const Margin = styled.div`
@@ -64,7 +69,9 @@ const SignupTextComponent = ({
 }) => {
   return (
     <SignupContainer>
-      <SignupWhite text={text} />
+      <SignupWhiteMargin>
+        <SignupWhite text={text} />
+      </SignupWhiteMargin>
       <Margin />
       <InputWrapper>
         <StyledTextInput

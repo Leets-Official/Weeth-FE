@@ -1,10 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-
 import LeftButton from '../Header/LeftButton';
-// import RightButton from '../Header/RightButton';
 import TextButton from '../Header/TextButton';
+import theme from '../../styles/theme';
 
 const StyledHeader = styled.div`
   display: flex;
@@ -38,7 +37,7 @@ const SignupHeader = ({
         onClick={onClickTextButton}
         disabled={!isRightButtonEnabled}
         text={nextButtonText}
-        style={{ color: isRightButtonEnabled ? '#00DDA8' : '#white' }}
+        color={isRightButtonEnabled ? 'mainColor' : theme.color.grayScale.white}
       />
     </StyledHeader>
   );
