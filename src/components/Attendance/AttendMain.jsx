@@ -98,12 +98,13 @@ const AttendMain = () => {
 
   const { userData, error } = useContext(UserContext);
 
+  let userName;
   if (error) {
-    return <div>Error: {error}</div>;
-  }
-
-  if (!userData) {
-    return <div>Loading...</div>;
+    userName = 'error';
+  } else if (!userData) {
+    userName = 'loading';
+  } else {
+    userName = userData.name;
   }
 
   // 일단 일정 있고 패널티 있는 게 true
@@ -122,7 +123,7 @@ const AttendMain = () => {
     <StyledAttend>
       <div className="name-container">
         <SemiBold>
-          <div className="attend-name">{userData.name}&nbsp;</div>
+          <div className="attend-name">{userName}&nbsp;</div>
         </SemiBold>
         <div className="attend-text">님의 출석률은</div>
       </div>
