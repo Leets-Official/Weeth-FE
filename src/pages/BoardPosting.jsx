@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import PostingHeader from '../components/Board/PostingHeader';
+import FileAttachMenu from '../components/Board/FileAttachMenu';
 import { ReactComponent as FileAttach } from '../assets/images/ic_board_fileAttach.svg';
 import theme from '../styles/theme';
 
@@ -60,6 +61,7 @@ const BoardPosting = ({ initialStudyName, initialStudyContent }) => {
   const [studyName, setStudyName] = useState(initialStudyName);
   const [studyContent, setStudyContent] = useState(initialStudyContent);
   const [isCompleteEnabled, setIsCompleteEnabled] = useState(false);
+  const [isMenuOpen, setMenuOpen] = useState(false); // 모달 상태 추가
 
   const handleStudyNameChange = (e) => {
     setStudyName(e.target.value);
@@ -78,6 +80,14 @@ const BoardPosting = ({ initialStudyName, initialStudyContent }) => {
         },
       });
     }
+  };
+
+  const handleOpenMenu = () => {
+    setMenuOpen(true);
+  };
+
+  const handleCloseMenu = () => {
+    setMenuOpen(false);
   };
 
   useEffect(() => {
@@ -107,8 +117,9 @@ const BoardPosting = ({ initialStudyName, initialStudyContent }) => {
         />
       </StyledText>
       <StyledFileAttach>
-        <FileAttach alt="" />
+        <FileAttach alt="" onClick={handleOpenMenu} />
       </StyledFileAttach>
+      <FileAttachMenu isOpen={isMenuOpen} onClose={handleCloseMenu} />
     </StyledPosting>
   );
 };
