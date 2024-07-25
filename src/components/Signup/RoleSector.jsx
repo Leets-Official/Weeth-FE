@@ -38,20 +38,24 @@ const RoleName = styled.div`
 
 /* 버튼은 width가 px로 고정이어서 일단 width를 %로 안 넣고 px로 넣었습니다..  */
 const RoleButton = styled.button`
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  position: relative;
   width: 18px;
   height: 18px;
   margin-right: 5px;
-  background-color: ${({ selected }) => (selected ? '#00DDA8' : '#2f2f2f')};
+  background-color: #2F2F2F;
   border: none;
   border-radius: 1px;
   cursor: pointer;
 
-  &:hover {
-    background-color: ${({ selected }) => (selected ? '#00DDA8' : '#2f2f2f')};
-  }
+  &:after {
+    content: '';
+    position: absolute;
+    width: 14px;  /* 내부 정사각형 크기 */
+    height: 14px; /* 내부 정사각형 크기 */
+    top: 2px;     /* 바깥쪽 여백 */
+    left: 2px;    /* 바깥쪽 여백 */
+    background-color: ${({ selected }) => (selected ? '#00DDA8' : '#2F2F2F')};
+    border-radius: 1px;
 `;
 
 const roles = ['프론트', '백', '디자인'];
