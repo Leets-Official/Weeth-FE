@@ -6,6 +6,7 @@ import mockUser from '../components/mockData/mockUser';
 
 const StyledEdit = styled.div`
   width: 370px;
+  padding-bottom: 183px;
 `;
 
 const InfoWrapper = styled.div`

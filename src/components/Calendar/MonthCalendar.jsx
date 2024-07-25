@@ -10,6 +10,7 @@ import mockEventMonth from '../mockData/mockEventMonth';
 
 const CalendarContainer = styled.div`
   width: 100%;
+  padding-bottom: 183px;
   font-family: ${theme.font.family.pretendard_regular};
   font-size: 16px;
   z-index: 2;
