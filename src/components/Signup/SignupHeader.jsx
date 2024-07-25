@@ -3,39 +3,52 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
 import LeftButton from '../Header/LeftButton';
-import BackButton from './BackButton';
+// import RightButton from '../Header/RightButton';
 import TextButton from '../Header/TextButton';
 
 const StyledHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 45px 25px 20px 25px;
+  margin: 45px 25px 20px 25px; //기본 헤더 마진
 `;
+
+/* const TitleWrapper = styled.div`
+  // position: absolute;
+  // left: 50%;
+  // transform: translateX(-50%);
+`; */
+
+/* const NextButton = styled.button`
+  color: ${({ disabled }) => (disabled ? 'white' : '#00DDA8')};
+  cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
+`;;   */
 
 const SignupHeader = ({
   onClickLeftButton,
   isRightButtonEnabled,
   onClickTextButton,
   nextButtonText,
-  page,
-}) => (
-  <StyledHeader>
-    {page === 0 ? <LeftButton /> : <BackButton onClick={onClickLeftButton} />}
-    <TextButton
-      text={nextButtonText}
-      color={isRightButtonEnabled ? 'green' : 'white'}
-      onClick={onClickTextButton}
-    />
-  </StyledHeader>
-);
+}) => {
+  return (
+    <StyledHeader>
+      <LeftButton onClick={onClickLeftButton} />
+
+      <TextButton
+        onClick={onClickTextButton}
+        disabled={!isRightButtonEnabled}
+        text={nextButtonText}
+        style={{ color: isRightButtonEnabled ? '#00DDA8' : '#white' }}
+      />
+    </StyledHeader>
+  );
+};
 
 SignupHeader.propTypes = {
   onClickLeftButton: PropTypes.func.isRequired,
   isRightButtonEnabled: PropTypes.bool.isRequired,
   onClickTextButton: PropTypes.func.isRequired,
   nextButtonText: PropTypes.string.isRequired,
-  page: PropTypes.number.isRequired,
 };
 
 export default SignupHeader;
