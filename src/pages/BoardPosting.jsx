@@ -107,7 +107,7 @@ const BoardPosting = ({ initialStudyName, initialStudyContent }) => {
         />
       </StyledText>
       <StyledFileAttach>
-        <FileAttach />
+        <FileAttach alt="" />
       </StyledFileAttach>
     </StyledPosting>
   );

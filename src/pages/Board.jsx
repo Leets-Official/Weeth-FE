@@ -42,7 +42,7 @@ const Tab = styled.div`
 `;
 
 const PostingButton = styled.button`
-  width: 52px;
+  width: cal(370x0.13);
   height: 28px;
   background-color: ${theme.color.main.mainColor};
   color: ${theme.color.grayScale.white};
