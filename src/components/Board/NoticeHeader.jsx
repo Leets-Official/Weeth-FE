@@ -78,13 +78,11 @@ const CancelButton = styled.div`
   cursor: pointer;
 `;
 
-const NoticeHeader = ({ onMenuClick, showModal }) => {
+const NoticeHeader = ({ onMenuClick }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleIndexButtonClick = () => {
-    if (showModal) {
-      setIsModalOpen(true);
-    }
+    setIsModalOpen(true);
   };
 
   const handleCloseModal = () => {
@@ -125,12 +123,10 @@ const NoticeHeader = ({ onMenuClick, showModal }) => {
 
 NoticeHeader.propTypes = {
   onMenuClick: PropTypes.func,
-  showModal: PropTypes.bool,
 };
 
 NoticeHeader.defaultProps = {
   onMenuClick: () => {},
-  showModal: false,
 };
 
 export default NoticeHeader;
