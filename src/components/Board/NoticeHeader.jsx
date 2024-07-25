@@ -44,10 +44,11 @@ const ModalContainer = styled.div`
 `;
 
 const ModalContent = styled.div`
-  background: #333;
+  widht: 360px;
+  background: #333333;
   border-radius: 10px;
   padding: 10px 0;
-  width: 250px;
+  width: 360px;
   text-align: center;
 `;
 
@@ -61,7 +62,7 @@ const MenuTitle = styled.div`
 
 const MenuItem = styled.div`
   padding: 15px 0;
-  color: #00dda8;
+  color: #4886f4;
   cursor: pointer;
   &:not(:last-child) {
     border-bottom: 1px solid #444;
@@ -69,12 +70,12 @@ const MenuItem = styled.div`
 `;
 
 const CancelButton = styled.div`
-  background: #333;
+  background: #4d4d4d;
   border-radius: 10px;
   padding: 15px 0;
   width: 250px;
   text-align: center;
-  color: #fff;
+  color: #ffffff;
   cursor: pointer;
 `;
 
@@ -110,10 +111,38 @@ const NoticeHeader = ({ onMenuClick }) => {
           <ModalContainer onClick={(e) => e.stopPropagation()}>
             <ModalContent>
               <MenuTitle>글메뉴</MenuTitle>
-              <MenuItem onClick={() => onMenuClick('edit')}>수정</MenuItem>
-              <MenuItem onClick={handleDeleteClick}>삭제</MenuItem>
+              <MenuItem
+                onClick={(e) => {
+                  const target = e.currentTarget;
+                  target.style.backgroundColor = '#4d4d4d'; // 클릭 시 색상 변경
+                  onMenuClick('edit');
+                  setTimeout(() => {
+                    target.style.backgroundColor = ''; // 원래 색상으로 돌아옴
+                  }, 100); // 2초 후 원래 색상으로 돌아옴
+                }}
+              >
+                수정
+              </MenuItem>
+              <MenuItem
+                onClick={(e) => {
+                  const target = e.currentTarget;
+                  target.style.backgroundColor = '#4d4d4d'; // 클릭 시 색상 변
+                  setTimeout(() => {
+                    handleDeleteClick();
+                    target.style.backgroundColor = ''; // 원래 색상으로 돌아옴
+                  }, 100); // 0.3초 후 원래 색상으로 돌아옴
+                }}
+              >
+                삭제
+              </MenuItem>
             </ModalContent>
-            <CancelButton onClick={handleCloseModal}>취소</CancelButton>
+            <CancelButton
+              onClick={() => {
+                handleCloseModal();
+              }}
+            >
+              취소
+            </CancelButton>
           </ModalContainer>
         </ModalOverlay>
       )}
