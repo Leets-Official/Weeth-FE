@@ -29,6 +29,7 @@ const Roles = styled.div`
 
 const RoleName = styled.div`
   width: auto;
+  margin-left: 5px;
   margin-right: 6px;
   font-size: 16px;
   font-weight: 600;
@@ -36,27 +37,48 @@ const RoleName = styled.div`
   color: #ffffff;
 `;
 
-/* 버튼은 width가 px로 고정이어서 일단 width를 %로 안 넣고 px로 넣었습니다..  */
-const RoleButton = styled.button`
-  position: relative;
+const HiddenCheckbox = styled.input.attrs({ type: 'checkbox' })`
+  display: none;
+`;
+
+const StyledCheckbox = styled.div`
   width: 18px;
   height: 18px;
-  margin-right: 5px;
-  background-color: #2F2F2F;
-  border: none;
+  background-color: #2f2f2f;
   border-radius: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
+  position: relative;
 
-  &:after {
+  ${HiddenCheckbox}:checked + & {
+    background-color: #2f2f2f;
+  }
+
+  &::after {
     content: '';
     position: absolute;
-    width: 14px;  /* 내부 정사각형 크기 */
+    width: 14px; /* 내부 정사각형 크기 */
     height: 14px; /* 내부 정사각형 크기 */
-    top: 2px;     /* 바깥쪽 여백 */
-    left: 2px;    /* 바깥쪽 여백 */
-    background-color: ${({ selected }) => (selected ? '#00DDA8' : '#2F2F2F')};
+    background-color: ${({ checked }) => (checked ? '#00DDA8' : '#2F2F2F')};
     border-radius: 1px;
+    top: 2px;
+    left: 2px;
+  }
 `;
+
+const RoleCheckbox = ({ checked, onChange }) => (
+  <>
+    <HiddenCheckbox checked={checked} onChange={onChange} />
+    <StyledCheckbox checked={checked} onClick={onChange} />
+  </>
+);
+
+RoleCheckbox.propTypes = {
+  checked: PropTypes.bool.isRequired,
+  onChange: PropTypes.func.isRequired,
+};
 
 const roles = ['프론트', '백', '디자인'];
 
@@ -76,9 +98,9 @@ const RoleSector = ({ labelName, value, onChange }) => {
               marginRight: '10px',
             }}
           >
-            <RoleButton
-              selected={value === role}
-              onClick={() => onChange(role)}
+            <RoleCheckbox
+              checked={value === role}
+              onChange={() => onChange(role)}
             />
             <RoleName>{role}</RoleName>
           </div>
