@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import LeftButton from '../Header/LeftButton';
 import TextButton from '../Header/TextButton';
+import BackButton from './BackButton';
 import theme from '../../styles/theme';
 
 const StyledHeader = styled.div`
@@ -28,11 +29,15 @@ const SignupHeader = ({
   isRightButtonEnabled,
   onClickTextButton,
   nextButtonText,
+  page,
 }) => {
   return (
     <StyledHeader>
-      <LeftButton onClick={onClickLeftButton} />
-
+      {page === 0 ? (
+        <LeftButton onClick={onClickLeftButton} />
+      ) : (
+        <BackButton onClick={onClickLeftButton} />
+      )}
       <TextButton
         onClick={onClickTextButton}
         disabled={!isRightButtonEnabled}
@@ -48,6 +53,7 @@ SignupHeader.propTypes = {
   isRightButtonEnabled: PropTypes.bool.isRequired,
   onClickTextButton: PropTypes.func.isRequired,
   nextButtonText: PropTypes.string.isRequired,
+  page: PropTypes.number.isRequired,
 };
 
 export default SignupHeader;
