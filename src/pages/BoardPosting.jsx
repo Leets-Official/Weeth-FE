@@ -51,11 +51,6 @@ const StyledContent = styled.textarea`
   height: 455px;
 `;
 
-const StyledFileAttach = styled.div`
-  margin-left: 7%;
-  margin-bottom: 148px;
-`;
-
 const BoardPosting = ({ initialStudyName, initialStudyContent }) => {
   const navi = useNavigate();
   const [studyName, setStudyName] = useState(initialStudyName);
@@ -116,9 +111,11 @@ const BoardPosting = ({ initialStudyName, initialStudyContent }) => {
           onChange={handleBoardContentChange}
         />
       </StyledText>
-      <StyledFileAttach>
-        <FileAttach alt="" onClick={handleOpenMenu} />
-      </StyledFileAttach>
+      <FileAttach
+        alt=""
+        onClick={handleOpenMenu}
+        style={{ marginLeft: '7%', marginBottom: '148px' }}
+      />
       <FileAttachMenu isOpen={isMenuOpen} onClose={handleCloseMenu} />
     </StyledPosting>
   );
