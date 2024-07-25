@@ -9,7 +9,7 @@ const RoleContainer = styled.div`
   align-items: center;
   width: 370px;
   max-width: 370px;
-  margin-bottom: 33px;
+  margin: 8=10px 0 33px 0;
 `;
 
 const RoleLabel = styled.div`
