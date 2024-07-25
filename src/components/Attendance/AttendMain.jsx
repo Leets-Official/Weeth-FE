@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
+import axios from 'axios';
 import theme from '../../styles/theme';
 import './AttendMain.css';
 import RightButton from '../Header/RightButton';
@@ -93,8 +94,6 @@ const AttendMain = () => {
   const navi = useNavigate();
   const [modalOpen, setModalOpen] = useState(false);
   const [penaltyModalOpen, setPenaltyModalOpen] = useState(false);
-  // const [hasEvent,setHasEvent] = useState(true);
-  // const [hasPenalty, setHasPenalty] = useState(true);
 
   const { userData, error } = useContext(UserContext);
 
@@ -105,6 +104,51 @@ const AttendMain = () => {
     userName = 'loading';
   } else {
     userName = userData.name;
+  }
+
+  const [attendanceData, setAttendanceData] = useState(null);
+  const [attendFetchError, setAttendFetchError] = useState(null);
+
+  useEffect(() => {
+    const fetchAttendances = async () => {
+      try {
+        const ACCESS_TOKEN = process.env.REACT_APP_ACCESS_TOKEN;
+        const headers = {
+          Authorization: `Bearer ${ACCESS_TOKEN}`,
+        };
+
+        const response = await axios.get(
+          'http://13.125.78.31:8080/attendances',
+          { headers },
+        );
+        setAttendanceData(response.data.data);
+      } catch (err) {
+        setAttendFetchError(error.message);
+      }
+    };
+
+    fetchAttendances();
+  }, []);
+
+  let title;
+  let location;
+  let startDateTime;
+
+  if (attendFetchError) {
+    title = 'error';
+    location = 'error';
+    startDateTime = 'error';
+  } else if (!attendanceData) {
+    title = 'loading';
+    location = 'loading';
+    startDateTime = 'loading';
+  } else {
+    title = attendanceData.title;
+    location = attendanceData.location;
+    // startDate를 년-월-일 형식으로 변경
+    const startDate = new Date(attendanceData.startDateTime);
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    startDateTime = startDate.toLocaleDateString('ko-KR', options);
   }
 
   // 일단 일정 있고 패널티 있는 게 true
@@ -151,13 +195,11 @@ const AttendMain = () => {
           <div className="attend-container">
             <SemiBold>
               <div className="attend-project">
-                오늘은 &quot;프로젝트 중간 발표&quot;가 있는 날이에요
+                오늘은 &quot;{title}&quot;가 있는 날이에요
               </div>
             </SemiBold>
-            <div className="attend-date">
-              날짜 : 2024년 7월 18일 (19:00 ~ 20:30)
-            </div>
-            <div className="attend-place">장소 : 가천관 247호</div>
+            <div className="attend-date">날짜 : {startDateTime}</div>
+            <div className="attend-place">장소 : {location}</div>
             <div className="attend-button">
               <Button
                 color={theme.color.grayScale.gray30}
