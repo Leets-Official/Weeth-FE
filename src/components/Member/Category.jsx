@@ -13,7 +13,7 @@ const Button = styled.button`
   background-color: transparent;
   border: none;
   height: 39px;
-  width: 17%;
+  width: 22%;
   border: 2px solid;
   border-width: 0 0 2px;
   border-color: ${(props) => (props.checked ? 'white' : 'transparent')};
