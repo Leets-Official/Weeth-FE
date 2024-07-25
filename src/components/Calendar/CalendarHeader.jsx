@@ -65,10 +65,8 @@ const modalStyles = {
 
 const onClickIndexButton = () => {};
 
-const CalendarHeader = ({ todayMonth, todayYear, isYear }) => {
+const CalendarHeader = ({ month, year, isYear, editYear, editMonth }) => {
   const [dateModalIsOpen, setMonthModalIsOpen] = useState(false);
-  const [year, setYear] = useState(todayYear);
-  const [month, setMonth] = useState(todayMonth);
 
   const openMonthModal = () => {
     setMonthModalIsOpen(true);
@@ -79,14 +77,6 @@ const CalendarHeader = ({ todayMonth, todayYear, isYear }) => {
 
   const onClickTextButton = () => {
     closeMonthModal();
-  };
-
-  const editYear = (newYear) => {
-    setYear(newYear);
-  };
-
-  const editMonth = (newMonth) => {
-    setMonth(newMonth);
   };
 
   return (
@@ -121,9 +111,11 @@ const CalendarHeader = ({ todayMonth, todayYear, isYear }) => {
 };
 
 CalendarHeader.propTypes = {
-  todayMonth: PropTypes.number.isRequired,
-  todayYear: PropTypes.number.isRequired,
+  month: PropTypes.number.isRequired,
+  year: PropTypes.number.isRequired,
   isYear: PropTypes.bool.isRequired,
+  editYear: PropTypes.func.isRequired,
+  editMonth: PropTypes.func.isRequired,
 };
 
 export default CalendarHeader;

@@ -23,18 +23,28 @@ const todayMonth = new Date().getMonth() + 1;
 const Calendar = () => {
   const [calendarType, setCalendarType] = useState('month');
   const [isYear, setIsYear] = useState(false);
+  const [year, setYear] = useState(todayYear);
+  const [month, setMonth] = useState(todayMonth);
 
   const onToggle = (isYear) => {
     setCalendarType(isYear ? 'year' : 'month');
     setIsYear(isYear);
   };
 
+  const editYear = (newYear) => {
+    setYear(newYear);
+  };
+
+  const editMonth = (newMonth) => {
+    setMonth(newMonth);
+  };
+
   return (
     <StyledCalendar>
-      <CalendarHeader todayMonth={todayMonth} todayYear={todayYear} isYear={isYear} />
+      <CalendarHeader month={month} year={year} isYear={isYear} editYear={editYear} editMonth={editMonth} />
       <Content>
         <ToggleButton onToggle={onToggle} />
-        {calendarType === 'month' ? <MonthCalendar /> : <YearCalendar todayMonth={todayMonth}/>}
+        {calendarType === 'month' ? <MonthCalendar month={month} year={year} editYear={editYear} editMonth={editMonth} /> : <YearCalendar todayMonth={todayMonth}/>}
       </Content>
     </StyledCalendar>
   );
