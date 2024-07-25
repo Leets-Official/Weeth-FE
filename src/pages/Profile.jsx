@@ -109,6 +109,7 @@ const Profile = () => {
           currentFieldIndex < fieldDefinitions.length - 1 ? '다음' : '완료'
         } // 버튼 텍스트 변경
         nextButtonColor={getNextButtonColor()}
+        page={currentFieldIndex}
       />
       <MemText marginTop={marginTop}>
         <SignupWhite text="동아리원의 정보를 입력해주세요" />
