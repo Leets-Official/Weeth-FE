@@ -50,6 +50,7 @@ function App() {
           <Route path="/edit" element={<Edit />} />
           <Route path="/dues" element={<Dues />} />
           <Route path="/receipt" element={<Receipt />} />
+          <Route path="/board" element={<Board />} />
           <Route path="/notice" element={<BoardNotice />} />
           <Route path="/boardPosting" element={<BoardPosting />} />
         </Routes>

@@ -60,7 +60,7 @@ const BoardNotice = () => {
 
   return (
     <NoticeContainer>
-      <NoticeHeader />
+      <NoticeHeader showModal={false} />
       <NoticeMiddle
         title={activeTab === 'notice' ? '공지사항' : '스터디 게시판'}
         button={activeTab === 'board' && <PostingButton>글쓰기</PostingButton>}

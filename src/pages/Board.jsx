@@ -133,14 +133,25 @@ const Board = () => {
     }
   };
 
-  /* const handleFileChange = (e) => {
-    console.log(e.target.files[0]);
-  }; */
+  const handleMenuClick = (action) => {
+    switch (action) {
+      case 'edit':
+        // Handle edit action
+        console.log('Edit clicked');
+        break;
+      case 'delete':
+        // Handle delete action
+        console.log('Delete clicked');
+        break;
+      default:
+        break;
+    }
+  };
 
   return (
     <Container>
       <HeaderWrapper>
-        <BoardHeader />
+        <BoardHeader onMenuClick={handleMenuClick} showModal />
       </HeaderWrapper>
       <BoardRow>
         <TextContainer>
