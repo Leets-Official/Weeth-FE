@@ -65,7 +65,7 @@ const modalStyles = {
 
 const onClickIndexButton = () => {};
 
-const CalendarHeader = ({ todayMonth, todayYear, isYear }) => {
+const CalendarHeader = ({ month, year, isYear, editYear, editMonth }) => {
   const [dateModalIsOpen, setMonthModalIsOpen] = useState(false);
 
   const openMonthModal = () => {
@@ -83,8 +83,8 @@ const CalendarHeader = ({ todayMonth, todayYear, isYear }) => {
     <StyledHeader>
       <LeftButton />
       <TitleWrapper>
-        <TitleYear>{todayYear}년</TitleYear>
-        <TitleMonth>{isYear ? null : `${todayMonth}월`}</TitleMonth>
+        <TitleYear>{year}년</TitleYear>
+        <TitleMonth>{isYear ? null : `${month}월`}</TitleMonth>
         <ImgButton onClick={openMonthModal}>
           <img src={under} alt="select" />
         </ImgButton>
@@ -98,10 +98,12 @@ const CalendarHeader = ({ todayMonth, todayYear, isYear }) => {
         style={modalStyles}
       >
         <ModalMonthContent
-          origYear={todayYear}
-          origMonth={todayMonth}
+          origYear={year}
+          origMonth={month}
           isYear={isYear}
           onClickTextButton={onClickTextButton}
+          editYear={editYear}
+          editMonth={editMonth}
         />
       </Modal>
     </StyledHeader>
@@ -109,9 +111,11 @@ const CalendarHeader = ({ todayMonth, todayYear, isYear }) => {
 };
 
 CalendarHeader.propTypes = {
-  todayMonth: PropTypes.number.isRequired,
-  todayYear: PropTypes.number.isRequired,
+  month: PropTypes.number.isRequired,
+  year: PropTypes.number.isRequired,
   isYear: PropTypes.bool.isRequired,
+  editYear: PropTypes.func.isRequired,
+  editMonth: PropTypes.func.isRequired,
 };
 
 export default CalendarHeader;

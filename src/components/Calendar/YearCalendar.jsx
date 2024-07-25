@@ -9,6 +9,7 @@ const MonthlyBox = styled.div`
   flex-wrap: wrap;
   justify-content: space-between;
   width: 370px;
+  padding-bottom: 183px;
 `;
 
 const EvenMonth = styled.div`
