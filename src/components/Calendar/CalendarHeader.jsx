@@ -67,6 +67,8 @@ const onClickIndexButton = () => {};
 
 const CalendarHeader = ({ todayMonth, todayYear, isYear }) => {
   const [dateModalIsOpen, setMonthModalIsOpen] = useState(false);
+  const [year, setYear] = useState(todayYear);
+  const [month, setMonth] = useState(todayMonth);
 
   const openMonthModal = () => {
     setMonthModalIsOpen(true);
@@ -79,12 +81,20 @@ const CalendarHeader = ({ todayMonth, todayYear, isYear }) => {
     closeMonthModal();
   };
 
+  const editYear = (newYear) => {
+    setYear(newYear);
+  };
+
+  const editMonth = (newMonth) => {
+    setMonth(newMonth);
+  };
+
   return (
     <StyledHeader>
       <LeftButton />
       <TitleWrapper>
-        <TitleYear>{todayYear}년</TitleYear>
-        <TitleMonth>{isYear ? null : `${todayMonth}월`}</TitleMonth>
+        <TitleYear>{year}년</TitleYear>
+        <TitleMonth>{isYear ? null : `${month}월`}</TitleMonth>
         <ImgButton onClick={openMonthModal}>
           <img src={under} alt="select" />
         </ImgButton>
@@ -98,10 +108,12 @@ const CalendarHeader = ({ todayMonth, todayYear, isYear }) => {
         style={modalStyles}
       >
         <ModalMonthContent
-          origYear={todayYear}
-          origMonth={todayMonth}
+          origYear={year}
+          origMonth={month}
           isYear={isYear}
           onClickTextButton={onClickTextButton}
+          editYear={editYear}
+          editMonth={editMonth}
         />
       </Modal>
     </StyledHeader>
