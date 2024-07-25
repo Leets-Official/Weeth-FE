@@ -1,10 +1,11 @@
+import React, { useState } from 'react';
 import styled from 'styled-components';
-
+import PropTypes from 'prop-types';
 import LeftButton from '../Header/LeftButton';
 import IndexButton from '../Header/IndexButton';
 // import TextButton from '../Header/TextButton';
 import Title from '../Header/Title';
-// import theme from '../../styles/theme';
+import theme from '../../styles/theme';
 
 const StyledHeader = styled.div`
   display: flex;
@@ -23,37 +24,113 @@ const TitleWrapper = styled.div`
   // transform: translateX(-50%);
 `;
 
-/*
-LeftButton은 모든 페이지에서 동일하게 사용되어 props를 설정하지 않았음
+const ModalOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
-IndexButton(⋮)과 Text버튼(글자 입력 가능) 중 한가지만 선택하여 사용
-두개의 버튼 모두 onClick 함수를 props로 받습니다
+const ModalContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+`;
 
-TextButton Props
-onClick
-text : 버튼에 나타날 글자를 입력
-color : 버튼의 색상을 선택, 아무것도 설정하지 않으면 흰색,
-        green은 대표색상인 #00DDA8로 나타납니다
+const ModalContent = styled.div`
+  background: #333;
+  border-radius: 10px;
+  padding: 10px 0;
+  width: 250px;
+  text-align: center;
+`;
 
-onClick은 아래 함수에 각각의 함수를 작성
-버튼에게 할당된 클릭 이벤트가 없을 때(가 없겟지만..)
-()=>{}로 선언만 해두면 됨
-@@@@안 하면 에러남@@@@
-*/
+const MenuTitle = styled.div`
+  font-family: ${theme.font.family.pretendard_regular};
+  padding: 10px 0;
+  color: #fff;
+  cursor: default;
+  border-bottom: 1px solid #444;
+`;
 
-// const onClickIndexButton = () => {};
-// const onClickTextButton = () => {};
+const MenuItem = styled.div`
+  padding: 15px 0;
+  color: #00dda8;
+  cursor: pointer;
+  &:not(:last-child) {
+    border-bottom: 1px solid #444;
+  }
+`;
 
-const NoticeHeader = () => {
+const CancelButton = styled.div`
+  background: #333;
+  border-radius: 10px;
+  padding: 15px 0;
+  width: 250px;
+  text-align: center;
+  color: #fff;
+  cursor: pointer;
+`;
+
+const NoticeHeader = ({ onMenuClick, showModal }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleIndexButtonClick = () => {
+    if (showModal) {
+      setIsModalOpen(true);
+    }
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleDeleteClick = () => {
+    if (window.confirm('삭제하시겠습니까?')) {
+      onMenuClick('delete');
+      setIsModalOpen(false);
+    }
+  };
+
   return (
-    <StyledHeader>
-      <LeftButton />
-      <TitleWrapper>
-        <Title text="게시판" />
-      </TitleWrapper>
-      <IndexButton />
-    </StyledHeader>
+    <>
+      <StyledHeader>
+        <LeftButton />
+        <TitleWrapper>
+          <Title text="게시판" />
+        </TitleWrapper>
+        <IndexButton onClick={handleIndexButtonClick} />
+      </StyledHeader>
+      {isModalOpen && (
+        <ModalOverlay onClick={handleCloseModal}>
+          <ModalContainer onClick={(e) => e.stopPropagation()}>
+            <ModalContent>
+              <MenuTitle>글메뉴</MenuTitle>
+              <MenuItem onClick={() => onMenuClick('edit')}>수정</MenuItem>
+              <MenuItem onClick={handleDeleteClick}>삭제</MenuItem>
+            </ModalContent>
+            <CancelButton onClick={handleCloseModal}>취소</CancelButton>
+          </ModalContainer>
+        </ModalOverlay>
+      )}
+    </>
   );
+};
+
+NoticeHeader.propTypes = {
+  onMenuClick: PropTypes.func,
+  showModal: PropTypes.bool,
+};
+
+NoticeHeader.defaultProps = {
+  onMenuClick: () => {},
+  showModal: false,
 };
 
 export default NoticeHeader;
