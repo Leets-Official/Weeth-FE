@@ -122,7 +122,7 @@ const Signup = () => {
     <Container>
       <SignupHeader
         onClickLeftButton={onClickLeftButton}
-        isRightButtonEnabled={isChecked}
+        isRightButtonEnabled={isChecked || (page === 1 && password.trim() !== '')}
         onClickTextButton={handleNextClick}
         nextButtonText={page === 0 ? "다음" : "완료"}
       />
