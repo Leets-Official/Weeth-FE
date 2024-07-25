@@ -21,7 +21,7 @@ const Label = styled.div`
   line-height: 19.09px;
 `;
 
-const InputLine = styled.input` / *이거 맞냐 */
+const InputLine = styled.input`
   display: flex;
   width: 58%;
   weight: 400;
@@ -31,8 +31,8 @@ const InputLine = styled.input` / *이거 맞냐 */
   background-color: transparent;
   color: #ffffff;
   font-size: 16px;
-  outline: none; /* 뭔데 */
-  
+  outline: none;
+
   &::placeholder {
     color: #333333;
   }

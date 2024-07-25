@@ -145,7 +145,7 @@ const HomeMain = () => {
         </PenaltyItem>
         <BoardItem
           onClick={() => {
-            navi(`/board`);
+            navi(`/notice`);
           }}
         >
           게시판

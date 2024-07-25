@@ -14,12 +14,13 @@ import theme from '../../styles/theme';
 const SignupTexts = styled.div`
   display: flex;
   justify-content: flex-start;
-  width: 100%; /* 원래 52%인데 이렇게 하면 안 되더라 */
+  width: 100%;
   font-family: ${theme.font.family.pretendard_semiBold};
   font-weight: 600;
   color: ${theme.color.grayScale.white};
   margin-bottom: 0;
-  margin-left: 7%;
+  line-height: 1.2; /* Adjust line height to prevent text overlap */
+  white-space: nowrap;
 `;
 
 const SignupWhite = ({ text }) => {

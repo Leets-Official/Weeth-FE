@@ -20,7 +20,7 @@ const HeaderMargin = styled.div`
 
 const CheckButton = styled.button`
   margin-top: 15px;
-  margin-right: 7%;
+  margin-right: 5%;
   text-align: right;
   background: none;
   border: none;
@@ -122,7 +122,7 @@ const Signup = () => {
     <Container>
       <SignupHeader
         onClickLeftButton={onClickLeftButton}
-        isRightButtonEnabled={isChecked}
+        isRightButtonEnabled={isChecked || (page === 1 && password.trim() !== '')}
         onClickTextButton={handleNextClick}
         nextButtonText={page === 0 ? "다음" : "완료"}
       />
