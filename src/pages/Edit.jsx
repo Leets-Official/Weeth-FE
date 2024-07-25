@@ -28,7 +28,6 @@ const Edit = () => {
 
   const saveEditInfo = () => {
     mockUser[0] = userInfo;
-    console.log('저장');
   };
 
   return (

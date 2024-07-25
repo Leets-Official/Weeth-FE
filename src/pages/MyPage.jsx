@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 
 import MyPageHeader from '../components/MyPage/MyPageHeader';
+import InfoComponent from '../components/Member/InfoComponent';
 import mockUser from '../components/mockData/mockUser';
 
 import icName from '../assets/images/ic_name.svg';
@@ -26,32 +27,8 @@ const StyledDetails = styled.div`
   padding-bottom: 183px;
 `;
 
-const Line = styled.div`
-  border: 1px solid;
-  width: 325px;
-  transform: scaleY(0.2);
-  margin: auto;
-`;
-
 const InfoWrapper = styled.div`
   padding-top: 20px;
-`;
-
-const Info = styled.div`
-  display: flex;
-  align-items: center;
-  margin: 25px;
-`;
-
-const Text = styled.div`
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  margin-left: 10px;
-`;
-
-const MainColor = styled.div`
-  color: ${theme.color.main.mainColor};
 `;
 
 const ImgButton = styled.div`
@@ -77,62 +54,48 @@ const MyPage = () => {
     <StyledDetails>
       <MyPageHeader isEdit={false} />
       <InfoWrapper>
-        <Info>
-          <img src={icName} alt="name" />
-          <Text>
-            <div>이름</div>
-            <MainColor>{mockUser[0].name}</MainColor>
-          </Text>
-        </Info>
-        <Line />
-        <Info>
-          <img src={icId} alt="id" />
-          <Text>
-            <div>학번</div>
-            <MainColor>{mockUser[0].studentId}</MainColor>
-          </Text>
-        </Info>
-        <Line />
-        <Info>
-          <img src={icDepartment} alt="department" />
-          <Text>
-            <div>학과</div>
-            <MainColor>{mockUser[0].department}</MainColor>
-          </Text>
-        </Info>
-        <Line />
-        <Info>
-          <img src={icPhone} alt="phoe" />
-          <Text>
-            <div>핸드폰</div>
-            <MainColor>{mockUser[0].tel}</MainColor>
-          </Text>
-        </Info>
-        <Line />
-        <Info>
-          <img src={icCardinal} alt="cardinal" />
-          <Text>
-            <div>기수</div>
-            <MainColor>{mockUser[0].cardinal}</MainColor>
-          </Text>
-        </Info>
-        <Line />
-        <Info>
-          <img src={icPosition} alt="positon" />
-          <Text>
-            <div>역할</div>
-            <MainColor>{mockUser[0].position}</MainColor>
-          </Text>
-        </Info>
-        <Line />
-        <Info>
-          <img src={icEmail} alt="email" />
-          <Text>
-            <div>메일</div>
-            <MainColor>{mockUser[0].email}</MainColor>
-          </Text>
-        </Info>
-        <Line />
+        <InfoComponent
+          src={icName}
+          alt="smile"
+          index="이름"
+          value={mockUser[0].name}
+        />
+        <InfoComponent
+          src={icId}
+          alt="heart"
+          index="학번"
+          value={mockUser[0].studentId}
+        />
+        <InfoComponent
+          src={icDepartment}
+          alt="pencil"
+          index="학과"
+          value={mockUser[0].department}
+        />
+        <InfoComponent
+          src={icPhone}
+          alt="phone"
+          index="핸드폰"
+          value={mockUser[0].tel}
+        />
+        <InfoComponent
+          src={icCardinal}
+          alt="tag"
+          index="기수"
+          value={mockUser[0].cardinal}
+        />
+        <InfoComponent
+          src={icPosition}
+          alt="monitor"
+          index="역할"
+          value={mockUser[0].position}
+        />
+        <InfoComponent
+          src={icEmail}
+          alt="mail"
+          index="메일"
+          value={mockUser[0].email}
+        />
       </InfoWrapper>
       <ImgButton
         onClick={() => {
