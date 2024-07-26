@@ -24,6 +24,7 @@ const MemberList = styled.div`
   height: 100%;
   max-width: 350px;
   margin: 0px 10px auto;
+  padding-bottom: 183px;
 `;
 
 const Member = () => {

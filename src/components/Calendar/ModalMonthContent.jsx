@@ -48,19 +48,29 @@ const Text = styled.div`
   margin-right: 15px;
 `;
 
-const ModalContent = ({ origYear, origMonth, isYear, onClickTextButton }) => {
+const ModalContent = ({
+  origYear,
+  origMonth,
+  isYear,
+  onClickTextButton,
+  editMonth,
+  editYear,
+}) => {
   const [year, setYear] = useState(origYear);
   const [month, setMonth] = useState(origMonth);
 
   const onChangeYear = (e) => {
     setYear(e.target.value);
+    editYear(e.target.value);
   };
 
   const onChangeMonth = (e) => {
     setMonth(e.target.value);
+    editMonth(e.target.value);
   };
 
   if (isYear) {
+    // 연력일 경우
     return (
       <StyledContent isYear={isYear}>
         <YearButton>
@@ -75,6 +85,7 @@ const ModalContent = ({ origYear, origMonth, isYear, onClickTextButton }) => {
       </StyledContent>
     );
   }
+  // 달력일 경우
   return (
     <StyledContent isYear={isYear}>
       <MonthButton>
@@ -93,6 +104,8 @@ ModalContent.propTypes = {
   origMonth: PropTypes.number.isRequired,
   isYear: PropTypes.bool.isRequired,
   onClickTextButton: PropTypes.func.isRequired,
+  editMonth: PropTypes.func.isRequired,
+  editYear: PropTypes.func.isRequired,
 };
 
 export default ModalContent;

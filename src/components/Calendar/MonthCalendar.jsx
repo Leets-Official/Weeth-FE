@@ -1,16 +1,16 @@
-import React from 'react';
-
+import React, { useEffect, useRef } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import styled from 'styled-components';
 import { format } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
-
+import PropTypes from 'prop-types';
 import theme from '../../styles/theme';
 import mockEventMonth from '../mockData/mockEventMonth';
 
 const CalendarContainer = styled.div`
   width: 100%;
+  padding-bottom: 183px;
   font-family: ${theme.font.family.pretendard_regular};
   font-size: 16px;
   z-index: 2;
@@ -109,7 +109,8 @@ const Today = styled.div`
   z-index: 0;
 `;
 
-const MonthCalendar = () => {
+const MonthCalendar = ({ year, month }) => {
+  const calendarRef = useRef(null); // useRef를 사용하여 참조 객체 생성
   const navi = useNavigate();
 
   const renderDayCell = (arg) => {
@@ -128,15 +129,21 @@ const MonthCalendar = () => {
     navi(`/event/${eventId}`);
   };
 
+  useEffect(() => {
+    if (calendarRef.current) {
+      const calendarApi = calendarRef.current.getApi(); // FullCalendar 인스턴스에 접근
+      calendarApi.gotoDate(new Date(year, month - 1)); // 날짜 변경
+    }
+  }, [year, month]);
+
   return (
     <CalendarContainer>
       <FullCalendar
-        className="calendar"
-        defaultView="dayGridMonth"
+        ref={calendarRef} // FullCalendar에 참조 객체 전달
         plugins={[dayGridPlugin]}
         events={mockEventMonth}
         eventClick={onClickEvent}
-        locale="koLocale"
+        locale="ko"
         headerToolbar={false}
         fixedWeekCount={false}
         dayCellContent={renderDayCell}
@@ -144,6 +151,11 @@ const MonthCalendar = () => {
       />
     </CalendarContainer>
   );
+};
+
+MonthCalendar.propTypes = {
+  month: PropTypes.number.isRequired,
+  year: PropTypes.number.isRequired,
 };
 
 export default MonthCalendar;

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
@@ -27,12 +27,17 @@ const Input = styled.input`
   font-size: 16px;
 `;
 
-const InfoInput = ({ text, origValue }) => {
+const InfoInput = ({ text, origValue, editValue }) => {
   const [value, setValue] = useState(origValue);
 
   const onChangeValue = (e) => {
     setValue(e.target.value);
+    editValue(e.target.value);
   };
+
+  useEffect(() => {
+    setValue(origValue);
+  }, [origValue]);
 
   return (
     <StyledInfoInput>
@@ -44,7 +49,9 @@ const InfoInput = ({ text, origValue }) => {
 
 InfoInput.propTypes = {
   text: PropTypes.string.isRequired,
-  origValue: PropTypes.string.isRequired,
+  origValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+    .isRequired,
+  editValue: PropTypes.func.isRequired,
 };
 
 export default InfoInput;

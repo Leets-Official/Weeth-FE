@@ -47,12 +47,12 @@ const EventDetails = () => {
   const origEndDate = event.end;
 
   const splittedStartDate = origStartDate.split('T'); // YYYY-MM-DD,HH:MM:SS.SSSZ
-  const startDate = splittedStartDate[0].split('-', 3); // [YYYY, MM, DD]
-  const startTime = splittedStartDate[1].split(':', 2); // [HH, MM]
+  const startDate = splittedStartDate[0].split('-'); // [YYYY, MM, DD]
+  const startTime = splittedStartDate[1].split(':'); // [HH, MM]
 
   const splittedEndDate = origEndDate.split('T'); // YYYY-MM-DD,HH:MM:SS.SSSZ
-  const endDate = splittedEndDate[0].split('-', 3); // [YYYY, MM, DD]
-  const endTime = splittedEndDate[1].split(':', 2); // [HH, MM]
+  const endDate = splittedEndDate[0].split('-'); // [YYYY, MM, DD]
+  const endTime = splittedEndDate[1].split(':'); // [HH, MM]
 
   let isOneday = true;
   // eslint-disable-next-line no-plusplus
@@ -73,7 +73,8 @@ const EventDetails = () => {
             <TimeInfo>
               <Icon src={icCalendar} alt="calenar" />
               <div>
-                {startDate[0]}년 {startDate[1]}월 {startDate[2]}일
+                {startDate[0]}년 {parseInt(startDate[1], 10)}월{' '}
+                {parseInt(startDate[2], 10)}일
               </div>
             </TimeInfo>
             <TimeInfo>
@@ -89,8 +90,8 @@ const EventDetails = () => {
             <TimeInfo>
               <Icon src={icCalendar} alt="calenar" />
               <div>
-                {startDate[0]}년 {startDate[1]}월 {startDate[2]}일{' '}
-                {startTime[0]}:{startTime[1]}에서
+                {startDate[0]}년 {parseInt(startDate[1], 10)}월{' '}
+                {parseInt(startDate[2], 10)}일 {startTime[0]}:{startTime[1]}에서
               </div>
             </TimeInfo>
             <TimeInfo>
