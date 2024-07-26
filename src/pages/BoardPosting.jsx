@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import PostingHeader from '../components/Board/PostingHeader';
+import FileAttachMenu from '../components/Board/FileAttachMenu';
 import { ReactComponent as FileAttach } from '../assets/images/ic_board_fileAttach.svg';
 import theme from '../styles/theme';
 
@@ -17,7 +18,6 @@ const StyledText = styled.div`
   line-height: 19.09px;
 `;
 
-/* 임시 */
 const StyledTitle = styled.input`
   width: 88%;
   margin-top: 20px;
@@ -51,81 +51,84 @@ const StyledContent = styled.textarea`
   height: 455px;
 `;
 
-const StyledFileAttach = styled.div`
-  margin-left: 7%;
-  margin-bottom: 148px;
-`;
-
-const BoardPosting = ({ initialBoardName, initialBoardContent }) => {
+const BoardPosting = ({ initialStudyName, initialStudyContent }) => {
   const navi = useNavigate();
-  const [boardName, setBoardName] = useState(initialBoardName);
-  const [boardContent, setBoardContent] = useState(initialBoardContent);
+  const [studyName, setStudyName] = useState(initialStudyName);
+  const [studyContent, setStudyContent] = useState(initialStudyContent);
   const [isCompleteEnabled, setIsCompleteEnabled] = useState(false);
+  const [isMenuOpen, setMenuOpen] = useState(false); // 모달 상태 추가
 
-  const handleBoardNameChange = (e) => {
-    setBoardName(e.target.value);
+  const handleStudyNameChange = (e) => {
+    setStudyName(e.target.value);
   };
 
   const handleBoardContentChange = (e) => {
-    setBoardContent(e.target.value);
+    setStudyContent(e.target.value);
   };
 
-  /* const handleFocus = () => {
-    setIsKeyboardVisible(true);
-  }; 
-
-  /* const handleBlur = () => {
-    setIsKeyboardVisible(false);
-  }; */
-
-  // Board.jsx로 넘어가서 썼던 내용 보낼 수 있게
-  const handleCompleteClick = () => {
+  const handleBoardClick = () => {
     if (isCompleteEnabled) {
-      navi('/board', { state: { boardName, boardContent } }); // ?
+      navi('/board', {
+        state: {
+          studyName,
+          studyContent,
+        },
+      });
     }
   };
 
+  const handleOpenMenu = () => {
+    setMenuOpen(true);
+  };
+
+  const handleCloseMenu = () => {
+    setMenuOpen(false);
+  };
+
   useEffect(() => {
-    setIsCompleteEnabled(boardName && boardContent.length >= 1); // ?
-  }, [boardName, boardContent]);
+    setIsCompleteEnabled(studyName && studyContent.length >= 1);
+  }, [studyName, studyContent]);
 
   return (
     <StyledPosting>
       <PostingHeader
         isRightButtonEnabled={isCompleteEnabled}
-        onCompleteClick={handleCompleteClick}
+        onCompleteClick={handleBoardClick}
       />
       <StyledText>
         <StyledTitle
           type="text"
           placeholder="제목"
-          value={boardName}
-          onChange={handleBoardNameChange}
+          value={studyName}
+          onChange={handleStudyNameChange}
         />
       </StyledText>
       <StyledLine />
       <StyledText>
         <StyledContent
           placeholder="내용을 입력하세요."
-          value={boardContent}
+          value={studyContent}
           onChange={handleBoardContentChange}
         />
       </StyledText>
-      <StyledFileAttach>
-        <FileAttach />
-      </StyledFileAttach>
+      <FileAttach
+        alt=""
+        onClick={handleOpenMenu}
+        style={{ marginLeft: '7%', marginBottom: '148px' }}
+      />
+      <FileAttachMenu isOpen={isMenuOpen} onClose={handleCloseMenu} />
     </StyledPosting>
   );
 };
 
 BoardPosting.propTypes = {
-  initialBoardName: PropTypes.string,
-  initialBoardContent: PropTypes.string,
+  initialStudyName: PropTypes.string,
+  initialStudyContent: PropTypes.string,
 };
 
 BoardPosting.defaultProps = {
-  initialBoardName: '',
-  initialBoardContent: '',
+  initialStudyName: '',
+  initialStudyContent: '',
 };
 
 export default BoardPosting;
