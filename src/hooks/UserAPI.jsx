@@ -38,8 +38,6 @@ const UserAPI = () => {
   const ACCESS_TOKEN = process.env.REACT_APP_ACCESS_TOKEN;
 
   useEffect(() => {
-    console.log("Access Token:", ACCESS_TOKEN);
-
     const headers = {
       // 일단 현재는 access token만 넣었는데 나중에 refresh 토큰도 넣어야 합니다
       Authorization: `Bearer ${ACCESS_TOKEN}`,
