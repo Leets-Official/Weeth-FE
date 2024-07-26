@@ -1,11 +1,12 @@
 import styled from 'styled-components';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 
 import theme from '../styles/theme';
 import MemberHeader from '../components/Member/MemberHeader';
 import Category from '../components/Member/Category';
 import MemberName from '../components/Member/MemberName';
-import mockUser from '../components/mockData/mockUser';
+// import mockUser from '../components/mockData/mockUser';
+import { UserContext } from '../hooks/UserContext';
 
 const StyledMember = styled.div`
   width: 370px;
@@ -28,12 +29,18 @@ const MemberList = styled.div`
 `;
 
 const Member = () => {
-  const [selectedCardinal, setSelectedCardinal] = useState(null);
+  const [selectedCardinal, setSelectedCardinal] = useState(0);
 
-  const filteredUsers =
-    selectedCardinal === null
-      ? mockUser
-      : mockUser.filter((user) => user.cardinal === selectedCardinal);
+  const { allUserData, error } = useContext(UserContext);
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
+  if (!allUserData) {
+    return <div>Loading...</div>;
+  }
+  console.log(allUserData);
 
   return (
     <StyledMember>
@@ -42,14 +49,15 @@ const Member = () => {
         <Category setSelectedCardinal={setSelectedCardinal} />
       </CategoryWrapper>
       <MemberList>
-        {filteredUsers.map((user) => (
+        <MemberName />
+        {allUserData[selectedCardinal].map((user) => (
           <MemberName
-            key={user.name}
+            key={user.studentId}
             name={user.name}
             studentId={user.studentId}
             department={user.department}
             email={user.email}
-            cardinal={user.cardinal}
+            cardinal={user.cardinals}
             position={user.position}
           />
         ))}
