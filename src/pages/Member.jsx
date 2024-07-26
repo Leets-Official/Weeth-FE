@@ -23,9 +23,16 @@ const MemberList = styled.div`
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
   height: 100%;
-  max-width: 350px;
+  width: 350px;
   margin: 0px 10px auto;
   padding-bottom: 183px;
+`;
+
+const Error = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  font-family: ${theme.font.family.pretendard_semiBold};
 `;
 
 const Member = () => {
@@ -33,14 +40,11 @@ const Member = () => {
 
   const { allUserData, error } = useContext(UserContext);
 
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
-
-  if (!allUserData) {
-    return <div>Loading...</div>;
-  }
-  console.log(allUserData);
+  /*
+  error라면 빈 배열 반환
+  혹은 데이터의 값이 유효하지 않다면 빈 배열 반환
+  */
+  const isValid = error ? [] : allUserData?.[selectedCardinal] || [];
 
   return (
     <StyledMember>
@@ -49,18 +53,25 @@ const Member = () => {
         <Category setSelectedCardinal={setSelectedCardinal} />
       </CategoryWrapper>
       <MemberList>
-        <MemberName />
-        {allUserData[selectedCardinal].map((user) => (
-          <MemberName
-            key={user.studentId}
-            name={user.name}
-            studentId={user.studentId}
-            department={user.department}
-            email={user.email}
-            cardinal={user.cardinals}
-            position={user.position}
-          />
-        ))}
+        {/* isValid가 빈배열인가?(==error?)
+        true: MemberName 렌더링
+        false: ERROR
+        */}
+        {isValid.length > 0 ? (
+          isValid.map((user) => (
+            <MemberName
+              key={user.studentId}
+              name={user.name}
+              studentId={user.studentId}
+              department={user.department}
+              email={user.email}
+              cardinal={user.cardinals}
+              position={user.position}
+            />
+          ))
+        ) : (
+          <Error>ERROR</Error>
+        )}
       </MemberList>
     </StyledMember>
   );
