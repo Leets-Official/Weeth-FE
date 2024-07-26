@@ -27,8 +27,6 @@ const MainColor = styled.div`
 `;
 
 const InfoComponent = ({ src, alt, index, value }) => {
-  let isPosition = false;
-  if (index === 'position') isPosition = true;
   let positionKo = 'none';
 
   switch (value) {
@@ -48,21 +46,28 @@ const InfoComponent = ({ src, alt, index, value }) => {
       positionKo = '없음';
   }
 
+  const renderValue = () => {
+    if (index === '역할') {
+      return positionKo;
+    }
+    if (index === '기수') {
+      console.log({ value });
+      return value;
+    }
+    return value;
+  };
+
   return (
-    <>
+    <div>
       <Info>
         <img src={src} alt={alt} />
         <Text>
           <div>{index}</div>
-          {isPosition ? (
-            <MainColor>{positionKo}</MainColor>
-          ) : (
-            <MainColor>{value}</MainColor>
-          )}
+          <MainColor>{renderValue()}</MainColor>
         </Text>
       </Info>
       <Line />
-    </>
+    </div>
   );
 };
 
@@ -70,7 +75,11 @@ InfoComponent.propTypes = {
   src: PropTypes.string.isRequired,
   alt: PropTypes.string.isRequired,
   index: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired,
+  value: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.arrayOf(PropTypes.string),
+    PropTypes.arrayOf(PropTypes.number),
+  ]).isRequired,
 };
 
 export default InfoComponent;

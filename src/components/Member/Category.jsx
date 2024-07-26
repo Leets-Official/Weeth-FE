@@ -24,25 +24,25 @@ const Button = styled.button`
 `;
 
 const Category = ({ setSelectedCardinal }) => {
-  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [selectedCategory, setSelectedCategory] = useState(0);
 
   const onClickAll = () => {
-    setSelectedCategory('all');
-    setSelectedCardinal(null);
+    setSelectedCategory(0);
+    setSelectedCardinal(0);
   };
 
   const onClick1 = () => {
-    setSelectedCategory('1');
+    setSelectedCategory(1);
     setSelectedCardinal(1);
   };
 
   const onClick2 = () => {
-    setSelectedCategory('2');
+    setSelectedCategory(2);
     setSelectedCardinal(2);
   };
 
   const onClick3 = () => {
-    setSelectedCategory('3');
+    setSelectedCategory(3);
     setSelectedCardinal(3);
   };
 
@@ -50,30 +50,18 @@ const Category = ({ setSelectedCardinal }) => {
     <StyledCategory>
       <Button
         type="button"
-        checked={selectedCategory === 'all'}
+        checked={selectedCategory === 0}
         onClick={onClickAll}
       >
         전체
       </Button>
-      <Button
-        type="button"
-        checked={selectedCategory === '1'}
-        onClick={onClick1}
-      >
+      <Button type="button" checked={selectedCategory === 1} onClick={onClick1}>
         1기
       </Button>
-      <Button
-        type="button"
-        checked={selectedCategory === '2'}
-        onClick={onClick2}
-      >
+      <Button type="button" checked={selectedCategory === 2} onClick={onClick2}>
         2기
       </Button>
-      <Button
-        type="button"
-        checked={selectedCategory === '3'}
-        onClick={onClick3}
-      >
+      <Button type="button" checked={selectedCategory === 3} onClick={onClick3}>
         3기
       </Button>
     </StyledCategory>
@@ -81,7 +69,7 @@ const Category = ({ setSelectedCardinal }) => {
 };
 
 Category.propTypes = {
-  setSelectedCardinal: PropTypes.string.isRequired,
+  setSelectedCardinal: PropTypes.number.isRequired,
 };
 
 export default Category;

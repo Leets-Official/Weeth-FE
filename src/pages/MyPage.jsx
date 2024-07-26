@@ -1,10 +1,11 @@
 import styled from 'styled-components';
 
+import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import MyPageHeader from '../components/MyPage/MyPageHeader';
 import InfoComponent from '../components/Member/InfoComponent';
-import mockUser from '../components/mockData/mockUser';
+// import mockUser from '../components/mockData//mockUser';
 
 import icName from '../assets/images/ic_name.svg';
 import icId from '../assets/images/ic_studentID.svg';
@@ -13,8 +14,8 @@ import icCardinal from '../assets/images/ic_cardinal.svg';
 import icPhone from '../assets/images/ic_phone.svg';
 import icPosition from '../assets/images/ic_position.svg';
 import icEmail from '../assets/images/ic_mail.svg';
-
 import icEdit from '../assets/images/ic_edit.svg';
+import { UserContext } from '../hooks/UserContext';
 
 import theme from '../styles/theme';
 
@@ -49,6 +50,16 @@ const NegativeButton = styled.div`
 `;
 
 const MyPage = () => {
+  const { userData, error } = useContext(UserContext);
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
+  if (!userData) {
+    return <div>Loading...</div>;
+  }
+
   const navi = useNavigate();
   return (
     <StyledDetails>
@@ -58,43 +69,43 @@ const MyPage = () => {
           src={icName}
           alt="smile"
           index="이름"
-          value={mockUser[0].name}
+          value={userData.name}
         />
         <InfoComponent
           src={icId}
           alt="heart"
           index="학번"
-          value={mockUser[0].studentId}
+          value={userData.studentId}
         />
         <InfoComponent
           src={icDepartment}
           alt="pencil"
           index="학과"
-          value={mockUser[0].department}
+          value={userData.department}
         />
         <InfoComponent
           src={icPhone}
           alt="phone"
           index="핸드폰"
-          value={mockUser[0].tel}
+          value={userData.tel}
         />
         <InfoComponent
           src={icCardinal}
           alt="tag"
           index="기수"
-          value={mockUser[0].cardinal}
+          value={userData.cardinal}
         />
         <InfoComponent
           src={icPosition}
           alt="monitor"
           index="역할"
-          value={mockUser[0].position}
+          value={userData.position}
         />
         <InfoComponent
           src={icEmail}
           alt="mail"
           index="메일"
-          value={mockUser[0].email}
+          value={userData.email}
         />
       </InfoWrapper>
       <ImgButton
