@@ -97,6 +97,10 @@ const AttendMain = () => {
 
   const { userData, error } = useContext(UserContext);
 
+  // 일단 일정 있고 패널티 있는 게 true
+  let hasSchedule = true;
+  const hasPenalty = true;
+
   let userName;
   if (error) {
     userName = 'error';
@@ -132,28 +136,43 @@ const AttendMain = () => {
 
   let title;
   let location;
-  let startDateTime;
+  let startDateTime; // 날짜
+  let endDateTime; // 시간
+
+  // eslint-disable-next-line no-console
+  console.log(attendanceData);
 
   if (attendFetchError) {
     title = 'error';
     location = 'error';
     startDateTime = 'error';
+    endDateTime = 'error';
   } else if (!attendanceData) {
-    title = 'loading';
-    location = 'loading';
-    startDateTime = 'loading';
+    hasSchedule = false;
   } else {
     title = attendanceData.title;
     location = attendanceData.location;
-    // startDate를 년-월-일 형식으로 변경
+
+    // Date 객체로 변환
     const startDate = new Date(attendanceData.startDateTime);
-    const options = { year: 'numeric', month: 'long', day: 'numeric' };
-    startDateTime = startDate.toLocaleDateString('ko-KR', options);
+    const endDate = new Date(attendanceData.endDateTime);
+
+    // 날짜 형식으로 변환
+    const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+    startDateTime = startDate.toLocaleDateString('ko-KR', dateOptions);
+
+    // 시간 형식으로 변환 (24시간 형식)
+    const timeOptions = { hour: '2-digit', minute: '2-digit', hour12: false };
+    const startTime = startDate.toLocaleTimeString('ko-KR', timeOptions);
+    const endTime = endDate.toLocaleTimeString('ko-KR', timeOptions);
+
+    // 피그마 형식대로 변환
+    endDateTime = `(${startTime} ~ ${endTime})`;
   }
 
-  // 일단 일정 있고 패널티 있는 게 true
-  const hasSchedule = true;
-  const hasPenalty = true;
+  /* 현재 출석률은 null이라 따로 받아오지 않았음
+  나중에 변경되면 ATTEND_GUAGE를 let으로 변경후
+  위에서 attendanceRate를 검증 뒤 할당해야 됨 */
 
   // 출석체크 모달
   const handleOpenModal = () => setModalOpen(true);
@@ -195,10 +214,16 @@ const AttendMain = () => {
           <div className="attend-container">
             <SemiBold>
               <div className="attend-project">
-                오늘은 &quot;{title}&quot;가 있는 날이에요
+                오늘은{' '}
+                <span style={{ color: theme.color.main.mainColor }}>
+                  &quot;{title}&quot;
+                </span>
+                가 있는 날이에요
               </div>
             </SemiBold>
-            <div className="attend-date">날짜 : {startDateTime}</div>
+            <div className="attend-date">
+              날짜 : {startDateTime} {endDateTime}
+            </div>
             <div className="attend-place">장소 : {location}</div>
             <div className="attend-button">
               <Button
