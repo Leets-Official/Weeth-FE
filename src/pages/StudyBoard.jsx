@@ -111,20 +111,30 @@ const BottomRow = styled.div`
 const StudyBoard = () => {
   const [comment, setComment] = useState('');
   const [comments, setComments] = useState([]);
+  const [commentCount, setCommentCount] = useState(0);
 
   const location = useLocation();
-  const { studyName, studyContent } = location.state || {
-    studyName: '',
+  const { studyTitle, studyContent } = location.state || {
+    studyTitle: '',
     studyContent: '',
   };
 
   useEffect(() => {
     const storedComments = JSON.parse(localStorage.getItem('comments')) || [];
     setComments(storedComments);
+
+    const storedCommentCount = localStorage.getItem('commentCount');
+    if (storedCommentCount !== null) {
+      setCommentCount(parseInt(storedCommentCount, 10));
+    } else {
+      setCommentCount(storedComments.length);
+    }
   }, []);
 
   useEffect(() => {
     localStorage.setItem('comments', JSON.stringify(comments));
+    localStorage.setItem('commentCount', comments.length.toString());
+    setCommentCount(comments.length);
   }, [comments]);
 
   const handleCommentChange = (e) => {
@@ -164,7 +174,7 @@ const StudyBoard = () => {
       </HeaderWrapper>
       <StudyRow>
         <TextContainer>
-          <StudyNamed>{studyName}</StudyNamed>
+          <StudyNamed>{studyTitle}</StudyNamed>
           <SubRow>
             <UserName>김위드</UserName>
             <StyledDate>00/00 00:00</StyledDate>
@@ -178,7 +188,7 @@ const StudyBoard = () => {
         </ComponentRow>
         <BottomRow>
           <BoardChat alt="" />
-          <CommentCount>{comments.length}</CommentCount>
+          <CommentCount>{commentCount}</CommentCount>
         </BottomRow>
         <BoardComment comments={comments} recomments={[]} />
       </StudyRow>

@@ -34,6 +34,7 @@ const StyledText = styled.div`
   font-weight: 600;
   font-size: 16px;
   line-height: 19.09px;
+  cursor: pointer;
 `;
 
 const StyledName = styled.div`
@@ -69,6 +70,7 @@ const StudyContent = styled.div`
   font-weight: 400;
   font-size: 12px;
   line-height: 14.32px;
+  cursor: pointer;
 `;
 
 const BottomRow = styled.div`
@@ -89,22 +91,25 @@ const CommentCount = styled.div`
 `;
 
 const StudyComponent = () => {
-  const navi = useNavigate();
+  const navigate = useNavigate();
   const [isCompleteEnabled, setIsCompleteEnabled] = useState(false);
-
   const location = useLocation();
-  const { studyTitle, studyContent, studyComment } = location.state || {
+
+  const userInfo = location.state || {
     studyTitle: '',
     studyContent: '',
-    studyComment: 0,
+    commentCount: 0,
   };
+
+  const { studyTitle, studyContent, commentCount } = userInfo;
 
   const handleStudyClick = () => {
     if (isCompleteEnabled) {
-      navi('/studyBoard', {
+      navigate('/studyBoard', {
         state: {
           studyTitle,
           studyContent,
+          commentCount,
         },
       });
     }
@@ -130,7 +135,7 @@ const StudyComponent = () => {
           <StudyContent onClick={handleStudyClick}>{studyContent}</StudyContent>
           <BottomRow>
             <BoardChat />
-            <CommentCount>{studyComment}</CommentCount>
+            <CommentCount>{commentCount}</CommentCount>
           </BottomRow>
         </ContentRow>
       </BoardContainer>

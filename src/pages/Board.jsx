@@ -4,7 +4,6 @@ import NoticeComponent from '../components/Board/NoticeComponent';
 import StudyComponent from '../components/Board/StudyComponent';
 import NoticeHeader from '../components/Board/NoticeHeader';
 import NoticeMiddle from '../components/Board/NoticeMiddle';
-
 import theme from '../styles/theme';
 
 const Container = styled.div`
@@ -42,7 +41,7 @@ const Tab = styled.div`
 `;
 
 const PostingButton = styled.button`
-  width: cal(370x0.13);
+  width: calc(370px * 0.13);
   height: 28px;
   background-color: ${theme.color.main.mainColor};
   color: ${theme.color.grayScale.white};
@@ -65,7 +64,7 @@ const Board = () => {
       <NoticeHeader showModal={false} />
       <NoticeMiddle
         title={activeTab === 'notice' ? '공지사항' : '스터디 게시판'}
-        button={activeTab === 'study' && <PostingButton>글쓰기</PostingButton>}
+        button={activeTab === 'study' ? <PostingButton>글쓰기</PostingButton> : null}
       />
       <TabsContainer>
         <Tab
@@ -83,9 +82,8 @@ const Board = () => {
       </TabsContainer>
       {activeTab === 'notice' && (
         <NoticeComponent
-          styledName="홍길동"
-          subTitle="공지사항"
-          content="공지내용"
+          noticeTitle="공지사항 제목" // 여기에 필요한 값을 전달합니다.
+          noticeContent="공지사항 내용" // 여기에 필요한 값을 전달합니다.
         />
       )}
       {activeTab === 'study' && <StudyComponent />}
