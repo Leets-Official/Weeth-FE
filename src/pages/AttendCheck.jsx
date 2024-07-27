@@ -9,6 +9,7 @@ const Container = styled.div`
   flex-direction: column;
   width: 370px;
   max-width: 370px;
+  margin-bottom: 50px;
 `;
 
 const Main = styled.main`

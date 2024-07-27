@@ -1,7 +1,10 @@
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import theme from '../../styles/theme';
 import Caption from '../Caption';
+
+const ACCESS_TOKEN = process.env.REACT_APP_ADMIN_TOKEN;
 
 const Container = styled.div`
   display: flex;
@@ -129,9 +132,9 @@ const MeetingBox = ({ attend, title, week, date, place }) => {
     <MeetingInfoBox>
       <MeetingHeader>
         {attend ? (
-          <Caption color={theme.color.main.mainColor}>출석</Caption>
-        ) : (
           <Caption color={theme.color.main.negative}>결석</Caption>
+        ) : (
+          <Caption color={theme.color.main.mainColor}>출석</Caption>
         )}
         <MeetingTitle>
           {week}: {title}
@@ -162,6 +165,35 @@ MeetingBox.propTypes = {
 };
 
 const AttendCheckMain = () => {
+  const [attendanceData, setAttendanceData] = useState(null);
+
+  useEffect(() => {
+    const fetchAttendanceData = async () => {
+      try {
+        const response = await fetch(
+          'https://api.weeth.site/attendances/details',
+          {
+            method: 'GET',
+            headers: {
+              Authorization: `Bearer ${ACCESS_TOKEN}`,
+            },
+          },
+        );
+        const data = await response.json();
+        setAttendanceData(data.data);
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.error('Error fetching attendance data:', error);
+      }
+    };
+
+    fetchAttendanceData();
+  }, []);
+
+  if (!attendanceData) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <Container>
       <Header>
@@ -170,45 +202,26 @@ const AttendCheckMain = () => {
           <StyledText>&nbsp;님의 출석횟수</StyledText>
         </SemiTitle>
         <Penalty>
-          <SemiBold>3회</SemiBold>
+          <SemiBold>{attendanceData.attendanceCount}회</SemiBold>
         </Penalty>
       </Header>
       <StyledBox>
         <SmallStyledBoxContainer>
-          <SmallBox title="정기 모임" num="8회" />
-          <SmallBox title="출석" num="3회" />
-          <SmallBox title="결석" num="1회" />
+          <SmallBox title="정기 모임" num={`${attendanceData.total}회`} />
+          <SmallBox title="출석" num={`${attendanceData.attendanceCount}회`} />
+          <SmallBox title="결석" num={`${attendanceData.absenceCount}회`} />
         </SmallStyledBoxContainer>
         <Line />
-        <MeetingInfoBox>
+        {attendanceData.attendances.map((meeting) => (
           <MeetingBox
-            attend
-            title="개강총회"
-            week="1주차"
-            date="2024년 7월 18일 19:00 - 20:30"
-            place="가천관 247호"
+            key={meeting.attendanceId}
+            attend={meeting.isAttend}
+            title={meeting.title}
+            week={`${meeting.weekNumber}주차`}
+            date={`${new Date(meeting.startDateTime).toLocaleString()} - ${new Date(meeting.endDateTime).toLocaleString()}`}
+            place={meeting.location}
           />
-          <MeetingBox
-            title="개강총회"
-            week="2주차"
-            date="2024년 7월 19일 19:00 - 20:30"
-            place="가천관 247호"
-          />
-          <MeetingBox
-            attend
-            title="개강총회"
-            week="3주차"
-            date="2024년 7월 20일 19:00 - 20:30"
-            place="가천관 247호"
-          />
-          <MeetingBox
-            attend
-            title="개강총회"
-            week="4주차"
-            date="2024년 7월 21일 19:00 - 20:30"
-            place="가천관 247호"
-          />
-        </MeetingInfoBox>
+        ))}
       </StyledBox>
     </Container>
   );
