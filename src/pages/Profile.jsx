@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 import SignupMemInput from '../components/Signup/SignupMemInput';
 import SignupHeader from '../components/Signup/SignupHeader';
 import SignupWhite from '../components/Signup/SignupWhite';
@@ -48,6 +49,7 @@ const Profile = () => {
   const [isNextEnabled, setIsNextEnabled] = useState(false);
   const [isNextClicked, setIsNextClicked] = useState(false);
   const [marginTop, setMarginTop] = useState(214);
+  const navi = useNavigate();
 
   const scrollContainerRef = useRef(null);
 
@@ -69,7 +71,7 @@ const Profile = () => {
     } else {
       console.log('모든 정보가 입력되었습니다:', memberInfo);
       setIsNextClicked(true);
-      // 여기에 최종 제출 로직을 추가할 수 있다...
+      navi('/');
     }
   };
 

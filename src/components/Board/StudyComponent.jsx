@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
-import PropTypes from 'prop-types';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { ReactComponent as BoardChat } from '../../assets/images/ic_board_chat.svg';
 import theme from '../../styles/theme';
 
@@ -19,7 +18,7 @@ const BoardContainer = styled.div`
   height: 87px;
   margin: 0 7%;
   padding: 10px 0;
-  border-radius: 8px; /* Round the corners */
+  border-radius: 8px;
 `;
 
 const TopRow = styled.div`
@@ -51,7 +50,7 @@ const StyledDate = styled.div`
   line-height: 14.32px;
 `;
 
-const StyledNotice = styled.div`
+const StyledStudy = styled.div`
   width: 72%;
   margin: 5px 15% 10px 0;
 `;
@@ -63,7 +62,7 @@ const ContentRow = styled.div`
   width: 100%;
 `;
 
-const NoticeContent = styled.div`
+const StudyContent = styled.div`
   margin-right: 10%;
   color: ${theme.color.grayScale.gray65};
   font-family: ${theme.font.family.pretendard_regular};
@@ -89,28 +88,45 @@ const CommentCount = styled.div`
   margin-left: 4px;
 `;
 
-const NoticeComponent = ({ noticeTitle, noticeContent }) => {
+const StudyComponent = () => {
   const navi = useNavigate();
+  const [isCompleteEnabled, setIsCompleteEnabled] = useState(false);
+
+  const location = useLocation();
+  const { studyName, studyContent } = location.state || {
+    studyName: '',
+    studyContent: '',
+  };
+
+  const handleStudyClick = () => {
+    if (isCompleteEnabled) {
+      navi('/studyBoard', {
+        state: {
+          studyName,
+          studyContent,
+        },
+      });
+    }
+  };
+
+  useEffect(() => {
+    setIsCompleteEnabled(studyName && studyContent.length >= 1);
+  }, [studyName, studyContent]);
+
   return (
     <Container>
       <BoardContainer>
         <TopRow>
           <StyledName>
-            <StyledText onClick={() => navi(`/noticeContent`)}>
-              홍길동
-            </StyledText>
+            <StyledText onClick={handleStudyClick}>홍길동</StyledText>
           </StyledName>
           <StyledDate>00/00</StyledDate>
         </TopRow>
-        <StyledNotice>
-          <StyledText onClick={() => navi(`/noticeContent`)}>
-            {noticeTitle}
-          </StyledText>
-        </StyledNotice>
+        <StyledStudy>
+          <StyledText onClick={handleStudyClick}>{studyName}</StyledText>
+        </StyledStudy>
         <ContentRow>
-          <NoticeContent onClick={() => navi(`/noticeContent`)}>
-            {noticeContent}
-          </NoticeContent>
+          <StudyContent onClick={handleStudyClick}>{studyContent}</StudyContent>
           <BottomRow>
             <BoardChat />
             <CommentCount>3</CommentCount>
@@ -121,9 +137,4 @@ const NoticeComponent = ({ noticeTitle, noticeContent }) => {
   );
 };
 
-NoticeComponent.propTypes = {
-  noticeTitle: PropTypes.node.isRequired,
-  noticeContent: PropTypes.node.isRequired,
-};
-
-export default NoticeComponent;
+export default StudyComponent;

@@ -33,18 +33,17 @@ userData.name 이런식으로 data 사용하면 됩니당!!
 */
 
 const UserAPI = () => {
-  const { setUserData, setError } = useContext(UserContext);
+  const { setUserData, setError, setAllUserData } = useContext(UserContext);
 
   const ACCESS_TOKEN = process.env.REACT_APP_ACCESS_TOKEN;
 
   useEffect(() => {
-    console.log("Access Token:", ACCESS_TOKEN);
-
     const headers = {
       // 일단 현재는 access token만 넣었는데 나중에 refresh 토큰도 넣어야 합니다
       Authorization: `Bearer ${ACCESS_TOKEN}`,
     };
 
+    // 내 정보 조회
     axios
       .get('http://13.125.78.31:8080/users', { headers })
       .then((response) => {
@@ -57,9 +56,23 @@ const UserAPI = () => {
       .catch((err) => {
         setError('An error occurred while fetching the data');
       });
-  }, [ACCESS_TOKEN, setUserData, setError]);
 
-  return null; 
+      // 모든 멤버 조회
+      axios.get('http://13.125.78.31:8080/users/all', { headers })
+      .then((response) => {
+        if (response.data.code === 200) {
+          setAllUserData(response.data.data);
+        } else {
+          setError(response.data.message);
+        }
+      })
+      .catch((err) => {
+        setError('An error occurred while fetching the all users data');
+      });
+
+  }, [ACCESS_TOKEN, setUserData, setError, setAllUserData]);
+
+  return null;
 };
 
 export default UserAPI;
