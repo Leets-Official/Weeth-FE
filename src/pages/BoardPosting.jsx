@@ -53,7 +53,7 @@ const StyledContent = styled.textarea`
 
 const BoardPosting = ({ initialStudyName, initialStudyContent }) => {
   const navi = useNavigate();
-  const [studyName, setStudyName] = useState(initialStudyName);
+  const [studyTitle, setStudyName] = useState(initialStudyName);
   const [studyContent, setStudyContent] = useState(initialStudyContent);
   const [isCompleteEnabled, setIsCompleteEnabled] = useState(false);
   const [isMenuOpen, setMenuOpen] = useState(false); // 모달 상태 추가
@@ -70,7 +70,7 @@ const BoardPosting = ({ initialStudyName, initialStudyContent }) => {
     if (isCompleteEnabled) {
       navi('/board', {
         state: {
-          studyName,
+          studyTitle,
           studyContent,
         },
       });
@@ -86,8 +86,8 @@ const BoardPosting = ({ initialStudyName, initialStudyContent }) => {
   };
 
   useEffect(() => {
-    setIsCompleteEnabled(studyName && studyContent.length >= 1);
-  }, [studyName, studyContent]);
+    setIsCompleteEnabled(studyTitle && studyContent.length >= 1);
+  }, [studyTitle, studyContent]);
 
   return (
     <StyledPosting>
@@ -99,7 +99,7 @@ const BoardPosting = ({ initialStudyName, initialStudyContent }) => {
         <StyledTitle
           type="text"
           placeholder="제목"
-          value={studyName}
+          value={studyTitle}
           onChange={handleStudyNameChange}
         />
       </StyledText>

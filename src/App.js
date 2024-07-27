@@ -27,6 +27,9 @@ import Receipt from './pages/Receipt';
 import { UserProvider } from './hooks/UserContext';
 import UserAPI from './hooks/UserAPI';
 
+import { BoardProvider } from './hooks/BoardContext'
+import BoardAPI from './hooks/BoardAPI';
+
 //user api 받아온 정보 담는 context
 
 function App() {
@@ -34,26 +37,29 @@ function App() {
     <ThemeProvider theme={theme}>
       <UserProvider>
       <UserAPI />
+      <BoardProvider>
+        <BoardAPI />
         <Routes>
-          <Route path="/" element={<Landing />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/attendance" element={<Attendance />} />
-          <Route path="/calendar" element={<Calendar />} />
-          <Route path="/home" element={<Home />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/event/:id" element={<EventDetails />} />
-          <Route path="/attendCheck" element={<AttendCheck />} />
-          <Route path="/member" element={<Member />} />
-          <Route path="/member/:id" element={<MemberDetail />} />
-          <Route path="/mypage" element={<MyPage />} />
-          <Route path="/edit" element={<Edit />} />
-          <Route path="/dues" element={<Dues />} />
-          <Route path="/receipt" element={<Receipt />} />
-          <Route path="/StudyBoard" element={<StudyBoard />} />
-          <Route path="/board" element={<Board />} />
-          <Route path="/boardPosting" element={<BoardPosting />} />
-        </Routes>
+            <Route path="/" element={<Landing />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/attendance" element={<Attendance />} />
+            <Route path="/calendar" element={<Calendar />} />
+            <Route path="/home" element={<Home />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/event/:id" element={<EventDetails />} />
+            <Route path="/attendCheck" element={<AttendCheck />} />
+            <Route path="/member" element={<Member />} />
+            <Route path="/member/:id" element={<MemberDetail />} />
+            <Route path="/mypage" element={<MyPage />} />
+            <Route path="/edit" element={<Edit />} />
+            <Route path="/dues" element={<Dues />} />
+            <Route path="/receipt" element={<Receipt />} />
+            <Route path="/StudyBoard" element={<StudyBoard />} />
+            <Route path="/board" element={<Board />} />
+            <Route path="/boardPosting" element={<BoardPosting />} />
+          </Routes>
+      </BoardProvider>
       </UserProvider>
     </ThemeProvider>
   );

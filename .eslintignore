@@ -5,12 +5,16 @@ Attendance.jsx
 Button.jsx
 Signup.jsx
 Login.jsx
+Board.jsx
 index.js
 SmallButton.jsx
 Caption.jsx
 MiddleButton.jsx
+StudyComponent.jsx
 
 UserAPI.jsx
 UserContext.js
+BoardAPI.jsx
+BoardContext.js
 
 FileAttachMenu.jsx

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useLocation } from 'react-router-dom';
 import BoardHeader from '../components/Board/NoticeHeader';
@@ -117,6 +117,15 @@ const StudyBoard = () => {
     studyName: '',
     studyContent: '',
   };
+
+  useEffect(() => {
+    const storedComments = JSON.parse(localStorage.getItem('comments')) || [];
+    setComments(storedComments);
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('comments', JSON.stringify(comments));
+  }, [comments]);
 
   const handleCommentChange = (e) => {
     setComment(e.target.value);

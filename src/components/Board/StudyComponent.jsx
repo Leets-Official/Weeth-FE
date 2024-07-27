@@ -93,16 +93,17 @@ const StudyComponent = () => {
   const [isCompleteEnabled, setIsCompleteEnabled] = useState(false);
 
   const location = useLocation();
-  const { studyName, studyContent } = location.state || {
-    studyName: '',
+  const { studyTitle, studyContent, studyComment } = location.state || {
+    studyTitle: '',
     studyContent: '',
+    studyComment: 0,
   };
 
   const handleStudyClick = () => {
     if (isCompleteEnabled) {
       navi('/studyBoard', {
         state: {
-          studyName,
+          studyTitle,
           studyContent,
         },
       });
@@ -110,8 +111,8 @@ const StudyComponent = () => {
   };
 
   useEffect(() => {
-    setIsCompleteEnabled(studyName && studyContent.length >= 1);
-  }, [studyName, studyContent]);
+    setIsCompleteEnabled(studyTitle && studyContent.length >= 1);
+  }, [studyTitle, studyContent]);
 
   return (
     <Container>
@@ -123,13 +124,13 @@ const StudyComponent = () => {
           <StyledDate>00/00</StyledDate>
         </TopRow>
         <StyledStudy>
-          <StyledText onClick={handleStudyClick}>{studyName}</StyledText>
+          <StyledText onClick={handleStudyClick}>{studyTitle}</StyledText>
         </StyledStudy>
         <ContentRow>
           <StudyContent onClick={handleStudyClick}>{studyContent}</StudyContent>
           <BottomRow>
             <BoardChat />
-            <CommentCount>3</CommentCount>
+            <CommentCount>{studyComment}</CommentCount>
           </BottomRow>
         </ContentRow>
       </BoardContainer>
