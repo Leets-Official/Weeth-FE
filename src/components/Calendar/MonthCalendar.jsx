@@ -117,23 +117,25 @@ const MonthCalendar = ({ year, month }) => {
 
   const { eventData, error } = useContext(EventContext);
 
+  const prevMonth = month - 1;
+  const nextMonth = month + 1;
+
   const [formattedStart, setFormattedStart] = useState(
-    `${year}-${String(month).padStart(2, '0')}-01T00:00:00.000Z`,
+    `${year}-${String(prevMonth).padStart(2, '0')}-23T00:00:00.000Z`,
   );
   const [formattedEnd, setFormattedEnd] = useState(
-    new Date(year, month, 0).toISOString(),
+    new Date(year, nextMonth, 6, 23, 59, 59, 999).toISOString(),
   );
 
+  // 에러처리에 자꾸 오류가 떠서 일단 오류 안나게 지피티가 만들어줌.. 수정 예정
   useEffect(() => {
     if (error) {
-      // 오류가 발생한 경우 오류 메시지를 반환합니다.
       console.error('Error:', error);
     }
   }, [error]);
 
   useEffect(() => {
     if (!eventData) {
-      // 이벤트 데이터가 로드되지 않은 경우 로딩 메시지를 반환합니다.
       console.log('Loading event data...');
     }
   }, [eventData]);
@@ -155,10 +157,14 @@ const MonthCalendar = ({ year, month }) => {
   };
 
   useEffect(() => {
+    // 달력 자체에 이전달/다음달 일부가 보여지는 것을 고려하여
+    // 조회를 원하는 달에서 +-1주 기간을 추가하여 api 요청
     setFormattedStart(
-      `${year}-${String(month).padStart(2, '0')}-01T00:00:00.000Z`,
+      // 2월의 경우 3월 1일이 토요일이라면 23일부터 보여질 수 있음
+      `${year}-${String(prevMonth).padStart(2, '0')}-23T00:00:00.000Z`,
     );
-    setFormattedEnd(new Date(year, month, 0).toISOString());
+    //
+    setFormattedEnd(new Date(year, month, 6, 23, 59, 59, 999).toISOString());
   }, [year, month]);
 
   useEffect(() => {
