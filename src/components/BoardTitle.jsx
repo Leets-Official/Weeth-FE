@@ -61,7 +61,10 @@ onClick은 아래 함수에 각각의 함수를 작성
 
 const onClickIndexButton = () => {};
 
-const BoardTitle = ({ text }) => {
+const BoardTitle = ({ text, writer, createdAt }) => {
+  const splittedDate = createdAt.split('T'); // YYYY-MM-DD,HH:MM:SS.SSSZ
+  const splittedTime = splittedDate[1].substr(0, 5);
+
   return (
     <StyledTitle>
       <StyledHeader>
@@ -70,8 +73,10 @@ const BoardTitle = ({ text }) => {
       </StyledHeader>
       <Title>{text}</Title>
       <Detail>
-        <Writer>게시자</Writer>
-        <WrittenTime>2024/06/10 18:32</WrittenTime>
+        <Writer>{writer}</Writer>
+        <WrittenTime>
+          {splittedDate[0].replace(/-/gi, '/')} {splittedTime}
+        </WrittenTime>
       </Detail>
     </StyledTitle>
   );
@@ -79,6 +84,8 @@ const BoardTitle = ({ text }) => {
 
 BoardTitle.propTypes = {
   text: PropTypes.string.isRequired,
+  writer: PropTypes.string.isRequired,
+  createdAt: PropTypes.string.isRequired,
 };
 
 export default BoardTitle;

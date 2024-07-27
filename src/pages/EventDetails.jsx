@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 
 import { useParams } from 'react-router-dom';
@@ -7,7 +7,8 @@ import icCalendar from '../assets/images/ic_date.svg';
 import icClock from '../assets/images/ic_clock.svg';
 import theme from '../styles/theme';
 import BoardTitle from '../components/BoardTitle';
-import mockEventMonth from '../components/mockData/mockEventMonth';
+// import mockEventMonth from '../components/mockData/mockEventMonth';
+import { EventContext } from '../hooks/EventContext';
 
 const StyledEventDetails = styled.div`
   width: 370px;
@@ -40,8 +41,17 @@ const Line = styled.div`
 
 const EventDetails = () => {
   const { id } = useParams();
+
+  const { eventData, error } = useContext(EventContext);
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
+  if (!eventData) {
+    return <div>Loading...</div>;
+  }
   // eslint-disable-next-line no-shadow, radix
-  const event = mockEventMonth.find((event) => event.id === parseInt(id));
+  const event = eventData.find((event) => event.id === parseInt(id));
 
   const origStartDate = event.start;
   const origEndDate = event.end;
@@ -54,6 +64,9 @@ const EventDetails = () => {
   const endDate = splittedEndDate[0].split('-'); // [YYYY, MM, DD]
   const endTime = splittedEndDate[1].split(':'); // [HH, MM]
 
+  const weekDay = ['일', '월', '화', '수', '목', '금', '토'];
+
+  // 시작 날짜와 끝 날짜가 같은지 확인
   let isOneday = true;
   // eslint-disable-next-line no-plusplus
   for (let i = 0; i < startDate.length; i++) {
@@ -64,8 +77,11 @@ const EventDetails = () => {
 
   return (
     <StyledEventDetails>
-      {event.id} {event.title}
-      <BoardTitle text={event.title} writter={event.userName} />
+      <BoardTitle
+        text={event.title}
+        writer={event.userName}
+        createdAt={event.createdAt}
+      />
       <Line />
       <ContentBlock>
         {isOneday ? (
@@ -75,7 +91,8 @@ const EventDetails = () => {
               <Icon src={icCalendar} alt="calenar" />
               <div>
                 {startDate[0]}년 {parseInt(startDate[1], 10)}월{' '}
-                {parseInt(startDate[2], 10)}일
+                {parseInt(startDate[2], 10)}일{' '}
+                {weekDay[new Date(origStartDate).getDay()]}요일
               </div>
             </TimeInfo>
             <TimeInfo>
@@ -92,13 +109,17 @@ const EventDetails = () => {
               <Icon src={icCalendar} alt="calenar" />
               <div>
                 {startDate[0]}년 {parseInt(startDate[1], 10)}월{' '}
-                {parseInt(startDate[2], 10)}일 {startTime[0]}:{startTime[1]}에서
+                {parseInt(startDate[2], 10)}일 &#40;
+                {weekDay[new Date(origStartDate).getDay()]}&#41; {startTime[0]}:
+                {startTime[1]}에서
               </div>
             </TimeInfo>
             <TimeInfo>
               <Icon src={icClock} alt="clock" />
               <div>
-                {endDate[0]}년 {endDate[1]}월 {endDate[2]}일 {endTime[0]}:
+                {endDate[0]}년 {parseInt(endDate[1], 10)}월{' '}
+                {parseInt(endDate[2], 10)}일 &#40;
+                {weekDay[new Date(origEndDate).getDay()]}&#41; {endTime[0]}:
                 {endTime[1]}까지
               </div>
             </TimeInfo>
