@@ -42,16 +42,16 @@ const Line = styled.div`
 const EventDetails = () => {
   const { id } = useParams();
 
-  const { eventData, error } = useContext(EventContext);
+  const { monthEventData, error } = useContext(EventContext);
   if (error) {
     return <div>Error: {error}</div>;
   }
 
-  if (!eventData) {
+  if (!monthEventData) {
     return <div>Loading...</div>;
   }
   // eslint-disable-next-line no-shadow, radix
-  const event = eventData.find((event) => event.id === parseInt(id));
+  const event = monthEventData.find((event) => event.id === parseInt(id));
 
   const origStartDate = event.start;
   const origEndDate = event.end;

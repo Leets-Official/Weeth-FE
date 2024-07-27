@@ -115,7 +115,7 @@ const MonthCalendar = ({ year, month }) => {
   const calendarRef = useRef(null);
   const navi = useNavigate();
 
-  const { eventData, error } = useContext(EventContext);
+  const { monthEventData, error } = useContext(EventContext);
 
   const prevMonth = month - 1;
   const nextMonth = month + 1;
@@ -135,10 +135,10 @@ const MonthCalendar = ({ year, month }) => {
   }, [error]);
 
   useEffect(() => {
-    if (!eventData) {
+    if (!monthEventData) {
       console.log('Loading event data...');
     }
-  }, [eventData]);
+  }, [monthEventData]);
 
   const renderDayCell = (arg) => {
     const isToday =
@@ -163,8 +163,8 @@ const MonthCalendar = ({ year, month }) => {
       // 2월의 경우 3월 1일이 토요일이라면 23일부터 보여질 수 있음
       `${year}-${String(prevMonth).padStart(2, '0')}-23T00:00:00.000Z`,
     );
-    //
-    setFormattedEnd(new Date(year, month, 6, 23, 59, 59, 999).toISOString());
+    // UTC 기준이라 대한민국 표준시로는 6일 23시임
+    setFormattedEnd(new Date(year, month, 7, 8, 59, 59, 999).toISOString());
   }, [year, month]);
 
   useEffect(() => {
@@ -176,11 +176,11 @@ const MonthCalendar = ({ year, month }) => {
 
   return (
     <CalendarContainer>
-      <EventAPI start={formattedStart} end={formattedEnd} />
+      <EventAPI start={formattedStart} end={formattedEnd} year={year} />
       <FullCalendar
         ref={calendarRef}
         plugins={[dayGridPlugin]}
-        events={eventData || []}
+        events={monthEventData || []}
         eventClick={onClickEvent}
         locale="ko"
         headerToolbar={false}

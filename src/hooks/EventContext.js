@@ -5,11 +5,12 @@ export const EventContext = createContext();
 
 // Provider 컴포넌트
 export const EventProvider = ({ children }) => {
-  const [eventData, setEventData] = useState(null);
+  const [monthEventData, setMonthEventData,] = useState(null);
+  const [yearEventData, setYearEventData,] = useState(null);
   const [error, setError] = useState(null);
 
   return (
-    <EventContext.Provider value={{ eventData, setEventData, error, setError }}>
+    <EventContext.Provider value={{ monthEventData, setMonthEventData, yearEventData, setYearEventData, error, setError }}>
       {children}
     </EventContext.Provider>
   );
