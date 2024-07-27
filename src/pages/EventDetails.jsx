@@ -64,7 +64,8 @@ const EventDetails = () => {
 
   return (
     <StyledEventDetails>
-      <BoardTitle text={event.title} />
+      {event.id} {event.title}
+      <BoardTitle text={event.title} writter={event.userName} />
       <Line />
       <ContentBlock>
         {isOneday ? (

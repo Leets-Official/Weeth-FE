@@ -1,4 +1,6 @@
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
+
 import LeftButton from './Header/LeftButton';
 import IndexButton from './Header/IndexButton';
 import theme from '../styles/theme';
@@ -59,20 +61,24 @@ onClick은 아래 함수에 각각의 함수를 작성
 
 const onClickIndexButton = () => {};
 
-const BoardTitle = () => {
+const BoardTitle = ({ text }) => {
   return (
     <StyledTitle>
       <StyledHeader>
         <LeftButton />
         <IndexButton onClick={onClickIndexButton} />
       </StyledHeader>
-      <Title>중간 발표</Title>
+      <Title>{text}</Title>
       <Detail>
         <Writer>게시자</Writer>
         <WrittenTime>2024/06/10 18:32</WrittenTime>
       </Detail>
     </StyledTitle>
   );
+};
+
+BoardTitle.propTypes = {
+  text: PropTypes.string.isRequired,
 };
 
 export default BoardTitle;

@@ -67,7 +67,7 @@ const Edit = () => {
         <NoEdit>
           <InfoInput
             text="기수"
-            origValue={userData.cardinal}
+            origValue={userData.cardinals}
             editValue={(value) => editValue('cardinal', value)}
           />
         </NoEdit>

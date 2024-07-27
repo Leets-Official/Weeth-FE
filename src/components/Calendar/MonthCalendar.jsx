@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useContext, useState } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import styled from 'styled-components';
@@ -6,7 +6,9 @@ import { format } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import theme from '../../styles/theme';
-import mockEventMonth from '../mockData/mockEventMonth';
+// import mockEventMonth from '../mockData/mockEventMonth';
+import { EventContext } from '../../hooks/EventContext';
+import EventAPI from '../../hooks/EventAPI';
 
 const CalendarContainer = styled.div`
   width: 100%;
@@ -110,8 +112,31 @@ const Today = styled.div`
 `;
 
 const MonthCalendar = ({ year, month }) => {
-  const calendarRef = useRef(null); // useRef를 사용하여 참조 객체 생성
+  const calendarRef = useRef(null);
   const navi = useNavigate();
+
+  const { eventData, error } = useContext(EventContext);
+
+  const [formattedStart, setFormattedStart] = useState(
+    `${year}-${String(month).padStart(2, '0')}-01T00:00:00.000Z`,
+  );
+  const [formattedEnd, setFormattedEnd] = useState(
+    new Date(year, month, 0).toISOString(),
+  );
+
+  useEffect(() => {
+    if (error) {
+      // 오류가 발생한 경우 오류 메시지를 반환합니다.
+      console.error('Error:', error);
+    }
+  }, [error]);
+
+  useEffect(() => {
+    if (!eventData) {
+      // 이벤트 데이터가 로드되지 않은 경우 로딩 메시지를 반환합니다.
+      console.log('Loading event data...');
+    }
+  }, [eventData]);
 
   const renderDayCell = (arg) => {
     const isToday =
@@ -130,18 +155,26 @@ const MonthCalendar = ({ year, month }) => {
   };
 
   useEffect(() => {
+    setFormattedStart(
+      `${year}-${String(month).padStart(2, '0')}-01T00:00:00.000Z`,
+    );
+    setFormattedEnd(new Date(year, month, 0).toISOString());
+  }, [year, month]);
+
+  useEffect(() => {
     if (calendarRef.current) {
-      const calendarApi = calendarRef.current.getApi(); // FullCalendar 인스턴스에 접근
-      calendarApi.gotoDate(new Date(year, month - 1)); // 날짜 변경
+      const calendarApi = calendarRef.current.getApi();
+      calendarApi.gotoDate(new Date(year, month - 1));
     }
   }, [year, month]);
 
   return (
     <CalendarContainer>
+      <EventAPI start={formattedStart} end={formattedEnd} />
       <FullCalendar
-        ref={calendarRef} // FullCalendar에 참조 객체 전달
+        ref={calendarRef}
         plugins={[dayGridPlugin]}
-        events={mockEventMonth}
+        events={eventData || []}
         eventClick={onClickEvent}
         locale="ko"
         headerToolbar={false}

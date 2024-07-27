@@ -93,7 +93,7 @@ const MyPage = () => {
           src={icCardinal}
           alt="tag"
           index="기수"
-          value={userData.cardinal}
+          value={userData.cardinals}
         />
         <InfoComponent
           src={icPosition}

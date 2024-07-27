@@ -26,6 +26,8 @@ import Receipt from './pages/Receipt';
 
 import { UserProvider } from './hooks/UserContext';
 import UserAPI from './hooks/UserAPI';
+import { EventProvider } from './hooks/EventContext';
+import EventAPI from './hooks/EventAPI';
 
 //user api 받아온 정보 담는 context
 
@@ -33,16 +35,18 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <UserProvider>
+      <EventProvider>
       <UserAPI />
+      <EventAPI />
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/login" element={<Login />} />
           <Route path="/attendance" element={<Attendance />} />
           <Route path="/calendar" element={<Calendar />} />
+          <Route path="/event/:id" element={<EventDetails />} />
           <Route path="/home" element={<Home />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/profile" element={<Profile />} />
-          <Route path="/event/:id" element={<EventDetails />} />
           <Route path="/attendCheck" element={<AttendCheck />} />
           <Route path="/member" element={<Member />} />
           <Route path="/member/:id" element={<MemberDetail />} />
@@ -54,6 +58,7 @@ function App() {
           <Route path="/board" element={<Board />} />
           <Route path="/boardPosting" element={<BoardPosting />} />
         </Routes>
+        </EventProvider>
       </UserProvider>
     </ThemeProvider>
   );
