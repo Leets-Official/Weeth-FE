@@ -1,7 +1,11 @@
+import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import theme from '../../styles/theme';
 import Caption from '../Caption';
+import { UserContext } from '../../hooks/UserContext';
+
+const ACCESS_TOKEN = process.env.REACT_APP_ADMIN_TOKEN;
 
 const Container = styled.div`
   display: flex;
@@ -106,8 +110,7 @@ const MeetingTitle = styled.div`
 const MeetingInfo = styled.div`
   display: flex;
   flex-direction: column;
-  margin-top: 15px;
-  margin-left: 5%;
+  margin: 13px 5% 0 5%;
   font-size: 14px;
   line-height: 1.7;
 `;
@@ -162,53 +165,98 @@ MeetingBox.propTypes = {
 };
 
 const AttendCheckMain = () => {
+  const [attendanceData, setAttendanceData] = useState(null);
+
+  useEffect(() => {
+    const fetchAttendanceData = async () => {
+      try {
+        const response = await fetch(
+          'https://api.weeth.site/attendances/details',
+          {
+            method: 'GET',
+            headers: {
+              Authorization: `Bearer ${ACCESS_TOKEN}`,
+            },
+          },
+        );
+        const data = await response.json();
+        setAttendanceData(data.data);
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.error('Error fetching attendance data:', error);
+      }
+    };
+
+    fetchAttendanceData();
+  }, []);
+
+  if (!attendanceData) {
+    return <div>Loading...</div>;
+  }
+  const { userData, error } = useContext(UserContext);
+
+  let userName;
+  if (error) {
+    userName = 'error';
+  } else if (!userData) {
+    userName = 'loading';
+  } else {
+    userName = userData.name;
+  }
+
   return (
     <Container>
       <Header>
         <SemiTitle>
-          <SemiBold>김위드</SemiBold>
+          <SemiBold>{userName}</SemiBold>
           <StyledText>&nbsp;님의 출석횟수</StyledText>
         </SemiTitle>
         <Penalty>
-          <SemiBold>3회</SemiBold>
+          <SemiBold>{attendanceData.attendanceCount}회</SemiBold>
         </Penalty>
       </Header>
       <StyledBox>
         <SmallStyledBoxContainer>
-          <SmallBox title="정기 모임" num="8회" />
-          <SmallBox title="출석" num="3회" />
-          <SmallBox title="결석" num="1회" />
+          <SmallBox title="정기 모임" num={`${attendanceData.total}회`} />
+          <SmallBox title="출석" num={`${attendanceData.attendanceCount}회`} />
+          <SmallBox title="결석" num={`${attendanceData.absenceCount}회`} />
         </SmallStyledBoxContainer>
         <Line />
-        <MeetingInfoBox>
-          <MeetingBox
-            attend
-            title="개강총회"
-            week="1주차"
-            date="2024년 7월 18일 19:00 - 20:30"
-            place="가천관 247호"
-          />
-          <MeetingBox
-            title="개강총회"
-            week="2주차"
-            date="2024년 7월 19일 19:00 - 20:30"
-            place="가천관 247호"
-          />
-          <MeetingBox
-            attend
-            title="개강총회"
-            week="3주차"
-            date="2024년 7월 20일 19:00 - 20:30"
-            place="가천관 247호"
-          />
-          <MeetingBox
-            attend
-            title="개강총회"
-            week="4주차"
-            date="2024년 7월 21일 19:00 - 20:30"
-            place="가천관 247호"
-          />
-        </MeetingInfoBox>
+        {attendanceData.attendances.map((meeting) => {
+          const startDate = new Date(meeting.startDateTime);
+          const endDate = new Date(meeting.endDateTime);
+
+          const dateOptions = {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+          };
+          const startDateTime = startDate.toLocaleDateString(
+            'ko-KR',
+            dateOptions,
+          );
+
+          const timeOptions = {
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: false,
+          };
+          const startTime = startDate.toLocaleTimeString('ko-KR', timeOptions);
+          const endTime = endDate.toLocaleTimeString('ko-KR', timeOptions);
+
+          const formattedDate = `${startDateTime} (${startTime} ~ ${endTime})`;
+
+          return (
+            <MeetingBox
+              key={meeting.attendanceId}
+              attend={meeting.isAttend}
+              title={meeting.title}
+              week={`${meeting.weekNumber}주차`}
+              date={formattedDate}
+              place={meeting.location}
+            />
+          );
+        })}
       </StyledBox>
     </Container>
   );
