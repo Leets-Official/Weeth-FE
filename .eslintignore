@@ -15,7 +15,12 @@ StudyBoard.jsx
 
 UserAPI.jsx
 UserContext.js
+<<<<<<< HEAD
 BoardAPI.jsx
 BoardContext.js
+=======
+EventAPI.jsx
+EventContext.js
+>>>>>>> f20eb8e0f492caef4cf8670a83db83e7e6e7b51d
 
 FileAttachMenu.jsx

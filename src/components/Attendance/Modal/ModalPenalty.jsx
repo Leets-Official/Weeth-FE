@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import theme from '../../../styles/theme';
 import icClose from '../../../assets/images/ic_close.svg';
 import check from '../../../assets/images/ic_check.svg';
+import { PenaltyContext } from '../../../hooks/PenaltyContext';
+import { UserContext } from '../../../hooks/UserContext';
 
 const StyledModal = styled.div`
   display: ${(props) => (props.open ? 'block' : 'none')};
@@ -76,8 +78,46 @@ const PenaltyText = styled.div`
   font-size: 16px;
   color: white;
 `;
+const PenaltyBox = ({ date, reason }) => {
+  return (
+    <PenaltyDetail>
+      <PenaltyIcon>+1</PenaltyIcon>
+      <PenaltyTextBox>
+        <PenaltyText>{date}</PenaltyText>
+        <PenaltyText>사유 : {reason}</PenaltyText>
+      </PenaltyTextBox>
+    </PenaltyDetail>
+  );
+};
+
+PenaltyBox.propTypes = {
+  date: PropTypes.string.isRequired,
+  reason: PropTypes.string.isRequired,
+};
 
 const ModalPenalty = ({ open, close }) => {
+  const { myPenaltyCount, penaltyData, penaltyFetchError } =
+    useContext(PenaltyContext);
+  const { userData, error } = useContext(UserContext);
+  let userName;
+  if (error) {
+    userName = 'error';
+  } else if (!userData) {
+    userName = 'loading';
+  } else {
+    userName = userData.name;
+  }
+  if (penaltyFetchError) {
+    return <div>Error loading penalty data</div>;
+  }
+
+  if (!penaltyData) {
+    return <div>Loading penalty data...</div>;
+  }
+
+  if (!penaltyData.length) {
+    return <div>No penalty data available</div>;
+  }
   return (
     <StyledModal open={open}>
       <Regular>
@@ -88,19 +128,26 @@ const ModalPenalty = ({ open, close }) => {
           </div>
           <div className="modal-body">
             <SemiBold className="modal-title">
-              김위드 님의&nbsp;
+              {userName} 님의&nbsp;
               <div style={{ color: theme.color.main.negative }}>패널티</div>
               &nbsp;횟수
             </SemiBold>
-            <SemiBold className="modal-penalty">1회</SemiBold>
+            <SemiBold className="modal-penalty">{myPenaltyCount}회</SemiBold>
             <Line />
-            <PenaltyDetail>
-              <PenaltyIcon>+1</PenaltyIcon>
-              <PenaltyTextBox>
-                <PenaltyText>2024년 7월 18일 19:24</PenaltyText>
-                <PenaltyText>사유 : 미션 미이행</PenaltyText>
-              </PenaltyTextBox>
-            </PenaltyDetail>
+            {penaltyData.map((penalty) => {
+              const myDate = new Date(penalty.time);
+
+              const formattedDate = `${myDate.getFullYear()}년 ${myDate.getMonth() + 1}월 ${myDate.getDate()}일 ${myDate.getHours()}:${myDate.getMinutes().toString().padStart(2, '0')}`;
+
+              return (
+                <PenaltyBox
+                  key={penalty.penaltyId}
+                  reason={penalty.penaltyDescription}
+                  title={penalty.title}
+                  date={formattedDate}
+                />
+              );
+            })}
           </div>
         </div>
       </Regular>

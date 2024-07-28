@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
+import axios from 'axios';
 import theme from '../../styles/theme';
 import './AttendMain.css';
 import RightButton from '../Header/RightButton';
@@ -10,9 +11,10 @@ import check from '../../assets/images/ic_check.svg';
 import warning from '../../assets/images/ic_warning.svg';
 import ModalPenalty from './Modal/ModalPenalty';
 import { UserContext } from '../../hooks/UserContext';
+import { PenaltyContext } from '../../hooks/PenaltyContext';
 
 // 출석률 게이지 임시 값
-const ATTEND_GAUGE = 80;
+let ATTEND_GAUGE = 80;
 const MAX_ATTEND_GUAGE = 100;
 
 const StyledAttend = styled.div`
@@ -93,10 +95,11 @@ const AttendMain = () => {
   const navi = useNavigate();
   const [modalOpen, setModalOpen] = useState(false);
   const [penaltyModalOpen, setPenaltyModalOpen] = useState(false);
-  // const [hasEvent,setHasEvent] = useState(true);
-  // const [hasPenalty, setHasPenalty] = useState(true);
 
   const { userData, error } = useContext(UserContext);
+
+  // 일단 일정 있고 패널티 있는 게 true
+  const [hasSchedule, setHasSchedule] = useState(true);
 
   let userName;
   if (error) {
@@ -107,9 +110,86 @@ const AttendMain = () => {
     userName = userData.name;
   }
 
-  // 일단 일정 있고 패널티 있는 게 true
-  const hasSchedule = true;
-  const hasPenalty = true;
+  const [attendanceData, setAttendanceData] = useState(null);
+  const [attendFetchError, setAttendFetchError] = useState(null);
+
+  useEffect(() => {
+    const fetchAttendances = async () => {
+      try {
+        const ACCESS_TOKEN = process.env.REACT_APP_ADMIN_TOKEN;
+        const headers = {
+          Authorization: `Bearer ${ACCESS_TOKEN}`,
+        };
+
+        const response = await axios.get(
+          'http://13.125.78.31:8080/attendances',
+          { headers },
+        );
+
+        const { data } = response.data;
+        // eslint-disable-next-line no-console
+        console.log(data);
+
+        if (data.title === null && data.startDateTime === null) {
+          setHasSchedule(false);
+          ATTEND_GAUGE = data.attendanceRate;
+        } else {
+          setAttendanceData(data);
+        }
+      } catch (err) {
+        setAttendFetchError(err.message);
+      }
+    };
+
+    fetchAttendances();
+  }, []);
+
+  let title;
+  let location;
+  let startDateTime; // 날짜
+  let endDateTime; // 시간
+
+  if (attendFetchError) {
+    title = 'error';
+    location = 'error';
+    startDateTime = 'error';
+    endDateTime = 'error';
+  } else if (!attendanceData) {
+    // 데이터를 아직 가져오지 않았거나, 일정이 없는 경우
+    title = '로딩중';
+    location = '로딩중';
+    startDateTime = '로딩중';
+    endDateTime = '로딩중';
+  } else {
+    title = attendanceData.title;
+    location = attendanceData.location;
+
+    // Date 객체로 변환
+    const startDate = new Date(attendanceData.startDateTime);
+    const endDate = new Date(attendanceData.endDateTime);
+
+    // 날짜 형식으로 변환
+    const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+    startDateTime = startDate.toLocaleDateString('ko-KR', dateOptions);
+
+    // 시간 형식으로 변환 (24시간 형식)
+    const timeOptions = { hour: '2-digit', minute: '2-digit', hour12: false };
+    const startTime = startDate.toLocaleTimeString('ko-KR', timeOptions);
+    const endTime = endDate.toLocaleTimeString('ko-KR', timeOptions);
+
+    // 피그마 형식대로 변환
+    endDateTime = `(${startTime} ~ ${endTime})`;
+
+    // 출석률 지정
+    ATTEND_GAUGE = attendanceData.attendanceRate;
+  }
+
+  const { myPenaltyCount, hasPenalty } = useContext(PenaltyContext);
+
+  const penalty = myPenaltyCount;
+
+  // eslint-disable-next-line no-console
+  console.log(penalty);
 
   // 출석체크 모달
   const handleOpenModal = () => setModalOpen(true);
@@ -151,13 +231,17 @@ const AttendMain = () => {
           <div className="attend-container">
             <SemiBold>
               <div className="attend-project">
-                오늘은 &quot;프로젝트 중간 발표&quot;가 있는 날이에요
+                오늘은{' '}
+                <span style={{ color: theme.color.main.mainColor }}>
+                  &quot;{title}&quot;
+                </span>
+                가 있는 날이에요
               </div>
             </SemiBold>
             <div className="attend-date">
-              날짜 : 2024년 7월 18일 (19:00 ~ 20:30)
+              날짜 : {startDateTime} {endDateTime}
             </div>
-            <div className="attend-place">장소 : 가천관 247호</div>
+            <div className="attend-place">장소 : {location}</div>
             <div className="attend-button">
               <Button
                 color={theme.color.grayScale.gray30}
@@ -195,12 +279,14 @@ const AttendMain = () => {
             <ButtonContainer>
               <SemiBold>
                 패널티&nbsp;
-                <div style={{ color: theme.color.main.negative }}>1회</div>
+                <div style={{ color: theme.color.main.negative }}>
+                  {penalty}회
+                </div>
               </SemiBold>
               <RightButton onClick={handleOpenPenaltyModal} />
             </ButtonContainer>
             <div className="penalty-info">
-              패널티가 1회 적립이 되었어요.
+              패널티가 {penalty}회 적립이 되었어요.
               <br />
               어떤 이유인지 알아볼까요?
             </div>
