@@ -119,7 +119,7 @@ const InfoInput = ({
 
 InfoInput.propTypes = {
   text: PropTypes.string.isRequired,
-  origValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+  origValue: PropTypes.oneOfType([PropTypes.string, PropTypes.array])
     .isRequired,
   editValue: PropTypes.func.isRequired,
   placeholder: PropTypes.string.isRequired,
