@@ -16,6 +16,17 @@ const StyledInput = styled.input`
   // padding-right: 10px;
   padding: 0px;
   font-size: 16px;
+
+  /* Custom CSS to remove arrows in number input */
+  /* Chrome, Safari, Edge, Opera */
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Firefox */
+  -moz-appearance: textfield;
 `;
 
 const DateInput = ({ value, editValue, width, height, margin }) => {

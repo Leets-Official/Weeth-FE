@@ -27,6 +27,7 @@ const Input = styled.input`
   color: white;
   padding-left: 10px;
   padding-right: 10px;
+  text-align: ${(props) => props.align || 'right'};
   font-size: 16px;
 `;
 
@@ -37,6 +38,7 @@ const InfoInput = ({
   placeholder,
   width,
   padding,
+  align,
 }) => {
   const [value, setValue] = useState(origValue);
 
@@ -57,6 +59,7 @@ const InfoInput = ({
         value={value}
         onChange={onChangeValue}
         width={width}
+        align={align}
       />
     </StyledInfoInput>
   );
@@ -70,6 +73,7 @@ InfoInput.propTypes = {
   placeholder: PropTypes.string.isRequired,
   width: PropTypes.string.isRequired,
   padding: PropTypes.string.isRequired,
+  align: PropTypes.string.isRequired,
 };
 
 export default InfoInput;

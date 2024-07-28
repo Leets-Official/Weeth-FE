@@ -126,6 +126,7 @@ const CreateEvent = () => {
         placeholder="제목"
         origValue=""
         padding="15px"
+        align="left"
         editValue={() => {}}
       />
       <DatePickerWrapper>
@@ -137,6 +138,7 @@ const CreateEvent = () => {
         origValue=""
         width="75%"
         padding="15px"
+        align="left"
         editValue={() => {}}
       />
       <InfoInput
@@ -144,6 +146,7 @@ const CreateEvent = () => {
         origValue=""
         width="75%"
         padding="15px"
+        align="left"
         editValue={() => {}}
       />
       <InfoInput
@@ -151,6 +154,7 @@ const CreateEvent = () => {
         origValue=""
         width="75%"
         padding="15px"
+        align="left"
         editValue={() => {}}
       />
       <StyledTextArea placeholder="내용" />
