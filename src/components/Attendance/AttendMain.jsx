@@ -11,6 +11,7 @@ import check from '../../assets/images/ic_check.svg';
 import warning from '../../assets/images/ic_warning.svg';
 import ModalPenalty from './Modal/ModalPenalty';
 import { UserContext } from '../../hooks/UserContext';
+import { PenaltyContext } from '../../hooks/PenaltyContext';
 
 // 출석률 게이지 임시 값
 let ATTEND_GAUGE = 80;
@@ -99,7 +100,6 @@ const AttendMain = () => {
 
   // 일단 일정 있고 패널티 있는 게 true
   const [hasSchedule, setHasSchedule] = useState(true);
-  const [hasPenalty, setHasPenalty] = useState(true);
 
   let userName;
   if (error) {
@@ -125,18 +125,19 @@ const AttendMain = () => {
           'http://13.125.78.31:8080/attendances',
           { headers },
         );
+
         const { data } = response.data;
+        // eslint-disable-next-line no-console
+        console.log(data);
 
-        // 모든 값이 null인지 확인
-        const allNull = Object.values(data).every((value) => value === null);
-
-        if (allNull) {
+        if (data.title === null && data.startDateTime === null) {
           setHasSchedule(false);
+          ATTEND_GAUGE = data.attendanceRate;
         } else {
           setAttendanceData(data);
         }
       } catch (err) {
-        setAttendFetchError(error.message);
+        setAttendFetchError(err.message);
       }
     };
 
@@ -147,9 +148,6 @@ const AttendMain = () => {
   let location;
   let startDateTime; // 날짜
   let endDateTime; // 시간
-
-  // eslint-disable-next-line no-console
-  console.log(attendanceData);
 
   if (attendFetchError) {
     title = 'error';
@@ -186,43 +184,9 @@ const AttendMain = () => {
     ATTEND_GAUGE = attendanceData.attendanceRate;
   }
 
-  const [penaltyData, setPenaltyData] = useState(null);
-  const [penaltyFetchError, setPenaltyFetchError] = useState(null);
+  const { myPenaltyCount, hasPenalty } = useContext(PenaltyContext);
 
-  useEffect(() => {
-    const fetchPenalty = async () => {
-      try {
-        const ACCESS_TOKEN = process.env.REACT_APP_ADMIN_TOKEN;
-        const headers = {
-          Authorization: `Bearer ${ACCESS_TOKEN}`,
-        };
-
-        const response = await axios.get('http://13.125.78.31:8080/penalty', {
-          headers,
-        });
-        const { data } = response.data;
-        // eslint-disable-next-line no-console
-        console.log(response);
-        if (data.length === 0 || data[0].penaltyCount === 0) {
-          setHasPenalty(false);
-        } else {
-          setPenaltyData(data[0]);
-        }
-      } catch (err) {
-        setPenaltyFetchError(error.message);
-      }
-    };
-
-    fetchPenalty();
-  }, []);
-
-  let penalty;
-  if (penaltyFetchError) {
-    penalty = 'error';
-  } else if (!penaltyData) {
-    // 데이터를 아직 가져오지 않았거나, 일정이 없는 경우
-    penalty = '로딩중';
-  } else penalty = penaltyData.penaltyCount;
+  const penalty = myPenaltyCount;
 
   // eslint-disable-next-line no-console
   console.log(penalty);

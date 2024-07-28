@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import theme from '../../styles/theme';
 import Caption from '../Caption';
+import { UserContext } from '../../hooks/UserContext';
 
 const ACCESS_TOKEN = process.env.REACT_APP_ADMIN_TOKEN;
 
@@ -192,12 +193,22 @@ const AttendCheckMain = () => {
   if (!attendanceData) {
     return <div>Loading...</div>;
   }
+  const { userData, error } = useContext(UserContext);
+
+  let userName;
+  if (error) {
+    userName = 'error';
+  } else if (!userData) {
+    userName = 'loading';
+  } else {
+    userName = userData.name;
+  }
 
   return (
     <Container>
       <Header>
         <SemiTitle>
-          <SemiBold>김위드</SemiBold>
+          <SemiBold>{userName}</SemiBold>
           <StyledText>&nbsp;님의 출석횟수</StyledText>
         </SemiTitle>
         <Penalty>

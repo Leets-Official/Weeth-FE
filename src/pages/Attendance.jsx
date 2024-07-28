@@ -3,12 +3,14 @@ import styled, { ThemeProvider } from 'styled-components';
 import theme from '../styles/theme';
 import AttendHeader from '../components/Attendance/AttendHeader';
 import AttendMain from '../components/Attendance/AttendMain';
+import { PenaltyProvider } from '../hooks/PenaltyContext';
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   width: 370px;
   max-width: 370px;
+  margin-bottom: 50px;
 `;
 
 const Main = styled.main`
@@ -22,6 +24,7 @@ const Footer = styled.footer`
 const Attendance = () => {
   return (
     <ThemeProvider theme={theme}>
+      <PenaltyProvider>
       <Container>
         <Main>
           <AttendHeader text="출석" />
@@ -30,6 +33,7 @@ const Attendance = () => {
           <AttendMain />
         </Footer>
       </Container>
+      </PenaltyProvider>
     </ThemeProvider>
   );
 };
