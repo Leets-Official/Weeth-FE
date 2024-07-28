@@ -53,28 +53,28 @@ const Edit = () => {
             text="이름"
             origValue={userData.name}
             editValue={(value) => editValue('name', value)}
-            width="75%"
+            width="224px"
             padding="25px"
           />
           <InfoInput
             text="학번"
             origValue={userData.studentId}
             editValue={(value) => editValue('studentId', value)}
-            width="75%"
+            width="224px"
             padding="25px"
           />
           <InfoInput
             text="학과"
             origValue={userData.department}
             editValue={(value) => editValue('department', value)}
-            width="75%"
+            width="224px"
             padding="25px"
           />
           <InfoInput
             text="핸드폰"
             origValue={userData.tel}
             editValue={(value) => editValue('tel', value)}
-            width="75%"
+            width="224px"
             padding="25px"
           />
           <NoEdit>
@@ -82,22 +82,31 @@ const Edit = () => {
               text="기수"
               origValue={userData.cardinals}
               editValue={(value) => editValue('cardinal', value)}
-              width="75%"
+              width="224px"
+              padding="25px"
+            />
+          </NoEdit>
+          <NoEdit>
+            <InfoInput
+              text="역할"
+              origValue={userData.position}
+              editValue={(value) => editValue('position', value)}
+              width="224px"
               padding="25px"
             />
           </NoEdit>
           <InfoInput
-            text="역할"
-            origValue={userData.position}
-            editValue={(value) => editValue('position', value)}
-            width="75%"
-            padding="25px"
-          />
-          <InfoInput
             text="메일"
             origValue={userData.email}
             editValue={(value) => editValue('email', value)}
-            width="75%"
+            width="224px"
+            padding="25px"
+          />
+          <InfoInput
+            text="비밀번호"
+            origValue=""
+            editValue={(value) => editValue('password', value)}
+            width="194px"
             padding="25px"
           />
         </InfoWrapper>
