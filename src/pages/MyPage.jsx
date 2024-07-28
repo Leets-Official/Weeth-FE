@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 import MyPageHeader from '../components/MyPage/MyPageHeader';
 import InfoComponent from '../components/Member/InfoComponent';
@@ -58,16 +59,26 @@ const Error = styled.div`
   font-family: ${theme.font.family.pretendard_semiBold};
 `;
 
-const onClickLeave = () => {
-  if (window.confirm('탈퇴하시겠습니까?')) {
-    // 탈퇴 api 호출
-  }
-};
-
 const MyPage = () => {
   const { userData, error } = useContext(UserContext);
-
   const navi = useNavigate();
+  const ACCESS_TOKEN = process.env.REACT_APP_ACCESS_TOKEN;
+
+  const onClickLeave = async () => {
+    if (window.confirm('탈퇴하시겠습니까?')) {
+      try {
+        await axios.delete('http://13.125.78.31:8080/users', {
+          headers: {
+            Authorization: `Bearer ${ACCESS_TOKEN}`,
+          },
+        });
+        alert('탈퇴가 완료되었습니다.');
+        navi('/'); // 탈퇴 후 메인 페이지로 이동
+      } catch (err) {
+        alert('탈퇴 중 오류가 발생했습니다.');
+      }
+    }
+  };
 
   return (
     <StyledDetails>
