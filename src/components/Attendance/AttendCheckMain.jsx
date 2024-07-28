@@ -109,8 +109,7 @@ const MeetingTitle = styled.div`
 const MeetingInfo = styled.div`
   display: flex;
   flex-direction: column;
-  margin-top: 15px;
-  margin-left: 5%;
+  margin: 13px 5% 0 5%;
   font-size: 14px;
   line-height: 1.7;
 `;
@@ -132,9 +131,9 @@ const MeetingBox = ({ attend, title, week, date, place }) => {
     <MeetingInfoBox>
       <MeetingHeader>
         {attend ? (
-          <Caption color={theme.color.main.negative}>결석</Caption>
-        ) : (
           <Caption color={theme.color.main.mainColor}>출석</Caption>
+        ) : (
+          <Caption color={theme.color.main.negative}>결석</Caption>
         )}
         <MeetingTitle>
           {week}: {title}
@@ -212,16 +211,41 @@ const AttendCheckMain = () => {
           <SmallBox title="결석" num={`${attendanceData.absenceCount}회`} />
         </SmallStyledBoxContainer>
         <Line />
-        {attendanceData.attendances.map((meeting) => (
-          <MeetingBox
-            key={meeting.attendanceId}
-            attend={meeting.isAttend}
-            title={meeting.title}
-            week={`${meeting.weekNumber}주차`}
-            date={`${new Date(meeting.startDateTime).toLocaleString()} - ${new Date(meeting.endDateTime).toLocaleString()}`}
-            place={meeting.location}
-          />
-        ))}
+        {attendanceData.attendances.map((meeting) => {
+          const startDate = new Date(meeting.startDateTime);
+          const endDate = new Date(meeting.endDateTime);
+
+          const dateOptions = {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+          };
+          const startDateTime = startDate.toLocaleDateString(
+            'ko-KR',
+            dateOptions,
+          );
+
+          const timeOptions = {
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: false,
+          };
+          const startTime = startDate.toLocaleTimeString('ko-KR', timeOptions);
+          const endTime = endDate.toLocaleTimeString('ko-KR', timeOptions);
+
+          const formattedDate = `${startDateTime} (${startTime} ~ ${endTime})`;
+
+          return (
+            <MeetingBox
+              key={meeting.attendanceId}
+              attend={meeting.isAttend}
+              title={meeting.title}
+              week={`${meeting.weekNumber}주차`}
+              date={formattedDate}
+              place={meeting.location}
+            />
+          );
+        })}
       </StyledBox>
     </Container>
   );

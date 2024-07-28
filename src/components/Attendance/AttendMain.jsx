@@ -99,7 +99,7 @@ const AttendMain = () => {
 
   // 일단 일정 있고 패널티 있는 게 true
   const [hasSchedule, setHasSchedule] = useState(true);
-  const hasPenalty = true;
+  const [hasPenalty, setHasPenalty] = useState(true);
 
   let userName;
   if (error) {
@@ -158,10 +158,10 @@ const AttendMain = () => {
     endDateTime = 'error';
   } else if (!attendanceData) {
     // 데이터를 아직 가져오지 않았거나, 일정이 없는 경우
-    title = '일정 없음';
-    location = '';
-    startDateTime = '';
-    endDateTime = '';
+    title = '로딩중';
+    location = '로딩중';
+    startDateTime = '로딩중';
+    endDateTime = '로딩중';
   } else {
     title = attendanceData.title;
     location = attendanceData.location;
@@ -185,6 +185,47 @@ const AttendMain = () => {
     // 출석률 지정
     ATTEND_GAUGE = attendanceData.attendanceRate;
   }
+
+  const [penaltyData, setPenaltyData] = useState(null);
+  const [penaltyFetchError, setPenaltyFetchError] = useState(null);
+
+  useEffect(() => {
+    const fetchPenalty = async () => {
+      try {
+        const ACCESS_TOKEN = process.env.REACT_APP_ADMIN_TOKEN;
+        const headers = {
+          Authorization: `Bearer ${ACCESS_TOKEN}`,
+        };
+
+        const response = await axios.get('http://13.125.78.31:8080/penalty', {
+          headers,
+        });
+        const { data } = response.data;
+        // eslint-disable-next-line no-console
+        console.log(response);
+        if (data.length === 0 || data[0].penaltyCount === 0) {
+          setHasPenalty(false);
+        } else {
+          setPenaltyData(data[0]);
+        }
+      } catch (err) {
+        setPenaltyFetchError(error.message);
+      }
+    };
+
+    fetchPenalty();
+  }, []);
+
+  let penalty;
+  if (penaltyFetchError) {
+    penalty = 'error';
+  } else if (!penaltyData) {
+    // 데이터를 아직 가져오지 않았거나, 일정이 없는 경우
+    penalty = '로딩중';
+  } else penalty = penaltyData.penaltyCount;
+
+  // eslint-disable-next-line no-console
+  console.log(penalty);
 
   // 출석체크 모달
   const handleOpenModal = () => setModalOpen(true);
@@ -274,12 +315,14 @@ const AttendMain = () => {
             <ButtonContainer>
               <SemiBold>
                 패널티&nbsp;
-                <div style={{ color: theme.color.main.negative }}>1회</div>
+                <div style={{ color: theme.color.main.negative }}>
+                  {penalty}회
+                </div>
               </SemiBold>
               <RightButton onClick={handleOpenPenaltyModal} />
             </ButtonContainer>
             <div className="penalty-info">
-              패널티가 1회 적립이 되었어요.
+              패널티가 {penalty}회 적립이 되었어요.
               <br />
               어떤 이유인지 알아볼까요?
             </div>
