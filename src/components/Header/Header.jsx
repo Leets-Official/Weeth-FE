@@ -1,7 +1,8 @@
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 import LeftButton from './LeftButton';
-import IndexButton from './IndexButton';
+// import IndexButton from './IndexButton';
 import TextButton from './TextButton';
 import Title from './Title';
 
@@ -40,20 +41,26 @@ onClick은 아래 함수에 각각의 함수를 작성
 @@@@안 하면 에러남@@@@
 */
 
-const onClickIndexButton = () => {};
+// const onClickIndexButton = () => {};
 const onClickTextButton = () => {};
 
-const Header = () => {
+const Header = ({ title, text, color }) => {
   return (
     <StyledHeader>
       <LeftButton />
       <TitleWrapper>
-        <Title text="게시판" />
+        <Title text={title} />
       </TitleWrapper>
-      <IndexButton onClick={onClickIndexButton} />
-      <TextButton onClick={onClickTextButton} text="text" />
+      {/* <IndexButton onClick={onClickIndexButton} /> */}
+      <TextButton onClick={onClickTextButton} text={text} color={color} />
     </StyledHeader>
   );
+};
+
+Header.propTypes = {
+  title: PropTypes.string.isRequired,
+  text: PropTypes.string.isRequired,
+  color: PropTypes.string.isRequired,
 };
 
 export default Header;
