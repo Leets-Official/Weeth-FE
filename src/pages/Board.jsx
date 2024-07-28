@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import NoticeComponent from '../components/Board/NoticeComponent';
 import StudyComponent from '../components/Board/StudyComponent';
@@ -57,36 +58,55 @@ const PostingButton = styled.button`
 `;
 
 const Board = () => {
+  const location = useLocation();
   const [activeTab, setActiveTab] = useState('notice');
+  const [studyComponents, setStudyComponents] = useState([]);
+
+  useEffect(() => {
+    const storedComponents = JSON.parse(localStorage.getItem('studyComponents')) || [];
+    setStudyComponents(storedComponents);
+  }, []);
+
+
+  useEffect(() => {
+    localStorage.setItem('studyComponents', JSON.stringify(studyComponents));
+  }, [studyComponents]);
 
   return (
     <Container>
       <NoticeHeader showModal={false} />
       <NoticeMiddle
         title={activeTab === 'notice' ? '공지사항' : '스터디 게시판'}
-        button={activeTab === 'study' ? <PostingButton>글쓰기</PostingButton> : null}
+        button={
+          activeTab === 'study' ? <PostingButton>글쓰기</PostingButton> : null
+        }
       />
       <TabsContainer>
-        <Tab
-          active={activeTab === 'notice'}
-          onClick={() => setActiveTab('notice')}
-        >
+        <Tab active={activeTab === 'notice'} onClick={() => setActiveTab('notice')}>
           공지사항
         </Tab>
-        <Tab
-          active={activeTab === 'study'}
-          onClick={() => setActiveTab('study')}
-        >
+        <Tab active={activeTab === 'study'} onClick={() => setActiveTab('study')}>
           스터디 게시판
         </Tab>
       </TabsContainer>
       {activeTab === 'notice' && (
         <NoticeComponent
-          noticeTitle="공지사항 제목" // 여기에 필요한 값을 전달합니다.
-          noticeContent="공지사항 내용" // 여기에 필요한 값을 전달합니다.
+          noticeTitle="공지사항 제목"
+          noticeContent="공지사항 내용"
         />
       )}
-      {activeTab === 'study' && <StudyComponent />}
+      {activeTab === 'study' && (
+        <>
+          {
+            [...studyComponents].reverse().map((component, index) => (
+              <StudyComponent
+                key={index}
+                studyTitle={component.studyTitle}
+                studyContent={component.studyContent}
+              />
+            ))}
+        </>
+      )}
     </Container>
   );
 };

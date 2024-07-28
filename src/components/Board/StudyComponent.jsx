@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { useNavigate, useLocation } from 'react-router-dom';
 import { ReactComponent as BoardChat } from '../../assets/images/ic_board_chat.svg';
 import theme from '../../styles/theme';
 
@@ -90,34 +90,18 @@ const CommentCount = styled.div`
   margin-left: 4px;
 `;
 
-const StudyComponent = () => {
+const StudyComponent = ({ studyTitle, studyContent, commentCount }) => {
   const navigate = useNavigate();
-  const [isCompleteEnabled, setIsCompleteEnabled] = useState(false);
-  const location = useLocation();
-
-  const userInfo = location.state || {
-    studyTitle: '',
-    studyContent: '',
-    commentCount: 0,
-  };
-
-  const { studyTitle, studyContent, commentCount } = userInfo;
 
   const handleStudyClick = () => {
-    if (isCompleteEnabled) {
-      navigate('/studyBoard', {
-        state: {
-          studyTitle,
-          studyContent,
-          commentCount,
-        },
-      });
-    }
+    navigate('/studyBoard', {
+      state: {
+        studyTitle,
+        studyContent,
+        commentCount,
+      },
+    });
   };
-
-  useEffect(() => {
-    setIsCompleteEnabled(studyTitle && studyContent.length >= 1);
-  }, [studyTitle, studyContent]);
 
   return (
     <Container>

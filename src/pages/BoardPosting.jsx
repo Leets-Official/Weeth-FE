@@ -52,11 +52,11 @@ const StyledContent = styled.textarea`
 `;
 
 const BoardPosting = ({ initialStudyName, initialStudyContent }) => {
-  const navi = useNavigate();
+  const navigate = useNavigate();
   const [studyTitle, setStudyName] = useState(initialStudyName);
   const [studyContent, setStudyContent] = useState(initialStudyContent);
   const [isCompleteEnabled, setIsCompleteEnabled] = useState(false);
-  const [isMenuOpen, setMenuOpen] = useState(false); // 모달 상태 추가
+  const [isMenuOpen, setMenuOpen] = useState(false);
 
   const handleStudyNameChange = (e) => {
     setStudyName(e.target.value);
@@ -68,15 +68,22 @@ const BoardPosting = ({ initialStudyName, initialStudyContent }) => {
 
   const handleBoardClick = () => {
     if (isCompleteEnabled) {
-      navi('/board', {
+      const newStudyComponent = { studyTitle, studyContent };
+      const existingComponents =
+        JSON.parse(localStorage.getItem('studyComponents')) || [];
+      const updatedComponents = [...existingComponents, newStudyComponent];
+      localStorage.setItem(
+        'studyComponents',
+        JSON.stringify(updatedComponents),
+      );
+
+      navigate('/board', {
         state: {
-          studyTitle,
-          studyContent,
+          newComponent: newStudyComponent,
         },
       });
     }
   };
-
   const handleOpenMenu = () => {
     setMenuOpen(true);
   };
