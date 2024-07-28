@@ -13,7 +13,7 @@ import ModalPenalty from './Modal/ModalPenalty';
 import { UserContext } from '../../hooks/UserContext';
 
 // 출석률 게이지 임시 값
-const ATTEND_GAUGE = 80;
+let ATTEND_GAUGE = 80;
 const MAX_ATTEND_GUAGE = 100;
 
 const StyledAttend = styled.div`
@@ -98,7 +98,7 @@ const AttendMain = () => {
   const { userData, error } = useContext(UserContext);
 
   // 일단 일정 있고 패널티 있는 게 true
-  let hasSchedule = true;
+  const [hasSchedule, setHasSchedule] = useState(true);
   const hasPenalty = true;
 
   let userName;
@@ -116,7 +116,7 @@ const AttendMain = () => {
   useEffect(() => {
     const fetchAttendances = async () => {
       try {
-        const ACCESS_TOKEN = process.env.REACT_APP_ACCESS_TOKEN;
+        const ACCESS_TOKEN = process.env.REACT_APP_ADMIN_TOKEN;
         const headers = {
           Authorization: `Bearer ${ACCESS_TOKEN}`,
         };
@@ -125,7 +125,16 @@ const AttendMain = () => {
           'http://13.125.78.31:8080/attendances',
           { headers },
         );
-        setAttendanceData(response.data.data);
+        const { data } = response.data;
+
+        // 모든 값이 null인지 확인
+        const allNull = Object.values(data).every((value) => value === null);
+
+        if (allNull) {
+          setHasSchedule(false);
+        } else {
+          setAttendanceData(data);
+        }
       } catch (err) {
         setAttendFetchError(error.message);
       }
@@ -148,7 +157,11 @@ const AttendMain = () => {
     startDateTime = 'error';
     endDateTime = 'error';
   } else if (!attendanceData) {
-    hasSchedule = false;
+    // 데이터를 아직 가져오지 않았거나, 일정이 없는 경우
+    title = '일정 없음';
+    location = '';
+    startDateTime = '';
+    endDateTime = '';
   } else {
     title = attendanceData.title;
     location = attendanceData.location;
@@ -168,11 +181,10 @@ const AttendMain = () => {
 
     // 피그마 형식대로 변환
     endDateTime = `(${startTime} ~ ${endTime})`;
-  }
 
-  /* 현재 출석률은 null이라 따로 받아오지 않았음
-  나중에 변경되면 ATTEND_GUAGE를 let으로 변경후
-  위에서 attendanceRate를 검증 뒤 할당해야 됨 */
+    // 출석률 지정
+    ATTEND_GAUGE = attendanceData.attendanceRate;
+  }
 
   // 출석체크 모달
   const handleOpenModal = () => setModalOpen(true);
