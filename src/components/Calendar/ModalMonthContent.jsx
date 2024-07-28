@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import theme from '../../styles/theme';
 import TextButton from '../Header/TextButton';
+import DateInput from './DateInput';
 
 const StyledContent = styled.div`
   display: flex;
@@ -30,19 +31,19 @@ const MonthButton = styled.div`
   transform: translate(320px, -80px);
 `;
 
-const StyledInput = styled.input`
-  height: 43px;
-  width: 90px;
-  outline: none;
-  border: none;
-  border-radius: 4px;
-  background-color: ${theme.color.grayScale.gray12};
-  color: white;
-  text-align: right;
-  margin: 0px 10px;
-  padding-right: 10px;
-  font-size: 16px;
-`;
+// const StyledInput = styled.input`
+//   height: 43px;
+//   width: 90px;
+//   outline: none;
+//   border: none;
+//   border-radius: 4px;
+//   background-color: ${theme.color.grayScale.gray12};
+//   color: white;
+//   text-align: right;
+//   margin: 0px 10px;
+//   padding-right: 10px;
+//   font-size: 16px;
+// `;
 
 const Text = styled.div`
   margin-right: 15px;
@@ -80,7 +81,14 @@ const ModalContent = ({
             onClick={onClickTextButton}
           />
         </YearButton>
-        <StyledInput type="number" value={year} onChange={onChangeYear} />
+        <DateInput
+          type="number"
+          value={year}
+          onChange={onChangeYear}
+          height="43px"
+          width="90px"
+          margin="10px"
+        />
         <Text>년</Text>
       </StyledContent>
     );
@@ -91,9 +99,23 @@ const ModalContent = ({
       <MonthButton>
         <TextButton text="완료" color="mainColor" onClick={onClickTextButton} />
       </MonthButton>
-      <StyledInput type="number" value={year} onChange={onChangeYear} />
+      <DateInput
+        type="number"
+        value={year}
+        onChange={onChangeYear}
+        height="43px"
+        width="90px"
+        margin="10px"
+      />
       <Text>년</Text>
-      <StyledInput type="number" value={month} onChange={onChangeMonth} />
+      <DateInput
+        type="number"
+        value={month}
+        onChange={onChangeMonth}
+        height="43px"
+        width="90px"
+        margin="10px"
+      />
       <Text>월</Text>
     </StyledContent>
   );

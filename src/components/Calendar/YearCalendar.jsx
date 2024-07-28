@@ -20,30 +20,32 @@ const OddMonth = styled.div`
   padding-right: 15px;
 `;
 
-const month = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+const allMonth = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
-const YearCalendar = ({ todayMonth }) => {
+const YearCalendar = ({ month, year }) => {
   return (
     <MonthlyBox>
       <EvenMonth>
-        {month
+        {allMonth
           .filter((monthItem) => monthItem % 2 !== 0)
           .map((monthItem) => (
             <MonthlyEvent
               key={monthItem}
-              month={monthItem}
-              todayMonth={todayMonth}
+              thisMonth={monthItem}
+              month={month}
+              year={year}
             />
           ))}
       </EvenMonth>
       <OddMonth>
-        {month
+        {allMonth
           .filter((monthItem) => monthItem % 2 === 0)
           .map((monthItem) => (
             <MonthlyEvent
               key={monthItem}
-              month={monthItem}
-              todayMonth={todayMonth}
+              thisMonth={monthItem}
+              month={month}
+              year={year}
             />
           ))}
       </OddMonth>
@@ -52,7 +54,8 @@ const YearCalendar = ({ todayMonth }) => {
 };
 
 YearCalendar.propTypes = {
-  todayMonth: PropTypes.number.isRequired,
+  month: PropTypes.number.isRequired,
+  year: PropTypes.number.isRequired,
 };
 
 export default YearCalendar;

@@ -9,25 +9,37 @@ const StyledInfoInput = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16px 25px 8px 25px;
+  padding-top: 16px;
+  padding-bottom: 8px;
+  padding-left: ${(props) => props.padding || '0px'};
+  padding-right: ${(props) => props.padding || '0px'};
   font-family: ${theme.font.family.pretendard_regular};
   font-size: 16px;
 `;
 
 const Input = styled.input`
-  width: 75%; //피그마대로 하면 핸드폰 글자가 잘림ㅜㅜ 디자이너 컨펌 필요
+  width: ${(props) => props.width || '100%'};
   height: 45px;
   outline: none;
   border: none;
   border-radius: 4px;
   background-color: ${theme.color.grayScale.gray18};
   color: white;
-  text-align: right;
+  padding-left: 10px;
   padding-right: 10px;
+  text-align: ${(props) => props.align || 'right'};
   font-size: 16px;
 `;
 
-const InfoInput = ({ text, origValue, editValue }) => {
+const InfoInput = ({
+  text,
+  origValue,
+  editValue,
+  placeholder,
+  width,
+  padding,
+  align,
+}) => {
   const [value, setValue] = useState(origValue);
 
   const onChangeValue = (e) => {
@@ -40,9 +52,15 @@ const InfoInput = ({ text, origValue, editValue }) => {
   }, [origValue]);
 
   return (
-    <StyledInfoInput>
+    <StyledInfoInput padding={padding}>
       <div>{text}</div>
-      <Input value={value} onChange={onChangeValue} />
+      <Input
+        placeholder={placeholder}
+        value={value}
+        onChange={onChangeValue}
+        width={width}
+        align={align}
+      />
     </StyledInfoInput>
   );
 };
@@ -52,6 +70,10 @@ InfoInput.propTypes = {
   origValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
     .isRequired,
   editValue: PropTypes.func.isRequired,
+  placeholder: PropTypes.string.isRequired,
+  width: PropTypes.string.isRequired,
+  padding: PropTypes.string.isRequired,
+  align: PropTypes.string.isRequired,
 };
 
 export default InfoInput;
