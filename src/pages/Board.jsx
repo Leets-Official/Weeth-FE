@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import NoticeComponent from '../components/Board/NoticeComponent';
@@ -6,6 +6,7 @@ import StudyComponent from '../components/Board/StudyComponent';
 import NoticeHeader from '../components/Board/NoticeHeader';
 import NoticeMiddle from '../components/Board/NoticeMiddle';
 import theme from '../styles/theme';
+import { BoardContext } from '../hooks/BoardContext';
 
 const Container = styled.div`
   width: 370px;
@@ -57,10 +58,18 @@ const PostingButton = styled.button`
   align-items: center;
 `;
 
+// Define onMenuClick function
+const onMenuClick = () => {
+  // Menu click handler logic here
+  console.log('Menu clicked');
+};
+
 const Board = () => {
   const location = useLocation();
   const [activeTab, setActiveTab] = useState('notice');
   const [studyComponents, setStudyComponents] = useState([]);
+
+  const { boardData, error } = useContext(BoardContext);
 
   useEffect(() => {
     const storedComponents = JSON.parse(localStorage.getItem('studyComponents')) || [];
@@ -72,14 +81,14 @@ const Board = () => {
     localStorage.setItem('studyComponents', JSON.stringify(studyComponents));
   }, [studyComponents]);
 
+  const buttonElement = activeTab === 'study' ? <PostingButton>글쓰기</PostingButton> : undefined;
+
   return (
     <Container>
-      <NoticeHeader showModal={false} />
+      <NoticeHeader showModal={false} onMenuClick={onMenuClick} />
       <NoticeMiddle
         title={activeTab === 'notice' ? '공지사항' : '스터디 게시판'}
-        button={
-          activeTab === 'study' ? <PostingButton>글쓰기</PostingButton> : null
-        }
+        button={buttonElement}
       />
       <TabsContainer>
         <Tab active={activeTab === 'notice'} onClick={() => setActiveTab('notice')}>
@@ -97,14 +106,18 @@ const Board = () => {
       )}
       {activeTab === 'study' && (
         <>
-          {
-            [...studyComponents].reverse().map((component, index) => (
+          {boardData ? (
+            boardData.map((component, index) => (
               <StudyComponent
                 key={index}
                 studyTitle={component.studyTitle}
                 studyContent={component.studyContent}
               />
-            ))}
+            ))
+          ) : (
+            <div>Loading...</div>
+          )}
+          {error && <div>{error}</div>}
         </>
       )}
     </Container>

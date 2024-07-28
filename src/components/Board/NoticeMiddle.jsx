@@ -65,11 +65,7 @@ const NoticeMiddle = ({ title, button }) => {
 
 NoticeMiddle.propTypes = {
   title: PropTypes.string.isRequired,
-  button: PropTypes.element,
-};
-
-NoticeMiddle.defaultProps = {
-  button: null,
+  button: PropTypes.element.isRequired,
 };
 
 export default NoticeMiddle;

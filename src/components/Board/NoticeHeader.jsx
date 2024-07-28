@@ -151,11 +151,7 @@ const NoticeHeader = ({ onMenuClick }) => {
 };
 
 NoticeHeader.propTypes = {
-  onMenuClick: PropTypes.func,
-};
-
-NoticeHeader.defaultProps = {
-  onMenuClick: () => {},
+  onMenuClick: PropTypes.func.isRequired,
 };
 
 export default NoticeHeader;
