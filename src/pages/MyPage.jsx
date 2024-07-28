@@ -49,65 +49,69 @@ const NegativeButton = styled.div`
   cursor: pointer;
 `;
 
+const Error = styled.div`
+  display: flex;
+  justify-content: center;
+  margin: 50px 0px;
+  font-family: ${theme.font.family.pretendard_semiBold};
+`;
+
 const MyPage = () => {
   const { userData, error } = useContext(UserContext);
 
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
-
-  if (!userData) {
-    return <div>Loading...</div>;
-  }
-
   const navi = useNavigate();
+
   return (
     <StyledDetails>
       <MyPageHeader isEdit={false} />
-      <InfoWrapper>
-        <InfoComponent
-          src={icName}
-          alt="smile"
-          index="이름"
-          value={userData.name}
-        />
-        <InfoComponent
-          src={icId}
-          alt="heart"
-          index="학번"
-          value={userData.studentId}
-        />
-        <InfoComponent
-          src={icDepartment}
-          alt="pencil"
-          index="학과"
-          value={userData.department}
-        />
-        <InfoComponent
-          src={icPhone}
-          alt="phone"
-          index="핸드폰"
-          value={userData.tel}
-        />
-        <InfoComponent
-          src={icCardinal}
-          alt="tag"
-          index="기수"
-          value={userData.cardinals}
-        />
-        <InfoComponent
-          src={icPosition}
-          alt="monitor"
-          index="역할"
-          value={userData.position}
-        />
-        <InfoComponent
-          src={icEmail}
-          alt="mail"
-          index="메일"
-          value={userData.email}
-        />
-      </InfoWrapper>
+      {error || !userData ? (
+        <Error>데이터를 불러오는 중 문제가 발생했습니다.</Error>
+      ) : (
+        <InfoWrapper>
+          <InfoComponent
+            src={icName}
+            alt="smile"
+            index="이름"
+            value={userData.name}
+          />
+          <InfoComponent
+            src={icId}
+            alt="heart"
+            index="학번"
+            value={userData.studentId}
+          />
+          <InfoComponent
+            src={icDepartment}
+            alt="pencil"
+            index="학과"
+            value={userData.department}
+          />
+          <InfoComponent
+            src={icPhone}
+            alt="phone"
+            index="핸드폰"
+            value={userData.tel}
+          />
+          <InfoComponent
+            src={icCardinal}
+            alt="tag"
+            index="기수"
+            value={userData.cardinals}
+          />
+          <InfoComponent
+            src={icPosition}
+            alt="monitor"
+            index="역할"
+            value={userData.position}
+          />
+          <InfoComponent
+            src={icEmail}
+            alt="mail"
+            index="메일"
+            value={userData.email}
+          />
+        </InfoWrapper>
+      )}
       <ImgButton
         onClick={() => {
           navi(`/edit`);
