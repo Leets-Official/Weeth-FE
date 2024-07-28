@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import theme from '../../styles/theme';
 
 import icDot from '../../assets/images/ic_dot.svg';
-import mockEventYear from '../mockData/mockEventYear';
+// import mockEventYear from '../mockData/mockEventYear';
+import { EventContext } from '../../hooks/EventContext';
+import EventAPI from '../../hooks/EventAPI';
 
 const StyledYear = styled.div`
   display: flex;
@@ -46,37 +48,55 @@ const MonthName = styled.div`
   font-family: ${theme.font.family.pretendard_semiBold};
 `;
 
-const EventComponent = ({ event }) => {
+const EventComponent = ({ title }) => {
   return (
     <Content>
       <Dot src={icDot} alt="dot" />
-      <div>{event.title}</div>
+      <div>{title}</div>
     </Content>
   );
 };
 
-const MonthlyEvent = ({ month, todayMonth }) => {
-  const isToday = month === todayMonth;
-  // props로 받은 month가 현재날짜의 달과 일치한다면 isToday = true
+// thisMonth : 렌더링하고 있는 달 (1~12ㄴ)
+// month : 오늘이 몇월?
+const MonthlyEvent = ({ thisMonth, month, year }) => {
+  const { yearEventData, error } = useContext(EventContext);
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
+  if (!yearEventData) {
+    return <div>Loading...</div>;
+  }
+
+  // props로 받은 thisMonth가 현재날짜의 달과 일치한다면 isToday = true
+  const isToday = thisMonth === month;
+  const events = yearEventData[thisMonth] || [];
+
   return (
     <StyledYear>
-      <MonthName isToday={isToday}>{month}월</MonthName>
+      <EventAPI year={year} />
+      <MonthName isToday={isToday}>{thisMonth}월</MonthName>
       <ContentWrapper>
-        {mockEventYear[month].map((event) => (
-          <EventComponent event={event} />
-        ))}
+        {events.length > 0 ? (
+          events.map((event) => <EventComponent title={event.title} />)
+        ) : (
+          <EventComponent title="일정이 없습니다!" />
+        )}
       </ContentWrapper>
     </StyledYear>
   );
 };
 
 EventComponent.propTypes = {
-  event: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
 };
 
 MonthlyEvent.propTypes = {
+  thisMonth: PropTypes.number.isRequired,
   month: PropTypes.number.isRequired,
-  todayMonth: PropTypes.number.isRequired,
+  year: PropTypes.number.isRequired,
 };
 
 export default MonthlyEvent;

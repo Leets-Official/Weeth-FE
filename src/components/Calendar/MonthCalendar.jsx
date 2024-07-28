@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useContext, useState } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import styled from 'styled-components';
@@ -6,7 +6,9 @@ import { format } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import theme from '../../styles/theme';
-import mockEventMonth from '../mockData/mockEventMonth';
+// import mockEventMonth from '../mockData/mockEventMonth';
+import { EventContext } from '../../hooks/EventContext';
+import EventAPI from '../../hooks/EventAPI';
 
 const CalendarContainer = styled.div`
   width: 100%;
@@ -110,8 +112,33 @@ const Today = styled.div`
 `;
 
 const MonthCalendar = ({ year, month }) => {
-  const calendarRef = useRef(null); // useRef를 사용하여 참조 객체 생성
+  const calendarRef = useRef(null);
   const navi = useNavigate();
+
+  const { monthEventData, error } = useContext(EventContext);
+
+  const prevMonth = month - 1;
+  const nextMonth = month + 1;
+
+  const [formattedStart, setFormattedStart] = useState(
+    `${year}-${String(prevMonth).padStart(2, '0')}-23T00:00:00.000Z`,
+  );
+  const [formattedEnd, setFormattedEnd] = useState(
+    new Date(year, nextMonth, 6, 23, 59, 59, 999).toISOString(),
+  );
+
+  // 에러처리에 자꾸 오류가 떠서 일단 오류 안나게 지피티가 만들어줌.. 수정 예정
+  useEffect(() => {
+    if (error) {
+      console.error('Error:', error);
+    }
+  }, [error]);
+
+  useEffect(() => {
+    if (!monthEventData) {
+      console.log('Loading event data...');
+    }
+  }, [monthEventData]);
 
   const renderDayCell = (arg) => {
     const isToday =
@@ -130,18 +157,30 @@ const MonthCalendar = ({ year, month }) => {
   };
 
   useEffect(() => {
+    // 달력 자체에 이전달/다음달 일부가 보여지는 것을 고려하여
+    // 조회를 원하는 달에서 +-1주 기간을 추가하여 api 요청
+    setFormattedStart(
+      // 2월의 경우 3월 1일이 토요일이라면 23일부터 보여질 수 있음
+      `${year}-${String(prevMonth).padStart(2, '0')}-23T00:00:00.000Z`,
+    );
+    // UTC 기준이라 대한민국 표준시로는 6일 23시임
+    setFormattedEnd(new Date(year, month, 7, 8, 59, 59, 999).toISOString());
+  }, [year, month]);
+
+  useEffect(() => {
     if (calendarRef.current) {
-      const calendarApi = calendarRef.current.getApi(); // FullCalendar 인스턴스에 접근
-      calendarApi.gotoDate(new Date(year, month - 1)); // 날짜 변경
+      const calendarApi = calendarRef.current.getApi();
+      calendarApi.gotoDate(new Date(year, month - 1));
     }
   }, [year, month]);
 
   return (
     <CalendarContainer>
+      <EventAPI start={formattedStart} end={formattedEnd} year={year} />
       <FullCalendar
-        ref={calendarRef} // FullCalendar에 참조 객체 전달
+        ref={calendarRef}
         plugins={[dayGridPlugin]}
-        events={mockEventMonth}
+        events={monthEventData || []}
         eventClick={onClickEvent}
         locale="ko"
         headerToolbar={false}

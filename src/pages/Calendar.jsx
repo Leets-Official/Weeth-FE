@@ -44,7 +44,7 @@ const Calendar = () => {
       <CalendarHeader month={month} year={year} isYear={isYear} editYear={editYear} editMonth={editMonth} />
       <Content>
         <ToggleButton onToggle={onToggle} />
-        {calendarType === 'month' ? <MonthCalendar month={month} year={year} editYear={editYear} editMonth={editMonth} /> : <YearCalendar todayMonth={todayMonth}/>}
+        {calendarType === 'month' ? <MonthCalendar month={month} year={year} editYear={editYear} editMonth={editMonth} /> : <YearCalendar year={year} month={month}/>}
       </Content>
     </StyledCalendar>
   );
