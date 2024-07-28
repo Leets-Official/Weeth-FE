@@ -27,7 +27,15 @@ const MyPageHeader = ({ isEdit }) => {
       <TitleWrapper>
         <Title text="My" />
       </TitleWrapper>
-      {isEdit ? <TextButton text="완료" color="mainColor" /> : null}
+      {isEdit ? (
+        <TextButton
+          text="완료"
+          color="mainColor"
+          onClick={() => {
+            window.confirm('저장하시겠습니까?');
+          }}
+        />
+      ) : null}
     </StyledHeader>
   );
 };

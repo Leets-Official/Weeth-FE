@@ -16,7 +16,7 @@ const LeftButton = () => {
   return (
     <ImgButton
       onClick={() => {
-        navi(-1);
+        navi(-1, { state: { shouldReload: true } });
       }}
     >
       <img src={prev} alt="prev" />

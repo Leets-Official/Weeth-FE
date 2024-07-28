@@ -42,10 +42,12 @@ const ImgButton = styled.div`
 const NegativeButton = styled.div`
   background-color: transparent;
   border: none;
+  width: 49px;
   color: ${theme.color.main.negative};
   font-size: 12px;
+  padding: 10px;
   margin-left: 25px;
-  margin-top: 68px;
+  margin-top: 58px;
   cursor: pointer;
 `;
 
@@ -55,6 +57,12 @@ const Error = styled.div`
   margin: 50px 0px;
   font-family: ${theme.font.family.pretendard_semiBold};
 `;
+
+const onClickLeave = () => {
+  if (window.confirm('탈퇴하시겠습니까?')) {
+    // 탈퇴 api 호출
+  }
+};
 
 const MyPage = () => {
   const { userData, error } = useContext(UserContext);
@@ -119,13 +127,7 @@ const MyPage = () => {
       >
         <img src={icEdit} alt="Edit" />
       </ImgButton>
-      <NegativeButton
-        onClick={() => {
-          window.confirm('탈퇴하시겠습니까?');
-        }}
-      >
-        탈퇴하기
-      </NegativeButton>
+      <NegativeButton onClick={onClickLeave}>탈퇴하기</NegativeButton>
     </StyledDetails>
   );
 };
