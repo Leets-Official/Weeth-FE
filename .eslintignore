@@ -10,8 +10,12 @@ index.js
 SmallButton.jsx
 Caption.jsx
 MiddleButton.jsx
+<<<<<<< HEAD
 StudyComponent.jsx
 BoardDetail.jsx
+=======
+DropDown.jsx
+>>>>>>> d7b6b0391f93850240277406d8a39b6e0023015a
 
 UserAPI.jsx
 UserContext.js
