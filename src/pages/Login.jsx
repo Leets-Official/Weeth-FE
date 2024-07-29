@@ -77,11 +77,11 @@ const Login = () => {
     try {
       const response = await axios.post('http://13.125.78.31:8080/login', params, { withCredentials: true });
 
-      const validatedResponse = await Utils(response, axios.post, [params], navigate); // Use Utils to handle the response
+      const validatedResponse = await Utils(response, axios.post, [params], navigate);
 
       if (validatedResponse.status === 200) {
         setError(null);
-        navigate('/home'); // 로그인 성공 후 원하는 경로로 이동
+        navigate('/home');
       }
     } catch (err) {
       console.error('Error:', err);
