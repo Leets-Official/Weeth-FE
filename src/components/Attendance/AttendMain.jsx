@@ -154,7 +154,7 @@ const AttendMain = () => {
   const penalty = myPenaltyCount;
 
   // eslint-disable-next-line no-console
-  console.log(penalty);
+  // console.log(penalty);
 
   // 출석체크 모달
   const handleOpenModal = () => setModalOpen(true);

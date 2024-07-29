@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import axios from 'axios';
 import MiddleButton from '../../Button/MiddleButton';
 import theme from '../../../styles/theme';
 import icClose from '../../../assets/images/ic_close.svg';
@@ -70,15 +71,18 @@ const RightContainer = () => {
   );
 };
 
-const WrongContainer = () => {
+const WrongContainer = ({ message }) => {
   return (
     <>
       <ImgContainer>
         <img src={wrong} alt="잘못된 입력 이미지" />
       </ImgContainer>
-      <TextContainer>잘못된 입력입니다.</TextContainer>
+      <TextContainer>{message}</TextContainer>
     </>
   );
+};
+WrongContainer.propTypes = {
+  message: PropTypes.string.isRequired,
 };
 
 const CloseButton = ({ onClick }) => (
@@ -94,8 +98,9 @@ CloseButton.propTypes = {
 const ModalAttend = ({ open, close }) => {
   const [codeCheck, setCodeCheck] = useState(0);
   const [inputValue, setInputValue] = useState('');
+  const [message, setMessage] = useState('');
 
-  // 모달창 나갔다 들어왔을 떄 입력 창 비워지고, 하단부 화면 비워지도록
+  // 모달창 나갔다 들어왔을 때 입력 창 비워지고, 하단부 화면 비워지도록
   useEffect(() => {
     if (!open) {
       setCodeCheck(0);
@@ -103,8 +108,37 @@ const ModalAttend = ({ open, close }) => {
     }
   }, [open]);
 
-  const handleCompleteBtn = () => {
-    setCodeCheck(inputValue ? 1 : 2);
+  useEffect(() => {
+    if (message === 'attendanceCode : 출석 코드를 입력해주세요.') {
+      setMessage('출석코드를 입력해주세요.');
+    }
+  }, [message]);
+
+  const handleCompleteBtn = async () => {
+    try {
+      const ACCESS_TOKEN = process.env.REACT_APP_ADMIN_TOKEN;
+      const headers = {
+        Authorization: `Bearer ${ACCESS_TOKEN}`,
+      };
+      const response = await axios.post(
+        'http://13.125.78.31:8080/attendances/check-in',
+        {
+          attendanceCode: inputValue,
+        },
+        { headers },
+      );
+      setMessage(response.data.message);
+      if (response.data.code === 200) {
+        setCodeCheck(1); // Correct
+      } else {
+        setCodeCheck(2); // Wrong
+      }
+    } catch (error) {
+      setCodeCheck(2); // Wrong
+      setMessage('잘못된 입력입니다.');
+    }
+    // eslint-disable-next-line no-console
+    console.log('post', message);
   };
 
   const handleChange = (e) => {
@@ -183,11 +217,16 @@ const ModalAttend = ({ open, close }) => {
             />
           </div>
           <div className="modal-buttons">
-            <MiddleButton onClick={handleCompleteBtn}>입력완료</MiddleButton>
+            <MiddleButton
+              onClick={handleCompleteBtn}
+              disabled={!inputValue || codeCheck === 1}
+            >
+              입력완료
+            </MiddleButton>
           </div>
           {codeCheck === 0 && <div> </div>}
-          {codeCheck === 1 && <RightContainer />}
-          {codeCheck === 2 && <WrongContainer />}
+          {codeCheck === 1 && <RightContainer message={message} />}
+          {codeCheck === 2 && <WrongContainer message={message} />}
         </div>
       </Regular>
     </StyledModal>

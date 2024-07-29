@@ -25,7 +25,7 @@ export const AttendProvider = ({ children }) => {
 
         const { data } = response.data;
         // eslint-disable-next-line no-console
-        console.log(data);
+        // console.log(data);
 
         if (data.title === null && data.startDateTime === null) {
           setHasSchedule(false);
