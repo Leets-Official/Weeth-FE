@@ -1,12 +1,10 @@
 import React, { createContext, useState } from 'react';
 
-// Context 객체 생성
 export const UserContext = createContext();
 
-// Provider 컴포넌트
 export const UserProvider = ({ children }) => {
   const [userData, setUserData] = useState(null);
-  const [allUserData, setAllUserData] = useState(null);
+  const [allUserData, setAllUserData] = useState([]);
   const [error, setError] = useState(null);
 
   return (
