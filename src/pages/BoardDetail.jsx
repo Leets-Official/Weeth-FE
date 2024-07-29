@@ -108,7 +108,7 @@ const BottomRow = styled.div`
   padding-bottom: 10px; /* 선 아래 여백 추가 */
 `;
 
-const StudyBoard = () => {
+const BoardDetail = () => {
   const [comment, setComment] = useState('');
   const [comments, setComments] = useState([]);
   const [commentCount, setCommentCount] = useState(0);
@@ -206,4 +206,4 @@ const StudyBoard = () => {
   studyContent: PropTypes.string.isRequired,
 }; */
 
-export default StudyBoard;
+export default BoardDetail;

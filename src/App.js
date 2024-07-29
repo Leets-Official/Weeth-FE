@@ -18,7 +18,7 @@ import Edit from './pages/Edit';
 import Dues from './pages/Dues';
 import Board from './pages/Board';
 import BoardPosting from './pages/BoardPosting';
-import StudyBoard from './pages/StudyBoard';
+import BoardDetail from './pages/BoardDetail';
 import CreateEvent from './pages/CreateEvent';
 
 import { ThemeProvider } from 'styled-components';
@@ -58,9 +58,8 @@ function App() {
           <Route path="/edit" element={<Edit />} />
           <Route path="/dues" element={<Dues />} />
           <Route path="/receipt" element={<Receipt />} />
-          <Route path="/StudyBoard" element={<StudyBoard />} />
           <Route path="/board" element={<Board />} />
-          <Route path="/board/:id" element={<StudyBoard />} />
+          <Route path="/board/:id" element={<BoardDetail />} />
           <Route path="/boardPosting" element={<BoardPosting />} />
         </Routes>
         </BoardProvider>

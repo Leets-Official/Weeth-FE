@@ -94,7 +94,7 @@ const StudyComponent = ({ studyTitle, studyContent, commentCount }) => {
   const navigate = useNavigate();
 
   const handleStudyClick = () => {
-    navigate('/studyBoard', {
+    navigate('/BoardDetail', {
       state: {
         studyTitle,
         studyContent,

@@ -11,16 +11,13 @@ SmallButton.jsx
 Caption.jsx
 MiddleButton.jsx
 StudyComponent.jsx
-StudyBoard.jsx
+BoardDetail.jsx
 
 UserAPI.jsx
 UserContext.js
-<<<<<<< HEAD
-BoardAPI.jsx
-BoardContext.js
-=======
 EventAPI.jsx
 EventContext.js
->>>>>>> f20eb8e0f492caef4cf8670a83db83e7e6e7b51d
+BoardAPI.jsx
+BoardContext.js
 
 FileAttachMenu.jsx

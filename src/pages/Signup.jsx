@@ -130,8 +130,10 @@ const Signup = () => {
       <SignupTextComponent
         text="ID로 사용할 메일을 적어주세요"
         value={email}
-        placeholder="ex) weeth@gmail.com"
         onChange={handleEmailChange}
+        placeholder="ex) weeth@gmail.com"
+        type=""
+        children=""
       />
       {!nextClicked && !isChecked && (
         <CheckButton onClick={handleCheckEmail} underline>

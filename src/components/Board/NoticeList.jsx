@@ -24,7 +24,9 @@ const NoticeList = () => {
             (item) => item.type === 'NOTICE',
           );
           setNotices(noticeData);
+          console.log(noticeData);
         } else {
+          console.error('API response error:', response.data.message);
           setError(response.data.message);
         }
       })
@@ -34,12 +36,8 @@ const NoticeList = () => {
       });
   }, [ACCESS_TOKEN, setError]);
 
-  useEffect(() => {
-    console.log('Notices state updated:', notices); // 상태 업데이트 후의 데이터를 확인
-  }, [notices]);
-
   const handleNavigate = (id) => {
-    navigate(`/event/${id}`);
+    navigate(`/board/${id}`);
   };
 
   return (
@@ -50,7 +48,8 @@ const NoticeList = () => {
           name={notice.userName}
           title={notice.title}
           content={notice.content}
-          time={notice.modifiedAt || notice.createdAt} // 수정된 시간이 있으면 수정된 시간을, 없으면 생성 시간을 표시
+          time={notice.modifiedAt || notice.createdAt} // 수정된 시간이 있으면 수정된 시간, 없으면 생성 시간
+          totalComments=""
           onClick={() => handleNavigate(notice.id)}
         />
       ))}

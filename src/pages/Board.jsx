@@ -69,7 +69,7 @@ const Board = () => {
 
   return (
     <Container>
-      <NoticeHeader showModal={true} onMenuClick={onMenuClick} />
+      <NoticeHeader showModal={false} onMenuClick={onMenuClick} />
       <NoticeMiddle
         title={activeTab === 'notice' ? '공지사항' : '스터디 게시판'}
         button={buttonElement}
