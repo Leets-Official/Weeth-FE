@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import { useContext, useState, useEffect } from 'react';
-import axios from 'axios';
+import { useContext, useState } from 'react';
 import theme from '../../styles/theme';
 import './AttendMain.css';
 import RightButton from '../Header/RightButton';
@@ -12,6 +11,7 @@ import warning from '../../assets/images/ic_warning.svg';
 import ModalPenalty from './Modal/ModalPenalty';
 import { UserContext } from '../../hooks/UserContext';
 import { PenaltyContext } from '../../hooks/PenaltyContext';
+import { AttendContext } from '../../hooks/AttendContext';
 
 // 출석률 게이지 임시 값
 let ATTEND_GAUGE = 80;
@@ -98,9 +98,6 @@ const AttendMain = () => {
 
   const { userData, error } = useContext(UserContext);
 
-  // 일단 일정 있고 패널티 있는 게 true
-  const [hasSchedule, setHasSchedule] = useState(true);
-
   let userName;
   if (error) {
     userName = 'error';
@@ -109,40 +106,8 @@ const AttendMain = () => {
   } else {
     userName = userData.name;
   }
-
-  const [attendanceData, setAttendanceData] = useState(null);
-  const [attendFetchError, setAttendFetchError] = useState(null);
-
-  useEffect(() => {
-    const fetchAttendances = async () => {
-      try {
-        const ACCESS_TOKEN = process.env.REACT_APP_ADMIN_TOKEN;
-        const headers = {
-          Authorization: `Bearer ${ACCESS_TOKEN}`,
-        };
-
-        const response = await axios.get(
-          'http://13.125.78.31:8080/attendances',
-          { headers },
-        );
-
-        const { data } = response.data;
-        // eslint-disable-next-line no-console
-        console.log(data);
-
-        if (data.title === null && data.startDateTime === null) {
-          setHasSchedule(false);
-          ATTEND_GAUGE = data.attendanceRate;
-        } else {
-          setAttendanceData(data);
-        }
-      } catch (err) {
-        setAttendFetchError(err.message);
-      }
-    };
-
-    fetchAttendances();
-  }, []);
+  const { attendanceData, attendFetchError, hasSchedule } =
+    useContext(AttendContext);
 
   let title;
   let location;

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import MiddleButton from '../../Button/MiddleButton';
@@ -8,6 +8,7 @@ import check from '../../../assets/images/ic_check.svg';
 import './ModalAttend.css';
 import wrong from '../../../assets/images/ic_wrong.svg';
 import correct from '../../../assets/images/ic_correct.svg';
+import { AttendContext } from '../../../hooks/AttendContext';
 
 const StyledModal = styled.div`
   display: ${(props) => (props.open ? 'block' : 'none')};
@@ -114,6 +115,45 @@ const ModalAttend = ({ open, close }) => {
     }
   };
 
+  const { attendanceData, attendFetchError } = useContext(AttendContext);
+
+  let title;
+  let location;
+  let startDateTime; // 날짜
+  let endDateTime; // 시간
+
+  if (attendFetchError) {
+    title = 'error';
+    location = 'error';
+    startDateTime = 'error';
+    endDateTime = 'error';
+  } else if (!attendanceData) {
+    // 데이터를 아직 가져오지 않았거나, 일정이 없는 경우
+    title = '로딩중';
+    location = '로딩중';
+    startDateTime = '로딩중';
+    endDateTime = '로딩중';
+  } else {
+    title = attendanceData.title;
+    location = attendanceData.location;
+
+    // Date 객체로 변환
+    const startDate = new Date(attendanceData.startDateTime);
+    const endDate = new Date(attendanceData.endDateTime);
+
+    // 날짜 형식으로 변환
+    const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+    startDateTime = startDate.toLocaleDateString('ko-KR', dateOptions);
+
+    // 시간 형식으로 변환 (24시간 형식)
+    const timeOptions = { hour: '2-digit', minute: '2-digit', hour12: false };
+    const startTime = startDate.toLocaleTimeString('ko-KR', timeOptions);
+    const endTime = endDate.toLocaleTimeString('ko-KR', timeOptions);
+
+    // 피그마 형식대로 변환
+    endDateTime = `(${startTime} ~ ${endTime})`;
+  }
+
   return (
     <StyledModal open={open}>
       <Regular>
@@ -126,15 +166,13 @@ const ModalAttend = ({ open, close }) => {
             <SemiBold className="modal-title">출석하기</SemiBold>
             <SemiBold className="modal-text">
               오늘은&nbsp;
-              <div style={{ color: theme.color.main.mainColor }}>
-                프로젝트 중간 발표
-              </div>
+              <div style={{ color: theme.color.main.mainColor }}>{title}</div>
               &nbsp;가 있는 날이에요
             </SemiBold>
             <div className="modal-date">
-              날짜: 2024년 7월 18일 (19:00 - 20:30)
+              날짜: {startDateTime} {endDateTime}
             </div>
-            <div className="modal-place">장소: 가천관 247호</div>
+            <div className="modal-place">장소: {location}</div>
             <Line />
             <input
               className="modal-input"

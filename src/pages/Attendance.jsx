@@ -4,6 +4,7 @@ import theme from '../styles/theme';
 import AttendHeader from '../components/Attendance/AttendHeader';
 import AttendMain from '../components/Attendance/AttendMain';
 import { PenaltyProvider } from '../hooks/PenaltyContext';
+import { AttendProvider } from '../hooks/AttendContext';
 
 const Container = styled.div`
   display: flex;
@@ -24,6 +25,7 @@ const Footer = styled.footer`
 const Attendance = () => {
   return (
     <ThemeProvider theme={theme}>
+      <AttendProvider>
       <PenaltyProvider>
       <Container>
         <Main>
@@ -34,6 +36,7 @@ const Attendance = () => {
         </Footer>
       </Container>
       </PenaltyProvider>
+      </AttendProvider>
     </ThemeProvider>
   );
 };
