@@ -23,6 +23,16 @@ const TextMargin = styled.div`
   margin-top: 30px;
 `;
 
+const ErrorMessage = styled.div`
+  right: 0;
+  color: #ff5858;
+  margin: 15px 0 0 -5%;
+  font-size: 14px;
+  text-align: right;
+  width: 100%;
+
+`;
+
 const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
@@ -100,10 +110,10 @@ const Login = () => {
     <Container>
       <LoginHeader isRightButtonEnabled={!!isAllValid} onCompleteClick={handleLogin} />
       <LoginHeaderMargin />
-      <SignupTextComponent text="email" value={email} onChange={handleEmailChange} placeholder="ex) weeth@gmail.com" type="text" children='' />
+      <SignupTextComponent text="ID" value={email} onChange={handleEmailChange} placeholder="ex) weeth@gmail.com" type="text" children='' />
       <TextMargin />
       <SignupTextComponent
-        text="password"
+        text="PW"
         value={password}
         onChange={handlePasswordChange}
         placeholder=""
@@ -131,7 +141,10 @@ const Login = () => {
           />
         )}
       </SignupTextComponent>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+      <ErrorMessage>
+        {error}
+      </ErrorMessage>
+      
     </Container>
   );
 };
