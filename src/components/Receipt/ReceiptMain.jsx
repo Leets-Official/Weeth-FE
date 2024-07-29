@@ -1,5 +1,6 @@
 import styled from 'styled-components';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
+import ReactModal from 'react-modal';
 import theme from '../../styles/theme';
 import ReceiptInfo from './ReceiptInfo';
 import { DuesContext } from '../../hooks/DuesContext';
@@ -55,6 +56,7 @@ const GridItem = styled.div`
   align-items: center;
   font-size: 14px;
   white-space: nowrap;
+  cursor: pointer; /* 커서 추가 */
   &:last-child {
     margin-right: 0;
   }
@@ -67,10 +69,27 @@ const GridItemImage = styled.img`
   object-fit: cover;
 `;
 
+const ModalImage = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+`;
+
 const ReceiptMain = () => {
   const { duesData } = useContext(DuesContext);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState('');
 
-  // 영수증 데이터를 월별로 묶어주기
+  const openModal = (image) => {
+    setSelectedImage(image);
+    setModalIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalIsOpen(false);
+    setSelectedImage('');
+  };
+
   const groupedByMonth = duesData.reduce((acc, curr) => {
     const month = new Date(curr.date).getMonth() + 1;
     if (!acc[month]) {
@@ -80,12 +99,11 @@ const ReceiptMain = () => {
     return acc;
   }, {});
 
-  // 3월 ~ 8월
-  const FirstSemester = [3, 4, 5, 6, 7, 8];
+  const months = [3, 4, 5, 6, 7, 8];
 
   return (
     <StyledReceipt>
-      {FirstSemester.map((month) => (
+      {months.map((month) => (
         <div key={month}>
           <StyledMonth>{month}월</StyledMonth>
           {groupedByMonth[month] ? (
@@ -99,7 +117,10 @@ const ReceiptMain = () => {
                 <ScrollContainer>
                   {receipt.images.length > 0 ? (
                     receipt.images.map((image, index) => (
-                      <GridItem key={receipt.id}>
+                      <GridItem
+                        key={receipt.id}
+                        onClick={() => openModal(image)}
+                      >
                         <GridItemImage
                           src={image}
                           alt={`영수증 사진 ${index + 1}`}
@@ -118,6 +139,28 @@ const ReceiptMain = () => {
           <Line />
         </div>
       ))}
+      <ReactModal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        style={{
+          overlay: {
+            backgroundColor: 'rgba(0, 0, 0, 0.75)',
+          },
+          content: {
+            top: '50%',
+            left: '50%',
+            right: 'auto',
+            bottom: 'auto',
+            marginRight: '-50%',
+            transform: 'translate(-50%, -50%)',
+            padding: '0',
+            border: 'none',
+            background: 'none',
+          },
+        }}
+      >
+        <ModalImage src={selectedImage} alt="영수증 큰 이미지" />
+      </ReactModal>
     </StyledReceipt>
   );
 };
