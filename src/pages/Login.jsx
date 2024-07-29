@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import LoginHeader from '../components/Login/LoginHeader';
@@ -67,17 +69,24 @@ const Login = () => {
     try {
       const response = await axios.post('http://13.125.78.31:8080/login', params, { withCredentials: true });
 
+      console.log('Response:', response); // 전체 응답을 출력하여 디버깅
+      console.log('Response Headers:', response.header); // 응답 헤더를 출력하여 디버깅
+
       if (response.status === 200) {
-        const accessToken = response.headers['authorization'];
-        const refreshToken = response.headers['authorization-refresh'];
+        const token = response.header.get['authorization'];
+        const refreshToken = response.header.get['authorization-refresh'];
 
-        console.log('Access Token:', accessToken);  // 콘솔에 출력하여 확인
+        console.log('Access Token:', token);  // 콘솔에 출력하여 확인
+        console.log('Refresh Token:', refreshToken);  // 콘솔에 출력하여 확인
 
-        localStorage.setItem('accessToken', accessToken);
-        localStorage.setItem('refreshToken', refreshToken);
-
-        setError(null);
-        navigate('/'); // 로그인 성공 후 원하는 경로로 이동
+        if (token && refreshToken) {
+          localStorage.setItem('accessToken', token);
+          localStorage.setItem('refreshToken', refreshToken);
+          setError(null);
+          navigate('/home'); // 로그인 성공 후 원하는 경로로 이동
+        } else {
+          setError('토큰이 응답에 포함되지 않았습니다.');
+        }
       } else {
         setError('로그인에 실패했습니다. 다시 시도해주세요.');
       }
@@ -91,10 +100,10 @@ const Login = () => {
     <Container>
       <LoginHeader isRightButtonEnabled={!!isAllValid} onCompleteClick={handleLogin} />
       <LoginHeaderMargin />
-      <SignupTextComponent text="email" value={email} onChange={handleEmailChange} placeholder="ex) weeth@gmail.com" type="text" children='' />
+      <SignupTextComponent text="ID" value={email} onChange={handleEmailChange} placeholder="ex) weeth@gmail.com" type="text" children='' />
       <TextMargin />
       <SignupTextComponent
-        text="password"
+        text="PW"
         value={password}
         onChange={handlePasswordChange}
         placeholder=""
