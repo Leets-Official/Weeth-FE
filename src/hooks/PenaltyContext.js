@@ -24,7 +24,7 @@ export const PenaltyProvider = ({ children }) => {
         });
         const { data } = response.data;
         // eslint-disable-next-line no-console
-        console.log(data[0]);
+        // console.log(data[0]);
         if (data.length === 0 || data[0].penaltyCount === 0) {
           setHasPenalty(false);
         } else {
