@@ -82,7 +82,7 @@ const EventDetails = () => {
     <StyledEventDetails>
       <EventAPI />
       <BoardTitle
-        eventID={event.id}
+        eventId={event.id}
         text={event.title}
         writer={event.userName}
         createdAt={event.createdAt}
