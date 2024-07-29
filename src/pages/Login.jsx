@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import LoginHeader from '../components/Login/LoginHeader';
@@ -98,10 +100,10 @@ const Login = () => {
     <Container>
       <LoginHeader isRightButtonEnabled={!!isAllValid} onCompleteClick={handleLogin} />
       <LoginHeaderMargin />
-      <SignupTextComponent text="email" value={email} onChange={handleEmailChange} placeholder="ex) weeth@gmail.com" type="text" children='' />
+      <SignupTextComponent text="ID" value={email} onChange={handleEmailChange} placeholder="ex) weeth@gmail.com" type="text" children='' />
       <TextMargin />
       <SignupTextComponent
-        text="password"
+        text="PW"
         value={password}
         onChange={handlePasswordChange}
         placeholder=""
