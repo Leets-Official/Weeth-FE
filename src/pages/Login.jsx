@@ -82,6 +82,7 @@ const Login = () => {
       if (validatedResponse.status === 200) {
         setError(null);
         navigate('/home');
+
       }
     } catch (err) {
       console.error('Error:', err);
@@ -103,10 +104,10 @@ const Login = () => {
     <Container>
       <LoginHeader isRightButtonEnabled={!!isAllValid} onCompleteClick={handleLogin} />
       <LoginHeaderMargin />
-      <SignupTextComponent text="ID" value={email} onChange={handleEmailChange} placeholder="ex) weeth@gmail.com" type="text" children='' />
+      <SignupTextComponent text="email" value={email} onChange={handleEmailChange} placeholder="ex) weeth@gmail.com" type="text" children='' />
       <TextMargin />
       <SignupTextComponent
-        text="PW"
+        text="password"
         value={password}
         onChange={handlePasswordChange}
         placeholder=""

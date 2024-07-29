@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import AttendHeader from '../components/Attendance/AttendHeader';
 import ReceiptMain from '../components/Receipt/ReceiptMain';
+import { DuesProvider } from '../hooks/DuesContext';
 
 const Container = styled.div`
   display: flex;
@@ -12,10 +13,12 @@ const Container = styled.div`
 
 const Receipt = () => {
   return (
-    <Container>
-      <AttendHeader text="영수증" />
-      <ReceiptMain />
-    </Container>
+    <DuesProvider>
+      <Container>
+        <AttendHeader text="영수증" />
+        <ReceiptMain />
+      </Container>
+    </DuesProvider>
   );
 };
 
