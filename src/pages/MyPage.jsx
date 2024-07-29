@@ -17,6 +17,7 @@ import icPosition from '../assets/images/ic_position.svg';
 import icEmail from '../assets/images/ic_mail.svg';
 import icEdit from '../assets/images/ic_edit.svg';
 import { UserContext } from '../hooks/UserContext';
+import UserAPI from '../hooks/UserAPI';
 
 import theme from '../styles/theme';
 
@@ -82,6 +83,7 @@ const MyPage = () => {
 
   return (
     <StyledDetails>
+      <UserAPI />
       <MyPageHeader isEdit={false} />
       {error || !userData ? (
         <Error>데이터를 불러오는 중 문제가 발생했습니다.</Error>

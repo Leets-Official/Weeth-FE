@@ -78,7 +78,7 @@ const Edit = () => {
         });
         alert('저장이 완료되었습니다.');
         console.log(data);
-        navi('/edit', { state: { shouldReload: true } });
+        navi('/mypage');
       } catch (err) {
         alert('저장 중 오류가 발생했습니다.');
       }
