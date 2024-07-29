@@ -6,6 +6,7 @@ import LoginHeader from '../components/Login/LoginHeader';
 import SignupTextComponent from '../components/Signup/SignupTextComponent';
 import { ReactComponent as ToggleVisibleIcon } from '../assets/images/ic_toggleVisible.svg';
 import { ReactComponent as ToggleInvisibleIcon } from '../assets/images/ic_toggleInvisible.svg';
+import Utils from '../hooks/Utils';
 
 const Container = styled.div`
   display: flex;
@@ -30,7 +31,6 @@ const ErrorMessage = styled.div`
   font-size: 14px;
   text-align: right;
   width: 100%;
-
 `;
 
 const Login = () => {
@@ -77,18 +77,11 @@ const Login = () => {
     try {
       const response = await axios.post('http://13.125.78.31:8080/login', params, { withCredentials: true });
 
-      if (response.status === 200) {
-        const token = response.headers['authorization'];
-        const refreshToken = response.headers['authorization-refresh'];
+      const validatedResponse = await Utils(response, axios.post, [params], navigate); // Use Utils to handle the response
 
-        if (token && refreshToken) {
-          localStorage.setItem('accessToken', token);
-          localStorage.setItem('refreshToken', refreshToken);
-          setError(null);
-          navigate('/home'); // 로그인 성공 후 원하는 경로로 이동
-        } else {
-          setError('토큰이 응답에 포함되지 않았습니다.');
-        }
+      if (validatedResponse.status === 200) {
+        setError(null);
+        navigate('/home'); // 로그인 성공 후 원하는 경로로 이동
       }
     } catch (err) {
       console.error('Error:', err);
