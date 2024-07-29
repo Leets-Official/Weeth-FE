@@ -1,11 +1,11 @@
 import styled from 'styled-components';
-import { useState } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import theme from '../styles/theme';
 import DuesHeader from '../components/Dues/DuesHeader';
 import DueCategory from '../components/Dues/DueCategory';
 import DuesInfo from '../components/Dues/DuesInfo';
-import mockDues from '../components/mockData/mockDues';
 import DuesTitle from '../components/Dues/DuesTitle';
+import { DuesContext } from '../hooks/DuesContext';
 
 const StyledDues = styled.div`
   width: 370px;
@@ -56,12 +56,17 @@ const MoneyBox = styled.div`
 `;
 
 const Dues = () => {
+  const { duesData, totalAmount, fetchData } = useContext(DuesContext);
   const [selectedCardinal, setSelectedCardinal] = useState(null);
+
+  useEffect(() => {
+    fetchData(selectedCardinal || 3);
+  }, [selectedCardinal, fetchData]);
 
   const filteredDues =
     selectedCardinal === null
-      ? mockDues
-      : mockDues.filter((dues) => dues.cardinal === selectedCardinal);
+      ? duesData
+      : duesData.filter((dues) => dues.cardinal === selectedCardinal);
 
   return (
     <StyledDues>
@@ -72,17 +77,17 @@ const Dues = () => {
       </CategoryWrapper>
       <DuesListBox>
         <MoneyBoxContainer>
-          <MoneyBox>234,234원</MoneyBox>
+          <MoneyBox>{totalAmount.toLocaleString()}원</MoneyBox>
         </MoneyBoxContainer>
         <Line />
         <DuesList>
           {filteredDues.map((dues) => (
             <DuesInfo
               key={dues.id}
-              dues={dues.dues}
+              dues={dues.amount}
               cardinal={dues.cardinal}
               date={dues.date}
-              memo={dues.memo}
+              memo={dues.description}
             />
           ))}
         </DuesList>
