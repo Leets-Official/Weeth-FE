@@ -7,6 +7,7 @@ import theme from '../styles/theme';
 import MyPageHeader from '../components/MyPage/MyPageHeader';
 import InfoInput from '../components/MyPage/InfoInput';
 // import mockUser from '../components/mockData/mockUser';
+import DropdownMenu from '../components/DropdownMenu';
 
 import { UserContext } from '../hooks/UserContext';
 
@@ -45,7 +46,7 @@ const Edit = () => {
       setUserInfo([
         { key: 'name', value: userData.name },
         { key: 'studentId', value: userData.studentId },
-        { key: 'department', value: 'AI' },
+        { key: 'department', value: userData.department },
         { key: 'tel', value: userData.tel },
         { key: 'cardinals', value: userData.cardinals },
         { key: 'position', value: userData.position },
@@ -77,7 +78,7 @@ const Edit = () => {
         });
         alert('저장이 완료되었습니다.');
         console.log(data);
-        navi('/mypage');
+        navi('/edit', { state: { shouldReload: true } });
       } catch (err) {
         alert('저장 중 오류가 발생했습니다.');
       }
@@ -109,14 +110,10 @@ const Edit = () => {
             placeholder="학번을 입력하세요"
             align="right"
           />
-          <InfoInput
+          <DropdownMenu
             text="학과"
             origValue={userData.department}
             editValue={(value) => editValue('department', value)}
-            width="224px"
-            padding="25px"
-            placeholder="학과를 입력하세요"
-            align="right"
           />
           <InfoInput
             text="핸드폰"
@@ -162,7 +159,7 @@ const Edit = () => {
             text="비밀번호"
             origValue=""
             editValue={(value) => editValue('password', value)}
-            width="194px"
+            width="191px"
             padding="25px"
             placeholder=""
             align="right"
