@@ -6,6 +6,7 @@ import LoginHeader from '../components/Login/LoginHeader';
 import SignupTextComponent from '../components/Signup/SignupTextComponent';
 import { ReactComponent as ToggleVisibleIcon } from '../assets/images/ic_toggleVisible.svg';
 import { ReactComponent as ToggleInvisibleIcon } from '../assets/images/ic_toggleInvisible.svg';
+import Utils from '../hooks/Utils';
 
 const Container = styled.div`
   display: flex;
@@ -21,6 +22,15 @@ const LoginHeaderMargin = styled.div`
 
 const TextMargin = styled.div`
   margin-top: 30px;
+`;
+
+const ErrorMessage = styled.div`
+  right: 0;
+  color: #ff5858;
+  margin: 15px 0 0 -5%;
+  font-size: 14px;
+  text-align: right;
+  width: 100%;
 `;
 
 const Login = () => {
@@ -67,23 +77,26 @@ const Login = () => {
     try {
       const response = await axios.post('http://13.125.78.31:8080/login', params, { withCredentials: true });
 
-      if (response.status === 200) {
-        const accessToken = response.headers['authorization'];
-        const refreshToken = response.headers['authorization-refresh'];
+      const validatedResponse = await Utils(response, axios.post, [params], navigate);
 
-        console.log('Access Token:', accessToken);  // 콘솔에 출력하여 확인
-
-        localStorage.setItem('accessToken', accessToken);
-        localStorage.setItem('refreshToken', refreshToken);
-
+      if (validatedResponse.status === 200) {
         setError(null);
-        navigate('/'); // 로그인 성공 후 원하는 경로로 이동
-      } else {
-        setError('로그인에 실패했습니다. 다시 시도해주세요.');
+        navigate('/home');
+
       }
     } catch (err) {
       console.error('Error:', err);
-      setError('데이터를 가져오는 중 오류가 발생했습니다.');
+
+      if (err.response) {
+        // 서버가 응답했지만 상태 코드는 2xx 범위 밖
+        setError(err.response.data); // 서버에서 제공하는 오류 메시지를 설정
+      } else if (err.request) {
+        // 요청이 만들어졌지만 응답을 받지 못함
+        setError('서버로부터 응답을 받지 못했습니다.');
+      } else {
+        // 요청을 설정하는 중에 문제가 발생
+        setError('요청을 설정하는 중 오류가 발생했습니다.');
+      }
     }
   };
 
@@ -122,7 +135,10 @@ const Login = () => {
           />
         )}
       </SignupTextComponent>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+      <ErrorMessage>
+        {error}
+      </ErrorMessage>
+      
     </Container>
   );
 };
