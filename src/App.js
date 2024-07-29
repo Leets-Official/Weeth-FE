@@ -18,7 +18,7 @@ import Edit from './pages/Edit';
 import Dues from './pages/Dues';
 import Board from './pages/Board';
 import BoardPosting from './pages/BoardPosting';
-import StudyBoard from './pages/StudyBoard';
+import BoardDetail from './pages/BoardDetail';
 import CreateEvent from './pages/CreateEvent';
 
 import { ThemeProvider } from 'styled-components';
@@ -29,6 +29,7 @@ import { UserProvider } from './hooks/UserContext';
 import UserAPI from './hooks/UserAPI';
 import { EventProvider } from './hooks/EventContext';
 import EventAPI from './hooks/EventAPI';
+import { BoardProvider } from './hooks/BoardContext';
 import { DuesProvider } from './hooks/DuesContext';
 
 //user api 받아온 정보 담는 context
@@ -38,6 +39,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <UserProvider>
       <EventProvider>
+      <BoardProvider>
       <DuesProvider>
       <UserAPI />
       <EventAPI />
@@ -58,12 +60,13 @@ function App() {
           <Route path="/edit" element={<Edit />} />
           <Route path="/dues" element={<Dues />} />
           <Route path="/receipt" element={<Receipt />} />
-          <Route path="/StudyBoard" element={<StudyBoard />} />
           <Route path="/board" element={<Board />} />
+          <Route path="/board/:id" element={<BoardDetail />} />
           <Route path="/boardPosting" element={<BoardPosting />} />
         </Routes>
-      </DuesProvider>
-      </EventProvider>
+        </DuesProvider>
+        </BoardProvider>
+        </EventProvider>
       </UserProvider>
     </ThemeProvider>
   );

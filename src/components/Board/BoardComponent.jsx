@@ -1,6 +1,6 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import { ReactComponent as BoardChat } from '../../assets/images/ic_board_chat.svg';
 import theme from '../../styles/theme';
 
@@ -18,7 +18,7 @@ const BoardContainer = styled.div`
   height: 87px;
   margin: 0 7%;
   padding: 10px 0;
-  border-radius: 8px;
+  border-bottom: 1px solid ${theme.color.grayScale.gray65};
 `;
 
 const TopRow = styled.div`
@@ -51,7 +51,7 @@ const StyledDate = styled.div`
   line-height: 14.32px;
 `;
 
-const StyledStudy = styled.div`
+const StyledNotice = styled.div`
   width: 72%;
   margin: 5px 15% 10px 0;
 `;
@@ -63,7 +63,7 @@ const ContentRow = styled.div`
   width: 100%;
 `;
 
-const StudyContent = styled.div`
+const NoticeContent = styled.div`
   margin-right: 10%;
   color: ${theme.color.grayScale.gray65};
   font-family: ${theme.font.family.pretendard_regular};
@@ -90,36 +90,38 @@ const CommentCount = styled.div`
   margin-left: 4px;
 `;
 
-const StudyComponent = ({ studyTitle, studyContent, commentCount }) => {
-  const navigate = useNavigate();
+const formatDate = (dateString) => {
+  const date = new Date(dateString);
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${month}/${day}`;
+};
 
-  const handleStudyClick = () => {
-    navigate('/BoardDetail', {
-      state: {
-        studyTitle,
-        studyContent,
-        commentCount,
-      },
-    });
-  };
-
+const BoardComponent = ({
+  name,
+  time,
+  title,
+  content,
+  onClick,
+  totalComments,
+}) => {
   return (
-    <Container>
+    <Container onClick={onClick}>
       <BoardContainer>
         <TopRow>
           <StyledName>
-            <StyledText onClick={handleStudyClick}>홍길동</StyledText>
+            <StyledText>{name}</StyledText>
           </StyledName>
-          <StyledDate>00/00</StyledDate>
+          <StyledDate>{formatDate(time)}</StyledDate>
         </TopRow>
-        <StyledStudy>
-          <StyledText onClick={handleStudyClick}>{studyTitle}</StyledText>
-        </StyledStudy>
+        <StyledNotice>
+          <StyledText>{title}</StyledText>
+        </StyledNotice>
         <ContentRow>
-          <StudyContent onClick={handleStudyClick}>{studyContent}</StudyContent>
+          <NoticeContent>{content}</NoticeContent>
           <BottomRow>
             <BoardChat />
-            <CommentCount>{commentCount}</CommentCount>
+            <CommentCount>{totalComments}</CommentCount>
           </BottomRow>
         </ContentRow>
       </BoardContainer>
@@ -127,4 +129,13 @@ const StudyComponent = ({ studyTitle, studyContent, commentCount }) => {
   );
 };
 
-export default StudyComponent;
+BoardComponent.propTypes = {
+  name: PropTypes.node.isRequired,
+  time: PropTypes.node.isRequired,
+  title: PropTypes.node.isRequired,
+  content: PropTypes.node.isRequired,
+  totalComments: PropTypes.node.isRequired,
+  onClick: PropTypes.func.isRequired,
+};
+
+export default BoardComponent;

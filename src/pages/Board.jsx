@@ -1,24 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
-import NoticeComponent from '../components/Board/NoticeComponent';
-import StudyComponent from '../components/Board/StudyComponent';
+import axios from 'axios';
 import NoticeHeader from '../components/Board/NoticeHeader';
 import NoticeMiddle from '../components/Board/NoticeMiddle';
-
+import NoticeList from '../components/Board/NoticeList';
+import StudyList from '../components/Board/StudyList';
 import theme from '../styles/theme';
 
 const Container = styled.div`
   width: 370px;
-`;
+;`
 
 const TabsContainer = styled.div`
   display: flex;
   width: 88%;
   border-bottom: 1px solid ${theme.color.grayScale.gray65};
   margin: 0 7%;
-`;
+;`
 
-const Tab = styled.div`
+const StyledTab = styled.div`
   padding: 10px 10px;
   cursor: pointer;
   font-family: ${theme.font.family.pretendard_semiBold};
@@ -26,9 +26,9 @@ const Tab = styled.div`
   font-size: 16px;
   line-height: 19.09px;
   color: ${(props) =>
-    props.active ? theme.color.grayScale.white : theme.color.grayScale.gray65};
+    props.active === 'true' ? theme.color.grayScale.white : theme.color.grayScale.gray65};
   position: relative;
-
+  
   &:after {
     content: '';
     position: absolute;
@@ -37,12 +37,12 @@ const Tab = styled.div`
     right: 0;
     height: 2px;
     background-color: ${(props) =>
-      props.active ? theme.color.grayScale.white : 'transparent'};
+      props.active === 'true' ? theme.color.grayScale.white : 'transparent'};
   }
-`;
+;`
 
 const PostingButton = styled.button`
-  width: cal(370x0.13);
+  width: calc(370 * 0.13);
   height: 28px;
   background-color: ${theme.color.main.mainColor};
   color: ${theme.color.grayScale.white};
@@ -55,40 +55,35 @@ const PostingButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-`;
+;`
+
+const onMenuClick = () => {
+  console.log('Menu clicked');
+};
 
 const Board = () => {
   const [activeTab, setActiveTab] = useState('notice');
+  const buttonElement = activeTab === 'study' ? <PostingButton>글쓰기</PostingButton> : undefined;
+  // const [noticeList, setNoticeList] = useState([]);
+  // const [noticeList, setNoticeList] = useState([]);
 
   return (
     <Container>
-      <NoticeHeader showModal={false} />
+      <NoticeHeader showModal={false} onMenuClick={onMenuClick} />
       <NoticeMiddle
         title={activeTab === 'notice' ? '공지사항' : '스터디 게시판'}
-        button={activeTab === 'study' && <PostingButton>글쓰기</PostingButton>}
+        button={buttonElement}
       />
-      <TabsContainer>
-        <Tab
-          active={activeTab === 'notice'}
-          onClick={() => setActiveTab('notice')}
-        >
+      <TabsContainer> 
+        <StyledTab active={(activeTab === 'notice').toString()} onClick={() => setActiveTab('notice')}>
           공지사항
-        </Tab>
-        <Tab
-          active={activeTab === 'study'}
-          onClick={() => setActiveTab('study')}
-        >
+        </StyledTab>
+        <StyledTab active={(activeTab === 'study').toString()} onClick={() => setActiveTab('study')}>
           스터디 게시판
-        </Tab>
+        </StyledTab>
       </TabsContainer>
-      {activeTab === 'notice' && (
-        <NoticeComponent
-          styledName="홍길동"
-          subTitle="공지사항"
-          content="공지내용"
-        />
-      )}
-      {activeTab === 'study' && <StudyComponent />}
+      {activeTab === 'notice' && <NoticeList />}
+      {activeTab === 'study' && <StudyList />}
     </Container>
   );
 };

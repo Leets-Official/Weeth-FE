@@ -20,7 +20,7 @@ const TitleWrapper = styled.div`
   transform: translateX(-50%);
 `;
 
-const MyPageHeader = ({ isEdit, saveEditInfo }) => {
+const MyPageHeader = ({ isEdit, onSave }) => {
   return (
     <StyledHeader>
       <LeftButton />
@@ -28,7 +28,7 @@ const MyPageHeader = ({ isEdit, saveEditInfo }) => {
         <Title text="My" />
       </TitleWrapper>
       {isEdit ? (
-        <TextButton text="완료" color="mainColor" onClick={saveEditInfo} />
+        <TextButton text="완료" color="mainColor" onClick={onSave} />
       ) : null}
     </StyledHeader>
   );
@@ -36,7 +36,7 @@ const MyPageHeader = ({ isEdit, saveEditInfo }) => {
 
 MyPageHeader.propTypes = {
   isEdit: PropTypes.bool.isRequired,
-  saveEditInfo: PropTypes.func.isRequired,
+  onSave: PropTypes.func.isRequired,
 };
 
 export default MyPageHeader;

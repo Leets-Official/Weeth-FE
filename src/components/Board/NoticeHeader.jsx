@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import LeftButton from '../Header/LeftButton';
@@ -79,8 +79,12 @@ const CancelButton = styled.div`
   cursor: pointer;
 `;
 
-const NoticeHeader = ({ onMenuClick }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+const NoticeHeader = ({ onMenuClick, showModal }) => {
+  const [isModalOpen, setIsModalOpen] = useState(showModal);
+
+  useEffect(() => {
+    setIsModalOpen(showModal);
+  }, [showModal]);
 
   const handleIndexButtonClick = () => {
     setIsModalOpen(true);
@@ -126,7 +130,7 @@ const NoticeHeader = ({ onMenuClick }) => {
               <MenuItem
                 onClick={(e) => {
                   const target = e.currentTarget;
-                  target.style.backgroundColor = '#4d4d4d'; // 클릭 시 색상 변
+                  target.style.backgroundColor = '#4d4d4d'; // 클릭 시 색상 변경
                   setTimeout(() => {
                     handleDeleteClick();
                     target.style.backgroundColor = ''; // 원래 색상으로 돌아옴
@@ -136,13 +140,7 @@ const NoticeHeader = ({ onMenuClick }) => {
                 삭제
               </MenuItem>
             </ModalContent>
-            <CancelButton
-              onClick={() => {
-                handleCloseModal();
-              }}
-            >
-              취소
-            </CancelButton>
+            <CancelButton onClick={handleCloseModal}>취소</CancelButton>
           </ModalContainer>
         </ModalOverlay>
       )}
@@ -151,11 +149,8 @@ const NoticeHeader = ({ onMenuClick }) => {
 };
 
 NoticeHeader.propTypes = {
-  onMenuClick: PropTypes.func,
-};
-
-NoticeHeader.defaultProps = {
-  onMenuClick: () => {},
+  onMenuClick: PropTypes.func.isRequired,
+  showModal: PropTypes.bool.isRequired,
 };
 
 export default NoticeHeader;

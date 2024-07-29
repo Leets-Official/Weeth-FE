@@ -52,11 +52,11 @@ const StyledContent = styled.textarea`
 `;
 
 const BoardPosting = ({ initialStudyName, initialStudyContent }) => {
-  const navi = useNavigate();
-  const [studyName, setStudyName] = useState(initialStudyName);
+  const navigate = useNavigate();
+  const [studyTitle, setStudyName] = useState(initialStudyName);
   const [studyContent, setStudyContent] = useState(initialStudyContent);
   const [isCompleteEnabled, setIsCompleteEnabled] = useState(false);
-  const [isMenuOpen, setMenuOpen] = useState(false); // 모달 상태 추가
+  const [isMenuOpen, setMenuOpen] = useState(false);
 
   const handleStudyNameChange = (e) => {
     setStudyName(e.target.value);
@@ -68,15 +68,22 @@ const BoardPosting = ({ initialStudyName, initialStudyContent }) => {
 
   const handleBoardClick = () => {
     if (isCompleteEnabled) {
-      navi('/board', {
+      const newStudyComponent = { studyTitle, studyContent };
+      const existingComponents =
+        JSON.parse(localStorage.getItem('studyComponents')) || [];
+      const updatedComponents = [...existingComponents, newStudyComponent];
+      localStorage.setItem(
+        'studyComponents',
+        JSON.stringify(updatedComponents),
+      );
+
+      navigate('/board', {
         state: {
-          studyName,
-          studyContent,
+          newComponent: newStudyComponent,
         },
       });
     }
   };
-
   const handleOpenMenu = () => {
     setMenuOpen(true);
   };
@@ -86,8 +93,8 @@ const BoardPosting = ({ initialStudyName, initialStudyContent }) => {
   };
 
   useEffect(() => {
-    setIsCompleteEnabled(studyName && studyContent.length >= 1);
-  }, [studyName, studyContent]);
+    setIsCompleteEnabled(studyTitle && studyContent.length >= 1);
+  }, [studyTitle, studyContent]);
 
   return (
     <StyledPosting>
@@ -99,7 +106,7 @@ const BoardPosting = ({ initialStudyName, initialStudyContent }) => {
         <StyledTitle
           type="text"
           placeholder="제목"
-          value={studyName}
+          value={studyTitle}
           onChange={handleStudyNameChange}
         />
       </StyledText>
