@@ -77,15 +77,11 @@ const BoardTitle = ({ eventId, text, writer, createdAt }) => {
   const onClickDel = async () => {
     if (window.confirm('삭제하시겠습니까?')) {
       try {
-        await axios.delete(
-          `http://13.125.78.31:8080/event/${eventId}`,
-          eventId,
-          {
-            headers: {
-              Authorization: `Bearer ${ACCESS_TOKEN}`,
-            },
+        await axios.delete(`http://13.125.78.31:8080/event/${eventId}`, {
+          headers: {
+            Authorization: `Bearer ${ACCESS_TOKEN}`,
           },
-        );
+        });
         alert('삭제가 완료되었습니다.');
         navi('/calendar'); // 탈퇴 후 메인 페이지로 이동
       } catch (err) {
@@ -118,7 +114,9 @@ const BoardTitle = ({ eventId, text, writer, createdAt }) => {
       >
         <EditDelModal
           title="일정"
-          onClickEdit={() => {}} // 수정페이지로 navi 추가
+          onClickEdit={() => {
+            navi(`/event/${eventId}/edit`);
+          }}
           onClickDel={onClickDel}
           onClickCancle={closeAdminModal}
         />

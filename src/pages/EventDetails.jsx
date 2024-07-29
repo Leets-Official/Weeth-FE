@@ -43,8 +43,6 @@ const Line = styled.div`
 const EventDetails = () => {
   const { id } = useParams();
 
-  // 기간 일정에서 id에 해당하는 걸 찾는 게 아니라,,
-  // 해당 아이디에 대한 api로 다시 요청을 보내게 수정해라.
   const { monthEventData, error } = useContext(EventContext);
   if (error) {
     return <div>Error: {error}</div>;
