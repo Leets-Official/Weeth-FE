@@ -13,15 +13,16 @@ const StyledCreate = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 375px;
+  width: 370px;
   padding-bottom: 183px;
 `;
 
 const DatePickerWrapper = styled.div`
-  height: 96px;
+  height: 86px;
   border-radius: 4px;
   background-color: ${theme.color.grayScale.gray18};
   margin: 12px 15px 4px 15px;
+  padding-top: 10px;
 `;
 
 const StyledPicker = styled.div`
@@ -29,7 +30,7 @@ const StyledPicker = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  margin: 15px 0px 15px 6px;
+  padding: 5px;
 `;
 
 const WaveImg = styled.img`
@@ -77,7 +78,7 @@ const DatePicker = ({ status }) => {
       )}
       <DateInput
         value={now[0]}
-        width="59px"
+        width="58px"
         height="28px"
         margin="5px"
         editValue={() => {}}
@@ -85,7 +86,7 @@ const DatePicker = ({ status }) => {
       년
       <DateInput
         value={now[1]}
-        width="39px"
+        width="37px"
         height="28px"
         margin="5px"
         editValue={() => {}}
@@ -93,7 +94,7 @@ const DatePicker = ({ status }) => {
       월
       <DateInput
         value={now[2]}
-        width="39px"
+        width="37px"
         height="28px"
         margin="5px"
         editValue={() => {}}
@@ -101,7 +102,7 @@ const DatePicker = ({ status }) => {
       일
       <DateInput
         value={now[3]}
-        width="39px"
+        width="37px"
         height="28px"
         margin="5px"
         editValue={() => {}}
@@ -109,7 +110,7 @@ const DatePicker = ({ status }) => {
       :
       <DateInput
         value={now[4]}
-        width="39px"
+        width="37px"
         height="28px"
         margin="5px"
         editValue={() => {}}

@@ -8,6 +8,7 @@ import icClock from '../assets/images/ic_clock.svg';
 import theme from '../styles/theme';
 import BoardTitle from '../components/BoardTitle';
 // import mockEventMonth from '../components/mockData/mockEventMonth';
+import EventAPI from '../hooks/EventAPI';
 import { EventContext } from '../hooks/EventContext';
 
 const StyledEventDetails = styled.div`
@@ -42,6 +43,8 @@ const Line = styled.div`
 const EventDetails = () => {
   const { id } = useParams();
 
+  // 기간 일정에서 id에 해당하는 걸 찾는 게 아니라,,
+  // 해당 아이디에 대한 api로 다시 요청을 보내게 수정해라.
   const { monthEventData, error } = useContext(EventContext);
   if (error) {
     return <div>Error: {error}</div>;
@@ -77,7 +80,9 @@ const EventDetails = () => {
 
   return (
     <StyledEventDetails>
+      <EventAPI />
       <BoardTitle
+        eventID={event.id}
         text={event.title}
         writer={event.userName}
         createdAt={event.createdAt}

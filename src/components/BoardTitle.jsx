@@ -1,9 +1,17 @@
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import Modal from 'react-modal';
+import axios from 'axios';
 
+import React, { useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { UserContext } from '../hooks/UserContext';
 import LeftButton from './Header/LeftButton';
 import IndexButton from './Header/IndexButton';
 import theme from '../styles/theme';
+import EditDelModal from './EditDelModal';
+
+Modal.setAppElement('#root');
 
 const StyledTitle = styled.div`
   margin: 45px 25px 20px 25px; //기본 헤더 마진
@@ -41,35 +49,58 @@ const Detail = styled.div`
   }
 `;
 
-/*
-LeftButton은 모든 페이지에서 동일하게 사용되어 다른 props를 설정하지 않았음
+const adminModalStyles = {
+  overlay: {
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    backdropFilter: 'blur(5px)',
+    height: '100%',
+    width: '100%',
+  },
+};
 
-IndexButton(⋮)과 Text버튼(글자 입력 가능) 중 한가지만 선택하여 사용
-두개의 버튼 모두 onClick 함수를 props로 받습니다
-
-TextButton Props
-onClick
-text : 버튼에 나타날 글자를 입력
-color : 버튼의 색상을 선택, 아무것도 설정하지 않으면 흰색,
-        mainColor은 대표색상인 #00DDA8로 나타납니다
-
-onClick은 아래 함수에 각각의 함수를 작성
-버튼에게 할당된 클릭 이벤트가 없을 때(가 없겟지만..)
-()=>{}로 선언만 해두면 됨
-@@@@안 하면 에러남@@@@
-*/
-
-const onClickIndexButton = () => {};
-
-const BoardTitle = ({ text, writer, createdAt }) => {
+const BoardTitle = ({ eventId, text, writer, createdAt }) => {
+  const { userData } = useContext(UserContext);
+  const [adminModalIsOpen, setAdminModalIsOpen] = useState(false);
+  const navi = useNavigate();
   const splittedDate = createdAt.split('T'); // YYYY-MM-DD,HH:MM:SS.SSSZ
   const splittedTime = splittedDate[1].substr(0, 5);
+
+  const ACCESS_TOKEN = process.env.REACT_APP_ACCESS_TOKEN;
+
+  const openAdminModal = () => {
+    setAdminModalIsOpen(true);
+  };
+  const closeAdminModal = () => {
+    setAdminModalIsOpen(false);
+  };
+
+  const onClickDel = async () => {
+    if (window.confirm('삭제하시겠습니까?')) {
+      try {
+        await axios.delete(
+          `http://13.125.78.31:8080/event/${eventId}`,
+          eventId,
+          {
+            headers: {
+              Authorization: `Bearer ${ACCESS_TOKEN}`,
+            },
+          },
+        );
+        alert('삭제가 완료되었습니다.');
+        navi('/calendar'); // 탈퇴 후 메인 페이지로 이동
+      } catch (err) {
+        alert('삭제 중 오류가 발생했습니다.');
+      }
+    }
+  };
 
   return (
     <StyledTitle>
       <StyledHeader>
         <LeftButton />
-        <IndexButton onClick={onClickIndexButton} />
+        {userData.role === 'ADMIN' ? (
+          <IndexButton onClick={openAdminModal} />
+        ) : null}
       </StyledHeader>
       <Title>{text}</Title>
       <Detail>
@@ -78,11 +109,26 @@ const BoardTitle = ({ text, writer, createdAt }) => {
           {splittedDate[0].replace(/-/gi, '/')} {splittedTime}
         </WrittenTime>
       </Detail>
+
+      <Modal
+        className="calendar-modal"
+        isOpen={adminModalIsOpen}
+        onRequestClose={closeAdminModal}
+        style={adminModalStyles}
+      >
+        <EditDelModal
+          title="일정"
+          onClickEdit={() => {}} // 수정페이지로 navi 추가
+          onClickDel={onClickDel}
+          onClickCancle={closeAdminModal}
+        />
+      </Modal>
     </StyledTitle>
   );
 };
 
 BoardTitle.propTypes = {
+  eventId: PropTypes.number.isRequired,
   text: PropTypes.string.isRequired,
   writer: PropTypes.string.isRequired,
   createdAt: PropTypes.string.isRequired,
