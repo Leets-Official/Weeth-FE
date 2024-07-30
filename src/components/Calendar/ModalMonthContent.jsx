@@ -46,14 +46,14 @@ const ModalContent = ({
   const [year, setYear] = useState(origYear);
   const [month, setMonth] = useState(origMonth);
 
-  const onChangeYear = (e) => {
-    setYear(e.target.value);
-    editYear(e.target.value);
+  const onChangeYear = (value) => {
+    setYear(value);
+    editYear(value);
   };
 
-  const onChangeMonth = (e) => {
-    setMonth(e.target.value);
-    editMonth(e.target.value);
+  const onChangeMonth = (value) => {
+    setMonth(value);
+    editMonth(value);
   };
 
   if (isYear) {
