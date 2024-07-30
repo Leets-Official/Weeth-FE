@@ -57,7 +57,8 @@ const DateInput = ({ origValue, editValue, width, height, margin }) => {
 };
 
 DateInput.propTypes = {
-  origValue: PropTypes.number.isRequired,
+  origValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+    .isRequired,
   editValue: PropTypes.func.isRequired,
   width: PropTypes.string.isRequired,
   height: PropTypes.string.isRequired,

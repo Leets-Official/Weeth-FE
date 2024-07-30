@@ -125,10 +125,12 @@ InfoInput.propTypes = {
     .isRequired,
   editValue: PropTypes.func.isRequired,
   placeholder: PropTypes.string.isRequired,
-  width: PropTypes.string.isRequired,
+  // eslint-disable-next-line react/require-default-props
+  width: PropTypes.string,
   padding: PropTypes.string.isRequired,
   align: PropTypes.string.isRequired,
-  edit: PropTypes.bool.isRequired,
+  // eslint-disable-next-line react/require-default-props
+  edit: PropTypes.bool,
 };
 
 export default InfoInput;

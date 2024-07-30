@@ -131,8 +131,8 @@ const CreateEvent = () => {
   // 아무것도 입력하지 않으면 공란이지만 시작날짜의 경우만 현재시각의 초기값을 가짐
   const [eventInfo, setEventInfo] = useState([
     { key: 'title', value: '' },
-    { key: 'start', value: getValue('start') },
-    { key: 'end', value: [] },
+    { key: 'startDateTime', value: getValue('start') },
+    { key: 'endDateTime', value: [] },
     { key: 'location', value: '' },
     { key: 'requiredItems', value: '' },
     { key: 'memberNumber', value: '' },
@@ -163,10 +163,14 @@ const CreateEvent = () => {
           return acc;
         }, {});
 
-        const startDate = eventInfo.find((item) => item.key === 'start').value;
-        const endDate = eventInfo.find((item) => item.key === 'end').value;
+        const startDate = eventInfo.find(
+          (item) => item.key === 'startDateTime',
+        ).value;
+        const endDate = eventInfo.find(
+          (item) => item.key === 'endDateTime',
+        ).value;
 
-        if (startDate.legnth === 5) {
+        if (startDate.length === 5) {
           const [startYear, startMonth, startDay, startHour, startMinute] =
             startDate;
           const startDateObj = new Date(
@@ -176,9 +180,9 @@ const CreateEvent = () => {
             startHour,
             startMinute,
           );
-          data.start = startDateObj.toISOString();
+          data.startDateTime = startDateObj.toISOString();
         } else {
-          data.start = '';
+          data.startDateTime = '';
         }
 
         if (endDate.length === 5) {
@@ -190,19 +194,25 @@ const CreateEvent = () => {
             endHour,
             endMinute,
           );
-          data.end = endDateObj.toISOString();
+          data.endDateTime = endDateObj.toISOString();
         } else {
-          data.end = '';
+          data.endDateTime = '';
         }
-        await axios.post('http://13.125.78.31:8080/admin/event', data, {
-          headers: {
-            Authorization: `Bearer ${ACCESS_TOKEN}`,
+        const response = await axios.post(
+          'http://13.125.78.31:8080/admin/event',
+          data,
+          {
+            headers: {
+              Authorization: `Bearer ${ACCESS_TOKEN}`,
+            },
           },
-        });
+        );
         console.log(data);
+        console.log(response); // 서버의 응답을 콘솔에 출력
         alert('저장이 완료되었습니다.');
         navigate('/calendar');
       } catch (err) {
+        console.error(err); // 오류 내용을 콘솔에 출력
         alert('저장 중 오류가 발생했습니다.');
       }
     }
@@ -228,20 +238,20 @@ const CreateEvent = () => {
           status="start"
           onDateChange={(index, value) => {
             const startDate = [
-              ...eventInfo.find((item) => item.key === 'start').value,
+              ...eventInfo.find((item) => item.key === 'startDateTime').value,
             ];
             startDate[index] = value;
-            editDate('start', startDate);
+            editDate('startDateTime', startDate);
           }}
         />
         <DatePicker
           status="end"
           onDateChange={(index, value) => {
             const endDate = [
-              ...eventInfo.find((item) => item.key === 'end').value,
+              ...eventInfo.find((item) => item.key === 'endDateTime').value,
             ];
             endDate[index] = value;
-            editDate('end', endDate);
+            editDate('endDateTime', endDate);
           }}
         />
       </DatePickerWrapper>
