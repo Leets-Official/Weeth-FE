@@ -3,12 +3,10 @@ import axios from 'axios';
 import PropTypes from 'prop-types';
 import { EventContext } from './EventContext';
 
-const EventAPI = ({ start, end, year }) => {
-  const { setMonthEventData, setError, setYearEventData } = useContext(EventContext);
+const EventAPI = ({ start, end }) => {
+  const { setMonthEventData, setError } = useContext(EventContext);
 
   const ACCESS_TOKEN = process.env.REACT_APP_ACCESS_TOKEN;
-
-  year = parseInt(year, 10);
 
   useEffect(() => {
     if (!start || !end) return;
@@ -37,26 +35,7 @@ const EventAPI = ({ start, end, year }) => {
         console.error('API Request Error:', err); // 에러 로그
         setError('An error occurred while fetching the data');
       });
-
-      if (year) {
-        axios
-          .get(`http://13.125.78.31:8080/event/year`, { headers, params: { year: year } })
-          .then((response) => {
-            console.log(`year: ${year}`);
-
-            if (response.data.code === 200) {
-              console.log('API response Data(년):', response.data.data); // 데이터 확인용
-              setYearEventData(response.data.data);
-            } else {
-              setError(response.data.message);
-            }
-          })
-          .catch((err) => {
-            console.error('API Request Error:', err); // 에러 로그
-            setError('데이터를 가져오는 중 오류가 발생했습니다');
-          });
-      }
-    }, [ACCESS_TOKEN, setMonthEventData, setError, setYearEventData, start, end, year]);
+    }, [ACCESS_TOKEN, setMonthEventData, setError, start, end]);
   
   return null;
 };
@@ -64,7 +43,6 @@ const EventAPI = ({ start, end, year }) => {
 EventAPI.propTypes = {
   start: PropTypes.string,
   end: PropTypes.string,
-  year: PropTypes.number,
 };
 
 export default EventAPI;
