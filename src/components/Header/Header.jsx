@@ -41,10 +41,7 @@ onClick은 아래 함수에 각각의 함수를 작성
 @@@@안 하면 에러남@@@@
 */
 
-// const onClickIndexButton = () => {};
-const onClickTextButton = () => {};
-
-const Header = ({ title, text, color }) => {
+const Header = ({ title, text, color, onClick }) => {
   return (
     <StyledHeader>
       <LeftButton />
@@ -52,7 +49,7 @@ const Header = ({ title, text, color }) => {
         <Title text={title} />
       </TitleWrapper>
       {/* <IndexButton onClick={onClickIndexButton} /> */}
-      <TextButton onClick={onClickTextButton} text={text} color={color} />
+      <TextButton onClick={onClick} text={text} color={color} />
     </StyledHeader>
   );
 };
@@ -61,6 +58,8 @@ Header.propTypes = {
   title: PropTypes.string.isRequired,
   text: PropTypes.string.isRequired,
   color: PropTypes.string.isRequired,
+  // eslint-disable-next-line react/require-default-props
+  onClick: PropTypes.func,
 };
 
 export default Header;

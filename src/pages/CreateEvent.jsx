@@ -1,10 +1,12 @@
-import PropTypes from 'prop-types';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import Header from '../components/Header/Header';
-import InfoInput from '../components/MyPage/InfoInput';
+import axios from 'axios';
+import PropTypes from 'prop-types';
 
 import theme from '../styles/theme';
-
+import Header from '../components/Header/Header';
+import InfoInput from '../components/MyPage/InfoInput';
 import icCalendar from '../assets/images/ic_date.svg';
 import icWave from '../assets/images/ic_wave.svg';
 import DateInput from '../components/Calendar/DateInput';
@@ -51,22 +53,22 @@ const StyledTextArea = styled.textarea`
   font-size: 16px;
 `;
 
+// 글 작성 시 페이지에 진입한 시각을 기본 시작 시간으로
+const today = new Date();
 const getValue = (status) => {
-  const today = new Date();
-
   const year = today.getFullYear();
   const month = today.getMonth() + 1;
   const day = today.getDate();
   const hour = today.getHours();
   const minute = today.getMinutes();
-
   const valueArr = [year, month, day, hour, minute];
 
-  if (status === 'start') return valueArr;
-  return [];
+  return status === 'start' ? valueArr : [];
 };
 
-const DatePicker = ({ status }) => {
+// status가 start라면 위에서 가져온 현재 시각을 미리 입력,
+// 아니라면 비워두기
+const DatePicker = ({ status, onDateChange }) => {
   const now = getValue(status);
 
   return (
@@ -77,94 +79,209 @@ const DatePicker = ({ status }) => {
         <WaveImg src={icWave} alt="물결" />
       )}
       <DateInput
-        value={now[0]}
+        origValue={status === 'start' ? now[0] : ''}
         width="58px"
         height="28px"
         margin="5px"
-        editValue={() => {}}
+        editValue={(value) => onDateChange(0, value)}
       />
       년
       <DateInput
-        value={now[1]}
+        origValue={status === 'start' ? now[1] : ''}
         width="37px"
         height="28px"
         margin="5px"
-        editValue={() => {}}
+        editValue={(value) => onDateChange(1, value)}
       />
       월
       <DateInput
-        value={now[2]}
+        origValue={status === 'start' ? now[2] : ''}
         width="37px"
         height="28px"
         margin="5px"
-        editValue={() => {}}
+        editValue={(value) => onDateChange(2, value)}
       />
       일
       <DateInput
-        value={now[3]}
+        origValue={status === 'start' ? now[3] : ''}
         width="37px"
         height="28px"
         margin="5px"
-        editValue={() => {}}
+        editValue={(value) => onDateChange(3, value)}
       />
       :
       <DateInput
-        value={now[4]}
+        origValue={status === 'start' ? now[4] : ''}
         width="37px"
         height="28px"
         margin="5px"
-        editValue={() => {}}
+        editValue={(value) => onDateChange(4, value)}
       />
     </StyledPicker>
   );
 };
 
+DatePicker.propTypes = {
+  status: PropTypes.string.isRequired,
+  onDateChange: PropTypes.func.isRequired,
+};
+
 const CreateEvent = () => {
+  // 서버로 넘겨줄 데이터
+  // 아무것도 입력하지 않으면 공란이지만 시작날짜의 경우만 현재시각의 초기값을 가짐
+  const [eventInfo, setEventInfo] = useState([
+    { key: 'title', value: '' },
+    { key: 'start', value: getValue('start') },
+    { key: 'end', value: [] },
+    { key: 'location', value: '' },
+    { key: 'requiredItems', value: '' },
+    { key: 'memberNumber', value: '' },
+    { key: 'content', value: '' },
+  ]);
+  const ACCESS_TOKEN = process.env.REACT_APP_ACCESS_TOKEN;
+  const navigate = useNavigate();
+
+  const editValue = (key, value) => {
+    const updatedEventInfo = eventInfo.map((item) =>
+      item.key === key ? { ...item, value } : item,
+    );
+    setEventInfo(updatedEventInfo);
+  };
+
+  const editDate = (key, date) => {
+    const updatedEventInfo = eventInfo.map((item) =>
+      item.key === key ? { ...item, value: date } : item,
+    );
+    setEventInfo(updatedEventInfo);
+  };
+
+  const onSave = async () => {
+    if (window.confirm('저장하시겠습니까?')) {
+      try {
+        const data = eventInfo.reduce((acc, item) => {
+          acc[item.key] = item.value;
+          return acc;
+        }, {});
+
+        const startDate = eventInfo.find((item) => item.key === 'start').value;
+        const endDate = eventInfo.find((item) => item.key === 'end').value;
+
+        if (startDate.legnth === 5) {
+          const [startYear, startMonth, startDay, startHour, startMinute] =
+            startDate;
+          const startDateObj = new Date(
+            startYear,
+            startMonth - 1,
+            startDay,
+            startHour,
+            startMinute,
+          );
+          data.start = startDateObj.toISOString();
+        } else {
+          data.start = '';
+        }
+
+        if (endDate.length === 5) {
+          const [endYear, endMonth, endDay, endHour, endMinute] = endDate;
+          const endDateObj = new Date(
+            endYear,
+            endMonth - 1,
+            endDay,
+            endHour,
+            endMinute,
+          );
+          data.end = endDateObj.toISOString();
+        } else {
+          data.end = '';
+        }
+        await axios.post('http://13.125.78.31:8080/admin/event', data, {
+          headers: {
+            Authorization: `Bearer ${ACCESS_TOKEN}`,
+          },
+        });
+        console.log(data);
+        alert('저장이 완료되었습니다.');
+        navigate('/calendar');
+      } catch (err) {
+        alert('저장 중 오류가 발생했습니다.');
+      }
+    }
+  };
+
   return (
     <StyledCreate>
-      <Header title="일정 추가" text="완료" color="mainColor" />
+      <Header
+        title="일정 추가"
+        text="완료"
+        color="mainColor"
+        onClick={onSave}
+      />
       <InfoInput
         placeholder="제목"
-        origValue=""
+        origValue={eventInfo.find((item) => item.key === 'title')?.value || ''}
         padding="15px"
         align="left"
-        editValue={() => {}}
+        editValue={(value) => editValue('title', value)}
       />
       <DatePickerWrapper>
-        <DatePicker status="start" />
-        <DatePicker status="end" />
+        <DatePicker
+          status="start"
+          onDateChange={(index, value) => {
+            const startDate = [
+              ...eventInfo.find((item) => item.key === 'start').value,
+            ];
+            startDate[index] = value;
+            editDate('start', startDate);
+          }}
+        />
+        <DatePicker
+          status="end"
+          onDateChange={(index, value) => {
+            const endDate = [
+              ...eventInfo.find((item) => item.key === 'end').value,
+            ];
+            endDate[index] = value;
+            editDate('end', endDate);
+          }}
+        />
       </DatePickerWrapper>
       <InfoInput
         text="장소"
-        origValue=""
+        origValue={
+          eventInfo.find((item) => item.key === 'location')?.value || ''
+        }
         width="75%"
         padding="15px"
         align="left"
-        editValue={() => {}}
+        editValue={(value) => editValue('location', value)}
       />
       <InfoInput
         text="준비물"
-        origValue=""
+        origValue={
+          eventInfo.find((item) => item.key === 'requiredItems')?.value || ''
+        }
         width="75%"
         padding="15px"
         align="left"
-        editValue={() => {}}
+        editValue={(value) => editValue('requiredItems', value)}
       />
       <InfoInput
         text="총인원"
-        origValue=""
+        origValue={
+          eventInfo.find((item) => item.key === 'memberNumber')?.value || ''
+        }
         width="75%"
         padding="15px"
         align="left"
-        editValue={() => {}}
+        editValue={(value) => editValue('memberNumber', value)}
       />
-      <StyledTextArea placeholder="내용" />
+      <StyledTextArea
+        placeholder="내용"
+        value={eventInfo.find((item) => item.key === 'content')?.value || ''}
+        onChange={(e) => editValue('content', e.target.value)}
+      />
     </StyledCreate>
   );
-};
-
-DatePicker.propTypes = {
-  status: PropTypes.number.isRequired,
 };
 
 export default CreateEvent;
