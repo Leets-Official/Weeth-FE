@@ -100,6 +100,7 @@ const Edit = () => {
             padding="25px"
             placeholder="이름을 입력하세요"
             align="right"
+            edit={false}
           />
           <InfoInput
             text="학번"
@@ -109,6 +110,7 @@ const Edit = () => {
             padding="25px"
             placeholder="학번을 입력하세요"
             align="right"
+            edit={false}
           />
           <DropdownMenu
             text="학과"
@@ -123,6 +125,7 @@ const Edit = () => {
             padding="25px"
             placeholder="핸드폰 번호를 입력하세요"
             align="right"
+            edit={false}
           />
           <NoEdit>
             <InfoInput
@@ -133,6 +136,7 @@ const Edit = () => {
               padding="25px"
               placeholder=""
               align="right"
+              edit
             />
           </NoEdit>
           <NoEdit>
@@ -144,6 +148,7 @@ const Edit = () => {
               padding="25px"
               placeholder=""
               align="right"
+              edit
             />
           </NoEdit>
           <InfoInput
@@ -154,6 +159,7 @@ const Edit = () => {
             padding="25px"
             placeholder="메일을 입력하세요"
             align="right"
+            edit={false}
           />
           <InfoInput
             text="비밀번호"
@@ -163,6 +169,7 @@ const Edit = () => {
             padding="25px"
             placeholder=""
             align="right"
+            edit={false}
           />
         </InfoWrapper>
       )}

@@ -27,7 +27,7 @@ const Input = styled.input`
   border: none;
   border-radius: 4px;
   background-color: ${theme.color.grayScale.gray18};
-  color: white;
+  color: ${(props) => (props.edit ? theme.color.grayScale.gray30 : 'white')};
   padding-left: 10px;
   padding-right: 10px;
   text-align: ${(props) => props.align || 'right'};
@@ -62,6 +62,7 @@ const InfoInput = ({
   width,
   padding,
   align,
+  edit,
 }) => {
   const [value, setValue] = useState(origValue);
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -89,7 +90,7 @@ const InfoInput = ({
           onChange={onChangeValue}
           width={width}
           align={align}
-          type={passwordVisible ? 'text' : 'password'}
+          visible={passwordVisible ? 'text' : 'password'}
         />
         {passwordVisible ? (
           <Visible onClick={togglePasswordVisibility}>
@@ -112,6 +113,7 @@ const InfoInput = ({
         onChange={onChangeValue}
         width={width}
         align={align}
+        edit={edit}
       />
     </StyledInfoInput>
   );
@@ -126,6 +128,7 @@ InfoInput.propTypes = {
   width: PropTypes.string.isRequired,
   padding: PropTypes.string.isRequired,
   align: PropTypes.string.isRequired,
+  edit: PropTypes.bool.isRequired,
 };
 
 export default InfoInput;
