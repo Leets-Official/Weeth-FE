@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import SignupHeader from '../components/Signup/SignupHeader';
 import SignupTextComponent from '../components/Signup/SignupTextComponent';
 import { ReactComponent as ToggleVisibleIcon } from '../assets/images/ic_toggleVisible.svg';
 import { ReactComponent as ToggleInvisibleIcon } from '../assets/images/ic_toggleInvisible.svg';
+import theme from '../styles/theme';
 
 const Container = styled.div`
   display: flex;
@@ -24,12 +26,28 @@ const CheckButton = styled.button`
   text-align: right;
   background: none;
   border: none;
-  color: ${props => props.checked ? (props.isDuplicate ? props.theme.color.main.Negative : props.theme.color.main.Positive) : '#508fff'};
+  color: ${props => {
+    if (props.checked) {
+      return props.isDuplicate ? theme.color.main.negative : theme.color.main.positive;
+    }
+    return theme.color.main.positive;
+  }};
   cursor: pointer;
   font-family: 'Pretendard', sans-serif;
   font-size: 14px;
   font-weight: 600;
   text-decoration: ${props => props.underline ? 'underline' : 'none'};
+  &:disabled {
+    cursor: not-allowed;
+    color: ${theme.color.main.positive};
+  }
+`;
+
+const WarningText = styled.p`
+  color: ${theme.color.main.negative};
+  font-size: 12px;
+  margin-top: 5px;
+  text-align: right;
 `;
 
 const TextMargin = styled.div`
@@ -60,27 +78,60 @@ const Signup = () => {
   ]);
   const [headerHeight, setHeaderHeight] = useState(228);
   const [passwordVisible, setPasswordVisible] = useState(false);
+  const [emailWarning, setEmailWarning] = useState('');
 
   const currentState = pageStates[page];
   const { email, password, isChecked, nextClicked, emailStatus } = currentState;
 
-  const checkDuplicate = (email) => {
-    const existingEmails = ['weetha123@gmail.com', 'test@naver.com'];
-    return existingEmails.includes(email);
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
   };
 
-  const handleCheckEmail = () => {
-    const isDuplicate = checkDuplicate(email);
+  const checkDuplicate = async (email) => {
+    try {
+      const response = await axios.get(`http://13.125.78.31:8080/users/duplication/${email}`, {});
+      return response.data.code === 200;
+    } catch (error) {
+      if (error.response && error.response.data.code === 400) {
+        return false; // Email is duplicate
+      }
+      console.error('An error occurred:', error);
+      return null;
+    }
+  };
+
+  const handleCheckEmail = async () => {
+    if (!validateEmail(email)) {
+      setEmailWarning('유효한 이메일 형식을 입력해주세요.');
+      return;
+    }
+
+    setEmailWarning('');
+    const isDuplicate = await checkDuplicate(email);
     setPageStates(prev => {
       const newState = [...prev];
-      newState[page] = { ...newState[page], emailStatus: isDuplicate ? 'duplicate' : 'available', isChecked: true };
+      newState[page] = { ...newState[page], emailStatus: isDuplicate ? 'available' : 'duplicate', isChecked: true };
       return newState;
     });
+
   };
 
   const handleNextClick = () => {
+    if (page === 0) {
+      if (!isChecked) {
+        alert('가입 여부를 확인해 주세요.');
+        return;
+      }
+
+      if (emailStatus === 'duplicate') {
+        alert('이메일을 다시 확인해 주세요.');
+        return;
+      }
+    }
+
     if (page === 1) {
-      navi('/profile');
+      navi('/profile', { state: { email, password } });
     } else {
       setPageStates(prev => [...prev, { email, password, isChecked: false, nextClicked: true, emailStatus: null }]);
       setPage(prevPage => prevPage + 1);
@@ -103,11 +154,18 @@ const Signup = () => {
   };
 
   const handleEmailChange = (e) => {
+    const emailValue = e.target.value.replace(/[^a-zA-Z0-9@.]/g, '');
     setPageStates(prev => {
       const newState = [...prev];
-      newState[page] = { ...newState[page], email: e.target.value };
+      newState[page] = {
+        ...newState[page],
+        email: emailValue,
+        isChecked: false,
+        emailStatus: emailValue ? newState[page].emailStatus : null
+      };
       return newState;
     });
+    setEmailWarning('');
   };
 
   const handlePasswordChange = (e) => {
@@ -118,13 +176,21 @@ const Signup = () => {
     });
   };
 
+  const getNextButtonColor = () => {
+    if (page === 0 && (!isChecked || emailStatus === 'duplicate')) {
+      return 'white';
+    }
+    return 'green';
+  };
+
   return (
     <Container>
       <SignupHeader
         onClickLeftButton={onClickLeftButton}
-        isRightButtonEnabled={isChecked || (page === 1 && password.trim() !== '')}
+        isRightButtonEnabled={page === 0 ? (isChecked && emailStatus !== 'duplicate') : (password.trim() !== '')}
         onClickTextButton={handleNextClick}
         nextButtonText={page === 0 ? "다음" : "완료"}
+        nextButtonColor={getNextButtonColor()}
       />
       <HeaderMargin height={headerHeight} />
       <SignupTextComponent
@@ -136,12 +202,17 @@ const Signup = () => {
         children=""
       />
       {!nextClicked && !isChecked && (
-        <CheckButton onClick={handleCheckEmail} underline>
-          가입 여부 확인
-        </CheckButton>
+        <>
+          <CheckButton onClick={handleCheckEmail} underline disabled={!email || !validateEmail(email)}>
+            가입 여부 확인
+          </CheckButton>
+          {emailWarning && <WarningText>{emailWarning}</WarningText>}
+        </>
       )}
       {!nextClicked && isChecked && (
-        <CheckButton isDuplicate={emailStatus === 'duplicate'}>
+        <CheckButton 
+          isDuplicate={emailStatus === 'duplicate'}
+          style={{color: emailStatus === 'duplicate' ? theme.color.main.negative : theme.color.main.positive}}>
           {emailStatus === 'duplicate' ? '이미 가입된 ID입니다' : '사용 가능한 ID입니다'}
         </CheckButton>
       )}
