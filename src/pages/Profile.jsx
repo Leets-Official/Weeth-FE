@@ -29,6 +29,15 @@ const InputScrollContainer = styled.div`
   overflow-y: auto;
   overflow-x: hidden; /* 가로 스크롤 삭제 */
   padding-right: 10px;
+
+  /* Hide scrollbar for Webkit browsers */
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Hide scrollbar for Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 `;
 
 const InputWrapper = styled.div`
