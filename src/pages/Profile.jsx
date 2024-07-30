@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import SignupMemInput from '../components/Signup/SignupMemInput';
 import SignupHeader from '../components/Signup/SignupHeader';
 import SignupWhite from '../components/Signup/SignupWhite';
@@ -44,12 +44,17 @@ const fieldDefinitions = [
 ];
 
 const Profile = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { email, password } = location.state || { email: '', password: '' };
+  // eslint-disable-next-line no-console
+  console.log(email, password);
+
   const [currentFieldIndex, setCurrentFieldIndex] = useState(0);
-  const [memberInfo, setMemberInfo] = useState({});
+  const [memberInfo, setMemberInfo] = useState({ email, password });
   const [isNextEnabled, setIsNextEnabled] = useState(false);
   const [isNextClicked, setIsNextClicked] = useState(false);
   const [marginTop, setMarginTop] = useState(214);
-  const navi = useNavigate();
 
   const scrollContainerRef = useRef(null);
 
@@ -69,9 +74,10 @@ const Profile = () => {
       setIsNextClicked(true);
       setIsNextEnabled(false);
     } else {
+      // eslint-disable-next-line no-console
       console.log('모든 정보가 입력되었습니다:', memberInfo);
       setIsNextClicked(true);
-      navi('/');
+      navigate('/');
     }
   };
 
