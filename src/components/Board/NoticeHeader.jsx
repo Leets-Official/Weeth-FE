@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import LeftButton from '../Header/LeftButton';
 import IndexButton from '../Header/IndexButton';
-// import TextButton from '../Header/TextButton';
 import Title from '../Header/Title';
+// import { UserContext } from '../../hooks/UserContext';
 import theme from '../../styles/theme';
+import Utils from '../../hooks/Utils';
 
 const StyledHeader = styled.div`
   display: flex;
@@ -44,11 +47,10 @@ const ModalContainer = styled.div`
 `;
 
 const ModalContent = styled.div`
-  widht: 360px;
+  width: 360px;
   background: #333333;
   border-radius: 10px;
   padding: 10px 0;
-  width: 360px;
   text-align: center;
 `;
 
@@ -79,8 +81,9 @@ const CancelButton = styled.div`
   cursor: pointer;
 `;
 
-const NoticeHeader = ({ onMenuClick, showModal }) => {
+const NoticeHeader = ({ id, onMenuClick, showModal }) => {
   const [isModalOpen, setIsModalOpen] = useState(showModal);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setIsModalOpen(showModal);
@@ -94,10 +97,49 @@ const NoticeHeader = ({ onMenuClick, showModal }) => {
     setIsModalOpen(false);
   };
 
-  const handleDeleteClick = () => {
+  const handleDeleteClick = async () => {
     if (window.confirm('삭제하시겠습니까?')) {
-      onMenuClick('delete');
-      setIsModalOpen(false);
+      try {
+        const response = await axios.delete(
+          `http://13.125.78.31:8080/posts/${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+            },
+            params: {
+              userId: localStorage.getItem('userId'),
+            },
+          },
+        );
+
+        const validatedResponse = await Utils(
+          response,
+          axios.delete,
+          [
+            `http://13.125.78.31:8080/posts/${id}`,
+            {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+              },
+              params: { userId: localStorage.getItem('userId') },
+            },
+          ],
+          navigate,
+        );
+
+        if (validatedResponse.status === 200) {
+          alert('삭제되었습니다.');
+          onMenuClick('delete');
+          setIsModalOpen(false);
+          navigate('/board');
+        } else {
+          console.error('삭제 실패:', validatedResponse.status);
+          alert('삭제에 실패했습니다. 다시 시도해주세요.');
+        }
+      } catch (err) {
+        console.error('삭제 오류:', err);
+        alert('삭제 도중 오류가 발생했습니다. 다시 시도해주세요.');
+      }
     }
   };
 
@@ -118,11 +160,11 @@ const NoticeHeader = ({ onMenuClick, showModal }) => {
               <MenuItem
                 onClick={(e) => {
                   const target = e.currentTarget;
-                  target.style.backgroundColor = '#4d4d4d'; // 클릭 시 색상 변경
+                  target.style.backgroundColor = '#4d4d4d';
                   onMenuClick('edit');
                   setTimeout(() => {
-                    target.style.backgroundColor = ''; // 원래 색상으로 돌아옴
-                  }, 100); // 2초 후 원래 색상으로 돌아옴
+                    target.style.backgroundColor = '';
+                  }, 100);
                 }}
               >
                 수정
@@ -130,11 +172,11 @@ const NoticeHeader = ({ onMenuClick, showModal }) => {
               <MenuItem
                 onClick={(e) => {
                   const target = e.currentTarget;
-                  target.style.backgroundColor = '#4d4d4d'; // 클릭 시 색상 변경
+                  target.style.backgroundColor = '#4d4d4d';
                   setTimeout(() => {
                     handleDeleteClick();
-                    target.style.backgroundColor = ''; // 원래 색상으로 돌아옴
-                  }, 100); // 0.3초 후 원래 색상으로 돌아옴
+                    target.style.backgroundColor = '';
+                  }, 100);
                 }}
               >
                 삭제
@@ -149,6 +191,7 @@ const NoticeHeader = ({ onMenuClick, showModal }) => {
 };
 
 NoticeHeader.propTypes = {
+  id: PropTypes.string.isRequired,
   onMenuClick: PropTypes.func.isRequired,
   showModal: PropTypes.bool.isRequired,
 };

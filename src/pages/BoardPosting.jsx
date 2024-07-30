@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { UserContext } from '../hooks/UserContext';
 import PostingHeader from '../components/Board/PostingHeader';
 import FileAttachMenu from '../components/Board/FileAttachMenu';
 import { ReactComponent as FileAttach } from '../assets/images/ic_board_fileAttach.svg';
@@ -57,7 +58,7 @@ const BoardPosting = () => {
   const [isCompleteEnabled, setIsCompleteEnabled] = useState(false);
   const [isMenuOpen, setMenuOpen] = useState(false);
   const ACCESS_TOKEN = process.env.REACT_APP_ACCESS_TOKEN;
-  const USER_ID = 123456; // 실제 사용자 ID로 변경하세요.
+  const { userData } = useContext(UserContext);
 
   const [boardPost, setBoardPost] = useState({
     title: '',
@@ -97,7 +98,7 @@ const BoardPosting = () => {
             'Content-Type': 'multipart/form-data',
           },
           params: {
-            userId: USER_ID,
+            userId: userData.id,
           },
         },
       );
@@ -114,7 +115,7 @@ const BoardPosting = () => {
               'Content-Type': 'multipart/form-data',
             },
             params: {
-              userId: USER_ID,
+              userId: userData.id,
             },
           },
         ],

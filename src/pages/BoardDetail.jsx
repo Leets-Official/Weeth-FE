@@ -4,7 +4,6 @@ import { useLocation } from 'react-router-dom';
 import BoardHeader from '../components/Board/NoticeHeader';
 import AttachButton from '../components/Board/AttachButton';
 import BoardComment from '../components/Board/BoardComment';
-// import BoardPosting from './BoardPosting';
 import Typing from '../components/Board/Typing';
 import { ReactComponent as BoardChat } from '../assets/images/ic_board_chat.svg';
 // import { ReactComponent as RegisterComment } from '../assets/images/ic_send.svg';
@@ -18,9 +17,6 @@ const Container = styled.div`
   min-height: 810px;
   color: ${theme.color.grayScale.white};
 `;
-
-/* Container : display: flex;
-  flex-direction: column; */
 
 const HeaderWrapper = styled.div`
   position: fixed;
