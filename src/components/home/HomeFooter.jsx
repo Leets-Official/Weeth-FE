@@ -4,6 +4,10 @@ import leets from '../../assets/images/ic_leets.svg';
 import insta from '../../assets/images/ic_insta.svg';
 import discord from '../../assets/images/ic_discord.svg';
 import github from '../../assets/images/ic_github.svg';
+import gradu from '../../assets/images/ic_gradu.svg';
+import commitato from '../../assets/images/ic_commitato.svg';
+import moodmate from '../../assets/images/ic_moodmate.svg';
+import filling from '../../assets/images/ic_filling.svg';
 
 const StyledHomeFooter = styled.div`
   font-family: ${theme.font.family.pretendard_semiBold};
@@ -28,6 +32,7 @@ const ScrollContainer = styled.div`
   &::-webkit-scrollbar-thumb:hover {
   }
 `;
+
 const ImgContainer = styled.div`
   margin-bottom: 5px;
 `;
@@ -48,9 +53,44 @@ const GridItem = styled.a`
   align-items: flex-end;
   font-size: 16px;
   white-space: nowrap;
-  text-decoration: none; /* Link 텍스트에 밑줄 제거 */
+  text-decoration: none;
   &:last-child {
     margin-right: 0;
+  }
+`;
+
+const GridItemWithImage = styled(GridItem)`
+  background-image: url(${({ image }) => image});
+  background-size: cover;
+  background-position: center;
+  border: none;
+  text-align: center;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  font-weight: bold;
+  position: relative;
+  overflow: hidden;
+  padding: 10px;
+  &:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0),
+      rgba(0, 0, 0, 0.9)
+    );
+    z-index: 1;
+  }
+  span {
+    position: relative;
+    z-index: 2;
+    color: #fff;
+    font-size: 16px;
   }
 `;
 
@@ -89,15 +129,18 @@ const HomeFooter = () => {
       </ScrollContainer>
       <StyledHomeFooter>Leets의 프로젝트를 둘러보세요!</StyledHomeFooter>
       <ScrollContainer>
-        <GridItem href="http://yourmoodmate.com" target="_blank">
-          MoodMate
-        </GridItem>
-        <GridItem href="http://yourfiling.com" target="_blank">
-          filing
-        </GridItem>
-        <GridItem href="http://yourgradu.com" target="_blank">
-          Gradu
-        </GridItem>
+        <GridItemWithImage image={commitato}>
+          <span>Commitato</span>
+        </GridItemWithImage>
+        <GridItemWithImage image={moodmate}>
+          <span>moodmate</span>
+        </GridItemWithImage>
+        <GridItemWithImage image={filling}>
+          <span>filling</span>
+        </GridItemWithImage>
+        <GridItemWithImage image={gradu}>
+          <span>Gradu</span>
+        </GridItemWithImage>
       </ScrollContainer>
     </>
   );
