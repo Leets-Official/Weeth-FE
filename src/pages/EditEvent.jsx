@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import axios from 'axios';
@@ -53,24 +53,7 @@ const StyledTextArea = styled.textarea`
   font-size: 16px;
 `;
 
-// 글 작성 시 페이지에 진입한 시각을 기본 시작 시간으로
-const today = new Date();
-const getValue = (status) => {
-  const year = today.getFullYear();
-  const month = today.getMonth() + 1;
-  const day = today.getDate();
-  const hour = today.getHours();
-  const minute = today.getMinutes();
-  const valueArr = [year, month, day, hour, minute];
-
-  return status === 'start' ? valueArr : [];
-};
-
-// status가 start라면 위에서 가져온 현재 시각을 미리 입력,
-// 아니라면 비워두기
-const DatePicker = ({ status, onDateChange }) => {
-  const now = getValue(status);
-
+const DatePicker = ({ status, onDateChange, origArr = [] }) => {
   return (
     <StyledPicker>
       {status === 'start' ? (
@@ -79,7 +62,7 @@ const DatePicker = ({ status, onDateChange }) => {
         <WaveImg src={icWave} alt="물결" />
       )}
       <DateInput
-        origValue={status === 'start' ? now[0] : ''}
+        origValue={origArr[0]}
         width="58px"
         height="28px"
         margin="5px"
@@ -87,7 +70,7 @@ const DatePicker = ({ status, onDateChange }) => {
       />
       년
       <DateInput
-        origValue={status === 'start' ? now[1] : ''}
+        origValue={origArr[1]}
         width="37px"
         height="28px"
         margin="5px"
@@ -95,7 +78,7 @@ const DatePicker = ({ status, onDateChange }) => {
       />
       월
       <DateInput
-        origValue={status === 'start' ? now[2] : ''}
+        origValue={origArr[2]}
         width="37px"
         height="28px"
         margin="5px"
@@ -103,7 +86,7 @@ const DatePicker = ({ status, onDateChange }) => {
       />
       일
       <DateInput
-        origValue={status === 'start' ? now[3] : ''}
+        origValue={origArr[3]}
         width="37px"
         height="28px"
         margin="5px"
@@ -111,7 +94,7 @@ const DatePicker = ({ status, onDateChange }) => {
       />
       :
       <DateInput
-        origValue={status === 'start' ? now[4] : ''}
+        origValue={origArr[4]}
         width="37px"
         height="28px"
         margin="5px"
@@ -124,23 +107,88 @@ const DatePicker = ({ status, onDateChange }) => {
 DatePicker.propTypes = {
   status: PropTypes.string.isRequired,
   onDateChange: PropTypes.func.isRequired,
+  // eslint-disable-next-line react/require-default-props
+  origArr: PropTypes.arrayOf(PropTypes.number),
+};
+
+// ISO형식의 값을 년/월/일/시/분으로 나눠서 배열로 저장
+const getValue = (origDate) => {
+  const splittedDate = origDate.split('T'); // YYYY-MM-DD,HH:MM:SS.SSSZ
+  const newDate = splittedDate[0].split('-'); // [YYYY, MM, DD]
+  const newTime = splittedDate[1].split(':'); // [HH, MM]
+
+  const formattedDate = newDate.concat(newTime);
+
+  return formattedDate;
 };
 
 const CreateEvent = () => {
   const { id } = useParams();
-  // 서버로 넘겨줄 데이터
-  // 아무것도 입력하지 않으면 공란이지만 시작날짜의 경우만 현재시각의 초기값을 가짐
   const [eventInfo, setEventInfo] = useState([
     { key: 'title', value: '' },
-    { key: 'startDateTime', value: getValue('start') },
-    { key: 'endDateTime', value: [] },
+    { key: 'startDateTime', value: '' },
+    { key: 'endDateTime', value: '' },
     { key: 'location', value: '' },
     { key: 'requiredItems', value: '' },
     { key: 'memberNumber', value: '' },
     { key: 'content', value: '' },
   ]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const ACCESS_TOKEN = process.env.REACT_APP_ACCESS_TOKEN;
   const navigate = useNavigate();
+
+  const [startArr, setStartArr] = useState([]);
+  const [endArr, setEndArr] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const headers = {
+          Authorization: `Bearer ${ACCESS_TOKEN}`,
+        };
+
+        if (id) {
+          const response = await axios.get(
+            `http://13.125.78.31:8080/event/${id}`,
+            { headers },
+          );
+          if (response.data.code === 200) {
+            const { data } = response.data;
+            setEventInfo([
+              { key: 'title', value: data.title },
+              {
+                key: 'startDateTime',
+                value: data.start,
+              },
+              {
+                key: 'endDateTime',
+                value: data.end,
+              },
+              { key: 'location', value: data.location },
+              { key: 'requiredItems', value: data.requiredItems },
+              { key: 'memberNumber', value: data.memberNumber },
+              { key: 'content', value: data.content },
+            ]);
+            setStartArr(getValue(data.start));
+            setEndArr(getValue(data.end));
+
+            console.log('가져온 데이터', data);
+            console.log('startArr', startArr);
+            console.log('endArr', endArr);
+          } else {
+            setError(response.data.message);
+          }
+        }
+      } catch (err) {
+        setError('An error occurred while fetching the data');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [id]);
 
   const editValue = (key, value) => {
     const updatedEventInfo = eventInfo.map((item) =>
@@ -208,21 +256,28 @@ const CreateEvent = () => {
             },
           },
         );
-        console.log(data);
-        console.log(response); // 서버의 응답을 콘솔에 출력
+        console.log(response);
         alert('저장이 완료되었습니다.');
         navigate('/calendar');
       } catch (err) {
-        console.error(err); // 오류 내용을 콘솔에 출력
+        console.error(err);
         alert('저장 중 오류가 발생했습니다.');
       }
     }
   };
 
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
   return (
     <StyledCreate>
       <Header
-        title="일정 추가"
+        title="일정 수정"
         text="완료"
         color="mainColor"
         onClick={onSave}
@@ -244,6 +299,7 @@ const CreateEvent = () => {
             startDate[index] = value;
             editDate('startDateTime', startDate);
           }}
+          origArr={startArr}
         />
         <DatePicker
           status="end"
@@ -254,6 +310,7 @@ const CreateEvent = () => {
             endDate[index] = value;
             editDate('endDateTime', endDate);
           }}
+          origArr={endArr}
         />
       </DatePickerWrapper>
       <InfoInput
