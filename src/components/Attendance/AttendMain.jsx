@@ -228,7 +228,7 @@ const AttendMain = () => {
             <div className="attend-button">
               <Button
                 color={theme.color.grayScale.gray30}
-                textColor={theme.color.grayScale.gray20}
+                textcolor={theme.color.grayScale.gray20}
               >
                 출석하기
               </Button>
