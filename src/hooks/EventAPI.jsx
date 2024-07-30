@@ -8,6 +8,8 @@ const EventAPI = ({ start, end, year }) => {
 
   const ACCESS_TOKEN = process.env.REACT_APP_ACCESS_TOKEN;
 
+  year = parseInt(year, 10);
+
   useEffect(() => {
     if (!start || !end) return;
     
@@ -60,9 +62,9 @@ const EventAPI = ({ start, end, year }) => {
 };
 
 EventAPI.propTypes = {
-  start: PropTypes.string.isRequired,
-  end: PropTypes.string.isRequired,
-  year: PropTypes.number.isRequired,
+  start: PropTypes.string,
+  end: PropTypes.string,
+  year: PropTypes.number,
 };
 
 export default EventAPI;

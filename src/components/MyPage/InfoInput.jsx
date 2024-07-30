@@ -90,7 +90,7 @@ const InfoInput = ({
           onChange={onChangeValue}
           width={width}
           align={align}
-          visible={passwordVisible ? 'text' : 'password'}
+          type={passwordVisible ? 'text' : 'password'}
         />
         {passwordVisible ? (
           <Visible onClick={togglePasswordVisibility}>
