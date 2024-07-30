@@ -83,8 +83,6 @@ const Signup = () => {
   const currentState = pageStates[page];
   const { email, password, isChecked, nextClicked, emailStatus } = currentState;
 
-  const ACCESS_TOKEN = process.env.REACT_APP_ACCESS_TOKEN;
-
   const validateEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
@@ -93,9 +91,6 @@ const Signup = () => {
   const checkDuplicate = async (email) => {
     try {
       const response = await axios.get(`http://13.125.78.31:8080/users/duplication/${email}`, {
-        headers: {
-          Authorization: `Bearer ${ACCESS_TOKEN}`, // replace with your actual token
-        },
       });
       return response.data.code === 200;
     } catch (error) {
