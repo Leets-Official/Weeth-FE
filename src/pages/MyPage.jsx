@@ -16,6 +16,7 @@ import icPhone from '../assets/images/ic_phone.svg';
 import icPosition from '../assets/images/ic_position.svg';
 import icEmail from '../assets/images/ic_mail.svg';
 import icEdit from '../assets/images/ic_edit.svg';
+import icLogout from '../assets/images/ic_logout_white.svg';
 import { UserContext } from '../hooks/UserContext';
 import UserAPI from '../hooks/UserAPI';
 
@@ -41,23 +42,41 @@ const ImgButton = styled.div`
   cursor: pointer;
 `;
 
-const NegativeButton = styled.div`
-  background-color: transparent;
-  border: none;
-  width: 49px;
-  color: ${theme.color.main.negative};
-  font-size: 12px;
-  padding: 10px;
-  margin-left: 25px;
-  margin-top: 58px;
-  cursor: pointer;
-`;
-
 const Error = styled.div`
   display: flex;
   justify-content: center;
   margin: 50px 0px;
   font-family: ${theme.font.family.pretendard_semiBold};
+`;
+
+const Account = styled.div`
+  display: flex;
+  flex-direction: row;
+  padding: 94px 25px 0px 25px;
+`;
+
+const LeaveButton = styled.button`
+  width: 96px;
+  height: 45px;
+  border: none;
+  border-radius: 10px;
+  color: ${theme.color.grayScale.gray65};
+  background-color: ${theme.color.grayScale.gray18};
+  margin-right: 5px;
+`;
+
+const LogoutButton = styled.button`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 219px;
+  height: 45px;
+  margin-left: 5px;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  background-color: ${theme.color.grayScale.gray30};
 `;
 
 const MyPage = () => {
@@ -80,6 +99,8 @@ const MyPage = () => {
       }
     }
   };
+
+  const onClickLogout = () => {};
 
   return (
     <StyledDetails>
@@ -140,7 +161,13 @@ const MyPage = () => {
       >
         <img src={icEdit} alt="Edit" />
       </ImgButton>
-      <NegativeButton onClick={onClickLeave}>탈퇴하기</NegativeButton>
+      <Account>
+        <LeaveButton onClick={onClickLeave}>탈퇴하기</LeaveButton>
+        <LogoutButton onClick={onClickLogout}>
+          <img src={icLogout} alt="로그아웃" />
+          <div>로그아웃</div>
+        </LogoutButton>
+      </Account>
     </StyledDetails>
   );
 };
