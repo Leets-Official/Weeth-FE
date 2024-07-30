@@ -1,10 +1,13 @@
+/* eslint-disable no-nested-ternary */
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { useNavigate, useLocation } from 'react-router-dom';
+import axios from 'axios';
 import SignupMemInput from '../components/Signup/SignupMemInput';
 import SignupHeader from '../components/Signup/SignupHeader';
 import SignupWhite from '../components/Signup/SignupWhite';
-import RoleSector from '../components/Signup/RoleSector'; // RoleSector import 추가
+import RoleSector from '../components/Signup/RoleSector';
+import SignupDropDown from '../components/SignupDropDown';
 
 const ProfileContainer = styled.div`
   width: 370px;
@@ -37,18 +40,17 @@ const fieldDefinitions = [
     key: 'department',
     labelName: '학과',
     placeholderText: '정확한 명칭을 적어주세요',
+    type: 'dropdown', // Add type to specify dropdown
   },
   { key: 'phone', labelName: '핸드폰', placeholderText: '01012341234' },
   { key: 'generation', labelName: '기수', placeholderText: '3' },
-  { key: 'role', labelName: '역할', placeholderText: '' }, // 역할 추가
+  { key: 'role', labelName: '역할', placeholderText: '' },
 ];
 
 const Profile = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { email, password } = location.state || { email: '', password: '' };
-  // eslint-disable-next-line no-console
-  console.log(email, password);
 
   const [currentFieldIndex, setCurrentFieldIndex] = useState(0);
   const [memberInfo, setMemberInfo] = useState({ email, password });
@@ -59,7 +61,7 @@ const Profile = () => {
   const scrollContainerRef = useRef(null);
 
   useEffect(() => {
-    const newMarginTop = Math.max(50, 214 - currentFieldIndex * 20); // 간격 줄이기
+    const newMarginTop = Math.max(50, 214 - currentFieldIndex * 20);
     setMarginTop(newMarginTop);
 
     if (scrollContainerRef.current) {
@@ -68,16 +70,35 @@ const Profile = () => {
     }
   }, [currentFieldIndex]);
 
-  const handleNextClick = () => {
+  const handleNextClick = async () => {
     if (currentFieldIndex < fieldDefinitions.length - 1) {
       setCurrentFieldIndex(currentFieldIndex + 1);
       setIsNextClicked(true);
       setIsNextEnabled(false);
     } else {
-      // eslint-disable-next-line no-console
-      console.log('모든 정보가 입력되었습니다:', memberInfo);
       setIsNextClicked(true);
-      navigate('/');
+      // eslint-disable-next-line no-console
+      console.log('멤버정보', memberInfo);
+      try {
+        const response = await axios.post(
+          'http://13.125.78.31:8080/users/apply',
+          memberInfo,
+          {
+            headers: {
+              Authorization: `Bearer ${process.env.REACT_APP_ACCESS_TOKEN}`,
+            },
+          },
+        );
+        // eslint-disable-next-line no-console
+        console.log('Response:', response.data);
+        navigate('/');
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.error(
+          'Error submitting form:',
+          error.response?.data || error.message,
+        );
+      }
     }
   };
 
@@ -115,7 +136,7 @@ const Profile = () => {
         onClickTextButton={handleNextClick}
         nextButtonText={
           currentFieldIndex < fieldDefinitions.length - 1 ? '다음' : '완료'
-        } // 버튼 텍스트 변경
+        }
         nextButtonColor={getNextButtonColor()}
         page={currentFieldIndex}
       />
@@ -125,7 +146,13 @@ const Profile = () => {
       <InputScrollContainer ref={scrollContainerRef}>
         {fieldDefinitions.slice(0, currentFieldIndex + 1).map((field) => (
           <InputWrapper key={field.key}>
-            {field.key === 'role' ? (
+            {field.type === 'dropdown' ? (
+              <SignupDropDown
+                text={field.labelName}
+                origValue={memberInfo[field.key] || ''}
+                editValue={(value) => handleChange(field.key, value)}
+              />
+            ) : field.key === 'role' ? (
               <RoleSector
                 labelName={field.labelName}
                 value={memberInfo[field.key] || ''}
