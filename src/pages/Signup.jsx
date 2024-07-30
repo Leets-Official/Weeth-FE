@@ -118,14 +118,16 @@ const Signup = () => {
   };
 
   const handleNextClick = () => {
-    if (!isChecked) {
-      alert('가입 여부를 확인해 주세요.');
-      return;
-    }
+    if (page === 0) {
+      if (!isChecked) {
+        alert('가입 여부를 확인해 주세요.');
+        return;
+      }
 
-    if (emailStatus === 'duplicate') {
-      alert('이메일을 다시 확인해 주세요.');
-      return;
+      if (emailStatus === 'duplicate') {
+        alert('이메일을 다시 확인해 주세요.');
+        return;
+      }
     }
 
     if (page === 1) {
@@ -175,7 +177,7 @@ const Signup = () => {
   };
 
   const getNextButtonColor = () => {
-    if (!isChecked || emailStatus === 'duplicate') {
+    if (page === 0 && (!isChecked || emailStatus === 'duplicate')) {
       return 'white';
     }
     return 'green';
@@ -185,7 +187,7 @@ const Signup = () => {
     <Container>
       <SignupHeader
         onClickLeftButton={onClickLeftButton}
-        isRightButtonEnabled={isChecked && emailStatus !== 'duplicate' && (page === 1 && password.trim() !== '')}
+        isRightButtonEnabled={page === 0 ? (isChecked && emailStatus !== 'duplicate') : (password.trim() !== '')}
         onClickTextButton={handleNextClick}
         nextButtonText={page === 0 ? "다음" : "완료"}
         nextButtonColor={getNextButtonColor()}
