@@ -76,10 +76,6 @@ const BoardPosting = () => {
     });
   };
 
-  const onFileChange = (event) => {
-    setFiles(event.target.files);
-  };
-
   const saveBoard = async () => {
     const formData = new FormData();
     formData.append(
@@ -177,18 +173,16 @@ const BoardPosting = () => {
           onChange={onChange}
         />
       </StyledText>
-      <input
-        type="file"
-        multiple
-        onChange={onFileChange}
-        style={{ marginLeft: '7%', marginBottom: '20px' }}
-      />
       <FileAttach
         alt=""
         onClick={handleOpenMenu}
         style={{ marginLeft: '7%', marginBottom: '148px' }}
       />
-      <FileAttachMenu isOpen={isMenuOpen} onClose={handleCloseMenu} />
+      <FileAttachMenu
+        isOpen={isMenuOpen}
+        onClose={handleCloseMenu}
+        setFiles={setFiles}
+      />
     </StyledPosting>
   );
 };

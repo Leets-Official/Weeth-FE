@@ -119,7 +119,7 @@ const NoticeHeader = ({ id, onMenuClick, showModal }) => {
             `http://13.125.78.31:8080/posts/${id}`,
             {
               headers: {
-                Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+                uthorization: `Bearer ${localStorage.getItem('accessToken')}`,
               },
               params: { userId: localStorage.getItem('userId') },
             },
@@ -128,7 +128,7 @@ const NoticeHeader = ({ id, onMenuClick, showModal }) => {
         );
 
         if (validatedResponse.status === 200) {
-          alert('삭제되었습니다.');
+          alert('삭제가 완료되었습니다.');
           onMenuClick('delete');
           setIsModalOpen(false);
           navigate('/board');
