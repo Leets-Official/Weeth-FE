@@ -25,22 +25,22 @@ const Button = styled.button`
   text-align: center;
 `;
 
-const DueCategory = ({ setSelectedCardinal }) => {
+const DueCategory = ({ setSelectedDues }) => {
   const [selectedCategory, setSelectedCategory] = useState('all');
 
   const onClickAll = () => {
     setSelectedCategory('all');
-    setSelectedCardinal(null);
+    setSelectedDues(null);
   };
 
   const onClick1 = () => {
-    setSelectedCategory('1');
-    setSelectedCardinal(1);
+    setSelectedCategory('회비');
+    setSelectedDues('회비');
   };
 
   const onClick2 = () => {
-    setSelectedCategory('2');
-    setSelectedCardinal(2);
+    setSelectedCategory('지출');
+    setSelectedDues('지출');
   };
 
   return (
@@ -54,14 +54,14 @@ const DueCategory = ({ setSelectedCardinal }) => {
       </Button>
       <Button
         type="button"
-        checked={selectedCategory === '1'}
+        checked={selectedCategory === '회비'}
         onClick={onClick1}
       >
-        수입
+        회비
       </Button>
       <Button
         type="button"
-        checked={selectedCategory === '2'}
+        checked={selectedCategory === '지출'}
         onClick={onClick2}
       >
         지출
@@ -71,7 +71,7 @@ const DueCategory = ({ setSelectedCardinal }) => {
 };
 
 DueCategory.propTypes = {
-  setSelectedCardinal: PropTypes.func.isRequired,
+  setSelectedDues: PropTypes.func.isRequired,
 };
 
 export default DueCategory;

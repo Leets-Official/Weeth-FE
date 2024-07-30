@@ -9,6 +9,7 @@ export const DuesContext = createContext();
 export const DuesProvider = ({ children }) => {
   const [duesData, setDuesData] = useState([]);
   const [totalAmount, setTotalAmount] = useState(0);
+  const [myCardinal, setCardinal] = useState(0);
 
   const fetchData = async (cardinal = 3) => {
     try {
@@ -24,8 +25,9 @@ export const DuesProvider = ({ children }) => {
       if (result.code === 200) {
         setDuesData(result.data.receipts);
         setTotalAmount(result.data.total);
+        setCardinal(result.data.cardinal);
         // eslint-disable-next-line no-console
-        console.log('get data:', result.data);
+        // console.log('get data:', result.data);
       } else {
         // eslint-disable-next-line no-console
         console.error('Failed to get data:', result.message);
@@ -41,7 +43,9 @@ export const DuesProvider = ({ children }) => {
   }, []);
 
   return (
-    <DuesContext.Provider value={{ duesData, totalAmount, fetchData }}>
+    <DuesContext.Provider
+      value={{ duesData, totalAmount, myCardinal, fetchData }}
+    >
       {children}
     </DuesContext.Provider>
   );

@@ -42,54 +42,64 @@ const Line = styled.div`
   transform: scaleY(0.2);
 `;
 
-const MoneyBoxContainer = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: flex-start;
-  margin-top: 35px;
-`;
-
 const MoneyBox = styled.div`
-  font-size: 32px;
+  margin-top: 35px;
+  font-size: 25px;
   font-family: ${theme.font.family.pretendard_semiBold};
   margin-left: 10px;
 `;
 
 const Dues = () => {
-  const { duesData, totalAmount, fetchData } = useContext(DuesContext);
-  const [selectedCardinal, setSelectedCardinal] = useState(null);
+  const { duesData, totalAmount, myCardinal, fetchData } =
+    useContext(DuesContext);
+  const [selected, setSelectedDues] = useState(null);
 
   useEffect(() => {
-    fetchData(selectedCardinal || 3);
-  }, [selectedCardinal, fetchData]);
+    fetchData();
+  }, [fetchData]);
 
   const filteredDues =
-    selectedCardinal === null
+    selected === null
       ? duesData
-      : duesData.filter((dues) => dues.cardinal === selectedCardinal);
-
+      : duesData.filter(
+          (dues) => dues.description !== `${myCardinal}기 회비 등록`,
+        );
+  if (duesData.description === `${myCardinal}기 회비 등록`)
+    setSelectedDues('회비');
   return (
     <StyledDues>
       <DuesHeader />
       <DuesTitle />
       <CategoryWrapper>
-        <DueCategory setSelectedCardinal={setSelectedCardinal} />
+        <DueCategory setSelectedDues={setSelectedDues} />
       </CategoryWrapper>
       <DuesListBox>
-        <MoneyBoxContainer>
-          <MoneyBox>{totalAmount.toLocaleString()}원</MoneyBox>
-        </MoneyBoxContainer>
+        <MoneyBox>
+          {myCardinal}기 총 회비: {totalAmount.toLocaleString()}원
+        </MoneyBox>
         <Line />
         <DuesList>
-          {filteredDues.map((dues) => (
+          {/* 회비 항목 */}
+          {(selected === null || selected === '회비') && (
             <DuesInfo
-              key={dues.id}
-              dues={dues.amount}
-              cardinal={dues.cardinal}
-              date={dues.date}
-              memo={dues.description}
+              key={1}
+              dues={totalAmount}
+              category="회비" // 회비
+              date="2024-04-01"
+              memo={`${myCardinal}기 회비 등록`}
             />
-          ))}
+          )}
+          {/* 지출 항목들 */}
+          {selected !== '회비' &&
+            filteredDues.map((receipt) => (
+              <DuesInfo
+                key={receipt.id}
+                dues={receipt.amount}
+                category="지출" // 지출
+                date={receipt.date}
+                memo={receipt.description}
+              />
+            ))}
         </DuesList>
       </DuesListBox>
     </StyledDues>
