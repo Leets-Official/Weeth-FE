@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+// import axios from 'axios';
+// import { useNavigate } from 'react-router-dom';
 import LeftButton from '../Header/LeftButton';
 import IndexButton from '../Header/IndexButton';
 import Title from '../Header/Title';
 // import { UserContext } from '../../hooks/UserContext';
 import theme from '../../styles/theme';
-import Utils from '../../hooks/Utils';
+// import Utils from '../../hooks/Utils';
 
 const StyledHeader = styled.div`
   display: flex;
@@ -17,15 +17,7 @@ const StyledHeader = styled.div`
   margin: 45px 25px 20px 25px; //기본 헤더 마진
 `;
 
-/*
-오른쪽 버튼이 없어서 정렬이 안 맞을 경우에는
-TitleWrapper 스타일 사용~!
-*/
-const TitleWrapper = styled.div`
-  // position: absolute;
-  // left: 50%;
-  // transform: translateX(-50%);
-`;
+const TitleWrapper = styled.div``;
 
 const ModalOverlay = styled.div`
   position: fixed;
@@ -81,9 +73,8 @@ const CancelButton = styled.div`
   cursor: pointer;
 `;
 
-const NoticeHeader = ({ id, onMenuClick, showModal }) => {
+const NoticeHeader = ({ onMenuClick, showModal, handleDeleteClick }) => {
   const [isModalOpen, setIsModalOpen] = useState(showModal);
-  const navigate = useNavigate();
 
   useEffect(() => {
     setIsModalOpen(showModal);
@@ -95,52 +86,6 @@ const NoticeHeader = ({ id, onMenuClick, showModal }) => {
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
-  };
-
-  const handleDeleteClick = async () => {
-    if (window.confirm('삭제하시겠습니까?')) {
-      try {
-        const response = await axios.delete(
-          `http://13.125.78.31:8080/posts/${id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-            },
-            params: {
-              userId: localStorage.getItem('userId'),
-            },
-          },
-        );
-
-        const validatedResponse = await Utils(
-          response,
-          axios.delete,
-          [
-            `http://13.125.78.31:8080/posts/${id}`,
-            {
-              headers: {
-                uthorization: `Bearer ${localStorage.getItem('accessToken')}`,
-              },
-              params: { userId: localStorage.getItem('userId') },
-            },
-          ],
-          navigate,
-        );
-
-        if (validatedResponse.status === 200) {
-          alert('삭제가 완료되었습니다.');
-          onMenuClick('delete');
-          setIsModalOpen(false);
-          navigate('/board');
-        } else {
-          console.error('삭제 실패:', validatedResponse.status);
-          alert('삭제에 실패했습니다. 다시 시도해주세요.');
-        }
-      } catch (err) {
-        console.error('삭제 오류:', err);
-        alert('삭제 도중 오류가 발생했습니다. 다시 시도해주세요.');
-      }
-    }
   };
 
   return (
@@ -191,9 +136,9 @@ const NoticeHeader = ({ id, onMenuClick, showModal }) => {
 };
 
 NoticeHeader.propTypes = {
-  id: PropTypes.string.isRequired,
   onMenuClick: PropTypes.func.isRequired,
   showModal: PropTypes.bool.isRequired,
+  handleDeleteClick: PropTypes.func.isRequired,
 };
 
 export default NoticeHeader;

@@ -10,6 +10,7 @@ import LeftButton from './Header/LeftButton';
 import IndexButton from './Header/IndexButton';
 import theme from '../styles/theme';
 import EditDelModal from './EditDelModal';
+import UserAPI from '../hooks/UserAPI';
 
 Modal.setAppElement('#root');
 
@@ -92,6 +93,7 @@ const BoardTitle = ({ eventId, text, writer, createdAt }) => {
 
   return (
     <StyledTitle>
+      <UserAPI />
       <StyledHeader>
         <LeftButton />
         {userData.role === 'ADMIN' ? (

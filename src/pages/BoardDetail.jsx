@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { useLocation } from 'react-router-dom';
+import axios from 'axios';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import BoardHeader from '../components/Board/NoticeHeader';
 import AttachButton from '../components/Board/AttachButton';
 import BoardComment from '../components/Board/BoardComment';
@@ -8,6 +9,9 @@ import Typing from '../components/Board/Typing';
 import { ReactComponent as BoardChat } from '../assets/images/ic_board_chat.svg';
 // import { ReactComponent as RegisterComment } from '../assets/images/ic_send.svg';
 import theme from '../styles/theme';
+// import { UserContext } from '../hooks/UserContext';
+
+import Utils from '../hooks/Utils';
 
 const Container = styled.div`
   display: flex;
@@ -21,7 +25,7 @@ const Container = styled.div`
 const HeaderWrapper = styled.div`
   position: fixed;
   width: 370px;
-  background-color: ${theme.color.grayScale.gray12}; /* Header 배경 색상 추가 */
+  background-color: ${theme.color.grayScale.gray12};
   top: 0;
   z-index: 1;
 `;
@@ -40,7 +44,7 @@ const TextContainer = styled.div`
 `;
 
 const StudyNamed = styled.div`
-  maring-left: 7%;
+  margin-left: 7%;
   font-size: 24px;
   font-weight: 600;
 `;
@@ -108,6 +112,11 @@ const BoardDetail = () => {
   const [comment, setComment] = useState('');
   const [comments, setComments] = useState([]);
   const [commentCount, setCommentCount] = useState(0);
+  // const { userData } = useContext(UserContext);
+  const navigate = useNavigate();
+  const ACCESS_TOKEN = process.env.REACT_APP_ACCESS_TOKEN;
+
+  const { id: postId } = useParams();
 
   const location = useLocation();
   const { studyTitle, studyContent } = location.state || {
@@ -148,25 +157,72 @@ const BoardDetail = () => {
     }
   };
 
+  const handleDeleteClick = async () => {
+    if (window.confirm('삭제하시겠습니까?')) {
+      try {
+        const response = await axios.delete(
+          `http://13.125.78.31:8080/posts/${postId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${ACCESS_TOKEN}`,
+            },
+          },
+        );
+
+        const validatedResponse = await Utils(
+          response,
+          axios.delete,
+          [
+            `http://13.125.78.31:8080/posts/${postId}`,
+            {
+              headers: {
+                Authorization: `Bearer ${ACCESS_TOKEN}`,
+              },
+            },
+          ],
+          navigate,
+        );
+
+        if (validatedResponse.status === 200) {
+          console.log(response);
+          alert('삭제가 완료되었습니다.');
+          navigate('/board');
+        } else {
+          console.error('삭제 실패:', validatedResponse.status);
+          alert('삭제에 실패했습니다. 다시 시도해주세요.');
+        }
+      } catch (err) {
+        console.error('삭제 오류:', err);
+        alert('삭제 도중 오류가 발생했습니다. 다시 시도해주세요.');
+      }
+    }
+  };
+
   const handleMenuClick = (action) => {
     switch (action) {
       case 'edit':
-        // Handle edit action
         console.log('Edit clicked');
         break;
       case 'delete':
-        // Handle delete action
-        console.log('Delete clicked');
+        handleDeleteClick();
         break;
       default:
         break;
     }
   };
 
+  const handleFileChange = (file) => {
+    console.log('File changed:', file);
+  };
+
   return (
     <Container>
       <HeaderWrapper>
-        <BoardHeader onMenuClick={handleMenuClick} showModal />
+        <BoardHeader
+          onMenuClick={handleMenuClick}
+          showModal={false}
+          handleDeleteClick={handleDeleteClick}
+        />
       </HeaderWrapper>
       <StudyRow>
         <TextContainer>
@@ -178,8 +234,8 @@ const BoardDetail = () => {
           <StudyContents>{studyContent}</StudyContents>
         </TextContainer>
         <ComponentRow>
-          <AttachButton filetype="HWP" />
-          <AttachButton filetype="PDF" />
+          <AttachButton filetype="HWP" onFileChange={handleFileChange} />
+          <AttachButton filetype="PDF" onFileChange={handleFileChange} />
           <RightMargin />
         </ComponentRow>
         <BottomRow>
@@ -196,10 +252,5 @@ const BoardDetail = () => {
     </Container>
   );
 };
-
-/* StudyBoard.propTypes = {
-  studyName: PropTypes.string.isRequired,
-  studyContent: PropTypes.string.isRequired,
-}; */
 
 export default BoardDetail;
