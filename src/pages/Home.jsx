@@ -16,7 +16,8 @@ const Container = styled.div`
 const HeaderContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  margin: 25px 0px 0 19px;
+  margin: 45px 0px 0 0px;
+  align-items: center;
 `;
 
 const Header = styled.header`
@@ -25,11 +26,12 @@ const Header = styled.header`
   color: ${theme.color.main.mainColor};
   border: none;
   font-size: 40px;
-  padding: 9px 0px 15px 25px;
+  padding-left: 5%;
 `;
 
 const Main = styled.main`
   width: 100%;
+  margin-top: 38px;
 `;
 
 const Footer = styled.footer`

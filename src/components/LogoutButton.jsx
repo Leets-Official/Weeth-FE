@@ -8,11 +8,15 @@ const ImgButton = styled.div`
   display: flex;
   justify-content: flex-end;
   cursor: pointer;
+  width: 24px;
+  height: 24px;
+  margin-right: 5%;
 `;
 
 const LogoutButton = () => {
+  const confirmLogout = handleLogout();
   return (
-    <ImgButton onClick={handleLogout}>
+    <ImgButton onClick={confirmLogout}>
       <img src={logout} alt="logout" />
     </ImgButton>
   );
