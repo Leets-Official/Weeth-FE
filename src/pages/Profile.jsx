@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable no-alert */
 /* eslint-disable no-nested-ternary */
 import React, { useState, useEffect, useRef } from 'react';
@@ -43,10 +44,16 @@ const fieldDefinitions = [
     placeholderText: '정확한 명칭을 적어주세요',
     type: 'dropdown', // Add type to specify dropdown
   },
-  { key: 'phone', labelName: '핸드폰', placeholderText: '01012341234' },
-  { key: 'generation', labelName: '기수', placeholderText: '3' },
-  { key: 'role', labelName: '역할', placeholderText: '' },
+  { key: 'tel', labelName: '핸드폰', placeholderText: '01012341234' },
+  { key: 'cardinal', labelName: '기수', placeholderText: '3' },
+  { key: 'position', labelName: '역할', placeholderText: '' },
 ];
+
+const roleMapping = {
+  프론트: 'FE',
+  백: 'BE',
+  디자인: 'DE',
+};
 
 const Profile = () => {
   const location = useLocation();
@@ -77,24 +84,41 @@ const Profile = () => {
       setIsNextClicked(true);
       setIsNextEnabled(false);
     } else {
+      const allFieldsFilled = fieldDefinitions.every(
+        (field) =>
+          typeof memberInfo[field.key] === 'string' &&
+          memberInfo[field.key].trim() !== '',
+      );
+
+      if (!allFieldsFilled) {
+        alert('입력되지 않은 값이 있습니다.');
+        return;
+      }
+
+      const mappedMemberInfo = {
+        ...memberInfo,
+        position: roleMapping[memberInfo.position] || memberInfo.position, // Map the role value
+      };
+
       setIsNextClicked(true);
       try {
         const response = await axios.post(
           'http://13.125.78.31:8080/users/apply',
-          memberInfo,
+          mappedMemberInfo,
           {
             headers: {
               Authorization: `Bearer ${process.env.REACT_APP_ACCESS_TOKEN}`,
             },
           },
         );
-        // eslint-disable-next-line no-console
-        console.log('Response:', response.data);
-        navigate('/');
+
+        if (response.data.code === 200) {
+          navigate('/');
+        } else {
+          alert(`Error: ${response.data.message}`);
+        }
       } catch (error) {
-        // Show error message in an alert
         alert(error.response?.data.message || error.message);
-        // eslint-disable-next-line no-console
         console.error(
           'Error submitting form:',
           error.response?.data || error.message,
@@ -153,7 +177,7 @@ const Profile = () => {
                 origValue={memberInfo[field.key] || ''}
                 editValue={(value) => handleChange(field.key, value)}
               />
-            ) : field.key === 'role' ? (
+            ) : field.key === 'position' ? (
               <RoleSector
                 labelName={field.labelName}
                 value={memberInfo[field.key] || ''}
