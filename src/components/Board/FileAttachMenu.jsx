@@ -26,6 +26,10 @@ const Divider = styled.div`
 `;
 
 const FileAttachMenu = ({ isOpen, onClose }) => {
+  const handleRightButtonClick = () => {
+    onClose();
+  };
+
   return (
     <Modal
       open={isOpen}
@@ -52,7 +56,7 @@ const FileAttachMenu = ({ isOpen, onClose }) => {
               <Box display="flex" alignItems="center" sx={{ mr: 0.5 }}>
                 <StyledButton>전체</StyledButton>
                 <StyledButton>
-                  <RightButton alt=""/>
+                  <RightButton onClick={handleRightButtonClick} alt="" />
                 </StyledButton>
               </Box>
             </Box>
@@ -73,7 +77,7 @@ const FileAttachMenu = ({ isOpen, onClose }) => {
               <Box display="flex" alignItems="center" sx={{ mr: 0.5 }}>
                 <StyledButton>전체</StyledButton>
                 <StyledButton>
-                  <RightButton alt=""/>
+                  <RightButton onClick={handleRightButtonClick} alt=""/>
                 </StyledButton>
               </Box>
             </Box>

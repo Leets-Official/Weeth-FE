@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import PropTypes from 'prop-types';
+import axios from 'axios';
 import PostingHeader from '../components/Board/PostingHeader';
 import FileAttachMenu from '../components/Board/FileAttachMenu';
 import { ReactComponent as FileAttach } from '../assets/images/ic_board_fileAttach.svg';
 import theme from '../styles/theme';
+import Utils from '../hooks/Utils';
 
 const StyledPosting = styled.div`
   width: 370px;
@@ -51,39 +52,98 @@ const StyledContent = styled.textarea`
   height: 455px;
 `;
 
-const BoardPosting = ({ initialStudyName, initialStudyContent }) => {
+const BoardPosting = () => {
   const navigate = useNavigate();
-  const [studyTitle, setStudyName] = useState(initialStudyName);
-  const [studyContent, setStudyContent] = useState(initialStudyContent);
   const [isCompleteEnabled, setIsCompleteEnabled] = useState(false);
   const [isMenuOpen, setMenuOpen] = useState(false);
+  const ACCESS_TOKEN = process.env.REACT_APP_ACCESS_TOKEN;
+  const USER_ID = 123456; // 실제 사용자 ID로 변경하세요.
 
-  const handleStudyNameChange = (e) => {
-    setStudyName(e.target.value);
+  const [boardPost, setBoardPost] = useState({
+    title: '',
+    content: '',
+  });
+  const [files, setFiles] = useState([]);
+
+  const { title, content } = boardPost;
+
+  const onChange = (event) => {
+    const { value, name } = event.target;
+    setBoardPost({
+      ...boardPost,
+      [name]: value,
+    });
   };
 
-  const handleBoardContentChange = (e) => {
-    setStudyContent(e.target.value);
+  const onFileChange = (event) => {
+    setFiles(event.target.files);
   };
+
+  const saveBoard = async () => {
+    const formData = new FormData();
+    formData.append(
+      'requestPostDTO',
+      new Blob([JSON.stringify(boardPost)], { type: 'application/json' }),
+    );
+    Array.from(files).forEach((file) => formData.append('files', file));
+
+    try {
+      const response = await axios.post(
+        'http://13.125.78.31:8080/posts',
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${ACCESS_TOKEN}`,
+            'Content-Type': 'multipart/form-data',
+          },
+          params: {
+            userId: USER_ID,
+          },
+        },
+      );
+      console.log('Server response:', response);
+      const validatedResponse = await Utils(
+        response,
+        axios.post,
+        [
+          'http://13.125.78.31:8080/posts',
+          formData,
+          {
+            headers: {
+              Authorization: `Bearer ${ACCESS_TOKEN}`,
+              'Content-Type': 'multipart/form-data',
+            },
+            params: {
+              userId: USER_ID,
+            },
+          },
+        ],
+        navigate,
+      );
+
+      if (validatedResponse.status === 200) {
+        console.log('Post successfully created:', validatedResponse.data);
+        // 사용자가 입력한 데이터 출력
+        console.log('Title:', title);
+        console.log('Content:', content);
+        console.log('Files:', files);
+        navigate('/board');
+      }
+    } catch (error) {
+      console.error('Error saving board post:', error);
+    }
+  };
+
+  useEffect(() => {
+    setIsCompleteEnabled(!!title && content.length >= 1);
+  }, [title, content]);
 
   const handleBoardClick = () => {
     if (isCompleteEnabled) {
-      const newStudyComponent = { studyTitle, studyContent };
-      const existingComponents =
-        JSON.parse(localStorage.getItem('studyComponents')) || [];
-      const updatedComponents = [...existingComponents, newStudyComponent];
-      localStorage.setItem(
-        'studyComponents',
-        JSON.stringify(updatedComponents),
-      );
-
-      navigate('/board', {
-        state: {
-          newComponent: newStudyComponent,
-        },
-      });
+      saveBoard();
     }
   };
+
   const handleOpenMenu = () => {
     setMenuOpen(true);
   };
@@ -91,10 +151,6 @@ const BoardPosting = ({ initialStudyName, initialStudyContent }) => {
   const handleCloseMenu = () => {
     setMenuOpen(false);
   };
-
-  useEffect(() => {
-    setIsCompleteEnabled(studyTitle && studyContent.length >= 1);
-  }, [studyTitle, studyContent]);
 
   return (
     <StyledPosting>
@@ -106,18 +162,26 @@ const BoardPosting = ({ initialStudyName, initialStudyContent }) => {
         <StyledTitle
           type="text"
           placeholder="제목"
-          value={studyTitle}
-          onChange={handleStudyNameChange}
+          name="title"
+          value={title}
+          onChange={onChange}
         />
       </StyledText>
       <StyledLine />
       <StyledText>
         <StyledContent
           placeholder="내용을 입력하세요."
-          value={studyContent}
-          onChange={handleBoardContentChange}
+          name="content"
+          value={content}
+          onChange={onChange}
         />
       </StyledText>
+      <input
+        type="file"
+        multiple
+        onChange={onFileChange}
+        style={{ marginLeft: '7%', marginBottom: '20px' }}
+      />
       <FileAttach
         alt=""
         onClick={handleOpenMenu}
@@ -126,16 +190,6 @@ const BoardPosting = ({ initialStudyName, initialStudyContent }) => {
       <FileAttachMenu isOpen={isMenuOpen} onClose={handleCloseMenu} />
     </StyledPosting>
   );
-};
-
-BoardPosting.propTypes = {
-  initialStudyName: PropTypes.string,
-  initialStudyContent: PropTypes.string,
-};
-
-BoardPosting.defaultProps = {
-  initialStudyName: '',
-  initialStudyContent: '',
 };
 
 export default BoardPosting;

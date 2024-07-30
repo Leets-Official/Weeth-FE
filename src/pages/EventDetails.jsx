@@ -8,6 +8,7 @@ import icClock from '../assets/images/ic_clock.svg';
 import theme from '../styles/theme';
 import BoardTitle from '../components/BoardTitle';
 // import mockEventMonth from '../components/mockData/mockEventMonth';
+import EventAPI from '../hooks/EventAPI';
 import { EventContext } from '../hooks/EventContext';
 
 const StyledEventDetails = styled.div`
@@ -77,7 +78,9 @@ const EventDetails = () => {
 
   return (
     <StyledEventDetails>
+      <EventAPI />
       <BoardTitle
+        eventId={event.id}
         text={event.title}
         writer={event.userName}
         createdAt={event.createdAt}

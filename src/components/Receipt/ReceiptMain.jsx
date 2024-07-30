@@ -110,7 +110,7 @@ const ReceiptMain = () => {
             groupedByMonth[month].map((receipt) => (
               <div key={receipt.id}>
                 <ReceiptInfo
-                  money={`${receipt.amount.toLocaleString()}원`}
+                  money={`${receipt.amount.toLocaleString()}`}
                   date={new Date(receipt.date).toLocaleDateString('ko-KR')}
                   memo={receipt.description}
                 />
@@ -147,7 +147,7 @@ const ReceiptMain = () => {
             backgroundColor: 'rgba(0, 0, 0, 0.75)',
           },
           content: {
-            top: '50%',
+            top: '45%',
             left: '50%',
             right: 'auto',
             bottom: 'auto',

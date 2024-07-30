@@ -31,20 +31,6 @@ const MonthButton = styled.div`
   transform: translate(320px, -80px);
 `;
 
-// const StyledInput = styled.input`
-//   height: 43px;
-//   width: 90px;
-//   outline: none;
-//   border: none;
-//   border-radius: 4px;
-//   background-color: ${theme.color.grayScale.gray12};
-//   color: white;
-//   text-align: right;
-//   margin: 0px 10px;
-//   padding-right: 10px;
-//   font-size: 16px;
-// `;
-
 const Text = styled.div`
   margin-right: 15px;
 `;

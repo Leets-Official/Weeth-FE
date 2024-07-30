@@ -1,14 +1,16 @@
 import styled from 'styled-components';
 import Modal from 'react-modal';
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import theme from '../../styles/theme';
-import IndexButton from '../Header/IndexButton';
 import LeftButton from '../Header/LeftButton';
 import ModalMonthContent from './ModalMonthContent';
+import { UserContext } from '../../hooks/UserContext';
 
 import under from '../../assets/images/ic_under.svg';
+import icPlus from '../../assets/images/ic_plus.svg';
 
 Modal.setAppElement('#root');
 
@@ -45,13 +47,17 @@ const ImgButton = styled.div`
   cursor: pointer;
 `;
 
-const modalStyles = {
+const PlusButton = styled.img`
+  cursor: pointer;
+`;
+
+const monthModalStyles = {
   overlay: {
     backgroundColor: 'rgba(0,0,0,0.5)',
     backdropFilter: 'blur(5px)',
     zIndex: 1000,
     width: '100%',
-    height: 'calc(100vh - 10px)',
+    height: '100%',
     top: '10px',
     display: 'flex',
     justifyContent: 'center',
@@ -63,10 +69,10 @@ const modalStyles = {
   },
 };
 
-const onClickIndexButton = () => {};
-
 const CalendarHeader = ({ month, year, isYear, editYear, editMonth }) => {
-  const [dateModalIsOpen, setMonthModalIsOpen] = useState(false);
+  const [monthModalIsOpen, setMonthModalIsOpen] = useState(false);
+  const { userData, error } = useContext(UserContext);
+  const navi = useNavigate();
 
   const openMonthModal = () => {
     setMonthModalIsOpen(true);
@@ -79,6 +85,14 @@ const CalendarHeader = ({ month, year, isYear, editYear, editMonth }) => {
     closeMonthModal();
   };
 
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
+  if (!userData) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <StyledHeader>
       <LeftButton />
@@ -89,13 +103,21 @@ const CalendarHeader = ({ month, year, isYear, editYear, editMonth }) => {
           <img src={under} alt="select" />
         </ImgButton>
       </TitleWrapper>
-      {dateModalIsOpen ? null : <IndexButton onClick={onClickIndexButton} />}
+      {userData.role === 'ADMIN' && !monthModalIsOpen ? (
+        <PlusButton
+          src={icPlus}
+          alt="+"
+          onClick={() => {
+            navi('/event/create');
+          }}
+        />
+      ) : null}
 
       <Modal
         className="calendar-modal"
-        isOpen={dateModalIsOpen}
+        isOpen={monthModalIsOpen}
         onRequestClose={closeMonthModal}
-        style={modalStyles}
+        style={monthModalStyles}
       >
         <ModalMonthContent
           origYear={year}

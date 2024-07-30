@@ -55,7 +55,7 @@ const Landing = () => {
         <ButtonWrapper>
           <SignupButton
             color={signupClicked ? '#0E9871' : theme.color.main.mainColor}
-            textColor={
+            textcolor={
               signupClicked ? '#097154' : theme.color.grayScale.white
             } /* Temporary colors */
             onClick={() => {
@@ -71,7 +71,7 @@ const Landing = () => {
                 ? theme.color.grayScale.gray20
                 : theme.color.grayScale.gray30
             }
-            textColor={
+            textcolor={
               loginClicked
                 ? theme.color.grayScale.gray12
                 : theme.color.grayScale.white

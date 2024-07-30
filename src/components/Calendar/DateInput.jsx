@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import theme from '../../styles/theme';
 
@@ -29,13 +30,24 @@ const StyledInput = styled.input`
   -moz-appearance: textfield;
 `;
 
-const DateInput = ({ value, editValue, width, height, margin }) => {
+const DateInput = ({ origValue, editValue, width, height, margin }) => {
+  const [value, setValue] = useState(origValue);
+
+  const onChangeValue = (e) => {
+    setValue(e.target.value);
+    editValue(e.target.value);
+  };
+
+  useEffect(() => {
+    setValue(origValue);
+  }, [origValue]);
+
   return (
     <div>
       <StyledInput
         type="number"
         value={value}
-        onChange={editValue}
+        onChange={onChangeValue}
         width={width}
         height={height}
         margin={margin}
@@ -45,7 +57,8 @@ const DateInput = ({ value, editValue, width, height, margin }) => {
 };
 
 DateInput.propTypes = {
-  value: PropTypes.number.isRequired,
+  origValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+    .isRequired,
   editValue: PropTypes.func.isRequired,
   width: PropTypes.string.isRequired,
   height: PropTypes.string.isRequired,
