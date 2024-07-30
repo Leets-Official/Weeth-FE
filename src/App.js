@@ -20,6 +20,7 @@ import Board from './pages/Board';
 import BoardPosting from './pages/BoardPosting';
 import BoardDetail from './pages/BoardDetail';
 import CreateEvent from './pages/CreateEvent';
+import EditEvent from './pages/EditEvent';
 
 import { ThemeProvider } from 'styled-components';
 import theme from './styles/theme';
@@ -50,6 +51,7 @@ function App() {
           <Route path="/calendar" element={<Calendar />} />
           <Route path="/event/:id" element={<EventDetails />} />
           <Route path="/event/create" element={<CreateEvent />} />
+          <Route path="/event/:id/edit" element={<EditEvent />} />
           <Route path="/home" element={<Home />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/profile" element={<Profile />} />
