@@ -32,7 +32,7 @@ const ImgContainer = styled.div`
   margin-bottom: 5px;
 `;
 
-const GridItem = styled.div`
+const GridItem = styled.a`
   flex: 0 0 auto;
   margin-right: 10px;
   padding: 10px 15px 15px 0;
@@ -48,6 +48,7 @@ const GridItem = styled.div`
   align-items: flex-end;
   font-size: 16px;
   white-space: nowrap;
+  text-decoration: none; /* Link 텍스트에 밑줄 제거 */
   &:last-child {
     margin-right: 0;
   }
@@ -58,13 +59,16 @@ const HomeFooter = () => {
     <>
       <StyledHomeFooter>From Leets</StyledHomeFooter>
       <ScrollContainer>
-        <GridItem>
+        <GridItem href="https://www.leets.land/" target="_blank">
           <ImgContainer>
             <img src={leets} alt="leets" />
           </ImgContainer>
           홈페이지
         </GridItem>
-        <GridItem>
+        <GridItem
+          href="https://www.instagram.com/leets.official/"
+          target="_blank"
+        >
           <ImgContainer>
             <img src={insta} alt="instagram" />
           </ImgContainer>
@@ -72,11 +76,11 @@ const HomeFooter = () => {
         </GridItem>
         <GridItem>
           <ImgContainer>
-            <img src={discord} alt="leediscordts" />
+            <img src={discord} alt="discord" />
           </ImgContainer>
           Discord
         </GridItem>
-        <GridItem>
+        <GridItem href="https://github.com/Leets-Official" target="_blank">
           <ImgContainer>
             <img src={github} alt="github" />
           </ImgContainer>
@@ -85,9 +89,15 @@ const HomeFooter = () => {
       </ScrollContainer>
       <StyledHomeFooter>Leets의 프로젝트를 둘러보세요!</StyledHomeFooter>
       <ScrollContainer>
-        <GridItem>MoodMate</GridItem>
-        <GridItem>filing</GridItem>
-        <GridItem>Gradu</GridItem>
+        <GridItem href="http://yourmoodmate.com" target="_blank">
+          MoodMate
+        </GridItem>
+        <GridItem href="http://yourfiling.com" target="_blank">
+          filing
+        </GridItem>
+        <GridItem href="http://yourgradu.com" target="_blank">
+          Gradu
+        </GridItem>
       </ScrollContainer>
     </>
   );
