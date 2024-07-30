@@ -31,23 +31,27 @@ const DuesListBox = styled.div`
 
 const DuesList = styled.div`
   width: 92%;
-  margin: 0 10px;
+  margin: 15px 10px 0 10px;
 `;
 
-const Line = styled.div`
-  border: 1px solid;
-  color: #4d4d4d;
-  width: 325px;
-  margin-top: 20px;
-  transform: scaleY(0.2);
-`;
+// const Line = styled.div`
+//   border: 1px solid;
+//   color: #4d4d4d;
+//   width: 325px;
+//   margin-top: 20px;
+//   transform: scaleY(0.2);
+// `;
 
-const MoneyBox = styled.div`
-  margin-top: 35px;
-  font-size: 25px;
-  font-family: ${theme.font.family.pretendard_semiBold};
-  margin-left: 10px;
-`;
+// const MoneyBox = styled.div`
+//   margin-top: 35px;
+//   font-size: 25px;
+//   font-family: ${theme.font.family.pretendard_semiBold};
+//   margin-left: 10px;
+// `;
+// <MoneyBox>
+// {myCardinal}기 총 회비: {totalAmount.toLocaleString()}원
+// </MoneyBox>
+// <Line />
 
 const Dues = () => {
   const { duesData, totalAmount, myCardinal, fetchData } =
@@ -74,10 +78,6 @@ const Dues = () => {
         <DueCategory setSelectedDues={setSelectedDues} />
       </CategoryWrapper>
       <DuesListBox>
-        <MoneyBox>
-          {myCardinal}기 총 회비: {totalAmount.toLocaleString()}원
-        </MoneyBox>
-        <Line />
         <DuesList>
           {/* 회비 항목 */}
           {(selected === null || selected === '회비') && (
