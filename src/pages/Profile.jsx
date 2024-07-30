@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 /* eslint-disable no-nested-ternary */
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
@@ -77,8 +78,6 @@ const Profile = () => {
       setIsNextEnabled(false);
     } else {
       setIsNextClicked(true);
-      // eslint-disable-next-line no-console
-      console.log('멤버정보', memberInfo);
       try {
         const response = await axios.post(
           'http://13.125.78.31:8080/users/apply',
@@ -93,6 +92,8 @@ const Profile = () => {
         console.log('Response:', response.data);
         navigate('/');
       } catch (error) {
+        // Show error message in an alert
+        alert(error.response?.data.message || error.message);
         // eslint-disable-next-line no-console
         console.error(
           'Error submitting form:',

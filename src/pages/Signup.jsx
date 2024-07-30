@@ -90,8 +90,7 @@ const Signup = () => {
 
   const checkDuplicate = async (email) => {
     try {
-      const response = await axios.get(`http://13.125.78.31:8080/users/duplication/${email}`, {
-      });
+      const response = await axios.get(`http://13.125.78.31:8080/users/duplication/${email}`, {});
       return response.data.code === 200;
     } catch (error) {
       if (error.response && error.response.data.code === 400) {
@@ -115,9 +114,20 @@ const Signup = () => {
       newState[page] = { ...newState[page], emailStatus: isDuplicate ? 'available' : 'duplicate', isChecked: true };
       return newState;
     });
+
   };
 
   const handleNextClick = () => {
+    if (!isChecked) {
+      alert('가입 여부를 확인해 주세요.');
+      return;
+    }
+
+    if (emailStatus === 'duplicate') {
+      alert('이메일을 다시 확인해 주세요.');
+      return;
+    }
+
     if (page === 1) {
       navi('/profile', { state: { email, password } });
     } else {
@@ -164,13 +174,21 @@ const Signup = () => {
     });
   };
 
+  const getNextButtonColor = () => {
+    if (!isChecked || emailStatus === 'duplicate') {
+      return 'white';
+    }
+    return 'green';
+  };
+
   return (
     <Container>
       <SignupHeader
         onClickLeftButton={onClickLeftButton}
-        isRightButtonEnabled={isChecked || (page === 1 && password.trim() !== '')}
+        isRightButtonEnabled={isChecked && emailStatus !== 'duplicate' && (page === 1 && password.trim() !== '')}
         onClickTextButton={handleNextClick}
         nextButtonText={page === 0 ? "다음" : "완료"}
+        nextButtonColor={getNextButtonColor()}
       />
       <HeaderMargin height={headerHeight} />
       <SignupTextComponent
