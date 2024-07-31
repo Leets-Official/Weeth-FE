@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
@@ -8,7 +8,6 @@ import BoardComment from '../components/Board/BoardComment';
 import Typing from '../components/Board/Typing';
 import { ReactComponent as BoardChat } from '../assets/images/ic_board_chat.svg';
 import theme from '../styles/theme';
-// import { BoardContext } from '../hooks/BoardContext';
 import Utils from '../hooks/Utils';
 
 const Container = styled.div`
@@ -115,6 +114,7 @@ const BoardDetail = () => {
 
   const accessToken = localStorage.getItem('accessToken');
   const refreshToken = localStorage.getItem('refreshToken');
+
 
   useEffect(() => {
     console.log('Component mounted');
@@ -274,7 +274,7 @@ const BoardDetail = () => {
   const handleMenuClick = (action) => {
     switch (action) {
       case 'edit':
-        handleModifyClick();
+        console.log('Edit clicked');
         break;
       case 'delete':
         handleDeleteClick();
@@ -284,6 +284,7 @@ const BoardDetail = () => {
     }
   };
 
+
   const handleFileChange = (file) => {
     console.log('File changed:', file);
   };
@@ -291,7 +292,7 @@ const BoardDetail = () => {
   return (
     <Container>
       <HeaderWrapper>
-        <BoardHeader onMenuClick={handleMenuClick} showModal={false} />
+      <BoardHeader onMenuClick={handleMenuClick} showModal={false} handleDeleteClick={handleDeleteClick} />
       </HeaderWrapper>
       <StudyRow>
         <TextContainer>
@@ -322,7 +323,11 @@ const BoardDetail = () => {
           <BoardChat alt="" />
           <CommentCount>{content?.totalComments || 0}</CommentCount>
         </BottomRow>
-        <BoardComment comments={content?.comments || []} recomments={[]} />
+        <BoardComment 
+          comments={content?.comments?.length > 0 ? content.comments : [{ text: 'No comments yet.' }]} 
+          recomments={[]} 
+        />
+
       </StudyRow>
       <Typing
         comment={content?.comment || ''}

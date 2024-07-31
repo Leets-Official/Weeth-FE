@@ -31,7 +31,7 @@ const InputField = styled.input`
   }
 `;
 
-const Typing = ({ comment, handleCommentChange }) => {
+const Typing = ({ comment, handleCommentChange, handleRegisterComment }) => {
   return (
     <InputWrapper>
       <InputField
@@ -42,6 +42,7 @@ const Typing = ({ comment, handleCommentChange }) => {
       />
       <RegisterComment
         alt=""
+        onClick={handleRegisterComment}
         style={{
           position: 'absolute',
           right: '10px',
@@ -57,6 +58,7 @@ const Typing = ({ comment, handleCommentChange }) => {
 Typing.propTypes = {
   comment: PropTypes.string.isRequired,
   handleCommentChange: PropTypes.func.isRequired,
+  handleRegisterComment: PropTypes.func.isRequired,
 };
 
 export default Typing;

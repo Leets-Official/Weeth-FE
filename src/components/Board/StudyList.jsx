@@ -50,7 +50,7 @@ const StudyList = () => {
           title={study.title}
           content={study.content}
           time={study.time}
-          totalComments={study.totalComments}
+          totalComments={study.totalComments || 0}
           onClick={() => handleNavigate(study)}
         />
       ))}
