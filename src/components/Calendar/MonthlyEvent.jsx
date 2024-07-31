@@ -68,31 +68,27 @@ const MonthlyEvent = ({ thisMonth, month, year }) => {
 
   useEffect(() => {
     const fetchData = async () => {
+      const BASE_URL = process.env.REACT_APP_BASE_URL;
       const accessToken = localStorage.getItem('accessToken');
       const refreshToken = localStorage.getItem('refreshToken');
 
-
       try {
         if (year) {
-          let response = await axios.get(
-            'http://13.125.78.31:8080/event/year',
-            {
-              headers: {
-                Authorization: `Bearer ${accessToken}`,
-                Authorization_refresh: `Bearer ${refreshToken}`,
-
-              },
-              params: {
-                year: yearNumber,
-              },
+          let response = await axios.get(`${BASE_URL}/event/year`, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+              Authorization_refresh: `Bearer ${refreshToken}`,
             },
-          );
+            params: {
+              year: yearNumber,
+            },
+          });
 
           response = await Utils(
             response,
             axios.get,
             [
-              'http://13.125.78.31:8080/event/year',
+              `${BASE_URL}/event/year`,
               {
                 headers: {
                   Authorization: `Bearer ${accessToken}`,
