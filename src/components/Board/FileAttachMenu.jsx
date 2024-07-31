@@ -35,12 +35,12 @@ const FileAttachMenu = ({ isOpen, onClose, setFiles }) => {
 
   const handleFileChange = (event, type) => {
     const files = Array.from(event.target.files);
+    setFiles((prevFiles) => [...prevFiles, ...files]);
     if (type === 'photo') {
-      setPhotos(files);
+      setPhotos((prevPhotos) => [...prevPhotos, ...files]);
     } else if (type === 'attachment') {
-      setAttachments(files);
+      setAttachments((prevAttachments) => [...prevAttachments, ...files]);
     }
-    setFiles(files);
   };
 
   const triggerFileInput = (type) => {

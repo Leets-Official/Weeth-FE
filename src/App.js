@@ -21,6 +21,7 @@ import BoardPosting from './pages/BoardPosting';
 import BoardDetail from './pages/BoardDetail';
 import CreateEvent from './pages/CreateEvent';
 import EditEvent from './pages/EditEvent';
+import BoardEdit from './pages/BoardEdit';
 
 import { ThemeProvider } from 'styled-components';
 import theme from './styles/theme';
@@ -65,6 +66,7 @@ function App() {
           <Route path="/board" element={<Board />} />
           <Route path="/board/:id" element={<BoardDetail />} />
           <Route path="/boardPosting" element={<BoardPosting />} />
+          <Route path="/boardEdit" element={<BoardEdit />} />
         </Routes>
         </DuesProvider>
         </BoardProvider>

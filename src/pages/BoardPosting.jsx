@@ -1,3 +1,4 @@
+// BOardPosting
 import React, { useEffect, useState, useContext } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
@@ -7,6 +8,7 @@ import PostingHeader from '../components/Board/PostingHeader';
 import FileAttachMenu from '../components/Board/FileAttachMenu';
 import { ReactComponent as FileAttach } from '../assets/images/ic_board_fileAttach.svg';
 import theme from '../styles/theme';
+import { BoardContext } from '../hooks/BoardContext';
 import Utils from '../hooks/Utils';
 
 const StyledPosting = styled.div`
@@ -59,21 +61,22 @@ const BoardPosting = () => {
   const [isMenuOpen, setMenuOpen] = useState(false);
   const ACCESS_TOKEN = process.env.REACT_APP_ACCESS_TOKEN;
   const { userData } = useContext(UserContext);
-
-  const [boardPost, setBoardPost] = useState({
-    title: '',
-    content: '',
-  });
+  const { boardData } = useContext(BoardContext);
   const [files, setFiles] = useState([]);
 
-  const { title, content } = boardPost;
+  const initialBoardPost = {
+    title: boardData?.title || '',
+    content: boardData?.content || '',
+  };
+
+  const [boardPost, setBoardPost] = useState(initialBoardPost);
 
   const onChange = (event) => {
     const { value, name } = event.target;
-    setBoardPost({
-      ...boardPost,
+    setBoardPost((prevPost) => ({
+      ...prevPost,
       [name]: value,
-    });
+    }));
   };
 
   const saveBoard = async () => {
@@ -121,19 +124,19 @@ const BoardPosting = () => {
       if (validatedResponse.status === 200) {
         console.log('Post successfully created:', validatedResponse.data);
         // 사용자가 입력한 데이터 출력
-        console.log('Title:', title);
-        console.log('Content:', content);
+        console.log('Title:', boardPost.title);
+        console.log('Content:', boardPost.content);
         console.log('Files:', files);
         navigate('/board');
       }
-    } catch (error) {
-      console.error('Error saving board post:', error);
+    } catch (err) {
+      console.error('Error saving board post:', err);
     }
   };
 
   useEffect(() => {
-    setIsCompleteEnabled(!!title && content.length >= 1);
-  }, [title, content]);
+    setIsCompleteEnabled(!!boardPost.title && boardPost.content.length >= 1);
+  }, [boardPost.title, boardPost.content]);
 
   const handleBoardClick = () => {
     if (isCompleteEnabled) {
@@ -160,7 +163,7 @@ const BoardPosting = () => {
           type="text"
           placeholder="제목"
           name="title"
-          value={title}
+          value={boardPost.title}
           onChange={onChange}
         />
       </StyledText>
@@ -169,7 +172,7 @@ const BoardPosting = () => {
         <StyledContent
           placeholder="내용을 입력하세요."
           name="content"
-          value={content}
+          value={boardPost.content}
           onChange={onChange}
         />
       </StyledText>

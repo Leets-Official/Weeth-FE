@@ -9,14 +9,14 @@ const StudyList = () => {
   const navigate = useNavigate();
   const [studies, setStudies] = useState([]);
   const { setError } = useContext(BoardContext);
-  const ACCESS_TOKEN = process.env.REACT_APP_ACCESS_TOKEN;
 
   useEffect(() => {
     const fetchStudies = async () => {
       try {
         const response = await axios.get('http://13.125.78.31:8080/posts', {
           headers: {
-            Authorization: `Bearer ${ACCESS_TOKEN}`,
+            Authorization: `Bearer ${accessToken}`,
+            'Authorization-refresh': `Bearer ${refreshToken}`,
           },
         });
 
@@ -26,14 +26,14 @@ const StudyList = () => {
           axios.get,
           [
             'http://13.125.78.31:8080/posts',
-            { headers: { Authorization: `Bearer ${ACCESS_TOKEN}` } },
+            { headers: { Authorization: `Bearer ${accessToken}` } },
           ],
           navigate,
         );
 
-        if (validatedResponse.status === 200) {
+        if (validatedResponse.data.code === 200) {
           const { data } = validatedResponse;
-          console.log('API response data:', data); // API 응답 데이터 확인
+          console.log('Study List:', data); // API 응답 데이터 확인
 
           if (Array.isArray(data.data)) {
             setStudies(data.data); // 상태 업데이트

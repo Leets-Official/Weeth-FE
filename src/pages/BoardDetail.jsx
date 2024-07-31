@@ -1,16 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
+import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import BoardHeader from '../components/Board/NoticeHeader';
 import AttachButton from '../components/Board/AttachButton';
 import BoardComment from '../components/Board/BoardComment';
 import Typing from '../components/Board/Typing';
 import { ReactComponent as BoardChat } from '../assets/images/ic_board_chat.svg';
-// import { ReactComponent as RegisterComment } from '../assets/images/ic_send.svg';
 import theme from '../styles/theme';
-// import { UserContext } from '../hooks/UserContext';
-
+import { BoardContext } from '../hooks/BoardContext';
+import BoardAPI from '../hooks/BoardAPI'; // BoardAPI 가져오기
 import Utils from '../hooks/Utils';
 
 const Container = styled.div`
@@ -105,24 +104,24 @@ const BottomRow = styled.div`
   align-items: center;
   margin-top: 15px;
   border-bottom: 1px solid ${theme.color.grayScale.gray30};
-  padding-bottom: 10px; /* 선 아래 여백 추가 */
+  padding-bottom: 10px;
 `;
 
 const BoardDetail = () => {
   const [comment, setComment] = useState('');
   const [comments, setComments] = useState([]);
   const [commentCount, setCommentCount] = useState(0);
-  // const { userData } = useContext(UserContext);
+  const { boardData, error } = useContext(BoardContext);
   const navigate = useNavigate();
-  const ACCESS_TOKEN = process.env.REACT_APP_ACCESS_TOKEN;
-
   const { id: postId } = useParams();
 
-  const location = useLocation();
-  const { studyTitle, studyContent } = location.state || {
-    studyTitle: '',
-    studyContent: '',
-  };
+  // const location = useLocation();
+  // const { studyTitle, studyContent } = location.state || {
+  //   studyTitle: '',
+  //   studyContent: '',
+  // };
+
+  const ACCESS_TOKEN = process.env.REACT_APP_ACCESS_TOKEN;
 
   useEffect(() => {
     const storedComments = JSON.parse(localStorage.getItem('comments')) || [];
@@ -130,7 +129,7 @@ const BoardDetail = () => {
 
     const storedCommentCount = localStorage.getItem('commentCount');
     if (storedCommentCount !== null) {
-      setCommentCount(parseInt(storedCommentCount, 10));
+      setCommentCount(parseInt(storedCommentCount, 10)); // radix 추가
     } else {
       setCommentCount(storedComments.length);
     }
@@ -154,6 +153,61 @@ const BoardDetail = () => {
       };
       setComments([...comments, newComment]);
       setComment('');
+    }
+  };
+
+  const handleModifyClick = async () => {
+    try {
+      const url = `http://13.125.78.31:8080/posts/${postId}`;
+      const formData = new FormData();
+
+      // JSON 데이터는 Blob으로 추가
+      const requestPostDTO = {
+        title: postId.title,
+        content: postId.content,
+      };
+      formData.append(
+        'requestPostDTO',
+        new Blob([JSON.stringify(requestPostDTO)], {
+          type: 'application/json',
+        }),
+      );
+
+      // 파일 추가
+      const files = []; // 여기에 업로드할 파일들을 추가합니다.
+      files.forEach((file) => {
+        formData.append('files', file);
+      });
+
+      const response = await axios.post(url, formData, {
+        headers: {
+          Authorization: `Bearer ${ACCESS_TOKEN}`,
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      const validatedResponse = await Utils(response, axios.post, [
+        url,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${ACCESS_TOKEN}`,
+            'Content-Type': 'multipart/form-data',
+          },
+        },
+        navigate,
+      ]);
+
+      if (validatedResponse.status === 200) {
+        console.log('modify :', response);
+        navigate('/BoardPosting');
+      } else {
+        console.error('수정 실패:', validatedResponse.status);
+        alert('수정에 실패했습니다. 다시 시도해주세요.');
+      }
+    } catch (err) {
+      console.error('수정 오류:', err);
+      alert('수정 도중 오류가 발생했습니다. 다시 시도해주세요.');
     }
   };
 
@@ -201,7 +255,7 @@ const BoardDetail = () => {
   const handleMenuClick = (action) => {
     switch (action) {
       case 'edit':
-        console.log('Edit clicked');
+        handleModifyClick();
         break;
       case 'delete':
         handleDeleteClick();
@@ -215,23 +269,29 @@ const BoardDetail = () => {
     console.log('File changed:', file);
   };
 
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
+  const post =
+    boardData && boardData.find((item) => item.id === parseInt(postId, 10)); // boardData 유효성 검사 추가
+
   return (
     <Container>
       <HeaderWrapper>
         <BoardHeader
-          onMenuClick={handleMenuClick}
+          onMenuClick={handleMenuClick} // onMenuClick prop을 전달합니다.
           showModal={false}
-          handleDeleteClick={handleDeleteClick}
         />
       </HeaderWrapper>
       <StudyRow>
         <TextContainer>
-          <StudyNamed>{studyTitle}</StudyNamed>
+          <StudyNamed>{post.title}</StudyNamed>
           <SubRow>
-            <UserName>김위드</UserName>
-            <StyledDate>00/00 00:00</StyledDate>
+            <UserName>{post.username}</UserName>
+            <StyledDate>{post.date}</StyledDate>
           </SubRow>
-          <StudyContents>{studyContent}</StudyContents>
+          <StudyContents>{post.content}</StudyContents>
         </TextContainer>
         <ComponentRow>
           <AttachButton filetype="HWP" onFileChange={handleFileChange} />
@@ -249,6 +309,8 @@ const BoardDetail = () => {
         handleCommentChange={handleCommentChange}
         handleRegisterComment={handleRegisterComment}
       />
+      <BoardAPI />
+      {/* BoardAPI 컴포넌트를 추가하여 게시물 데이터를 불러옵니다. */}
     </Container>
   );
 };

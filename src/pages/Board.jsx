@@ -67,9 +67,25 @@ const Board = () => {
   // const [noticeList, setNoticeList] = useState([]);
   // const [noticeList, setNoticeList] = useState([]);
 
+  // const AdminhandleModifyClick = () => {
+  //   console.log('수정');
+  // };
+
+  // const AdminhandleDeleteClick = () => {
+  //   console.log('삭제');
+  // };
+
+  const handleMenuClick = (action) => {
+    if (action === 'edit') {
+      console.log('수정');
+    } else if (action === 'delete') {
+      console.log('삭제');
+    }
+  };
+
   return (
     <Container>
-      <NoticeHeader showModal={false} onMenuClick={onMenuClick} />
+      <NoticeHeader showModal={false} onMenuClick={handleMenuClick} />
       <NoticeMiddle
         title={activeTab === 'notice' ? '공지사항' : '스터디 게시판'}
         button={buttonElement}

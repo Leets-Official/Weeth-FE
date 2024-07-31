@@ -8,12 +8,12 @@ const NoticeList = () => {
   const navigate = useNavigate();
   const [notices, setNotices] = useState([]);
   const { setError } = useContext(EventContext);
-
-  const ACCESS_TOKEN = process.env.REACT_APP_ACCESS_TOKEN;
+  const { accessToken, refreshToken } = useContext(EventContext);
 
   useEffect(() => {
     const headers = {
-      Authorization: `Bearer ${ACCESS_TOKEN}`,
+      Authorization: `Bearer ${accessToken}`,
+      'Authorization-refresh': `Bearer ${refreshToken}`,
     };
 
     axios
@@ -34,7 +34,7 @@ const NoticeList = () => {
         console.error('API Request Error:', err);
         setError('An error occurred while fetching the data');
       });
-  }, [ACCESS_TOKEN, setError]);
+  }, [accessToken, refreshToken, setError]);
 
   const handleNavigate = (id) => {
     navigate(`/board/${id}`);
