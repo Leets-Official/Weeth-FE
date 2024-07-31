@@ -69,7 +69,7 @@ const CancelButton = styled.div`
   cursor: pointer;
 `;
 
-const NoticeHeader = ({ onMenuClick, showModal }) => {
+const NoticeHeader = ({ onMenuClick, showModal, handleDeleteClick }) => {
   const [isModalOpen, setIsModalOpen] = useState(showModal);
 
   useEffect(() => {
@@ -84,10 +84,10 @@ const NoticeHeader = ({ onMenuClick, showModal }) => {
     setIsModalOpen(false);
   };
 
-  const handleMenuClickInternal = (action) => {
+  /* const handleMenuClickInternal = (action) => {
     onMenuClick(action); // 여기에서 onMenuClick을 호출합니다.
     setIsModalOpen(false);
-  };
+  }; */
 
   return (
     <>
@@ -103,10 +103,28 @@ const NoticeHeader = ({ onMenuClick, showModal }) => {
           <ModalContainer onClick={(e) => e.stopPropagation()}>
             <ModalContent>
               <MenuTitle>글메뉴</MenuTitle>
-              <MenuItem onClick={() => handleMenuClickInternal('edit')}>
+              <MenuItem
+                onClick={(e) => {
+                  const target = e.currentTarget;
+                  target.style.backgroundColor = '#4d4d4d';
+                  onMenuClick('edit');
+                  setTimeout(() => {
+                    target.style.backgroundColor = '';
+                  }, 100);
+                }}
+              >
                 수정
               </MenuItem>
-              <MenuItem onClick={() => handleMenuClickInternal('delete')}>
+              <MenuItem
+                onClick={(e) => {
+                  const target = e.currentTarget;
+                  target.style.backgroundColor = '#4d4d4d';
+                  setTimeout(() => {
+                    handleDeleteClick();
+                    target.style.backgroundColor = '';
+                  }, 100);
+                }}
+              >
                 삭제
               </MenuItem>
             </ModalContent>
@@ -121,6 +139,7 @@ const NoticeHeader = ({ onMenuClick, showModal }) => {
 NoticeHeader.propTypes = {
   onMenuClick: PropTypes.func.isRequired,
   showModal: PropTypes.bool.isRequired,
+  handleDeleteClick: PropTypes.func.isRequired,
 };
 
 export default NoticeHeader;

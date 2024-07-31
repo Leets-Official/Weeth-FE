@@ -83,6 +83,11 @@ const BoardPosting = () => {
   };
 
   const saveBoard = async () => {
+    if (!userData || !userData.id) {
+      console.error('Error: User data is missing or invalid.');
+      return; // 또는 navigate('/login') 등으로 사용자를 로그인 페이지로 리다이렉트할 수 있습니다.
+    }
+
     const formData = new FormData();
     formData.append(
       'requestPostDTO',
@@ -122,10 +127,6 @@ const BoardPosting = () => {
 
       if (validatedResponse.status === 200) {
         console.log('Post successfully created:', validatedResponse.data);
-        // 사용자가 입력한 데이터 출력
-        console.log('Title:', boardPost.title);
-        console.log('Content:', boardPost.content);
-        console.log('Files:', files);
         navigate('/board');
       }
     } catch (err) {
