@@ -66,7 +66,8 @@ const BoardTitle = ({ eventId, text, writer, createdAt }) => {
   const splittedDate = createdAt.split('T'); // YYYY-MM-DD,HH:MM:SS.SSSZ
   const splittedTime = splittedDate[1].substr(0, 5);
 
-  const ACCESS_TOKEN = process.env.REACT_APP_ACCESS_TOKEN;
+  const accessToken = localStorage.getItem('accessToken');
+  const refreshToken = localStorage.getItem('refreshToken');
 
   const openAdminModal = () => {
     setAdminModalIsOpen(true);
@@ -80,7 +81,8 @@ const BoardTitle = ({ eventId, text, writer, createdAt }) => {
       try {
         await axios.delete(`http://13.125.78.31:8080/admin/event/${eventId}`, {
           headers: {
-            Authorization: `Bearer ${ACCESS_TOKEN}`,
+            Authorization: `Bearer ${accessToken}`,
+            Authorization_refresh: `Bearer ${refreshToken}`,
           },
         });
         alert('삭제가 완료되었습니다.');

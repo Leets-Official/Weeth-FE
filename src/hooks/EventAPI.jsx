@@ -14,8 +14,10 @@ const EventAPI = ({ start, end }) => {
 
     const fetchData = async () => {
       const accessToken = localStorage.getItem('accessToken');
+      const refreshToken = localStorage.getItem('refreshToken');
       const headers = {
         Authorization: `Bearer ${accessToken}`,
+        Authorization_refresh: `Bearer ${refreshToken}`,
       };
       const params = {
         start: start,
