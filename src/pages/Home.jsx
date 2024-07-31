@@ -31,7 +31,7 @@ const Header = styled.header`
 
 const Main = styled.main`
   width: 100%;
-  margin-top: 38px;
+  margin-top: 33px;
 `;
 
 const Footer = styled.footer`
@@ -39,6 +39,10 @@ const Footer = styled.footer`
 `;
 
 const Home = () => {
+  const accessToken = localStorage.getItem('accessToken');
+  const refreshToken = localStorage.getItem('refreshToken');
+  // eslint-disable-next-line no-console
+  console.log('home token', accessToken, refreshToken);
   return (
     <ThemeProvider theme={theme}>
       <Container>

@@ -31,6 +31,7 @@
 
 .right-button {
     display: flex;
+    padding-bottom: 5px;
     align-items: center;
     align-self: flex-end; 
     margin-right: 10px;
