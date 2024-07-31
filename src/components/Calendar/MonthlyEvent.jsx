@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import { useNavigate } from 'react-router-dom';
 import theme from '../../styles/theme';
-
 import icDot from '../../assets/images/ic_dot.svg';
-// import { EventContext } from '../../hooks/EventContext';
+import Utils from '../../hooks/Utils';
 
 const StyledYear = styled.div`
   display: flex;
@@ -60,27 +60,49 @@ EventComponent.propTypes = {
 };
 
 const MonthlyEvent = ({ thisMonth, month, year }) => {
-  const [yearEvnetData, setYearEventData] = useState(null);
+  const [yearEventData, setYearEventData] = useState(null);
   const [error, setError] = useState(null);
-  const ACCESS_TOKEN = process.env.REACT_APP_ACCESS_TOKEN;
+  const navigate = useNavigate();
 
   const yearNumber = parseInt(year, 10);
 
   useEffect(() => {
     const fetchData = async () => {
+      const accessToken = localStorage.getItem('accessToken');
+      // const refreshToken = localStorage.getItem('refreshToken');
+
       try {
         if (year) {
-          const response = await axios.get(
-            `http://13.125.78.31:8080/event/year`,
+          let response = await axios.get(
+            'http://13.125.78.31:8080/event/year',
             {
               headers: {
-                Authorization: `Bearer ${ACCESS_TOKEN}`,
+                Authorization: `Bearer ${accessToken}`,
+                // Authorization-refresh: `Bearer ${refreshToken}`,
               },
               params: {
                 year: yearNumber,
               },
             },
           );
+
+          response = await Utils(
+            response,
+            axios.get,
+            [
+              'http://13.125.78.31:8080/event/year',
+              {
+                headers: {
+                  Authorization: `Bearer ${accessToken}`,
+                },
+                params: {
+                  year: yearNumber,
+                },
+              },
+            ],
+            navigate,
+          );
+
           if (response.data.code === 200) {
             console.log('response data', response.data.data);
             setYearEventData(response.data.data);
@@ -96,18 +118,18 @@ const MonthlyEvent = ({ thisMonth, month, year }) => {
     };
 
     fetchData();
-  }, [year]);
+  }, [year, navigate]);
 
   if (error) {
     return <div>Error: {error}</div>;
   }
 
-  if (!yearEvnetData) {
+  if (!yearEventData) {
     return <div>Loading...</div>;
   }
 
   const istoday = thisMonth === month;
-  const events = yearEvnetData[thisMonth] || [];
+  const events = yearEventData[thisMonth] || [];
 
   return (
     <StyledYear>
