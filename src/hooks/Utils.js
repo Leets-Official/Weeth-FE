@@ -9,7 +9,9 @@ const Utils = async (response, originalApiFunc, originalParams, navigate) => {
 
   if (response.status === 200) {
     if (!isResponseBodyEmpty(response.data)) {
-      // Body가 안 비어있으면 원래 API 로직
+      const newToken = response.headers['authorization'];
+      const newRefreshToken = response.headers['authorization-refresh'];
+      alert('login token', newToken, newRefreshToken);
       return response;
     } else {
       // Body가 비어있으면 token, refresh tokens을 local storage에 저장하기
