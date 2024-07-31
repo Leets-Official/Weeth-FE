@@ -70,7 +70,7 @@ const Member = () => {
             />
           ))
         ) : (
-          <Error>ERROR</Error>
+          <Error>멤버 정보를 불러올 수 없습니다.</Error>
         )}
       </MemberList>
     </StyledMember>

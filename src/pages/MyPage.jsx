@@ -82,14 +82,18 @@ const LogoutButton = styled.button`
 const MyPage = () => {
   const { userData, error } = useContext(UserContext);
   const navi = useNavigate();
-  const ACCESS_TOKEN = process.env.REACT_APP_ACCESS_TOKEN;
+  const accessToken = localStorage.getItem('accessToken');
+  const refreshToken = localStorage.getItem('refreshToken');
+
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
 
   const onClickLeave = async () => {
     if (window.confirm('탈퇴하시겠습니까?')) {
       try {
-        await axios.delete('http://13.125.78.31:8080/users', {
+        await axios.delete(`${BASE_URL}/users`, {
           headers: {
-            Authorization: `Bearer ${ACCESS_TOKEN}`,
+            Authorization: `Bearer ${accessToken}`,
+            Authorization_refresh: `Bearer ${refreshToken}`,
           },
         });
         alert('탈퇴가 완료되었습니다.');
