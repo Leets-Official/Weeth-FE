@@ -69,7 +69,8 @@ const MonthlyEvent = ({ thisMonth, month, year }) => {
   useEffect(() => {
     const fetchData = async () => {
       const accessToken = localStorage.getItem('accessToken');
-      // const refreshToken = localStorage.getItem('refreshToken');
+      const refreshToken = localStorage.getItem('refreshToken');
+
 
       try {
         if (year) {
@@ -78,7 +79,8 @@ const MonthlyEvent = ({ thisMonth, month, year }) => {
             {
               headers: {
                 Authorization: `Bearer ${accessToken}`,
-                // Authorization-refresh: `Bearer ${refreshToken}`,
+                Authorization_refresh: `Bearer ${refreshToken}`,
+
               },
               params: {
                 year: yearNumber,
