@@ -3,12 +3,14 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import BoardComponent from './BoardComponent';
 import { BoardContext } from '../../hooks/BoardContext';
-import Utils from '../../hooks/Utils';
 
 const StudyList = () => {
   const navigate = useNavigate();
   const [studies, setStudies] = useState([]);
   const { setError } = useContext(BoardContext);
+
+  const accessToken = localStorage.getItem('accessToken');
+  const refreshToken = localStorage.getItem('refreshToken');
 
   useEffect(() => {
     const fetchStudies = async () => {
@@ -16,48 +18,27 @@ const StudyList = () => {
         const response = await axios.get('http://13.125.78.31:8080/posts', {
           headers: {
             Authorization: `Bearer ${accessToken}`,
-            'Authorization-refresh': `Bearer ${refreshToken}`,
           },
         });
-
-        // Utils 함수를 통해 응답을 처리
-        const validatedResponse = await Utils(
-          response,
-          axios.get,
-          [
-            'http://13.125.78.31:8080/posts',
-            { headers: { Authorization: `Bearer ${accessToken}` } },
-          ],
-          navigate,
-        );
-
-        if (validatedResponse.data.code === 200) {
-          const { data } = validatedResponse;
-          console.log('Study List:', data); // API 응답 데이터 확인
-
-          if (Array.isArray(data.data)) {
-            setStudies(data.data); // 상태 업데이트
-            setError(null);
-          } else {
-            setStudies([]);
-            setError('Unexpected response format');
-          }
+        if (response.data.code === 200) {
+          setStudies(response.data.data); // 필터링 없이 모든 데이터를 설정
+        } else {
+          setError(response.data.message);
         }
       } catch (error) {
-        console.error('Error:', error);
         setError('스터디 데이터를 가져오는 중 오류가 발생했습니다.');
       }
     };
 
     fetchStudies();
-  }, [ACCESS_TOKEN, setError, navigate]);
+  }, [accessToken, setError]);
 
   useEffect(() => {
     console.log('Studies state updated:', studies); // 상태 업데이트 후의 데이터를 확인
   }, [studies]);
 
-  const handleNavigate = (id) => {
-    navigate(`/board/${id}`);
+  const handleNavigate = (study) => {
+    navigate(`/board/${study.id}`, { state: { type: 'study', data: study } });
   };
 
   return (
@@ -70,7 +51,7 @@ const StudyList = () => {
           content={study.content}
           time={study.time}
           totalComments={study.totalComments}
-          onClick={() => handleNavigate(study.id)}
+          onClick={() => handleNavigate(study)}
         />
       ))}
     </div>

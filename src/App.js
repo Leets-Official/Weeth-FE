@@ -33,6 +33,7 @@ import { EventProvider } from './hooks/EventContext';
 import EventAPI from './hooks/EventAPI';
 import { BoardProvider } from './hooks/BoardContext';
 import { DuesProvider } from './hooks/DuesContext';
+import { NoticeProvider } from './hooks/NoticeContext';
 
 //user api 받아온 정보 담는 context
 
@@ -43,6 +44,7 @@ function App() {
       <EventProvider>
       <BoardProvider>
       <DuesProvider>
+      <NoticeProvider>
       <UserAPI />
       <EventAPI />
         <Routes>
@@ -68,6 +70,7 @@ function App() {
           <Route path="/boardPosting" element={<BoardPosting />} />
           <Route path="/boardEdit" element={<BoardEdit />} />
         </Routes>
+      </NoticeProvider>
         </DuesProvider>
         </BoardProvider>
         </EventProvider>

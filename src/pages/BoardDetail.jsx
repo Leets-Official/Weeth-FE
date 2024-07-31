@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import BoardHeader from '../components/Board/NoticeHeader';
 import AttachButton from '../components/Board/AttachButton';
@@ -8,8 +8,7 @@ import BoardComment from '../components/Board/BoardComment';
 import Typing from '../components/Board/Typing';
 import { ReactComponent as BoardChat } from '../assets/images/ic_board_chat.svg';
 import theme from '../styles/theme';
-import { BoardContext } from '../hooks/BoardContext';
-import BoardAPI from '../hooks/BoardAPI'; // BoardAPI 가져오기
+// import { BoardContext } from '../hooks/BoardContext';
 import Utils from '../hooks/Utils';
 
 const Container = styled.div`
@@ -43,7 +42,6 @@ const TextContainer = styled.div`
 `;
 
 const StudyNamed = styled.div`
-  margin-left: 7%;
   font-size: 24px;
   font-weight: 600;
 `;
@@ -108,52 +106,75 @@ const BottomRow = styled.div`
 `;
 
 const BoardDetail = () => {
-  const [comment, setComment] = useState('');
-  const [comments, setComments] = useState([]);
-  const [commentCount, setCommentCount] = useState(0);
-  const { boardData, error } = useContext(BoardContext);
+  const { state } = useLocation();
+  const { type, data } = state || { type: 'study', data: {} };
+  const [content, setContent] = useState(null); // 초기값을 null로 설정
+
   const navigate = useNavigate();
-  const { id: postId } = useParams();
+  const { id: postId, noticeId } = useParams();
 
-  // const location = useLocation();
-  // const { studyTitle, studyContent } = location.state || {
-  //   studyTitle: '',
-  //   studyContent: '',
-  // };
-
-  const ACCESS_TOKEN = process.env.REACT_APP_ACCESS_TOKEN;
+  const accessToken = localStorage.getItem('accessToken');
+  const refreshToken = localStorage.getItem('refreshToken');
 
   useEffect(() => {
-    const storedComments = JSON.parse(localStorage.getItem('comments')) || [];
-    setComments(storedComments);
+    console.log('Component mounted');
+    console.log('Access Token:', accessToken); // accessToken을 확인하기 위한 콘솔 로그
+    console.log('State received from navigation:', state);
+    console.log('Type:', type);
+    console.log('Post ID:', postId);
+    console.log('Notice ID:', noticeId);
 
-    const storedCommentCount = localStorage.getItem('commentCount');
-    if (storedCommentCount !== null) {
-      setCommentCount(parseInt(storedCommentCount, 10)); // radix 추가
+    if (!data || Object.keys(data).length === 0) {
+      const fetchData = async () => {
+        try {
+          const url =
+            type === 'study'
+              ? `http://13.125.78.31:8080/posts/${postId}`
+              : `http://13.125.78.31:8080/notice/${noticeId}`;
+          const response = await axios.get(url, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          });
+
+          const validatedResponse = await Utils(response, axios.get, [
+            url,
+            formData,
+            {
+              headers: {
+                Authorization: `Bearer ${accessToken}`,
+              },
+            },
+            navigate,
+          ]);
+
+          console.log('API Response:', validatedResponse.data);
+
+          // const isValidResponse = await Utils.get(url, {
+          //   headers: {
+          //     Authorization: `Bearer ${accessToken}`,
+          //   },
+          // });
+          console.log('API Response:', response.data);
+          if(validatedResponse.data.code === 200) {
+            setContent(validatedResponse.data.data);
+            setCommentCount(validatedResponse.data.data.totalComments || 0);
+          } else {
+            console.error('API response error:', validatedResponse.data.message);
+          }
+        } catch (error) {
+          console.error('데이터 가져오기 실패:', error);
+        }
+      };
+  
+      fetchData();
     } else {
-      setCommentCount(storedComments.length);
+      setContent(data);
     }
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem('comments', JSON.stringify(comments));
-    localStorage.setItem('commentCount', comments.length.toString());
-    setCommentCount(comments.length);
-  }, [comments]);
+  }, [accessToken, type, postId, noticeId, data]);
 
   const handleCommentChange = (e) => {
     setComment(e.target.value);
-  };
-
-  const handleRegisterComment = () => {
-    if (comment.trim()) {
-      const newComment = {
-        id: Date.now(),
-        text: comment,
-      };
-      setComments([...comments, newComment]);
-      setComment('');
-    }
   };
 
   const handleModifyClick = async () => {
@@ -161,10 +182,9 @@ const BoardDetail = () => {
       const url = `http://13.125.78.31:8080/posts/${postId}`;
       const formData = new FormData();
 
-      // JSON 데이터는 Blob으로 추가
       const requestPostDTO = {
-        title: postId.title,
-        content: postId.content,
+        title: content.title,
+        content: content.data,
       };
       formData.append(
         'requestPostDTO',
@@ -173,15 +193,14 @@ const BoardDetail = () => {
         }),
       );
 
-      // 파일 추가
-      const files = []; // 여기에 업로드할 파일들을 추가합니다.
+      const files = [];
       files.forEach((file) => {
         formData.append('files', file);
       });
 
       const response = await axios.post(url, formData, {
         headers: {
-          Authorization: `Bearer ${ACCESS_TOKEN}`,
+          Authorization: `Bearer ${accessToken}`,
           'Content-Type': 'multipart/form-data',
         },
       });
@@ -191,7 +210,7 @@ const BoardDetail = () => {
         formData,
         {
           headers: {
-            Authorization: `Bearer ${ACCESS_TOKEN}`,
+            Authorization: `Bearer ${accessToken}`,
             'Content-Type': 'multipart/form-data',
           },
         },
@@ -269,48 +288,47 @@ const BoardDetail = () => {
     console.log('File changed:', file);
   };
 
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
-
-  const post =
-    boardData && boardData.find((item) => item.id === parseInt(postId, 10)); // boardData 유효성 검사 추가
-
   return (
     <Container>
       <HeaderWrapper>
-        <BoardHeader
-          onMenuClick={handleMenuClick} // onMenuClick prop을 전달합니다.
-          showModal={false}
-        />
+        <BoardHeader onMenuClick={handleMenuClick} showModal={false} />
       </HeaderWrapper>
       <StudyRow>
         <TextContainer>
-          <StudyNamed>{post.title}</StudyNamed>
-          <SubRow>
-            <UserName>{post.username}</UserName>
-            <StyledDate>{post.date}</StyledDate>
-          </SubRow>
-          <StudyContents>{post.content}</StudyContents>
+          {content ? (
+            <>
+              <StudyNamed>{content?.title || 'Loading...'}</StudyNamed>
+              <SubRow>
+                <UserName>{content?.name || content?.userName || 'Unknown'}</UserName>
+                <StyledDate>{content?.time || content?.createAt|| '00/00 00:00'}</StyledDate>
+              </SubRow>
+              <StudyContents>{content?.content || 'Loading...'}</StudyContents>
+            </>
+          ) : (
+            <p>Loading...</p>
+          )}
         </TextContainer>
         <ComponentRow>
-          <AttachButton filetype="HWP" onFileChange={handleFileChange} />
-          <AttachButton filetype="PDF" onFileChange={handleFileChange} />
+        {content && content.fileUrls ? (
+            content.fileUrls.map((file) => (
+              <AttachButton key={file.id} filetype={file.filetype} onFileChange={handleFileChange} />
+            ))
+          ) : (
+            <p>No files attached</p>
+          )}
           <RightMargin />
         </ComponentRow>
         <BottomRow>
           <BoardChat alt="" />
-          <CommentCount>{commentCount}</CommentCount>
+          <CommentCount>{content?.totalComments || 0}</CommentCount>
         </BottomRow>
-        <BoardComment comments={comments} recomments={[]} />
+        <BoardComment comments={content?.comments || []} recomments={[]} />
       </StudyRow>
       <Typing
-        comment={comment}
+        comment={content?.comment || ''}
         handleCommentChange={handleCommentChange}
-        handleRegisterComment={handleRegisterComment}
       />
-      <BoardAPI />
-      {/* BoardAPI 컴포넌트를 추가하여 게시물 데이터를 불러옵니다. */}
+
     </Container>
   );
 };
