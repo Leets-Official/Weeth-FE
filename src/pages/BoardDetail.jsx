@@ -1,16 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
-import axios from 'axios';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import axios from 'axios';
 import BoardHeader from '../components/Board/NoticeHeader';
 import AttachButton from '../components/Board/AttachButton';
 import BoardComment from '../components/Board/BoardComment';
 import Typing from '../components/Board/Typing';
 import { ReactComponent as BoardChat } from '../assets/images/ic_board_chat.svg';
-// import { ReactComponent as RegisterComment } from '../assets/images/ic_send.svg';
 import theme from '../styles/theme';
-// import { UserContext } from '../hooks/UserContext';
-
 import Utils from '../hooks/Utils';
 
 const Container = styled.div`
@@ -44,7 +41,6 @@ const TextContainer = styled.div`
 `;
 
 const StudyNamed = styled.div`
-  margin-left: 7%;
   font-size: 24px;
   font-weight: 600;
 `;
@@ -105,94 +101,175 @@ const BottomRow = styled.div`
   align-items: center;
   margin-top: 15px;
   border-bottom: 1px solid ${theme.color.grayScale.gray30};
-  padding-bottom: 10px; /* 선 아래 여백 추가 */
+  padding-bottom: 10px;
 `;
 
 const BoardDetail = () => {
-  const [comment, setComment] = useState('');
-  const [comments, setComments] = useState([]);
-  const [commentCount, setCommentCount] = useState(0);
-  // const { userData } = useContext(UserContext);
+  const { state } = useLocation();
+  const { type, data } = state || { type: 'study', data: {} };
+  const [content, setContent] = useState(null); // 초기값을 null로 설정
+
   const navigate = useNavigate();
-  const ACCESS_TOKEN = process.env.REACT_APP_ACCESS_TOKEN;
+  const { id: postId, noticeId } = useParams();
 
-  const { id: postId } = useParams();
+  const accessToken = localStorage.getItem('accessToken');
+  const refreshToken = localStorage.getItem('refreshToken');
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
 
-  const location = useLocation();
-  const { studyTitle, studyContent } = location.state || {
-    studyTitle: '',
-    studyContent: '',
-  };
 
   useEffect(() => {
-    const storedComments = JSON.parse(localStorage.getItem('comments')) || [];
-    setComments(storedComments);
+    console.log('Component mounted');
+    console.log('Access Token:', accessToken);
+    console.log('State received from navigation:', state);
+    console.log('Type:', type);
+    console.log('Post ID:', postId);
+    console.log('Notice ID:', noticeId);
 
-    const storedCommentCount = localStorage.getItem('commentCount');
-    if (storedCommentCount !== null) {
-      setCommentCount(parseInt(storedCommentCount, 10));
-    } else {
-      setCommentCount(storedComments.length);
-    }
-  }, []);
+    if (!data || Object.keys(data).length === 0) {
+      const fetchData = async () => {
+        try {
+          const url =
+            type === 'study'
+              ? `${BASE_URL}/${postId}`
+              : `${BASE_URL}/${noticeId}`;
+          const response = await axios.get(url, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          });
 
-  useEffect(() => {
-    localStorage.setItem('comments', JSON.stringify(comments));
-    localStorage.setItem('commentCount', comments.length.toString());
-    setCommentCount(comments.length);
-  }, [comments]);
+          const validatedResponse = await Utils(response, axios.get, [
+            url,
+            formData,
+            {
+              headers: {
+                Authorization: `Bearer ${accessToken}`,
+              },
+            },
+            navigate,
+          ]);
 
-  const handleCommentChange = (e) => {
-    setComment(e.target.value);
-  };
+          console.log('API Response:', validatedResponse.data);
 
-  const handleRegisterComment = () => {
-    if (comment.trim()) {
-      const newComment = {
-        id: Date.now(),
-        text: comment,
+          // const isValidResponse = await Utils.get(url, {
+          //   headers: {
+          //     Authorization: `Bearer ${accessToken}`,
+          //   },
+          // });
+          console.log('API Response:', response.data);
+          if(validatedResponse.data.code === 200) {
+            setContent(validatedResponse.data.data);
+            setCommentCount(validatedResponse.data.data.totalComments || 0);
+          } else {
+            console.error('API response error:', validatedResponse.data.message);
+          }
+        } catch (error) {
+          console.error('데이터 가져오기 실패:', error);
+        }
       };
-      setComments([...comments, newComment]);
-      setComment('');
+  
+      fetchData();
+    } else {
+      setContent(data);
+    }
+  }, [accessToken, type, postId, noticeId, data]);
+
+  // 게시글 수정
+  const handleModifyClick = async () => {
+    try {
+      const url = `${BASE_URL}/${postId}`;
+      const formData = new FormData();
+
+      const requestPostDTO = {
+        title: content.title,
+        content: content.data,
+      };
+      formData.append(
+        'requestPostDTO',
+        new Blob([JSON.stringify(requestPostDTO)], {
+          type: 'application/json',
+        }),
+      );
+
+      const files = [];
+      files.forEach((file) => {
+        formData.append('files', file);
+      });
+
+      const response = await axios.post(url, formData, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      const validatedResponse = await Utils(response, axios.post, [
+        url,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            'Content-Type': 'multipart/form-data',
+          },
+        },
+        navigate,
+      ]);
+
+      if (validatedResponse.data.code === 0) {
+        console.log('modify :', response);
+        navigate('/BoardPosting');
+      } else {
+        console.error('수정 실패:', validatedResponse.status);
+        alert('수정에 실패했습니다. 다시 시도해주세요.');
+      }
+    } catch (err) {
+      console.error('수정 오류:', err);
+      alert('수정 도중 오류가 발생했습니다. 다시 시도해주세요.');
     }
   };
 
+  // 게시글 삭제
   const handleDeleteClick = async () => {
     if (window.confirm('삭제하시겠습니까?')) {
       try {
+        console.log('삭제 요청을 시작합니다...'); // 삭제 요청 시작 로그
         const response = await axios.delete(
-          `http://13.125.78.31:8080/posts/${postId}`,
+          `${BASE_URL}/posts/${postId}`,
           {
             headers: {
-              Authorization: `Bearer ${ACCESS_TOKEN}`,
+              Authorization: `Bearer ${accessToken}`,
             },
           },
         );
+
+        console.log('서버로부터 받은 응답:', response); // 서버 응답 로그
 
         const validatedResponse = await Utils(
           response,
           axios.delete,
           [
-            `http://13.125.78.31:8080/posts/${postId}`,
+            `${BASE_URL}/posts/${postId}`,
             {
               headers: {
-                Authorization: `Bearer ${ACCESS_TOKEN}`,
+                Authorization: `Bearer ${accessToken}`,
               },
             },
           ],
           navigate,
         );
 
-        if (validatedResponse.status === 200) {
-          console.log(response);
+        console.log('유효성 검사 후 응답:', validatedResponse); // 유효성 검사 후 응답 로그
+
+        if (validatedResponse.data.code === 200) {
+          console.log('삭제가 성공적으로 완료되었습니다.'); // 삭제 성공 로그
           alert('삭제가 완료되었습니다.');
           navigate('/board');
         } else {
-          console.error('삭제 실패:', validatedResponse.status);
+          console.error('삭제 실패:', validatedResponse.data.message); // 삭제 실패 로그
           alert('삭제에 실패했습니다. 다시 시도해주세요.');
         }
       } catch (err) {
-        console.error('삭제 오류:', err);
+        console.error('삭제 요청 중 오류 발생:', err); // 오류 발생 로그
         alert('삭제 도중 오류가 발생했습니다. 다시 시도해주세요.');
       }
     }
@@ -211,44 +288,86 @@ const BoardDetail = () => {
     }
   };
 
+  // 댓글 등록
+
+  const handleRegisterComment = async () => {
+    try {
+      const url = `${BASE_URL}/${postId}/comments`;
+      const response = await axios.post(
+        url,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            'Content-Type': 'application/json',
+          }
+        }
+      );
+
+      if (response.data.code === 200) {
+        setRecomments((prevRecomments) => [...prevRecomments, response.data.data]);
+        setComment('');
+      } else {
+        alert('댓글 등록에 실패했습니다.');
+      }
+    } catch (error) {
+      alert('댓글 등록 중 오류가 발생했습니다.');
+    }
+  };
+
+
   const handleFileChange = (file) => {
     console.log('File changed:', file);
+  };
+
+  const handleCommentChange = (e) => {
+    setComment(e.target.value);
   };
 
   return (
     <Container>
       <HeaderWrapper>
-        <BoardHeader
-          onMenuClick={handleMenuClick}
-          showModal={false}
-          handleDeleteClick={handleDeleteClick}
-        />
+      <BoardHeader onMenuClick={handleMenuClick} showModal={false} />
       </HeaderWrapper>
       <StudyRow>
         <TextContainer>
-          <StudyNamed>{studyTitle}</StudyNamed>
-          <SubRow>
-            <UserName>김위드</UserName>
-            <StyledDate>00/00 00:00</StyledDate>
-          </SubRow>
-          <StudyContents>{studyContent}</StudyContents>
+          {content ? (
+            <>
+              <StudyNamed>{content?.title || 'Loading...'}</StudyNamed>
+              <SubRow>
+                <UserName>{content?.name || content?.userName || 'Unknown'}</UserName>
+                <StyledDate>{content?.time || content?.createAt|| '00/00 00:00'}</StyledDate>
+              </SubRow>
+              <StudyContents>{content?.content || 'Loading...'}</StudyContents>
+            </>
+          ) : (
+            <p>Loading...</p>
+          )}
         </TextContainer>
         <ComponentRow>
-          <AttachButton filetype="HWP" onFileChange={handleFileChange} />
-          <AttachButton filetype="PDF" onFileChange={handleFileChange} />
+        {content && content.fileUrls ? (
+            content.fileUrls.map((file) => (
+              <AttachButton key={file.id} filetype={file.filetype} onFileChange={handleFileChange} />
+            ))
+          ) : (
+            <p>No files attached</p>
+          )}
           <RightMargin />
         </ComponentRow>
         <BottomRow>
           <BoardChat alt="" />
-          <CommentCount>{commentCount}</CommentCount>
+          <CommentCount>{content?.totalComments || 0}</CommentCount>
         </BottomRow>
-        <BoardComment comments={comments} recomments={[]} />
+        <BoardComment 
+          comments={content?.comments?.length > 0 ? content.comments : [{ text: 'No comments yet.' }]} 
+          recomments={[]} 
+        />
+
       </StudyRow>
       <Typing
-        comment={comment}
+        comment={content?.comment || ''}
         handleCommentChange={handleCommentChange}
-        handleRegisterComment={handleRegisterComment}
       />
+
     </Container>
   );
 };

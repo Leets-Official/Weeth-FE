@@ -21,6 +21,7 @@ import BoardPosting from './pages/BoardPosting';
 import BoardDetail from './pages/BoardDetail';
 import CreateEvent from './pages/CreateEvent';
 import EditEvent from './pages/EditEvent';
+import BoardEdit from './pages/BoardEdit';
 
 import { ThemeProvider } from 'styled-components';
 import theme from './styles/theme';
@@ -33,6 +34,7 @@ import EventAPI from './hooks/EventAPI';
 import { BoardProvider } from './hooks/BoardContext';
 import { DuesProvider } from './hooks/DuesContext';
 import { EventInfoProvider } from './hooks/EventInfoContext';
+import { NoticeProvider } from './hooks/NoticeContext';
 
 //user api 받아온 정보 담는 context
 
@@ -44,6 +46,7 @@ function App() {
       <BoardProvider>
       <DuesProvider>
       <EventInfoProvider>
+      <NoticeProvider>
       <UserAPI />
       <EventAPI />
         <Routes>
@@ -67,8 +70,10 @@ function App() {
           <Route path="/board" element={<Board />} />
           <Route path="/board/:id" element={<BoardDetail />} />
           <Route path="/boardPosting" element={<BoardPosting />} />
+          <Route path="/boardEdit" element={<BoardEdit />} />
         </Routes>
         </EventInfoProvider>
+      </NoticeProvider>
         </DuesProvider>
         </BoardProvider>
         </EventProvider>

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { ReactComponent as BoardChat } from '../../assets/images/ic_board_chat.svg';
@@ -125,6 +126,12 @@ const StudyComponent = ({ studyTitle, studyContent, commentCount }) => {
       </BoardContainer>
     </Container>
   );
+};
+
+StudyComponent.propTypes = {
+  studyTitle: PropTypes.string.isRequired,
+  studyContent: PropTypes.string.isRequired,
+  commentCount: PropTypes.number.isRequired,
 };
 
 export default StudyComponent;
