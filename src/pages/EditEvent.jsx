@@ -54,8 +54,9 @@ const StyledTextArea = styled.textarea`
   font-size: 16px;
 `;
 
-// 날짜 선택기 컴포넌트
-const DatePicker = ({ status, onDateChange }) => {
+const DatePicker = ({ status, date, onDateChange }) => {
+  const now = date ? new Date(date) : new Date();
+
   return (
     <StyledPicker>
       {status === 'start' ? (
@@ -64,47 +65,47 @@ const DatePicker = ({ status, onDateChange }) => {
         <WaveImg src={icWave} alt="물결" />
       )}
       <DateInput
-        value=""
+        value={now.getFullYear()}
         width="58px"
         height="28px"
         margin="5px"
-        onChange={(value) => onDateChange(0, value)}
+        onChange={(value) => onDateChange('year', value)}
         inputType="year"
       />
       년
       <DateInput
-        value=""
+        value={now.getMonth() + 1}
         width="37px"
         height="28px"
         margin="5px"
-        onChange={(value) => onDateChange(1, value)}
+        onChange={(value) => onDateChange('month', value)}
         inputType="month"
       />
       월
       <DateInput
-        value=""
+        value={now.getDate()}
         width="37px"
         height="28px"
         margin="5px"
-        onChange={(value) => onDateChange(2, value)}
+        onChange={(value) => onDateChange('day', value)}
         inputType="day"
       />
       일
       <DateInput
-        value=""
+        value={now.getHours()}
         width="37px"
         height="28px"
         margin="5px"
-        onChange={(value) => onDateChange(3, value)}
+        onChange={(value) => onDateChange('hour', value)}
         inputType="hour"
       />
       :
       <DateInput
-        value=""
+        value={now.getMinutes()}
         width="37px"
         height="28px"
         margin="5px"
-        onChange={(value) => onDateChange(4, value)}
+        onChange={(value) => onDateChange('minute', value)}
         inputType="minute"
       />
     </StyledPicker>
@@ -113,6 +114,7 @@ const DatePicker = ({ status, onDateChange }) => {
 
 DatePicker.propTypes = {
   status: PropTypes.string.isRequired,
+  date: PropTypes.string.isRequired,
   onDateChange: PropTypes.func.isRequired,
 };
 
@@ -158,6 +160,10 @@ const EditEvent = () => {
   const navigate = useNavigate();
 
   const editValue = (key, value) => {
+    setEventInfo((prev) => ({ ...prev, [key]: value }));
+  };
+
+  const editDate = (key, value) => {
     setEventInfo((prev) => ({ ...prev, [key]: value }));
   };
 
@@ -230,27 +236,13 @@ const EditEvent = () => {
       <DatePickerWrapper>
         <DatePicker
           status="start"
-          onDateChange={(index, value) => {
-            const newDate = new Date(eventInfo.startDateTime);
-            if (index === 0) newDate.setFullYear(value);
-            if (index === 1) newDate.setMonth(value - 1);
-            if (index === 2) newDate.setDate(value);
-            if (index === 3) newDate.setHours(value);
-            if (index === 4) newDate.setMinutes(value);
-            editValue('startDateTime', newDate);
-          }}
+          date={eventInfo.startDateTime}
+          onDateChange={(unit, value) => editDate('startDateTime', unit, value)}
         />
         <DatePicker
           status="end"
-          onDateChange={(index, value) => {
-            const newDate = new Date(eventInfo.endDateTime);
-            if (index === 0) newDate.setFullYear(value);
-            if (index === 1) newDate.setMonth(value - 1);
-            if (index === 2) newDate.setDate(value);
-            if (index === 3) newDate.setHours(value);
-            if (index === 4) newDate.setMinutes(value);
-            editValue('endDateTime', newDate);
-          }}
+          date={eventInfo.endDateTime}
+          onDateChange={(unit, value) => editDate('endDateTime', unit, value)}
         />
       </DatePickerWrapper>
       <InfoInput
