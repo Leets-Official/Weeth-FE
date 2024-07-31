@@ -1,12 +1,11 @@
-import React, { useContext } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import theme from '../../styles/theme';
 
 import icDot from '../../assets/images/ic_dot.svg';
-// import mockEventYear from '../mockData/mockEventYear';
-import { EventContext } from '../../hooks/EventContext';
-import EventAPI from '../../hooks/EventAPI';
+// import { EventContext } from '../../hooks/EventContext';
 
 const StyledYear = styled.div`
   display: flex;
@@ -42,8 +41,7 @@ const Dot = styled.img`
 const MonthName = styled.div`
   padding-left: 10px;
   padding-bottom: 7px;
-  color: ${(props) => (props.isToday ? '#00dda8' : '#ffffff')};
-  //eslint 이슈로 색상코드를 작성하였음
+  color: ${(props) => (props.istoday === 'true' ? '#00dda8' : '#ffffff')};
   font-size: 18px;
   font-family: ${theme.font.family.pretendard_semiBold};
 `;
@@ -57,30 +55,68 @@ const EventComponent = ({ title }) => {
   );
 };
 
-// thisMonth : 렌더링하고 있는 달 (1~12ㄴ)
-// month : 오늘이 몇월?
+EventComponent.propTypes = {
+  title: PropTypes.string.isRequired,
+};
+
 const MonthlyEvent = ({ thisMonth, month, year }) => {
-  const { yearEventData, error } = useContext(EventContext);
+  const [yearEvnetData, setYearEventData] = useState(null);
+  const [error, setError] = useState(null);
+  const ACCESS_TOKEN = process.env.REACT_APP_ACCESS_TOKEN;
+
+  const yearNumber = parseInt(year, 10);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (year) {
+          const response = await axios.get(
+            `http://13.125.78.31:8080/event/year`,
+            {
+              headers: {
+                Authorization: `Bearer ${ACCESS_TOKEN}`,
+              },
+              params: {
+                year: yearNumber,
+              },
+            },
+          );
+          if (response.data.code === 200) {
+            console.log('response data', response.data.data);
+            setYearEventData(response.data.data);
+          } else {
+            console.log(response);
+            setError('error!', response.data.message);
+          }
+        }
+      } catch (err) {
+        console.error('API Request Error:', err); // 에러 로그
+        setError('An error occurred while fetching the data');
+      }
+    };
+
+    fetchData();
+  }, [year]);
 
   if (error) {
     return <div>Error: {error}</div>;
   }
 
-  if (!yearEventData) {
+  if (!yearEvnetData) {
     return <div>Loading...</div>;
   }
 
-  // props로 받은 thisMonth가 현재날짜의 달과 일치한다면 isToday = true
-  const isToday = thisMonth === month;
-  const events = yearEventData[thisMonth] || [];
+  const istoday = thisMonth === month;
+  const events = yearEvnetData[thisMonth] || [];
 
   return (
     <StyledYear>
-      <EventAPI year={year} />
-      <MonthName isToday={isToday}>{thisMonth}월</MonthName>
+      <MonthName istoday={istoday.toString()}>{thisMonth}월</MonthName>
       <ContentWrapper>
         {events.length > 0 ? (
-          events.map((event) => <EventComponent title={event.title} />)
+          events.map((event) => (
+            <EventComponent key={event.id} title={event.title} />
+          ))
         ) : (
           <EventComponent title="일정이 없습니다!" />
         )}
@@ -89,14 +125,10 @@ const MonthlyEvent = ({ thisMonth, month, year }) => {
   );
 };
 
-EventComponent.propTypes = {
-  title: PropTypes.string.isRequired,
-};
-
 MonthlyEvent.propTypes = {
   thisMonth: PropTypes.number.isRequired,
   month: PropTypes.number.isRequired,
-  year: PropTypes.number.isRequired,
+  year: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
 };
 
 export default MonthlyEvent;
