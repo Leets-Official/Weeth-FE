@@ -6,6 +6,7 @@ import DueCategory from '../components/Dues/DueCategory';
 import DuesInfo from '../components/Dues/DuesInfo';
 import DuesTitle from '../components/Dues/DuesTitle';
 import { DuesContext } from '../hooks/DuesContext';
+import DuesAPI from '../hooks/DuesAPI';
 
 const StyledDues = styled.div`
   width: 370px;
@@ -71,6 +72,7 @@ const Dues = () => {
     setSelectedDues('회비');
   return (
     <StyledDues>
+      <DuesAPI />
       <DuesHeader />
       <DuesTitle />
       <CategoryWrapper>
