@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-syntax */
 import React, { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
@@ -41,7 +42,6 @@ const Edit = () => {
   const accessToken = localStorage.getItem('accessToken');
   const refreshToken = localStorage.getItem('refreshToken');
   const BASE_URL = process.env.REACT_APP_BASE_URL;
-
   const navi = useNavigate();
 
   useEffect(() => {
@@ -67,6 +67,19 @@ const Edit = () => {
   };
 
   const onSave = async () => {
+    if (userInfo.some((item) => !item.value)) {
+      alert('모든 항목을 입력해 주세요.');
+      return;
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    for (const item of userInfo) {
+      if (item.key === 'email' && !emailRegex.test(item.value)) {
+        alert('올바른 이메일 형식이 아닙니다.');
+        return;
+      }
+    }
+
     if (window.confirm('저장하시겠습니까?')) {
       try {
         const data = userInfo.reduce((acc, item) => {
@@ -105,6 +118,7 @@ const Edit = () => {
             placeholder="이름을 입력하세요"
             align="right"
             edit={false}
+            inputType="text"
           />
           <InfoInput
             text="학번"
@@ -115,6 +129,7 @@ const Edit = () => {
             placeholder="학번을 입력하세요"
             align="right"
             edit={false}
+            inputType="number"
           />
           <DropdownMenu
             text="학과"
@@ -130,6 +145,7 @@ const Edit = () => {
             placeholder="핸드폰 번호를 입력하세요"
             align="right"
             edit={false}
+            inputType="number"
           />
           <NoEdit>
             <InfoInput
@@ -174,6 +190,7 @@ const Edit = () => {
             placeholder=""
             align="right"
             edit={false}
+            inputType="password"
           />
         </InfoWrapper>
       )}
