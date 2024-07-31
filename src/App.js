@@ -72,8 +72,8 @@ function App() {
           <Route path="/boardPosting" element={<BoardPosting />} />
           <Route path="/boardEdit" element={<BoardEdit />} />
         </Routes>
+        </NoticeProvider>
         </EventInfoProvider>
-      </NoticeProvider>
         </DuesProvider>
         </BoardProvider>
         </EventProvider>
