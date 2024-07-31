@@ -18,7 +18,9 @@ const BoardContainer = styled.div`
   height: 87px;
   margin: 0 7%;
   padding: 10px 0;
+  position: relative;
   border-bottom: 1px solid ${theme.color.grayScale.gray65};
+  overflow: hidden; /* 컨텐츠가 컨테이너를 넘어가지 않도록 설정 */
 `;
 
 const TopRow = styled.div`
@@ -52,14 +54,14 @@ const StyledDate = styled.div`
 `;
 
 const StyledNotice = styled.div`
-  width: 72%;
-  margin: 5px 15% 10px 0;
+  width: 100%; //
+  margin: 5px 0 10px 0; // 5px 15% 10px 0;
 `;
 
 const ContentRow = styled.div`
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start; //center
   width: 100%;
 `;
 
@@ -71,6 +73,7 @@ const NoticeContent = styled.div`
   font-size: 12px;
   line-height: 14.32px;
   cursor: pointer;
+  word-wrap: break-word;
 `;
 
 const BottomRow = styled.div`

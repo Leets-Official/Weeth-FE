@@ -1,11 +1,12 @@
 import React, { useEffect, useContext } from 'react';
 import axios from 'axios';
 // import PropTypes from 'prop-types';
-import { BoardContext } from './BoardContext';
+import { NoticeContext } from './NoticeContext';
 
-const BoardAPI = () => {
-  const { setBoardData, setError } = useContext(BoardContext);
+const NoticeAPI = () => {
+  const { setNoticeData, setError } = useContext(NoticeContext);
 
+  // const ACCESS_TOKEN = process.env.REACT_APP_ACCESS_TOKEN;
   const accessToken = localStorage.getItem('accessToken');
   const BASE_URL = process.env.REACT_APP_BASE_URL;
 
@@ -16,17 +17,19 @@ const BoardAPI = () => {
       return;
     }
 
+    console.log("Access Token:", accessToken);
+
     const headers = {
       Authorization: `Bearer ${accessToken}`,
     };
 
     axios
-      .get(`${BASE_URL}/posts`, { headers })
+      .get(`${BASE_URL}`, { headers })
       .then((response) => {
         console.log('Raw Response:', response); // 전체 응답 데이터 확인
         if (response.data.code === 200) {
           console.log('API Response Data:', response.data.data); // 데이터 확인용
-          setBoardData(response.data.data);
+          setNoticeData(response.data.data);
         } else {
           setError(response.data.message);
         }
@@ -35,9 +38,9 @@ const BoardAPI = () => {
         console.error('API Request Error:', err); // 에러 로그
         setError('An error occurred while fetching the data');
       });
-  }, [accessToken, setBoardData, setError]);
+  }, [ACCESS_TOKEN, setNoticeData, setError]);
 
   return null;
 };
 
-export default BoardAPI;
+export default NoticeAPI;

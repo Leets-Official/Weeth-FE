@@ -9,15 +9,17 @@ const NoticeList = () => {
   const [notices, setNotices] = useState([]);
   const { setError } = useContext(EventContext);
 
-  const ACCESS_TOKEN = process.env.REACT_APP_ACCESS_TOKEN;
+  const accessToken = localStorage.getItem('accessToken');
+  // const refreshToken = localStorage.getItem('refreshToken');
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
 
   useEffect(() => {
     const headers = {
-      Authorization: `Bearer ${ACCESS_TOKEN}`,
+      Authorization: `Bearer ${accessToken}`,
     };
 
     axios
-      .get('http://13.125.78.31:8080/notice', { headers })
+      .get(`${BASE_URL}/notice`, { headers })
       .then((response) => {
         if (response.data.code === 200) {
           const noticeData = response.data.data.filter(
@@ -34,10 +36,12 @@ const NoticeList = () => {
         console.error('API Request Error:', err);
         setError('An error occurred while fetching the data');
       });
-  }, [ACCESS_TOKEN, setError]);
+  }, [accessToken, setError]);
 
-  const handleNavigate = (id) => {
-    navigate(`/board/${id}`);
+  const handleNavigate = (notice) => {
+    navigate(`/board/${notice.id}`, {
+      state: { type: 'notice', data: notice },
+    });
   };
 
   return (
@@ -50,7 +54,7 @@ const NoticeList = () => {
           content={notice.content}
           time={notice.modifiedAt || notice.createdAt} // 수정된 시간이 있으면 수정된 시간, 없으면 생성 시간
           totalComments=""
-          onClick={() => handleNavigate(notice.id)}
+          onClick={() => handleNavigate(notice)}
         />
       ))}
     </div>
