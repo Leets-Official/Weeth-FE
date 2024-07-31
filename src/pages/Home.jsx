@@ -4,6 +4,7 @@ import theme from '../styles/theme';
 import HomeMain from '../components/home/HomeMain';
 import HomeFooter from '../components/home/HomeFooter';
 import LogoutButton from '../components/LogoutButton';
+import UserAPI from '../hooks/UserAPI';
 
 const Container = styled.div`
   display: flex;
@@ -45,6 +46,7 @@ const Home = () => {
   console.log('home token', accessToken, refreshToken);
   return (
     <ThemeProvider theme={theme}>
+      <UserAPI />
       <Container>
         <HeaderContainer>
           <Header>Weeth</Header>
