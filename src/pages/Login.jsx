@@ -68,25 +68,31 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-
+  
     const params = {
       email: email,
       password: password,
     };
-
+  
     try {
       const response = await axios.post('http://13.125.78.31:8080/login', params, { withCredentials: true });
-
+  
       const validatedResponse = await Utils(response, axios.post, [params], navigate);
-
+  
       if (validatedResponse.status === 200) {
         setError(null);
         navigate('/home');
-
       }
+  
+      // 로그인을 통해 받은 토큰을 로컬 스토리지에 저장하는 코드가 필요할 수 있습니다.
+      // 이 부분을 확인합니다.
+      const accessToken = localStorage.getItem('accessToken');
+      const refreshToken = localStorage.getItem('refreshToken');
+      console.log('Access Token:', accessToken);
+      console.log('Refresh Token:', refreshToken);
     } catch (err) {
       console.error('Error:', err);
-
+  
       if (err.response) {
         // 서버가 응답했지만 상태 코드는 2xx 범위 밖
         setError(err.response.data); // 서버에서 제공하는 오류 메시지를 설정
@@ -98,7 +104,7 @@ const Login = () => {
         setError('요청을 설정하는 중 오류가 발생했습니다.');
       }
     }
-  };
+  };  
 
   return (
     <Container>

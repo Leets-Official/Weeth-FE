@@ -76,7 +76,7 @@ const MemberName = ({
         <img src={imgSrc} alt={alt} />
         <TextWrapper>
           <div>{name}</div>
-          <Caption>{cardinal}기</Caption>
+          <Caption>{cardinal[0]}기</Caption>
         </TextWrapper>
       </MemberContent>
       <Line />
