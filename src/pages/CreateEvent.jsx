@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+/* eslint-disable no-alert */
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
@@ -53,7 +55,6 @@ const StyledTextArea = styled.textarea`
   font-size: 16px;
 `;
 
-// 글 작성 시 페이지에 진입한 시각을 기본 시작 시간으로
 const today = new Date();
 const getValue = (status) => {
   const year = today.getFullYear();
@@ -66,8 +67,6 @@ const getValue = (status) => {
   return status === 'start' ? valueArr : [];
 };
 
-// status가 start라면 위에서 가져온 현재 시각을 미리 입력,
-// 아니라면 비워두기
 const DatePicker = ({ status, onDateChange }) => {
   const now = getValue(status);
 
@@ -84,6 +83,7 @@ const DatePicker = ({ status, onDateChange }) => {
         height="28px"
         margin="5px"
         onChange={(value) => onDateChange(0, value)}
+        inputType="year"
       />
       년
       <DateInput
@@ -92,6 +92,7 @@ const DatePicker = ({ status, onDateChange }) => {
         height="28px"
         margin="5px"
         onChange={(value) => onDateChange(1, value)}
+        inputType="month"
       />
       월
       <DateInput
@@ -100,6 +101,7 @@ const DatePicker = ({ status, onDateChange }) => {
         height="28px"
         margin="5px"
         onChange={(value) => onDateChange(2, value)}
+        inputType="day"
       />
       일
       <DateInput
@@ -108,6 +110,7 @@ const DatePicker = ({ status, onDateChange }) => {
         height="28px"
         margin="5px"
         onChange={(value) => onDateChange(3, value)}
+        inputType="hour"
       />
       :
       <DateInput
@@ -116,6 +119,7 @@ const DatePicker = ({ status, onDateChange }) => {
         height="28px"
         margin="5px"
         onChange={(value) => onDateChange(4, value)}
+        inputType="minute"
       />
     </StyledPicker>
   );
@@ -127,8 +131,6 @@ DatePicker.propTypes = {
 };
 
 const CreateEvent = () => {
-  // 서버로 넘겨줄 데이터
-  // 아무것도 입력하지 않으면 공란이지만 시작날짜의 경우만 현재시각의 초기값을 가짐
   const [eventInfo, setEventInfo] = useState([
     { key: 'title', value: '' },
     { key: 'startDateTime', value: getValue('start') },
@@ -141,6 +143,7 @@ const CreateEvent = () => {
 
   const accessToken = localStorage.getItem('accessToken');
   const refreshToken = localStorage.getItem('refreshToken');
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
   const navigate = useNavigate();
 
   const editValue = (key, value) => {
@@ -157,61 +160,99 @@ const CreateEvent = () => {
     setEventInfo(updatedEventInfo);
   };
 
+  const toKSTISOString = (date) => {
+    // 대한민국 표준시(KST)는 UTC보다 9시간 빠릅니다.
+    const KST_OFFSET = 9 * 60; // 9시간을 분 단위로 변환
+
+    // UTC 시간을 KST로 변환
+    const kstDate = new Date(date.getTime() + KST_OFFSET * 60 * 1000);
+
+    // 변환된 KST 시간을 ISO 문자열로 반환
+    return kstDate.toISOString().replace('Z', '');
+  };
+
   const onSave = async () => {
+    const title = eventInfo.find((item) => item.key === 'title').value;
+    const content = eventInfo.find((item) => item.key === 'content').value;
+
+    // 작성한 내용 저장
+    const data = eventInfo.reduce((acc, item) => {
+      acc[item.key] = item.value;
+      return acc;
+    }, {});
+
+    let startDateTime = '';
+    let endDateTime = '';
+
+    // 시간 배열로 저장
+    const startDate = eventInfo.find(
+      (item) => item.key === 'startDateTime',
+    ).value;
+    const endDate = eventInfo.find((item) => item.key === 'endDateTime').value;
+
+    // 시작 시간 배열 -> ISO 형식으로 변환
+    if (startDate.length === 5) {
+      const [startYear, startMonth, startDay, startHour, startMinute] =
+        startDate;
+      const startDateObj = new Date(
+        startYear,
+        startMonth - 1,
+        startDay,
+        startHour,
+        startMinute,
+      );
+      startDateTime = toKSTISOString(startDateObj);
+      data.startDateTime = startDateTime;
+    }
+
+    // 종료 시간 배열 -> ISO 형식으로 변환
+    if (endDate.length === 5) {
+      const [endYear, endMonth, endDay, endHour, endMinute] = endDate;
+      const endDateObj = new Date(
+        endYear,
+        endMonth - 1,
+        endDay,
+        endHour,
+        endMinute,
+      );
+      endDateTime = toKSTISOString(endDateObj);
+      data.endDateTime = endDateTime;
+    }
+
+    console.log('start', data.startDateTime);
+    console.log('end', data.endDateTime);
+
+    if (data.startDateTime === data.endDateTime) {
+      alert('시작 시간과 종료 시간은 같을 수 없습니다.');
+      return;
+    }
+
+    if (data.startDateTime > data.endDateTime) {
+      alert('종료 시간은 시작 시간보다 빠를 수 없습니다.');
+      return;
+    }
+
+    if (!title.trim() || !content.trim()) {
+      if (!title.trim() && !content.trim()) {
+        alert('제목과 내용을 입력해 주세요.');
+      } else if (!title.trim()) {
+        alert('제목을 입력해 주세요.');
+      } else if (!content.trim()) {
+        alert('내용을 입력해 주세요.');
+      }
+      return;
+    }
+
     if (window.confirm('저장하시겠습니까?')) {
       try {
-        const data = eventInfo.reduce((acc, item) => {
-          acc[item.key] = item.value;
-          return acc;
-        }, {});
-
-        const startDate = eventInfo.find(
-          (item) => item.key === 'startDateTime',
-        ).value;
-        const endDate = eventInfo.find(
-          (item) => item.key === 'endDateTime',
-        ).value;
-
-        if (startDate.length === 5) {
-          const [startYear, startMonth, startDay, startHour, startMinute] =
-            startDate;
-          const startDateObj = new Date(
-            startYear,
-            startMonth - 1,
-            startDay,
-            startHour,
-            startMinute,
-          );
-          data.startDateTime = startDateObj.toISOString();
-        } else {
-          data.startDateTime = '';
-        }
-
-        if (endDate.length === 5) {
-          const [endYear, endMonth, endDay, endHour, endMinute] = endDate;
-          const endDateObj = new Date(
-            endYear,
-            endMonth - 1,
-            endDay,
-            endHour,
-            endMinute,
-          );
-          data.endDateTime = endDateObj.toISOString();
-        } else {
-          data.endDateTime = '';
-        }
-        const response = await axios.post(
-          'http://13.125.78.31:8080/admin/event',
-          data,
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-              Authorization_refresh: `Bearer ${refreshToken}`,
-            },
+        const response = await axios.post(`${BASE_URL}/admin/event`, data, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            Authorization_refresh: `Bearer ${refreshToken}`,
           },
-        );
-        console.log(data);
+        });
         console.log(response); // 서버의 응답을 콘솔에 출력
+        console.log(data);
         alert('저장이 완료되었습니다.');
         navigate('/calendar');
       } catch (err) {

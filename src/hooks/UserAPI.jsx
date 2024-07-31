@@ -37,11 +37,10 @@ const UserAPI = () => {
 
   const accessToken = localStorage.getItem('accessToken');
   const refreshToken = localStorage.getItem('refreshToken');
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
 
   useEffect(() => {
-    const BASE_URL = process.env.REACT_APP_BASE_URL;
     const headers = {
-      // 일단 현재는 access token만 넣었는데 나중에 refresh 토큰도 넣어야 합니다
       Authorization: `Bearer ${accessToken}`,
       Authorization_refresh: `Bearer ${refreshToken}`,
     };

@@ -7,6 +7,7 @@ import icCalendar from '../assets/images/ic_date.svg';
 import icClock from '../assets/images/ic_clock.svg';
 import theme from '../styles/theme';
 import BoardTitle from '../components/BoardTitle';
+import EventInfoAPI from '../hooks/EventInfoAPI';
 
 const StyledEventDetails = styled.div`
   width: 370px;
@@ -43,16 +44,20 @@ const EventDetails = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const ACCESS_TOKEN = process.env.REACT_APP_ACCESS_TOKEN;
+        const accessToken = localStorage.getItem('accessToken');
+        const refreshToken = localStorage.getItem('refreshToken');
+
+        const BASE_URL = process.env.REACT_APP_BASE_URL;
+
         const headers = {
-          Authorization: `Bearer ${ACCESS_TOKEN}`,
+          Authorization: `Bearer ${accessToken}`,
+          Authorization_refresh: `Bearer ${refreshToken}`,
         };
 
         if (id) {
-          const response = await axios.get(
-            `http://13.125.78.31:8080/event/${id}`,
-            { headers },
-          );
+          const response = await axios.get(`${BASE_URL}/event/${id}`, {
+            headers,
+          });
           if (response.data.code === 200) {
             console.log('response detail data:', response.data.data); // 데이터 확인용
             setEventDetailData(response.data.data);
@@ -101,6 +106,7 @@ const EventDetails = () => {
 
   return (
     <StyledEventDetails>
+      <EventInfoAPI id={id} />
       <BoardTitle
         eventId={eventDetailData.id}
         text={eventDetailData.title}
