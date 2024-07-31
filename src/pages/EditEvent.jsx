@@ -1,8 +1,5 @@
-/* eslint-disable react/require-default-props */
-/* eslint-disable no-alert */
-/* eslint-disable no-console */
-import { useState, useContext } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useContext, useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import axios from 'axios';
 import PropTypes from 'prop-types';
@@ -14,7 +11,6 @@ import icCalendar from '../assets/images/ic_date.svg';
 import icWave from '../assets/images/ic_wave.svg';
 import DateInput from '../components/Calendar/DateInput';
 import { EventInfoContext } from '../hooks/EventInfoContext';
-import EventInfoAPI from '../hooks/EventInfoAPI';
 
 const StyledCreate = styled.div`
   display: flex;
@@ -58,7 +54,8 @@ const StyledTextArea = styled.textarea`
   font-size: 16px;
 `;
 
-const DatePicker = ({ status, onDateChange, origArr = [] }) => {
+// 날짜 선택기 컴포넌트
+const DatePicker = ({ status, onDateChange }) => {
   return (
     <StyledPicker>
       {status === 'start' ? (
@@ -67,7 +64,7 @@ const DatePicker = ({ status, onDateChange, origArr = [] }) => {
         <WaveImg src={icWave} alt="물결" />
       )}
       <DateInput
-        value={origArr[0]}
+        value=""
         width="58px"
         height="28px"
         margin="5px"
@@ -76,7 +73,7 @@ const DatePicker = ({ status, onDateChange, origArr = [] }) => {
       />
       년
       <DateInput
-        value={origArr[1]}
+        value=""
         width="37px"
         height="28px"
         margin="5px"
@@ -85,7 +82,7 @@ const DatePicker = ({ status, onDateChange, origArr = [] }) => {
       />
       월
       <DateInput
-        value={origArr[2]}
+        value=""
         width="37px"
         height="28px"
         margin="5px"
@@ -94,7 +91,7 @@ const DatePicker = ({ status, onDateChange, origArr = [] }) => {
       />
       일
       <DateInput
-        value={origArr[3]}
+        value=""
         width="37px"
         height="28px"
         margin="5px"
@@ -103,7 +100,7 @@ const DatePicker = ({ status, onDateChange, origArr = [] }) => {
       />
       :
       <DateInput
-        value={origArr[4]}
+        value=""
         width="37px"
         height="28px"
         margin="5px"
@@ -117,125 +114,87 @@ const DatePicker = ({ status, onDateChange, origArr = [] }) => {
 DatePicker.propTypes = {
   status: PropTypes.string.isRequired,
   onDateChange: PropTypes.func.isRequired,
-  origArr: PropTypes.arrayOf(
-    PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  ),
 };
 
-// ISO형식의 값을 년/월/일/시/분으로 나눠서 배열로 저장
-// const getValue = (origDate) => {
-//   const splittedDate = origDate.split('T'); // YYYY-MM-DD,HH:MM:SS.SSSZ
-//   const newDate = splittedDate[0].split('-'); // [YYYY, MM, DD]
-//   const newTime = splittedDate[1].split(':'); // [HH, MM]
-
-//   const formattedDate = newDate.concat(newTime);
-
-//   return formattedDate;
-// };
-
-const CreateEvent = () => {
-  const { id } = useParams();
-  console.log('넘겨주기전 이벤트', id);
-
+const EditEvent = () => {
+  const [eventInfo, setEventInfo] = useState({
+    title: '',
+    startDateTime: '',
+    endDateTime: '',
+    location: '',
+    requiredItems: '',
+    memberNumber: '',
+    content: '',
+  });
   const { infoData, error } = useContext(EventInfoContext);
+
+  useEffect(() => {
+    if (infoData) {
+      setEventInfo({
+        title: infoData.title || '',
+        startDateTime: infoData.start || '',
+        endDateTime: infoData.end || '',
+        location: infoData.location || '',
+        requiredItems: infoData.requiredItems || '',
+        memberNumber: infoData.memberNumber || '',
+        content: infoData.content || '',
+      });
+    }
+  }, [infoData]);
+
   if (error) {
-    return <div>Error: {error}</div>;
+    return <div>error</div>;
   }
 
-  const [eventInfo, setEventInfo] = useState([
-    { key: 'title', value: infoData.title },
-    { key: 'startDateTime', value: infoData.startDateTime },
-    { key: 'endDateTime', value: infoData.endDateTime },
-    { key: 'location', value: infoData.location },
-    { key: 'requiredItems', value: infoData.requiredItems },
-    { key: 'memberNumber', value: infoData.memberNumber },
-    { key: 'content', value: infoData.content },
-  ]);
+  console.log(infoData);
 
   const accessToken = localStorage.getItem('accessToken');
   const refreshToken = localStorage.getItem('refreshToken');
   const BASE_URL = process.env.REACT_APP_BASE_URL;
   const navigate = useNavigate();
 
-  const [startArr, setStartArr] = useState([]);
-  const [endArr, setEndArr] = useState([]);
-
   const editValue = (key, value) => {
-    const updatedEventInfo = eventInfo.map((item) =>
-      item.key === key ? { ...item, value } : item,
-    );
-    setEventInfo(updatedEventInfo);
+    setEventInfo((prev) => ({ ...prev, [key]: value }));
   };
 
-  const onDateChange = (key, index, value) => {
-    if (key === 'startDateTime') {
-      const updatedStartArr = [...startArr];
-      updatedStartArr[index] = value;
-      setStartArr(updatedStartArr);
-      editValue(key, updatedStartArr);
-    } else if (key === 'endDateTime') {
-      const updatedEndArr = [...endArr];
-      updatedEndArr[index] = value;
-      setEndArr(updatedEndArr);
-      editValue(key, updatedEndArr);
-    }
+  const toKSTISOString = (date) => {
+    const KST_OFFSET = 9 * 60;
+    const kstDate = new Date(date.getTime() + KST_OFFSET * 60 * 1000);
+    return kstDate.toISOString().replace('Z', '');
   };
 
   const onSave = async () => {
-    const data = eventInfo.reduce((acc, item) => {
-      acc[item.key] = item.value;
-      return acc;
-    }, {});
+    const { title, content, startDateTime, endDateTime } = eventInfo;
 
-    const startDate = eventInfo.find(
-      (item) => item.key === 'startDateTime',
-    ).value;
-    const endDate = eventInfo.find((item) => item.key === 'endDateTime').value;
-
-    if (startDate.length === 5) {
-      const [startYear, startMonth, startDay, startHour, startMinute] =
-        startDate;
-      const startDateObj = new Date(
-        startYear,
-        startMonth - 1,
-        startDay,
-        startHour,
-        startMinute,
-      );
-      data.startDateTime = startDateObj.toISOString();
-    } else {
-      data.startDateTime = '';
+    if (!title.trim() || !content.trim()) {
+      alert('제목과 내용을 입력해 주세요.');
+      return;
     }
 
-    if (endDate.length === 5) {
-      const [endYear, endMonth, endDay, endHour, endMinute] = endDate;
-      const endDateObj = new Date(
-        endYear,
-        endMonth - 1,
-        endDay,
-        endHour,
-        endMinute,
-      );
-      data.endDateTime = endDateObj.toISOString();
-    } else {
-      data.endDateTime = '';
+    if (startDateTime === endDateTime) {
+      alert('시작 시간과 종료 시간은 같을 수 없습니다.');
+      return;
     }
 
-    console.log('보낸 데이터', data);
+    if (startDateTime > endDateTime) {
+      alert('종료 시간은 시작 시간보다 빠를 수 없습니다.');
+      return;
+    }
+
+    const data = { ...eventInfo };
+    data.startDateTime = toKSTISOString(new Date(startDateTime));
+    data.endDateTime = toKSTISOString(new Date(endDateTime));
 
     if (window.confirm('저장하시겠습니까?')) {
       try {
-        const response = await axios.patch(
-          `${BASE_URL}/admin/event/${id}`,
-          data,
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-              Authorization_refresh: `Bearer ${refreshToken}`,
-            },
+        const response = await axios.post(`${BASE_URL}/admin/event`, data, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            Authorization_refresh: `Bearer ${refreshToken}`,
           },
-        );
+        });
         console.log(response);
+        console.log(data);
         alert('저장이 완료되었습니다.');
         navigate('/calendar');
       } catch (err) {
@@ -247,7 +206,6 @@ const CreateEvent = () => {
 
   return (
     <StyledCreate>
-      <EventInfoAPI id={id} />
       <Header
         title="일정 수정"
         text="완료"
@@ -256,7 +214,7 @@ const CreateEvent = () => {
       />
       <InfoInput
         placeholder="제목"
-        origValue={eventInfo.find((item) => item.key === 'title')?.value || ''}
+        origValue={eventInfo.title}
         padding="15px"
         align="left"
         editValue={(value) => editValue('title', value)}
@@ -264,24 +222,32 @@ const CreateEvent = () => {
       <DatePickerWrapper>
         <DatePicker
           status="start"
-          onDateChange={(index, value) =>
-            onDateChange('startDateTime', index, value)
-          }
-          origArr={startArr}
+          onDateChange={(index, value) => {
+            const newDate = new Date(eventInfo.startDateTime);
+            if (index === 0) newDate.setFullYear(value);
+            if (index === 1) newDate.setMonth(value - 1);
+            if (index === 2) newDate.setDate(value);
+            if (index === 3) newDate.setHours(value);
+            if (index === 4) newDate.setMinutes(value);
+            editValue('startDateTime', newDate);
+          }}
         />
         <DatePicker
           status="end"
-          onDateChange={(index, value) =>
-            onDateChange('endDateTime', index, value)
-          }
-          origArr={endArr}
+          onDateChange={(index, value) => {
+            const newDate = new Date(eventInfo.endDateTime);
+            if (index === 0) newDate.setFullYear(value);
+            if (index === 1) newDate.setMonth(value - 1);
+            if (index === 2) newDate.setDate(value);
+            if (index === 3) newDate.setHours(value);
+            if (index === 4) newDate.setMinutes(value);
+            editValue('endDateTime', newDate);
+          }}
         />
       </DatePickerWrapper>
       <InfoInput
         text="장소"
-        origValue={
-          eventInfo.find((item) => item.key === 'location')?.value || ''
-        }
+        origValue={eventInfo.location}
         width="75%"
         padding="15px"
         align="left"
@@ -289,9 +255,7 @@ const CreateEvent = () => {
       />
       <InfoInput
         text="준비물"
-        origValue={
-          eventInfo.find((item) => item.key === 'requiredItems')?.value || ''
-        }
+        origValue={eventInfo.requiredItems}
         width="75%"
         padding="15px"
         align="left"
@@ -299,9 +263,7 @@ const CreateEvent = () => {
       />
       <InfoInput
         text="총인원"
-        origValue={
-          eventInfo.find((item) => item.key === 'memberNumber')?.value || ''
-        }
+        origValue={eventInfo.memberNumber}
         width="75%"
         padding="15px"
         align="left"
@@ -309,11 +271,11 @@ const CreateEvent = () => {
       />
       <StyledTextArea
         placeholder="내용"
-        value={eventInfo.find((item) => item.key === 'content')?.value || ''}
+        value={eventInfo.content}
         onChange={(e) => editValue('content', e.target.value)}
       />
     </StyledCreate>
   );
 };
 
-export default CreateEvent;
+export default EditEvent;
