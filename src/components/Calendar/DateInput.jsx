@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 /* eslint-disable react/require-default-props */
 import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
