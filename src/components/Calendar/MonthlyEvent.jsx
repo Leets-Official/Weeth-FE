@@ -71,6 +71,7 @@ const MonthlyEvent = ({ thisMonth, month, year }) => {
       const accessToken = localStorage.getItem('accessToken');
       const refreshToken = localStorage.getItem('refreshToken');
 
+
       try {
         if (year) {
           let response = await axios.get(
@@ -79,6 +80,7 @@ const MonthlyEvent = ({ thisMonth, month, year }) => {
               headers: {
                 Authorization: `Bearer ${accessToken}`,
                 Authorization_refresh: `Bearer ${refreshToken}`,
+
               },
               params: {
                 year: yearNumber,

@@ -28,14 +28,12 @@ const Utils = async (response, originalApiFunc, originalParams, navigate) => {
         throw new Error('새 토큰이 없습니다');
       }
     }
-  } else if (response.status === 403) {
+  } else {
     // local Storage 비우고 로그인 화면으로 리다이렉트
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');
     navigate('/login');
     throw new Error('Forbidden : 로그인 화면으로 리디렉션합니다.');
-  } else {
-    throw new Error(`Unexpected response : ${response.status}`);
   }
 };
 

@@ -10,33 +10,49 @@ export const PenaltyProvider = ({ children }) => {
   const [penaltyFetchError, setPenaltyFetchError] = useState(null);
   const [hasPenalty, setHasPenalty] = useState(true);
   const [myPenaltyCount, setMyPenalty] = useState(0);
+  const [accessToken, setAccessToken] = useState(
+    localStorage.getItem('accessToken'),
+  );
+
+  const fetchPenalty = async () => {
+    try {
+      const headers = {
+        Authorization: `Bearer ${accessToken}`,
+      };
+      const BASE_URL = process.env.REACT_APP_BASE_URL;
+
+      const response = await axios.get(`${BASE_URL}/penalty`, {
+        headers,
+      });
+      const { data } = response.data;
+
+      if (data.length === 0 || data[0].penaltyCount === 0) {
+        setHasPenalty(false);
+      } else {
+        setPenaltyData(data);
+        setMyPenalty(data[0].penaltyCount);
+      }
+    } catch (err) {
+      setPenaltyFetchError(err.message);
+    }
+  };
 
   useEffect(() => {
-    const fetchPenalty = async () => {
-      try {
-        const ACCESS_TOKEN = process.env.REACT_APP_ADMIN_TOKEN;
-        const headers = {
-          Authorization: `Bearer ${ACCESS_TOKEN}`,
-        };
+    fetchPenalty();
+  }, [accessToken]);
 
-        const response = await axios.get('http://13.125.78.31:8080/penalty', {
-          headers,
-        });
-        const { data } = response.data;
-        // eslint-disable-next-line no-console
-        // console.log(data[0]);
-        if (data.length === 0 || data[0].penaltyCount === 0) {
-          setHasPenalty(false);
-        } else {
-          setPenaltyData(data);
-          setMyPenalty(data[0].penaltyCount);
-        }
-      } catch (err) {
-        setPenaltyFetchError(err.message);
-      }
+  useEffect(() => {
+    const handleStorageChange = () => {
+      setAccessToken(localStorage.getItem('accessToken'));
     };
 
-    fetchPenalty();
+    // Listen for storage changes
+    window.addEventListener('storage', handleStorageChange);
+
+    return () => {
+      // Cleanup the event listener when the component unmounts
+      window.removeEventListener('storage', handleStorageChange);
+    };
   }, []);
 
   return (

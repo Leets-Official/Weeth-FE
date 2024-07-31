@@ -5,8 +5,6 @@ import theme from '../../styles/theme';
 import Caption from '../Caption';
 import { UserContext } from '../../hooks/UserContext';
 
-const ACCESS_TOKEN = process.env.REACT_APP_ADMIN_TOKEN;
-
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -166,33 +164,49 @@ MeetingBox.propTypes = {
 
 const AttendCheckMain = () => {
   const [attendanceData, setAttendanceData] = useState(null);
+  const [accessToken, setAccessToken] = useState(
+    localStorage.getItem('accessToken'),
+  );
 
   useEffect(() => {
     const fetchAttendanceData = async () => {
       try {
-        const response = await fetch(
-          'https://api.weeth.site/attendances/details',
-          {
-            method: 'GET',
-            headers: {
-              Authorization: `Bearer ${ACCESS_TOKEN}`,
-            },
+        const BASE_URL = process.env.REACT_APP_BASE_URL;
+        const response = await fetch(`${BASE_URL}/attendances/details`, {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
           },
-        );
+        });
         const data = await response.json();
         setAttendanceData(data.data);
       } catch (error) {
-        // eslint-disable-next-line no-console
         console.error('Error fetching attendance data:', error);
       }
     };
 
     fetchAttendanceData();
-  }, []);
+  }, [accessToken]); // accessToken이 변경될 때마다 API를 다시 호출
+
+  useEffect(() => {
+    const handleStorageChange = () => {
+      const newToken = localStorage.getItem('accessToken');
+      if (newToken !== accessToken) {
+        setAccessToken(newToken);
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
+  }, [accessToken]);
 
   if (!attendanceData) {
     return <div>Loading...</div>;
   }
+
   const { userData, error } = useContext(UserContext);
 
   let userName;

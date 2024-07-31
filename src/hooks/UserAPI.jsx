@@ -39,6 +39,7 @@ const UserAPI = () => {
   const refreshToken = localStorage.getItem('refreshToken');
 
   useEffect(() => {
+    const BASE_URL = process.env.REACT_APP_BASE_URL;
     const headers = {
       // 일단 현재는 access token만 넣었는데 나중에 refresh 토큰도 넣어야 합니다
       Authorization: `Bearer ${accessToken}`,
@@ -47,7 +48,7 @@ const UserAPI = () => {
 
     // 내 정보 조회
     axios
-      .get('http://13.125.78.31:8080/users', { headers })
+      .get(`${BASE_URL}/users`, { headers })
       .then((response) => {
         if (response.data.code === 200) {
           setUserData(response.data.data);
@@ -60,7 +61,7 @@ const UserAPI = () => {
       });
 
       // 모든 멤버 조회
-      axios.get('http://13.125.78.31:8080/users/all', { headers })
+      axios.get(`${BASE_URL}/users/all`, { headers })
       .then((response) => {
         if (response.data.code === 200) {
           setAllUserData(response.data.data);
