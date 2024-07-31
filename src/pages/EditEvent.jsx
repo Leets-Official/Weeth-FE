@@ -67,6 +67,7 @@ const DatePicker = ({ status, onDateChange, origArr = [] }) => {
         height="28px"
         margin="5px"
         onChange={(value) => onDateChange(0, value)}
+        inputType="year"
       />
       년
       <DateInput
@@ -75,6 +76,7 @@ const DatePicker = ({ status, onDateChange, origArr = [] }) => {
         height="28px"
         margin="5px"
         onChange={(value) => onDateChange(1, value)}
+        inputType="month"
       />
       월
       <DateInput
@@ -83,6 +85,7 @@ const DatePicker = ({ status, onDateChange, origArr = [] }) => {
         height="28px"
         margin="5px"
         onChange={(value) => onDateChange(2, value)}
+        inputType="day"
       />
       일
       <DateInput
@@ -91,6 +94,7 @@ const DatePicker = ({ status, onDateChange, origArr = [] }) => {
         height="28px"
         margin="5px"
         onChange={(value) => onDateChange(3, value)}
+        inputType="hour"
       />
       :
       <DateInput
@@ -99,6 +103,7 @@ const DatePicker = ({ status, onDateChange, origArr = [] }) => {
         height="28px"
         margin="5px"
         onChange={(value) => onDateChange(4, value)}
+        inputType="minute"
       />
     </StyledPicker>
   );

@@ -47,6 +47,7 @@ const DateInput = ({
   const [date, setDate] = useState(value);
 
   const validateValue = (val) => {
+    if (val === '') return true; // Allow empty value for clearing input
     switch (inputType) {
       case 'year':
         return val.length <= 4 && val >= 2020 && val <= 2040; // 최대 4자리
@@ -69,9 +70,14 @@ const DateInput = ({
 
   const onChangeValue = (e) => {
     const val = e.target.value;
-    if (validateValue(val)) {
-      setDate(val);
-      onChange(val);
+    setDate(val);
+    onChange(val);
+  };
+
+  const onBlur = () => {
+    if (!validateValue(date)) {
+      alert('입력값이 올바르지 않습니다.');
+      setDate(value);
     }
   };
 
@@ -85,6 +91,7 @@ const DateInput = ({
         type="number"
         value={date}
         onChange={onChangeValue}
+        onBlur={onBlur}
         width={width}
         height={height}
         margin={margin}

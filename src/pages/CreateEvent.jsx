@@ -53,6 +53,11 @@ const StyledTextArea = styled.textarea`
   font-size: 16px;
 `;
 
+// 한자리수라면 앞에 0을 넣어 두자리 맞추기
+// const zeroNumber = (number) => {
+//   return String(number).padStart(2, '0');
+// };
+
 // 글 작성 시 페이지에 진입한 시각을 기본 시작 시간으로
 const today = new Date();
 const getValue = (status) => {
@@ -84,6 +89,7 @@ const DatePicker = ({ status, onDateChange }) => {
         height="28px"
         margin="5px"
         onChange={(value) => onDateChange(0, value)}
+        inputType="year"
       />
       년
       <DateInput
@@ -92,6 +98,7 @@ const DatePicker = ({ status, onDateChange }) => {
         height="28px"
         margin="5px"
         onChange={(value) => onDateChange(1, value)}
+        inputType="month"
       />
       월
       <DateInput
@@ -100,6 +107,7 @@ const DatePicker = ({ status, onDateChange }) => {
         height="28px"
         margin="5px"
         onChange={(value) => onDateChange(2, value)}
+        inputType="day"
       />
       일
       <DateInput
@@ -108,6 +116,7 @@ const DatePicker = ({ status, onDateChange }) => {
         height="28px"
         margin="5px"
         onChange={(value) => onDateChange(3, value)}
+        inputType="hour"
       />
       :
       <DateInput
@@ -116,6 +125,7 @@ const DatePicker = ({ status, onDateChange }) => {
         height="28px"
         margin="5px"
         onChange={(value) => onDateChange(4, value)}
+        inputType="minute"
       />
     </StyledPicker>
   );
@@ -207,8 +217,8 @@ const CreateEvent = () => {
             Authorization_refresh: `Bearer ${refreshToken}`,
           },
         });
-        console.log(data);
         console.log(response); // 서버의 응답을 콘솔에 출력
+        console.log(data);
         alert('저장이 완료되었습니다.');
         navigate('/calendar');
       } catch (err) {
