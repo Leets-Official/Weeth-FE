@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useState, useEffect, useContext } from 'react';
+import { useState, useContext } from 'react';
 import theme from '../styles/theme';
 import DuesHeader from '../components/Dues/DuesHeader';
 import DueCategory from '../components/Dues/DueCategory';
@@ -54,13 +54,8 @@ const DuesList = styled.div`
 // <Line />
 
 const Dues = () => {
-  const { duesData, totalAmount, myCardinal, fetchData } =
-    useContext(DuesContext);
+  const { duesData, totalAmount, myCardinal } = useContext(DuesContext);
   const [selected, setSelectedDues] = useState(null);
-
-  useEffect(() => {
-    fetchData();
-  }, [fetchData]);
 
   const filteredDues =
     selected === null
@@ -94,7 +89,7 @@ const Dues = () => {
             filteredDues.map((receipt) => (
               <DuesInfo
                 key={receipt.id}
-                dues={receipt.amount}
+                dues={receipt.amount.string()}
                 category="지출" // 지출
                 date={receipt.date}
                 memo={receipt.description}
