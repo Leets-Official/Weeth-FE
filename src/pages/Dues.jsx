@@ -1,11 +1,12 @@
 import styled from 'styled-components';
-import { useState, useEffect, useContext } from 'react';
+import { useState, useContext } from 'react';
 import theme from '../styles/theme';
 import DuesHeader from '../components/Dues/DuesHeader';
 import DueCategory from '../components/Dues/DueCategory';
 import DuesInfo from '../components/Dues/DuesInfo';
 import DuesTitle from '../components/Dues/DuesTitle';
 import { DuesContext } from '../hooks/DuesContext';
+import DuesAPI from '../hooks/DuesAPI';
 
 const StyledDues = styled.div`
   width: 370px;
@@ -31,36 +32,35 @@ const DuesListBox = styled.div`
 
 const DuesList = styled.div`
   width: 92%;
-  margin: 15px 10px 0 10px;
+  margin: 0px 10px 0 10px;
 `;
 
-// const Line = styled.div`
-//   border: 1px solid;
-//   color: #4d4d4d;
-//   width: 325px;
-//   margin-top: 20px;
-//   transform: scaleY(0.2);
-// `;
+const Line = styled.div`
+  border: 1px solid;
+  color: #4d4d4d;
+  width: 325px;
+  margin-top: 20px;
+  transform: scaleY(0.2);
+`;
 
-// const MoneyBox = styled.div`
-//   margin-top: 35px;
-//   font-size: 25px;
-//   font-family: ${theme.font.family.pretendard_semiBold};
-//   margin-left: 10px;
-// `;
-// <MoneyBox>
-// {myCardinal}기 총 회비: {totalAmount.toLocaleString()}원
-// </MoneyBox>
-// <Line />
+const MoneyBoxContainer = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 35px;
+`;
+
+const MoneyBox = styled.div`
+  font-size: 25px;
+  font-family: ${theme.font.family.pretendard_semiBold};
+  margin-left: 15px;
+  align-items: start;
+`;
 
 const Dues = () => {
-  const { duesData, totalAmount, myCardinal, fetchData } =
+  const { duesData, totalAmount, currentAmount, myCardinal } =
     useContext(DuesContext);
   const [selected, setSelectedDues] = useState(null);
-
-  useEffect(() => {
-    fetchData();
-  }, [fetchData]);
 
   const filteredDues =
     selected === null
@@ -72,12 +72,17 @@ const Dues = () => {
     setSelectedDues('회비');
   return (
     <StyledDues>
+      <DuesAPI />
       <DuesHeader />
       <DuesTitle />
       <CategoryWrapper>
         <DueCategory setSelectedDues={setSelectedDues} />
       </CategoryWrapper>
       <DuesListBox>
+        <MoneyBoxContainer>
+          <MoneyBox>{currentAmount}원</MoneyBox>
+        </MoneyBoxContainer>
+        <Line />
         <DuesList>
           {/* 회비 항목 */}
           {(selected === null || selected === '회비') && (

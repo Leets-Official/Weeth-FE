@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import styled, { ThemeProvider } from 'styled-components';
 import theme from '../styles/theme';
 import Button from '../components/Button/Button';
+import leets from '../assets/images/ic_name_logo.svg';
 
 /* 높이를 810px로 잡고 각각의 margin을 px로 잡았습니다 */
 
@@ -15,18 +16,13 @@ const Container = styled.div`
 `;
 
 const StyledTitle = styled.div`
-  width: 53%;
-  height: 76px;
-  margin: 297px 24% 126px 24%; /* Adjusted margin */
-  font-family: ${theme.font.family.pretendard_semiBold};
-  font-weight: 700;
-  font-size: 64px;
+  margin-top: 288px;
   line-height: 76.38px;
-  color: #00dda8;
   text-align: center;
 `;
 
 const ButtonWrapper = styled.div`
+  margin-top: 112px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -51,7 +47,9 @@ const Landing = () => {
   return (
     <ThemeProvider theme={theme}>
       <Container>
-        <StyledTitle>Weeth</StyledTitle>
+        <StyledTitle>
+          <img src={leets} alt="leets로고" />
+        </StyledTitle>
         <ButtonWrapper>
           <SignupButton
             color={signupClicked ? '#0E9871' : theme.color.main.mainColor}

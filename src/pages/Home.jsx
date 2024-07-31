@@ -4,6 +4,8 @@ import theme from '../styles/theme';
 import HomeMain from '../components/home/HomeMain';
 import HomeFooter from '../components/home/HomeFooter';
 import LogoutButton from '../components/LogoutButton';
+import UserAPI from '../hooks/UserAPI';
+import logo from '../assets/images/ic_logo.svg';
 
 const Container = styled.div`
   display: flex;
@@ -21,11 +23,6 @@ const HeaderContainer = styled.div`
 `;
 
 const Header = styled.header`
-  font-family: ${theme.font.family.pretendard_semiBold};
-  background-color: ${theme.color.grayScale.gray12};
-  color: ${theme.color.main.mainColor};
-  border: none;
-  font-size: 40px;
   padding-left: 5%;
 `;
 
@@ -45,9 +42,12 @@ const Home = () => {
   console.log('home token', accessToken, refreshToken);
   return (
     <ThemeProvider theme={theme}>
+      <UserAPI />
       <Container>
         <HeaderContainer>
-          <Header>Weeth</Header>
+          <Header>
+            <img src={logo} alt="leets로고" />
+          </Header>
           <LogoutButton />
         </HeaderContainer>
         <Main>
