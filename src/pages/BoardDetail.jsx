@@ -105,6 +105,16 @@ const BottomRow = styled.div`
   padding-bottom: 10px;
 `;
 
+const formatDateTime = (dateTimeString) => {
+  const date = new Date(dateTimeString);
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  const hours = String(date.getHours()).padStart(2, '0');
+  const minutes = String(date.getMinutes()).padStart(2, '0');
+
+  return `${month}/${day} ${hours}:${minutes}`;
+};
+
 const BoardDetail = () => {
   const { state } = useLocation();
   const { id, noticeId } = useParams();
@@ -112,10 +122,25 @@ const BoardDetail = () => {
 
   const { boardData, error } = useContext(BoardContext);
   const [content, setContent] = useState(null);
+  const [totalCommentCount, setTotalCommentCount] = useState(0);
   const navigate = useNavigate();
 
   const accessToken = localStorage.getItem('accessToken');
   const BASE_URL = process.env.REACT_APP_BASE_URL;
+
+  const fetchAndSetContent = (data) => {
+    setContent(data);
+    setTotalCommentCount(data.totalComments || 0);
+  };
+
+  useEffect(() => {
+    if (state?.data) {
+      setContent(state.data);
+    } else if (boardData) {
+      const currentData = boardData.find(post => post.id === parseInt(postId));
+      setContent(currentData);
+    }
+  }, [state, boardData, postId]);
 
 const handleModifyClick = async () => {
   try {
@@ -184,14 +209,14 @@ const handleDeleteClick = async () => {
   }
 };
 
-  useEffect(() => {
-    if (state?.data) {
-      setContent(state.data);
-    } else if (boardData) {
-      const currentData = boardData.find(post => post.id === parseInt(postId));
-      setContent(currentData);
-    }
-  }, [state, boardData, postId]);
+if (error) {
+  return <p>Error: {error}</p>;
+}
+
+if (!content) {
+  return <p>Loading...</p>;
+}
+
 
   const handleMenuClick = (action) => {
     switch (action) {
@@ -229,7 +254,7 @@ const handleDeleteClick = async () => {
           <StudyNamed>{content?.title || 'Loading...'}</StudyNamed>
           <SubRow>
             <UserName>{content?.name || content?.name || 'Unknown'}</UserName>
-            <StyledDate>{content?.time || content?.createAt || '00/00 00:00'}</StyledDate>
+            <StyledDate>{formatDateTime(content?.time || content?.createAt) || '00/00 00:00'}</StyledDate>
           </SubRow>
           <StudyContents>{content?.content || 'Loading...'}</StudyContents>
         </TextContainer>
@@ -252,7 +277,7 @@ const handleDeleteClick = async () => {
             key={comment.id}
             name={comment.name || 'Unknown User'}
             content={comment.content}
-            time={comment.time}
+            time={formatDateTime(comment.time)}
             recomments={comment.recomments || []}
           />
         ))}
