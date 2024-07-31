@@ -35,17 +35,20 @@ userData.name 이런식으로 data 사용하면 됩니당!!
 const UserAPI = () => {
   const { setUserData, setError, setAllUserData } = useContext(UserContext);
 
-  const ACCESS_TOKEN = process.env.REACT_APP_ACCESS_TOKEN;
+  const accessToken = localStorage.getItem('accessToken');
+  const refreshToken = localStorage.getItem('refreshToken');
 
   useEffect(() => {
+    const BASE_URL = process.env.REACT_APP_BASE_URL;
     const headers = {
       // 일단 현재는 access token만 넣었는데 나중에 refresh 토큰도 넣어야 합니다
-      Authorization: `Bearer ${ACCESS_TOKEN}`,
+      Authorization: `Bearer ${accessToken}`,
+      Authorization_refresh: `Bearer ${refreshToken}`,
     };
 
     // 내 정보 조회
     axios
-      .get('http://13.125.78.31:8080/users', { headers })
+      .get(`${BASE_URL}/users`, { headers })
       .then((response) => {
         if (response.data.code === 200) {
           setUserData(response.data.data);
@@ -58,7 +61,7 @@ const UserAPI = () => {
       });
 
       // 모든 멤버 조회
-      axios.get('http://13.125.78.31:8080/users/all', { headers })
+      axios.get(`${BASE_URL}/users/all`, { headers })
       .then((response) => {
         if (response.data.code === 200) {
           setAllUserData(response.data.data);
@@ -70,7 +73,7 @@ const UserAPI = () => {
         setError('An error occurred while fetching the all users data');
       });
 
-  }, [ACCESS_TOKEN, setUserData, setError, setAllUserData]);
+  }, [accessToken, setUserData, setError, setAllUserData]);
 
   return null;
 };

@@ -111,8 +111,9 @@ const Profile = () => {
 
       setIsNextClicked(true);
       try {
+        const BASE_URL = process.env.REACT_APP_BASE_URL;
         const response = await axios.post(
-          'http://13.125.78.31:8080/users/apply',
+          `${BASE_URL}/users/apply`,
           mappedMemberInfo,
           {
             headers: {

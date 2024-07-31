@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 import CalendarHeader from '../components/Calendar/CalendarHeader';
@@ -25,6 +25,10 @@ const Calendar = () => {
   const [isYear, setIsYear] = useState(false);
   const [year, setYear] = useState(todayYear);
   const [month, setMonth] = useState(todayMonth);
+
+  useEffect(() => {
+    console.log('Calendar state updated:', { year, month });
+  }, [year, month]);
 
   const onToggle = (isYear) => {
     setCalendarType(isYear ? 'year' : 'month');
