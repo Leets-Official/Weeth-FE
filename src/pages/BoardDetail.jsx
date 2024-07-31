@@ -107,7 +107,9 @@ const BottomRow = styled.div`
 
 const BoardDetail = () => {
   const { state } = useLocation();
-  const { id: postId, noticeId } = useParams();
+  const { id, noticeId } = useParams();
+  const postId = parseInt(id, 10);
+
   const { boardData, error } = useContext(BoardContext);
   const [content, setContent] = useState(null);
   const navigate = useNavigate();
@@ -131,7 +133,6 @@ const handleModifyClick = async () => {
       }),
     );
 
-    // 파일이 있다면 FormData에 추가
     if (content.files && content.files.length > 0) {
       content.files.forEach((file) => {
         formData.append('files', file);
@@ -213,6 +214,11 @@ const handleDeleteClick = async () => {
     return <p>Loading...</p>;
   }
 
+  const handleCommentSubmitted = (newComment) => {
+    // 새로운 댓글이 제출되었을 때 처리하는 로직을 작성합니다.
+    console.log('새 댓글이 제출되었습니다:', newComment);
+  };
+  
   return (
     <Container>
       <HeaderWrapper>
@@ -222,7 +228,7 @@ const handleDeleteClick = async () => {
         <TextContainer>
           <StudyNamed>{content?.title || 'Loading...'}</StudyNamed>
           <SubRow>
-            <UserName>{content?.name || content?.userName || 'Unknown'}</UserName>
+            <UserName>{content?.name || content?.name || 'Unknown'}</UserName>
             <StyledDate>{content?.time || content?.createAt || '00/00 00:00'}</StyledDate>
           </SubRow>
           <StudyContents>{content?.content || 'Loading...'}</StudyContents>
@@ -244,7 +250,7 @@ const handleDeleteClick = async () => {
         {content.comments && content.comments.map(comment => (
           <BoardComment
             key={comment.id}
-            name={comment.userName}
+            name={comment.name || 'Unknown User'}
             content={comment.content}
             time={comment.time}
             recomments={comment.recomments || []}
@@ -252,6 +258,8 @@ const handleDeleteClick = async () => {
         ))}
       </StudyRow>
       <Typing
+        postId={postId}
+        onCommentSubmitted={handleCommentSubmitted}
         comment={content.comment || ''}
       />
       <BoardAPI />

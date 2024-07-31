@@ -22,6 +22,7 @@ const CommentList = () => {
       .get(`${BASE_URL}/posts`, { headers })
       .then((response) => {
         if (response.data.code === 200) {
+          console.log('bbbb: ', boardData);
           setComments(boardData);
         } else {
           console.error('API response error:', response.data.message);
@@ -45,7 +46,7 @@ const CommentList = () => {
       {comments.map((comment) => (
         <BoardComment
           key={comment.id}
-          name={comment.userName}
+          name={comment.name}
           content={comment.content}
           time={comment.modifiedAt || comment.createdAt} // 수정된 시간이 있으면 수정된 시간, 없으면 생성 시간
           totalComments=""
