@@ -65,7 +65,7 @@ const BoardReply = styled.div`
   border-radius: 10px;
 `;
 
-const BoardComment = ({ comments, recomments }) => {
+const BoardComment = ({ name, content, time, recomments = [] }) => {
   const [showReplies, setShowReplies] = useState(false);
 
   const handleReplyClick = () => {
@@ -74,53 +74,53 @@ const BoardComment = ({ comments, recomments }) => {
 
   return (
     <CommentContainer>
-      {comments.map((comment) => (
-        <BoardCommented key={comment.id}>
-          <BottomRow>
-            <UserName>홍길동</UserName>
-            <CommentButton alt="" onClick={handleReplyClick} />
-          </BottomRow>
-          <StyledComment>{comment.text}</StyledComment>
-          <CommentDate>00/00 00:00</CommentDate>
-
-          {showReplies &&
-            recomments.map((recomment) => (
-              <ReplyRow key={recomment.id}>
-                <ReplyButton
-                  alt=""
-                  style={{
-                    marginRight: '10px',
-                    flexShrink: 0,
-                  }}
-                />
-                <BoardReply key={recomment.id}>
-                  <BottomRow>
-                    <UserName>김위드</UserName>
-                  </BottomRow>
-                  <StyledComment>{recomment.text}</StyledComment>
-                  <CommentDate>00/00 00:00</CommentDate>
-                </BoardReply>
-              </ReplyRow>
-            ))}
-        </BoardCommented>
-      ))}
+      <BoardCommented>
+        <BottomRow>
+          <UserName>{name}</UserName>
+          <CommentButton alt="" onClick={handleReplyClick} />
+        </BottomRow>
+        <StyledComment>{content}</StyledComment>
+        <CommentDate>{time}</CommentDate>
+        {showReplies &&
+          recomments.map((recomment) => (
+            <ReplyRow key={recomment.id}>
+              <ReplyButton
+                alt=""
+                style={{
+                  marginRight: '10px',
+                  flexShrink: 0,
+                }}
+              />
+              <BoardReply>
+                <BottomRow>
+                  <UserName>{recomment.name}</UserName>
+                </BottomRow>
+                <StyledComment>{recomment.content}</StyledComment>
+                <CommentDate>{recomment.time}</CommentDate>
+              </BoardReply>
+            </ReplyRow>
+          ))}
+      </BoardCommented>
     </CommentContainer>
   );
 };
 
 BoardComment.propTypes = {
-  comments: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      text: PropTypes.string.isRequired,
-    }),
-  ).isRequired,
+  name: PropTypes.string.isRequired,
+  content: PropTypes.string.isRequired,
+  time: PropTypes.string.isRequired,
   recomments: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number.isRequired,
-      text: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      content: PropTypes.string.isRequired,
+      time: PropTypes.string.isRequired,
     }),
-  ).isRequired,
+  ),
+};
+
+BoardComment.defaultProps = {
+  recomments: [], // Default to an empty array if no recomments are provided
 };
 
 export default BoardComment;
