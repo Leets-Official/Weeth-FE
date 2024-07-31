@@ -81,6 +81,11 @@ const Login = () => {
 
       if (validatedResponse.status === 200) {
         setError(null);
+        const newToken = response.headers['authorization'];
+        const newRefreshToken = response.headers['authorization-refresh'];
+        localStorage.setItem('accessToken', newToken);
+        localStorage.setItem('refreshToken', newRefreshToken);
+        console.log('login token', newToken, newRefreshToken);
         navigate('/home');
 
       }
