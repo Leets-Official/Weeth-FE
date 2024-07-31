@@ -6,23 +6,25 @@ import { NoticeContext } from './NoticeContext';
 const NoticeAPI = () => {
   const { setNoticeData, setError } = useContext(NoticeContext);
 
-  const ACCESS_TOKEN = process.env.REACT_APP_ACCESS_TOKEN;
+  // const ACCESS_TOKEN = process.env.REACT_APP_ACCESS_TOKEN;
+  const accessToken = localStorage.getItem('accessToken');
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
 
   useEffect(() => {
-    if (!ACCESS_TOKEN) {
+    if (!accessToken) {
       console.error('Access token is not set');
       setError('Access token is not set');
       return;
     }
 
-    console.log("Access Token:", ACCESS_TOKEN);
+    console.log("Access Token:", accessToken);
 
     const headers = {
-      Authorization: `Bearer ${ACCESS_TOKEN}`,
+      Authorization: `Bearer ${accessToken}`,
     };
 
     axios
-      .get('http://13.125.78.31:8080/notice', { headers })
+      .get(`${BASE_URL}`, { headers })
       .then((response) => {
         console.log('Raw Response:', response); // 전체 응답 데이터 확인
         if (response.data.code === 200) {

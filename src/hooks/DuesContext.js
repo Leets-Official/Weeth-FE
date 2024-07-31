@@ -1,45 +1,58 @@
 /* eslint-disable react/jsx-no-constructed-context-values */
-/* eslint-disable react/prop-types */
 // src/contexts/ApiContext.js
 import React, { createContext, useState, useEffect } from 'react';
 import axios from 'axios';
 
 export const DuesContext = createContext();
 
+// eslint-disable-next-line react/prop-types
 export const DuesProvider = ({ children }) => {
   const [duesData, setDuesData] = useState([]);
   const [totalAmount, setTotalAmount] = useState(0);
   const [myCardinal, setCardinal] = useState(0);
+  const [accessToken, setAccessToken] = useState(
+    localStorage.getItem('accessToken'),
+  );
 
   const fetchData = async (cardinal = 3) => {
     try {
-      const ACCESS_TOKEN = process.env.REACT_APP_ADMIN_TOKEN;
       const headers = {
-        Authorization: `Bearer ${ACCESS_TOKEN}`,
+        Authorization: `Bearer ${accessToken}`,
       };
-      const response = await axios.get(
-        `http://13.125.78.31:8080/account/${cardinal}`,
-        { headers },
-      );
+      const BASE_URL = process.env.REACT_APP_BASE_URL;
+      const response = await axios.get(`${BASE_URL}/account/${cardinal}`, {
+        headers,
+      });
       const result = response.data;
       if (result.code === 200) {
         setDuesData(result.data.receipts);
         setTotalAmount(result.data.total);
         setCardinal(result.data.cardinal);
-        // eslint-disable-next-line no-console
-        // console.log('get data:', result.data);
       } else {
-        // eslint-disable-next-line no-console
         console.error('Failed to get data:', result.message);
       }
     } catch (error) {
-      // eslint-disable-next-line no-console
       console.error('Error getting data:', error);
     }
   };
 
   useEffect(() => {
     fetchData();
+  }, [accessToken]);
+
+  // This effect listens for changes to the accessToken in localStorage
+  useEffect(() => {
+    const handleStorageChange = () => {
+      setAccessToken(localStorage.getItem('accessToken'));
+    };
+
+    // Listen for storage changes
+    window.addEventListener('storage', handleStorageChange);
+
+    return () => {
+      // Cleanup the event listener when the component unmounts
+      window.removeEventListener('storage', handleStorageChange);
+    };
   }, []);
 
   return (

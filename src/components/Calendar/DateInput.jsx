@@ -14,7 +14,6 @@ const StyledInput = styled.input`
   text-align: center;
   margin-left: ${(props) => props.margin || '0px'};
   margin-right: ${(props) => props.margin || '0px'};
-  // padding-right: 10px;
   padding: 0px;
   font-size: 16px;
 
@@ -30,23 +29,23 @@ const StyledInput = styled.input`
   -moz-appearance: textfield;
 `;
 
-const DateInput = ({ origValue, editValue, width, height, margin }) => {
-  const [value, setValue] = useState(origValue);
+const DateInput = ({ value, onChange, width, height, margin }) => {
+  const [date, setDate] = useState(value);
 
   const onChangeValue = (e) => {
-    setValue(e.target.value);
-    editValue(e.target.value);
+    setDate(e.target.value);
+    onChange(e.target.value);
   };
 
   useEffect(() => {
-    setValue(origValue);
-  }, [origValue]);
+    setDate(value);
+  }, [value]);
 
   return (
     <div>
       <StyledInput
         type="number"
-        value={value}
+        value={date}
         onChange={onChangeValue}
         width={width}
         height={height}
@@ -57,9 +56,8 @@ const DateInput = ({ origValue, editValue, width, height, margin }) => {
 };
 
 DateInput.propTypes = {
-  origValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
-    .isRequired,
-  editValue: PropTypes.func.isRequired,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  onChange: PropTypes.func.isRequired,
   width: PropTypes.string.isRequired,
   height: PropTypes.string.isRequired,
   margin: PropTypes.string.isRequired,

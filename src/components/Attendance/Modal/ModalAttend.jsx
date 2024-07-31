@@ -99,6 +99,9 @@ const ModalAttend = ({ open, close }) => {
   const [codeCheck, setCodeCheck] = useState(0);
   const [inputValue, setInputValue] = useState('');
   const [message, setMessage] = useState('');
+  const [accessToken, setAccessToken] = useState(
+    localStorage.getItem('accessToken'),
+  );
 
   // 모달창 나갔다 들어왔을 때 입력 창 비워지고, 하단부 화면 비워지도록
   useEffect(() => {
@@ -116,12 +119,12 @@ const ModalAttend = ({ open, close }) => {
 
   const handleCompleteBtn = async () => {
     try {
-      const ACCESS_TOKEN = process.env.REACT_APP_ADMIN_TOKEN;
       const headers = {
-        Authorization: `Bearer ${ACCESS_TOKEN}`,
+        Authorization: `Bearer ${accessToken}`,
       };
+      const BASE_URL = process.env.REACT_APP_BASE_URL;
       const response = await axios.post(
-        'http://13.125.78.31:8080/attendances/check-in',
+        `${BASE_URL}/attendances/check-in`,
         {
           attendanceCode: inputValue,
         },
@@ -187,6 +190,22 @@ const ModalAttend = ({ open, close }) => {
     // 피그마 형식대로 변환
     endDateTime = `(${startTime} ~ ${endTime})`;
   }
+
+  // Listen for accessToken changes in localStorage
+  useEffect(() => {
+    const handleStorageChange = () => {
+      const newToken = localStorage.getItem('accessToken');
+      if (newToken !== accessToken) {
+        setAccessToken(newToken);
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
+  }, [accessToken]);
 
   return (
     <StyledModal open={open}>

@@ -114,11 +114,12 @@ const BoardDetail = () => {
 
   const accessToken = localStorage.getItem('accessToken');
   const refreshToken = localStorage.getItem('refreshToken');
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 
   useEffect(() => {
     console.log('Component mounted');
-    console.log('Access Token:', accessToken); // accessToken을 확인하기 위한 콘솔 로그
+    console.log('Access Token:', accessToken);
     console.log('State received from navigation:', state);
     console.log('Type:', type);
     console.log('Post ID:', postId);
@@ -129,8 +130,8 @@ const BoardDetail = () => {
         try {
           const url =
             type === 'study'
-              ? `http://13.125.78.31:8080/posts/${postId}`
-              : `http://13.125.78.31:8080/notice/${noticeId}`;
+              ? `${BASE_URL}/${postId}`
+              : `${BASE_URL}/${noticeId}`;
           const response = await axios.get(url, {
             headers: {
               Authorization: `Bearer ${accessToken}`,
@@ -173,13 +174,10 @@ const BoardDetail = () => {
     }
   }, [accessToken, type, postId, noticeId, data]);
 
-  const handleCommentChange = (e) => {
-    setComment(e.target.value);
-  };
-
+  // 게시글 수정
   const handleModifyClick = async () => {
     try {
-      const url = `http://13.125.78.31:8080/posts/${postId}`;
+      const url = `${BASE_URL}/${postId}`;
       const formData = new FormData();
 
       const requestPostDTO = {
@@ -230,11 +228,12 @@ const BoardDetail = () => {
     }
   };
 
+  // 게시글 삭제
   const handleDeleteClick = async () => {
     if (window.confirm('삭제하시겠습니까?')) {
       try {
         const response = await axios.delete(
-          `http://13.125.78.31:8080/posts/${postId}`,
+          `${BASE_URL}/${postId}`,
           {
             headers: {
               Authorization: `Bearer ${ACCESS_TOKEN}`,
@@ -246,7 +245,7 @@ const BoardDetail = () => {
           response,
           axios.delete,
           [
-            `http://13.125.78.31:8080/posts/${postId}`,
+            `${BASE_URL}/${postId}`,
             {
               headers: {
                 Authorization: `Bearer ${ACCESS_TOKEN}`,
@@ -284,10 +283,42 @@ const BoardDetail = () => {
     }
   };
 
+  // 댓글 등록
+
+  const handleRegisterComment = async () => {
+    try {
+      const url = `${BASE_URL}/${postId}/comments`;
+      const response = await axios.post(
+        url,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            'Content-Type': 'application/json',
+          }
+        }
+      );
+
+      if (response.data.code === 200) {
+        setRecomments((prevRecomments) => [...prevRecomments, response.data.data]);
+        setComment('');
+      } else {
+        alert('댓글 등록에 실패했습니다.');
+      }
+    } catch (error) {
+      alert('댓글 등록 중 오류가 발생했습니다.');
+    }
+  };
+
 
   const handleFileChange = (file) => {
     console.log('File changed:', file);
   };
+
+  const handleCommentChange = (e) => {
+    setComment(e.target.value);
+  };
+
+
 
   return (
     <Container>

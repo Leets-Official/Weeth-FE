@@ -11,6 +11,7 @@ const NoticeList = () => {
 
   const accessToken = localStorage.getItem('accessToken');
   // const refreshToken = localStorage.getItem('refreshToken');
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
 
   useEffect(() => {
     const headers = {
@@ -18,7 +19,7 @@ const NoticeList = () => {
     };
 
     axios
-      .get('http://13.125.78.31:8080/notice', { headers })
+      .get(`${BASE_URL}/notice`, { headers })
       .then((response) => {
         if (response.data.code === 200) {
           const noticeData = response.data.data.filter(

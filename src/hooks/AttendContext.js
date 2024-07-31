@@ -13,15 +13,16 @@ export const AttendProvider = ({ children }) => {
   useEffect(() => {
     const fetchAttendances = async () => {
       try {
-        const ACCESS_TOKEN = process.env.REACT_APP_ADMIN_TOKEN;
+        // const ACCESS_TOKEN = process.env.REACT_APP_ADMIN_TOKEN;
+        const accessToken = localStorage.getItem('accessToken');
+        const BASE_URL = process.env.REACT_APP_BASE_URL;
         const headers = {
-          Authorization: `Bearer ${ACCESS_TOKEN}`,
+          Authorization: `Bearer ${accessToken}`,
         };
 
-        const response = await axios.get(
-          'http://13.125.78.31:8080/attendances',
-          { headers },
-        );
+        const response = await axios.get(`${BASE_URL}/attendances`, {
+          headers,
+        });
 
         const { data } = response.data;
         // eslint-disable-next-line no-console

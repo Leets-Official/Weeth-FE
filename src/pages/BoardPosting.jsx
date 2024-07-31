@@ -59,10 +59,13 @@ const BoardPosting = () => {
   const navigate = useNavigate();
   const [isCompleteEnabled, setIsCompleteEnabled] = useState(false);
   const [isMenuOpen, setMenuOpen] = useState(false);
-  const ACCESS_TOKEN = process.env.REACT_APP_ACCESS_TOKEN;
+
   const { userData } = useContext(UserContext);
   const { boardData } = useContext(BoardContext);
   const [files, setFiles] = useState([]);
+
+  const accessToken = localStorage.getItem('accessToken');
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
 
   const initialBoardPost = {
     title: boardData?.title || '',
@@ -88,29 +91,25 @@ const BoardPosting = () => {
     Array.from(files).forEach((file) => formData.append('files', file));
 
     try {
-      const response = await axios.post(
-        'http://13.125.78.31:8080/posts',
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${ACCESS_TOKEN}`,
-            'Content-Type': 'multipart/form-data',
-          },
-          params: {
-            userId: userData.id,
-          },
+      const response = await axios.post(`${BASE_URL}/posts`, formData, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          'Content-Type': 'multipart/form-data',
         },
-      );
+        params: {
+          userId: userData.id,
+        },
+      });
       console.log('Server response:', response);
       const validatedResponse = await Utils(
         response,
         axios.post,
         [
-          'http://13.125.78.31:8080/posts',
+          `${BASE_URL}/posts`,
           formData,
           {
             headers: {
-              Authorization: `Bearer ${ACCESS_TOKEN}`,
+              Authorization: `Bearer ${accessToken}`,
               'Content-Type': 'multipart/form-data',
             },
             params: {

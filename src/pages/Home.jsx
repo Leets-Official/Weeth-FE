@@ -3,6 +3,7 @@ import styled, { ThemeProvider } from 'styled-components';
 import theme from '../styles/theme';
 import HomeMain from '../components/home/HomeMain';
 import HomeFooter from '../components/home/HomeFooter';
+import LogoutButton from '../components/LogoutButton';
 
 const Container = styled.div`
   display: flex;
@@ -12,18 +13,25 @@ const Container = styled.div`
   margin-bottom: 50px;
 `;
 
+const HeaderContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin: 45px 0px 0 0px;
+  align-items: center;
+`;
+
 const Header = styled.header`
   font-family: ${theme.font.family.pretendard_semiBold};
-  background-color:  ${theme.color.grayScale.gray12};
+  background-color: ${theme.color.grayScale.gray12};
   color: ${theme.color.main.mainColor};
   border: none;
   font-size: 40px;
-  padding: 9px 0px 15px 25px;
-  margin: 45px 0px;
+  padding-left: 5%;
 `;
 
 const Main = styled.main`
   width: 100%;
+  margin-top: 33px;
 `;
 
 const Footer = styled.footer`
@@ -31,10 +39,17 @@ const Footer = styled.footer`
 `;
 
 const Home = () => {
+  const accessToken = localStorage.getItem('accessToken');
+  const refreshToken = localStorage.getItem('refreshToken');
+  // eslint-disable-next-line no-console
+  console.log('home token', accessToken, refreshToken);
   return (
     <ThemeProvider theme={theme}>
       <Container>
-        <Header>Weeth</Header>
+        <HeaderContainer>
+          <Header>Weeth</Header>
+          <LogoutButton />
+        </HeaderContainer>
         <Main>
           <HomeMain />
         </Main>

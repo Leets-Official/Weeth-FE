@@ -112,7 +112,7 @@ const ModalPenalty = ({ open, close }) => {
   }
 
   if (!penaltyData) {
-    return <div>Loading penalty data...</div>;
+    return <div> </div>;
   }
 
   if (!penaltyData.length) {

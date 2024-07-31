@@ -123,18 +123,17 @@ const BoardEdit = () => {
   const navigate = useNavigate();
 
   const ACCESS_TOKEN = process.env.REACT_APP_ACCESS_TOKEN;
+  const accessToken = localStorage.getItem('accessToken');
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
 
   useEffect(() => {
     const fetchBoardDetail = async () => {
       try {
-        const response = await axios.get(
-          `http://13.125.78.31:8080/posts/${postId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${ACCESS_TOKEN}`,
-            },
+        const response = await axios.get(`${BASE_URL}/${postId}`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
           },
-        );
+        });
         const { data } = response.data;
         setBoardDetail(data);
         setTitle(data.title);
@@ -157,7 +156,7 @@ const BoardEdit = () => {
 
   const handleModifyClick = async () => {
     try {
-      const url = `http://13.125.78.31:8080/posts/${postId}`;
+      const url = `${BASE_URL}/${postId}`;
       const formData = new FormData();
 
       const requestPostDTO = {
@@ -181,7 +180,7 @@ const BoardEdit = () => {
 
       const response = await axios.post(url, formData, {
         headers: {
-          Authorization: `Bearer ${ACCESS_TOKEN}`,
+          Authorization: `Bearer ${accessToken}`,
           'Content-Type': 'multipart/form-data',
         },
       });
@@ -191,7 +190,7 @@ const BoardEdit = () => {
         formData,
         {
           headers: {
-            Authorization: `Bearer ${ACCESS_TOKEN}`,
+            Authorization: `Bearer ${accessToken}`,
             'Content-Type': 'multipart/form-data',
           },
         },

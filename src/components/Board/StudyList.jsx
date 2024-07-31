@@ -12,10 +12,12 @@ const StudyList = () => {
   const accessToken = localStorage.getItem('accessToken');
   const refreshToken = localStorage.getItem('refreshToken');
 
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
+
   useEffect(() => {
     const fetchStudies = async () => {
       try {
-        const response = await axios.get('http://13.125.78.31:8080/posts', {
+        const response = await axios.get(`${BASE_URL}/posts`, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
