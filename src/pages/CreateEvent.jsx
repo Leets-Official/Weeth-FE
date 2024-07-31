@@ -79,43 +79,43 @@ const DatePicker = ({ status, onDateChange }) => {
         <WaveImg src={icWave} alt="물결" />
       )}
       <DateInput
-        origValue={status === 'start' ? now[0] : ''}
+        value={status === 'start' ? now[0] : ''}
         width="58px"
         height="28px"
         margin="5px"
-        editValue={(value) => onDateChange(0, value)}
+        onChange={(value) => onDateChange(0, value)}
       />
       년
       <DateInput
-        origValue={status === 'start' ? now[1] : ''}
+        value={status === 'start' ? now[1] : ''}
         width="37px"
         height="28px"
         margin="5px"
-        editValue={(value) => onDateChange(1, value)}
+        onChange={(value) => onDateChange(1, value)}
       />
       월
       <DateInput
-        origValue={status === 'start' ? now[2] : ''}
+        value={status === 'start' ? now[2] : ''}
         width="37px"
         height="28px"
         margin="5px"
-        editValue={(value) => onDateChange(2, value)}
+        onChange={(value) => onDateChange(2, value)}
       />
       일
       <DateInput
-        origValue={status === 'start' ? now[3] : ''}
+        value={status === 'start' ? now[3] : ''}
         width="37px"
         height="28px"
         margin="5px"
-        editValue={(value) => onDateChange(3, value)}
+        onChange={(value) => onDateChange(3, value)}
       />
       :
       <DateInput
-        origValue={status === 'start' ? now[4] : ''}
+        value={status === 'start' ? now[4] : ''}
         width="37px"
         height="28px"
         margin="5px"
-        editValue={(value) => onDateChange(4, value)}
+        onChange={(value) => onDateChange(4, value)}
       />
     </StyledPicker>
   );
@@ -138,7 +138,9 @@ const CreateEvent = () => {
     { key: 'memberNumber', value: '' },
     { key: 'content', value: '' },
   ]);
-  const ACCESS_TOKEN = process.env.REACT_APP_ACCESS_TOKEN;
+
+  const accessToken = localStorage.getItem('accessToken');
+  const refreshToken = localStorage.getItem('refreshToken');
   const navigate = useNavigate();
 
   const editValue = (key, value) => {
@@ -203,7 +205,8 @@ const CreateEvent = () => {
           data,
           {
             headers: {
-              Authorization: `Bearer ${ACCESS_TOKEN}`,
+              Authorization: `Bearer ${accessToken}`,
+              Authorization_refresh: `Bearer ${refreshToken}`,
             },
           },
         );
