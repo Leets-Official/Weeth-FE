@@ -38,7 +38,10 @@ const Error = styled.div`
 const Edit = () => {
   const { userData, error } = useContext(UserContext);
   const [userInfo, setUserInfo] = useState([]);
-  const ACCESS_TOKEN = process.env.REACT_APP_ACCESS_TOKEN;
+  const accessToken = localStorage.getItem('accessToken');
+  const refreshToken = localStorage.getItem('refreshToken');
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
+
   const navi = useNavigate();
 
   useEffect(() => {
@@ -71,9 +74,10 @@ const Edit = () => {
           return acc;
         }, {});
 
-        await axios.patch('http://13.125.78.31:8080/users', data, {
+        await axios.patch(`${BASE_URL}/users`, data, {
           headers: {
-            Authorization: `Bearer ${ACCESS_TOKEN}`,
+            Authorization: `Bearer ${accessToken}`,
+            Authorization_refresh: `Bearer ${refreshToken}`,
           },
         });
         alert('저장이 완료되었습니다.');

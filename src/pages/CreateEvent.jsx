@@ -141,6 +141,7 @@ const CreateEvent = () => {
 
   const accessToken = localStorage.getItem('accessToken');
   const refreshToken = localStorage.getItem('refreshToken');
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
   const navigate = useNavigate();
 
   const editValue = (key, value) => {
@@ -200,16 +201,12 @@ const CreateEvent = () => {
         } else {
           data.endDateTime = '';
         }
-        const response = await axios.post(
-          'http://13.125.78.31:8080/admin/event',
-          data,
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-              Authorization_refresh: `Bearer ${refreshToken}`,
-            },
+        const response = await axios.post(`${BASE_URL}/admin/event`, data, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            Authorization_refresh: `Bearer ${refreshToken}`,
           },
-        );
+        });
         console.log(data);
         console.log(response); // 서버의 응답을 콘솔에 출력
         alert('저장이 완료되었습니다.');

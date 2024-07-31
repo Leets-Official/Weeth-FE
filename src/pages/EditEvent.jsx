@@ -138,6 +138,7 @@ const CreateEvent = () => {
 
   const accessToken = localStorage.getItem('accessToken');
   const refreshToken = localStorage.getItem('refreshToken');
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
   const navigate = useNavigate();
 
   const [startArr, setStartArr] = useState([]);
@@ -152,10 +153,9 @@ const CreateEvent = () => {
         };
 
         if (id) {
-          const response = await axios.get(
-            `http://13.125.78.31:8080/event/${id}`,
-            { headers },
-          );
+          const response = await axios.get(`${BASE_URL}/event/${id}`, {
+            headers,
+          });
           if (response.data.code === 200) {
             const { data } = response.data;
             setEventInfo([
@@ -251,7 +251,7 @@ const CreateEvent = () => {
           data.endDateTime = '';
         }
         const response = await axios.patch(
-          `http://13.125.78.31:8080/admin/event/${id}`,
+          `${BASE_URL}/admin/event/${id}`,
           data,
           {
             headers: {
