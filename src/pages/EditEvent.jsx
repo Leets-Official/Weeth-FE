@@ -1,4 +1,7 @@
-import { useState, useEffect } from 'react';
+/* eslint-disable react/require-default-props */
+/* eslint-disable no-alert */
+/* eslint-disable no-console */
+import { useState, useContext } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import axios from 'axios';
@@ -10,6 +13,8 @@ import InfoInput from '../components/MyPage/InfoInput';
 import icCalendar from '../assets/images/ic_date.svg';
 import icWave from '../assets/images/ic_wave.svg';
 import DateInput from '../components/Calendar/DateInput';
+import { EventInfoContext } from '../hooks/EventInfoContext';
+import EventInfoAPI from '../hooks/EventInfoAPI';
 
 const StyledCreate = styled.div`
   display: flex;
@@ -112,34 +117,40 @@ const DatePicker = ({ status, onDateChange, origArr = [] }) => {
 DatePicker.propTypes = {
   status: PropTypes.string.isRequired,
   onDateChange: PropTypes.func.isRequired,
-  // eslint-disable-next-line react/require-default-props
-  origArr: PropTypes.arrayOf(PropTypes.number),
+  origArr: PropTypes.arrayOf(
+    PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  ),
 };
 
 // ISO형식의 값을 년/월/일/시/분으로 나눠서 배열로 저장
-const getValue = (origDate) => {
-  const splittedDate = origDate.split('T'); // YYYY-MM-DD,HH:MM:SS.SSSZ
-  const newDate = splittedDate[0].split('-'); // [YYYY, MM, DD]
-  const newTime = splittedDate[1].split(':'); // [HH, MM]
+// const getValue = (origDate) => {
+//   const splittedDate = origDate.split('T'); // YYYY-MM-DD,HH:MM:SS.SSSZ
+//   const newDate = splittedDate[0].split('-'); // [YYYY, MM, DD]
+//   const newTime = splittedDate[1].split(':'); // [HH, MM]
 
-  const formattedDate = newDate.concat(newTime);
+//   const formattedDate = newDate.concat(newTime);
 
-  return formattedDate;
-};
+//   return formattedDate;
+// };
 
 const CreateEvent = () => {
   const { id } = useParams();
+  console.log('넘겨주기전 이벤트', id);
+
+  const { infoData, error } = useContext(EventInfoContext);
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
   const [eventInfo, setEventInfo] = useState([
-    { key: 'title', value: '' },
-    { key: 'startDateTime', value: '' },
-    { key: 'endDateTime', value: '' },
-    { key: 'location', value: '' },
-    { key: 'requiredItems', value: '' },
-    { key: 'memberNumber', value: '' },
-    { key: 'content', value: '' },
+    { key: 'title', value: infoData.title },
+    { key: 'startDateTime', value: infoData.startDateTime },
+    { key: 'endDateTime', value: infoData.endDateTime },
+    { key: 'location', value: infoData.location },
+    { key: 'requiredItems', value: infoData.requiredItems },
+    { key: 'memberNumber', value: infoData.memberNumber },
+    { key: 'content', value: infoData.content },
   ]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   const accessToken = localStorage.getItem('accessToken');
   const refreshToken = localStorage.getItem('refreshToken');
@@ -149,55 +160,6 @@ const CreateEvent = () => {
   const [startArr, setStartArr] = useState([]);
   const [endArr, setEndArr] = useState([]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const headers = {
-          Authorization: `Bearer ${accessToken}`,
-          Authorization_refresh: `Bearer ${refreshToken}`,
-        };
-
-        if (id) {
-          const response = await axios.get(`${BASE_URL}/event/${id}`, {
-            headers,
-          });
-          if (response.data.code === 200) {
-            const { data } = response.data;
-            setEventInfo([
-              { key: 'title', value: data.title },
-              {
-                key: 'startDateTime',
-                value: data.start,
-              },
-              {
-                key: 'endDateTime',
-                value: data.end,
-              },
-              { key: 'location', value: data.location },
-              { key: 'requiredItems', value: data.requiredItems },
-              { key: 'memberNumber', value: data.memberNumber },
-              { key: 'content', value: data.content },
-            ]);
-            setStartArr(getValue(data.start));
-            setEndArr(getValue(data.end));
-
-            console.log('가져온 데이터', data);
-            console.log('startArr', startArr);
-            console.log('endArr', endArr);
-          } else {
-            setError(response.data.message);
-          }
-        }
-      } catch (err) {
-        setError('An error occurred while fetching the data');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, [id]);
-
   const editValue = (key, value) => {
     const updatedEventInfo = eventInfo.map((item) =>
       item.key === key ? { ...item, value } : item,
@@ -205,56 +167,64 @@ const CreateEvent = () => {
     setEventInfo(updatedEventInfo);
   };
 
-  const editDate = (key, date) => {
-    const updatedEventInfo = eventInfo.map((item) =>
-      item.key === key ? { ...item, value: date } : item,
-    );
-    setEventInfo(updatedEventInfo);
+  const onDateChange = (key, index, value) => {
+    if (key === 'startDateTime') {
+      const updatedStartArr = [...startArr];
+      updatedStartArr[index] = value;
+      setStartArr(updatedStartArr);
+      editValue(key, updatedStartArr);
+    } else if (key === 'endDateTime') {
+      const updatedEndArr = [...endArr];
+      updatedEndArr[index] = value;
+      setEndArr(updatedEndArr);
+      editValue(key, updatedEndArr);
+    }
   };
 
   const onSave = async () => {
+    const data = eventInfo.reduce((acc, item) => {
+      acc[item.key] = item.value;
+      return acc;
+    }, {});
+
+    const startDate = eventInfo.find(
+      (item) => item.key === 'startDateTime',
+    ).value;
+    const endDate = eventInfo.find((item) => item.key === 'endDateTime').value;
+
+    if (startDate.length === 5) {
+      const [startYear, startMonth, startDay, startHour, startMinute] =
+        startDate;
+      const startDateObj = new Date(
+        startYear,
+        startMonth - 1,
+        startDay,
+        startHour,
+        startMinute,
+      );
+      data.startDateTime = startDateObj.toISOString();
+    } else {
+      data.startDateTime = '';
+    }
+
+    if (endDate.length === 5) {
+      const [endYear, endMonth, endDay, endHour, endMinute] = endDate;
+      const endDateObj = new Date(
+        endYear,
+        endMonth - 1,
+        endDay,
+        endHour,
+        endMinute,
+      );
+      data.endDateTime = endDateObj.toISOString();
+    } else {
+      data.endDateTime = '';
+    }
+
+    console.log('보낸 데이터', data);
+
     if (window.confirm('저장하시겠습니까?')) {
       try {
-        const data = eventInfo.reduce((acc, item) => {
-          acc[item.key] = item.value;
-          return acc;
-        }, {});
-
-        const startDate = eventInfo.find(
-          (item) => item.key === 'startDateTime',
-        ).value;
-        const endDate = eventInfo.find(
-          (item) => item.key === 'endDateTime',
-        ).value;
-
-        if (startDate.length === 5) {
-          const [startYear, startMonth, startDay, startHour, startMinute] =
-            startDate;
-          const startDateObj = new Date(
-            startYear,
-            startMonth - 1,
-            startDay,
-            startHour,
-            startMinute,
-          );
-          data.startDateTime = startDateObj.toISOString();
-        } else {
-          data.startDateTime = '';
-        }
-
-        if (endDate.length === 5) {
-          const [endYear, endMonth, endDay, endHour, endMinute] = endDate;
-          const endDateObj = new Date(
-            endYear,
-            endMonth - 1,
-            endDay,
-            endHour,
-            endMinute,
-          );
-          data.endDateTime = endDateObj.toISOString();
-        } else {
-          data.endDateTime = '';
-        }
         const response = await axios.patch(
           `${BASE_URL}/admin/event/${id}`,
           data,
@@ -275,16 +245,9 @@ const CreateEvent = () => {
     }
   };
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
-
   return (
     <StyledCreate>
+      <EventInfoAPI id={id} />
       <Header
         title="일정 수정"
         text="완료"
@@ -301,24 +264,16 @@ const CreateEvent = () => {
       <DatePickerWrapper>
         <DatePicker
           status="start"
-          onDateChange={(index, value) => {
-            const startDate = [
-              ...eventInfo.find((item) => item.key === 'startDateTime').value,
-            ];
-            startDate[index] = value;
-            editDate('startDateTime', startDate);
-          }}
+          onDateChange={(index, value) =>
+            onDateChange('startDateTime', index, value)
+          }
           origArr={startArr}
         />
         <DatePicker
           status="end"
-          onDateChange={(index, value) => {
-            const endDate = [
-              ...eventInfo.find((item) => item.key === 'endDateTime').value,
-            ];
-            endDate[index] = value;
-            editDate('endDateTime', endDate);
-          }}
+          onDateChange={(index, value) =>
+            onDateChange('endDateTime', index, value)
+          }
           origArr={endArr}
         />
       </DatePickerWrapper>
