@@ -74,6 +74,7 @@ const ModalContent = ({
           height="43px"
           width="90px"
           margin="10px"
+          inputType="year"
         />
         <Text>년</Text>
       </StyledContent>
@@ -92,6 +93,7 @@ const ModalContent = ({
         height="43px"
         width="90px"
         margin="10px"
+        inputType="year"
       />
       <Text>년</Text>
       <DateInput
@@ -101,6 +103,7 @@ const ModalContent = ({
         height="43px"
         width="90px"
         margin="10px"
+        inputType="month"
       />
       <Text>월</Text>
     </StyledContent>
