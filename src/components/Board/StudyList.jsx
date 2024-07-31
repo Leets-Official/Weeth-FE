@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import BoardComponent from './BoardComponent';
 import { BoardContext } from '../../hooks/BoardContext';
 
+
 const StudyList = () => {
   const navigate = useNavigate();
   const [studies, setStudies] = useState([]);
