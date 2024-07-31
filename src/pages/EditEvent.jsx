@@ -1,5 +1,5 @@
 import { useContext, useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import axios from 'axios';
 import PropTypes from 'prop-types';
@@ -117,6 +117,7 @@ DatePicker.propTypes = {
 };
 
 const EditEvent = () => {
+  const { id } = useParams();
   const [eventInfo, setEventInfo] = useState({
     title: '',
     startDateTime: '',
@@ -131,13 +132,13 @@ const EditEvent = () => {
   useEffect(() => {
     if (infoData) {
       setEventInfo({
-        title: infoData.title || '',
-        startDateTime: infoData.start || '',
-        endDateTime: infoData.end || '',
-        location: infoData.location || '',
-        requiredItems: infoData.requiredItems || '',
-        memberNumber: infoData.memberNumber || '',
-        content: infoData.content || '',
+        title: infoData.title,
+        startDateTime: infoData.start,
+        endDateTime: infoData.end,
+        location: infoData.location,
+        requiredItems: infoData.requiredItems,
+        memberNumber: infoData.memberNumber,
+        content: infoData.content,
       });
     }
   }, [infoData]);
@@ -146,7 +147,10 @@ const EditEvent = () => {
     return <div>error</div>;
   }
 
-  console.log(infoData);
+  console.log('InfoData', infoData);
+  console.log('info title', infoData.title);
+  console.log('eventInfo', eventInfo);
+  console.log('eventinfo title', eventInfo.title);
 
   const accessToken = localStorage.getItem('accessToken');
   const refreshToken = localStorage.getItem('refreshToken');
@@ -187,12 +191,16 @@ const EditEvent = () => {
 
     if (window.confirm('저장하시겠습니까?')) {
       try {
-        const response = await axios.post(`${BASE_URL}/admin/event`, data, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-            Authorization_refresh: `Bearer ${refreshToken}`,
+        const response = await axios.patch(
+          `${BASE_URL}/admin/event/${id}`,
+          data,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+              Authorization_refresh: `Bearer ${refreshToken}`,
+            },
           },
-        });
+        );
         console.log(response);
         console.log(data);
         alert('저장이 완료되었습니다.');

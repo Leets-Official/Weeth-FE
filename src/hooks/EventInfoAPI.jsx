@@ -25,7 +25,7 @@ const EventInfoAPI = ({ id }) => {
             headers,
           });
           if (response.data.code === 200) {
-            setInfoData(response.data);
+            setInfoData(response.data.data);
           } else {
             setError(response.data.message);
           }
