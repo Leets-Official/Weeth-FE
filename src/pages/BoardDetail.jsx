@@ -215,7 +215,7 @@ const BoardDetail = () => {
         navigate,
       ]);
 
-      if (validatedResponse.status === 200) {
+      if (validatedResponse.data.code === 0) {
         console.log('modify :', response);
         navigate('/BoardPosting');
       } else {
@@ -232,39 +232,44 @@ const BoardDetail = () => {
   const handleDeleteClick = async () => {
     if (window.confirm('삭제하시겠습니까?')) {
       try {
+        console.log('삭제 요청을 시작합니다...'); // 삭제 요청 시작 로그
         const response = await axios.delete(
-          `${BASE_URL}/${postId}`,
+          `${BASE_URL}/posts/${postId}`,
           {
             headers: {
-              Authorization: `Bearer ${ACCESS_TOKEN}`,
+              Authorization: `Bearer ${accessToken}`,
             },
           },
         );
+
+        console.log('서버로부터 받은 응답:', response); // 서버 응답 로그
 
         const validatedResponse = await Utils(
           response,
           axios.delete,
           [
-            `${BASE_URL}/${postId}`,
+            `${BASE_URL}/posts/${postId}`,
             {
               headers: {
-                Authorization: `Bearer ${ACCESS_TOKEN}`,
+                Authorization: `Bearer ${accessToken}`,
               },
             },
           ],
           navigate,
         );
 
-        if (validatedResponse.status === 200) {
-          console.log(response);
+        console.log('유효성 검사 후 응답:', validatedResponse); // 유효성 검사 후 응답 로그
+
+        if (validatedResponse.data.code === 200) {
+          console.log('삭제가 성공적으로 완료되었습니다.'); // 삭제 성공 로그
           alert('삭제가 완료되었습니다.');
           navigate('/board');
         } else {
-          console.error('삭제 실패:', validatedResponse.status);
+          console.error('삭제 실패:', validatedResponse.data.message); // 삭제 실패 로그
           alert('삭제에 실패했습니다. 다시 시도해주세요.');
         }
       } catch (err) {
-        console.error('삭제 오류:', err);
+        console.error('삭제 요청 중 오류 발생:', err); // 오류 발생 로그
         alert('삭제 도중 오류가 발생했습니다. 다시 시도해주세요.');
       }
     }
@@ -318,12 +323,10 @@ const BoardDetail = () => {
     setComment(e.target.value);
   };
 
-
-
   return (
     <Container>
       <HeaderWrapper>
-      <BoardHeader onMenuClick={handleMenuClick} showModal={false} handleDeleteClick={handleDeleteClick} />
+      <BoardHeader onMenuClick={handleMenuClick} showModal={false} />
       </HeaderWrapper>
       <StudyRow>
         <TextContainer>
