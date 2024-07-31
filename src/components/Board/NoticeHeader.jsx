@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+// import axios from 'axios';
+// import { useNavigate } from 'react-router-dom';
 import LeftButton from '../Header/LeftButton';
 import IndexButton from '../Header/IndexButton';
-// import TextButton from '../Header/TextButton';
 import Title from '../Header/Title';
+// import { UserContext } from '../../hooks/UserContext';
 import theme from '../../styles/theme';
+// import Utils from '../../hooks/Utils';
 
 const StyledHeader = styled.div`
   display: flex;
@@ -14,15 +17,7 @@ const StyledHeader = styled.div`
   margin: 45px 25px 20px 25px; //기본 헤더 마진
 `;
 
-/*
-오른쪽 버튼이 없어서 정렬이 안 맞을 경우에는
-TitleWrapper 스타일 사용~!
-*/
-const TitleWrapper = styled.div`
-  // position: absolute;
-  // left: 50%;
-  // transform: translateX(-50%);
-`;
+const TitleWrapper = styled.div``;
 
 const ModalOverlay = styled.div`
   position: fixed;
@@ -44,11 +39,10 @@ const ModalContainer = styled.div`
 `;
 
 const ModalContent = styled.div`
-  widht: 360px;
+  width: 360px;
   background: #333333;
   border-radius: 10px;
   padding: 10px 0;
-  width: 360px;
   text-align: center;
 `;
 
@@ -79,7 +73,7 @@ const CancelButton = styled.div`
   cursor: pointer;
 `;
 
-const NoticeHeader = ({ onMenuClick, showModal }) => {
+const NoticeHeader = ({ onMenuClick, showModal, handleDeleteClick }) => {
   const [isModalOpen, setIsModalOpen] = useState(showModal);
 
   useEffect(() => {
@@ -92,13 +86,6 @@ const NoticeHeader = ({ onMenuClick, showModal }) => {
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
-  };
-
-  const handleDeleteClick = () => {
-    if (window.confirm('삭제하시겠습니까?')) {
-      onMenuClick('delete');
-      setIsModalOpen(false);
-    }
   };
 
   return (
@@ -118,11 +105,11 @@ const NoticeHeader = ({ onMenuClick, showModal }) => {
               <MenuItem
                 onClick={(e) => {
                   const target = e.currentTarget;
-                  target.style.backgroundColor = '#4d4d4d'; // 클릭 시 색상 변경
+                  target.style.backgroundColor = '#4d4d4d';
                   onMenuClick('edit');
                   setTimeout(() => {
-                    target.style.backgroundColor = ''; // 원래 색상으로 돌아옴
-                  }, 100); // 2초 후 원래 색상으로 돌아옴
+                    target.style.backgroundColor = '';
+                  }, 100);
                 }}
               >
                 수정
@@ -130,11 +117,11 @@ const NoticeHeader = ({ onMenuClick, showModal }) => {
               <MenuItem
                 onClick={(e) => {
                   const target = e.currentTarget;
-                  target.style.backgroundColor = '#4d4d4d'; // 클릭 시 색상 변경
+                  target.style.backgroundColor = '#4d4d4d';
                   setTimeout(() => {
                     handleDeleteClick();
-                    target.style.backgroundColor = ''; // 원래 색상으로 돌아옴
-                  }, 100); // 0.3초 후 원래 색상으로 돌아옴
+                    target.style.backgroundColor = '';
+                  }, 100);
                 }}
               >
                 삭제
@@ -151,6 +138,7 @@ const NoticeHeader = ({ onMenuClick, showModal }) => {
 NoticeHeader.propTypes = {
   onMenuClick: PropTypes.func.isRequired,
   showModal: PropTypes.bool.isRequired,
+  handleDeleteClick: PropTypes.func.isRequired,
 };
 
 export default NoticeHeader;

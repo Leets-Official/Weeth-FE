@@ -63,7 +63,7 @@ const onMenuClick = () => {
 
 const Board = () => {
   const [activeTab, setActiveTab] = useState('notice');
-  const buttonElement = activeTab === 'study' ? <PostingButton>글쓰기</PostingButton> : undefined;
+  const buttonElement = activeTab === 'study' ? <PostingButton>글쓰기</PostingButton> : <div/>;
   // const [noticeList, setNoticeList] = useState([]);
   // const [noticeList, setNoticeList] = useState([]);
 

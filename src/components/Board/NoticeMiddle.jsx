@@ -58,7 +58,9 @@ const NoticeMiddle = ({ title, button }) => {
           자세한 내용을 보려면 게시물을 클릭하세요.
         </NoticeIntroduce>
       </NoticeTextContainer>
-      <StyledButton onClick={handleButtonClick}>{button}</StyledButton>
+      {button && (
+        <StyledButton onClick={handleButtonClick}>{button}</StyledButton>
+      )}
     </NoticeMiddleContainer>
   );
 };
