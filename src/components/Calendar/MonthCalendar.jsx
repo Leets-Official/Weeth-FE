@@ -178,7 +178,6 @@ const MonthCalendar = ({ year, month }) => {
 
   return (
     <CalendarContainer>
-      <EventInfoAPI id={id} />
       <EventAPI start={formattedStart} end={formattedEnd} year={year} />
       <FullCalendar
         ref={calendarRef}

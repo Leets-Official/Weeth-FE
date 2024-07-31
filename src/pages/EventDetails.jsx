@@ -7,6 +7,7 @@ import icCalendar from '../assets/images/ic_date.svg';
 import icClock from '../assets/images/ic_clock.svg';
 import theme from '../styles/theme';
 import BoardTitle from '../components/BoardTitle';
+import EventInfoAPI from '../hooks/EventInfoAPI';
 
 const StyledEventDetails = styled.div`
   width: 370px;
@@ -105,6 +106,7 @@ const EventDetails = () => {
 
   return (
     <StyledEventDetails>
+      <EventInfoAPI id={id} />
       <BoardTitle
         eventId={eventDetailData.id}
         text={eventDetailData.title}
