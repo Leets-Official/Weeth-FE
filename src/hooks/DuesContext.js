@@ -9,6 +9,7 @@ export const DuesContext = createContext();
 export const DuesProvider = ({ children }) => {
   const [duesData, setDuesData] = useState([]);
   const [totalAmount, setTotalAmount] = useState(0);
+  const [currentAmount, setCurrentAmount] = useState(0);
   const [myCardinal, setCardinal] = useState(0);
   const accessToken = localStorage.getItem('accessToken');
   useEffect(() => {
@@ -27,6 +28,7 @@ export const DuesProvider = ({ children }) => {
           setDuesData(result.data.receipts);
           setTotalAmount(result.data.total);
           setCardinal(result.data.cardinal);
+          setCurrentAmount(result.data.currentAmount);
         }
       } else {
         console.error('Failed to get data:', result.message);
@@ -37,7 +39,9 @@ export const DuesProvider = ({ children }) => {
   }, [accessToken]);
 
   return (
-    <DuesContext.Provider value={{ duesData, totalAmount, myCardinal }}>
+    <DuesContext.Provider
+      value={{ duesData, totalAmount, currentAmount, myCardinal }}
+    >
       {children}
     </DuesContext.Provider>
   );
