@@ -67,6 +67,23 @@ const Edit = () => {
   };
 
   const onSave = async () => {
+    let response;
+    try {
+      const data = userInfo.reduce((acc, item) => {
+        acc[item.key] = item.value;
+        return acc;
+      }, {});
+
+      response = await axios.patch(`${BASE_URL}/users`, data, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          Authorization_refresh: `Bearer ${refreshToken}`,
+        },
+      });
+    } catch (err) {
+      alert('저장 중 오류가 발생했습니다.');
+    }
+
     if (userInfo.some((item) => !item.value)) {
       alert('모든 항목을 입력해 주세요.');
       return;
@@ -80,25 +97,15 @@ const Edit = () => {
       }
     }
 
-    if (window.confirm('저장하시겠습니까?')) {
-      try {
-        const data = userInfo.reduce((acc, item) => {
-          acc[item.key] = item.value;
-          return acc;
-        }, {});
-
-        const response = await axios.patch(`${BASE_URL}/users`, data, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-            Authorization_refresh: `Bearer ${refreshToken}`,
-          },
-        });
+    if (response.data.code === 400) {
+      alert(response.data.message);
+    } else if (window.confirm('저장하시겠습니까?')) {
+      if (response.data.code === 200) {
         alert('저장이 완료되었습니다.');
         console.log(response);
         navi('/mypage');
-      } catch (err) {
-        alert('저장 중 오류가 발생했습니다.');
       }
+      alert('저장 중 오류가 발생했습니다.');
     }
   };
 
@@ -180,6 +187,7 @@ const Edit = () => {
             placeholder="메일을 입력하세요"
             align="right"
             edit={false}
+            inputType="alphabet"
           />
           <InfoInput
             text="비밀번호"
@@ -190,7 +198,7 @@ const Edit = () => {
             placeholder=""
             align="right"
             edit={false}
-            inputType="password"
+            inputType="alphabet"
           />
         </InfoWrapper>
       )}

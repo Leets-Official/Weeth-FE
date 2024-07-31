@@ -80,7 +80,7 @@ const InfoInput = ({
           return numberRegex.test(val) && val.length <= 11; // 숫자만, 최대 11자리
         }
         return numberRegex.test(val);
-      case 'password':
+      case 'alphabet':
         return /^[a-zA-Z0-9!@#$%^&*]*$/.test(val); // 영어/숫자/특수문자만
       default:
         return true;
