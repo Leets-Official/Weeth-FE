@@ -32,7 +32,6 @@ const TopRow = styled.div`
 const StyledText = styled.div`
   color: ${theme.color.grayScale.white};
   font-family: ${theme.font.family.pretendard_semiBold};
-  font-weight: 600;
   font-size: 16px;
   line-height: 19.09px;
 `;
