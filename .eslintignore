@@ -18,7 +18,7 @@ UserAPI.jsx
 UserContext.js
 EventAPI.jsx
 EventContext.js
-BoardAPI.jsx
+
 BoardContext.js
 NoticeContext.js
 NoticeAPI.jsx
