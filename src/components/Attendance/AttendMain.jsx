@@ -26,8 +26,6 @@ const StyledAttend = styled.div`
   include-font-padding: false;
 `;
 
-const dealt = Math.floor((ATTEND_GAUGE / MAX_ATTEND_GUAGE) * 100);
-
 const Progress = styled.div`
   width: 86%;
   height: 19px;
@@ -152,7 +150,7 @@ const AttendMain = () => {
   const { myPenaltyCount, hasPenalty } = useContext(PenaltyContext);
 
   const penalty = myPenaltyCount;
-
+  const dealt = Math.floor((ATTEND_GAUGE / MAX_ATTEND_GUAGE) * 100);
   // eslint-disable-next-line no-console
   // console.log(penalty);
 

@@ -4,6 +4,7 @@ import ReactModal from 'react-modal';
 import theme from '../../styles/theme';
 import ReceiptInfo from './ReceiptInfo';
 import { DuesContext } from '../../hooks/DuesContext';
+import DuesAPI from '../../hooks/DuesAPI';
 
 const StyledReceipt = styled.div`
   width: 370px;
@@ -89,6 +90,7 @@ const ReceiptMain = () => {
     setModalIsOpen(false);
     setSelectedImage('');
   };
+  console.log(duesData);
 
   const groupedByMonth = duesData.reduce((acc, curr) => {
     const month = new Date(curr.date).getMonth() + 1;
@@ -103,6 +105,7 @@ const ReceiptMain = () => {
 
   return (
     <StyledReceipt>
+      <DuesAPI />
       {months.map((month) => (
         <div key={month}>
           <StyledMonth>{month}월</StyledMonth>

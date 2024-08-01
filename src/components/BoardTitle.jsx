@@ -77,9 +77,10 @@ const BoardTitle = ({ eventId, text, writer, createdAt }) => {
   };
 
   const onClickDel = async () => {
+    const BASE_URL = process.env.REACT_APP_BASE_URL;
     if (window.confirm('삭제하시겠습니까?')) {
       try {
-        await axios.delete(`http://13.125.78.31:8080/admin/event/${eventId}`, {
+        await axios.delete(`${BASE_URL}/admin/event/${eventId}`, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
             Authorization_refresh: `Bearer ${refreshToken}`,
