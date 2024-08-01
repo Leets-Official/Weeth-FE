@@ -37,7 +37,7 @@ const StudyList = () => {
   }, [accessToken, setError]);
 
   useEffect(() => {
-    console.log('Studies state updated:', studies); // 상태 업데이트 후의 데이터를 확인
+    studies.forEach(study => console.log('Study:', study));
   }, [studies]);
 
   const handleNavigate = (study) => {
@@ -53,7 +53,7 @@ const StudyList = () => {
           title={study.title}
           content={study.content}
           time={study.time}
-          totalComments={study.totalComments || 0}
+          totalComments={parseInt(study.totalComments, 10) || 0}
           onClick={() => handleNavigate(study)}
         />
       ))}

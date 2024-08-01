@@ -18,6 +18,7 @@ const Container = styled.div`
   max-width: 370px;
   min-height: 810px;
   color: ${theme.color.grayScale.white};
+  margin-bottom: 50px;
 `;
 
 const HeaderWrapper = styled.div`
@@ -128,19 +129,71 @@ const BoardDetail = () => {
   const accessToken = localStorage.getItem('accessToken');
   const BASE_URL = process.env.REACT_APP_BASE_URL;
 
-  const fetchAndSetContent = (data) => {
-    setContent(data);
-    setTotalCommentCount(data.totalComments || 0);
+  useEffect(() => {
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(`${BASE_URL}/posts/${postId}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+
+      if (response.data.code === 200) {
+        setContent(response.data.data);
+        setTotalCommentCount(response.data.data.totalComments);
+      } else {
+        console.error('Error fetching post data:', response.data.message);
+      }
+    } catch (error) {
+      console.error('API request error:', error);
+    }
   };
 
-  useEffect(() => {
-    if (state?.data) {
-      setContent(state.data);
-    } else if (boardData) {
-      const currentData = boardData.find(post => post.id === parseInt(postId));
+  if (state?.data) {
+    setContent(state.data);
+    setTotalCommentCount(state.data.totalComments || 0);
+  } else if (boardData) {
+    const currentData = boardData.find(post => post.id === parseInt(postId));
+    if (currentData) {
       setContent(currentData);
+      setTotalCommentCount(currentData.totalComments || 0);
+    } else {
+      fetchData();
     }
-  }, [state, boardData, postId]);
+  } else {
+    fetchData();
+  }
+}, [state, boardData, postId, accessToken, BASE_URL]);
+
+const handleCommentSubmitted = async (newComment) => {
+  try {
+    const response = await axios.post(
+      `${BASE_URL}/posts/${postId}/comments`, 
+      { comment: newComment }, 
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+
+    if (response.data.code === 200) {
+      const updatedCount = response.data.data.totalComments;
+      console.log('Updated Comment Count:', updatedCount); // 댓글 수 로그 출력
+      console.log('Updated Content Data:', response.data.data); // 컨텐츠 데이터 로그 출력
+      setTotalCommentCount(updatedCount); // 서버에서 받은 댓글 수 업데이트
+      setContent(prevContent => ({
+        ...prevContent,
+        totalComments: updatedCount,
+        comments: [...prevContent.comments, newComment], // 새 댓글 추가
+      }));
+    } else {
+      console.error('Error posting comment:', response.data.message);
+    }
+  } catch (error) {
+    console.error('API request error:', error);
+  }
+};
 
 const handleModifyClick = async () => {
   try {
@@ -239,11 +292,6 @@ if (!content) {
     return <p>Loading...</p>;
   }
 
-  const handleCommentSubmitted = (newComment) => {
-    // 새로운 댓글이 제출되었을 때 처리하는 로직을 작성합니다.
-    console.log('새 댓글이 제출되었습니다:', newComment);
-  };
-  
   return (
     <Container>
       <HeaderWrapper>

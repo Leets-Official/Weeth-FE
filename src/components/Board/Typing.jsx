@@ -83,6 +83,7 @@ const Typing = ({ postId, onCommentSubmitted }) => {
       );
 
       if (isValidResponse.data.code === 200) {
+        console.log('bbb', isValidResponse);
         setComment(''); // 입력 필드 초기화
         onCommentSubmitted(isValidResponse.data); // 새로운 댓글을 부모 컴포넌트로 전달
         setParentId(null); // parentId를 초기화하여 다시 일반 댓글 작성 모드로 변경

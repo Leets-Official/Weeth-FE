@@ -49,7 +49,7 @@ const NoticeList = () => {
       {notices.map((notice) => (
         <BoardComponent
           key={notice.id}
-          name={notice.userName}
+          name={notice.name}
           title={notice.title}
           content={notice.content}
           time={notice.modifiedAt || notice.createdAt} // 수정된 시간이 있으면 수정된 시간, 없으면 생성 시간
