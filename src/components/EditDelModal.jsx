@@ -51,7 +51,7 @@ const CancelButton = styled.div`
   font-family: ${theme.font.family.pretendard_semiBold};
 `;
 
-const EditDelModal = ({ title, onClickEdit, onClickDel, onClickCancle }) => {
+const EditDelModal = ({ title, onClickEdit, onClickDel, onClickCancel }) => {
   return (
     <ContentWrapper>
       <ModalContent>
@@ -59,7 +59,7 @@ const EditDelModal = ({ title, onClickEdit, onClickDel, onClickCancle }) => {
         <Item onClick={onClickEdit}>수정</Item>
         <Item onClick={onClickDel}>삭제</Item>
       </ModalContent>
-      <CancelButton onClick={onClickCancle}>취소</CancelButton>
+      <CancelButton onClick={onClickCancel}>취소</CancelButton>
     </ContentWrapper>
   );
 };
@@ -68,7 +68,7 @@ EditDelModal.propTypes = {
   title: PropTypes.string.isRequired,
   onClickEdit: PropTypes.func.isRequired,
   onClickDel: PropTypes.func.isRequired,
-  onClickCancle: PropTypes.func.isRequired,
+  onClickCancel: PropTypes.func.isRequired,
 };
 
 export default EditDelModal;

@@ -12,6 +12,7 @@ MiddleButton.jsx
 DropDown.jsx
 StudyList.jsx
 BoardDetail.jsx
+BoardComponent.jsx
 
 UserAPI.jsx
 UserContext.js

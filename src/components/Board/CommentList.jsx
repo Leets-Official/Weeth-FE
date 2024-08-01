@@ -1,13 +1,13 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import BoardComponent from './BoardComponent';
-import { EventContext } from '../../hooks/EventContext';
+import BoardComment from './BoardComment';
+import { BoardContext } from '../../hooks/BoardContext';
 
-const NoticeList = () => {
+const CommentList = () => {
   const navigate = useNavigate();
-  const [notices, setNotices] = useState([]);
-  const { setError } = useContext(EventContext);
+  const [comments, setComments] = useState([]);
+  const { boardData, setError } = useContext(BoardContext);
 
   const accessToken = localStorage.getItem('accessToken');
   // const refreshToken = localStorage.getItem('refreshToken');
@@ -19,14 +19,11 @@ const NoticeList = () => {
     };
 
     axios
-      .get(`${BASE_URL}/notice`, { headers })
+      .get(`${BASE_URL}/posts`, { headers })
       .then((response) => {
         if (response.data.code === 200) {
-          const noticeData = response.data.data.filter(
-            (item) => item.type === 'NOTICE',
-          );
-          setNotices(noticeData);
-          console.log(noticeData);
+          console.log('bbbb: ', boardData);
+          setComments(boardData);
         } else {
           console.error('API response error:', response.data.message);
           setError(response.data.message);
@@ -38,27 +35,26 @@ const NoticeList = () => {
       });
   }, [accessToken, setError]);
 
-  const handleNavigate = (notice) => {
-    navigate(`/board/${notice.id}`, {
-      state: { type: 'notice', data: notice },
+  const handleNavigate = (comment) => {
+    navigate(`/board/${comment.id}`, {
+      state: { data: comment },
     });
   };
 
   return (
     <div>
-      {notices.map((notice) => (
-        <BoardComponent
-          key={notice.id}
-          name={notice.name}
-          title={notice.title}
-          content={notice.content}
-          time={notice.modifiedAt || notice.createdAt} // 수정된 시간이 있으면 수정된 시간, 없으면 생성 시간
+      {comments.map((comment) => (
+        <BoardComment
+          key={comment.id}
+          name={comment.name}
+          content={comment.content}
+          time={comment.modifiedAt || comment.createdAt} // 수정된 시간이 있으면 수정된 시간, 없으면 생성 시간
           totalComments=""
-          onClick={() => handleNavigate(notice)}
+          onClick={() => handleNavigate(comment)}
         />
       ))}
     </div>
   );
 };
 
-export default NoticeList;
+export default CommentList;
