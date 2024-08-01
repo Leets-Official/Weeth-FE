@@ -292,6 +292,7 @@ if (!content) {
     return <p>Loading...</p>;
   }
 
+  console.log('file',content);
   return (
     <Container>
       <HeaderWrapper>
@@ -309,7 +310,12 @@ if (!content) {
         <ComponentRow>
           {content.fileUrls ? (
             content.fileUrls.map((file) => (
-              <AttachButton key={file.id} filetype={file.filetype} />
+              <AttachButton
+                key={file.id}
+                filetype={file.filetype}
+                fileUrl={file.url} // file.url은 파일의 다운로드 URL을 가리킵니다.
+                fileName={content.title} // file.name은 파일 이름입니다.
+              />
             ))
           ) : (
             <p> </p>

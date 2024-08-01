@@ -45,18 +45,28 @@ const FileType = styled.span`
   color: ${theme.color.grayScale.white};
 `;
 
-const AttachButton = ({ filetype, onFileChange }) => {
+const AttachButton = ({ filetype, onFileChange, fileUrl, fileName }) => {
   const fileInputRef = useRef(null);
 
   const handleButtonClick = () => {
-    fileInputRef.current.click();
+    const link = document.createElement('a');
+    link.href = fileUrl;
+    link.download = fileName || 'download'; // 파일 이름이 없으면 'download'로 다운로드됩니다.
+    link.click();
+  };
+
+  const truncateFileName = (name) => {
+    if (name.length > 4) {
+      return `${name.substring(0, 4)}...`;
+    }
+    return name;
   };
 
   return (
     <Container>
       <StyledButton onClick={handleButtonClick}>
         <div className="text">
-          <FileName>파일이름</FileName>
+          <FileName>{truncateFileName(fileName)}</FileName>
           <FileType>{filetype}</FileType>
         </div>
         <InstallIcon
@@ -80,6 +90,9 @@ const AttachButton = ({ filetype, onFileChange }) => {
 AttachButton.propTypes = {
   filetype: PropTypes.node.isRequired,
   onFileChange: PropTypes.func.isRequired,
+  fileUrl: PropTypes.string.isRequired, // fileUrl은 필수 속성입니다.
+  // eslint-disable-next-line react/require-default-props
+  fileName: PropTypes.string, // 선택적으로 파일 이름을 받습니다.
 };
 
 export default AttachButton;
