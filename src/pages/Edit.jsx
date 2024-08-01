@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable no-restricted-syntax */
 import React, { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -104,8 +105,10 @@ const Edit = () => {
         alert('저장이 완료되었습니다.');
         console.log(response);
         navi('/mypage');
+      } else {
+        alert('서버 응답 오류/n저장 중 오류가 발생했습니다.');
       }
-      alert('저장 중 오류가 발생했습니다.');
+      console.log(response);
     }
   };
 
@@ -187,7 +190,7 @@ const Edit = () => {
             placeholder="메일을 입력하세요"
             align="right"
             edit={false}
-            inputType="alphabet"
+            inputType="no-korean"
           />
           <InfoInput
             text="비밀번호"
@@ -198,7 +201,7 @@ const Edit = () => {
             placeholder=""
             align="right"
             edit={false}
-            inputType="alphabet"
+            inputType="no-korean"
           />
         </InfoWrapper>
       )}

@@ -69,6 +69,8 @@ const InfoInput = ({
 
   const validateValue = (val) => {
     const numberRegex = /^[0-9]*$/;
+    const koreanRegex = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/; // 한글 필터링 정규 표현식
+
     switch (inputType) {
       case 'text':
         return /^[가-힣a-zA-Z]*$/.test(val); // 한글/영어만
@@ -80,8 +82,8 @@ const InfoInput = ({
           return numberRegex.test(val) && val.length <= 11; // 숫자만, 최대 11자리
         }
         return numberRegex.test(val);
-      case 'alphabet':
-        return /^[a-zA-Z0-9!@#$%^&*]*$/.test(val); // 영어/숫자/특수문자만
+      case 'no-korean':
+        return !koreanRegex.test(val); // 한글 포함하지 않음
       default:
         return true;
     }
@@ -153,7 +155,7 @@ InfoInput.propTypes = {
   padding: PropTypes.string.isRequired,
   align: PropTypes.string.isRequired,
   edit: PropTypes.bool,
-  inputType: PropTypes.oneOf(['text', 'number', 'password']).isRequired,
+  inputType: PropTypes.oneOf(['text', 'number', 'no-korean']),
 };
 
 export default InfoInput;
