@@ -312,7 +312,7 @@ if (!content) {
               <AttachButton key={file.id} filetype={file.filetype} />
             ))
           ) : (
-            <p>No files attached</p>
+            <p> </p>
           )}
           <RightMargin />
         </ComponentRow>
