@@ -6,7 +6,10 @@ import { BoardContext } from './BoardContext';
 const BoardAPI = () => {
   const { setBoardData, setError } = useContext(BoardContext);
 
+<<<<<<< HEAD
   const ACCESS_TOKEN = process.env.REACT_APP_ACCESS_TOKEN;
+=======
+>>>>>>> 2c9a75ba8d4760a1179129e75535c369eb8d8393
   const accessToken = localStorage.getItem('accessToken');
   const BASE_URL = process.env.REACT_APP_BASE_URL;
 
@@ -17,8 +20,11 @@ const BoardAPI = () => {
       return;
     }
 
+<<<<<<< HEAD
     console.log("Access Token:", accessToken);
 
+=======
+>>>>>>> 2c9a75ba8d4760a1179129e75535c369eb8d8393
     const headers = {
       Authorization: `Bearer ${accessToken}`,
     };
@@ -38,7 +44,7 @@ const BoardAPI = () => {
         console.error('API Request Error:', err); // 에러 로그
         setError('An error occurred while fetching the data');
       });
-  }, [ACCESS_TOKEN, setBoardData, setError]);
+  }, [accessToken, setBoardData, setError]);
 
   return null;
 };

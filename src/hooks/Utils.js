@@ -11,7 +11,7 @@ const Utils = async (response, originalApiFunc, originalParams, navigate) => {
     if (!isResponseBodyEmpty(response.data)) {
       const newToken = response.headers['authorization'];
       const newRefreshToken = response.headers['authorization-refresh'];
-      alert('login token', newToken, newRefreshToken);
+      // alert('login token', newToken, newRefreshToken);
       return response;
     } else {
       // Body가 비어있으면 token, refresh tokens을 local storage에 저장하기

@@ -15,6 +15,8 @@ const EventAPI = ({ start, end }) => {
     const fetchData = async () => {
       const accessToken = localStorage.getItem('accessToken');
       const refreshToken = localStorage.getItem('refreshToken');
+      const BASE_URL = process.env.REACT_APP_BASE_URL;
+
       const headers = {
         Authorization: `Bearer ${accessToken}`,
         Authorization_refresh: `Bearer ${refreshToken}`,
@@ -25,10 +27,10 @@ const EventAPI = ({ start, end }) => {
       };
 
       try {
-        let response = await axios.get('http://13.125.78.31:8080/event', { headers, params });
+        let response = await axios.get(`${BASE_URL}/event`, { headers, params });
 
         // Utils 함수를 사용하여 응답 처리 및 토큰 갱신
-        response = await Utils(response, axios.get, [{ url: 'http://13.125.78.31:8080/event', headers, params }], navigate);
+        response = await Utils(response, axios.get, [{ url: `${BASE_URL}/event`, headers, params }], navigate);
 
         if (response.data.code === 200) {
           console.log('API Response Data(달):', response.data.data); // 데이터 확인용

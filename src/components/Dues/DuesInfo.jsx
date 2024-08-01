@@ -5,7 +5,7 @@ import theme from '../../styles/theme';
 
 const MemberWrapper = styled.div`
   width; 100%;
-  padding: 20px 10px 0px 10px;
+  padding: 20px 0px 0px 0px;
   font-family: ${theme.font.family.pretendard_regular};
 `;
 
@@ -70,7 +70,7 @@ const DuesInfo = ({ dues, category, date, memo }) => {
 };
 
 DuesInfo.propTypes = {
-  dues: PropTypes.string.isRequired,
+  dues: PropTypes.number.isRequired,
   category: PropTypes.string.isRequired,
   date: PropTypes.string.isRequired,
   memo: PropTypes.string.isRequired,

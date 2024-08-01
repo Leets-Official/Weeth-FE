@@ -120,6 +120,8 @@ const MonthCalendar = ({ year, month }) => {
   const prevMonth = month - 1;
   const nextMonth = month + 1;
 
+  let id;
+
   const [formattedStart, setFormattedStart] = useState(
     `${year}-${String(prevMonth).padStart(2, '0')}-23T00:00:00.000Z`,
   );
@@ -152,8 +154,8 @@ const MonthCalendar = ({ year, month }) => {
   };
 
   const onClickEvent = (clickInfo) => {
-    const eventId = clickInfo.event.id;
-    navi(`/event/${eventId}`);
+    id = clickInfo.event.id;
+    navi(`/event/${id}`);
   };
 
   useEffect(() => {

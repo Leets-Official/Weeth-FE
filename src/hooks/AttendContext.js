@@ -10,11 +10,11 @@ export const AttendProvider = ({ children }) => {
   const [attendFetchError, setAttendFetchError] = useState(null);
   const [hasSchedule, setHasSchedule] = useState(true);
 
+  const accessToken = localStorage.getItem('accessToken');
   useEffect(() => {
     const fetchAttendances = async () => {
       try {
         // const ACCESS_TOKEN = process.env.REACT_APP_ADMIN_TOKEN;
-        const accessToken = localStorage.getItem('accessToken');
         const BASE_URL = process.env.REACT_APP_BASE_URL;
         const headers = {
           Authorization: `Bearer ${accessToken}`,
@@ -39,7 +39,7 @@ export const AttendProvider = ({ children }) => {
     };
 
     fetchAttendances();
-  }, []);
+  }, [accessToken]);
 
   return (
     <AttendContext.Provider

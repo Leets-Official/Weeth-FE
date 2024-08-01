@@ -114,7 +114,7 @@ const HomeFooter = () => {
           </ImgContainer>
           Instagram
         </GridItem>
-        <GridItem>
+        <GridItem href="https://discord.gg/XvZqeAca4K" target="_blank">
           <ImgContainer>
             <img src={discord} alt="discord" />
           </ImgContainer>
@@ -132,13 +132,25 @@ const HomeFooter = () => {
         <GridItemWithImage image={commitato}>
           <span>Commitato</span>
         </GridItemWithImage>
-        <GridItemWithImage image={moodmate}>
+        <GridItemWithImage
+          image={moodmate}
+          href="https://www.leets.land/project/7"
+          target="_blank"
+        >
           <span>moodmate</span>
         </GridItemWithImage>
-        <GridItemWithImage image={filling}>
+        <GridItemWithImage
+          image={filling}
+          href="https://www.leets.land/project/8"
+          target="_blank"
+        >
           <span>filling</span>
         </GridItemWithImage>
-        <GridItemWithImage image={gradu}>
+        <GridItemWithImage
+          image={gradu}
+          href="https://www.leets.land/project/10"
+          target="_blank"
+        >
           <span>Gradu</span>
         </GridItemWithImage>
       </ScrollContainer>
