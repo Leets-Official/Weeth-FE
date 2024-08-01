@@ -57,6 +57,9 @@ const adminModalStyles = {
     height: '100%',
     width: '100%',
   },
+  content: {
+    margin: '400px',
+  },
 };
 
 const BoardTitle = ({ eventId, text, writer, createdAt }) => {
@@ -123,7 +126,7 @@ const BoardTitle = ({ eventId, text, writer, createdAt }) => {
             navi(`/event/${eventId}/edit`);
           }}
           onClickDel={onClickDel}
-          onClickCancle={closeAdminModal}
+          onClickCancel={closeAdminModal}
         />
       </Modal>
     </StyledTitle>

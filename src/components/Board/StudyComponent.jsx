@@ -32,7 +32,6 @@ const TopRow = styled.div`
 const StyledText = styled.div`
   color: ${theme.color.grayScale.white};
   font-family: ${theme.font.family.pretendard_semiBold};
-  font-weight: 600;
   font-size: 16px;
   line-height: 19.09px;
   cursor: pointer;
@@ -47,7 +46,6 @@ const StyledName = styled.div`
 const StyledDate = styled.div`
   color: ${theme.color.grayScale.gray65};
   font-family: ${theme.font.family.pretendard_regular};
-  font-weight: 400;
   font-size: 12px;
   line-height: 14.32px;
 `;
@@ -68,7 +66,6 @@ const StudyContent = styled.div`
   margin-right: 10%;
   color: ${theme.color.grayScale.gray65};
   font-family: ${theme.font.family.pretendard_regular};
-  font-weight: 400;
   font-size: 12px;
   line-height: 14.32px;
   cursor: pointer;
@@ -85,7 +82,6 @@ const CommentCount = styled.div`
   align-items: center;
   color: ${theme.color.grayScale.gray65};
   font-family: ${theme.font.family.pretendard_regular};
-  font-weight: 400;
   font-size: 12px;
   line-height: 14.32px;
   margin-left: 4px;
