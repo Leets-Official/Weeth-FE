@@ -25,7 +25,6 @@ const InputField = styled.input`
   border-radius: 15px;
   font-size: 14px;
   font-family: ${theme.font.family.pretendard_semiBold};
-  font-weight: 600;
   outline: none;
   padding: 0 48% 0 5%;
 

@@ -57,12 +57,12 @@ const DropdownMenu = ({ text, origValue, editValue }) => {
   const dropdownRef = useRef(null);
 
   const options = [
-    { value: '경영학과', label: '경영학과' },
-    { value: '시각디자인학과', label: '시각디자인학과' },
-    { value: '산업공학과', label: '산업공학과' },
+    { value: 'BUSINESS', label: '경영학과' },
+    { value: 'VISUAL_DESIGN', label: '시각디자인학과' },
+    { value: 'INDUSTRIAL_ENGINEERING', label: '산업공학과' },
     { value: 'SW', label: '소프트웨어전공' },
     { value: 'AI', label: '인공지능전공' },
-    { value: '컴퓨터공학과', label: '컴퓨터공학과' },
+    { value: 'COMPUTERSCIENCE', label: '컴퓨터공학과' },
   ];
 
   const handleToggle = () => {
