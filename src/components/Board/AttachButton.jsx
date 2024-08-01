@@ -41,37 +41,33 @@ const FileName = styled.div`
   margin-bottom: 5px;
 `;
 
-const FileType = styled.span`
-  color: ${theme.color.grayScale.white};
-`;
-
-const AttachButton = ({ filetype, onFileChange, fileUrl, fileName }) => {
+const AttachButton = ({ onFileChange, fileUrl }) => {
   const fileInputRef = useRef(null);
 
-  const handleButtonClick = () => {
-    const link = document.createElement('a');
-    link.href = fileUrl;
-    link.download = fileName || 'download'; // 파일 이름이 없으면 'download'로 다운로드됩니다.
-    link.click();
-  };
-
-  const truncateFileName = (name) => {
-    if (name.length > 4) {
-      return `${name.substring(0, 4)}...`;
+  const handleButtonClick = async () => {
+    try {
+      const response = await fetch(fileUrl);
+      const blob = await response.blob();
+      const link = document.createElement('a');
+      const url = window.URL.createObjectURL(blob);
+      link.href = url;
+      link.download = fileUrl.split('/').pop(); // 파일 이름을 URL에서 추출
+      link.click();
+      window.URL.revokeObjectURL(url); // 메모리 해제를 위해 Object URL을 해제
+    } catch (error) {
+      console.error('파일 다운로드 실패:', error);
     }
-    return name;
   };
 
   return (
     <Container>
       <StyledButton onClick={handleButtonClick}>
         <div className="text">
-          <FileName>{truncateFileName(fileName)}</FileName>
-          <FileType>{filetype}</FileType>
+          <FileName>첨부파일</FileName>
         </div>
         <InstallIcon
           className="icon"
-          alt="{install}"
+          alt="install"
           style={{
             marginBottom: '5px',
           }}
@@ -88,11 +84,8 @@ const AttachButton = ({ filetype, onFileChange, fileUrl, fileName }) => {
 };
 
 AttachButton.propTypes = {
-  filetype: PropTypes.node.isRequired,
   onFileChange: PropTypes.func.isRequired,
   fileUrl: PropTypes.string.isRequired, // fileUrl은 필수 속성입니다.
-  // eslint-disable-next-line react/require-default-props
-  fileName: PropTypes.string, // 선택적으로 파일 이름을 받습니다.
 };
 
 export default AttachButton;
