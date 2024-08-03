@@ -165,6 +165,17 @@ const BoardDetail = () => {
   }
 }, [state, boardData, postId, accessToken, BASE_URL]);
 
+const handleFileChange = (newFile) => {
+  // 파일 URL을 content 상태에 반영
+  setContent((prevContent) => {
+    const { fileUrls = [] } = prevContent;
+    return {
+      ...prevContent,
+      fileUrls: [...fileUrls, newFile],
+    };
+  });
+};
+
 const handleCommentSubmitted = async (newComment) => {
   try {
     const response = await axios.post(
@@ -307,14 +318,15 @@ if (!content) {
           <StudyContents>{content?.content || 'Loading...'}</StudyContents>
         </TextContainer>
         <ComponentRow>
-          {content.fileUrls ? (
-            content.fileUrls.map((file) => (
-              <AttachButton key={file.id} filetype={file.filetype} />
-            ))
-          ) : (
-            <p>No files attached</p>
-          )}
-          <RightMargin />
+        {content?.fileUrls && content.fileUrls.length > 0 ? (
+          content.fileUrls.map((file) => (
+            <a key={file.id} href={file.url} target="_blank" rel="noopener noreferrer" />
+          ))
+        ) : (
+          <p>No files attached</p>
+        )}
+        <AttachButton filetype="file" onFileChange={handleFileChange} />
+        <RightMargin />
         </ComponentRow>
         <BottomRow>
           <BoardChat alt="" />

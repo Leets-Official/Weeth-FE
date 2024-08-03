@@ -24,5 +24,6 @@ NoticeContext.js
 NoticeAPI.jsx
 
 FileAttachMenu.jsx
+AttachButton.jsx
 
 Utils.js
