@@ -54,7 +54,8 @@ const PlusButton = styled.img`
 const monthModalStyles = {
   overlay: {
     backgroundColor: 'rgba(0,0,0,0.5)',
-    backdropFilter: 'blur(5px)',
+    backdropFilter: 'blur(5px)', // 표준 CSS 속성
+    WebkitBackdropFilter: 'blur(5px)', // -webkit- 접두사를 사용한 속성
     zIndex: 1000,
     width: '100%',
     height: '100%',
