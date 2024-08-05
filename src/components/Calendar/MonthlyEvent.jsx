@@ -59,7 +59,7 @@ EventComponent.propTypes = {
   title: PropTypes.string.isRequired,
 };
 
-const MonthlyEvent = ({ thisMonth, month, year }) => {
+const MonthlyEvent = ({ thisMonth, year }) => {
   const [yearEventData, setYearEventData] = useState(null);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
@@ -126,7 +126,9 @@ const MonthlyEvent = ({ thisMonth, month, year }) => {
     return <div>Loading...</div>;
   }
 
-  const istoday = thisMonth === month;
+  const todayMonth = new Date().getMonth() + 1;
+  const todayYear = new Date().getFullYear();
+  const istoday = thisMonth === todayMonth && todayYear === year;
   const events = yearEventData[thisMonth] || [];
 
   return (
@@ -147,7 +149,6 @@ const MonthlyEvent = ({ thisMonth, month, year }) => {
 
 MonthlyEvent.propTypes = {
   thisMonth: PropTypes.number.isRequired,
-  month: PropTypes.number.isRequired,
   year: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
 };
 
