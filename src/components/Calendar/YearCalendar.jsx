@@ -22,7 +22,7 @@ const OddMonth = styled.div`
 
 const allMonth = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
-const YearCalendar = ({ month, year }) => {
+const YearCalendar = ({ year }) => {
   const yearNumber = parseInt(year, 10); // 문자열을 숫자로 변환
   return (
     <MonthlyBox>
@@ -33,7 +33,6 @@ const YearCalendar = ({ month, year }) => {
             <MonthlyEvent
               key={monthItem}
               thisMonth={monthItem}
-              month={month}
               year={yearNumber}
             />
           ))}
@@ -45,7 +44,6 @@ const YearCalendar = ({ month, year }) => {
             <MonthlyEvent
               key={monthItem}
               thisMonth={monthItem}
-              month={month}
               year={yearNumber}
             />
           ))}
@@ -55,7 +53,6 @@ const YearCalendar = ({ month, year }) => {
 };
 
 YearCalendar.propTypes = {
-  month: PropTypes.number.isRequired,
   year: PropTypes.number.isRequired,
 };
 

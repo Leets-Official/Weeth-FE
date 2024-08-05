@@ -40,3 +40,7 @@ const Utils = async (response, originalApiFunc, originalParams, navigate) => {
 };
 
 export default Utils;
+
+export const replaceNewLines = (text) => {
+  return text.replace(/\r?\n/g, '\\n');
+};
