@@ -31,7 +31,7 @@ const theme = {
   font: {
     family: {
       pretendard_semiBold: 'Pretendard SemiBold',
-      pretendard_regular: 'Prentendard Regular',
+      pretendard_regular: 'Pretendard Regular',
     },
   },
 };
