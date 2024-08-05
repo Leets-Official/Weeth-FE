@@ -12,6 +12,7 @@ import InfoInput from '../components/MyPage/InfoInput';
 import icCalendar from '../assets/images/ic_date.svg';
 import icWave from '../assets/images/ic_wave.svg';
 import DateInput from '../components/Calendar/DateInput';
+import { replaceNewLines } from '../hooks/Utils';
 
 const StyledCreate = styled.div`
   display: flex;
@@ -173,7 +174,10 @@ const CreateEvent = () => {
 
   const onSave = async () => {
     const title = eventInfo.find((item) => item.key === 'title').value;
-    const content = eventInfo.find((item) => item.key === 'content').value;
+    let content = eventInfo.find((item) => item.key === 'content').value;
+
+    // 엔터를 \n으로 치환
+    content = replaceNewLines(content);
 
     // 작성한 내용 저장
     const data = eventInfo.reduce((acc, item) => {

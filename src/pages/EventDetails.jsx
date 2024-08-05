@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
@@ -11,6 +12,7 @@ import EventInfoAPI from '../hooks/EventInfoAPI';
 
 const StyledEventDetails = styled.div`
   width: 370px;
+  margin-bottom: 50px;
 `;
 
 const ContentBlock = styled.div`
@@ -18,6 +20,7 @@ const ContentBlock = styled.div`
   padding: 15px;
   border-radius: 20px;
   margin: 10px;
+  white-space: pre-wrap;
 `;
 
 const TimeInfo = styled.div`
