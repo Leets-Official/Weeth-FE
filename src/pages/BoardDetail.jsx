@@ -165,6 +165,17 @@ const BoardDetail = () => {
   }
 }, [state, boardData, postId, accessToken, BASE_URL]);
 
+const handleFileChange = (newFile) => {
+  // 파일 URL을 content 상태에 반영
+  setContent((prevContent) => {
+    const { fileUrls = [] } = prevContent;
+    return {
+      ...prevContent,
+      fileUrls: [...fileUrls, newFile],
+    };
+  });
+};
+
 const handleCommentSubmitted = async (newComment) => {
   try {
     const response = await axios.post(

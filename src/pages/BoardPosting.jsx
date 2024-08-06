@@ -1,4 +1,3 @@
-// BOardPosting
 import React, { useEffect, useState, useContext } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
@@ -93,7 +92,7 @@ const BoardPosting = () => {
       'requestPostDTO',
       new Blob([JSON.stringify(boardPost)], { type: 'application/json' }),
     );
-    Array.from(files).forEach((file) => formData.append('files', file));
+    files.forEach((file) => formData.append('files', file));
 
     try {
       const response = await axios.post(`${BASE_URL}/posts`, formData, {
@@ -105,6 +104,7 @@ const BoardPosting = () => {
           userId: userData.id,
         },
       });
+
       console.log('Server response:', response);
       const validatedResponse = await Utils(
         response,

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Grid, Card, CardContent, Typography, Button, Modal } from '@mui/material';
+import { Box, Grid, Card, Typography, Button, Modal } from '@mui/material';
 import styled from 'styled-components';
 import RightButton from '../Header/RightButton';
 import theme from '../../styles/theme';
@@ -25,6 +25,60 @@ const Divider = styled.div`
   margin: 24px 0 8px 0;
 `;
 
+const ImageContainer = styled.div`
+  position: relative;
+  width: 100%;
+  padding-top: 100%; /* Aspect ratio 1:1 유지 */
+  overflow: hidden;
+  border-radius: 8px;
+`;
+
+const StyledImage = styled.img`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+`;
+
+const RemoveButton = styled.button`
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background: none;
+  border: none;
+  color: #ff5858;
+  cursor: pointer;
+  padding: 0;
+  min-width: 24px;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    width: 3px; /* 두께를 더 두껍게 설정 */
+    height: 16px;
+    background-color: #ff5858;
+    border-radius: 1px;
+  }
+
+  &::before {
+    transform: rotate(45deg);
+  }
+
+  &::after {
+    transform: rotate(-45deg);
+  }
+`;
+
+
+
 const FileAttachMenu = ({ isOpen, onClose, setFiles }) => {
   const [photos, setPhotos] = useState([]);
   const [attachments, setAttachments] = useState([]);
@@ -35,16 +89,33 @@ const FileAttachMenu = ({ isOpen, onClose, setFiles }) => {
 
   const handleFileChange = (event, type) => {
     const files = Array.from(event.target.files);
-    setFiles((prevFiles) => [...prevFiles, ...files]);
+    const newFiles = files.map((file) => {
+      return {
+        file: file,
+        url: URL.createObjectURL(file),
+        name: file.name,
+      };
+    });
+
+    setFiles((prevFiles) => [...prevFiles, ...newFiles]);
+
     if (type === 'photo') {
-      setPhotos((prevPhotos) => [...prevPhotos, ...files]);
+      setPhotos((prevPhotos) => [...prevPhotos, ...newFiles]);
     } else if (type === 'attachment') {
-      setAttachments((prevAttachments) => [...prevAttachments, ...files]);
+      setAttachments((prevAttachments) => [...prevAttachments, ...newFiles]);
     }
   };
 
   const triggerFileInput = (type) => {
     document.getElementById(`fileInput-${type}`).click();
+  };
+
+  const removeFile = (index, type) => {
+    if (type === 'photo') {
+      setPhotos((prevPhotos) => prevPhotos.filter((_, i) => i !== index));
+    } else if (type === 'attachment') {
+      setAttachments((prevAttachments) => prevAttachments.filter((_, i) => i !== index));
+    }
   };
 
   return (
@@ -80,10 +151,11 @@ const FileAttachMenu = ({ isOpen, onClose, setFiles }) => {
             <Grid container justifyContent="center" spacing={1}>
               {photos.map((file, index) => (
                 <Grid item key={index} sx={{ width: '30%' }}>
-                  <Card>
-                    <CardContent sx={{ height: 60 }}>
-                      <Typography variant="body2">{file.name}</Typography>
-                    </CardContent>
+                  <Card sx={{ boxShadow: 'none', padding: 0 }}>
+                    <ImageContainer>
+                      <StyledImage src={file.url} alt={file.name} />
+                      <RemoveButton onClick={() => removeFile(index, 'photo')}>X</RemoveButton>
+                    </ImageContainer>
                   </Card>
                 </Grid>
               ))}
@@ -104,9 +176,8 @@ const FileAttachMenu = ({ isOpen, onClose, setFiles }) => {
               {attachments.map((file, index) => (
                 <Grid item key={index} sx={{ width: '30%' }}>
                   <Card>
-                    <CardContent sx={{ height: 60 }}>
-                      <Typography variant="body2">{file.name}</Typography>
-                    </CardContent>
+                    <Typography variant="body2">{file.name}</Typography>
+                    <Button onClick={() => removeFile(index, 'attachment')}>X</Button>
                   </Card>
                 </Grid>
               ))}
