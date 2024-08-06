@@ -303,6 +303,7 @@ if (!content) {
     return <p>Loading...</p>;
   }
 
+  console.log('file',content.fileUrls[0]);
   return (
     <Container>
       <HeaderWrapper>
@@ -318,15 +319,15 @@ if (!content) {
           <StudyContents>{content?.content || 'Loading...'}</StudyContents>
         </TextContainer>
         <ComponentRow>
-        {content?.fileUrls && content.fileUrls.length > 0 ? (
-          content.fileUrls.map((file) => (
-            <a key={file.id} href={file.url} target="_blank" rel="noopener noreferrer" />
-          ))
-        ) : (
-          <p>No files attached</p>
-        )}
-        <AttachButton filetype="file" onFileChange={handleFileChange} />
-        <RightMargin />
+          {content.fileUrls ? (
+            <AttachButton
+              fileUrl={content.fileUrls[0]} 
+              onFileChange={() => {}} // 파일 선택 기능이 필요하지 않으면 빈 함수로 전달 가능합니다.
+            />
+          ) : (
+            <p> </p>
+          )}
+          <RightMargin />
         </ComponentRow>
         <BottomRow>
           <BoardChat alt="" />

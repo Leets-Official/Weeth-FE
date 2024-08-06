@@ -22,7 +22,6 @@ const StyledTab = styled.div`
   padding: 10px 10px;
   cursor: pointer;
   font-family: ${theme.font.family.pretendard_semiBold};
-  font-weight: 600;
   font-size: 16px;
   line-height: 19.09px;
   color: ${(props) =>

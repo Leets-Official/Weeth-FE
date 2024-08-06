@@ -44,11 +44,7 @@ const FileName = styled.div`
   margin-bottom: 5px;
 `;
 
-const FileType = styled.span`
-  color: ${theme.color.grayScale.white};
-`;
-
-const AttachButton = ({ filetype, onFileChange }) => {
+const AttachButton = ({ onFileChange, fileUrl }) => {
   const fileInputRef = useRef(null);
   const { postId } = useParams();
 
@@ -57,49 +53,16 @@ const AttachButton = ({ filetype, onFileChange }) => {
 
   const handleButtonClick = async () => {
     try {
-      const response = await axios.get(`${BASE_URL}/posts/${postId}`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-
-      const isValidResponse = await Utils(
-        response,
-        axios.get,
-        [
-          `${BASE_URL}/posts/${postId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`, // 헤더 설정은 여기서
-            },
-          },
-        ],
-        navigate,
-      );
-
-      console.log('Server response:', isValidResponse.data); // 서버 응답 출력
-
-      if (isValidResponse.data && isValidResponse.data.code === 200) {
-        const fileUrls = isValidResponse.data.data?.fileUrls;
-
-        if (fileUrls && Array.isArray(fileUrls)) {
-          // 여러 파일 URL을 처리
-          const files = fileUrls.map(file => ({
-            id: file.id,
-            url: file.url,
-            filetype: file.type || 'Unknown', // file.type이 없다면 기본값 'Unknown' 사용
-          }));
-
-          setFiles(files); // 파일 리스트 상태 업데이트
-          onFileChange(files); // 파일 리스트를 부모 컴포넌트로 전달
-        } else {
-          console.error('No fileUrls array in response:', response.data);
-        }
-      } else {
-        console.error('File download failed or unexpected response:', response.data?.message);
-      }
+      const response = await fetch(fileUrl);
+      const blob = await response.blob();
+      const link = document.createElement('a');
+      const url = window.URL.createObjectURL(blob);
+      link.href = url;
+      link.download = fileUrl.split('/').pop(); // 파일 이름을 URL에서 추출
+      link.click();
+      window.URL.revokeObjectURL(url); // 메모리 해제를 위해 Object URL을 해제
     } catch (error) {
-      console.error('Error downloading file:', error);
+      console.error('파일 다운로드 실패:', error);
     }
   };
 
@@ -107,12 +70,11 @@ const AttachButton = ({ filetype, onFileChange }) => {
     <Container>
       <StyledButton onClick={handleButtonClick}>
         <div className="text">
-          <FileName>파일 이름</FileName>
-          <FileType>{filetype}</FileType>
+          <FileName>첨부파일</FileName>
         </div>
         <InstallIcon
           className="icon"
-          alt="{install}"
+          alt="install"
           style={{
             marginBottom: '5px',
           }}
@@ -123,8 +85,8 @@ const AttachButton = ({ filetype, onFileChange }) => {
 };
 
 AttachButton.propTypes = {
-  filetype: PropTypes.node.isRequired,
   onFileChange: PropTypes.func.isRequired,
+  fileUrl: PropTypes.string.isRequired, // fileUrl은 필수 속성입니다.
 };
 
 export default AttachButton;

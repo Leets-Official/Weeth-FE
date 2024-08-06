@@ -61,7 +61,7 @@ const fieldDefinitions = [
 const roleMapping = {
   프론트: 'FE',
   백: 'BE',
-  디자인: 'DE',
+  디자인: 'D',
 };
 
 const Profile = () => {

@@ -68,10 +68,10 @@ const GridItemWithImage = styled(GridItem)`
   display: flex;
   justify-content: flex-end;
   align-items: flex-end;
-  font-weight: bold;
   position: relative;
   overflow: hidden;
   padding: 10px;
+  font-family: ${theme.font.family.pretendard_semiBold};
   &:after {
     content: '';
     position: absolute;

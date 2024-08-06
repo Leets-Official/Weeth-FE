@@ -9,6 +9,7 @@ import theme from '../../styles/theme';
 // import mockEventMonth from '../mockData/mockEventMonth';
 import { EventContext } from '../../hooks/EventContext';
 import EventAPI from '../../hooks/EventAPI';
+import UserAPI from '../../hooks/UserAPI';
 
 const CalendarContainer = styled.div`
   width: 100%;
@@ -94,6 +95,8 @@ const CalendarContainer = styled.div`
   .fc-event-title {
     font-weight: 400;
     padding: 0px;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 `;
 
@@ -179,6 +182,7 @@ const MonthCalendar = ({ year, month }) => {
   return (
     <CalendarContainer>
       <EventAPI start={formattedStart} end={formattedEnd} year={year} />
+      <UserAPI />
       <FullCalendar
         ref={calendarRef}
         plugins={[dayGridPlugin]}
