@@ -84,18 +84,19 @@ const BoardPosting = () => {
   const saveBoard = async () => {
     if (!userData || !userData.id) {
       console.error('Error: User data is missing or invalid.');
-      return; // 또는 navigate('/login') 등으로 사용자를 로그인 페이지로 리다이렉트할 수 있습니다.
+      navigate('/login'); // 로그인 페이지로 리다이렉트
+      return;
     }
 
     const formData = new FormData();
     formData.append(
-      'requestPostDTO',
+      'dto',
       new Blob([JSON.stringify(boardPost)], { type: 'application/json' }),
     );
-    files.forEach((file) => formData.append('files', file));
+    Array.from(files).forEach((file) => formData.append('files', file));
 
     try {
-      const response = await axios.post(`${BASE_URL}/posts`, formData, {
+      const response = await axios.post(`${BASE_URL}/api/v1/posts`, formData, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
           'Content-Type': 'multipart/form-data',
@@ -104,13 +105,12 @@ const BoardPosting = () => {
           userId: userData.id,
         },
       });
-
       console.log('Server response:', response);
       const validatedResponse = await Utils(
         response,
         axios.post,
         [
-          `${BASE_URL}/posts`,
+          `${BASE_URL}/api/v1/posts`,
           formData,
           {
             headers: {
@@ -131,6 +131,9 @@ const BoardPosting = () => {
       }
     } catch (err) {
       console.error('Error saving board post:', err);
+      if (err.response && err.response.data && err.response.data.message) {
+        console.error('Error message from server:', err.response.data.message);
+      }
     }
   };
 

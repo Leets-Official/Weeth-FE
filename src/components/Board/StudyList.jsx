@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import BoardComponent from './BoardComponent';
 import { BoardContext } from '../../hooks/BoardContext';
 
-
 const StudyList = () => {
   const navigate = useNavigate();
   const [studies, setStudies] = useState([]);
@@ -12,29 +11,35 @@ const StudyList = () => {
 
   const accessToken = localStorage.getItem('accessToken');
   const refreshToken = localStorage.getItem('refreshToken');
-
   const BASE_URL = process.env.REACT_APP_BASE_URL;
 
-  useEffect(() => {
-    const fetchStudies = async () => {
-      try {
-        const response = await axios.get(`${BASE_URL}/posts`, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
-        if (response.data.code === 200) {
-          setStudies(response.data.data); // 필터링 없이 모든 데이터를 설정
-        } else {
-          setError(response.data.message);
-        }
-      } catch (error) {
-        setError('스터디 데이터를 가져오는 중 오류가 발생했습니다.');
+  const fetchStudies = async (postId = null, count = 5) => {
+    try {
+      const params = { count };
+      if (postId) {
+        params.postId = postId;
       }
-    };
+      
+      const response = await axios.get(`${BASE_URL}/api/v1/posts`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+        params,
+      });
 
+      if (response.data.code === 200) {
+        setStudies(prevStudies => [...prevStudies, ...response.data.data]);
+      } else {
+        setError(response.data.message);
+      }
+    } catch (error) {
+      setError('스터디 데이터를 가져오는 중 오류가 발생했습니다.');
+    }
+  };
+
+  useEffect(() => {
     fetchStudies();
-  }, [accessToken, setError]);
+  }, [accessToken]);
 
   useEffect(() => {
     studies.forEach(study => console.log('Study:', study));
@@ -42,6 +47,13 @@ const StudyList = () => {
 
   const handleNavigate = (study) => {
     navigate(`/board/${study.id}`, { state: { type: 'study', data: study } });
+  };
+
+  const loadMoreStudies = () => {
+    const lastStudy = studies[studies.length - 1];
+    if (lastStudy) {
+      fetchStudies(lastStudy.id);
+    }
   };
 
   return (
@@ -57,6 +69,7 @@ const StudyList = () => {
           onClick={() => handleNavigate(study)}
         />
       ))}
+      <button onClick={loadMoreStudies}>더 불러오기</button>
     </div>
   );
 };
