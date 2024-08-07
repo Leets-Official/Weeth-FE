@@ -3,13 +3,13 @@ import styled from 'styled-components';
 import axios from 'axios';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import BoardHeader from '../components/Board/NoticeHeader';
-import AttachButton from '../components/Board/AttachButton';
 import BoardComment from '../components/Board/BoardComment';
+import AttachButton from '../components/Board/AttachButton';
 import Typing from '../components/Board/Typing';
+// import BoardAPI from '../hooks/BoardAPI'; // 이 줄을 주석처리하거나 정확한 경로로 수정
 import { ReactComponent as BoardChat } from '../assets/images/ic_board_chat.svg';
 import theme from '../styles/theme';
 import { BoardContext } from '../hooks/BoardContext';
-import BoardAPI from '../hooks/BoardAPI';
 
 const Container = styled.div`
   display: flex;
@@ -38,7 +38,7 @@ const StudyRow = styled.div`
 `;
 
 const TextContainer = styled.div`
-  margin: 0 0 7%; 10px;
+  margin: 0 0 7%;
   padding: 0;
 `;
 
@@ -77,7 +77,7 @@ const StudyContents = styled.div`
   margin-top: 20px;
   margin-right: 4%;
   font-family: ${theme.font.family.pretendard_regular};
-  weight: 400;
+  font-weight: 400;
   font-size: 16px;
   line-height: 19.09px;
 `;
@@ -118,10 +118,10 @@ const formatDateTime = (dateTimeString) => {
 
 const BoardDetail = () => {
   const { state } = useLocation();
-  const { id, noticeId } = useParams();
+  const { id } = useParams();
   const postId = parseInt(id, 10);
 
-  const { boardData, error } = useContext(BoardContext);
+  const { boardData, error, setError } = useContext(BoardContext);
   const [content, setContent] = useState(null);
   const [totalCommentCount, setTotalCommentCount] = useState(0);
   const navigate = useNavigate();
@@ -130,168 +130,70 @@ const BoardDetail = () => {
   const BASE_URL = process.env.REACT_APP_BASE_URL;
 
   useEffect(() => {
-  const fetchData = async () => {
-    try {
-      const response = await axios.get(`${BASE_URL}/posts/${postId}`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${BASE_URL}/api/v1/posts/${postId}`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
 
-      if (response.data.code === 200) {
-        setContent(response.data.data);
-        setTotalCommentCount(response.data.data.totalComments);
-      } else {
-        console.error('Error fetching post data:', response.data.message);
+        if (response.data.code === 200) {
+          setContent(response.data.data);
+          setTotalCommentCount(response.data.data.commentCount || 0);
+        } else {
+          console.error('Error fetching post data:', response.data.message);
+          setError(response.data.message);
+        }
+      } catch (error) {
+        console.error('API request error:', error);
+        setError('API request error');
       }
-    } catch (error) {
-      console.error('API request error:', error);
-    }
-  };
+    };
 
-  if (state?.data) {
-    setContent(state.data);
-    setTotalCommentCount(state.data.totalComments || 0);
-  } else if (boardData) {
-    const currentData = boardData.find(post => post.id === parseInt(postId));
-    if (currentData) {
-      setContent(currentData);
-      setTotalCommentCount(currentData.totalComments || 0);
+    if (state?.data) {
+      setContent(state.data);
+      setTotalCommentCount(state.data.commentCount || 0);
+    } else if (boardData) {
+      const currentData = boardData.find(post => post.id === postId);
+      if (currentData) {
+        setContent(currentData);
+        setTotalCommentCount(currentData.commentCount || 0);
+      } else {
+        fetchData();
+      }
     } else {
       fetchData();
     }
-  } else {
-    fetchData();
-  }
-}, [state, boardData, postId, accessToken, BASE_URL]);
+  }, [state, boardData, postId, accessToken, BASE_URL, setError]);
 
-const handleFileChange = (newFile) => {
-  // 파일 URL을 content 상태에 반영
-  setContent((prevContent) => {
-    const { fileUrls = [] } = prevContent;
-    return {
-      ...prevContent,
-      fileUrls: [...fileUrls, newFile],
-    };
-  });
-};
-
-const handleCommentSubmitted = async (newComment) => {
-  try {
-    const response = await axios.post(
-      `${BASE_URL}/posts/${postId}/comments`, 
-      { comment: newComment }, 
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }
-    );
-
-    if (response.data.code === 200) {
-      const updatedCount = response.data.data.totalComments;
-      console.log('Updated Comment Count:', updatedCount); // 댓글 수 로그 출력
-      console.log('Updated Content Data:', response.data.data); // 컨텐츠 데이터 로그 출력
-      setTotalCommentCount(updatedCount); // 서버에서 받은 댓글 수 업데이트
-      setContent(prevContent => ({
-        ...prevContent,
-        totalComments: updatedCount,
-        comments: [...prevContent.comments, newComment], // 새 댓글 추가
-      }));
-    } else {
-      console.error('Error posting comment:', response.data.message);
-    }
-  } catch (error) {
-    console.error('API request error:', error);
-  }
-};
-
-const handleModifyClick = async () => {
-  try {
-    const url = `${BASE_URL}/posts/${postId}`;
-    const formData = new FormData();
-
-    const requestPostDTO = {
-      title: content.title,
-      content: content.data,
-    };
-    formData.append(
-      'requestPostDTO',
-      new Blob([JSON.stringify(requestPostDTO)], {
-        type: 'application/json',
-      }),
-    );
-
-    if (content.files && content.files.length > 0) {
-      content.files.forEach((file) => {
-        formData.append('files', file);
-      });
-    }
-
-    const response = await axios.post(url, formData, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        'Content-Type': 'multipart/form-data',
-      },
-    });
-
-    if (response.data.code === 200) {
-      console.log('modify :', response.data);
-      navigate('/BoardPosting');
-    } else {
-      console.error('수정 실패:', response.data.message);
-      alert('수정에 실패했습니다. 다시 시도해주세요.');
-    }
-  } catch (err) {
-    console.error('수정 오류:', err);
-    alert('수정 도중 오류가 발생했습니다. 다시 시도해주세요.');
-  }
-};
-
-const handleDeleteClick = async () => {
-  if (window.confirm('삭제하시겠습니까?')) {
+  const handleCommentSubmitted = async (newComment) => {
     try {
-      const url = `${BASE_URL}/posts/${postId}`;
-      const response = await axios.delete(url, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
+      const response = await axios.post(
+        `${BASE_URL}/api/v1/posts/${postId}/comments`, 
+        { content: newComment }, 
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
 
       if (response.data.code === 200) {
-        console.log('삭제가 성공적으로 완료되었습니다.');
-        alert('삭제가 완료되었습니다.');
-        navigate('/board');
+        const updatedCount = response.data.data.commentCount;
+        setTotalCommentCount(updatedCount);
+        setContent(prevContent => ({
+          ...prevContent,
+          commentCount: updatedCount,
+          comments: [...prevContent.comments, newComment],
+        }));
       } else {
-        console.error('삭제 실패:', response.data.message);
-        alert('삭제에 실패했습니다. 다시 시도해주세요.');
+        console.error('Error posting comment:', response.data.message);
+        setError(response.data.message);
       }
-    } catch (err) {
-      console.error('삭제 요청 중 오류 발생:', err);
-      alert('삭제 도중 오류가 발생했습니다. 다시 시도해주세요.');
-    }
-  }
-};
-
-if (error) {
-  return <p>Error: {error}</p>;
-}
-
-if (!content) {
-  return <p>Loading...</p>;
-}
-
-
-  const handleMenuClick = (action) => {
-    switch (action) {
-      case 'edit':
-        handleModifyClick();
-        break;
-      case 'delete':
-        handleDeleteClick();
-        break;
-      default:
-        break;
+    } catch (error) {
+      console.error('API request error:', error);
+      setError('API request error');
     }
   };
 
@@ -303,18 +205,17 @@ if (!content) {
     return <p>Loading...</p>;
   }
 
-  console.log('file',content.fileUrls[0]);
   return (
     <Container>
       <HeaderWrapper>
-        <BoardHeader onMenuClick={handleMenuClick} showModal={false} />
+        <BoardHeader onMenuClick={() => {}} showModal={false} />
       </HeaderWrapper>
       <StudyRow>
         <TextContainer>
           <StudyNamed>{content?.title || 'Loading...'}</StudyNamed>
           <SubRow>
-            <UserName>{content?.name || content?.name || 'Unknown'}</UserName>
-            <StyledDate>{formatDateTime(content?.time || content?.createAt) || '00/00 00:00'}</StyledDate>
+            <UserName>{content?.name || 'Unknown'}</UserName>
+            <StyledDate>{formatDateTime(content?.time) || '00/00 00:00'}</StyledDate>
           </SubRow>
           <StudyContents>{content?.content || 'Loading...'}</StudyContents>
         </TextContainer>
@@ -322,16 +223,13 @@ if (!content) {
           {content.fileUrls ? (
             <AttachButton
               fileUrl={content.fileUrls[0]} 
-              onFileChange={() => {}} // 파일 선택 기능이 필요하지 않으면 빈 함수로 전달 가능합니다.
             />
-          ) : (
-            <p> </p>
-          )}
+          ) : null}
           <RightMargin />
         </ComponentRow>
         <BottomRow>
           <BoardChat alt="" />
-          <CommentCount>{content?.totalComments || 0}</CommentCount>
+          <CommentCount>{content?.commentCount || 0}</CommentCount>
         </BottomRow>
         {content.comments && content.comments.map(comment => (
           <BoardComment
@@ -339,7 +237,7 @@ if (!content) {
             name={comment.name || 'Unknown User'}
             content={comment.content}
             time={formatDateTime(comment.time)}
-            recomments={comment.recomments || []}
+            recomments={comment.children || []}
           />
         ))}
       </StudyRow>
@@ -348,7 +246,7 @@ if (!content) {
         onCommentSubmitted={handleCommentSubmitted}
         comment={content.comment || ''}
       />
-      <BoardAPI />
+      {/* <BoardAPI />  // 이 부분을 주석처리하거나 필요에 따라 사용하세요 */}
     </Container>
   );
 };
