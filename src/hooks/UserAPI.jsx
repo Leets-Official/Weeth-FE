@@ -24,7 +24,7 @@ const UserAPI = () => {
         } else {
           setError(response.data.message);
         }
-        console.log('유저 api 받아옴!');
+        // console.log('유저 api 받아옴!', response.data.data);
       })
       .catch((err) => {
         setError('An error occurred while fetching the data');

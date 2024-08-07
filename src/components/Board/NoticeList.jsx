@@ -2,12 +2,12 @@ import React, { useEffect, useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import BoardComponent from './BoardComponent';
-import { EventContext } from '../../hooks/EventContext';
+import { MonthlyScheduleContext } from '../../hooks/MonthlyScheduleContext';
 
 const NoticeList = () => {
   const navigate = useNavigate();
   const [notices, setNotices] = useState([]);
-  const { setError } = useContext(EventContext);
+  const { setError } = useContext(MonthlyScheduleContext);
 
   const accessToken = localStorage.getItem('accessToken');
   // const refreshToken = localStorage.getItem('refreshToken');
