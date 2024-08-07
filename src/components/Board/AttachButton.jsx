@@ -1,8 +1,11 @@
 import React, { useRef } from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
 import PropTypes from 'prop-types';
+import { useParams } from 'react-router-dom';
 import theme from '../../styles/theme';
 import { ReactComponent as InstallIcon } from '../../assets/images/ic_install.svg'; // 경로 나중에 수정
+import Utils from '../../hooks/Utils';
 
 const Container = styled.div`
   width: 370px;
@@ -43,6 +46,10 @@ const FileName = styled.div`
 
 const AttachButton = ({ onFileChange, fileUrl }) => {
   const fileInputRef = useRef(null);
+  const { postId } = useParams();
+
+  const accessToken = localStorage.getItem('accessToken');
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
 
   const handleButtonClick = async () => {
     try {
@@ -73,12 +80,6 @@ const AttachButton = ({ onFileChange, fileUrl }) => {
           }}
         />
       </StyledButton>
-      <input
-        type="file"
-        ref={fileInputRef}
-        onChange={onFileChange}
-        style={{ display: 'none' }}
-      />
     </Container>
   );
 };
