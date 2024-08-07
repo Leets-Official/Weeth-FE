@@ -119,7 +119,10 @@ const formatDateTime = (dateTimeString) => {
 const BoardDetail = () => {
   const { state } = useLocation();
   const { id } = useParams();
+  console.log('Post ID from useParams:', id);
+
   const postId = parseInt(id, 10);
+  console.log('Parsed postId:', postId);
 
   const { boardData, error, setError } = useContext(BoardContext);
   const [content, setContent] = useState(null);
@@ -128,6 +131,38 @@ const BoardDetail = () => {
 
   const accessToken = localStorage.getItem('accessToken');
   const BASE_URL = process.env.REACT_APP_BASE_URL;
+
+  const handleDeleteClick = async () => {
+    if (window.confirm('삭제하시겠습니까?')) {
+        try {
+            const url = `${BASE_URL}/api/v1/posts/${postId}`;
+            console.log('Sending DELETE request to:', url);
+            console.log('Authorization header:', `Bearer ${accessToken}`);
+
+            const response = await axios.delete(url, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+
+            console.log('Response status:', response.status); 
+            console.log('Response data:', response.data);
+
+            if (response.data.code === 200) {
+                alert('삭제가 완료되었습니다.');
+                navigate('/board');
+            } else if (response.data.code === 400) {
+                alert(`삭제 실패: ${response.data.message}`);
+            } else {
+                console.error('알 수 없는 오류 발생:', response.data.message);
+                alert(`삭제에 실패했습니다. 오류 메시지: ${response.data.message}`);
+            }
+        } catch (err) {
+            console.error('삭제 요청 중 오류 발생:', err);
+            alert('삭제 도중 오류가 발생했습니다. 다시 시도해주세요.');
+        }
+    }
+};
 
   useEffect(() => {
     const fetchData = async () => {
@@ -208,7 +243,11 @@ const BoardDetail = () => {
   return (
     <Container>
       <HeaderWrapper>
-        <BoardHeader onMenuClick={() => {}} showModal={false} />
+        <BoardHeader onMenuClick={(action) => {
+          if (action === 'delete') {
+            handleDeleteClick();
+          }
+        }} showModal={false} />
       </HeaderWrapper>
       <StudyRow>
         <TextContainer>

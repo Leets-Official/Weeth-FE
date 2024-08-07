@@ -17,8 +17,8 @@ BoardComponent.jsx
 
 UserAPI.jsx
 UserContext.js
-EventAPI.jsx
-EventContext.js
+MonthlyScheduleAPI.jsx
+MonthlyScheduleContext.js
 
 BoardContext.js
 NoticeContext.js

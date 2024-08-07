@@ -3,12 +3,11 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { UserContext } from '../hooks/UserContext';
+import { BoardContext } from '../hooks/BoardContext';
 import PostingHeader from '../components/Board/PostingHeader';
 import FileAttachMenu from '../components/Board/FileAttachMenu';
 import { ReactComponent as FileAttach } from '../assets/images/ic_board_fileAttach.svg';
 import theme from '../styles/theme';
-import { BoardContext } from '../hooks/BoardContext';
-import Utils from '../hooks/Utils';
 
 const StyledPosting = styled.div`
   width: 370px;
@@ -60,18 +59,18 @@ const BoardPosting = () => {
   const [isMenuOpen, setMenuOpen] = useState(false);
 
   const { userData } = useContext(UserContext);
-  const { boardData } = useContext(BoardContext);
   const [files, setFiles] = useState([]);
 
   const accessToken = localStorage.getItem('accessToken');
   const BASE_URL = process.env.REACT_APP_BASE_URL;
 
   const initialBoardPost = {
-    title: boardData?.title || '',
-    content: boardData?.content || '',
+    title: '',
+    content: '',
   };
 
   const [boardPost, setBoardPost] = useState(initialBoardPost);
+  const { setBoardData } = useContext(BoardContext);
 
   const onChange = (event) => {
     const { value, name } = event.target;
@@ -93,7 +92,7 @@ const BoardPosting = () => {
       'dto',
       new Blob([JSON.stringify(boardPost)], { type: 'application/json' }),
     );
-    Array.from(files).forEach((file) => formData.append('files', file));
+    files.forEach((file) => formData.append('files', file));
 
     try {
       const response = await axios.post(`${BASE_URL}/api/v1/posts`, formData, {
@@ -101,33 +100,16 @@ const BoardPosting = () => {
           Authorization: `Bearer ${accessToken}`,
           'Content-Type': 'multipart/form-data',
         },
-        params: {
-          userId: userData.id,
-        },
       });
-      console.log('Server response:', response);
-      const validatedResponse = await Utils(
-        response,
-        axios.post,
-        [
-          `${BASE_URL}/api/v1/posts`,
-          formData,
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-              'Content-Type': 'multipart/form-data',
-            },
-            params: {
-              userId: userData.id,
-            },
-          },
-        ],
-        navigate,
-      );
 
-      if (validatedResponse.status === 200) {
-        console.log('Post successfully created:', validatedResponse.data);
+      console.log('Server response:', response);
+      if (response.data.code === 200) {
+        console.log('Post successfully created:', response.data.data);
+        setBoardData(response.data.data);
         navigate('/board');
+      } else {
+        console.error('Error:', response.data.message);
+        alert(`Error: ${response.data.message}`);
       }
     } catch (err) {
       console.error('Error saving board post:', err);
