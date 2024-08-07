@@ -258,12 +258,16 @@ const CreateEvent = () => {
 
     if (window.confirm('저장하시겠습니까?')) {
       try {
-        const response = await axios.post(`${BASE_URL}/admin/event`, data, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-            Authorization_refresh: `Bearer ${refreshToken}`,
+        const response = await axios.post(
+          `${BASE_URL}/api/v1/admin/events`,
+          data,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+              Authorization_refresh: `Bearer ${refreshToken}`,
+            },
           },
-        });
+        );
         console.log(response); // 서버의 응답을 콘솔에 출력
         console.log(data);
         alert('저장이 완료되었습니다.');

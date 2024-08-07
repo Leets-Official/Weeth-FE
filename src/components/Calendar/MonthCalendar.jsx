@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React, { useEffect, useRef, useContext, useState } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -120,7 +121,6 @@ const MonthCalendar = ({ year, month }) => {
 
   const { monthScheduleData, error } = useContext(MonthlyScheduleContext);
 
-  console.log(monthScheduleData);
   const prevMonth = month - 1;
   const nextMonth = month + 1;
 

@@ -35,6 +35,7 @@ import { BoardProvider } from './hooks/BoardContext';
 import { DuesProvider } from './hooks/DuesContext';
 import { EventInfoProvider } from './hooks/EventInfoContext';
 import { NoticeProvider } from './hooks/NoticeContext';
+import { YearlyScheduleProvider } from './hooks/YearlyScheduleContext';
 
 //user api 받아온 정보 담는 context
 
@@ -47,6 +48,7 @@ function App() {
       <DuesProvider>
       <EventInfoProvider>
       <NoticeProvider>
+      <YearlyScheduleProvider>
       <UserAPI />
       <MonthlyScheduleAPI />
         <Routes>
@@ -72,6 +74,7 @@ function App() {
           <Route path="/boardPosting" element={<BoardPosting />} />
           <Route path="/boardEdit" element={<BoardEdit />} />
         </Routes>
+        </YearlyScheduleProvider>
         </NoticeProvider>
         </EventInfoProvider>
         </DuesProvider>
