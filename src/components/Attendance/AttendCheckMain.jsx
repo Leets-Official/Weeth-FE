@@ -1,9 +1,11 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import theme from '../../styles/theme';
 import Caption from '../Caption';
 import { UserContext } from '../../hooks/UserContext';
+import { AttendCheckContext } from '../../hooks/AttendCheckContext';
+import AttendCheckAPI from '../../hooks/AttendCheckAPI';
 
 const Container = styled.div`
   display: flex;
@@ -163,48 +165,13 @@ MeetingBox.propTypes = {
 };
 
 const AttendCheckMain = () => {
-  const [attendanceData, setAttendanceData] = useState(null);
-  const [accessToken, setAccessToken] = useState(
-    localStorage.getItem('accessToken'),
-  );
-
-  useEffect(() => {
-    const fetchAttendanceData = async () => {
-      try {
-        const BASE_URL = process.env.REACT_APP_BASE_URL;
-        const response = await fetch(`${BASE_URL}/attendances/details`, {
-          method: 'GET',
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
-        const data = await response.json();
-        setAttendanceData(data.data);
-      } catch (error) {
-        console.error('Error fetching attendance data:', error);
-      }
-    };
-
-    fetchAttendanceData();
-  }, [accessToken]); // accessToken이 변경될 때마다 API를 다시 호출
-
-  useEffect(() => {
-    const handleStorageChange = () => {
-      const newToken = localStorage.getItem('accessToken');
-      if (newToken !== accessToken) {
-        setAccessToken(newToken);
-      }
-    };
-
-    window.addEventListener('storage', handleStorageChange);
-
-    return () => {
-      window.removeEventListener('storage', handleStorageChange);
-    };
-  }, [accessToken]);
+  const { attendanceData, attendFetchError } = useContext(AttendCheckContext);
 
   if (!attendanceData) {
     return <div>Loading...</div>;
+  }
+  if (attendFetchError) {
+    return <div>error</div>;
   }
 
   const { userData, error } = useContext(UserContext);
@@ -220,6 +187,7 @@ const AttendCheckMain = () => {
 
   return (
     <Container>
+      <AttendCheckAPI />
       <Header>
         <SemiTitle>
           <SemiBold>{userName}</SemiBold>

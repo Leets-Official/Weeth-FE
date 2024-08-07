@@ -2,29 +2,26 @@
 import React, { createContext, useState } from 'react';
 import PropTypes from 'prop-types';
 
-export const AttendContext = createContext();
+export const AttendCheckContext = createContext();
 
-export const AttendProvider = ({ children }) => {
+export const AttendCheckProvider = ({ children }) => {
   const [attendanceData, setAttendanceData] = useState(null);
   const [attendFetchError, setAttendFetchError] = useState(null);
-  const [hasSchedule, setHasSchedule] = useState(true);
 
   return (
-    <AttendContext.Provider
+    <AttendCheckContext.Provider
       value={{
         attendanceData,
         setAttendanceData,
         attendFetchError,
         setAttendFetchError,
-        hasSchedule,
-        setHasSchedule,
       }}
     >
       {children}
-    </AttendContext.Provider>
+    </AttendCheckContext.Provider>
   );
 };
 
-AttendProvider.propTypes = {
+AttendCheckProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };

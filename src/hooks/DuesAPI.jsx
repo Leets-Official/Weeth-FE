@@ -12,6 +12,7 @@ const DuesAPI = () => {
   } = useContext(DuesContext);
 
   const accessToken = localStorage.getItem('accessToken');
+  const refreshToken = localStorage.getItem('refreshToken');
 
   useEffect(() => {
     const fetchDuesData = async () => {
@@ -19,13 +20,17 @@ const DuesAPI = () => {
         const cardinal = 3;
         const headers = {
           Authorization: `Bearer ${accessToken}`,
+          Authorization_refresh: `Bearer ${refreshToken}`,
         };
         const BASE_URL = process.env.REACT_APP_BASE_URL;
 
         // 비동기 요청에 await 추가
-        const response = await axios.get(`${BASE_URL}/account/${cardinal}`, {
-          headers,
-        });
+        const response = await axios.get(
+          `${BASE_URL}/api/v1/account/${cardinal}`,
+          {
+            headers,
+          },
+        );
 
         const result = response.data;
 
