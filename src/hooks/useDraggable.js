@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
 
+// 이벤트 실행에 제한을 둬서 성능 초적화
 const throttle = (func, delay) => {
   let timer;
   if (!timer) {
@@ -16,11 +17,13 @@ export const useDraggable = (scrollerRef) => {
   const [startX, setStartX] = useState(0);
   const [totalX, setTotalX] = useState(0);
 
+  // 드래그 중 예상치 못한 이벤트 실행 방지
   const preventUnexpectedEffects = useCallback((e) => {
     e.preventDefault();
     e.stopPropagation();
   }, []);
 
+  // 드래그 시작 위치 기록
   const onDragStart = (e) => {
     preventUnexpectedEffects(e);
     setIsDragging(true);
@@ -31,6 +34,7 @@ export const useDraggable = (scrollerRef) => {
     }
   };
 
+  // 드래그 일정거리 이상일 경우 클릭 이벤트 발생하지 않도록 처리
   const onDragEnd = (e) => {
     if (!isDragging) return;
     if (!scrollerRef.current) return;
