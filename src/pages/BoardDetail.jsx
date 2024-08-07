@@ -232,6 +232,10 @@ const BoardDetail = () => {
     }
   };
 
+  const handleEditClick = () => {
+    navigate(`/boardPosting`, { state: { title: content.title, content: content.content, postId } });
+  };
+
   if (error) {
     return <p>Error: {error}</p>;
   }
@@ -246,6 +250,8 @@ const BoardDetail = () => {
         <BoardHeader onMenuClick={(action) => {
           if (action === 'delete') {
             handleDeleteClick();
+          } else if (action === 'edit') {
+            handleEditClick(); // 수정 버튼 클릭 시 호출
           }
         }} showModal={false} />
       </HeaderWrapper>
