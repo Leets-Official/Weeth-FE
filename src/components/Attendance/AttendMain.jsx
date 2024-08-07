@@ -12,6 +12,7 @@ import ModalPenalty from './Modal/ModalPenalty';
 import { UserContext } from '../../hooks/UserContext';
 import { PenaltyContext } from '../../hooks/PenaltyContext';
 import { AttendContext } from '../../hooks/AttendContext';
+import AttendAPI from '../../hooks/AttendAPI';
 
 // 출석률 게이지 임시 값
 let ATTEND_GAUGE = 80;
@@ -164,6 +165,7 @@ const AttendMain = () => {
 
   return (
     <StyledAttend>
+      <AttendAPI />
       <div className="name-container">
         <SemiBold>
           <div className="attend-name">{userName}&nbsp;</div>
