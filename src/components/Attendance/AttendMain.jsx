@@ -1,6 +1,6 @@
+import { useEffect, useContext, useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import { useContext, useState } from 'react';
 import theme from '../../styles/theme';
 import './AttendMain.css';
 import RightButton from '../Header/RightButton';
@@ -12,6 +12,7 @@ import ModalPenalty from './Modal/ModalPenalty';
 import { UserContext } from '../../hooks/UserContext';
 import { PenaltyContext } from '../../hooks/PenaltyContext';
 import { AttendContext } from '../../hooks/AttendContext';
+import AttendAPI from '../../hooks/AttendAPI';
 
 // 출석률 게이지 임시 값
 let ATTEND_GAUGE = 80;
@@ -93,6 +94,7 @@ const AttendMain = () => {
   const navi = useNavigate();
   const [modalOpen, setModalOpen] = useState(false);
   const [penaltyModalOpen, setPenaltyModalOpen] = useState(false);
+  const [shouldFetchData, setShouldFetchData] = useState(false);
 
   const { userData, error } = useContext(UserContext);
 
@@ -151,19 +153,28 @@ const AttendMain = () => {
 
   const penalty = myPenaltyCount;
   const dealt = Math.floor((ATTEND_GAUGE / MAX_ATTEND_GUAGE) * 100);
-  // eslint-disable-next-line no-console
-  // console.log(penalty);
 
   // 출석체크 모달
   const handleOpenModal = () => setModalOpen(true);
-  const handleCloseModal = () => setModalOpen(false);
+  const handleCloseModal = () => {
+    setModalOpen(false);
+    setShouldFetchData(true); // 모달이 닫힐 때 API를 다시 호출하도록 상태를 업데이트
+  };
 
   // 패널티 모달
   const handleOpenPenaltyModal = () => setPenaltyModalOpen(true);
   const handleClosePenaltyModal = () => setPenaltyModalOpen(false);
 
+  // 모달이 닫힐 때 shouldFetchData가 true로 업데이트되면, API를 다시 호출
+  useEffect(() => {
+    if (shouldFetchData) {
+      setShouldFetchData(false);
+    }
+  }, [shouldFetchData]);
+
   return (
     <StyledAttend>
+      <AttendAPI key={shouldFetchData} />
       <div className="name-container">
         <SemiBold>
           <div className="attend-name">{userName}&nbsp;</div>

@@ -113,13 +113,8 @@ const Profile = () => {
       try {
         const BASE_URL = process.env.REACT_APP_BASE_URL;
         const response = await axios.post(
-          `${BASE_URL}/users/apply`,
+          `${BASE_URL}/api/v1/users/apply`,
           mappedMemberInfo,
-          {
-            headers: {
-              Authorization: `Bearer ${process.env.REACT_APP_ACCESS_TOKEN}`,
-            },
-          },
         );
 
         if (response.data.code === 200) {

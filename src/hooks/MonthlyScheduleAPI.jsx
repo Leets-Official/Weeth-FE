@@ -1,12 +1,12 @@
 import { useEffect, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import PropTypes from 'prop-types';
-import { EventContext } from './EventContext';
-import Utils from '../hooks/Utils';
-import { useNavigate } from 'react-router-dom';
+import { MonthlyScheduleContext } from './MonthlyScheduleContext';
+import Utils from './Utils';
 
-const EventAPI = ({ start, end }) => {
-  const { setMonthEventData, setError } = useContext(EventContext);
+const MonthlyScheduleAPI = ({ start, end }) => {
+  const { setMonthScheduleData, setError } = useContext(MonthlyScheduleContext);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -22,19 +22,27 @@ const EventAPI = ({ start, end }) => {
         Authorization_refresh: `Bearer ${refreshToken}`,
       };
       const params = {
-        start: start,
-        end: end,
+        start,
+        end,
       };
 
       try {
-        let response = await axios.get(`${BASE_URL}/event`, { headers, params });
+        let response = await axios.get(`${BASE_URL}/api/v1/schedules/monthly`, {
+          headers,
+          params,
+        });
 
         // Utils 함수를 사용하여 응답 처리 및 토큰 갱신
-        response = await Utils(response, axios.get, [{ url: `${BASE_URL}/event`, headers, params }], navigate);
+        response = await Utils(
+          response,
+          axios.get,
+          [{ url: `${BASE_URL}/api/v1/schedules/monthly`, headers, params }],
+          navigate,
+        );
 
         if (response.data.code === 200) {
           console.log('API Response Data(달):', response.data.data); // 데이터 확인용
-          setMonthEventData(response.data.data);
+          setMonthScheduleData(response.data.data);
         } else {
           setError(response.data.message);
         }
@@ -45,14 +53,19 @@ const EventAPI = ({ start, end }) => {
     };
 
     fetchData();
-  }, [navigate, setMonthEventData, setError, start, end]);
+  }, [navigate, setMonthScheduleData, setError, start, end]);
 
   return null;
 };
 
-EventAPI.propTypes = {
+MonthlyScheduleAPI.propTypes = {
   start: PropTypes.string,
   end: PropTypes.string,
 };
 
-export default EventAPI;
+MonthlyScheduleAPI.defaultProps = {
+  start: '',
+  end: '',
+};
+
+export default MonthlyScheduleAPI;
