@@ -37,10 +37,12 @@ import { EventInfoProvider } from './hooks/EventInfoContext';
 import { NoticeProvider } from './hooks/NoticeContext';
 import { AttendProvider } from './hooks/AttendContext';
 import { AttendCheckProvider } from './hooks/AttendCheckContext';
+import PrivateRoute from './router/PrivateRouter';
 
 // user api 받아온 정보 담는 context
 
 const App = () => {
+  const access = localStorage.getItem('accessToken');
   return (
     <ThemeProvider theme={theme}>
       <UserProvider>
@@ -56,28 +58,177 @@ const App = () => {
                       <Routes>
                         <Route path="/" element={<Landing />} />
                         <Route path="/login" element={<Login />} />
-                        <Route path="/attendance" element={<Attendance />} />
-                        <Route path="/calendar" element={<Calendar />} />
-                        <Route path="/event/:id" element={<EventDetails />} />
-                        <Route path="/event/create" element={<CreateEvent />} />
-                        <Route path="/event/:id/edit" element={<EditEvent />} />
-                        <Route path="/home" element={<Home />} />
-                        <Route path="/signup" element={<Signup />} />
-                        <Route path="/profile" element={<Profile />} />
-                        <Route path="/attendCheck" element={<AttendCheck />} />
-                        <Route path="/member" element={<Member />} />
-                        <Route path="/member/:id" element={<MemberDetail />} />
-                        <Route path="/mypage" element={<MyPage />} />
-                        <Route path="/edit" element={<Edit />} />
-                        <Route path="/dues" element={<Dues />} />
-                        <Route path="/receipt" element={<Receipt />} />
-                        <Route path="/board" element={<Board />} />
-                        <Route path="/board/:id" element={<BoardDetail />} />
+                        <Route
+                          path="/attendance"
+                          element={
+                            <PrivateRoute
+                              authenticated={access}
+                              component={<Attendance />}
+                            />
+                          }
+                        />
+                        <Route
+                          path="/calendar"
+                          element={
+                            <PrivateRoute
+                              authenticated={access}
+                              component={<Calendar />}
+                            />
+                          }
+                        />
+                        <Route
+                          path="/event/:id"
+                          element={
+                            <PrivateRoute
+                              authenticated={access}
+                              component={<EventDetails />}
+                            />
+                          }
+                        />
+                        <Route
+                          path="/event/create"
+                          element={
+                            <PrivateRoute
+                              authenticated={access}
+                              component={<CreateEvent />}
+                            />
+                          }
+                        />
+                        <Route
+                          path="/event/:id/edit"
+                          element={
+                            <PrivateRoute
+                              authenticated={access}
+                              component={<EditEvent />}
+                            />
+                          }
+                        />
+                        <Route
+                          path="/home"
+                          element={
+                            <PrivateRoute
+                              authenticated={access}
+                              component={<Home />}
+                            />
+                          }
+                        />
+                        <Route
+                          path="/signup"
+                          element={
+                            <PrivateRoute
+                              authenticated={access}
+                              component={<Signup />}
+                            />
+                          }
+                        />
+                        <Route
+                          path="/profile"
+                          element={
+                            <PrivateRoute
+                              authenticated={access}
+                              component={<Profile />}
+                            />
+                          }
+                        />
+                        <Route
+                          path="/attendCheck"
+                          element={
+                            <PrivateRoute
+                              authenticated={access}
+                              component={<AttendCheck />}
+                            />
+                          }
+                        />
+                        <Route
+                          path="/member"
+                          element={
+                            <PrivateRoute
+                              authenticated={access}
+                              component={<Member />}
+                            />
+                          }
+                        />
+                        <Route
+                          path="/member/:id"
+                          element={
+                            <PrivateRoute
+                              authenticated={access}
+                              component={<MemberDetail />}
+                            />
+                          }
+                        />
+                        <Route
+                          path="/mypage"
+                          element={
+                            <PrivateRoute
+                              authenticated={access}
+                              component={<MyPage />}
+                            />
+                          }
+                        />
+                        <Route
+                          path="/edit"
+                          element={
+                            <PrivateRoute
+                              authenticated={access}
+                              component={<Edit />}
+                            />
+                          }
+                        />
+                        <Route
+                          path="/dues"
+                          element={
+                            <PrivateRoute
+                              authenticated={access}
+                              component={<Dues />}
+                            />
+                          }
+                        />
+                        <Route
+                          path="/receipt"
+                          element={
+                            <PrivateRoute
+                              authenticated={access}
+                              component={<Receipt />}
+                            />
+                          }
+                        />
+                        <Route
+                          path="/board"
+                          element={
+                            <PrivateRoute
+                              authenticated={access}
+                              component={<Board />}
+                            />
+                          }
+                        />
+                        <Route
+                          path="/board/:id"
+                          element={
+                            <PrivateRoute
+                              authenticated={access}
+                              component={<BoardDetail />}
+                            />
+                          }
+                        />
                         <Route
                           path="/boardPosting"
-                          element={<BoardPosting />}
+                          element={
+                            <PrivateRoute
+                              authenticated={access}
+                              component={<BoardPosting />}
+                            />
+                          }
                         />
-                        <Route path="/boardEdit" element={<BoardEdit />} />
+                        <Route
+                          path="/boardEdit"
+                          element={
+                            <PrivateRoute
+                              authenticated={access}
+                              component={<BoardEdit />}
+                            />
+                          }
+                        />
                       </Routes>
                     </AttendCheckProvider>
                   </AttendProvider>
