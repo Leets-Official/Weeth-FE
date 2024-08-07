@@ -47,21 +47,21 @@ const UserAPI = () => {
 
     // 내 정보 조회
     axios
-      .get(`${BASE_URL}/users`, { headers })
+      .get(`${BASE_URL}/api/v1/users`, { headers })
       .then((response) => {
         if (response.data.code === 200) {
           setUserData(response.data.data);
         } else {
           setError(response.data.message);
         }
-        console.log('유저 api 받아옴!');
+        // console.log('유저 api 받아옴!', response.data.data);
       })
       .catch((err) => {
         setError('An error occurred while fetching the data');
       });
 
       // 모든 멤버 조회
-      axios.get(`${BASE_URL}/users/all`, { headers })
+      axios.get(`${BASE_URL}/api/v1/users/all`, { headers })
       .then((response) => {
         if (response.data.code === 200) {
           setAllUserData(response.data.data);

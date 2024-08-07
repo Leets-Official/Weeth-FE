@@ -29,8 +29,8 @@ import Receipt from './pages/Receipt';
 
 import { UserProvider } from './hooks/UserContext';
 import UserAPI from './hooks/UserAPI';
-import { EventProvider } from './hooks/EventContext';
-import EventAPI from './hooks/EventAPI';
+import { MonthlyScheduleProvider } from './hooks/MonthlyScheduleContext';
+import MonthlyScheduleAPI from './hooks/MonthlyScheduleAPI';
 import { BoardProvider } from './hooks/BoardContext';
 import { DuesProvider } from './hooks/DuesContext';
 import { EventInfoProvider } from './hooks/EventInfoContext';
@@ -42,13 +42,13 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <UserProvider>
-      <EventProvider>
+      <MonthlyScheduleProvider>
       <BoardProvider>
       <DuesProvider>
       <EventInfoProvider>
       <NoticeProvider>
       <UserAPI />
-      <EventAPI />
+      <MonthlyScheduleAPI />
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/login" element={<Login />} />
@@ -76,7 +76,7 @@ function App() {
         </EventInfoProvider>
         </DuesProvider>
         </BoardProvider>
-        </EventProvider>
+        </MonthlyScheduleProvider>
       </UserProvider>
     </ThemeProvider>
   );

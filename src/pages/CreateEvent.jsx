@@ -54,6 +54,15 @@ const StyledTextArea = styled.textarea`
   color: white;
   font-family: ${theme.font.family.pretendard_regular};
   font-size: 16px;
+
+  /* 스크롤바 숨기기 */
+  overflow: hidden; /* 기본 스크롤바 숨기기 */
+  -ms-overflow-style: none; /* IE와 Edge에서 스크롤바 숨기기 */
+  scrollbar-width: none; /* Firefox에서 스크롤바 숨기기 */
+
+  &::-webkit-scrollbar {
+    display: none; /* Webkit 브라우저에서 스크롤바 숨기기 */
+  }
 `;
 
 const today = new Date();

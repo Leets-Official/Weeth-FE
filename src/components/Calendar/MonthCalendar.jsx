@@ -7,8 +7,8 @@ import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import theme from '../../styles/theme';
 // import mockEventMonth from '../mockData/mockEventMonth';
-import { EventContext } from '../../hooks/EventContext';
-import EventAPI from '../../hooks/EventAPI';
+import { MonthlyScheduleContext } from '../../hooks/MonthlyScheduleContext';
+import MonthlyShceduleAPI from '../../hooks/MonthlyScheduleAPI';
 import UserAPI from '../../hooks/UserAPI';
 
 const CalendarContainer = styled.div`
@@ -118,8 +118,9 @@ const MonthCalendar = ({ year, month }) => {
   const calendarRef = useRef(null);
   const navi = useNavigate();
 
-  const { monthEventData, error } = useContext(EventContext);
+  const { monthScheduleData, error } = useContext(MonthlyScheduleContext);
 
+  console.log(monthScheduleData);
   const prevMonth = month - 1;
   const nextMonth = month + 1;
 
@@ -140,10 +141,10 @@ const MonthCalendar = ({ year, month }) => {
   }, [error]);
 
   useEffect(() => {
-    if (!monthEventData) {
+    if (!monthScheduleData) {
       console.log('Loading event data...');
     }
-  }, [monthEventData]);
+  }, [monthScheduleData]);
 
   const renderDayCell = (arg) => {
     const isToday =
@@ -181,12 +182,16 @@ const MonthCalendar = ({ year, month }) => {
 
   return (
     <CalendarContainer>
-      <EventAPI start={formattedStart} end={formattedEnd} year={year} />
+      <MonthlyShceduleAPI
+        start={formattedStart}
+        end={formattedEnd}
+        year={year}
+      />
       <UserAPI />
       <FullCalendar
         ref={calendarRef}
         plugins={[dayGridPlugin]}
-        events={monthEventData || []}
+        events={monthScheduleData || []}
         eventClick={onClickEvent}
         locale="ko"
         headerToolbar={false}
