@@ -76,7 +76,7 @@ const Login = () => {
 
   try {
     const BASE_URL = process.env.REACT_APP_BASE_URL;
-    const response = await axios.post(`${BASE_URL}/login`, params, { withCredentials: true });
+    const response = await axios.post(`${BASE_URL}/api/v1/login`, params, { withCredentials: true });
 
     const validatedResponse = await Utils(response, axios.post, [params], navigate);
 

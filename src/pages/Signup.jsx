@@ -91,7 +91,7 @@ const Signup = () => {
   const checkDuplicate = async (email) => {
     try {
       const BASE_URL = process.env.REACT_APP_BASE_URL;
-      const response = await axios.get(`${BASE_URL}/users/duplication/${email}`, {});
+      const response = await axios.get(`${BASE_URL}/api/v1/users/${email}`, {});
       return response.data.code === 200;
     } catch (error) {
       if (error.response && error.response.data.code === 400) {

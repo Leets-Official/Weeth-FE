@@ -8,14 +8,16 @@ const AttendCheckAPI = () => {
   const [accessToken, setAccessToken] = useState(
     localStorage.getItem('accessToken'),
   );
+  const refreshToken = localStorage.getItem('refreshToken');
 
   useEffect(() => {
     const fetchAttendanceData = async () => {
       try {
         const BASE_URL = process.env.REACT_APP_BASE_URL;
-        const response = await axios.get(`${BASE_URL}/attendances/details`, {
+        const response = await axios.get(`${BASE_URL}/api/v1/attendances`, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
+            Authorization_refresh: `Bearer ${refreshToken}`,
           },
         });
         setAttendanceData(response.data.data);

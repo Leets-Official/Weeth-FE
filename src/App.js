@@ -43,8 +43,6 @@ import { AttendCheckProvider } from './hooks/AttendCheckContext';
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <UserAPI />
-      <EventAPI />
       <UserProvider>
       <EventProvider>
       <BoardProvider>
@@ -53,6 +51,8 @@ function App() {
       <NoticeProvider>
       <AttendProvider>
       <AttendCheckProvider>
+      <UserAPI />
+      <EventAPI />
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/login" element={<Login />} />
