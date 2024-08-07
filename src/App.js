@@ -35,20 +35,24 @@ import { BoardProvider } from './hooks/BoardContext';
 import { DuesProvider } from './hooks/DuesContext';
 import { EventInfoProvider } from './hooks/EventInfoContext';
 import { NoticeProvider } from './hooks/NoticeContext';
+import { AttendProvider } from './hooks/AttendContext';
+import { AttendCheckProvider } from './hooks/AttendCheckContext';
 
 //user api 받아온 정보 담는 context
 
 function App() {
   return (
     <ThemeProvider theme={theme}>
+      <UserAPI />
+      <EventAPI />
       <UserProvider>
       <EventProvider>
       <BoardProvider>
       <DuesProvider>
       <EventInfoProvider>
       <NoticeProvider>
-      <UserAPI />
-      <EventAPI />
+      <AttendProvider>
+      <AttendCheckProvider>
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/login" element={<Login />} />
@@ -72,11 +76,13 @@ function App() {
           <Route path="/boardPosting" element={<BoardPosting />} />
           <Route path="/boardEdit" element={<BoardEdit />} />
         </Routes>
-        </NoticeProvider>
-        </EventInfoProvider>
-        </DuesProvider>
-        </BoardProvider>
-        </EventProvider>
+      </AttendCheckProvider>
+      </AttendProvider>
+      </NoticeProvider>
+      </EventInfoProvider>
+      </DuesProvider>
+      </BoardProvider>
+      </EventProvider>
       </UserProvider>
     </ThemeProvider>
   );
