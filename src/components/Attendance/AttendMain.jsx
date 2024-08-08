@@ -13,6 +13,7 @@ import { UserContext } from '../../hooks/UserContext';
 import { PenaltyContext } from '../../hooks/PenaltyContext';
 import { AttendContext } from '../../hooks/AttendContext';
 import AttendAPI from '../../hooks/AttendAPI';
+import PenaltyAPI from '../../hooks/PenaltyAPI';
 
 // 출석률 게이지 임시 값
 let ATTEND_GAUGE = 80;
@@ -175,6 +176,7 @@ const AttendMain = () => {
   return (
     <StyledAttend>
       <AttendAPI key={shouldFetchData} />
+      <PenaltyAPI />
       <div className="name-container">
         <SemiBold>
           <div className="attend-name">{userName}&nbsp;</div>
