@@ -175,8 +175,8 @@ const ModalAttend = ({ open, close }) => {
     location = attendanceData.location;
 
     // Date 객체로 변환
-    const startDate = new Date(attendanceData.startDateTime);
-    const endDate = new Date(attendanceData.endDateTime);
+    const startDate = new Date(attendanceData.start);
+    const endDate = new Date(attendanceData.end);
 
     // 날짜 형식으로 변환
     const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };

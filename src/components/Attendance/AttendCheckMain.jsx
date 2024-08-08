@@ -5,7 +5,6 @@ import theme from '../../styles/theme';
 import Caption from '../Caption';
 import { UserContext } from '../../hooks/UserContext';
 import { AttendCheckContext } from '../../hooks/AttendCheckContext';
-import AttendCheckAPI from '../../hooks/AttendCheckAPI';
 
 const Container = styled.div`
   display: flex;
@@ -117,7 +116,9 @@ const MeetingInfo = styled.div`
 const StyledText = styled.div`
   margin-top: -2.5px;
 `;
-
+const NullBox = styled.div`
+  margin: 20px 0;
+`;
 const SmallBox = ({ title, num }) => {
   return (
     <SmallStyledBox>
@@ -167,11 +168,12 @@ MeetingBox.propTypes = {
 const AttendCheckMain = () => {
   const { attendanceData, attendFetchError } = useContext(AttendCheckContext);
 
-  if (!attendanceData) {
-    return <div>Loading...</div>;
-  }
   if (attendFetchError) {
     return <div>error</div>;
+  }
+
+  if (!attendanceData) {
+    return <div>Loading...</div>;
   }
 
   const { userData, error } = useContext(UserContext);
@@ -187,7 +189,6 @@ const AttendCheckMain = () => {
 
   return (
     <Container>
-      <AttendCheckAPI />
       <Header>
         <SemiTitle>
           <SemiBold>{userName}</SemiBold>
@@ -204,41 +205,48 @@ const AttendCheckMain = () => {
           <SmallBox title="결석" num={`${attendanceData.absenceCount}회`} />
         </SmallStyledBoxContainer>
         <Line />
-        {attendanceData.attendances.map((meeting) => {
-          const startDate = new Date(meeting.startDateTime);
-          const endDate = new Date(meeting.endDateTime);
+        {attendanceData.attendances.length > 0 ? (
+          attendanceData.attendances.map((meeting) => {
+            const startDate = new Date(meeting.startDateTime);
+            const endDate = new Date(meeting.endDateTime);
 
-          const dateOptions = {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-          };
-          const startDateTime = startDate.toLocaleDateString(
-            'ko-KR',
-            dateOptions,
-          );
+            const dateOptions = {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+            };
+            const startDateTime = startDate.toLocaleDateString(
+              'ko-KR',
+              dateOptions,
+            );
 
-          const timeOptions = {
-            hour: '2-digit',
-            minute: '2-digit',
-            hour12: false,
-          };
-          const startTime = startDate.toLocaleTimeString('ko-KR', timeOptions);
-          const endTime = endDate.toLocaleTimeString('ko-KR', timeOptions);
+            const timeOptions = {
+              hour: '2-digit',
+              minute: '2-digit',
+              hour12: false,
+            };
+            const startTime = startDate.toLocaleTimeString(
+              'ko-KR',
+              timeOptions,
+            );
+            const endTime = endDate.toLocaleTimeString('ko-KR', timeOptions);
 
-          const formattedDate = `${startDateTime} (${startTime} ~ ${endTime})`;
+            const formattedDate = `${startDateTime} (${startTime} ~ ${endTime})`;
 
-          return (
-            <MeetingBox
-              key={meeting.attendanceId}
-              attend={meeting.isAttend}
-              title={meeting.title}
-              week={`${meeting.weekNumber}주차`}
-              date={formattedDate}
-              place={meeting.location}
-            />
-          );
-        })}
+            return (
+              <MeetingBox
+                key={meeting.attendanceId}
+                attend={meeting.isAttend}
+                title={meeting.title}
+                week={`${meeting.weekNumber}주차`}
+                date={formattedDate}
+                place={meeting.location}
+              />
+            );
+          })
+        ) : (
+          <NullBox>등록된 데이터가 없어요</NullBox>
+        )}
       </StyledBox>
     </Container>
   );

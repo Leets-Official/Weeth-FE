@@ -1,49 +1,45 @@
-import { useEffect, useContext, useState } from 'react';
+import { useEffect, useContext } from 'react';
 import axios from 'axios';
 import { AttendCheckContext } from './AttendCheckContext';
 
 const AttendCheckAPI = () => {
   const { setAttendanceData, setAttendFetchError } =
     useContext(AttendCheckContext);
-  const [accessToken, setAccessToken] = useState(
-    localStorage.getItem('accessToken'),
-  );
+  const accessToken = localStorage.getItem('accessToken');
   const refreshToken = localStorage.getItem('refreshToken');
 
   useEffect(() => {
     const fetchAttendanceData = async () => {
       try {
         const BASE_URL = process.env.REACT_APP_BASE_URL;
-        const response = await axios.get(`${BASE_URL}/api/v1/attendances`, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-            Authorization_refresh: `Bearer ${refreshToken}`,
+        const response = await axios.get(
+          `${BASE_URL}/api/v1/attendances/detail`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+              Authorization_refresh: `Bearer ${refreshToken}`,
+              'Cache-Control': 'no-cache',
+            },
           },
-        });
-        setAttendanceData(response.data.data);
+        );
+        const result = response.data;
+        setAttendanceData(result.data);
+        console.log(result);
+        if (result.code === 200) {
+          setAttendanceData(result.data);
+          console.log(result);
+        } else {
+          console.error('Failed to get data:', result.message);
+        }
       } catch (error) {
         console.error('Error fetching attendance data:', error);
-        setAttendFetchError(error.message); // 에러 메시지 저장
+        console.error('Error details:', error.response);
+        setAttendFetchError(error.message);
       }
     };
 
     fetchAttendanceData();
-  }, [accessToken]); // accessToken이 변경될 때마다 API를 다시 호출
-
-  useEffect(() => {
-    const handleStorageChange = () => {
-      const newToken = localStorage.getItem('accessToken');
-      if (newToken !== accessToken) {
-        setAccessToken(newToken);
-      }
-    };
-
-    window.addEventListener('storage', handleStorageChange);
-
-    return () => {
-      window.removeEventListener('storage', handleStorageChange);
-    };
-  }, [accessToken]);
+  }, [accessToken, refreshToken, setAttendanceData]);
 
   return null;
 };
