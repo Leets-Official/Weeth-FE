@@ -28,7 +28,6 @@ const StyledTitle = styled.input`
   border: none;
   color: ${theme.color.grayScale.white};
   font-family: ${theme.font.family.pretendard_semiBold};
-  font-weight: 600;
   outline: none;
 `;
 
@@ -46,7 +45,6 @@ const StyledContent = styled.textarea`
   border: none;
   color: ${theme.color.grayScale.white};
   font-family: ${theme.font.family.pretendard_regular};
-  font-weight: 400;
   padding: 10px 0;
   outline: none;
   resize: none;

@@ -34,7 +34,6 @@ const StyledTextInput = styled.input`
   border-radius: 4px;
   font-size: 16px;
   font-family: ${theme.font.family.pretendard_regular};
-  font-weight: 400;
   line-height: 19px;
   color: ${theme.color.grayScale.white};
   background-color: ${theme.color.grayScale.gray18};

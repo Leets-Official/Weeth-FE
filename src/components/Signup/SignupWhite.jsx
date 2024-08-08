@@ -16,7 +16,6 @@ const SignupTexts = styled.div`
   justify-content: flex-start;
   width: 100%;
   font-family: ${theme.font.family.pretendard_semiBold};
-  font-weight: 600;
   color: ${theme.color.grayScale.white};
   margin-bottom: 0;
   line-height: 1.2; /* Adjust line height to prevent text overlap */

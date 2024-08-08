@@ -44,7 +44,6 @@ const TextContainer = styled.div`
 
 const StudyNamed = styled.div`
   font-size: 24px;
-  font-weight: 600;
 `;
 
 const SubRow = styled.div`
@@ -52,7 +51,6 @@ const SubRow = styled.div`
   margin-top: 10px;
   font-family: ${theme.font.family.pretendard_regular};
   color: #c1c1c1;
-  font-weight: 400;
   font-size: 12px;
   line-height: 14.32px;
 `;
@@ -77,7 +75,6 @@ const StudyContents = styled.div`
   margin-top: 20px;
   margin-right: 4%;
   font-family: ${theme.font.family.pretendard_regular};
-  font-weight: 400;
   font-size: 16px;
   line-height: 19.09px;
 `;
@@ -91,7 +88,6 @@ const CommentCount = styled.div`
   align-items: center;
   color: ${theme.color.grayScale.gray65};
   font-family: ${theme.font.family.pretendard_regular};
-  font-weight: 400;
   font-size: 12px;
   line-height: 14.32px;
   margin-left: 4px;

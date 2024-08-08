@@ -93,7 +93,6 @@ const CalendarContainer = styled.div`
   }
 
   .fc-event-title {
-    font-weight: 400;
     padding: 0px;
     overflow: hidden;
     text-overflow: ellipsis;
