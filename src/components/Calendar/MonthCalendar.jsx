@@ -124,8 +124,6 @@ const MonthCalendar = ({ year, month }) => {
   const prevMonth = month - 1;
   const nextMonth = month + 1;
 
-  let id;
-
   const [formattedStart, setFormattedStart] = useState(
     `${year}-${String(prevMonth).padStart(2, '0')}-23T00:00:00.000Z`,
   );
@@ -133,7 +131,6 @@ const MonthCalendar = ({ year, month }) => {
     new Date(year, nextMonth, 6, 23, 59, 59, 999).toISOString(),
   );
 
-  // 에러처리에 자꾸 오류가 떠서 일단 오류 안나게 지피티가 만들어줌.. 수정 예정
   useEffect(() => {
     if (error) {
       console.error('Error:', error);
@@ -145,6 +142,16 @@ const MonthCalendar = ({ year, month }) => {
       console.log('Loading event data...');
     }
   }, [monthScheduleData]);
+
+  // 데이터 전처리 함수
+  const preprocessData = (data) => {
+    return data.map((event) => ({
+      ...event,
+      id: `${event.id}_${event.isMeeting}`, // 고유 ID 생성
+    }));
+  };
+
+  const processedData = preprocessData(monthScheduleData || []);
 
   const renderDayCell = (arg) => {
     const isToday =
@@ -158,18 +165,20 @@ const MonthCalendar = ({ year, month }) => {
   };
 
   const onClickEvent = (clickInfo) => {
-    id = clickInfo.event.id;
-    navi(`/event/${id}`);
+    const [id] = clickInfo.event.id.split('_'); // 원래 ID 추출
+    const { isMeeting } = clickInfo.event.extendedProps;
+
+    if (isMeeting) {
+      navi(`/meeting/${id}`, { state: { isMeeting } });
+    } else {
+      navi(`/event/${id}`, { state: { isMeeting } });
+    }
   };
 
   useEffect(() => {
-    // 달력 자체에 이전달/다음달 일부가 보여지는 것을 고려하여
-    // 조회를 원하는 달에서 +-1주 기간을 추가하여 api 요청
     setFormattedStart(
-      // 2월의 경우 3월 1일이 토요일이라면 23일부터 보여질 수 있음
       `${year}-${String(prevMonth).padStart(2, '0')}-23T00:00:00.000Z`,
     );
-    // UTC 기준이라 대한민국 표준시로는 6일 23시임
     setFormattedEnd(new Date(year, month, 7, 8, 59, 59, 999).toISOString());
   }, [year, month]);
 
@@ -191,7 +200,7 @@ const MonthCalendar = ({ year, month }) => {
       <FullCalendar
         ref={calendarRef}
         plugins={[dayGridPlugin]}
-        events={monthScheduleData || []}
+        events={processedData}
         eventClick={onClickEvent}
         locale="ko"
         headerToolbar={false}
