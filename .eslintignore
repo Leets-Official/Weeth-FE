@@ -1,4 +1,4 @@
-# App.js
+App.js
 Calendar.jsx
 Attendance.jsx
 Button.jsx
@@ -11,6 +11,7 @@ Caption.jsx
 MiddleButton.jsx
 DropDown.jsx
 StudyList.jsx
+NoticeList.jsx
 BoardDetail.jsx
 BoardComponent.jsx
 
