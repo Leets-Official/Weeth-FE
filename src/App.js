@@ -1,3 +1,7 @@
+/* eslint-disable import/order */
+/* eslint-disable import/extensions */
+/* eslint-disable react/function-component-definition */
+
 import './App.css';
 import { Route, Routes } from 'react-router-dom';
 import './assets/fonts/fonts.css';
