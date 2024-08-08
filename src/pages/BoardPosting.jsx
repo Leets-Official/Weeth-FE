@@ -88,7 +88,7 @@ const BoardPosting = () => {
   const saveBoard = async () => {
     if (!userData || !userData.id) {
       console.error('Error: User data is missing or invalid.');
-      navigate('/login'); // 로그인 페이지로 리다이렉트
+      navigate('/board'); // 로그인 페이지로 리다이렉트
       return;
     }
 
