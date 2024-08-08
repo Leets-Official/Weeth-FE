@@ -25,10 +25,10 @@ const AttendAPI = () => {
 
         const { data } = response.data;
         // eslint-disable-next-line no-console
-        // console.log(data);
+        console.log(data);
 
-        if (data.title === null && data.startDateTime === null) {
-          setHasSchedule(false);
+        if (data.title != null && data.start != null) {
+          setHasSchedule(true);
         } else {
           setAttendanceData(data);
         }
