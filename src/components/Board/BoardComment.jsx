@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+// import axios from 'axios';
 import { ReactComponent as CommentButton } from '../../assets/images/ic_comment.svg';
 import { ReactComponent as ReplyButton } from '../../assets/images/ic_reply.svg';
+import IndexButton from '../Header/IndexButton';
 import theme from '../../styles/theme';
 
 const CommentContainer = styled.div`
@@ -62,7 +64,7 @@ const BoardReply = styled.div`
   border-radius: 10px;
 `;
 
-const BoardComment = ({ name, content, time, recomments = [] }) => {
+const BoardComment = ({ name, content, time, recomments = [], onDelete }) => {
   const [showReplies, setShowReplies] = useState(false);
 
   const handleReplyClick = () => {
@@ -84,6 +86,7 @@ const BoardComment = ({ name, content, time, recomments = [] }) => {
         <BottomRow>
           <UserName>{name}</UserName>
           <CommentButton alt="" onClick={handleReplyClick} />
+          <IndexButton onClick={onDelete} />
         </BottomRow>
         <StyledComment>{content}</StyledComment>
         <CommentDate>{formatDateTime(time) || '00/00 00:00'}</CommentDate>
@@ -123,6 +126,7 @@ BoardComment.propTypes = {
       time: PropTypes.string.isRequired,
     }),
   ),
+  onDelete: PropTypes.func.isRequired,
 };
 
 BoardComment.defaultProps = {
