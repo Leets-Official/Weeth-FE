@@ -1,3 +1,6 @@
+/* eslint-disable no-alert */
+/* eslint-disable no-console */
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
@@ -6,6 +9,7 @@ import BoardHeader from '../components/Board/NoticeHeader';
 import BoardComment from '../components/Board/BoardComment';
 import AttachButton from '../components/Board/AttachButton';
 import Typing from '../components/Board/Typing';
+import CommentList from '../components/Board/CommentList';
 // import BoardAPI from '../hooks/BoardAPI'; // 이 줄을 주석처리하거나 정확한 경로로 수정
 import { ReactComponent as BoardChat } from '../assets/images/ic_board_chat.svg';
 import theme from '../styles/theme';
@@ -130,35 +134,35 @@ const BoardDetail = () => {
 
   const handleDeleteClick = async () => {
     if (window.confirm('삭제하시겠습니까?')) {
-        try {
-            const url = `${BASE_URL}/api/v1/posts/${postId}`;
-            console.log('Sending DELETE request to:', url);
-            console.log('Authorization header:', `Bearer ${accessToken}`);
+      try {
+        const url = `${BASE_URL}/api/v1/posts/${postId}`;
+        console.log('Sending DELETE request to:', url);
+        console.log('Authorization header:', `Bearer ${accessToken}`);
 
-            const response = await axios.delete(url, {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
-            });
+        const response = await axios.delete(url, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
 
-            console.log('Response status:', response.status); 
-            console.log('Response data:', response.data);
+        console.log('Response status:', response.status);
+        console.log('Response data:', response.data);
 
-            if (response.data.code === 200) {
-                alert('삭제가 완료되었습니다.');
-                navigate('/board');
-            } else if (response.data.code === 400) {
-                alert(`삭제 실패: ${response.data.message}`);
-            } else {
-                console.error('알 수 없는 오류 발생:', response.data.message);
-                alert(`삭제에 실패했습니다. 오류 메시지: ${response.data.message}`);
-            }
-        } catch (err) {
-            console.error('삭제 요청 중 오류 발생:', err);
-            alert('삭제 도중 오류가 발생했습니다. 다시 시도해주세요.');
+        if (response.data.code === 200) {
+          alert('삭제가 완료되었습니다.');
+          navigate('/board');
+        } else if (response.data.code === 400) {
+          alert(`삭제 실패: ${response.data.message}`);
+        } else {
+          console.error('알 수 없는 오류 발생:', response.data.message);
+          alert(`삭제에 실패했습니다. 오류 메시지: ${response.data.message}`);
         }
+      } catch (err) {
+        console.error('삭제 요청 중 오류 발생:', err);
+        alert('삭제 도중 오류가 발생했습니다. 다시 시도해주세요.');
+      }
     }
-};
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -176,8 +180,8 @@ const BoardDetail = () => {
           console.error('Error fetching post data:', response.data.message);
           setError(response.data.message);
         }
-      } catch (error) {
-        console.error('API request error:', error);
+      } catch (err) {
+        console.error('API request error:', err);
         setError('API request error');
       }
     };
@@ -186,7 +190,7 @@ const BoardDetail = () => {
       setContent(state.data);
       setTotalCommentCount(state.data.commentCount || 0);
     } else if (boardData) {
-      const currentData = boardData.find(post => post.id === postId);
+      const currentData = boardData.find((post) => post.id === postId);
       if (currentData) {
         setContent(currentData);
         setTotalCommentCount(currentData.commentCount || 0);
@@ -201,19 +205,19 @@ const BoardDetail = () => {
   const handleCommentSubmitted = async (newComment) => {
     try {
       const response = await axios.post(
-        `${BASE_URL}/api/v1/posts/${postId}/comments`, 
-        { content: newComment }, 
+        `${BASE_URL}/api/v1/posts/${postId}/comments`,
+        newComment,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
-        }
+        },
       );
 
       if (response.data.code === 200) {
         const updatedCount = response.data.data.commentCount;
         setTotalCommentCount(updatedCount);
-        setContent(prevContent => ({
+        setContent((prevContent) => ({
           ...prevContent,
           commentCount: updatedCount,
           comments: [...prevContent.comments, newComment],
@@ -222,14 +226,16 @@ const BoardDetail = () => {
         console.error('Error posting comment:', response.data.message);
         setError(response.data.message);
       }
-    } catch (error) {
-      console.error('API request error:', error);
+    } catch (err) {
+      console.error('API request error:', err);
       setError('API request error');
     }
   };
 
   const handleEditClick = () => {
-    navigate(`/boardPosting`, { state: { title: content.title, content: content.content, postId } });
+    navigate(`/boardPosting`, {
+      state: { title: content.title, content: content.content, postId },
+    });
   };
 
   if (error) {
@@ -243,44 +249,49 @@ const BoardDetail = () => {
   return (
     <Container>
       <HeaderWrapper>
-        <BoardHeader onMenuClick={(action) => {
-          if (action === 'delete') {
-            handleDeleteClick();
-          } else if (action === 'edit') {
-            handleEditClick(); // 수정 버튼 클릭 시 호출
-          }
-        }} showModal={false} />
+        <BoardHeader
+          onMenuClick={(action) => {
+            if (action === 'delete') {
+              handleDeleteClick();
+            } else if (action === 'edit') {
+              handleEditClick(); // 수정 버튼 클릭 시 호출
+            }
+          }}
+          showModal={false}
+        />
       </HeaderWrapper>
       <StudyRow>
         <TextContainer>
           <StudyNamed>{content?.title || 'Loading...'}</StudyNamed>
           <SubRow>
             <UserName>{content?.name || 'Unknown'}</UserName>
-            <StyledDate>{formatDateTime(content?.time) || '00/00 00:00'}</StyledDate>
+            <StyledDate>
+              {formatDateTime(content?.time) || '00/00 00:00'}
+            </StyledDate>
           </SubRow>
           <StudyContents>{content?.content || 'Loading...'}</StudyContents>
         </TextContainer>
         <ComponentRow>
           {content.fileUrls ? (
-            <AttachButton
-              fileUrl={content.fileUrls[0]} 
-            />
+            <AttachButton fileUrl={content.fileUrls[0]} />
           ) : null}
           <RightMargin />
         </ComponentRow>
         <BottomRow>
           <BoardChat alt="" />
           <CommentCount>{content?.commentCount || 0}</CommentCount>
+          <CommentList postId={id} />
         </BottomRow>
-        {content.comments && content.comments.map(comment => (
-          <BoardComment
-            key={comment.id}
-            name={comment.name || 'Unknown User'}
-            content={comment.content}
-            time={formatDateTime(comment.time)}
-            recomments={comment.children || []}
-          />
-        ))}
+        {content.comments &&
+          content.comments.map((comment) => (
+            <BoardComment
+              key={comment.id}
+              name={comment.name || 'Unknown User'}
+              content={comment.content}
+              time={formatDateTime(comment.time)}
+              recomments={comment.children || []}
+            />
+          ))}
       </StudyRow>
       <Typing
         postId={postId}
