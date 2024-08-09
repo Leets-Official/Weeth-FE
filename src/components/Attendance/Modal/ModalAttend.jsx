@@ -111,23 +111,15 @@ const ModalAttend = ({ open, close }) => {
     }
   }, [open]);
 
-  useEffect(() => {
-    if (message === 'attendanceCode : 출석 코드를 입력해주세요.') {
-      setMessage('출석코드를 입력해주세요.');
-    }
-  }, [message]);
-
   const handleCompleteBtn = async () => {
     try {
+      console.log(accessToken);
       const headers = {
         Authorization: `Bearer ${accessToken}`,
       };
       const BASE_URL = process.env.REACT_APP_BASE_URL;
-      const response = await axios.post(
-        `${BASE_URL}/attendances/check-in`,
-        {
-          attendanceCode: inputValue,
-        },
+      const response = await axios.patch(
+        `${BASE_URL}/api/v1/attendances?code=${inputValue}`,
         { headers },
       );
       setMessage(response.data.message);
@@ -220,7 +212,7 @@ const ModalAttend = ({ open, close }) => {
             <SemiBold className="modal-text">
               오늘은&nbsp;
               <div style={{ color: theme.color.main.mainColor }}>{title}</div>
-              &nbsp;가 있는 날이에요
+              &nbsp;이&#40;가&#41; 있는 날이에요
             </SemiBold>
             <div className="modal-date">
               날짜: {startDateTime} {endDateTime}

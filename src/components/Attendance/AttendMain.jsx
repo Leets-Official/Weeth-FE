@@ -132,8 +132,8 @@ const AttendMain = () => {
     location = attendanceData.location;
 
     // Date 객체로 변환
-    const startDate = new Date(attendanceData.startDateTime);
-    const endDate = new Date(attendanceData.endDateTime);
+    const startDate = new Date(attendanceData.start);
+    const endDate = new Date(attendanceData.end);
 
     // 날짜 형식으로 변환
     const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -216,7 +216,7 @@ const AttendMain = () => {
                 <span style={{ color: theme.color.main.mainColor }}>
                   &quot;{title}&quot;
                 </span>
-                가 있는 날이에요
+                이&#40;가&#41; 있는 날이에요
               </div>
             </SemiBold>
             <div className="attend-date">
