@@ -72,20 +72,17 @@ const StudyList = () => {
       }
     }
   };
-  
 
   // 컴포넌트 마운트 시 실행되는 useEffect
   useEffect(() => {
     const savedStudies = JSON.parse(localStorage.getItem('studies'));
-    if (savedStudies) {
+    if (savedStudies && savedStudies.length > 0) {
       console.log("Loaded studies from localStorage:", savedStudies);
       setStudies(savedStudies);
     } else {
-      fetchStudies();
+      fetchStudies(); // 로컬 스토리지에 데이터가 없으면 API로 가져옴
     }
   }, [accessToken]);
-
-  
 
   // studies 상태가 변경될 때마다 localStorage에 저장
   useEffect(() => {
@@ -94,31 +91,18 @@ const StudyList = () => {
   }, [studies]);
 
   // 더 많은 데이터를 로드하는 함수
-const loadMoreStudies = () => {
-  if (studies.length > 0) {
-    const lastStudy = studies[studies.length - 1];
-    if (lastStudy && lastStudy.id) {
-      console.log('loadMoreStudies: Fetching with postId:', lastStudy.id, 'and count: 5');
-      fetchStudies(lastStudy.id, 5);
+  const loadMoreStudies = () => {
+    if (studies.length > 0) {
+      const lastStudy = studies[studies.length - 1];
+      if (lastStudy && lastStudy.id) {
+        console.log('loadMoreStudies: Fetching with postId:', lastStudy.id, 'and count: 5');
+        fetchStudies(lastStudy.id, 5);
+      }
+    } else {
+      console.log('loadMoreStudies: Fetching initial studies with count: 5');
+      fetchStudies(null, 5);
     }
-  } else {
-    // studies가 비어있을 경우, postId 없이 첫 번째 요청
-    console.log('loadMoreStudies: Fetching initial studies with count: 5');
-    fetchStudies(null, 5);
-  }
-};
-
-// 컴포넌트 마운트 시 실행되는 useEffect
-useEffect(() => {
-  const savedStudies = JSON.parse(localStorage.getItem('studies'));
-  if (savedStudies) {
-    console.log("Loaded studies from localStorage:", savedStudies);
-    setStudies(savedStudies);
-  } else {
-    setStudies([]);  // 초기 데이터를 가져오기 전 상태 초기화
-    fetchStudies();
-  }
-}, [accessToken]);
+  };
 
   // 게시글 클릭 시 상세 페이지로 이동
   const handleNavigate = (study) => {
