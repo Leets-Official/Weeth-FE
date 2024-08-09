@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-console */
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import { useNavigate } from 'react-router-dom';
 import theme from '../../styles/theme';
 import icDot from '../../assets/images/ic_dot.svg';
-import Utils from '../../hooks/Utils';
+import { YearlyScheduleContext } from '../../hooks/YearlyScheduleContext';
+import YearlyScheduleAPI from '../../hooks/YearlyScheduleAPI';
 
 const StyledYear = styled.div`
   display: flex;
@@ -60,76 +61,20 @@ EventComponent.propTypes = {
 };
 
 const MonthlyEvent = ({ thisMonth, year }) => {
-  const [yearEventData, setYearEventData] = useState(null);
-  const [error, setError] = useState(null);
-  const navigate = useNavigate();
-
-  const yearNumber = parseInt(year, 10);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const BASE_URL = process.env.REACT_APP_BASE_URL;
-      const accessToken = localStorage.getItem('accessToken');
-      const refreshToken = localStorage.getItem('refreshToken');
-
-      try {
-        if (year) {
-          let response = await axios.get(`${BASE_URL}/event/year`, {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-              Authorization_refresh: `Bearer ${refreshToken}`,
-            },
-            params: {
-              year: yearNumber,
-            },
-          });
-
-          response = await Utils(
-            response,
-            axios.get,
-            [
-              `${BASE_URL}/event/year`,
-              {
-                headers: {
-                  Authorization: `Bearer ${accessToken}`,
-                },
-                params: {
-                  year: yearNumber,
-                },
-              },
-            ],
-            navigate,
-          );
-
-          if (response.data.code === 200) {
-            console.log('response data', response.data.data);
-            setYearEventData(response.data.data);
-          } else {
-            console.log(response);
-            setError('error!', response.data.message);
-          }
-        }
-      } catch (err) {
-        console.error('API Request Error:', err); // 에러 로그
-        setError('An error occurred while fetching the data');
-      }
-    };
-
-    fetchData();
-  }, [year, navigate]);
+  const { yearScheduleData, error } = useContext(YearlyScheduleContext);
 
   if (error) {
     return <div>Error: {error}</div>;
   }
 
-  if (!yearEventData) {
+  if (!yearScheduleData) {
     return <div>Loading...</div>;
   }
 
   const todayMonth = new Date().getMonth() + 1;
   const todayYear = new Date().getFullYear();
   const istoday = thisMonth === todayMonth && todayYear === year;
-  const events = yearEventData[thisMonth] || [];
+  const events = yearScheduleData[thisMonth] || [];
 
   return (
     <StyledYear>

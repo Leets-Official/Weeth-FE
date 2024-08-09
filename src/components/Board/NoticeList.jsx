@@ -1,58 +1,47 @@
 import React, { useEffect, useState, useContext } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import BoardComponent from './BoardComponent';
-import { BoardContext } from '../../hooks/BoardContext';
+import { MonthlyScheduleContext } from '../../hooks/MonthlyScheduleContext';
 
 const NoticeList = () => {
   const navigate = useNavigate();
   const [notices, setNotices] = useState([]);
-  const { setError } = useContext(BoardContext);
+  const { setError } = useContext(MonthlyScheduleContext);
 
   const accessToken = localStorage.getItem('accessToken');
+  // const refreshToken = localStorage.getItem('refreshToken');
   const BASE_URL = process.env.REACT_APP_BASE_URL;
 
-  const fetchNotices = async (noticeId = null, count = 2) => {
-    try {
-      const params = { count };
-      if (noticeId) {
-        params.noticeId = noticeId;
-      }
+  useEffect(() => {
+    const headers = {
+      Authorization: `Bearer ${accessToken}`,
+    };
 
-      const response = await axios.get(`${BASE_URL}/api/v1/notices`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-        params,
+    axios
+      .get(`${BASE_URL}/notice`, { headers })
+      .then((response) => {
+        if (response.data.code === 200) {
+          const noticeData = response.data.data.filter(
+            (item) => item.type === 'NOTICE',
+          );
+          setNotices(noticeData);
+          console.log(noticeData);
+        } else {
+          console.error('API response error:', response.data.message);
+          setError(response.data.message);
+        }
+      })
+      .catch((err) => {
+        console.error('API Request Error:', err);
+        setError('An error occurred while fetching the data');
       });
-
-      if (response.data.code === 200) {
-        setNotices(prevNotices => [...prevNotices, ...response.data.data]);
-      } else {
-        setError(response.data.message);
-      }
-    } catch (error) {
-      setError('공지사항 데이터를 가져오는 중 오류가 발생했습니다.');
-    }
-  };
-
-  useEffect(() => {
-    fetchNotices();
-  }, [accessToken]);
-
-  useEffect(() => {
-    notices.forEach(notice => console.log('Notice:', notice));
-  }, [notices]);
+  }, [accessToken, setError]);
 
   const handleNavigate = (notice) => {
-    navigate(`/board/${notice.id}`, { state: { type: 'notice', data: notice } });
-  };
-
-  const loadMoreNotices = () => {
-    const lastNotice = notices[notices.length - 1];
-    if (lastNotice) {
-      fetchNotices(lastNotice.id);
-    }
+    navigate(`/board/${notice.id}`, {
+      state: { type: 'notice', data: notice },
+    });
   };
 
   return (
@@ -63,12 +52,11 @@ const NoticeList = () => {
           name={notice.name}
           title={notice.title}
           content={notice.content}
-          time={notice.time}
-          totalComments={parseInt(notice.totalComments, 10) || 0}
+          time={notice.modifiedAt || notice.createdAt} // 수정된 시간이 있으면 수정된 시간, 없으면 생성 시간
+          totalComments=""
           onClick={() => handleNavigate(notice)}
         />
       ))}
-      <button onClick={loadMoreNotices}>더 불러오기</button>
     </div>
   );
 };

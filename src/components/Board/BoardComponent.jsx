@@ -74,9 +74,9 @@ const NoticeContent = styled.div`
 `;
 
 // 문자열을 10글자로 제한하고, 넘어가면 "..." 추가
-// const truncateText = (text, maxLength) => {
-//   return text.length > maxLength ? `${text.substring(0, maxLength)}...` : text;
-// };
+const truncateText = (text, maxLength) => {
+  return text.length > maxLength ? `${text.substring(0, maxLength)}...` : text;
+};
 
 const BottomRow = styled.div`
   display: flex;
@@ -124,10 +124,10 @@ const BoardComponent = ({
           <StyledDate>{formatDate(time)}</StyledDate>
         </TopRow>
         <StyledNotice>
-          <StyledText>{title}</StyledText>
+          <StyledText>{truncateText(title, 20)}</StyledText>
         </StyledNotice>
         <ContentRow>
-          <NoticeContent>{content}</NoticeContent>
+          <NoticeContent>{truncateText(content, 50)}</NoticeContent>
           <BottomRow>
             <BoardChat />
             <CommentCount>

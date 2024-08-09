@@ -143,11 +143,11 @@ DatePicker.propTypes = {
 const CreateEvent = () => {
   const [eventInfo, setEventInfo] = useState([
     { key: 'title', value: '' },
-    { key: 'startDateTime', value: getValue('start') },
-    { key: 'endDateTime', value: [] },
+    { key: 'start', value: getValue('start') },
+    { key: 'end', value: [] },
     { key: 'location', value: '' },
-    { key: 'requiredItems', value: '' },
-    { key: 'memberNumber', value: '' },
+    { key: 'requiredItem', value: '' },
+    { key: 'memberCount', value: '' },
     { key: 'content', value: '' },
   ]);
 
@@ -194,14 +194,12 @@ const CreateEvent = () => {
       return acc;
     }, {});
 
-    let startDateTime = '';
-    let endDateTime = '';
+    let start = '';
+    let end = '';
 
     // 시간 배열로 저장
-    const startDate = eventInfo.find(
-      (item) => item.key === 'startDateTime',
-    ).value;
-    const endDate = eventInfo.find((item) => item.key === 'endDateTime').value;
+    const startDate = eventInfo.find((item) => item.key === 'start').value;
+    const endDate = eventInfo.find((item) => item.key === 'end').value;
 
     // 시작 시간 배열 -> ISO 형식으로 변환
     if (startDate.length === 5) {
@@ -214,8 +212,8 @@ const CreateEvent = () => {
         startHour,
         startMinute,
       );
-      startDateTime = toKSTISOString(startDateObj);
-      data.startDateTime = startDateTime;
+      start = toKSTISOString(startDateObj);
+      data.start = start;
     }
 
     // 종료 시간 배열 -> ISO 형식으로 변환
@@ -228,19 +226,16 @@ const CreateEvent = () => {
         endHour,
         endMinute,
       );
-      endDateTime = toKSTISOString(endDateObj);
-      data.endDateTime = endDateTime;
+      end = toKSTISOString(endDateObj);
+      data.end = end;
     }
 
-    console.log('start', data.startDateTime);
-    console.log('end', data.endDateTime);
-
-    if (data.startDateTime === data.endDateTime) {
+    if (data.start === data.end) {
       alert('시작 시간과 종료 시간은 같을 수 없습니다.');
       return;
     }
 
-    if (data.startDateTime > data.endDateTime) {
+    if (data.start > data.end) {
       alert('종료 시간은 시작 시간보다 빠를 수 없습니다.');
       return;
     }
@@ -258,12 +253,16 @@ const CreateEvent = () => {
 
     if (window.confirm('저장하시겠습니까?')) {
       try {
-        const response = await axios.post(`${BASE_URL}/admin/event`, data, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-            Authorization_refresh: `Bearer ${refreshToken}`,
+        const response = await axios.post(
+          `${BASE_URL}/api/v1/admin/events`,
+          data,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+              Authorization_refresh: `Bearer ${refreshToken}`,
+            },
           },
-        });
+        );
         console.log(response); // 서버의 응답을 콘솔에 출력
         console.log(data);
         alert('저장이 완료되었습니다.');
@@ -295,20 +294,20 @@ const CreateEvent = () => {
           status="start"
           onDateChange={(index, value) => {
             const startDate = [
-              ...eventInfo.find((item) => item.key === 'startDateTime').value,
+              ...eventInfo.find((item) => item.key === 'start').value,
             ];
             startDate[index] = value;
-            editDate('startDateTime', startDate);
+            editDate('start', startDate);
           }}
         />
         <DatePicker
           status="end"
           onDateChange={(index, value) => {
             const endDate = [
-              ...eventInfo.find((item) => item.key === 'endDateTime').value,
+              ...eventInfo.find((item) => item.key === 'end').value,
             ];
             endDate[index] = value;
-            editDate('endDateTime', endDate);
+            editDate('end', endDate);
           }}
         />
       </DatePickerWrapper>
@@ -325,22 +324,22 @@ const CreateEvent = () => {
       <InfoInput
         text="준비물"
         origValue={
-          eventInfo.find((item) => item.key === 'requiredItems')?.value || ''
+          eventInfo.find((item) => item.key === 'requiredItem')?.value || ''
         }
         width="75%"
         padding="15px"
         align="left"
-        editValue={(value) => editValue('requiredItems', value)}
+        editValue={(value) => editValue('requiredItem', value)}
       />
       <InfoInput
         text="총인원"
         origValue={
-          eventInfo.find((item) => item.key === 'memberNumber')?.value || ''
+          eventInfo.find((item) => item.key === 'memberCount')?.value || ''
         }
         width="75%"
         padding="15px"
         align="left"
-        editValue={(value) => editValue('memberNumber', value)}
+        editValue={(value) => editValue('memberCount', value)}
       />
       <StyledTextArea
         placeholder="내용"

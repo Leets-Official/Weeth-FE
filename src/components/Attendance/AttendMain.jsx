@@ -1,6 +1,6 @@
-import { useEffect, useContext, useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import { useContext, useState } from 'react';
 import theme from '../../styles/theme';
 import './AttendMain.css';
 import RightButton from '../Header/RightButton';
@@ -12,11 +12,9 @@ import ModalPenalty from './Modal/ModalPenalty';
 import { UserContext } from '../../hooks/UserContext';
 import { PenaltyContext } from '../../hooks/PenaltyContext';
 import { AttendContext } from '../../hooks/AttendContext';
-import AttendAPI from '../../hooks/AttendAPI';
-import PenaltyAPI from '../../hooks/PenaltyAPI';
 
 // 출석률 게이지 임시 값
-let ATTEND_GAUGE = 100;
+let ATTEND_GAUGE = 80;
 const MAX_ATTEND_GUAGE = 100;
 
 const StyledAttend = styled.div`
@@ -31,8 +29,7 @@ const StyledAttend = styled.div`
 const Progress = styled.div`
   width: 86%;
   height: 19px;
-  background-color: ${({ isAttend }) =>
-    isAttend === 0 ? theme.color.grayScale.gray20 : theme.color.main.negative};
+  background-color: ${theme.color.main.negative};
   border-radius: 10px;
   overflow: hidden;
   margin: 5% 10px 0px 10px;
@@ -96,7 +93,6 @@ const AttendMain = () => {
   const navi = useNavigate();
   const [modalOpen, setModalOpen] = useState(false);
   const [penaltyModalOpen, setPenaltyModalOpen] = useState(false);
-  const [shouldFetchData, setShouldFetchData] = useState(false);
 
   const { userData, error } = useContext(UserContext);
 
@@ -148,40 +144,26 @@ const AttendMain = () => {
     endDateTime = `(${startTime} ~ ${endTime})`;
 
     // 출석률 지정
-    if (attendanceData.attendanceRate === null) {
-      ATTEND_GAUGE = 0;
-    } else {
-      ATTEND_GAUGE = attendanceData.attendanceRate;
-    }
+    ATTEND_GAUGE = attendanceData.attendanceRate;
   }
 
   const { myPenaltyCount, hasPenalty } = useContext(PenaltyContext);
 
   const penalty = myPenaltyCount;
   const dealt = Math.floor((ATTEND_GAUGE / MAX_ATTEND_GUAGE) * 100);
+  // eslint-disable-next-line no-console
+  // console.log(penalty);
 
   // 출석체크 모달
   const handleOpenModal = () => setModalOpen(true);
-  const handleCloseModal = () => {
-    setModalOpen(false);
-    setShouldFetchData(true); // 모달이 닫힐 때 API를 다시 호출하도록 상태를 업데이트
-  };
+  const handleCloseModal = () => setModalOpen(false);
 
   // 패널티 모달
   const handleOpenPenaltyModal = () => setPenaltyModalOpen(true);
   const handleClosePenaltyModal = () => setPenaltyModalOpen(false);
 
-  // 모달이 닫힐 때 shouldFetchData가 true로 업데이트되면, API를 다시 호출
-  useEffect(() => {
-    if (shouldFetchData) {
-      setShouldFetchData(false);
-    }
-  }, [shouldFetchData]);
-
   return (
     <StyledAttend>
-      <AttendAPI key={shouldFetchData} />
-      <PenaltyAPI />
       <div className="name-container">
         <SemiBold>
           <div className="attend-name">{userName}&nbsp;</div>
@@ -202,7 +184,7 @@ const AttendMain = () => {
           />
         </RightButtonWrapper>
       </div>
-      <Progress isAttend={ATTEND_GAUGE}>
+      <Progress>
         <Dealt dealt={dealt} />
       </Progress>
       <StyledBox height="200px">

@@ -5,7 +5,6 @@ import { EventInfoContext } from './EventInfoContext';
 
 const EventInfoAPI = ({ id }) => {
   const { setInfoData, setError } = useContext(EventInfoContext);
-  console.log('넘겨준 좀 위에', id);
 
   useEffect(() => {
     const accessToken = localStorage.getItem('accessToken');
@@ -17,8 +16,6 @@ const EventInfoAPI = ({ id }) => {
       Authorization_refresh: `Bearer ${refreshToken}`,
     };
     const fetchData = async () => {
-      console.log('넘겨준', id);
-
       try {
         if (id) {
           const response = await axios.get(`${BASE_URL}/event/${id}`, {

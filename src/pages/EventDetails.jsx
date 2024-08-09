@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import axios from 'axios';
 
 import icCalendar from '../assets/images/ic_date.svg';
@@ -43,6 +43,9 @@ const EventDetails = () => {
   const { id } = useParams();
   const [eventDetailData, setEventDetailData] = useState(null);
   const [error, setError] = useState(null);
+  const location = useLocation();
+  const { isMeeting } = location.state || {};
+  const apiType = isMeeting ? 'meetings' : 'events';
 
   useEffect(() => {
     const fetchData = async () => {
@@ -58,9 +61,12 @@ const EventDetails = () => {
         };
 
         if (id) {
-          const response = await axios.get(`${BASE_URL}/event/${id}`, {
-            headers,
-          });
+          const response = await axios.get(
+            `${BASE_URL}/api/v1/${apiType}/${id}`,
+            {
+              headers,
+            },
+          );
           if (response.data.code === 200) {
             console.log('response detail data:', response.data.data); // 데이터 확인용
             setEventDetailData(response.data.data);
@@ -113,7 +119,7 @@ const EventDetails = () => {
       <BoardTitle
         eventId={eventDetailData.id}
         text={eventDetailData.title}
-        writer={eventDetailData.userName}
+        writer={eventDetailData.name}
         createdAt={eventDetailData.createdAt}
       />
       <Line />
@@ -160,8 +166,8 @@ const EventDetails = () => {
       </ContentBlock>
       <ContentBlock>
         <div>장소 : {eventDetailData.location} </div>
-        <div>준비물 : {eventDetailData.requiredItems} </div>
-        <div>총 인원 : {eventDetailData.memberNumber}</div>
+        <div>준비물 : {eventDetailData.requiredItem} </div>
+        <div>총 인원 : {eventDetailData.memberCount}</div>
       </ContentBlock>
       <ContentBlock>
         <div>{eventDetailData.content}</div>

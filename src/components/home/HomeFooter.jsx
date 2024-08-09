@@ -1,7 +1,5 @@
-import React, { useRef } from 'react';
 import styled from 'styled-components';
 import theme from '../../styles/theme';
-import { useDraggable } from '../../hooks/useDraggable';
 import leets from '../../assets/images/ic_leets.svg';
 import insta from '../../assets/images/ic_insta.svg';
 import discord from '../../assets/images/ic_discord.svg';
@@ -23,7 +21,6 @@ const ScrollContainer = styled.div`
   width: 94%;
   margin: 4% 3% 0px 3%;
   overflow-x: auto;
-  cursor: grab;
   &::-webkit-scrollbar {
     height: 8px;
   }
@@ -98,22 +95,10 @@ const GridItemWithImage = styled(GridItem)`
 `;
 
 const HomeFooter = () => {
-  const scrollerRef1 = useRef(null);
-  const scrollerRef2 = useRef(null);
-  const { onMouseDown, onMouseMove, onMouseUp, onMouseLeave } =
-    useDraggable(scrollerRef1);
-  const draggableHandlers2 = useDraggable(scrollerRef2);
-
   return (
     <>
       <StyledHomeFooter>From Leets</StyledHomeFooter>
-      <ScrollContainer
-        ref={scrollerRef1}
-        onMouseDown={onMouseDown}
-        onMouseMove={onMouseMove}
-        onMouseUp={onMouseUp}
-        onMouseLeave={onMouseLeave}
-      >
+      <ScrollContainer>
         <GridItem href="https://www.leets.land/" target="_blank">
           <ImgContainer>
             <img src={leets} alt="leets" />
@@ -143,13 +128,7 @@ const HomeFooter = () => {
         </GridItem>
       </ScrollContainer>
       <StyledHomeFooter>Leets의 프로젝트를 둘러보세요!</StyledHomeFooter>
-      <ScrollContainer
-        ref={scrollerRef2}
-        onMouseDown={draggableHandlers2.onMouseDown}
-        onMouseMove={draggableHandlers2.onMouseMove}
-        onMouseUp={draggableHandlers2.onMouseUp}
-        onMouseLeave={draggableHandlers2.onMouseLeave}
-      >
+      <ScrollContainer>
         <GridItemWithImage image={commitato}>
           <span>Commitato</span>
         </GridItemWithImage>
