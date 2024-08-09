@@ -1,16 +1,11 @@
-/* eslint-disable no-alert */
-/* eslint-disable no-console */
-/* eslint-disable no-unused-vars */
 import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import BoardHeader from '../components/Board/NoticeHeader';
-import BoardComment from '../components/Board/BoardComment';
 import AttachButton from '../components/Board/AttachButton';
 import Typing from '../components/Board/Typing';
 import CommentList from '../components/Board/CommentList';
-// import BoardAPI from '../hooks/BoardAPI'; // 이 줄을 주석처리하거나 정확한 경로로 수정
 import { ReactComponent as BoardChat } from '../assets/images/ic_board_chat.svg';
 import theme from '../styles/theme';
 import { BoardContext } from '../hooks/BoardContext';
@@ -87,9 +82,14 @@ const RightMargin = styled.div`
   margin-right: 27%;
 `;
 
-const CommentCount = styled.div`
+const CommentCountWrapper = styled.div`
   display: flex;
   align-items: center;
+  margin-top: 20px;
+  padding-bottom: 10px;
+`;
+
+const CommentCount = styled.div`
   color: ${theme.color.grayScale.gray65};
   font-family: ${theme.font.family.pretendard_regular};
   font-size: 12px;
@@ -97,13 +97,10 @@ const CommentCount = styled.div`
   margin-left: 4px;
 `;
 
-const BottomRow = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
+const CommentSection = styled.div`
   margin-top: 15px;
-  border-bottom: 1px solid ${theme.color.grayScale.gray30};
-  padding-bottom: 10px;
+  padding-top: 10px;
+  border-top: 1px solid ${theme.color.grayScale.gray30};
 `;
 
 const formatDateTime = (dateTimeString) => {
@@ -277,28 +274,19 @@ const BoardDetail = () => {
           ) : null}
           <RightMargin />
         </ComponentRow>
-        <BottomRow>
+        <CommentCountWrapper>
           <BoardChat alt="" />
-          <CommentCount>{content?.commentCount || 0}</CommentCount>
+          <CommentCount>{totalCommentCount}</CommentCount>
+        </CommentCountWrapper>
+        <CommentSection>
           <CommentList postId={id} />
-        </BottomRow>
-        {content.comments &&
-          content.comments.map((comment) => (
-            <BoardComment
-              key={comment.id}
-              name={comment.name || 'Unknown User'}
-              content={comment.content}
-              time={formatDateTime(comment.time)}
-              recomments={comment.children || []}
-            />
-          ))}
+        </CommentSection>
       </StudyRow>
       <Typing
         postId={postId}
         onCommentSubmitted={handleCommentSubmitted}
         comment={content.comment || ''}
       />
-      {/* <BoardAPI />  // 이 부분을 주석처리하거나 필요에 따라 사용하세요 */}
     </Container>
   );
 };
