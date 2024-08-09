@@ -69,6 +69,15 @@ const BoardComment = ({ name, content, time, recomments = [] }) => {
     setShowReplies(!showReplies);
   };
 
+  const formatDateTime = (dateTimeString) => {
+    const date = new Date(dateTimeString);
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    return `${month}/${day} ${hours}:${minutes}`;
+  };
+
   return (
     <CommentContainer>
       <BoardCommented>
@@ -77,7 +86,7 @@ const BoardComment = ({ name, content, time, recomments = [] }) => {
           <CommentButton alt="" onClick={handleReplyClick} />
         </BottomRow>
         <StyledComment>{content}</StyledComment>
-        <CommentDate>{time}</CommentDate>
+        <CommentDate>{formatDateTime(time) || '00/00 00:00'}</CommentDate>
         {showReplies &&
           recomments.map((recomment) => (
             <ReplyRow key={recomment.id}>
