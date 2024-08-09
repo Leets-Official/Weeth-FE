@@ -73,22 +73,10 @@ const StudyList = () => {
     }
   };
 
-  // 컴포넌트 마운트 시 실행되는 useEffect
+  // 컴포넌트 마운트 시 서버로부터 최신 데이터를 로드
   useEffect(() => {
-    const savedStudies = JSON.parse(localStorage.getItem('studies'));
-    if (savedStudies && savedStudies.length > 0) {
-      console.log("Loaded studies from localStorage:", savedStudies);
-      setStudies(savedStudies);
-    } else {
-      fetchStudies(); // 로컬 스토리지에 데이터가 없으면 API로 가져옴
-    }
+    fetchStudies(); // 컴포넌트가 처음 마운트될 때 최신 데이터를 가져옴
   }, [accessToken]);
-
-  // studies 상태가 변경될 때마다 localStorage에 저장
-  useEffect(() => {
-    console.log("Updated studies state:", studies);
-    localStorage.setItem('studies', JSON.stringify(studies));
-  }, [studies]);
 
   // 더 많은 데이터를 로드하는 함수
   const loadMoreStudies = () => {
