@@ -279,7 +279,7 @@ const BoardDetail = () => {
           <CommentCount>{totalCommentCount}</CommentCount>
         </CommentCountWrapper>
         <CommentSection>
-          <CommentList postId={id} />
+          <CommentList postId={postId} />
         </CommentSection>
       </StudyRow>
       <Typing
