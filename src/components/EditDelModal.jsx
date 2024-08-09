@@ -2,6 +2,19 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import theme from '../styles/theme';
 
+const ModalBackground = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); // 배경을 어둡게 하여 화면을 덮음
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; // 다른 요소보다 위에 위치하도록 설정
+`;
+
 const ContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -53,14 +66,16 @@ const CancelButton = styled.div`
 
 const EditDelModal = ({ title, onClickEdit, onClickDel, onClickCancel }) => {
   return (
-    <ContentWrapper>
-      <ModalContent>
-        <Title>{title}메뉴</Title>
-        <Item onClick={onClickEdit}>수정</Item>
-        <Item onClick={onClickDel}>삭제</Item>
-      </ModalContent>
-      <CancelButton onClick={onClickCancel}>취소</CancelButton>
-    </ContentWrapper>
+    <ModalBackground>
+      <ContentWrapper>
+        <ModalContent>
+          <Title>{title}메뉴</Title>
+          <Item onClick={onClickEdit}>수정</Item>
+          <Item onClick={onClickDel}>삭제</Item>
+        </ModalContent>
+        <CancelButton onClick={onClickCancel}>취소</CancelButton>
+      </ContentWrapper>
+    </ModalBackground>
   );
 };
 

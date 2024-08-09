@@ -23,7 +23,8 @@ import Edit from './pages/Edit';
 import Dues from './pages/Dues';
 import Board from './pages/Board';
 import BoardPosting from './pages/BoardPosting';
-import BoardDetail from './pages/BoardDetail';
+import StudyDetail from './pages/StudyDetail';
+import NoticeDetail from './pages/NoticeDetail';
 import CreateEvent from './pages/CreateEvent';
 import EditEvent from './pages/EditEvent';
 import BoardEdit from './pages/BoardEdit';
@@ -76,7 +77,8 @@ const App = () => {
                         <Route path="/dues" element={<Dues />} />
                         <Route path="/receipt" element={<Receipt />} />
                         <Route path="/board" element={<Board />} />
-                        <Route path="/board/posts/:id" element={<BoardDetail />} />
+                        <Route path="/board/posts/:id" element={<StudyDetail />} />
+                        <Route path="/board/notices/:id" element={<NoticeDetail />} />
                         <Route
                           path="/boardPosting"
                           element={<BoardPosting />}

@@ -47,7 +47,7 @@ const NoticeList = () => {
   }, [notices]);
 
   const handleNavigate = (notice) => {
-    navigate(`/board/${notice.id}`, {
+    navigate(`/board/notices/${notice.id}`, {
       state: { type: 'notice', data: notice },
     });
   };

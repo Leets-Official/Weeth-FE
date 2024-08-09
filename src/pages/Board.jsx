@@ -1,22 +1,23 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import axios from 'axios';
+// import axios from 'axios';
 import NoticeHeader from '../components/Board/NoticeHeader';
 import NoticeMiddle from '../components/Board/NoticeMiddle';
 import NoticeList from '../components/Board/NoticeList';
 import StudyList from '../components/Board/StudyList';
+import AdminEditDelModal from '../components/AdminEditDelModal';
 import theme from '../styles/theme';
 
 const Container = styled.div`
   width: 370px;
-;`
+`;
 
 const TabsContainer = styled.div`
   display: flex;
   width: 88%;
   border-bottom: 1px solid ${theme.color.grayScale.gray65};
   margin: 0 7%;
-;`
+`;
 
 const StyledTab = styled.div`
   padding: 10px 10px;
@@ -25,9 +26,11 @@ const StyledTab = styled.div`
   font-size: 16px;
   line-height: 19.09px;
   color: ${(props) =>
-    props.active === 'true' ? theme.color.grayScale.white : theme.color.grayScale.gray65};
+    props.active === 'true'
+      ? theme.color.grayScale.white
+      : theme.color.grayScale.gray65};
   position: relative;
-  
+
   &:after {
     content: '';
     position: absolute;
@@ -38,7 +41,7 @@ const StyledTab = styled.div`
     background-color: ${(props) =>
       props.active === 'true' ? theme.color.grayScale.white : 'transparent'};
   }
-;`
+`;
 
 const PostingButton = styled.button`
   width: calc(370 * 0.13);
@@ -54,15 +57,16 @@ const PostingButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-;`
+`;
 
-const onMenuClick = () => {
+/* const onMenuClick = () => {
   console.log('Menu clicked');
-};
+}; */
 
 const Board = () => {
   const [activeTab, setActiveTab] = useState('notice');
-  const buttonElement = activeTab === 'study' ? <PostingButton>글쓰기</PostingButton> : <div/>;
+  const buttonElement =
+    activeTab === 'study' ? <PostingButton>글쓰기</PostingButton> : <div />;
   // const [noticeList, setNoticeList] = useState([]);
   // const [noticeList, setNoticeList] = useState([]);
 
@@ -84,16 +88,27 @@ const Board = () => {
 
   return (
     <Container>
-      <NoticeHeader showModal={false} onMenuClick={handleMenuClick} handleDelete/>
+      <NoticeHeader
+        showModal={false}
+        onMenuClick={handleMenuClick}
+        isAdmin // 운영진만 창을 열 수 있음
+        ModalComponent={AdminEditDelModal} // AdminEditModal을 사용
+      />
       <NoticeMiddle
         title={activeTab === 'notice' ? '공지사항' : '스터디 게시판'}
         button={buttonElement}
       />
-      <TabsContainer> 
-        <StyledTab active={(activeTab === 'notice').toString()} onClick={() => setActiveTab('notice')}>
+      <TabsContainer>
+        <StyledTab
+          active={(activeTab === 'notice').toString()}
+          onClick={() => setActiveTab('notice')}
+        >
           공지사항
         </StyledTab>
-        <StyledTab active={(activeTab === 'study').toString()} onClick={() => setActiveTab('study')}>
+        <StyledTab
+          active={(activeTab === 'study').toString()}
+          onClick={() => setActiveTab('study')}
+        >
           스터디 게시판
         </StyledTab>
       </TabsContainer>

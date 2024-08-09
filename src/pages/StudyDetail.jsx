@@ -6,6 +6,7 @@ import BoardHeader from '../components/Board/NoticeHeader';
 import AttachButton from '../components/Board/AttachButton';
 import Typing from '../components/Board/Typing';
 import CommentList from '../components/Board/CommentList';
+import EditDelModal from '../components/EditDelModal';
 import { ReactComponent as BoardChat } from '../assets/images/ic_board_chat.svg';
 import theme from '../styles/theme';
 import { BoardContext } from '../hooks/BoardContext';
@@ -113,7 +114,7 @@ const formatDateTime = (dateTimeString) => {
   return `${month}/${day} ${hours}:${minutes}`;
 };
 
-const BoardDetail = () => {
+const StudyDetail = () => {
   const { state } = useLocation();
   const { id } = useParams();
   console.log('Post ID from useParams:', id);
@@ -258,8 +259,6 @@ const BoardDetail = () => {
     }
   };
 
-  // 이 함수 이후에 추가적인 함수나 로직이 있는지 확인
-
   const handleEditClick = () => {
     navigate(`/boardPosting`, {
       state: { title: content.title, content: content.content, postId },
@@ -282,10 +281,12 @@ const BoardDetail = () => {
             if (action === 'delete') {
               handleDeleteClick();
             } else if (action === 'edit') {
-              handleEditClick(); // 수정 버튼 클릭 시 호출
+              handleEditClick();
             }
           }}
           showModal={false}
+          isAdmin={false} // 모든 사용자가 창을 열 수 있음
+          ModalComponent={EditDelModal} // EditDelModal을 사용
         />
       </HeaderWrapper>
       <StudyRow>
@@ -322,4 +323,4 @@ const BoardDetail = () => {
   );
 };
 
-export default BoardDetail;
+export default StudyDetail;
