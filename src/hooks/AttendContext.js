@@ -7,7 +7,7 @@ export const AttendContext = createContext();
 export const AttendProvider = ({ children }) => {
   const [attendanceData, setAttendanceData] = useState(null);
   const [attendFetchError, setAttendFetchError] = useState(null);
-  const [hasSchedule, setHasSchedule] = useState(true);
+  const [hasSchedule, setHasSchedule] = useState(false);
 
   return (
     <AttendContext.Provider

@@ -13,9 +13,10 @@ import { UserContext } from '../../hooks/UserContext';
 import { PenaltyContext } from '../../hooks/PenaltyContext';
 import { AttendContext } from '../../hooks/AttendContext';
 import AttendAPI from '../../hooks/AttendAPI';
+import PenaltyAPI from '../../hooks/PenaltyAPI';
 
 // 출석률 게이지 임시 값
-let ATTEND_GAUGE = 80;
+let ATTEND_GAUGE = 100;
 const MAX_ATTEND_GUAGE = 100;
 
 const StyledAttend = styled.div`
@@ -30,7 +31,8 @@ const StyledAttend = styled.div`
 const Progress = styled.div`
   width: 86%;
   height: 19px;
-  background-color: ${theme.color.main.negative};
+  background-color: ${({ isAttend }) =>
+    isAttend === 0 ? theme.color.grayScale.gray20 : theme.color.main.negative};
   border-radius: 10px;
   overflow: hidden;
   margin: 5% 10px 0px 10px;
@@ -146,7 +148,11 @@ const AttendMain = () => {
     endDateTime = `(${startTime} ~ ${endTime})`;
 
     // 출석률 지정
-    ATTEND_GAUGE = attendanceData.attendanceRate;
+    if (attendanceData.attendanceRate === null) {
+      ATTEND_GAUGE = 0;
+    } else {
+      ATTEND_GAUGE = attendanceData.attendanceRate;
+    }
   }
 
   const { myPenaltyCount, hasPenalty } = useContext(PenaltyContext);
@@ -175,6 +181,7 @@ const AttendMain = () => {
   return (
     <StyledAttend>
       <AttendAPI key={shouldFetchData} />
+      <PenaltyAPI />
       <div className="name-container">
         <SemiBold>
           <div className="attend-name">{userName}&nbsp;</div>
@@ -195,7 +202,7 @@ const AttendMain = () => {
           />
         </RightButtonWrapper>
       </div>
-      <Progress>
+      <Progress isAttend={ATTEND_GAUGE}>
         <Dealt dealt={dealt} />
       </Progress>
       <StyledBox height="200px">
