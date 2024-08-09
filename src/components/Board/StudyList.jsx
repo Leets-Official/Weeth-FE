@@ -5,7 +5,7 @@ import BoardComponent from './BoardComponent';
 import { BoardContext } from '../../hooks/BoardContext';
 import Utils from '../../hooks/Utils';
 
-const StudyList = () => {
+const StudyList = ({postId}) => {
   const navigate = useNavigate();
   const [studies, setStudies] = useState([]);
   const { setError } = useContext(BoardContext);

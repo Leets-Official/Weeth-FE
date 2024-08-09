@@ -2,10 +2,8 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import PropTypes from 'prop-types';
-import { useNavigate } from 'react-router-dom';
 import { ReactComponent as RegisterComment } from '../../assets/images/ic_send.svg';
 import theme from '../../styles/theme';
-import Utils from '../../hooks/Utils';
 
 const InputWrapper = styled.div`
   position: relative;
@@ -34,33 +32,25 @@ const InputField = styled.input`
 
 const Typing = ({ postId, onCommentSubmitted }) => {
   const [comment, setComment] = useState('');
-  const [parentId, setParentId] = useState(null); // 대댓글 모드 상태 관리
 
   const accessToken = localStorage.getItem('accessToken');
   const BASE_URL = process.env.REACT_APP_BASE_URL;
-
-  const navigate = useNavigate();
 
   const handleCommentChange = (e) => {
     setComment(e.target.value);
   };
 
   const handleRegisterComment = async () => {
-    if (comment.trim() === '') return;
-
-    console.log('현재 comment의 값: ', comment);
+    const trimmedComment = comment.trim();
+    if (trimmedComment === '') {
+      console.error('댓글 내용을 입력해주세요.');
+      return;
+    }
 
     try {
-      const payload = {
-        parentCommentId: parentId || null, // 대댓글이 아닌 경우 null로 설정
-        content: comment, // comment를 그대로 전송
-      };
-
-      console.log('서버로 보낼 payload: ', payload);
-
       const response = await axios.post(
         `${BASE_URL}/api/v1/posts/${postId}/comments`,
-        payload,
+        { content: trimmedComment },
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -69,32 +59,13 @@ const Typing = ({ postId, onCommentSubmitted }) => {
         },
       );
 
-      console.log('서버로부터의 응답:', response);
-
-      // 만약 Utils 함수를 사용하고 싶다면 여기에 적용
-      const validResponse = await Utils(
-        response,
-        axios.post,
-        [
-          `${BASE_URL}/api/v1/posts/${postId}/comments`,
-          payload,
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-              'Content-Type': 'application/json',
-            },
-          },
-        ],
-        navigate,
-      );
-
-      if (validResponse.data.code === 200) {
+      if (response.data.code === 200) {
         console.log('댓글이 성공적으로 등록되었습니다.');
         setComment(''); // 입력 필드 초기화
-        onCommentSubmitted(validResponse.data); // 새로운 댓글을 부모 컴포넌트로 전달
-        setParentId(null); // parentId 초기화
+        console.log('onCommentSubmitted 호출 전:', response.data.data);
+        onCommentSubmitted(response.data.data); // 새로운 댓글 데이터를 부모 컴포넌트로 전달
       } else {
-        console.error('응답에서 오류 발생:', validResponse.data.message);
+        console.error('응답에서 오류 발생:', response.data.message);
       }
     } catch (error) {
       console.error('댓글을 게시하는 데 실패했습니다:', error);
@@ -106,7 +77,7 @@ const Typing = ({ postId, onCommentSubmitted }) => {
       <InputField
         type="text"
         value={comment}
-        placeholder={parentId ? '대댓글을 입력하세요.' : '댓글을 입력하세요.'}
+        placeholder="댓글을 입력하세요."
         onChange={handleCommentChange}
       />
       <RegisterComment
@@ -125,8 +96,8 @@ const Typing = ({ postId, onCommentSubmitted }) => {
 };
 
 Typing.propTypes = {
-  postId: PropTypes.number.isRequired, // Post ID
-  onCommentSubmitted: PropTypes.func.isRequired, // Notify parent component after comment submission
+  postId: PropTypes.number.isRequired,
+  onCommentSubmitted: PropTypes.func.isRequired,
 };
 
 export default Typing;

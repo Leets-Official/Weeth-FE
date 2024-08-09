@@ -13,7 +13,7 @@ const CommentList = ({ postId }) => {
   const accessToken = localStorage.getItem('accessToken');
   const BASE_URL = process.env.REACT_APP_BASE_URL;
 
-  console.log(typeof postId); // 'number'가 출력되어야 합니다
+  console.log(typeof postId);
 
   useEffect(() => {
     const headers = {
@@ -50,8 +50,8 @@ const CommentList = ({ postId }) => {
           key={comment.id}
           name={comment.name}
           content={comment.content}
-          time={comment.modifiedAt || comment.createdAt} // Use modifiedAt if available
-          recomments={comment.recomments}
+          time={comment.time || '시간 정보 없음'} // Use modifiedAt if available
+          recomments={comment.children || []} // 대댓글은 children 속성으로 전달됨
           onClick={() => handleNavigate(comment)}
         />
       ))}

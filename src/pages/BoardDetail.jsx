@@ -199,11 +199,44 @@ const BoardDetail = () => {
     }
   }, [state, boardData, postId, accessToken, BASE_URL, setError]);
 
+  const fetchComments = async () => {
+    try {
+      const response = await axios.get(`${BASE_URL}/api/v1/posts/${postId}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+
+      if (response.data.code === 200) {
+        setContent(response.data.data);
+        setTotalCommentCount(response.data.data.commentCount || 0);
+      } else {
+        console.error('Error fetching post data:', response.data.message);
+        setError(response.data.message);
+      }
+    } catch (err) {
+      console.error('API request error:', err);
+      setError('API request error');
+    }
+  };
+
   const handleCommentSubmitted = async (newComment) => {
+    if (!newComment || !newComment.content) {
+      console.error('댓글 데이터가 올바르지 않습니다:', newComment);
+      return;
+    }
+
+    const trimmedContent = newComment.content.trim();
+
+    if (!trimmedContent) {
+      setError('댓글 내용을 입력해주세요.');
+      return;
+    }
+
     try {
       const response = await axios.post(
         `${BASE_URL}/api/v1/posts/${postId}/comments`,
-        newComment,
+        { ...newComment, content: trimmedContent },
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -212,13 +245,9 @@ const BoardDetail = () => {
       );
 
       if (response.data.code === 200) {
-        const updatedCount = response.data.data.commentCount;
-        setTotalCommentCount(updatedCount);
-        setContent((prevContent) => ({
-          ...prevContent,
-          commentCount: updatedCount,
-          comments: [...prevContent.comments, newComment],
-        }));
+        console.log('댓글이 성공적으로 등록되었습니다.');
+        // 댓글 등록 후 게시글의 최신 데이터를 다시 가져옵니다.
+        fetchComments(); // 댓글 데이터를 다시 가져오는 함수 호출
       } else {
         console.error('Error posting comment:', response.data.message);
         setError(response.data.message);
@@ -228,6 +257,8 @@ const BoardDetail = () => {
       setError('API request error');
     }
   };
+
+  // 이 함수 이후에 추가적인 함수나 로직이 있는지 확인
 
   const handleEditClick = () => {
     navigate(`/boardPosting`, {
