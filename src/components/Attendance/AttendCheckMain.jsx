@@ -1,9 +1,10 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import theme from '../../styles/theme';
 import Caption from '../Caption';
 import { UserContext } from '../../hooks/UserContext';
+import { AttendCheckContext } from '../../hooks/AttendCheckContext';
 
 const Container = styled.div`
   display: flex;
@@ -115,7 +116,9 @@ const MeetingInfo = styled.div`
 const StyledText = styled.div`
   margin-top: -2.5px;
 `;
-
+const NullBox = styled.div`
+  margin: 20px 0;
+`;
 const SmallBox = ({ title, num }) => {
   return (
     <SmallStyledBox>
@@ -163,45 +166,11 @@ MeetingBox.propTypes = {
 };
 
 const AttendCheckMain = () => {
-  const [attendanceData, setAttendanceData] = useState(null);
-  const [accessToken, setAccessToken] = useState(
-    localStorage.getItem('accessToken'),
-  );
+  const { attendanceData, attendFetchError } = useContext(AttendCheckContext);
 
-  useEffect(() => {
-    const fetchAttendanceData = async () => {
-      try {
-        const BASE_URL = process.env.REACT_APP_BASE_URL;
-        const response = await fetch(`${BASE_URL}/attendances/details`, {
-          method: 'GET',
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
-        const data = await response.json();
-        setAttendanceData(data.data);
-      } catch (error) {
-        console.error('Error fetching attendance data:', error);
-      }
-    };
-
-    fetchAttendanceData();
-  }, [accessToken]); // accessToken이 변경될 때마다 API를 다시 호출
-
-  useEffect(() => {
-    const handleStorageChange = () => {
-      const newToken = localStorage.getItem('accessToken');
-      if (newToken !== accessToken) {
-        setAccessToken(newToken);
-      }
-    };
-
-    window.addEventListener('storage', handleStorageChange);
-
-    return () => {
-      window.removeEventListener('storage', handleStorageChange);
-    };
-  }, [accessToken]);
+  if (attendFetchError) {
+    return <div>error</div>;
+  }
 
   if (!attendanceData) {
     return <div>Loading...</div>;
@@ -236,41 +205,48 @@ const AttendCheckMain = () => {
           <SmallBox title="결석" num={`${attendanceData.absenceCount}회`} />
         </SmallStyledBoxContainer>
         <Line />
-        {attendanceData.attendances.map((meeting) => {
-          const startDate = new Date(meeting.startDateTime);
-          const endDate = new Date(meeting.endDateTime);
+        {attendanceData.attendances.length > 0 ? (
+          attendanceData.attendances.map((meeting) => {
+            const startDate = new Date(meeting.startDateTime);
+            const endDate = new Date(meeting.endDateTime);
 
-          const dateOptions = {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-          };
-          const startDateTime = startDate.toLocaleDateString(
-            'ko-KR',
-            dateOptions,
-          );
+            const dateOptions = {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+            };
+            const startDateTime = startDate.toLocaleDateString(
+              'ko-KR',
+              dateOptions,
+            );
 
-          const timeOptions = {
-            hour: '2-digit',
-            minute: '2-digit',
-            hour12: false,
-          };
-          const startTime = startDate.toLocaleTimeString('ko-KR', timeOptions);
-          const endTime = endDate.toLocaleTimeString('ko-KR', timeOptions);
+            const timeOptions = {
+              hour: '2-digit',
+              minute: '2-digit',
+              hour12: false,
+            };
+            const startTime = startDate.toLocaleTimeString(
+              'ko-KR',
+              timeOptions,
+            );
+            const endTime = endDate.toLocaleTimeString('ko-KR', timeOptions);
 
-          const formattedDate = `${startDateTime} (${startTime} ~ ${endTime})`;
+            const formattedDate = `${startDateTime} (${startTime} ~ ${endTime})`;
 
-          return (
-            <MeetingBox
-              key={meeting.attendanceId}
-              attend={meeting.isAttend}
-              title={meeting.title}
-              week={`${meeting.weekNumber}주차`}
-              date={formattedDate}
-              place={meeting.location}
-            />
-          );
-        })}
+            return (
+              <MeetingBox
+                key={meeting.attendanceId}
+                attend={meeting.isAttend}
+                title={meeting.title}
+                week={`${meeting.weekNumber}주차`}
+                date={formattedDate}
+                place={meeting.location}
+              />
+            );
+          })
+        ) : (
+          <NullBox>등록된 데이터가 없어요</NullBox>
+        )}
       </StyledBox>
     </Container>
   );

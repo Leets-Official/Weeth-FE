@@ -20,7 +20,7 @@ const BoardAPI = () => {
     };
 
     axios
-      .get(`${BASE_URL}/posts`, { headers })
+      .get(`${BASE_URL}/api/v1/posts`, { headers })
       .then((response) => {
         console.log('Raw Response:', response); // 전체 응답 데이터 확인
         if (response.data.code === 200) {

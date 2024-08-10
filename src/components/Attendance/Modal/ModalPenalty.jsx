@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
@@ -6,6 +7,7 @@ import icClose from '../../../assets/images/ic_close.svg';
 import check from '../../../assets/images/ic_check.svg';
 import { PenaltyContext } from '../../../hooks/PenaltyContext';
 import { UserContext } from '../../../hooks/UserContext';
+import PenaltyAPI from '../../../hooks/PenaltyAPI';
 
 const StyledModal = styled.div`
   display: ${(props) => (props.open ? 'block' : 'none')};
@@ -25,20 +27,24 @@ const Line = styled.div`
   margin-top: 30px;
   transform: scaleY(0.2);
 `;
+
 const Regular = styled.div`
   font-family: ${theme.font.family.pretendard_regular};
 `;
+
 const SemiBold = styled.div`
   font-family: ${theme.font.family.pretendard_semiBold};
   include-font-padding: false;
   display: flex;
   flex-direction: row;
 `;
+
 const ImgButton = styled.div`
   display: flex;
   justify-content: flex-end;
   cursor: pointer;
 `;
+
 const CloseButton = ({ onClick }) => {
   return (
     <ImgButton onClick={onClick}>
@@ -78,6 +84,7 @@ const PenaltyText = styled.div`
   font-size: 16px;
   color: white;
 `;
+
 const PenaltyBox = ({ date, reason }) => {
   return (
     <PenaltyDetail>
@@ -107,19 +114,10 @@ const ModalPenalty = ({ open, close }) => {
   } else {
     userName = userData.name;
   }
-  if (penaltyFetchError) {
-    return <div>Error loading penalty data</div>;
-  }
 
-  if (!penaltyData) {
-    return <div> </div>;
-  }
-
-  if (!penaltyData.length) {
-    return <div>No penalty data available</div>;
-  }
   return (
     <StyledModal open={open}>
+      <PenaltyAPI />
       <Regular>
         <div className="modal-content" style={{ width: '320px' }}>
           <div className="modal-header">
@@ -127,27 +125,41 @@ const ModalPenalty = ({ open, close }) => {
             <CloseButton onClick={close} />
           </div>
           <div className="modal-body">
-            <SemiBold className="modal-title">
-              {userName} 님의&nbsp;
-              <div style={{ color: theme.color.main.negative }}>패널티</div>
-              &nbsp;횟수
-            </SemiBold>
-            <SemiBold className="modal-penalty">{myPenaltyCount}회</SemiBold>
-            <Line />
-            {penaltyData.map((penalty) => {
-              const myDate = new Date(penalty.time);
+            {penaltyFetchError ? (
+              <div>Error loading penalty data</div>
+            ) : !penaltyData || !penaltyData.length ? (
+              <div>No penalty data available</div>
+            ) : (
+              <>
+                <SemiBold className="modal-title">
+                  {userName} 님의&nbsp;
+                  <div style={{ color: theme.color.main.negative }}>패널티</div>
+                  &nbsp;횟수
+                </SemiBold>
+                <SemiBold className="modal-penalty">
+                  {myPenaltyCount}회
+                </SemiBold>
+                <Line />
+                {penaltyData.map((penalty) => {
+                  const myDate = new Date(penalty.time);
 
-              const formattedDate = `${myDate.getFullYear()}년 ${myDate.getMonth() + 1}월 ${myDate.getDate()}일 ${myDate.getHours()}:${myDate.getMinutes().toString().padStart(2, '0')}`;
+                  const formattedDate = `${myDate.getFullYear()}년 ${
+                    myDate.getMonth() + 1
+                  }월 ${myDate.getDate()}일 ${myDate.getHours()}:${myDate
+                    .getMinutes()
+                    .toString()
+                    .padStart(2, '0')}`;
 
-              return (
-                <PenaltyBox
-                  key={penalty.penaltyId}
-                  reason={penalty.penaltyDescription}
-                  title={penalty.title}
-                  date={formattedDate}
-                />
-              );
-            })}
+                  return (
+                    <PenaltyBox
+                      key={penalty.penaltyId}
+                      reason={penalty.penaltyDescription}
+                      date={formattedDate}
+                    />
+                  );
+                })}
+              </>
+            )}
           </div>
         </div>
       </Regular>

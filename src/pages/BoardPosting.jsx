@@ -1,14 +1,13 @@
 import React, { useEffect, useState, useContext } from 'react';
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { UserContext } from '../hooks/UserContext';
+import { BoardContext } from '../hooks/BoardContext';
 import PostingHeader from '../components/Board/PostingHeader';
 import FileAttachMenu from '../components/Board/FileAttachMenu';
 import { ReactComponent as FileAttach } from '../assets/images/ic_board_fileAttach.svg';
 import theme from '../styles/theme';
-import { BoardContext } from '../hooks/BoardContext';
-import Utils from '../hooks/Utils';
 
 const StyledPosting = styled.div`
   width: 370px;
@@ -56,22 +55,29 @@ const StyledContent = styled.textarea`
 
 const BoardPosting = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const {
+    title: initialTitle = '',
+    content: initialContent = '',
+    postId,
+  } = location.state || {};
+
   const [isCompleteEnabled, setIsCompleteEnabled] = useState(false);
   const [isMenuOpen, setMenuOpen] = useState(false);
-
-  const { userData } = useContext(UserContext);
-  const { boardData } = useContext(BoardContext);
   const [files, setFiles] = useState([]);
-
+  const { userData } = useContext(UserContext);
+  const { setBoardData } = useContext(BoardContext);
   const accessToken = localStorage.getItem('accessToken');
   const BASE_URL = process.env.REACT_APP_BASE_URL;
 
-  const initialBoardPost = {
-    title: boardData?.title || '',
-    content: boardData?.content || '',
-  };
+  const [boardPost, setBoardPost] = useState({
+    title: initialTitle,
+    content: initialContent,
+  });
 
-  const [boardPost, setBoardPost] = useState(initialBoardPost);
+  useEffect(() => {
+    setIsCompleteEnabled(!!boardPost.title && boardPost.content.length >= 1);
+  }, [boardPost.title, boardPost.content]);
 
   const onChange = (event) => {
     const { value, name } = event.target;
@@ -84,59 +90,49 @@ const BoardPosting = () => {
   const saveBoard = async () => {
     if (!userData || !userData.id) {
       console.error('Error: User data is missing or invalid.');
-      return; // 또는 navigate('/login') 등으로 사용자를 로그인 페이지로 리다이렉트할 수 있습니다.
+      navigate('/login'); // 로그인 페이지로 리다이렉트
+      return;
     }
 
     const formData = new FormData();
     formData.append(
-      'requestPostDTO',
+      'dto',
       new Blob([JSON.stringify(boardPost)], { type: 'application/json' }),
     );
     files.forEach((file) => formData.append('files', file));
 
     try {
-      const response = await axios.post(`${BASE_URL}/posts`, formData, {
+      const url = postId
+        ? `${BASE_URL}/api/v1/posts/${postId}`
+        : `${BASE_URL}/api/v1/posts`;
+
+      const method = postId ? 'patch' : 'post';
+
+      const response = await axios({
+        method,
+        url,
+        data: formData,
         headers: {
           Authorization: `Bearer ${accessToken}`,
           'Content-Type': 'multipart/form-data',
         },
-        params: {
-          userId: userData.id,
-        },
       });
 
-      console.log('Server response:', response);
-      const validatedResponse = await Utils(
-        response,
-        axios.post,
-        [
-          `${BASE_URL}/posts`,
-          formData,
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-              'Content-Type': 'multipart/form-data',
-            },
-            params: {
-              userId: userData.id,
-            },
-          },
-        ],
-        navigate,
-      );
-
-      if (validatedResponse.status === 200) {
-        console.log('Post successfully created:', validatedResponse.data);
+      if (response.data.code === 200) {
+        alert(postId ? '게시글이 수정되었습니다.' : '게시글이 생성되었습니다.');
+        setBoardData(response.data.data);
         navigate('/board');
+      } else {
+        console.error('Error:', response.data.message);
+        alert(`Error: ${response.data.message}`);
       }
     } catch (err) {
       console.error('Error saving board post:', err);
+      if (err.response && err.response.data && err.response.data.message) {
+        console.error('Error message from server:', err.response.data.message);
+      }
     }
   };
-
-  useEffect(() => {
-    setIsCompleteEnabled(!!boardPost.title && boardPost.content.length >= 1);
-  }, [boardPost.title, boardPost.content]);
 
   const handleBoardClick = () => {
     if (isCompleteEnabled) {

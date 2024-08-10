@@ -1,7 +1,12 @@
+/* eslint-disable import/order */
+/* eslint-disable import/extensions */
+/* eslint-disable react/function-component-definition */
+
 import './App.css';
 import { Route, Routes } from 'react-router-dom';
 import './assets/fonts/fonts.css';
 
+import { ThemeProvider } from 'styled-components';
 import Attendance from './pages/Attendance';
 import Calendar from './pages/Calendar';
 import Home from './pages/Home';
@@ -23,7 +28,6 @@ import CreateEvent from './pages/CreateEvent';
 import EditEvent from './pages/EditEvent';
 import BoardEdit from './pages/BoardEdit';
 
-import { ThemeProvider } from 'styled-components';
 import theme from './styles/theme';
 import Receipt from './pages/Receipt';
 
@@ -36,10 +40,13 @@ import { DuesProvider } from './hooks/DuesContext';
 import { EventInfoProvider } from './hooks/EventInfoContext';
 import { NoticeProvider } from './hooks/NoticeContext';
 import { YearlyScheduleProvider } from './hooks/YearlyScheduleContext';
+import { AttendProvider } from './hooks/AttendContext';
+import { AttendCheckProvider } from './hooks/AttendCheckContext';
+import PrivateRoute from './router/PrivateRouter';
+import { PenaltyProvider } from './hooks/PenaltyContext';
 
-//user api 받아온 정보 담는 context
-
-function App() {
+const App = () => {
+  const access = localStorage.getItem('accessToken');
   return (
     <ThemeProvider theme={theme}>
       <UserProvider>
@@ -84,6 +91,6 @@ function App() {
       </UserProvider>
     </ThemeProvider>
   );
-}
+};
 
 export default App;
