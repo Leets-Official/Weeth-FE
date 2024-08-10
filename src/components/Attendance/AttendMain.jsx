@@ -115,6 +115,7 @@ const AttendMain = () => {
   let location;
   let startDateTime; // 날짜
   let endDateTime; // 시간
+  let isWithinTimeRange = false;
 
   if (attendFetchError) {
     title = 'error';
@@ -147,6 +148,13 @@ const AttendMain = () => {
     // 피그마 형식대로 변환
     endDateTime = `(${startTime} ~ ${endTime})`;
 
+    // 현재 시간
+    const currentTime = new Date().toLocaleTimeString('ko-KR', timeOptions);
+
+    // 현재 시간이 startTime과 endTime 사이에 있는지 확인
+    if (currentTime >= startTime && currentTime <= endTime) {
+      isWithinTimeRange = true;
+    }
     // 출석률 지정
     if (attendanceData.attendanceRate === null) {
       ATTEND_GAUGE = 0;
@@ -161,7 +169,11 @@ const AttendMain = () => {
   const dealt = Math.floor((ATTEND_GAUGE / MAX_ATTEND_GUAGE) * 100);
 
   // 출석체크 모달
-  const handleOpenModal = () => setModalOpen(true);
+  const handleOpenModal = () => {
+    if (isWithinTimeRange) {
+      setModalOpen(true);
+    }
+  };
   const handleCloseModal = () => {
     setModalOpen(false);
     setShouldFetchData(true); // 모달이 닫힐 때 API를 다시 호출하도록 상태를 업데이트
@@ -225,8 +237,18 @@ const AttendMain = () => {
             <div className="attend-place">장소 : {location}</div>
             <div className="attend-button">
               <Button
-                color={theme.color.grayScale.gray30}
+                color={
+                  isWithinTimeRange
+                    ? theme.color.grayScale.gray30
+                    : theme.color.grayScale.gray30
+                }
+                textcolor={
+                  isWithinTimeRange
+                    ? theme.color.grayScale.white
+                    : theme.color.grayScale.gray20
+                }
                 onClick={handleOpenModal}
+                disabled={!isWithinTimeRange}
               >
                 출석하기
               </Button>

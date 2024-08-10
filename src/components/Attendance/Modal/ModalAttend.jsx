@@ -112,6 +112,10 @@ const ModalAttend = ({ open, close }) => {
   }, [open]);
 
   const handleCompleteBtn = async () => {
+    if (!inputValue) {
+      alert('코드를 입력해 주세요');
+      return;
+    }
     try {
       console.log(accessToken);
       const headers = {
