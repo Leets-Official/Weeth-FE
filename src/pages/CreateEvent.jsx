@@ -82,6 +82,13 @@ const CreateEvent = () => {
 
   const onSave = async () => {
     const title = eventInfo.find((item) => item.key === 'title').value;
+    const location = eventInfo.find((item) => item.key === 'location').value;
+    const requiredItem = eventInfo.find(
+      (item) => item.key === 'requiredItem',
+    ).value;
+    const memberCount = eventInfo.find(
+      (item) => item.key === 'memberCount',
+    ).value;
     let content = eventInfo.find((item) => item.key === 'content').value;
 
     // 엔터를 \n으로 치환
@@ -116,6 +123,32 @@ const CreateEvent = () => {
     data.start = dateArrayToKSTISO(startDate);
     data.end = dateArrayToKSTISO(endDate);
 
+    console.log(data.start);
+    console.log(data.end);
+
+    // 모든 항목이 비어 있는지 확인
+    if (
+      !title.trim() &&
+      !location.trim() &&
+      !requiredItem.trim() &&
+      !memberCount.trim() &&
+      !content.trim()
+    ) {
+      alert('모든 항목을 입력해 주세요.');
+      return;
+    }
+
+    // 시간 유효성 검사
+    if (!data.start) {
+      alert('시작 시간을 입력해주세요.');
+      return;
+    }
+
+    if (!data.end) {
+      alert('종료 시간을 입력해주세요.');
+      return;
+    }
+
     if (data.start === data.end) {
       alert('시작 시간과 종료 시간은 같을 수 없습니다.');
       return;
@@ -126,26 +159,41 @@ const CreateEvent = () => {
       return;
     }
 
-    if (!title.trim() || !content.trim()) {
-      if (!title.trim() && !content.trim()) {
-        alert('제목과 내용을 입력해 주세요.');
-      } else if (!title.trim()) {
-        alert('제목을 입력해 주세요.');
-      } else if (!content.trim()) {
-        alert('내용을 입력해 주세요.');
-      }
+    // 각각의 필드에 대해 빈칸이 있는지 확인
+    if (!title.trim()) {
+      alert('제목을 입력해 주세요.');
+      return;
+    }
+
+    if (!location.trim()) {
+      alert('장소를 입력해 주세요.');
+      return;
+    }
+
+    if (!requiredItem.trim()) {
+      alert('준비물을 입력해 주세요.');
+      return;
+    }
+
+    if (!memberCount.trim()) {
+      alert('총인원을 입력해 주세요.');
+      return;
+    }
+
+    if (!content.trim()) {
+      alert('내용을 입력해 주세요.');
       return;
     }
 
     if (window.confirm('저장하시겠습니까?')) {
       try {
         const response = await createEvent(data);
-        console.log(response); // 서버의 응답을 콘솔에 출력
+        console.log(response);
         console.log(data);
         alert('저장이 완료되었습니다.');
         navigate('/calendar');
       } catch (err) {
-        console.error(err); // 오류 내용을 콘솔에 출력
+        console.error(err);
         alert('저장 중 오류가 발생했습니다.');
       }
     }
