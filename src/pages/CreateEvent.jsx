@@ -4,14 +4,11 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import axios from 'axios';
-import PropTypes from 'prop-types';
 
 import theme from '../styles/theme';
 import Header from '../components/Header/Header';
 import InfoInput from '../components/MyPage/InfoInput';
-import icCalendar from '../assets/images/ic_date.svg';
-import icWave from '../assets/images/ic_wave.svg';
-import DateInput from '../components/Calendar/DateInput';
+import DatePicker from '../components/Calendar/DatePicker';
 import { replaceNewLines } from '../hooks/Utils';
 
 const StyledCreate = styled.div`
@@ -28,18 +25,6 @@ const DatePickerWrapper = styled.div`
   background-color: ${theme.color.grayScale.gray18};
   margin: 12px 15px 4px 15px;
   padding-top: 10px;
-`;
-
-const StyledPicker = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  padding: 5px;
-`;
-
-const WaveImg = styled.img`
-  margin: 0px 6px;
 `;
 
 const StyledTextArea = styled.textarea`
@@ -75,69 +60,6 @@ const getValue = (status) => {
   const valueArr = [year, month, day, hour, minute];
 
   return status === 'start' ? valueArr : [];
-};
-
-const DatePicker = ({ status, onDateChange }) => {
-  const now = getValue(status);
-
-  return (
-    <StyledPicker>
-      {status === 'start' ? (
-        <img src={icCalendar} alt="달력" />
-      ) : (
-        <WaveImg src={icWave} alt="물결" />
-      )}
-      <DateInput
-        value={status === 'start' ? now[0] : ''}
-        width="58px"
-        height="28px"
-        margin="5px"
-        onChange={(value) => onDateChange(0, value)}
-        inputType="year"
-      />
-      년
-      <DateInput
-        value={status === 'start' ? now[1] : ''}
-        width="37px"
-        height="28px"
-        margin="5px"
-        onChange={(value) => onDateChange(1, value)}
-        inputType="month"
-      />
-      월
-      <DateInput
-        value={status === 'start' ? now[2] : ''}
-        width="37px"
-        height="28px"
-        margin="5px"
-        onChange={(value) => onDateChange(2, value)}
-        inputType="day"
-      />
-      일
-      <DateInput
-        value={status === 'start' ? now[3] : ''}
-        width="37px"
-        height="28px"
-        margin="5px"
-        onChange={(value) => onDateChange(3, value)}
-        inputType="hour"
-      />
-      :
-      <DateInput
-        value={status === 'start' ? now[4] : ''}
-        width="37px"
-        height="28px"
-        margin="5px"
-        onChange={(value) => onDateChange(4, value)}
-        inputType="minute"
-      />
-    </StyledPicker>
-  );
-};
-
-DatePicker.propTypes = {
-  status: PropTypes.string.isRequired,
-  onDateChange: PropTypes.func.isRequired,
 };
 
 const CreateEvent = () => {
