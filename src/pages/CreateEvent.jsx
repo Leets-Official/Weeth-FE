@@ -3,13 +3,13 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import axios from 'axios';
 
 import theme from '../styles/theme';
 import Header from '../components/Header/Header';
 import InfoInput from '../components/MyPage/InfoInput';
 import DatePicker from '../components/Calendar/DatePicker';
 import { replaceNewLines } from '../hooks/Utils';
+import { createEvent } from '../hooks/EventAdminAPI';
 
 const StyledCreate = styled.div`
   display: flex;
@@ -39,15 +39,6 @@ const StyledTextArea = styled.textarea`
   color: white;
   font-family: ${theme.font.family.pretendard_regular};
   font-size: 16px;
-
-  /* 스크롤바 숨기기 */
-  overflow: hidden; /* 기본 스크롤바 숨기기 */
-  -ms-overflow-style: none; /* IE와 Edge에서 스크롤바 숨기기 */
-  scrollbar-width: none; /* Firefox에서 스크롤바 숨기기 */
-
-  &::-webkit-scrollbar {
-    display: none; /* Webkit 브라우저에서 스크롤바 숨기기 */
-  }
 `;
 
 const today = new Date();
@@ -73,9 +64,6 @@ const CreateEvent = () => {
     { key: 'content', value: '' },
   ]);
 
-  const accessToken = localStorage.getItem('accessToken');
-  const refreshToken = localStorage.getItem('refreshToken');
-  const BASE_URL = process.env.REACT_APP_BASE_URL;
   const navigate = useNavigate();
 
   const editValue = (key, value) => {
@@ -92,17 +80,6 @@ const CreateEvent = () => {
     setEventInfo(updatedEventInfo);
   };
 
-  const toKSTISOString = (date) => {
-    // 대한민국 표준시(KST)는 UTC보다 9시간 빠릅니다.
-    const KST_OFFSET = 9 * 60; // 9시간을 분 단위로 변환
-
-    // UTC 시간을 KST로 변환
-    const kstDate = new Date(date.getTime() + KST_OFFSET * 60 * 1000);
-
-    // 변환된 KST 시간을 ISO 문자열로 반환
-    return kstDate.toISOString().replace('Z', '');
-  };
-
   const onSave = async () => {
     const title = eventInfo.find((item) => item.key === 'title').value;
     let content = eventInfo.find((item) => item.key === 'content').value;
@@ -116,41 +93,28 @@ const CreateEvent = () => {
       return acc;
     }, {});
 
-    let start = '';
-    let end = '';
+    // 시간 배열을 ISO 형식으로 변환하는 함수
+    const dateArrayToKSTISO = (dateArray) => {
+      if (dateArray.length === 5) {
+        const [year, month, day, hour, minute] = dateArray;
+        const dateObj = new Date(year, month - 1, day, hour, minute);
+
+        // 대한민국 표준시(KST)는 UTC보다 9시간 빠릅니다.
+        const KST_OFFSET = 9 * 60; // 9시간을 분 단위로 변환
+        // UTC 시간을 KST로 변환
+        const kstDate = new Date(dateObj.getTime() + KST_OFFSET * 60 * 1000);
+        // 변환된 KST 시간을 ISO 문자열로 반환
+        return kstDate.toISOString().replace('Z', '');
+      }
+      return '';
+    };
 
     // 시간 배열로 저장
     const startDate = eventInfo.find((item) => item.key === 'start').value;
     const endDate = eventInfo.find((item) => item.key === 'end').value;
 
-    // 시작 시간 배열 -> ISO 형식으로 변환
-    if (startDate.length === 5) {
-      const [startYear, startMonth, startDay, startHour, startMinute] =
-        startDate;
-      const startDateObj = new Date(
-        startYear,
-        startMonth - 1,
-        startDay,
-        startHour,
-        startMinute,
-      );
-      start = toKSTISOString(startDateObj);
-      data.start = start;
-    }
-
-    // 종료 시간 배열 -> ISO 형식으로 변환
-    if (endDate.length === 5) {
-      const [endYear, endMonth, endDay, endHour, endMinute] = endDate;
-      const endDateObj = new Date(
-        endYear,
-        endMonth - 1,
-        endDay,
-        endHour,
-        endMinute,
-      );
-      end = toKSTISOString(endDateObj);
-      data.end = end;
-    }
+    data.start = dateArrayToKSTISO(startDate);
+    data.end = dateArrayToKSTISO(endDate);
 
     if (data.start === data.end) {
       alert('시작 시간과 종료 시간은 같을 수 없습니다.');
@@ -175,16 +139,7 @@ const CreateEvent = () => {
 
     if (window.confirm('저장하시겠습니까?')) {
       try {
-        const response = await axios.post(
-          `${BASE_URL}/api/v1/admin/events`,
-          data,
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-              Authorization_refresh: `Bearer ${refreshToken}`,
-            },
-          },
-        );
+        const response = await createEvent(data);
         console.log(response); // 서버의 응답을 콘솔에 출력
         console.log(data);
         alert('저장이 완료되었습니다.');
