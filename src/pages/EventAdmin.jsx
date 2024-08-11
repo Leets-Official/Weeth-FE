@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 /* eslint-disable no-alert */
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 import theme from '../styles/theme';
@@ -9,7 +9,7 @@ import Header from '../components/Header/Header';
 import InfoInput from '../components/MyPage/InfoInput';
 import DatePicker from '../components/Calendar/DatePicker';
 import { replaceNewLines } from '../hooks/Utils';
-import { createEvent } from '../hooks/EventAdminAPI';
+import { createEvent, editEvent } from '../hooks/EventAdminAPI';
 
 const StyledCreate = styled.div`
   display: flex;
@@ -53,7 +53,7 @@ const getValue = (status) => {
   return status === 'start' ? valueArr : [];
 };
 
-const CreateEvent = () => {
+const EventAdmin = () => {
   const [eventInfo, setEventInfo] = useState([
     { key: 'title', value: '' },
     { key: 'start', value: getValue('start') },
@@ -63,8 +63,10 @@ const CreateEvent = () => {
     { key: 'memberCount', value: '' },
     { key: 'content', value: '' },
   ]);
-
   const navigate = useNavigate();
+
+  const { id } = useParams();
+  const isEditMode = Boolean(id);
 
   const editValue = (key, value) => {
     const updatedEventInfo = eventInfo.map((item) =>
@@ -122,9 +124,6 @@ const CreateEvent = () => {
 
     data.start = dateArrayToKSTISO(startDate);
     data.end = dateArrayToKSTISO(endDate);
-
-    console.log(data.start);
-    console.log(data.end);
 
     // 모든 항목이 비어 있는지 확인
     if (
@@ -185,11 +184,16 @@ const CreateEvent = () => {
       return;
     }
 
+    let response;
+
     if (window.confirm('저장하시겠습니까?')) {
       try {
-        const response = await createEvent(data);
+        if (isEditMode) response = await editEvent(data, id);
+        else response = await createEvent(data);
+
         console.log(response);
         console.log(data);
+
         alert('저장이 완료되었습니다.');
         navigate('/calendar');
       } catch (err) {
@@ -202,7 +206,7 @@ const CreateEvent = () => {
   return (
     <StyledCreate>
       <Header
-        title="일정 추가"
+        title={isEditMode ? '일정 수정' : '일정 추가'}
         text="완료"
         color="mainColor"
         onClick={onSave}
@@ -275,4 +279,4 @@ const CreateEvent = () => {
   );
 };
 
-export default CreateEvent;
+export default EventAdmin;

@@ -19,10 +19,10 @@ export const createEvent = async (data) => {
   }
 };
 
-export const EditEvent = async (data) => {
+export const editEvent = async (data, id) => {
   try {
     const response = await axios.patch(
-      `${BASE_URL}/api/v1/admin/events`,
+      `${BASE_URL}/api/v1/admin/events/${id}`,
       data,
       {
         headers: {
@@ -31,6 +31,7 @@ export const EditEvent = async (data) => {
         },
       },
     );
+    console.log('edit');
     return response;
   } catch (err) {
     console.error(err);
