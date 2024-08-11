@@ -19,4 +19,23 @@ export const createEvent = async (data) => {
   }
 };
 
+export const EditEvent = async (data) => {
+  try {
+    const response = await axios.patch(
+      `${BASE_URL}/api/v1/admin/events`,
+      data,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          Authorization_refresh: `Bearer ${refreshToken}`,
+        },
+      },
+    );
+    return response;
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
+
 export default createEvent;
