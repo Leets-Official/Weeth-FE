@@ -102,6 +102,7 @@ const ModalAttend = ({ open, close }) => {
   const [accessToken, setAccessToken] = useState(
     localStorage.getItem('accessToken'),
   );
+  const refreshToken = localStorage.getItem('refreshToken');
 
   // 모달창 나갔다 들어왔을 때 입력 창 비워지고, 하단부 화면 비워지도록
   useEffect(() => {
@@ -116,16 +117,22 @@ const ModalAttend = ({ open, close }) => {
       alert('코드를 입력해 주세요');
       return;
     }
+    if (inputValue.length < 4) {
+      alert('4자리 숫자를 입력해 주세요.');
+      return;
+    }
     try {
-      console.log(accessToken);
       const headers = {
         Authorization: `Bearer ${accessToken}`,
+        Authorization_refresh: `Bearer ${refreshToken}`,
       };
       const BASE_URL = process.env.REACT_APP_BASE_URL;
       const response = await axios.patch(
-        `${BASE_URL}/api/v1/attendances?code=${inputValue}`,
+        `${BASE_URL}/api/v1/attendances`,
+        { code: inputValue },
         { headers },
       );
+      console.log(inputValue);
       setMessage(response.data.message);
       if (response.data.code === 200) {
         setCodeCheck(1); // Correct
@@ -134,10 +141,8 @@ const ModalAttend = ({ open, close }) => {
       }
     } catch (error) {
       setCodeCheck(2); // Wrong
-      setMessage('잘못된 입력입니다.');
+      setMessage('ERROR');
     }
-    // eslint-disable-next-line no-console
-    console.log('post', message);
   };
 
   const handleChange = (e) => {

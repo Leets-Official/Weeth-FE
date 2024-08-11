@@ -2,8 +2,8 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
 
-const PrivateRoute = () => {
-  return <Navigate to="/" />;
+const PrivateRoute = ({ authenticated, component: Component }) => {
+  return authenticated ? Component : <Navigate to="/" />;
 };
 
 export default PrivateRoute;
