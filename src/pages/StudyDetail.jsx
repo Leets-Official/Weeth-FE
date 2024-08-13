@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import BoardHeader from '../components/Board/NoticeHeader';
 import AttachButton from '../components/Board/AttachButton';
-import Typing from '../components/Board/Typing';
+// import Typing from '../components/Board/Typing';
 import CommentList from '../components/Board/CommentList';
 import EditDelModal from '../components/EditDelModal';
 import { ReactComponent as BoardChat } from '../assets/images/ic_board_chat.svg';
@@ -221,7 +221,7 @@ const StudyDetail = () => {
     }
   };
 
-  const handleCommentSubmitted = async (newComment) => {
+  const handleCommentSubmitted = async (newComment, parentCommentId = null) => {
     if (!newComment || !newComment.content) {
       console.error('댓글 데이터가 올바르지 않습니다:', newComment);
       return;
@@ -237,7 +237,11 @@ const StudyDetail = () => {
     try {
       const response = await axios.post(
         `${BASE_URL}/api/v1/posts/${postId}/comments`,
-        { ...newComment, content: trimmedContent },
+        {
+          ...newComment,
+          content: trimmedContent,
+          parentCommentId,
+        },
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -311,14 +315,12 @@ const StudyDetail = () => {
           <CommentCount>{totalCommentCount}</CommentCount>
         </CommentCountWrapper>
         <CommentSection>
-          <CommentList postId={postId} />
+          <CommentList
+            postId={postId}
+            onCommentSubmitted={handleCommentSubmitted}
+          />
         </CommentSection>
       </StudyRow>
-      <Typing
-        postId={postId}
-        onCommentSubmitted={handleCommentSubmitted}
-        comment={content.comment || ''}
-      />
     </Container>
   );
 };
