@@ -17,21 +17,7 @@ const WaveImg = styled.img`
   margin: 0px 6px;
 `;
 
-const today = new Date();
-const getValue = (status) => {
-  const year = today.getFullYear();
-  const month = today.getMonth() + 1;
-  const day = today.getDate();
-  const hour = today.getHours();
-  const minute = today.getMinutes();
-  const valueArr = [year, month, day, hour, minute];
-
-  return status === 'start' ? valueArr : [];
-};
-
 const DatePicker = ({ status, onDateChange }) => {
-  const now = getValue(status);
-
   return (
     <StyledPicker>
       {status === 'start' ? (
@@ -40,7 +26,7 @@ const DatePicker = ({ status, onDateChange }) => {
         <WaveImg src={icWave} alt="물결" />
       )}
       <DateInput
-        value={status === 'start' ? now[0] : ''}
+        value=""
         width="58px"
         height="28px"
         margin="5px"
@@ -49,7 +35,7 @@ const DatePicker = ({ status, onDateChange }) => {
       />
       년
       <DateInput
-        value={status === 'start' ? now[1] : ''}
+        value=""
         width="37px"
         height="28px"
         margin="5px"
@@ -58,7 +44,7 @@ const DatePicker = ({ status, onDateChange }) => {
       />
       월
       <DateInput
-        value={status === 'start' ? now[2] : ''}
+        value=""
         width="37px"
         height="28px"
         margin="5px"
@@ -67,7 +53,7 @@ const DatePicker = ({ status, onDateChange }) => {
       />
       일
       <DateInput
-        value={status === 'start' ? now[3] : ''}
+        value=""
         width="37px"
         height="28px"
         margin="5px"
@@ -76,7 +62,7 @@ const DatePicker = ({ status, onDateChange }) => {
       />
       :
       <DateInput
-        value={status === 'start' ? now[4] : ''}
+        value=""
         width="37px"
         height="28px"
         margin="5px"

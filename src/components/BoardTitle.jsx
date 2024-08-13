@@ -62,7 +62,7 @@ const adminModalStyles = {
   },
 };
 
-const BoardTitle = ({ id, text, writer, createdAt }) => {
+const BoardTitle = ({ id, text, writer, createdAt, isMeeting }) => {
   const { userData } = useContext(UserContext);
   const [adminModalIsOpen, setAdminModalIsOpen] = useState(false);
   const navi = useNavigate();
@@ -106,7 +106,7 @@ const BoardTitle = ({ id, text, writer, createdAt }) => {
       <UserAPI />
       <StyledHeader>
         <LeftButton />
-        {userData.role === 'ADMIN' ? (
+        {userData.role === 'ADMIN' && !isMeeting ? (
           <IndexButton onClick={openAdminModal} />
         ) : null}
       </StyledHeader>
@@ -142,6 +142,7 @@ BoardTitle.propTypes = {
   text: PropTypes.string.isRequired,
   writer: PropTypes.string.isRequired,
   createdAt: PropTypes.string.isRequired,
+  isMeeting: PropTypes.bool.isRequired,
 };
 
 export default BoardTitle;

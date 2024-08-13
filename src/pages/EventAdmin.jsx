@@ -10,6 +10,7 @@ import InfoInput from '../components/MyPage/InfoInput';
 import DatePicker from '../components/Calendar/DatePicker';
 import { replaceNewLines } from '../hooks/Utils';
 import { createEvent, editEvent } from '../hooks/EventAdminAPI';
+import EventInfoAPI from '../hooks/EventInfoAPI';
 
 const StyledCreate = styled.div`
   display: flex;
@@ -192,7 +193,7 @@ const EventAdmin = () => {
         else response = await createEvent(data);
 
         console.log(response);
-        console.log(data);
+        console.log('전달할 데이터', data);
 
         alert('저장이 완료되었습니다.');
         navigate('/calendar');
@@ -205,6 +206,7 @@ const EventAdmin = () => {
 
   return (
     <StyledCreate>
+      <EventInfoAPI id={id} />
       <Header
         title={isEditMode ? '일정 수정' : '일정 추가'}
         text="완료"

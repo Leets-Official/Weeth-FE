@@ -121,6 +121,7 @@ const EventDetails = () => {
         text={eventDetailData.title}
         writer={eventDetailData.name}
         createdAt={eventDetailData.createdAt}
+        isMeeting={isMeeting}
       />
       <Line />
       <ContentBlock>
