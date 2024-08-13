@@ -32,7 +32,6 @@ const RoleName = styled.div`
   margin-left: 5px;
   margin-right: 6px;
   font-size: 16px;
-  font-weight: 600;
   line-height: 19.09px;
   color: #ffffff;
 `;

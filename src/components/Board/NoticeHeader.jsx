@@ -5,7 +5,6 @@ import LeftButton from '../Header/LeftButton';
 import IndexButton from '../Header/IndexButton';
 import Title from '../Header/Title';
 // import theme from '../../styles/theme';
-import EditDelModal from '../EditDelModal';
 
 const StyledHeader = styled.div`
   display: flex;
@@ -16,7 +15,7 @@ const StyledHeader = styled.div`
 
 const TitleWrapper = styled.div``;
 
-const NoticeHeader = ({ onMenuClick, showModal }) => {
+const NoticeHeader = ({ onMenuClick, showModal, isAdmin, ModalComponent }) => {
   const [isModalOpen, setIsModalOpen] = useState(showModal);
 
   useEffect(() => {
@@ -24,7 +23,13 @@ const NoticeHeader = ({ onMenuClick, showModal }) => {
   }, [showModal]);
 
   const handleIndexButtonClick = () => {
-    setIsModalOpen(true);
+    if (isAdmin) {
+      setIsModalOpen(true);
+    } else if (ModalComponent) {
+      setIsModalOpen(true);
+    } else {
+      alert('운영진만 접근할 수 있습니다.');
+    }
   };
 
   const handleCloseModal = () => {
@@ -41,7 +46,7 @@ const NoticeHeader = ({ onMenuClick, showModal }) => {
         <IndexButton onClick={handleIndexButtonClick} />
       </StyledHeader>
       {isModalOpen && (
-        <EditDelModal
+        <ModalComponent
           title="글"
           onClickEdit={() => onMenuClick('edit')}
           onClickDel={() => onMenuClick('delete')}
@@ -55,6 +60,12 @@ const NoticeHeader = ({ onMenuClick, showModal }) => {
 NoticeHeader.propTypes = {
   onMenuClick: PropTypes.func.isRequired,
   showModal: PropTypes.bool.isRequired,
+  isAdmin: PropTypes.bool, // 운영진 여부를 판단하는 prop
+  ModalComponent: PropTypes.elementType.isRequired, // 모달 컴포넌트 타입 prop
+};
+
+NoticeHeader.defaultProps = {
+  isAdmin: false, // 기본값은 일반 사용자
 };
 
 export default NoticeHeader;

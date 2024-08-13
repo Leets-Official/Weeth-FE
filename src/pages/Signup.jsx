@@ -35,7 +35,6 @@ const CheckButton = styled.button`
   cursor: pointer;
   font-family: 'Pretendard', sans-serif;
   font-size: 14px;
-  font-weight: 600;
   text-decoration: ${props => props.underline ? 'underline' : 'none'};
   &:disabled {
     cursor: not-allowed;

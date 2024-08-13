@@ -1,30 +1,18 @@
 App.js
+Home.jsx
 Calendar.jsx
 Attendance.jsx
 Button.jsx
 Signup.jsx
 Login.jsx
-Board.jsx
 index.js
 SmallButton.jsx
 Caption.jsx
 MiddleButton.jsx
-DropDown.jsx
 StudyList.jsx
-NoticeList.jsx
-BoardDetail.jsx
-BoardComponent.jsx
+Utils.js
 
 UserAPI.jsx
 UserContext.js
-MonthlyScheduleAPI.jsx
-MonthlyScheduleContext.js
-
-BoardContext.js
-NoticeContext.js
-NoticeAPI.jsx
 
 FileAttachMenu.jsx
-AttachButton.jsx
-
-Utils.js

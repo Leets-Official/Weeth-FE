@@ -41,7 +41,6 @@ const TextContainer = styled.div`
 const StudyNamed = styled.input`
   margin-left: 7%;
   font-size: 24px;
-  font-weight: 600;
   background-color: transparent;
   border: none;
   color: ${theme.color.grayScale.white};
@@ -54,7 +53,6 @@ const SubRow = styled.div`
   margin-top: 10px;
   font-family: ${theme.font.family.pretendard_regular};
   color: #c1c1c1;
-  font-weight: 400;
   font-size: 12px;
   line-height: 14.32px;
 `;
@@ -79,7 +77,6 @@ const StudyContents = styled.textarea`
   margin-top: 20px;
   margin-right: 4%;
   font-family: ${theme.font.family.pretendard_regular};
-  weight: 400;
   font-size: 16px;
   line-height: 19.09px;
   background-color: transparent;
@@ -103,7 +100,6 @@ const SubmitButton = styled.button`
   background-color: ${theme.color.primary};
   color: ${theme.color.grayScale.white};
   font-size: 16px;
-  font-weight: 600;
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
