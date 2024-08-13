@@ -102,6 +102,7 @@ const ModalAttend = ({ open, close }) => {
   const [accessToken, setAccessToken] = useState(
     localStorage.getItem('accessToken'),
   );
+  const refreshToken = localStorage.getItem('refreshToken');
 
   // 모달창 나갔다 들어왔을 때 입력 창 비워지고, 하단부 화면 비워지도록
   useEffect(() => {
@@ -111,25 +112,27 @@ const ModalAttend = ({ open, close }) => {
     }
   }, [open]);
 
-  useEffect(() => {
-    if (message === 'attendanceCode : 출석 코드를 입력해주세요.') {
-      setMessage('출석코드를 입력해주세요.');
-    }
-  }, [message]);
-
   const handleCompleteBtn = async () => {
+    if (!inputValue) {
+      alert('코드를 입력해 주세요');
+      return;
+    }
+    if (inputValue.length < 4) {
+      alert('4자리 숫자를 입력해 주세요.');
+      return;
+    }
     try {
       const headers = {
         Authorization: `Bearer ${accessToken}`,
+        Authorization_refresh: `Bearer ${refreshToken}`,
       };
       const BASE_URL = process.env.REACT_APP_BASE_URL;
-      const response = await axios.post(
-        `${BASE_URL}/attendances/check-in`,
-        {
-          attendanceCode: inputValue,
-        },
+      const response = await axios.patch(
+        `${BASE_URL}/api/v1/attendances`,
+        { code: inputValue },
         { headers },
       );
+      console.log(inputValue);
       setMessage(response.data.message);
       if (response.data.code === 200) {
         setCodeCheck(1); // Correct
@@ -138,10 +141,8 @@ const ModalAttend = ({ open, close }) => {
       }
     } catch (error) {
       setCodeCheck(2); // Wrong
-      setMessage('잘못된 입력입니다.');
+      setMessage('ERROR');
     }
-    // eslint-disable-next-line no-console
-    console.log('post', message);
   };
 
   const handleChange = (e) => {
@@ -175,8 +176,8 @@ const ModalAttend = ({ open, close }) => {
     location = attendanceData.location;
 
     // Date 객체로 변환
-    const startDate = new Date(attendanceData.startDateTime);
-    const endDate = new Date(attendanceData.endDateTime);
+    const startDate = new Date(attendanceData.start);
+    const endDate = new Date(attendanceData.end);
 
     // 날짜 형식으로 변환
     const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -220,7 +221,7 @@ const ModalAttend = ({ open, close }) => {
             <SemiBold className="modal-text">
               오늘은&nbsp;
               <div style={{ color: theme.color.main.mainColor }}>{title}</div>
-              &nbsp;가 있는 날이에요
+              &nbsp;이&#40;가&#41; 있는 날이에요
             </SemiBold>
             <div className="modal-date">
               날짜: {startDateTime} {endDateTime}

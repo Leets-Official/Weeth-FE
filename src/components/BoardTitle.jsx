@@ -83,14 +83,18 @@ const BoardTitle = ({ eventId, text, writer, createdAt }) => {
     const BASE_URL = process.env.REACT_APP_BASE_URL;
     if (window.confirm('삭제하시겠습니까?')) {
       try {
-        await axios.delete(`${BASE_URL}/admin/event/${eventId}`, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-            Authorization_refresh: `Bearer ${refreshToken}`,
+        const response = await axios.delete(
+          `${BASE_URL}/api/v1/admin/events/${eventId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+              Authorization_refresh: `Bearer ${refreshToken}`,
+            },
           },
-        });
+        );
         alert('삭제가 완료되었습니다.');
-        navi('/calendar'); // 탈퇴 후 메인 페이지로 이동
+        console.log(response);
+        navi('/calendar');
       } catch (err) {
         alert('삭제 중 오류가 발생했습니다.');
       }
