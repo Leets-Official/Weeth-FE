@@ -42,16 +42,15 @@ const StyledTextArea = styled.textarea`
   font-size: 16px;
 `;
 
-const today = new Date();
-const getValue = (status) => {
-  const year = today.getFullYear();
-  const month = today.getMonth() + 1;
-  const day = today.getDate();
-  const hour = today.getHours();
-  const minute = today.getMinutes();
-  const valueArr = [year, month, day, hour, minute];
-
-  return status === 'start' ? valueArr : [];
+const getTodayArr = () => {
+  const today = new Date();
+  return [
+    today.getFullYear(),
+    today.getMonth() + 1,
+    today.getDate(),
+    today.getHours(),
+    today.getMinutes(),
+  ];
 };
 
 const ISOToArray = (isoString) => {
@@ -71,7 +70,7 @@ const EventAdmin = () => {
   console.log(error);
   const [eventInfo, setEventInfo] = useState([
     { key: 'title', value: '' },
-    { key: 'start', value: getValue('start') },
+    { key: 'start', value: getTodayArr() },
     { key: 'end', value: [] },
     { key: 'location', value: '' },
     { key: 'requiredItem', value: '' },
@@ -79,7 +78,7 @@ const EventAdmin = () => {
     { key: 'content', value: '' },
   ]);
 
-  const [startArr, setStartArr] = useState(getValue('start'));
+  const [startArr, setStartArr] = useState(getTodayArr('start'));
   const [endArr, setEndArr] = useState([]);
 
   const navigate = useNavigate();
