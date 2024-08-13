@@ -17,7 +17,8 @@ const WaveImg = styled.img`
   margin: 0px 6px;
 `;
 
-const DatePicker = ({ status, onDateChange }) => {
+const DatePicker = ({ status, onDateChange, date }) => {
+  console.log('date', date);
   return (
     <StyledPicker>
       {status === 'start' ? (
@@ -26,7 +27,7 @@ const DatePicker = ({ status, onDateChange }) => {
         <WaveImg src={icWave} alt="물결" />
       )}
       <DateInput
-        value=""
+        value={date[0]}
         width="58px"
         height="28px"
         margin="5px"
@@ -35,7 +36,7 @@ const DatePicker = ({ status, onDateChange }) => {
       />
       년
       <DateInput
-        value=""
+        value={date[1]}
         width="37px"
         height="28px"
         margin="5px"
@@ -44,7 +45,7 @@ const DatePicker = ({ status, onDateChange }) => {
       />
       월
       <DateInput
-        value=""
+        value={date[2]}
         width="37px"
         height="28px"
         margin="5px"
@@ -53,7 +54,7 @@ const DatePicker = ({ status, onDateChange }) => {
       />
       일
       <DateInput
-        value=""
+        value={date[3]}
         width="37px"
         height="28px"
         margin="5px"
@@ -62,7 +63,7 @@ const DatePicker = ({ status, onDateChange }) => {
       />
       :
       <DateInput
-        value=""
+        value={date[4]}
         width="37px"
         height="28px"
         margin="5px"
@@ -78,4 +79,5 @@ export default DatePicker;
 DatePicker.propTypes = {
   status: PropTypes.string.isRequired,
   onDateChange: PropTypes.func.isRequired,
+  date: PropTypes.arrayOf(PropTypes.number).isRequired,
 };

@@ -1,9 +1,8 @@
 /* eslint-disable no-console */
 /* eslint-disable no-alert */
-import { useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-
 import theme from '../styles/theme';
 import Header from '../components/Header/Header';
 import InfoInput from '../components/MyPage/InfoInput';
@@ -11,6 +10,7 @@ import DatePicker from '../components/Calendar/DatePicker';
 import { replaceNewLines } from '../hooks/Utils';
 import { createEvent, editEvent } from '../hooks/EventAdminAPI';
 import EventInfoAPI from '../hooks/EventInfoAPI';
+import { EventInfoContext } from '../hooks/EventInfoContext';
 
 const StyledCreate = styled.div`
   display: flex;
@@ -54,7 +54,21 @@ const getValue = (status) => {
   return status === 'start' ? valueArr : [];
 };
 
+const ISOToArray = (isoString) => {
+  if (!isoString) return [];
+  const date = new Date(isoString);
+  return [
+    date.getFullYear(),
+    date.getMonth() + 1,
+    date.getDate(),
+    date.getHours(),
+    date.getMinutes(),
+  ];
+};
+
 const EventAdmin = () => {
+  const { infoData, error } = useContext(EventInfoContext);
+  console.log(error);
   const [eventInfo, setEventInfo] = useState([
     { key: 'title', value: '' },
     { key: 'start', value: getValue('start') },
@@ -64,10 +78,32 @@ const EventAdmin = () => {
     { key: 'memberCount', value: '' },
     { key: 'content', value: '' },
   ]);
-  const navigate = useNavigate();
 
+  const [startArr, setStartArr] = useState(getValue('start'));
+  const [endArr, setEndArr] = useState([]);
+
+  const navigate = useNavigate();
   const { id } = useParams();
   const isEditMode = Boolean(id);
+
+  useEffect(() => {
+    if (isEditMode && infoData) {
+      const updatedEventInfo = eventInfo.map((item) => {
+        if (item.key === 'start') {
+          const startArray = ISOToArray(infoData.start);
+          setStartArr(startArray);
+          return { ...item, value: startArray };
+        }
+        if (item.key === 'end') {
+          const endArray = ISOToArray(infoData.end);
+          setEndArr(endArray);
+          return { ...item, value: endArray };
+        }
+        return { ...item, value: infoData[item.key] || item.value };
+      });
+      setEventInfo(updatedEventInfo);
+    }
+  }, [isEditMode, infoData]);
 
   const editValue = (key, value) => {
     const updatedEventInfo = eventInfo.map((item) =>
@@ -94,39 +130,30 @@ const EventAdmin = () => {
     ).value;
     let content = eventInfo.find((item) => item.key === 'content').value;
 
-    // 엔터를 \n으로 치환
     content = replaceNewLines(content);
 
-    // 작성한 내용 저장
     const data = eventInfo.reduce((acc, item) => {
       acc[item.key] = item.value;
       return acc;
     }, {});
 
-    // 시간 배열을 ISO 형식으로 변환하는 함수
     const dateArrayToKSTISO = (dateArray) => {
       if (dateArray.length === 5) {
         const [year, month, day, hour, minute] = dateArray;
         const dateObj = new Date(year, month - 1, day, hour, minute);
-
-        // 대한민국 표준시(KST)는 UTC보다 9시간 빠릅니다.
-        const KST_OFFSET = 9 * 60; // 9시간을 분 단위로 변환
-        // UTC 시간을 KST로 변환
+        const KST_OFFSET = 9 * 60;
         const kstDate = new Date(dateObj.getTime() + KST_OFFSET * 60 * 1000);
-        // 변환된 KST 시간을 ISO 문자열로 반환
         return kstDate.toISOString().replace('Z', '');
       }
       return '';
     };
 
-    // 시간 배열로 저장
     const startDate = eventInfo.find((item) => item.key === 'start').value;
     const endDate = eventInfo.find((item) => item.key === 'end').value;
 
     data.start = dateArrayToKSTISO(startDate);
     data.end = dateArrayToKSTISO(endDate);
 
-    // 모든 항목이 비어 있는지 확인
     if (
       !title.trim() &&
       !location.trim() &&
@@ -138,7 +165,6 @@ const EventAdmin = () => {
       return;
     }
 
-    // 시간 유효성 검사
     if (!data.start) {
       alert('시작 시간을 입력해주세요.');
       return;
@@ -159,7 +185,6 @@ const EventAdmin = () => {
       return;
     }
 
-    // 각각의 필드에 대해 빈칸이 있는지 확인
     if (!title.trim()) {
       alert('제목을 입력해 주세요.');
       return;
@@ -224,22 +249,22 @@ const EventAdmin = () => {
         <DatePicker
           status="start"
           onDateChange={(index, value) => {
-            const startDate = [
-              ...eventInfo.find((item) => item.key === 'start').value,
-            ];
+            const startDate = [...startArr];
             startDate[index] = value;
+            setStartArr(startDate);
             editDate('start', startDate);
           }}
+          date={startArr}
         />
         <DatePicker
           status="end"
           onDateChange={(index, value) => {
-            const endDate = [
-              ...eventInfo.find((item) => item.key === 'end').value,
-            ];
+            const endDate = [...endArr];
             endDate[index] = value;
+            setEndArr(endDate);
             editDate('end', endDate);
           }}
+          date={endArr}
         />
       </DatePickerWrapper>
       <InfoInput
