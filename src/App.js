@@ -56,6 +56,7 @@ const App = () => {
       <EventInfoProvider>
       <NoticeProvider>
       <YearlyScheduleProvider>
+      <AttendCheckProvider>
       <UserAPI />
       <MonthlyScheduleAPI />
         <Routes>
@@ -82,6 +83,7 @@ const App = () => {
           <Route path="/boardPosting" element={<BoardPosting />} />
           <Route path="/boardEdit" element={<BoardEdit />} />
         </Routes>
+        </AttendCheckProvider>
         </YearlyScheduleProvider>
         </NoticeProvider>
         </EventInfoProvider>

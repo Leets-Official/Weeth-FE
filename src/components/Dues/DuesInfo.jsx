@@ -61,7 +61,7 @@ const DuesInfo = ({ dues, category, date, memo }) => {
           </StyledTextBox>
         </StyledCaptionBox>
         <StyledMemoBox>
-          <Text>{dues}원</Text>
+          <Text>{parseInt(dues, 10).toLocaleString()}원</Text>
           <SmallText>{memo}</SmallText>
         </StyledMemoBox>
       </StyledDuesBox>

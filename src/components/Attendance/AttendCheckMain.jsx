@@ -207,8 +207,8 @@ const AttendCheckMain = () => {
         <Line />
         {attendanceData.attendances.length > 0 ? (
           attendanceData.attendances.map((meeting) => {
-            const startDate = new Date(meeting.startDateTime);
-            const endDate = new Date(meeting.endDateTime);
+            const startDate = new Date(meeting.start);
+            const endDate = new Date(meeting.end);
 
             const dateOptions = {
               year: 'numeric',
