@@ -17,7 +17,7 @@ const NoticeAPI = () => {
       return;
     }
 
-    console.log("Access Token:", accessToken);
+    console.log('Access Token:', accessToken);
 
     const headers = {
       Authorization: `Bearer ${accessToken}`,

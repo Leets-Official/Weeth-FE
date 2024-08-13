@@ -115,6 +115,7 @@ const AttendMain = () => {
   let location;
   let startDateTime; // 날짜
   let endDateTime; // 시간
+  let isWithinTimeRange = false;
 
   if (attendFetchError) {
     title = 'error';
@@ -132,8 +133,8 @@ const AttendMain = () => {
     location = attendanceData.location;
 
     // Date 객체로 변환
-    const startDate = new Date(attendanceData.startDateTime);
-    const endDate = new Date(attendanceData.endDateTime);
+    const startDate = new Date(attendanceData.start);
+    const endDate = new Date(attendanceData.end);
 
     // 날짜 형식으로 변환
     const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -147,6 +148,13 @@ const AttendMain = () => {
     // 피그마 형식대로 변환
     endDateTime = `(${startTime} ~ ${endTime})`;
 
+    // 현재 시간
+    const currentTime = new Date().toLocaleTimeString('ko-KR', timeOptions);
+
+    // 현재 시간이 startTime과 endTime 사이에 있는지 확인
+    if (currentTime >= startTime && currentTime <= endTime) {
+      isWithinTimeRange = true;
+    }
     // 출석률 지정
     if (attendanceData.attendanceRate === null) {
       ATTEND_GAUGE = 0;
@@ -161,7 +169,11 @@ const AttendMain = () => {
   const dealt = Math.floor((ATTEND_GAUGE / MAX_ATTEND_GUAGE) * 100);
 
   // 출석체크 모달
-  const handleOpenModal = () => setModalOpen(true);
+  const handleOpenModal = () => {
+    if (isWithinTimeRange) {
+      setModalOpen(true);
+    }
+  };
   const handleCloseModal = () => {
     setModalOpen(false);
     setShouldFetchData(true); // 모달이 닫힐 때 API를 다시 호출하도록 상태를 업데이트
@@ -216,7 +228,7 @@ const AttendMain = () => {
                 <span style={{ color: theme.color.main.mainColor }}>
                   &quot;{title}&quot;
                 </span>
-                가 있는 날이에요
+                이&#40;가&#41; 있는 날이에요
               </div>
             </SemiBold>
             <div className="attend-date">
@@ -225,8 +237,18 @@ const AttendMain = () => {
             <div className="attend-place">장소 : {location}</div>
             <div className="attend-button">
               <Button
-                color={theme.color.grayScale.gray30}
+                color={
+                  isWithinTimeRange
+                    ? theme.color.grayScale.gray30
+                    : theme.color.grayScale.gray30
+                }
+                textcolor={
+                  isWithinTimeRange
+                    ? theme.color.grayScale.white
+                    : theme.color.grayScale.gray20
+                }
                 onClick={handleOpenModal}
+                disabled={!isWithinTimeRange}
               >
                 출석하기
               </Button>

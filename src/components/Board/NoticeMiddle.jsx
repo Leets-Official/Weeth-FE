@@ -24,7 +24,6 @@ const NoticeTitle = styled.div`
   margin-top: 20px;
   color: ${theme.color.grayScale.white};
   font-family: ${theme.font.family.Pretendard_SemiBold};
-  font-weight: 600;
   font-size: 16px;
   line-height: 19.09px;
 `;
@@ -33,7 +32,6 @@ const NoticeIntroduce = styled.div`
   width: 100%;
   color: ${theme.color.grayScale.gray65};
   font-family: ${theme.font.family.Pretendard_regular};
-  font-weight: 400;
   font-size: 12px;
   margin-top: 10px;
 `;

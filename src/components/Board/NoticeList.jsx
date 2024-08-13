@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+/* eslint-disable react/button-has-type */
 import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -27,7 +29,7 @@ const NoticeList = () => {
       });
 
       if (response.data.code === 200) {
-        setNotices(prevNotices => [...prevNotices, ...response.data.data]);
+        setNotices((prevNotices) => [...prevNotices, ...response.data.data]);
       } else {
         setError(response.data.message);
       }
@@ -41,11 +43,13 @@ const NoticeList = () => {
   }, [accessToken]);
 
   useEffect(() => {
-    notices.forEach(notice => console.log('Notice:', notice));
+    notices.forEach((notice) => console.log('Notice:', notice));
   }, [notices]);
 
   const handleNavigate = (notice) => {
-    navigate(`/board/${notice.id}`, { state: { type: 'notice', data: notice } });
+    navigate(`/board/notices/${notice.id}`, {
+      state: { type: 'notice', data: notice },
+    });
   };
 
   const loadMoreNotices = () => {

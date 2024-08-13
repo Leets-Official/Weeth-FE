@@ -3,9 +3,17 @@ import styled from 'styled-components';
 import theme from '../styles/theme';
 
 const ContentWrapper = styled.div`
+  position: fixed; // 화면 고정
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); // 배경을 어둡게 하여 화면을 덮음
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
+  z-index: 1000; // 다른 요소보다 위에 위치하도록 설정
+  flex-direction: column;
   gap: 24px;
 `;
 

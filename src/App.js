@@ -25,6 +25,10 @@ import Board from './pages/Board';
 import BoardPosting from './pages/BoardPosting';
 import BoardDetail from './pages/BoardDetail';
 import EventAdmin from './pages/EventAdmin';
+import StudyDetail from './pages/StudyDetail';
+import NoticeDetail from './pages/NoticeDetail';
+import CreateEvent from './pages/CreateEvent';
+import EditEvent from './pages/EditEvent';
 import BoardEdit from './pages/BoardEdit';
 
 import theme from './styles/theme';
@@ -55,6 +59,7 @@ const App = () => {
       <EventInfoProvider>
       <NoticeProvider>
       <YearlyScheduleProvider>
+      <AttendCheckProvider>
       <UserAPI />
       <MonthlyScheduleAPI />
         <Routes>
@@ -77,10 +82,12 @@ const App = () => {
           <Route path="/dues" element={<Dues />} />
           <Route path="/receipt" element={<Receipt />} />
           <Route path="/board" element={<Board />} />
-          <Route path="/board/:id" element={<BoardDetail />} />
+          <Route path="/board/posts/:id" element={<StudyDetail />} />
+          <Route path="/board/notices/:id" element={<NoticeDetail />} />
           <Route path="/boardPosting" element={<BoardPosting />} />
           <Route path="/boardEdit" element={<BoardEdit />} />
         </Routes>
+        </AttendCheckProvider>
         </YearlyScheduleProvider>
         </NoticeProvider>
         </EventInfoProvider>
