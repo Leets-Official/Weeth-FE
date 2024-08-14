@@ -66,7 +66,11 @@ const CommentList = ({ postId }) => {
     fetchComments(); // 컴포넌트가 처음 마운트될 때 최신 데이터를 가져옴
   }, [accessToken, postId]);
 
-  const handleReply = (parentCommentId) => {
+  const handleReply = (parentCommentId, isDeleted) => {
+    if (isDeleted) {
+      alert('삭제된 댓글에는 대댓글을 달 수 없습니다.');
+      return;
+    }
     setReplyingTo(parentCommentId);
   };
 
@@ -139,7 +143,7 @@ const CommentList = ({ postId }) => {
       {comments.map((comment, index) => {
         if (!comment.id) {
           console.error('Comment has no ID:', comment);
-          return null; // or some fallback rendering
+          return null;
         }
         return (
           <BoardComment
@@ -151,8 +155,10 @@ const CommentList = ({ postId }) => {
             time={comment.time || '시간 정보 없음'}
             recomments={comment.children || []}
             onDelete={() => handleDeleteComment(comment.id)}
-            onReply={() => handleReply(comment.id)}
+            onReply={() => handleReply(comment.id, comment.deleted)}
             onClick={() => handleNavigate(comment)}
+            isDeleted={comment.deleted}
+            setComments={setComments}
           />
         );
       })}

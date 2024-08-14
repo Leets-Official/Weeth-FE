@@ -9,6 +9,7 @@ const DuesAPI = () => {
     setTotalAmount,
     setCurrentAmount,
     setCardinal,
+    setTime,
   } = useContext(DuesContext);
 
   const accessToken = localStorage.getItem('accessToken');
@@ -40,6 +41,8 @@ const DuesAPI = () => {
             setTotalAmount(result.data.totalAmount);
             setCardinal(result.data.cardinal);
             setCurrentAmount(result.data.currentAmount);
+            setTime(result.data.time);
+            console.log(result);
           }
         } else {
           console.error('Failed to get data:', result.message);
@@ -57,6 +60,7 @@ const DuesAPI = () => {
     setTotalAmount,
     setCurrentAmount,
     setCardinal,
+    setTime,
   ]);
 
   return null;

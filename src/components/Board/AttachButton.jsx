@@ -1,3 +1,8 @@
+/* eslint-disable no-unused-vars */
+
+// 해당 파일 수정하기 전에 위에 eslint 무시하는거 꼭 지우고 하기!!!!
+// 배포 버전에 계속 오류 생겨서 임시로 막아둔거임!!!!
+
 import React, { useRef } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';

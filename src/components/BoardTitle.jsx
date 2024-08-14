@@ -54,15 +54,11 @@ const adminModalStyles = {
   overlay: {
     backgroundColor: 'rgba(0,0,0,0.5)',
     backdropFilter: 'blur(5px)',
-    height: '100%',
-    width: '100%',
-  },
-  content: {
-    margin: '400px',
+    WebkitBackdropFilter: 'blur(5px)',
   },
 };
 
-const BoardTitle = ({ eventId, text, writer, createdAt }) => {
+const BoardTitle = ({ id, text, writer, createdAt, isMeeting }) => {
   const { userData } = useContext(UserContext);
   const [adminModalIsOpen, setAdminModalIsOpen] = useState(false);
   const navi = useNavigate();
@@ -84,7 +80,7 @@ const BoardTitle = ({ eventId, text, writer, createdAt }) => {
     if (window.confirm('삭제하시겠습니까?')) {
       try {
         const response = await axios.delete(
-          `${BASE_URL}/api/v1/admin/events/${eventId}`,
+          `${BASE_URL}/api/v1/admin/events/${id}`,
           {
             headers: {
               Authorization: `Bearer ${accessToken}`,
@@ -106,7 +102,7 @@ const BoardTitle = ({ eventId, text, writer, createdAt }) => {
       <UserAPI />
       <StyledHeader>
         <LeftButton />
-        {userData.role === 'ADMIN' ? (
+        {userData.role === 'ADMIN' && !isMeeting ? (
           <IndexButton onClick={openAdminModal} />
         ) : null}
       </StyledHeader>
@@ -127,7 +123,7 @@ const BoardTitle = ({ eventId, text, writer, createdAt }) => {
         <EditDelModal
           title="일정"
           onClickEdit={() => {
-            navi(`/event/${eventId}/edit`);
+            navi(`/event/${id}/edit`);
           }}
           onClickDel={onClickDel}
           onClickCancel={closeAdminModal}
@@ -138,10 +134,11 @@ const BoardTitle = ({ eventId, text, writer, createdAt }) => {
 };
 
 BoardTitle.propTypes = {
-  eventId: PropTypes.number.isRequired,
+  id: PropTypes.number.isRequired,
   text: PropTypes.string.isRequired,
   writer: PropTypes.string.isRequired,
   createdAt: PropTypes.string.isRequired,
+  isMeeting: PropTypes.bool.isRequired,
 };
 
 export default BoardTitle;

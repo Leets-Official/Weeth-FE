@@ -83,7 +83,7 @@ const Dues = () => {
       ) : (
         <DuesListBox>
           <MoneyBoxContainer>
-            <MoneyBox>{currentAmount}원</MoneyBox>
+            <MoneyBox>{parseInt(currentAmount, 10).toLocaleString()}</MoneyBox>
           </MoneyBoxContainer>
           <Line />
           <DuesList>
