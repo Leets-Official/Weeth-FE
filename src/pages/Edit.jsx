@@ -75,7 +75,7 @@ const Edit = () => {
         return acc;
       }, {});
 
-      response = await axios.patch(`${BASE_URL}/users`, data, {
+      response = await axios.patch(`${BASE_URL}/api/v1/users`, data, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
           Authorization_refresh: `Bearer ${refreshToken}`,
@@ -106,6 +106,7 @@ const Edit = () => {
         console.log(response);
         navi('/mypage');
       } else {
+        console.log(response);
         alert('서버 응답 오류/n저장 중 오류가 발생했습니다.');
       }
       console.log(response);
