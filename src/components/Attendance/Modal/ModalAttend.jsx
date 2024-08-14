@@ -22,6 +22,7 @@ const StyledModal = styled.div`
   overflow: auto;
   background-color: rgba(0, 0, 0, 0.8);
   backdrop-filter: blur(2px);
+  webkitbackdropfilter: 'blur(5px)';
 `;
 
 const Line = styled.div`

@@ -5,31 +5,27 @@ import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
+import theme from '../styles/theme';
 import SignupMemInput from '../components/Signup/SignupMemInput';
 import SignupHeader from '../components/Signup/SignupHeader';
-import SignupWhite from '../components/Signup/SignupWhite';
 import RoleSector from '../components/Signup/RoleSector';
 import SignupDropDown from '../components/SignupDropDown';
 
 const ProfileContainer = styled.div`
   width: 370px;
   max-width: 370px;
-  height: 810px;
   overflow-x: hidden; /* 가로 스크롤 삭제 */
 `;
 
-const MemText = styled.div`
-  margin: ${({ marginTop }) => marginTop}px 33% 50px 7%;
+const HeaderText = styled.div`
+  display: flex;
+  margin: 110px 0 0 7%;
   font-size: 18px;
-  line-height: 19.09px;
+  font-family: ${theme.font.family.pretendard_semiBold};
 `;
 
 const InputScrollContainer = styled.div`
-  flex-grow: 1;
-  overflow-y: auto;
-  overflow-x: hidden; /* 가로 스크롤 삭제 */
-  padding-right: 10px;
-
+  margin-top: 50px;
   /* Hide scrollbar for Webkit browsers */
   ::-webkit-scrollbar {
     display: none;
@@ -72,15 +68,10 @@ const Profile = () => {
   const [currentFieldIndex, setCurrentFieldIndex] = useState(0);
   const [memberInfo, setMemberInfo] = useState({ email, password });
   const [isNextEnabled, setIsNextEnabled] = useState(false);
-  const [isNextClicked, setIsNextClicked] = useState(false);
-  const [marginTop, setMarginTop] = useState(214);
 
   const scrollContainerRef = useRef(null);
 
   useEffect(() => {
-    const newMarginTop = Math.max(50, 214 - currentFieldIndex * 20);
-    setMarginTop(newMarginTop);
-
     if (scrollContainerRef.current) {
       scrollContainerRef.current.scrollTop =
         scrollContainerRef.current.scrollHeight;
@@ -90,7 +81,6 @@ const Profile = () => {
   const handleNextClick = async () => {
     if (currentFieldIndex < fieldDefinitions.length - 1) {
       setCurrentFieldIndex(currentFieldIndex + 1);
-      setIsNextClicked(true);
       setIsNextEnabled(false);
     } else {
       const allFieldsFilled = fieldDefinitions.every(
@@ -108,8 +98,6 @@ const Profile = () => {
         ...memberInfo,
         position: roleMapping[memberInfo.position] || memberInfo.position, // Map the role value
       };
-
-      setIsNextClicked(true);
       try {
         const BASE_URL = process.env.REACT_APP_BASE_URL;
         const response = await axios.post(
@@ -147,34 +135,21 @@ const Profile = () => {
     setIsNextEnabled(allFieldsFilled);
   };
 
-  const handlePrevClick = () => {
-    if (currentFieldIndex > 0) {
-      setCurrentFieldIndex(currentFieldIndex - 1);
-      setIsNextClicked(false);
-    }
-  };
-
   const getNextButtonColor = () => {
-    return isNextClicked || isNextEnabled ? 'green' : 'white';
+    return isNextEnabled ? 'green' : 'white';
   };
 
   return (
     <ProfileContainer>
       <SignupHeader
-        onClickLeftButton={handlePrevClick}
         isRightButtonEnabled={isNextEnabled}
         onClickTextButton={handleNextClick}
-        nextButtonText={
-          currentFieldIndex < fieldDefinitions.length - 1 ? '다음' : '완료'
-        }
         nextButtonColor={getNextButtonColor()}
         page={currentFieldIndex}
       />
-      <MemText marginTop={marginTop}>
-        <SignupWhite text="동아리원의 정보를 입력해주세요" />
-      </MemText>
+      <HeaderText>동아리원의 정보를 입력해주세요.</HeaderText>
       <InputScrollContainer ref={scrollContainerRef}>
-        {fieldDefinitions.slice(0, currentFieldIndex + 1).map((field) => (
+        {fieldDefinitions.map((field) => (
           <InputWrapper key={field.key}>
             {field.type === 'dropdown' ? (
               <SignupDropDown
