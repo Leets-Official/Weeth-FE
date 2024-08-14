@@ -23,12 +23,9 @@ import Edit from './pages/Edit';
 import Dues from './pages/Dues';
 import Board from './pages/Board';
 import BoardPosting from './pages/BoardPosting';
-import BoardDetail from './pages/BoardDetail';
 import EventAdmin from './pages/EventAdmin';
 import StudyDetail from './pages/StudyDetail';
 import NoticeDetail from './pages/NoticeDetail';
-import CreateEvent from './pages/CreateEvent';
-import EditEvent from './pages/EditEvent';
 import BoardEdit from './pages/BoardEdit';
 
 import theme from './styles/theme';
@@ -48,6 +45,8 @@ import { AttendCheckProvider } from './hooks/AttendCheckContext';
 import PrivateRoute from './router/PrivateRouter';
 import { PenaltyProvider } from './hooks/PenaltyContext';
 
+import ScrollToTop from './router/ScrollToTop';
+
 const App = () => {
   const access = localStorage.getItem('accessToken');
   return (
@@ -62,6 +61,7 @@ const App = () => {
       <AttendCheckProvider>
       <UserAPI />
       <MonthlyScheduleAPI />
+      <ScrollToTop />
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/login" element={<Login />} />
