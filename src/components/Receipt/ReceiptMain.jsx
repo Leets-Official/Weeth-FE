@@ -159,6 +159,9 @@ const ReceiptMain = () => {
             padding: '0',
             border: 'none',
             background: 'none',
+            width: '50%',
+            height: '50%',
+            overflow: 'hidden',
           },
         }}
       >

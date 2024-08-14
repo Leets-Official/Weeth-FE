@@ -67,7 +67,7 @@ const DuesTitle = () => {
     semester = '1학기';
   } else {
     semester = '2학기';
-    // 9월부터 12월까지는 현재 연도, 1월과 2월은 전년도 학기로 표기
+    // 2학기 일 때 9월부터 12월까지는 현재 연도, 1월과 2월은 전년도 학기로 표기
     if (currentMonth >= 1 && currentMonth <= 2) {
       displayYear = currentYear - 1;
     }
