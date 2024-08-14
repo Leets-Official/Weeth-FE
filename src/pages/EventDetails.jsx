@@ -117,10 +117,11 @@ const EventDetails = () => {
     <StyledEventDetails>
       <EventInfoAPI id={id} />
       <BoardTitle
-        eventId={eventDetailData.id}
+        id={eventDetailData.id}
         text={eventDetailData.title}
         writer={eventDetailData.name}
         createdAt={eventDetailData.createdAt}
+        isMeeting={isMeeting}
       />
       <Line />
       <ContentBlock>
