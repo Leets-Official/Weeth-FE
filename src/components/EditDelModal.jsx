@@ -4,11 +4,8 @@ import theme from '../styles/theme';
 
 const ContentWrapper = styled.div`
   position: fixed; // 화면 고정
-  top: 0;
-  left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5); // 배경을 어둡게 하여 화면을 덮음
   display: flex;
   justify-content: center;
   align-items: center;
