@@ -54,11 +54,7 @@ const adminModalStyles = {
   overlay: {
     backgroundColor: 'rgba(0,0,0,0.5)',
     backdropFilter: 'blur(5px)',
-    height: '100%',
-    width: '100%',
-  },
-  content: {
-    margin: '400px',
+    WebkitBackdropFilter: 'blur(5px)',
   },
 };
 

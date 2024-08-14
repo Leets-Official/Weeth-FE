@@ -22,7 +22,7 @@ const MemberList = styled.div`
   background-color: ${theme.color.grayScale.gray18};
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
-  height: 100%;
+  height: 100vh;
   width: 350px;
   margin: 0px 10px auto;
   padding-bottom: 183px;
