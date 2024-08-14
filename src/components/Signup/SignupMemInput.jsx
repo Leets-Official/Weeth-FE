@@ -24,7 +24,6 @@ const Label = styled.div`
 const InputLine = styled.input`
   display: flex;
   width: 58%;
-  weight: 400;
   margin-right: 17%;
   border: none;
   border-bottom: 1px solid #333333;

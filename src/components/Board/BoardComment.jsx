@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+// import axios from 'axios';
 import { ReactComponent as CommentButton } from '../../assets/images/ic_comment.svg';
 import { ReactComponent as ReplyButton } from '../../assets/images/ic_reply.svg';
+import { ReactComponent as CommentDeleteButton } from '../../assets/images/ic_comment_delete.svg';
 import theme from '../../styles/theme';
 
 const CommentContainer = styled.div`
@@ -55,18 +57,53 @@ const ReplyRow = styled.div`
 `;
 
 const BoardReply = styled.div`
-  flex-grow: 1;
   background-color: ${theme.color.grayScale.gray18};
   color: ${theme.color.grayScale.white};
-  padding: 0 10px;
+  padding: 0 0 0 10px;
   border-radius: 10px;
+  width: calc(100% - 30px);
+  margin-top: 5px;
+  display: flex;
+  flex-direction: column;
 `;
 
-const BoardComment = ({ name, content, time, recomments = [] }) => {
-  const [showReplies, setShowReplies] = useState(false);
+const CommentButtonMargin = styled.div`
+  margin-right: 5px;
+`;
+
+const BoardComment = ({
+  commentId,
+  name,
+  content,
+  time,
+  recomments = [],
+  onDelete,
+  onReply,
+}) => {
+  const [showReplies, setShowReplies] = useState(recomments.length > 0);
 
   const handleReplyClick = () => {
-    setShowReplies(!showReplies);
+    if (window.confirm('대댓글을 입력하시겠습니까?')) {
+      onReply(commentId); // 대댓글 입력창을 여는 콜백 함수 호출
+      setShowReplies(true);
+    }
+  };
+
+  const handleDeleteRecomment = (recommentId) => {
+    if (window.confirm('정말 이 대댓글을 삭제하시겠습니까?')) {
+      // 대댓글 삭제 로직을 여기에 추가하십시오.
+      console.log('대댓글 삭제:', recommentId);
+      // 여기에 실제로 대댓글을 삭제하는 API 요청 등을 추가할 수 있습니다.
+    }
+  };
+
+  const formatDateTime = (dateTimeString) => {
+    const date = new Date(dateTimeString);
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    return `${month}/${day} ${hours}:${minutes}`;
   };
 
   return (
@@ -75,34 +112,48 @@ const BoardComment = ({ name, content, time, recomments = [] }) => {
         <BottomRow>
           <UserName>{name}</UserName>
           <CommentButton alt="" onClick={handleReplyClick} />
+          <CommentButtonMargin />
+          <CommentDeleteButton onClick={onDelete} />
         </BottomRow>
         <StyledComment>{content}</StyledComment>
-        <CommentDate>{time}</CommentDate>
-        {showReplies &&
-          recomments.map((recomment) => (
-            <ReplyRow key={recomment.id}>
-              <ReplyButton
-                alt=""
-                style={{
-                  marginRight: '10px',
-                  flexShrink: 0,
-                }}
-              />
-              <BoardReply>
-                <BottomRow>
-                  <UserName>{recomment.name}</UserName>
-                </BottomRow>
-                <StyledComment>{recomment.content}</StyledComment>
-                <CommentDate>{recomment.time}</CommentDate>
-              </BoardReply>
-            </ReplyRow>
-          ))}
+        <CommentDate>{formatDateTime(time) || '00/00 00:00'}</CommentDate>
+
+        {showReplies && recomments.length > 0 && (
+          <div>
+            {recomments.map((recomment) => (
+              <ReplyRow key={recomment.id}>
+                <ReplyButton
+                  alt=""
+                  style={{
+                    marginRight: '2px',
+                    flexShrink: 0,
+                  }}
+                />
+                <BoardReply>
+                  <BottomRow>
+                    <UserName>{recomment.name}</UserName>
+                    <CommentDeleteButton
+                      alt=""
+                      style={{
+                        marginRight: '10px',
+                      }}
+                      onClick={handleDeleteRecomment}
+                    />
+                  </BottomRow>
+                  <StyledComment>{recomment.content}</StyledComment>
+                  <CommentDate>{formatDateTime(recomment.time)}</CommentDate>
+                </BoardReply>
+              </ReplyRow>
+            ))}
+          </div>
+        )}
       </BoardCommented>
     </CommentContainer>
   );
 };
 
 BoardComment.propTypes = {
+  commentId: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
   time: PropTypes.string.isRequired,
@@ -114,6 +165,8 @@ BoardComment.propTypes = {
       time: PropTypes.string.isRequired,
     }),
   ),
+  onDelete: PropTypes.func.isRequired,
+  onReply: PropTypes.func.isRequired,
 };
 
 BoardComment.defaultProps = {

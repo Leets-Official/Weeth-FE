@@ -1,3 +1,5 @@
+/* eslint-disable no-alert */
+/* eslint-disable no-console */
 import React, { useEffect, useState, useContext } from 'react';
 import styled from 'styled-components';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -28,7 +30,6 @@ const StyledTitle = styled.input`
   border: none;
   color: ${theme.color.grayScale.white};
   font-family: ${theme.font.family.pretendard_semiBold};
-  font-weight: 600;
   outline: none;
 `;
 
@@ -46,7 +47,6 @@ const StyledContent = styled.textarea`
   border: none;
   color: ${theme.color.grayScale.white};
   font-family: ${theme.font.family.pretendard_regular};
-  font-weight: 400;
   padding: 10px 0;
   outline: none;
   resize: none;
@@ -90,7 +90,7 @@ const BoardPosting = () => {
   const saveBoard = async () => {
     if (!userData || !userData.id) {
       console.error('Error: User data is missing or invalid.');
-      navigate('/login'); // 로그인 페이지로 리다이렉트
+      navigate('/board'); // 로그인 페이지로 리다이렉트
       return;
     }
 

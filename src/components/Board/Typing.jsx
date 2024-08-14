@@ -2,14 +2,12 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import PropTypes from 'prop-types';
-import { useNavigate } from 'react-router-dom';
+// import { useLocation } from 'react-router-dom';
 import { ReactComponent as RegisterComment } from '../../assets/images/ic_send.svg';
 import theme from '../../styles/theme';
-import Utils from '../../hooks/Utils';
 
 const InputWrapper = styled.div`
-  position: relative; // fixed position을 사용하여 화면 하단에 고정
-  bottom: ${({ paddingBottom }) => paddingBottom}px;
+  position: relative;
   display: flex;
   align-items: center;
   width: 81%;
@@ -33,59 +31,54 @@ const InputField = styled.input`
   }
 `;
 
-const Typing = ({ postId, onCommentSubmitted }) => {
+const Typing = ({ postId, onCommentSubmitted, parentCommentId = null }) => {
   const [comment, setComment] = useState('');
-  const [parentId, setParentId] = useState(null); // 대댓글 모드 상태 관리
+  // const location = useLocation();
+  // const { parentCommentId = null } = location.state || {};
 
   const accessToken = localStorage.getItem('accessToken');
   const BASE_URL = process.env.REACT_APP_BASE_URL;
-
-  const navigate = useNavigate();
 
   const handleCommentChange = (e) => {
     setComment(e.target.value);
   };
 
   const handleRegisterComment = async () => {
-    if (comment.trim() === '') return;
+    const trimmedComment = comment.trim();
+    if (trimmedComment === '') {
+      console.error('댓글 내용을 입력해주세요.');
+      return;
+    }
+
+    console.log('댓글 작성 시도:', { postId, trimmedComment, parentCommentId });
 
     try {
       const response = await axios.post(
-        `${BASE_URL}/posts/${postId}/comments`,
+        `${BASE_URL}/api/v1/posts/${postId}/comments`,
         {
-          parentId: parentId || 0, // body에 포함될 데이터
-          content: comment,
+          content: trimmedComment,
+          parentCommentId,
         },
         {
           headers: {
-            Authorization: `Bearer ${accessToken}`, // 헤더 설정은 여기서
+            Authorization: `Bearer ${accessToken}`,
+            'Content-Type': 'application/json',
           },
         },
       );
 
-      const isValidResponse = await Utils(
-        response,
-        axios.post,
-        [
-          `${BASE_URL}/posts/${postId}/comments`,
-          {
-            parentId: parentId || 0, // body에 포함될 데이터
-            content: comment,
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`, // 헤더 설정은 여기서
-            },
-          },
-        ],
-        navigate,
-      );
-
-      if (isValidResponse.data.code === 200) {
-        console.log('bbb', isValidResponse);
+      if (response.data.code === 200) {
+        console.log('댓글이 성공적으로 등록되었습니다.');
         setComment(''); // 입력 필드 초기화
-        onCommentSubmitted(isValidResponse.data); // 새로운 댓글을 부모 컴포넌트로 전달
-        setParentId(null); // parentId를 초기화하여 다시 일반 댓글 작성 모드로 변경
+        console.log('onCommentSubmitted 호출 전:', response.data.data);
+        onCommentSubmitted(response.data.data); // 새로운 댓글 데이터를 부모 컴포넌트로 전달
+        if (parentCommentId) {
+          console.log('대댓글이 등록되었습니다:', response.data.data);
+        } else {
+          console.log('일반 댓글이 등록되었습니다:', response.data.data);
+        }
+      } else {
+        console.error('응답에서 오류 발생:', response.data.message);
       }
     } catch (error) {
       console.error('댓글을 게시하는 데 실패했습니다:', error);
@@ -97,7 +90,7 @@ const Typing = ({ postId, onCommentSubmitted }) => {
       <InputField
         type="text"
         value={comment}
-        placeholder={parentId ? '대댓글을 입력하세요.' : '댓글을 입력하세요.'}
+        placeholder="댓글을 입력하세요."
         onChange={handleCommentChange}
       />
       <RegisterComment
@@ -116,8 +109,13 @@ const Typing = ({ postId, onCommentSubmitted }) => {
 };
 
 Typing.propTypes = {
-  postId: PropTypes.number.isRequired, // 포스트 ID
-  onCommentSubmitted: PropTypes.func.isRequired, // 댓글 제출 후 부모 컴포넌트에 알림
+  postId: PropTypes.number.isRequired,
+  onCommentSubmitted: PropTypes.func.isRequired,
+  parentCommentId: PropTypes.number,
+};
+
+Typing.defaultProps = {
+  parentCommentId: null, // 기본값을 null로 설정
 };
 
 export default Typing;

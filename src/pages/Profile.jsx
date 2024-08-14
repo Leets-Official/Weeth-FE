@@ -27,7 +27,7 @@ const InputContainer = styled.div`
 `;
 
 const InputWrapper = styled.div`
-  margin-bottom: 33px;
+  margin-bottom: 33px; /* 요소 간 간격 33px */
 `;
 
 const roleMapping = {
