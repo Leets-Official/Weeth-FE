@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import theme from '../styles/theme';
-import SignupWhite from './Signup/SignupWhite';
+import theme from '../../styles/theme';
+import SignupWhite from './SignupWhite';
 
 const DropdownContainer = styled.div`
   position: relative;
@@ -46,6 +46,7 @@ const DropdownList = styled.div`
   border-radius: 4px;
   margin-top: 5px;
   z-index: 1000;
+  background-color: #2c2c2c; /* 드롭다운 배경색 추가 */
 `;
 
 const DropdownItem = styled.div`

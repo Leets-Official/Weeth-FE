@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import SignupWhite from './SignupWhite';
@@ -38,32 +38,69 @@ const InputLine = styled.input`
   }
 `;
 
-const SignupMemInput = ({ labelName, placeholderText, value, onChange }) => {
+const SignupMemInput = ({
+  labelName,
+  placeholderText,
+  origValue,
+  inputType,
+  onChange,
+}) => {
+  const [value, setValue] = useState(origValue);
+
+  const validateValue = (val) => {
+    const numberRegex = /^[0-9]*$/;
+    switch (inputType) {
+      case 'text':
+        return /^[ㄱ-힣]*$/.test(val) && val.length <= 7; // 한글만, 최대 7자
+      case 'number':
+        if (labelName === '학번') {
+          return numberRegex.test(val) && val.length <= 9; // 숫자만, 최대 9자리
+        }
+        if (labelName === '핸드폰') {
+          return numberRegex.test(val) && val.length <= 11; // 숫자만, 최대 11자리
+        }
+        if (labelName === '기수') {
+          return numberRegex.test(val) && val.length <= 1; // 숫자만, 최대 1자리
+        }
+        return numberRegex.test(val);
+      default:
+        return true;
+    }
+  };
+
+  const onChangeValue = (e) => {
+    const val = e.target.value;
+    if (validateValue(val)) {
+      setValue(val); // 로컬 상태 업데이트
+      onChange(val); // 부모 컴포넌트로 상태 전달
+    }
+  };
+
+  useEffect(() => {
+    setValue(origValue); // origValue 변경 시 로컬 상태 업데이트
+  }, [origValue]);
+
   return (
     <MemTextContainer>
       <Label>
         <SignupWhite text={labelName} />
       </Label>
       <InputLine
-        type="text"
         placeholder={placeholderText}
         value={value}
-        onChange={(e) => onChange(e.target.value)}
+        onChange={onChangeValue}
       />
     </MemTextContainer>
   );
 };
 
 SignupMemInput.propTypes = {
-  labelName: PropTypes.string,
-  placeholderText: PropTypes.string,
-  value: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
-};
-
-SignupMemInput.defaultProps = {
-  labelName: '이름',
-  placeholderText: '홍길동',
+  labelName: PropTypes.string.isRequired,
+  placeholderText: PropTypes.string.isRequired,
+  origValue: PropTypes.oneOfType([PropTypes.string, PropTypes.array])
+    .isRequired,
+  inputType: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired, // 부모 컴포넌트로 상태 전달
 };
 
 export default SignupMemInput;
