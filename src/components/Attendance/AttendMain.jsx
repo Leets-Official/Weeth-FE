@@ -97,6 +97,7 @@ const AttendMain = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [penaltyModalOpen, setPenaltyModalOpen] = useState(false);
   const [shouldFetchData, setShouldFetchData] = useState(false);
+  const [hasPenalty, setHasPenalty] = useState(false);
 
   const { userData, error } = useContext(UserContext);
 
@@ -163,9 +164,15 @@ const AttendMain = () => {
     }
   }
 
-  const { myPenaltyCount, hasPenalty } = useContext(PenaltyContext);
+  const { myPenaltyCount } = useContext(PenaltyContext);
+  useEffect(() => {
+    if (myPenaltyCount > 0) {
+      setHasPenalty(true);
+    } else {
+      setHasPenalty(false);
+    }
+  }, [myPenaltyCount]);
 
-  const penalty = myPenaltyCount;
   const dealt = Math.floor((ATTEND_GAUGE / MAX_ATTEND_GUAGE) * 100);
 
   // 출석체크 모달
@@ -283,13 +290,13 @@ const AttendMain = () => {
               <SemiBold>
                 패널티&nbsp;
                 <div style={{ color: theme.color.main.negative }}>
-                  {penalty}회
+                  {myPenaltyCount}회
                 </div>
               </SemiBold>
               <RightButton onClick={handleOpenPenaltyModal} />
             </ButtonContainer>
             <div className="penalty-info">
-              패널티가 {penalty}회 적립이 되었어요.
+              패널티가 {myPenaltyCount}회 적립이 되었어요.
               <br />
               어떤 이유인지 알아볼까요?
             </div>

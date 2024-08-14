@@ -6,7 +6,6 @@ export const PenaltyContext = createContext();
 export const PenaltyProvider = ({ children }) => {
   const [penaltyData, setPenaltyData] = useState(null);
   const [penaltyFetchError, setPenaltyFetchError] = useState(null);
-  const [hasPenalty, setHasPenalty] = useState(false);
   const [myPenaltyCount, setMyPenalty] = useState(0);
 
   return (
@@ -19,8 +18,6 @@ export const PenaltyProvider = ({ children }) => {
         setPenaltyData,
         penaltyFetchError,
         setPenaltyFetchError,
-        hasPenalty,
-        setHasPenalty,
       }}
     >
       {children}

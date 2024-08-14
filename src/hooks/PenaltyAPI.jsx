@@ -3,7 +3,7 @@ import axios from 'axios';
 import { PenaltyContext } from './PenaltyContext';
 
 const PenaltyAPI = () => {
-  const { setMyPenalty, setPenaltyData, setPenaltyFetchError, setHasPenalty } =
+  const { setMyPenalty, setPenaltyData, setPenaltyFetchError } =
     useContext(PenaltyContext);
   const [accessToken, setAccessToken] = useState(
     localStorage.getItem('accessToken'),
@@ -22,13 +22,9 @@ const PenaltyAPI = () => {
         headers,
       });
       const { data } = response.data;
-
-      if (data.Penalties.length === 0 || data.penaltyCount === 0) {
-        setHasPenalty(false);
-      } else {
-        setPenaltyData(data.Penalties);
-        setMyPenalty(data.penaltyCount);
-      }
+      console.log(data);
+      setPenaltyData(data.Penalties);
+      setMyPenalty(data.penaltyCount);
     } catch (err) {
       setPenaltyFetchError(err.message);
     }
