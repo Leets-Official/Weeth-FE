@@ -1,3 +1,5 @@
+/* eslint-disable react/jsx-no-constructed-context-values */
+/* eslint-disable react/prop-types */
 import React, { createContext, useState } from 'react';
 
 // Context 객체 생성
@@ -9,7 +11,9 @@ export const MonthlyScheduleProvider = ({ children }) => {
   const [error, setError] = useState(null);
 
   return (
-    <MonthlyScheduleContext.Provider value={{ monthScheduleData, setMonthScheduleData, error, setError }}>
+    <MonthlyScheduleContext.Provider
+      value={{ monthScheduleData, setMonthScheduleData, error, setError }}
+    >
       {children}
     </MonthlyScheduleContext.Provider>
   );
