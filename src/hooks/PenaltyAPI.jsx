@@ -22,7 +22,7 @@ const PenaltyAPI = () => {
         headers,
       });
       const { data } = response.data;
-      console.log(data);
+      // console.log(data);
       setPenaltyData(data.Penalties);
       setMyPenalty(data.penaltyCount);
     } catch (err) {

@@ -283,44 +283,50 @@ const AttendMain = () => {
       </StyledBox>
       <StyledBox>
         <img src={warning} alt="!" />
-        {hasPenalty ? (
-          // 패널티 있을 때 패널티 컴포넌트
-          <div className="penalty-container">
-            <ButtonContainer>
-              <SemiBold>
-                패널티&nbsp;
-                <div style={{ color: theme.color.main.negative }}>
-                  {myPenaltyCount}회
-                </div>
-              </SemiBold>
-              <RightButton onClick={handleOpenPenaltyModal} />
-            </ButtonContainer>
-            <div className="penalty-info">
-              패널티가 {myPenaltyCount}회 적립이 되었어요.
-              <br />
-              어떤 이유인지 알아볼까요?
-            </div>
-          </div>
+        {!myPenaltyCount ? (
+          <SemiBold>데이터를 불러오지 못했습니다.</SemiBold>
         ) : (
-          // 패널티 없을 때 패널티 컴포넌트
-          <div className="penalty-container">
-            <div className="no-penalty-info">
-              <SemiBold>패널티를 받은 이력이 없네요!</SemiBold>
+          <>
+            {hasPenalty ? (
+              // 패널티 있을 때 패널티 컴포넌트
+              <div className="penalty-container">
+                <ButtonContainer>
+                  <SemiBold>
+                    패널티&nbsp;
+                    <div style={{ color: theme.color.main.negative }}>
+                      {myPenaltyCount}회
+                    </div>
+                  </SemiBold>
+                  <RightButton onClick={handleOpenPenaltyModal} />
+                </ButtonContainer>
+                <div className="penalty-info">
+                  패널티가 {myPenaltyCount}회 적립이 되었어요.
+                  <br />
+                  어떤 이유인지 알아볼까요?
+                </div>
+              </div>
+            ) : (
+              // 패널티 없을 때 패널티 컴포넌트
+              <div className="penalty-container">
+                <div className="no-penalty-info">
+                  <SemiBold>패널티를 받은 이력이 없네요!</SemiBold>
+                </div>
+              </div>
+            )}
+            <div>
+              <PenaltyInfo>
+                패널티를 받는 기준은 아래와 같아요
+                <br />
+                - 정기 모임에 출석을 하지 않았을 때
+                <br />
+                - 미션을 제출하지 않았을 때
+                <br />
+                - 스터디 발표를 하지 않았을 때
+                <br />
+              </PenaltyInfo>
             </div>
-          </div>
+          </>
         )}
-        <div>
-          <PenaltyInfo>
-            패널티를 받는 기준은 아래와 같아요
-            <br />
-            - 정기 모임에 출석을 하지 않았을 때
-            <br />
-            - 미션을 제출하지 않았을 때
-            <br />
-            - 스터디 발표를 하지 않았을 때
-            <br />
-          </PenaltyInfo>
-        </div>
       </StyledBox>
       <ModalAttend open={modalOpen} close={handleCloseModal} />
       <ModalPenalty open={penaltyModalOpen} close={handleClosePenaltyModal} />
