@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import LeftButton from '../Header/LeftButton';
 import TextButton from '../Header/TextButton';
-import BackButton from './BackButton';
 import theme from '../../styles/theme';
 
 const StyledHeader = styled.div`
@@ -24,24 +23,14 @@ const StyledHeader = styled.div`
   cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
 `;;   */
 
-const SignupHeader = ({
-  onClickLeftButton,
-  isRightButtonEnabled,
-  onClickTextButton,
-  nextButtonText,
-  page,
-}) => {
+const SignupHeader = ({ isRightButtonEnabled, onClickTextButton }) => {
   return (
     <StyledHeader>
-      {page === 0 ? (
-        <LeftButton onClick={onClickLeftButton} />
-      ) : (
-        <BackButton onClick={onClickLeftButton} />
-      )}
+      <LeftButton />
       <TextButton
         onClick={onClickTextButton}
         disabled={!isRightButtonEnabled}
-        text={nextButtonText}
+        text="완료"
         color={isRightButtonEnabled ? 'mainColor' : theme.color.grayScale.white}
       />
     </StyledHeader>
@@ -49,11 +38,8 @@ const SignupHeader = ({
 };
 
 SignupHeader.propTypes = {
-  onClickLeftButton: PropTypes.func.isRequired,
   isRightButtonEnabled: PropTypes.bool.isRequired,
   onClickTextButton: PropTypes.func.isRequired,
-  nextButtonText: PropTypes.string.isRequired,
-  page: PropTypes.number.isRequired,
 };
 
 export default SignupHeader;

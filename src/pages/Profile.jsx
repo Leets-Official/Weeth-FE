@@ -1,73 +1,91 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import { useNavigate, useLocation } from 'react-router-dom';
+import axios from 'axios';
+import theme from '../styles/theme';
 import SignupMemInput from '../components/Signup/SignupMemInput';
 import SignupHeader from '../components/Signup/SignupHeader';
-import SignupWhite from '../components/Signup/SignupWhite';
-import RoleSector from '../components/Signup/RoleSector'; // RoleSector import 추가
+import RoleSector from '../components/Signup/RoleSector';
+import SignupDropDown from '../components/Signup/SignupDropDown';
 
 const ProfileContainer = styled.div`
   width: 370px;
+  height: 812px;
   max-width: 370px;
-  height: 810px;
   overflow-x: hidden; /* 가로 스크롤 삭제 */
 `;
 
-const MemText = styled.div`
-  margin: ${({ marginTop }) => marginTop}px 33% 50px 7%;
+const HeaderText = styled.div`
+  display: flex;
+  margin: 110px 0 0 7%;
   font-size: 18px;
-  line-height: 19.09px;
+  font-family: ${theme.font.family.pretendard_semiBold};
 `;
 
-const InputScrollContainer = styled.div`
-  flex-grow: 1;
-  overflow-y: auto;
-  overflow-x: hidden; /* 가로 스크롤 삭제 */
+const InputContainer = styled.div`
+  margin-top: 50px;
 `;
 
 const InputWrapper = styled.div`
   margin-bottom: 33px; /* 요소 간 간격 33px */
 `;
 
-const fieldDefinitions = [
-  { key: 'name', labelName: '이름', placeholderText: '홍길동' },
-  { key: 'studentId', labelName: '학번', placeholderText: '202412345' },
-  {
-    key: 'department',
-    labelName: '학과',
-    placeholderText: '정확한 명칭을 적어주세요',
-  },
-  { key: 'phone', labelName: '핸드폰', placeholderText: '01012341234' },
-  { key: 'generation', labelName: '기수', placeholderText: '3' },
-  { key: 'role', labelName: '역할', placeholderText: '' }, // 역할 추가
-];
+const roleMapping = {
+  프론트: 'FE',
+  백: 'BE',
+  디자인: 'D',
+};
 
 const Profile = () => {
-  const [currentFieldIndex, setCurrentFieldIndex] = useState(0);
-  const [memberInfo, setMemberInfo] = useState({});
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { email, password } = location.state || { email: '', password: '' };
+
+  const [memberInfo, setMemberInfo] = useState({ email, password });
   const [isNextEnabled, setIsNextEnabled] = useState(false);
-  const [isNextClicked, setIsNextClicked] = useState(false);
-  const [marginTop, setMarginTop] = useState(214);
 
-  const scrollContainerRef = useRef(null);
+  const handleNextClick = async () => {
+    const allFieldsFilled = [
+      'name',
+      'studentId',
+      'department',
+      'tel',
+      'cardinal',
+      'position',
+    ].every(
+      (field) =>
+        typeof memberInfo[field] === 'string' &&
+        memberInfo[field].trim() !== '',
+    );
 
-  useEffect(() => {
-    const newMarginTop = Math.max(50, 214 - currentFieldIndex * 20); // 간격 줄이기d
-    setMarginTop(newMarginTop);
-
-    if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollTop =
-        scrollContainerRef.current.scrollHeight;
+    if (!allFieldsFilled) {
+      alert('입력되지 않은 값이 있습니다.');
+      return;
     }
-  }, [currentFieldIndex]);
 
-  const handleNextClick = () => {
-    if (currentFieldIndex < fieldDefinitions.length - 1) {
-      setCurrentFieldIndex(currentFieldIndex + 1);
-      setIsNextClicked(true);
-      setIsNextEnabled(false);
-    } else {
-      setIsNextClicked(true);
-      // 여기에 최종 제출 로직을 추가할 수 있다..
+    const mappedMemberInfo = {
+      ...memberInfo,
+      position: roleMapping[memberInfo.position] || memberInfo.position, // Map the role value
+    };
+    try {
+      const BASE_URL = process.env.REACT_APP_BASE_URL;
+      const response = await axios.post(
+        `${BASE_URL}/api/v1/users/apply`,
+        mappedMemberInfo,
+      );
+
+      if (response.data.code === 200) {
+        alert('가입 완료!');
+        navigate('/');
+      } else {
+        alert(`Error: ${response.data.message}`);
+      }
+    } catch (error) {
+      alert(error.response?.data.message || error.message);
+      console.error(
+        'Error submitting form:',
+        error.response?.data || error.message,
+      );
     }
   };
 
@@ -75,62 +93,86 @@ const Profile = () => {
     const newMemberInfo = { ...memberInfo, [key]: value };
     setMemberInfo(newMemberInfo);
 
-    const allFieldsFilled = fieldDefinitions
-      .slice(0, currentFieldIndex + 1)
-      .every(
-        (field) =>
-          typeof newMemberInfo[field.key] === 'string' &&
-          newMemberInfo[field.key].trim() !== '',
-      );
+    const allFieldsFilled = [
+      'name',
+      'studentId',
+      'department',
+      'tel',
+      'cardinal',
+      'position',
+    ].every(
+      (field) =>
+        typeof newMemberInfo[field] === 'string' &&
+        newMemberInfo[field].trim() !== '',
+    );
 
     setIsNextEnabled(allFieldsFilled);
   };
 
-  const handlePrevClick = () => {
-    if (currentFieldIndex > 0) {
-      setCurrentFieldIndex(currentFieldIndex - 1);
-      setIsNextClicked(false);
-    }
-  };
-
   const getNextButtonColor = () => {
-    return isNextClicked || isNextEnabled ? '#00DDA8' : 'white';
+    return isNextEnabled ? 'green' : 'white';
   };
 
   return (
     <ProfileContainer>
       <SignupHeader
-        onClickLeftButton={handlePrevClick}
         isRightButtonEnabled={isNextEnabled}
         onClickTextButton={handleNextClick}
-        nextButtonText={
-          currentFieldIndex < fieldDefinitions.length - 1 ? '다음' : '완료'
-        } // 버튼 텍스트 변경
         nextButtonColor={getNextButtonColor()}
       />
-      <MemText marginTop={marginTop}>
-        <SignupWhite text="동아리원의 정보를 입력해주세요" />
-      </MemText>
-      <InputScrollContainer ref={scrollContainerRef}>
-        {fieldDefinitions.slice(0, currentFieldIndex + 1).map((field) => (
-          <InputWrapper key={field.key}>
-            {field.key === 'role' ? (
-              <RoleSector
-                labelName={field.labelName}
-                value={memberInfo[field.key] || ''}
-                onChange={(value) => handleChange(field.key, value)}
-              />
-            ) : (
-              <SignupMemInput
-                labelName={field.labelName}
-                placeholderText={field.placeholderText}
-                value={memberInfo[field.key] || ''}
-                onChange={(value) => handleChange(field.key, value)}
-              />
-            )}
-          </InputWrapper>
-        ))}
-      </InputScrollContainer>
+      <HeaderText>동아리원의 정보를 입력해주세요.</HeaderText>
+      <InputContainer>
+        <InputWrapper>
+          <SignupMemInput
+            labelName="이름"
+            placeholderText="홍길동"
+            origValue={memberInfo.name || ''}
+            inputType="text"
+            onChange={(value) => handleChange('name', value)}
+          />
+        </InputWrapper>
+        <InputWrapper>
+          <SignupMemInput
+            labelName="학번"
+            placeholderText="202412345"
+            origValue={memberInfo.studentId || ''}
+            inputType="number"
+            onChange={(value) => handleChange('studentId', value)}
+          />
+        </InputWrapper>
+        <InputWrapper>
+          <SignupDropDown
+            text="학과"
+            origValue={memberInfo.department || ''}
+            editValue={(value) => handleChange('department', value)}
+          />
+        </InputWrapper>
+        <InputWrapper>
+          <SignupMemInput
+            labelName="핸드폰"
+            placeholderText="01012341234"
+            origValue={memberInfo.tel || ''}
+            inputType="number"
+            onChange={(value) => handleChange('tel', value)}
+          />
+        </InputWrapper>
+        <InputWrapper>
+          <SignupMemInput
+            labelName="기수"
+            placeholderText="3"
+            origValue={memberInfo.cardinal || ''}
+            inputType="number"
+            onChange={(value) => handleChange('cardinal', value)}
+          />
+        </InputWrapper>
+        <InputWrapper>
+          <RoleSector
+            labelName="역할"
+            value={memberInfo.position || ''}
+            onChange={(value) => handleChange('position', value)}
+          />
+        </InputWrapper>
+      </InputContainer>
     </ProfileContainer>
   );
 };

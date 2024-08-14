@@ -18,7 +18,7 @@ const EventInfoAPI = ({ id }) => {
     const fetchData = async () => {
       try {
         if (id) {
-          const response = await axios.get(`${BASE_URL}/event/${id}`, {
+          const response = await axios.get(`${BASE_URL}/api/v1/events/${id}`, {
             headers,
           });
           if (response.data.code === 200) {

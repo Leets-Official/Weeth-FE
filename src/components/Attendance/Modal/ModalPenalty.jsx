@@ -20,6 +20,7 @@ const StyledModal = styled.div`
   overflow: auto;
   background-color: rgba(0, 0, 0, 0.8);
   backdrop-filter: blur(2px);
+  webkitbackdropfilter: 'blur(5px)';
 `;
 
 const Line = styled.div`
@@ -128,7 +129,7 @@ const ModalPenalty = ({ open, close }) => {
             {penaltyFetchError ? (
               <div>Error loading penalty data</div>
             ) : !penaltyData || !penaltyData.length ? (
-              <div>No penalty data available</div>
+              <div>저장된 패널티가 없습니다.</div>
             ) : (
               <>
                 <SemiBold className="modal-title">
