@@ -9,6 +9,7 @@ export const DuesProvider = ({ children }) => {
   const [duesData, setDuesData] = useState([]);
   const [totalAmount, setTotalAmount] = useState(0);
   const [currentAmount, setCurrentAmount] = useState(0);
+  const [time, setTime] = useState('');
   const [myCardinal, setCardinal] = useState(0);
 
   return (
@@ -22,6 +23,8 @@ export const DuesProvider = ({ children }) => {
         setCurrentAmount,
         myCardinal,
         setCardinal,
+        time,
+        setTime,
       }}
     >
       {children}
