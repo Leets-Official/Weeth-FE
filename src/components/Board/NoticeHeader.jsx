@@ -15,7 +15,13 @@ const StyledHeader = styled.div`
 
 const TitleWrapper = styled.div``;
 
-const NoticeHeader = ({ onMenuClick, showModal, isAdmin, ModalComponent }) => {
+const NoticeHeader = ({
+  onMenuClick,
+  showModal,
+  isAdmin,
+  ModalComponent,
+  showIndexButton,
+}) => {
   const [isModalOpen, setIsModalOpen] = useState(showModal);
 
   useEffect(() => {
@@ -43,7 +49,11 @@ const NoticeHeader = ({ onMenuClick, showModal, isAdmin, ModalComponent }) => {
         <TitleWrapper>
           <Title text="게시판" />
         </TitleWrapper>
-        <IndexButton onClick={handleIndexButtonClick} />
+        {showIndexButton ? (
+          <IndexButton onClick={handleIndexButtonClick} />
+        ) : (
+          <div />
+        )}
       </StyledHeader>
       {isModalOpen && (
         <ModalComponent
@@ -62,10 +72,12 @@ NoticeHeader.propTypes = {
   showModal: PropTypes.bool.isRequired,
   isAdmin: PropTypes.bool, // 운영진 여부를 판단하는 prop
   ModalComponent: PropTypes.elementType.isRequired, // 모달 컴포넌트 타입 prop
+  showIndexButton: PropTypes.bool,
 };
 
 NoticeHeader.defaultProps = {
   isAdmin: false, // 기본값은 일반 사용자
+  showIndexButton: true,
 };
 
 export default NoticeHeader;

@@ -91,8 +91,8 @@ const Board = () => {
       <NoticeHeader
         showModal={false}
         onMenuClick={handleMenuClick}
-        isAdmin // 운영진만 창을 열 수 있음
         ModalComponent={AdminEditDelModal} // AdminEditModal을 사용
+        showIndexButton={false}
       />
       <NoticeMiddle
         title={activeTab === 'notice' ? '공지사항' : '스터디 게시판'}

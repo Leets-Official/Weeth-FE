@@ -289,8 +289,8 @@ const StudyDetail = () => {
             }
           }}
           showModal={false}
-          isAdmin={false} // 모든 사용자가 창을 열 수 있음
           ModalComponent={EditDelModal} // EditDelModal을 사용
+          showIndexButton
         />
       </HeaderWrapper>
       <StudyRow>
