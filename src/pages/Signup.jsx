@@ -169,9 +169,10 @@ const Signup = () => {
   };
 
   const handlePasswordChange = (e) => {
+    const pwValue = e.target.value.replace(/[~!@#$%";'^,&*()_+|</>=>`?:{[\}]/g, '');
     setPageStates(prev => {
       const newState = [...prev];
-      newState[page] = { ...newState[page], password: e.target.value };
+      newState[page] = { ...newState[page], password: pwValue };
       return newState;
     });
   };
