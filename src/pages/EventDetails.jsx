@@ -32,6 +32,10 @@ const Icon = styled.img`
   padding-right: 5px;
 `;
 
+const EndTime = styled.div`
+  padding-left: 25px;
+`;
+
 const Line = styled.div`
   border: 1px solid;
   color: ${theme.color.grayScale.gray30};
@@ -154,13 +158,12 @@ const EventDetails = () => {
               </div>
             </TimeInfo>
             <TimeInfo>
-              <Icon src={icClock} alt="clock" />
-              <div>
+              <EndTime>
                 {endDate[0]}년 {parseInt(endDate[1], 10)}월{' '}
                 {parseInt(endDate[2], 10)}일 &#40;
                 {weekDay[new Date(origEndDate).getDay()]}&#41; {endTime[0]}:
                 {endTime[1]}까지
-              </div>
+              </EndTime>
             </TimeInfo>
           </>
         )}
