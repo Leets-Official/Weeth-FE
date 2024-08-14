@@ -142,11 +142,11 @@ const BoardComponent = ({
 };
 
 BoardComponent.propTypes = {
-  name: PropTypes.node.isRequired,
-  time: PropTypes.node.isRequired,
-  title: PropTypes.node.isRequired,
-  content: PropTypes.node.isRequired,
-  totalComments: PropTypes.node.isRequired,
+  name: PropTypes.string.isRequired,
+  time: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  content: PropTypes.string.isRequired,
+  totalComments: PropTypes.number.isRequired,
   onClick: PropTypes.func.isRequired,
 };
 
