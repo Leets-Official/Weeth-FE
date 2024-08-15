@@ -6,6 +6,7 @@ import NoticeHeader from '../components/Board/NoticeHeader';
 import AttachButton from '../components/Board/AttachButton';
 // import Typing from '../components/Board/Typing';
 import CommentList from '../components/Board/CommentList';
+import EditDelModal from '../components/EditDelModal';
 import { ReactComponent as BoardChat } from '../assets/images/ic_board_chat.svg';
 import theme from '../styles/theme';
 import { BoardContext } from '../hooks/BoardContext';
@@ -288,6 +289,7 @@ const StudyDetail = () => {
             }
           }}
           showModal={false}
+          ModalComponent={EditDelModal} // EditDelModal을 사용
         />
       </HeaderWrapper>
       <StudyRow>
