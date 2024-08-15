@@ -1,15 +1,13 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import BoardComponent from './BoardComponent';
-import { BoardContext } from '../../hooks/BoardContext';
 import Utils from '../../hooks/Utils';
 
 const NoticeList = ({ noticeId }) => {
   const navigate = useNavigate();
   const [notices, setStudies] = useState([]);
-  const { setError } = useContext(BoardContext);
 
   const accessToken = localStorage.getItem('accessToken');
   const BASE_URL = process.env.REACT_APP_BASE_URL;
@@ -52,7 +50,6 @@ const NoticeList = ({ noticeId }) => {
         setStudies((prevNotices) => [...prevNotices, ...newNotices]);
       } else {
         console.error('API Error:', response.data.message);
-        setError(response.data.message);
       }
     } catch (error) {
       console.error('Request Error:', error); // 요청 에러 로그 출력
@@ -63,7 +60,6 @@ const NoticeList = ({ noticeId }) => {
         error.response.data.code === 400
       ) {
         console.error('Error: Non-existent notice ID.');
-        setError('존재하지 않는 게시물입니다.');
       } else {
         // Utils를 사용하여 토큰 갱신 및 API 재시도
         try {
@@ -80,7 +76,7 @@ const NoticeList = ({ noticeId }) => {
             ]);
           }
         } catch (retryError) {
-          setError('스터디 데이터를 가져오는 중 오류가 발생했습니다.');
+          console.log('스터디 데이터를 가져오는 중 오류가 발생했습니다.');
         }
       }
     }

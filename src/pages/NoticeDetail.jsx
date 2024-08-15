@@ -1,11 +1,10 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import NoticeHeader from '../components/Board/NoticeHeader';
 import AttachButton from '../components/Board/AttachButton';
 import CommentList from '../components/Board/CommentList';
-import { BoardContext } from '../hooks/BoardContext';
 import { ReactComponent as BoardChat } from '../assets/images/ic_board_chat.svg';
 import theme from '../styles/theme';
 
@@ -119,7 +118,6 @@ const NoticeDetail = () => {
   const noticeId = parseInt(id, 10);
   console.log('Parsed noticId:', noticeId);
 
-  const { setError } = useContext(BoardContext);
   const [content, setContent] = useState(null);
   const navigate = useNavigate();
 
@@ -142,17 +140,16 @@ const NoticeDetail = () => {
 
         if (response.data.code === 200) {
           setContent(response.data.data);
+          console.log('notice 데이터', response.data.data);
         } else {
           console.error('Error fetching notice data:', response.data.message);
-          setError(response.data.message);
         }
       } catch (err) {
         console.error('API request error:', err);
-        setError('API request error');
       }
     };
     fetchData();
-  }, [noticeId, accessToken, BASE_URL, setError]);
+  }, [noticeId, accessToken, BASE_URL]);
 
   // AttachButton에 전달할 파일 변경 핸들러 (기능이 필요 없으면 빈 함수라도 전달)
   const handleFileChange = () => {

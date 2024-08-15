@@ -8,6 +8,8 @@ export const BoardProvider = ({ children }) => {
   const [boardData, setBoardData] = useState(null);
   const [error, setError] = useState(null);
 
+  // console.log('context 내부:', error);
+
   return (
     <BoardContext.Provider value={{ boardData, setBoardData, error, setError }}>
       {children}

@@ -116,19 +116,21 @@ const formatDateTime = (dateTimeString) => {
 const StudyDetail = () => {
   const { state } = useLocation();
   const { id } = useParams();
-  console.log('Post ID from useParams:', id);
+  // console.log('Post ID from useParams:', id);
 
   const postId = parseInt(id, 10);
-  console.log('Parsed postId:', postId);
+  // console.log('Parsed postId:', postId);
 
   const { boardData, error, setError } = useContext(BoardContext);
   const [content, setContent] = useState(null);
   const [totalCommentCount, setTotalCommentCount] = useState(0);
   const navigate = useNavigate();
 
+  console.log('context 불러온 후:', error);
   const accessToken = localStorage.getItem('accessToken');
   const BASE_URL = process.env.REACT_APP_BASE_URL;
 
+  // 게시글 삭제
   const handleDeleteClick = async () => {
     if (window.confirm('삭제하시겠습니까?')) {
       try {
@@ -220,6 +222,7 @@ const StudyDetail = () => {
     }
   };
 
+  // 댓글 작성
   const handleCommentSubmitted = async (newComment, parentCommentId = null) => {
     if (!newComment || !newComment.content) {
       console.error('댓글 데이터가 올바르지 않습니다:', newComment);

@@ -109,11 +109,11 @@ const BoardComponent = ({
   onClick,
   totalComments,
 }) => {
-  console.log(
-    'Rendering BoardComponent with totalComments:',
-    typeof totalComments,
-    totalComments,
-  );
+  // console.log(
+  //   'Rendering BoardComponent with totalComments:',
+  //   typeof totalComments,
+  //   totalComments,
+  // );
 
   return (
     <Container onClick={onClick}>
