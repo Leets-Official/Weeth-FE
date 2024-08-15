@@ -7,6 +7,7 @@ import Title from '../Header/Title';
 // import theme from '../../styles/theme';
 
 const StyledHeader = styled.div`
+  width: 320px;
   display: flex;
   justify-content: space-between;
   align-items: center;
