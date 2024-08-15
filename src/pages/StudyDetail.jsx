@@ -304,9 +304,22 @@ const StudyDetail = () => {
           <StudyContents>{content?.content || 'Loading...'}</StudyContents>
         </TextContainer>
         <ComponentRow>
-          <AttachButton
-            fileUrl={content.fileUrls ? content.fileUrls[0] : null}
-          />
+          {content.fileUrls && content.fileUrls[0] ? (
+            <a href={content.fileUrls[0]} download>
+              <AttachButton
+                fileUrl={content.fileUrls[0]}
+                aria-label="Download attached file"
+                title="Download attached file"
+              />
+            </a>
+          ) : (
+            <AttachButton
+              fileUrl={null}
+              aria-label="No file available"
+              title="No file available"
+            />
+          )}
+
           <RightMargin />
         </ComponentRow>
         <CommentCountWrapper>
