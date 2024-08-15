@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
 // import axios from 'axios';
+import { useNavigate } from 'react-router-dom'; // navigate 사용을 위해 import
 import NoticeHeader from '../components/Board/NoticeHeader';
 import NoticeMiddle from '../components/Board/NoticeMiddle';
 import NoticeList from '../components/Board/NoticeList';
 import StudyList from '../components/Board/StudyList';
 import AdminEditDelModal from '../components/AdminEditDelModal';
+import { UserContext } from '../hooks/UserContext';
 import theme from '../styles/theme';
 
 const Container = styled.div`
@@ -59,24 +61,10 @@ const PostingButton = styled.button`
   align-items: center;
 `;
 
-/* const onMenuClick = () => {
-  console.log('Menu clicked');
-}; */
-
 const Board = () => {
   const [activeTab, setActiveTab] = useState('notice');
-  const buttonElement =
-    activeTab === 'study' ? <PostingButton>글쓰기</PostingButton> : <div />;
-  // const [noticeList, setNoticeList] = useState([]);
-  // const [noticeList, setNoticeList] = useState([]);
-
-  // const AdminhandleModifyClick = () => {
-  //   console.log('수정');
-  // };
-
-  // const AdminhandleDeleteClick = () => {
-  //   console.log('삭제');
-  // };
+  const { userData } = useContext(UserContext);
+  const navigate = useNavigate();
 
   const handleMenuClick = (action) => {
     if (action === 'edit') {
@@ -85,6 +73,20 @@ const Board = () => {
       console.log('삭제');
     }
   };
+
+  const handlePostingClick = () => {
+    navigate('/boardPosting');
+  };
+
+  const buttonElement = (() => {
+    if (activeTab === 'study') {
+      return <PostingButton onClick={handlePostingClick}>글쓰기</PostingButton>;
+    }
+    if (activeTab === 'notice' && userData?.role === 'ADMIN') {
+      return <PostingButton onClick={handlePostingClick}>글쓰기</PostingButton>;
+    }
+    return <div />;
+  })();
 
   return (
     <Container>
