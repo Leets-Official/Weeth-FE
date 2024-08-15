@@ -14,7 +14,7 @@ const StyledMember = styled.div`
 `;
 
 const CategoryWrapper = styled.div`
-  margin: 0 30px;
+  margin-left: 30px;
 `;
 
 const MemberList = styled.div`
