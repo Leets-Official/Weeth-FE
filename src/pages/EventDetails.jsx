@@ -9,6 +9,7 @@ import icClock from '../assets/images/ic_clock.svg';
 import theme from '../styles/theme';
 import BoardTitle from '../components/BoardTitle';
 import EventInfoAPI from '../hooks/EventInfoAPI';
+import useCustomBack from '../router/useCustomBack';
 
 const StyledEventDetails = styled.div`
   width: 370px;
@@ -44,6 +45,8 @@ const Line = styled.div`
 `;
 
 const EventDetails = () => {
+  useCustomBack('/calendar');
+
   const { id } = useParams();
   const [eventDetailData, setEventDetailData] = useState(null);
   const [error, setError] = useState(null);

@@ -7,6 +7,7 @@ import SignupMemInput from '../components/Signup/SignupMemInput';
 import SignupHeader from '../components/Signup/SignupHeader';
 import RoleSector from '../components/Signup/RoleSector';
 import SignupDropDown from '../components/Signup/SignupDropDown';
+import useCustomBack from '../router/useCustomBack';
 
 const ProfileContainer = styled.div`
   width: 370px;
@@ -37,6 +38,8 @@ const roleMapping = {
 };
 
 const Profile = () => {
+  useCustomBack('/signup');
+
   const location = useLocation();
   const navigate = useNavigate();
   const { email, password } = location.state || { email: '', password: '' };

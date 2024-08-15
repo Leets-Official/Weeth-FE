@@ -1,5 +1,7 @@
 /* eslint-disable no-console */
 /* eslint-disable no-restricted-syntax */
+/* eslint-disable no-alert */
+
 import React, { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
@@ -12,8 +14,7 @@ import InfoInput from '../components/MyPage/InfoInput';
 import DropdownMenu from '../components/DropdownMenu';
 
 import { UserContext } from '../hooks/UserContext';
-
-/* eslint-disable no-alert */
+import useCustomBack from '../router/useCustomBack';
 
 const StyledEdit = styled.div`
   width: 370px;
@@ -38,6 +39,8 @@ const Error = styled.div`
 `;
 
 const Edit = () => {
+  useCustomBack('/mypage');
+
   const { userData, error } = useContext(UserContext);
   const [userInfo, setUserInfo] = useState([]);
   const accessToken = localStorage.getItem('accessToken');

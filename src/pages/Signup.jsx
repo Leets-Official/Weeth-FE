@@ -7,6 +7,7 @@ import SignupTextComponent from '../components/Signup/SignupTextComponent';
 import { ReactComponent as ToggleVisibleIcon } from '../assets/images/ic_toggleVisible.svg';
 import { ReactComponent as ToggleInvisibleIcon } from '../assets/images/ic_toggleInvisible.svg';
 import theme from '../styles/theme';
+import useCustomBack from '../router/useCustomBack';
 
 const Container = styled.div`
   display: flex;
@@ -69,6 +70,8 @@ const ToggleVisibilityButton = styled.button`
 `;
 
 const Signup = () => {
+  useCustomBack('/');
+
   const navi = useNavigate();
 
   const [page, setPage] = useState(0);

@@ -11,6 +11,7 @@ import { replaceNewLines } from '../hooks/Utils';
 import { createEvent, editEvent } from '../hooks/EventAdminAPI';
 import EventInfoAPI from '../hooks/EventInfoAPI';
 import { EventInfoContext } from '../hooks/EventInfoContext';
+import useCustomBack from '../router/useCustomBack';
 
 const StyledCreate = styled.div`
   display: flex;
@@ -87,6 +88,8 @@ const ISOToArray = (isoString) => {
 };
 
 const EventAdmin = () => {
+  useCustomBack('/calendar');
+
   const { infoData, error } = useContext(EventInfoContext);
   console.log(error);
   const [eventInfo, setEventInfo] = useState([

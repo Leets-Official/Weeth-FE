@@ -7,6 +7,7 @@ import Category from '../components/Member/Category';
 import MemberName from '../components/Member/MemberName';
 // import mockUser from '../components/mockData/mockUser';
 import { UserContext } from '../hooks/UserContext';
+import useCustomBack from '../router/useCustomBack';
 
 const StyledMember = styled.div`
   width: 370px;
@@ -36,6 +37,8 @@ const Error = styled.div`
 `;
 
 const Member = () => {
+  useCustomBack('/home');
+
   const [selectedCardinal, setSelectedCardinal] = useState(0);
 
   const { allUserData, error } = useContext(UserContext);
