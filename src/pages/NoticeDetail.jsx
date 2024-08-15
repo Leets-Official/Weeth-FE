@@ -2,8 +2,9 @@ import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
-import BoardHeader from '../components/Board/NoticeHeader';
+import NoticeHeader from '../components/Board/NoticeHeader';
 import AttachButton from '../components/Board/AttachButton';
+import CommentList from '../components/Board/CommentList';
 import { BoardContext } from '../hooks/BoardContext';
 import { ReactComponent as BoardChat } from '../assets/images/ic_board_chat.svg';
 import theme from '../styles/theme';
@@ -95,6 +96,12 @@ const CommentCount = styled.div`
   margin-left: 4px;
 `;
 
+const CommentSection = styled.div`
+  margin-top: 15px;
+  padding-top: 10px;
+  border-top: 1px solid ${theme.color.grayScale.gray30};
+`;
+
 const formatDateTime = (dateTimeString) => {
   const date = new Date(dateTimeString);
   const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -147,14 +154,22 @@ const NoticeDetail = () => {
     fetchData();
   }, [noticeId, accessToken, BASE_URL, setError]);
 
+  // AttachButton에 전달할 파일 변경 핸들러 (기능이 필요 없으면 빈 함수라도 전달)
+  const handleFileChange = () => {
+    // 파일 변경 로직이 필요하다면 여기에 추가
+    console.log('File changed');
+  };
+
   if (!content) {
     return <p>Loading...</p>;
   }
 
+  const fileUrl = content.fileUrls && content.fileUrls[0];
+
   return (
     <Container>
       <HeaderWrapper>
-        <BoardHeader
+        <NoticeHeader
           onMenuClick={(action) => {
             if (action === 'delete') {
               // handleDeleteClick(); // 삭제 기능 호출 부분
@@ -184,8 +199,8 @@ const NoticeDetail = () => {
           <NoticeContents>{content?.content || 'Loading...'}</NoticeContents>
         </TextContainer>
         <ComponentRow>
-          {content.fileUrls ? (
-            <AttachButton fileUrl={content.fileUrls[0]} />
+          {fileUrl ? (
+            <AttachButton fileUrl={fileUrl} onFileChange={handleFileChange} />
           ) : null}
           <RightMargin />
         </ComponentRow>
@@ -193,6 +208,9 @@ const NoticeDetail = () => {
           <BoardChat alt="" />
           <CommentCount>{content.commentCount || 0}</CommentCount>
         </CommentCountWrapper>
+        <CommentSection>
+          <CommentList postId={noticeId} />
+        </CommentSection>
       </NoticeRow>
     </Container>
   );

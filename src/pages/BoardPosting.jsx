@@ -67,6 +67,7 @@ const BoardPosting = () => {
   const [files, setFiles] = useState([]);
   const { userData } = useContext(UserContext);
   const { setBoardData } = useContext(BoardContext);
+
   const accessToken = localStorage.getItem('accessToken');
   const BASE_URL = process.env.REACT_APP_BASE_URL;
 
@@ -88,6 +89,7 @@ const BoardPosting = () => {
   };
 
   const saveBoard = async () => {
+    console.log('선택된 파일들:', files);
     if (!userData || !userData.id) {
       console.error('Error: User data is missing or invalid.');
       navigate('/board'); // 게시판 페이지로 리다이렉트
@@ -177,6 +179,7 @@ const BoardPosting = () => {
         onClick={handleOpenMenu}
         style={{ marginLeft: '7%', marginBottom: '148px' }}
       />
+
       <FileAttachMenu
         isOpen={isMenuOpen}
         onClose={handleCloseMenu}

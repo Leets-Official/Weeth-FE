@@ -2,11 +2,10 @@ import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import BoardHeader from '../components/Board/NoticeHeader';
+import NoticeHeader from '../components/Board/NoticeHeader';
 import AttachButton from '../components/Board/AttachButton';
 // import Typing from '../components/Board/Typing';
 import CommentList from '../components/Board/CommentList';
-import EditDelModal from '../components/EditDelModal';
 import { ReactComponent as BoardChat } from '../assets/images/ic_board_chat.svg';
 import theme from '../styles/theme';
 import { BoardContext } from '../hooks/BoardContext';
@@ -280,7 +279,7 @@ const StudyDetail = () => {
   return (
     <Container>
       <HeaderWrapper>
-        <BoardHeader
+        <NoticeHeader
           onMenuClick={(action) => {
             if (action === 'delete') {
               handleDeleteClick();
@@ -289,8 +288,6 @@ const StudyDetail = () => {
             }
           }}
           showModal={false}
-          ModalComponent={EditDelModal} // EditDelModal을 사용
-          showIndexButton
         />
       </HeaderWrapper>
       <StudyRow>
