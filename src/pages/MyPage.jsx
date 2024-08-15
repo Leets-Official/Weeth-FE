@@ -19,6 +19,7 @@ import icEdit from '../assets/images/ic_edit.svg';
 import icLogout from '../assets/images/ic_logout_white.svg';
 import { UserContext } from '../hooks/UserContext';
 import UserAPI from '../hooks/UserAPI';
+import handleLogout from '../utils/handleLogout';
 
 import theme from '../styles/theme';
 
@@ -77,6 +78,7 @@ const LogoutButton = styled.button`
   border-radius: 10px;
   color: white;
   background-color: ${theme.color.grayScale.gray30};
+  cursor: pointer;
 `;
 
 const MyPage = () => {
@@ -87,6 +89,7 @@ const MyPage = () => {
 
   const BASE_URL = process.env.REACT_APP_BASE_URL;
 
+  const confirmLogout = handleLogout();
   const onClickLeave = async () => {
     if (window.confirm('탈퇴하시겠습니까?')) {
       try {
@@ -103,8 +106,6 @@ const MyPage = () => {
       }
     }
   };
-
-  const onClickLogout = () => {};
 
   return (
     <StyledDetails>
@@ -167,7 +168,7 @@ const MyPage = () => {
       </ImgButton>
       <Account>
         <LeaveButton onClick={onClickLeave}>탈퇴하기</LeaveButton>
-        <LogoutButton onClick={onClickLogout}>
+        <LogoutButton onClick={confirmLogout}>
           <img src={icLogout} alt="로그아웃" />
           <div>로그아웃</div>
         </LogoutButton>
