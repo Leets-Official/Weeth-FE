@@ -10,7 +10,7 @@ const CommentList = ({ postId }) => {
   const navigate = useNavigate();
   const [comments, setComments] = useState([]);
   const [replyingTo, setReplyingTo] = useState(null);
-  const { boardData, setBoardData, setError } = useContext(BoardContext);
+  const { boardData, setBoardData } = useContext(BoardContext);
 
   const accessToken = localStorage.getItem('accessToken');
   const BASE_URL = process.env.REACT_APP_BASE_URL;
@@ -54,10 +54,9 @@ const CommentList = ({ postId }) => {
         setBoardData(response.data.data);
         setComments(response.data.data.comments || []);
       } else {
-        setError(response.data.message);
+        console.log(response.data.message);
       }
     } catch (error) {
-      setError('An error occurred while fetching the data');
       console.error('API Request Error:', error); // 요청 에러 로그 출력
     }
   };
