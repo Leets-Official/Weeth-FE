@@ -74,16 +74,24 @@ const Board = () => {
     }
   };
 
-  const handlePostingClick = () => {
-    navigate('/boardPosting');
+  const handlePostingClick = (isNotice) => {
+    navigate('/boardPosting', { state: { isNotice } });
   };
 
   const buttonElement = (() => {
     if (activeTab === 'study') {
-      return <PostingButton onClick={handlePostingClick}>글쓰기</PostingButton>;
+      return (
+        <PostingButton onClick={() => handlePostingClick(false)}>
+          글쓰기
+        </PostingButton>
+      );
     }
     if (activeTab === 'notice' && userData?.role === 'ADMIN') {
-      return <PostingButton onClick={handlePostingClick}>글쓰기</PostingButton>;
+      return (
+        <PostingButton onClick={() => handlePostingClick(true)}>
+          글쓰기
+        </PostingButton>
+      );
     }
     return <div />;
   })();

@@ -60,6 +60,7 @@ const BoardPosting = () => {
     title: initialTitle = '',
     content: initialContent = '',
     postId,
+    isNotice = false, // 추가된 부분: 공지사항 작성 여부 확인
   } = location.state || {};
 
   const [isCompleteEnabled, setIsCompleteEnabled] = useState(false);
@@ -104,9 +105,14 @@ const BoardPosting = () => {
     files.forEach((file) => formData.append('files', file));
 
     try {
-      const url = postId
-        ? `${BASE_URL}/api/v1/posts/${postId}`
-        : `${BASE_URL}/api/v1/posts`;
+      let url;
+      if (isNotice) {
+        url = `${BASE_URL}/api/v1/admin/notices`; // 공지사항 작성 API 경로
+      } else if (postId) {
+        url = `${BASE_URL}/api/v1/posts/${postId}`;
+      } else {
+        url = `${BASE_URL}/api/v1/posts`;
+      }
 
       const method = postId ? 'patch' : 'post';
 
