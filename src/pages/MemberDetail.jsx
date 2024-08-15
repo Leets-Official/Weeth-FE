@@ -10,6 +10,7 @@ import icDepartment from '../assets/images/ic_department.svg';
 import icCardinal from '../assets/images/ic_cardinal.svg';
 import icPosition from '../assets/images/ic_position.svg';
 import icEmail from '../assets/images/ic_mail.svg';
+import useCustomBack from '../router/useCustomBack';
 
 const StyledDetails = styled.div`
   width: 370px;
@@ -22,6 +23,7 @@ const InfoWrapper = styled.div`
 `;
 
 const UserDetail = () => {
+  useCustomBack('/member');
   const location = useLocation();
   const { name, studentId, department, email, cardinal, position } =
     location.state;

@@ -11,6 +11,7 @@ import { replaceNewLines } from '../hooks/Utils';
 import { createEvent, editEvent } from '../hooks/EventAdminAPI';
 import EventInfoAPI from '../hooks/EventInfoAPI';
 import { EventInfoContext } from '../hooks/EventInfoContext';
+import useCustomBack from '../router/useCustomBack';
 
 const StyledCreate = styled.div`
   display: flex;
@@ -28,18 +29,39 @@ const DatePickerWrapper = styled.div`
   padding-top: 10px;
 `;
 
+const TextAreaWrapper = styled.div`
+  margin: 12px 10px;
+  width: 344px;
+  background-color: ${theme.color.grayScale.gray18};
+  border-radius: 4px;
+`;
+
 const StyledTextArea = styled.textarea`
   height: 504px;
+  width: 310px;
+  margin: 15px 10px;
+  padding-right: 10px;
   resize: none;
-  padding: 15px 10px;
-  margin: 12px 15px;
   border: none;
-  border-radius: 4px;
   outline: none;
   background-color: ${theme.color.grayScale.gray18};
   color: white;
   font-family: ${theme.font.family.pretendard_regular};
   font-size: 16px;
+
+  &::-webkit-scrollbar {
+    width: 5px;
+    margin: 15px 10px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 4px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
 `;
 
 const getTodayArr = () => {
@@ -66,6 +88,8 @@ const ISOToArray = (isoString) => {
 };
 
 const EventAdmin = () => {
+  useCustomBack('/calendar');
+
   const { infoData, error } = useContext(EventInfoContext);
   console.log(error);
   const [eventInfo, setEventInfo] = useState([
@@ -296,11 +320,13 @@ const EventAdmin = () => {
         align="left"
         editValue={(value) => editValue('memberCount', value)}
       />
-      <StyledTextArea
-        placeholder="내용"
-        value={eventInfo.find((item) => item.key === 'content')?.value || ''}
-        onChange={(e) => editValue('content', e.target.value)}
-      />
+      <TextAreaWrapper>
+        <StyledTextArea
+          placeholder="내용"
+          value={eventInfo.find((item) => item.key === 'content')?.value || ''}
+          onChange={(e) => editValue('content', e.target.value)}
+        />
+      </TextAreaWrapper>
     </StyledCreate>
   );
 };

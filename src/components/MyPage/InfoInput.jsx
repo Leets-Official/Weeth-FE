@@ -68,12 +68,13 @@ const InfoInput = ({
   const [passwordVisible, setPasswordVisible] = useState(false);
 
   const validateValue = (val) => {
+    if (val === '') return true; // 입력값이 비어있을 경우 유효하다고 판단
     const numberRegex = /^[0-9]*$/;
-    const koreanRegex = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/; // 한글 필터링 정규 표현식
+    const koreanRegex = /^[ㄱ-ㅎ가-힣]*$/; // 한글만 허용하는 정규 표현식
 
     switch (inputType) {
       case 'text':
-        return /^[가-힣a-zA-Z]*$/.test(val); // 한글/영어만
+        return koreanRegex.test(val) && val.length <= 5; // 한글만, 최대 5자리
       case 'number':
         if (text === '학번') {
           return numberRegex.test(val) && val.length <= 9; // 숫자만, 최대 9자리
