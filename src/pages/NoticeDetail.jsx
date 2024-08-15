@@ -2,9 +2,10 @@ import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
-import NoticeHeader from '../components/Board/NoticeHeader';
+import BoardHeader from '../components/Board/NoticeHeader';
 import AttachButton from '../components/Board/AttachButton';
 import CommentList from '../components/Board/CommentList';
+import EditDelModal from '../components/EditDelModal';
 import { BoardContext } from '../hooks/BoardContext';
 import { ReactComponent as BoardChat } from '../assets/images/ic_board_chat.svg';
 import theme from '../styles/theme';
@@ -164,12 +165,10 @@ const NoticeDetail = () => {
     return <p>Loading...</p>;
   }
 
-  const fileUrl = content.fileUrls && content.fileUrls[0];
-
   return (
     <Container>
       <HeaderWrapper>
-        <NoticeHeader
+        <BoardHeader
           onMenuClick={(action) => {
             if (action === 'delete') {
               // handleDeleteClick(); // 삭제 기능 호출 부분
@@ -185,6 +184,7 @@ const NoticeDetail = () => {
           }}
           showModal={false}
           showIndexButton
+          ModalComponent={EditDelModal}
         />
       </HeaderWrapper>
       <NoticeRow>
@@ -199,8 +199,11 @@ const NoticeDetail = () => {
           <NoticeContents>{content?.content || 'Loading...'}</NoticeContents>
         </TextContainer>
         <ComponentRow>
-          {fileUrl ? (
-            <AttachButton fileUrl={fileUrl} onFileChange={handleFileChange} />
+          {content.fileUrls ? (
+            <AttachButton
+              fileUrl={content.fileUrls[0]}
+              onFileChange={handleFileChange}
+            />
           ) : null}
           <RightMargin />
         </ComponentRow>

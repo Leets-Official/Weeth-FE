@@ -304,9 +304,9 @@ const StudyDetail = () => {
           <StudyContents>{content?.content || 'Loading...'}</StudyContents>
         </TextContainer>
         <ComponentRow>
-          {content.fileUrls ? (
-            <AttachButton fileUrl={content.fileUrls[0]} />
-          ) : null}
+          <AttachButton
+            fileUrl={content.fileUrls ? content.fileUrls[0] : null}
+          />
           <RightMargin />
         </ComponentRow>
         <CommentCountWrapper>
