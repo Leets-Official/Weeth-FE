@@ -20,7 +20,7 @@ import icLogout from '../assets/images/ic_logout_white.svg';
 import { UserContext } from '../hooks/UserContext';
 import UserAPI from '../hooks/UserAPI';
 import handleLogout from '../utils/handleLogout';
-
+import useCustomBack from '../router/useCustomBack';
 import theme from '../styles/theme';
 
 /* eslint-disable no-alert */
@@ -82,6 +82,7 @@ const LogoutButton = styled.button`
 `;
 
 const MyPage = () => {
+  useCustomBack('/home');
   const { userData, error } = useContext(UserContext);
   const navi = useNavigate();
   const accessToken = localStorage.getItem('accessToken');
