@@ -22,7 +22,8 @@ import MyPage from './pages/MyPage';
 import Edit from './pages/Edit';
 import Dues from './pages/Dues';
 import Board from './pages/Board';
-import BoardPosting from './pages/BoardPosting';
+import StudyPosting from './pages/StudyPosting';
+import NoticePosting from './pages/NoticePosting';
 import EventAdmin from './pages/EventAdmin';
 import StudyDetail from './pages/StudyDetail';
 import NoticeDetail from './pages/NoticeDetail';
@@ -84,7 +85,8 @@ const App = () => {
           <Route path="/board" element={<Board />} />
           <Route path="/board/posts/:id" element={<StudyDetail />} />
           <Route path="/board/notices/:id" element={<NoticeDetail />} />
-          <Route path="/boardPosting" element={<BoardPosting />} />
+          <Route path="/studyPosting" element={<StudyPosting />} />
+          <Route path="/noticePosting" element={<NoticePosting />} />
           <Route path="/boardEdit" element={<BoardEdit />} />
         </Routes>
         </AttendCheckProvider>

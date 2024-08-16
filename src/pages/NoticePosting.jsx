@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from 'react';
 import styled from 'styled-components';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
-// import { UserContext } from '../hooks/UserContext';
+import { UserContext } from '../hooks/UserContext';
 import { BoardContext } from '../hooks/BoardContext';
 import PostingHeader from '../components/Board/PostingHeader';
 import FileAttachMenu from '../components/Board/FileAttachMenu';
@@ -51,24 +51,16 @@ const StyledContent = styled.textarea`
   height: 455px;
 `;
 
-const BoardPosting = () => {
+const NoticePosting = () => {
   const navigate = useNavigate();
   const location = useLocation();
-
-  useEffect(() => {
-    if (location.state === undefined) {
-      navigate('/board', { replace: true }); // 상태가 없을 경우 이전 페이지로 이동
-    }
-  }, [location.state, navigate]);
+  const { userData } = useContext(UserContext);
 
   const {
     title: initialTitle = '',
     content: initialContent = '',
-    postId,
-    isNotice = false,
+    noticeId,
   } = location.state || {};
-
-  console.log('Received isNotice:', isNotice);
 
   const [isCompleteEnabled, setIsCompleteEnabled] = useState(false);
   const [isMenuOpen, setMenuOpen] = useState(false);
@@ -96,6 +88,11 @@ const BoardPosting = () => {
   };
 
   const saveBoard = async () => {
+    if (!userData || userData.role !== 'ADMIN') {
+      alert('공지사항을 작성할 권한이 없습니다.');
+      return;
+    }
+
     console.log('선택된 파일들:', files);
 
     const formData = new FormData();
@@ -111,24 +108,22 @@ const BoardPosting = () => {
       });
     }
 
-    files.forEach((file) => {
+    /* files.forEach((file) => {
       console.log(
         `파일명: ${file.name}, 파일 크기: ${file.size} bytes, 파일 타입: ${file.type}`,
       );
       formData.append('files', file);
-    });
+    }); */
 
     try {
       let url;
-      if (isNotice) {
-        url = `${BASE_URL}/api/v1/admin/notices`; // 공지사항 작성 API 경로
-      } else if (postId) {
-        url = `${BASE_URL}/api/v1/posts/${postId}`;
+      if (noticeId) {
+        url = `${BASE_URL}/api/v1/admin/notices/${noticeId}`;
       } else {
-        url = `${BASE_URL}/api/v1/posts`;
+        url = `${BASE_URL}/api/v1/admin/notices`;
       }
 
-      const method = postId ? 'patch' : 'post';
+      const method = noticeId ? 'patch' : 'post';
 
       const response = await axios({
         method,
@@ -144,7 +139,9 @@ const BoardPosting = () => {
 
       if (response.data.code === 200) {
         console.log('서버 응답:', response.data);
-        alert(postId ? '게시글이 수정되었습니다.' : '게시글이 생성되었습니다.');
+        alert(
+          noticeId ? '게시글이 수정되었습니다.' : '게시글이 생성되었습니다.',
+        );
         setBoardData(response.data.data);
         navigate('/board');
       } else {
@@ -152,7 +149,7 @@ const BoardPosting = () => {
         alert(`Error: ${response.data.message}`);
       }
     } catch (err) {
-      console.error('Error saving board post:', err);
+      console.error('Error saving board notice:', err);
       if (err.response && err.response.data && err.response.data.message) {
         console.error('Error message from server:', err.response.data.message);
       }
@@ -212,4 +209,4 @@ const BoardPosting = () => {
   );
 };
 
-export default BoardPosting;
+export default NoticePosting;

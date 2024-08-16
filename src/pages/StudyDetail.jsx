@@ -258,7 +258,7 @@ const StudyDetail = () => {
   };
 
   const handleEditClick = () => {
-    navigate(`/boardPosting`, {
+    navigate(`/studyPosting`, {
       state: { title: content.title, content: content.content, postId },
     });
   };

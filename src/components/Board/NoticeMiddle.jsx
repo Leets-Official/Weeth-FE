@@ -45,7 +45,11 @@ const NoticeMiddle = ({ title, button }) => {
   const navi = useNavigate();
 
   const handleButtonClick = () => {
-    navi('/boardPosting');
+    if (title === '공지사항') {
+      navi('/noticePosting');
+    } else if (title === '스터디 게시판') {
+      navi('/studyPosting');
+    }
   };
 
   return (

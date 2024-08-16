@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 // import axios from 'axios';
 import { useNavigate } from 'react-router-dom'; // navigate 사용을 위해 import
@@ -7,7 +7,6 @@ import NoticeMiddle from '../components/Board/NoticeMiddle';
 import NoticeList from '../components/Board/NoticeList';
 import StudyList from '../components/Board/StudyList';
 import AdminEditDelModal from '../components/AdminEditDelModal';
-import { UserContext } from '../hooks/UserContext';
 import theme from '../styles/theme';
 
 const Container = styled.div`
@@ -63,38 +62,22 @@ const PostingButton = styled.button`
 
 const Board = () => {
   const [activeTab, setActiveTab] = useState('notice');
-  const { userData } = useContext(UserContext);
   const navigate = useNavigate();
 
   const handleMenuClick = (action) => {
-    if (action === 'edit') {
-      console.log('수정');
-    } else if (action === 'delete') {
-      console.log('삭제');
-    }
+    console.logt(action);
   };
 
-  const handlePostingClick = (isNotice) => {
-    console.log('isNotice value:', isNotice); // 상태가 올바르게 전달되는지 확인을 위해 로그 추가
-    navigate('/boardPosting', { state: { isNotice } }); // 상태를 제대로 전달
+  const handlePostingClick = () => {
+    if (activeTab === 'study') {
+      navigate('/studyPosting');
+    } else if (activeTab === 'notice') {
+      navigate('/noticePosting');
+    }
   };
 
   const buttonElement = (() => {
-    if (activeTab === 'study') {
-      return (
-        <PostingButton onClick={() => handlePostingClick(false)}>
-          글쓰기
-        </PostingButton>
-      );
-    }
-    if (activeTab === 'notice' && userData?.role === 'ADMIN') {
-      return (
-        <PostingButton onClick={() => handlePostingClick(true)}>
-          글쓰기
-        </PostingButton>
-      );
-    }
-    return <div />;
+    return <PostingButton onClick={handlePostingClick}>글쓰기</PostingButton>;
   })();
 
   return (

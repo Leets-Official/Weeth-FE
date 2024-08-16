@@ -169,7 +169,7 @@ const NoticeDetail = () => {
             if (action === 'delete') {
               // handleDeleteClick(); // 삭제 기능 호출 부분
             } else if (action === 'edit') {
-              navigate(`/boardPosting`, {
+              navigate(`/studyPosting`, {
                 state: {
                   title: content.title,
                   content: content.content,
