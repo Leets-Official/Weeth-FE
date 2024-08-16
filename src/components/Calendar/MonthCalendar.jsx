@@ -21,6 +21,7 @@ const CalendarContainer = styled.div`
 
   .fc {
     font-size: 12px;
+    border: none;
   }
 
   .fc-day-today {
@@ -33,9 +34,17 @@ const CalendarContainer = styled.div`
     border-color: ${theme.color.grayScale.gray12};
   }
 
-  .fc-col-header-cell {
+  .fc-col-header-cell 
+  {
     background-color: ${theme.color.grayScale.gray12};
     padding-bottom: 15px;
+    border: none;
+  }
+
+  .fc-scrollgrid,
+  .fc-theme-standard td,
+  .fc-theme-standard th {
+    border: none;
   }
 
   .fc-daygrid-day-number {

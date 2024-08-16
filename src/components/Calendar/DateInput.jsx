@@ -31,11 +31,20 @@ const StyledInput = styled.input`
   -moz-appearance: textfield;
 `;
 
-// const getMaxDaysInMonth = (year, month) => {
-//   return new Date(year, month, 0).getDate();
-// };
+const getMaxDaysInMonth = (year, month) => {
+  return new Date(year, month, 0).getDate();
+};
 
-const DateInput = ({ value, onChange, width, height, margin, inputType }) => {
+const DateInput = ({
+  value,
+  onChange,
+  width,
+  height,
+  margin,
+  year,
+  month,
+  inputType,
+}) => {
   const [date, setDate] = useState(value);
 
   const checkValidDate = (val) => {
@@ -73,7 +82,13 @@ const DateInput = ({ value, onChange, width, height, margin, inputType }) => {
           validDate = Math.min(Math.max(date, 1), 12);
           break;
         case 'day':
-          validDate = Math.min(Math.max(date, 1), 31);
+          if (year && month) {
+            const maxDays = getMaxDaysInMonth(year, month);
+            console.log('maxdays', month);
+            validDate = Math.min(Math.max(date, 1), maxDays);
+          } else {
+            validDate = Math.min(Math.max(date, 1), 31); // year와 month가 없는 경우 최대 31일까지 허용
+          }
           break;
 
         case 'hour':
@@ -118,6 +133,8 @@ DateInput.propTypes = {
   width: PropTypes.string.isRequired,
   height: PropTypes.string.isRequired,
   margin: PropTypes.string.isRequired,
+  year: PropTypes.number,
+  month: PropTypes.number,
   inputType: PropTypes.oneOf(['year', 'month', 'day', 'hour', 'minute'])
     .isRequired,
 };
