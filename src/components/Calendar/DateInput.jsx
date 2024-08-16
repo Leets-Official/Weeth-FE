@@ -31,34 +31,21 @@ const StyledInput = styled.input`
   -moz-appearance: textfield;
 `;
 
-const getMaxDaysInMonth = (year, month) => {
-  return new Date(year, month, 0).getDate();
-};
+// const getMaxDaysInMonth = (year, month) => {
+//   return new Date(year, month, 0).getDate();
+// };
 
-const DateInput = ({
-  value,
-  onChange,
-  width,
-  height,
-  margin,
-  year,
-  month,
-  inputType,
-}) => {
+const DateInput = ({ value, onChange, width, height, margin, inputType }) => {
   const [date, setDate] = useState(value);
 
-  const validateValue = (val) => {
+  const checkValidDate = (val) => {
     if (val === '') return true; // Allow empty value for clearing input
     switch (inputType) {
       case 'year':
-        return val.length <= 4 && val >= 2020 && val <= 2040; // 최대 4자리
+        return val.length <= 4 && val >= 2020 && val <= 2040; // 2020년부터 2040년까지 입력가능
       case 'month':
         return val >= 1 && val <= 12; // 1~12 사이
       case 'day':
-        if (year && month) {
-          const maxDays = getMaxDaysInMonth(year, month);
-          return val >= 1 && val <= maxDays;
-        }
         return val >= 1 && val <= 31; // 기본 1~31 사이
       case 'hour':
         return val >= 0 && val <= 23; // 0~23 사이
@@ -76,9 +63,30 @@ const DateInput = ({
   };
 
   const onBlur = () => {
-    if (!validateValue(date)) {
-      alert('입력값이 올바르지 않습니다.');
-      setDate(value);
+    if (!checkValidDate(date)) {
+      let validDate = value;
+      switch (inputType) {
+        case 'year':
+          validDate = Math.min(Math.max(date, 2020), 2040);
+          break;
+        case 'month':
+          validDate = Math.min(Math.max(date, 1), 12);
+          break;
+        case 'day':
+          validDate = Math.min(Math.max(date, 1), 31);
+          break;
+
+        case 'hour':
+          validDate = Math.min(Math.max(date, 0), 23);
+          break;
+        case 'minute':
+          validDate = Math.min(Math.max(date, 0), 59);
+          break;
+        default:
+          break;
+      }
+      setDate(validDate);
+      onChange(validDate);
     }
   };
 
@@ -96,6 +104,7 @@ const DateInput = ({
         width={width}
         height={height}
         margin={margin}
+        // 년도는 4자리로만 입력할 수 있음
         min={inputType === 'year' ? '1000' : undefined}
         max={inputType === 'year' ? '9999' : undefined}
       />
@@ -109,8 +118,6 @@ DateInput.propTypes = {
   width: PropTypes.string.isRequired,
   height: PropTypes.string.isRequired,
   margin: PropTypes.string.isRequired,
-  year: PropTypes.number,
-  month: PropTypes.number,
   inputType: PropTypes.oneOf(['year', 'month', 'day', 'hour', 'minute'])
     .isRequired,
 };
