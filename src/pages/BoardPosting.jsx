@@ -1,10 +1,8 @@
-/* eslint-disable no-alert */
-/* eslint-disable no-console */
 import React, { useEffect, useState, useContext } from 'react';
 import styled from 'styled-components';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
-import { UserContext } from '../hooks/UserContext';
+// import { UserContext } from '../hooks/UserContext';
 import { BoardContext } from '../hooks/BoardContext';
 import PostingHeader from '../components/Board/PostingHeader';
 import FileAttachMenu from '../components/Board/FileAttachMenu';
@@ -56,17 +54,25 @@ const StyledContent = styled.textarea`
 const BoardPosting = () => {
   const navigate = useNavigate();
   const location = useLocation();
+
+  useEffect(() => {
+    if (location.state === undefined) {
+      navigate('/board', { replace: true }); // 상태가 없을 경우 이전 페이지로 이동
+    }
+  }, [location.state, navigate]);
+
   const {
     title: initialTitle = '',
     content: initialContent = '',
     postId,
-    isNotice = false, // 추가된 부분: 공지사항 작성 여부 확인
+    isNotice = false,
   } = location.state || {};
+
+  console.log('Received isNotice:', isNotice);
 
   const [isCompleteEnabled, setIsCompleteEnabled] = useState(false);
   const [isMenuOpen, setMenuOpen] = useState(false);
   const [files, setFiles] = useState([]);
-  const { userData } = useContext(UserContext);
   const { setBoardData } = useContext(BoardContext);
 
   const accessToken = localStorage.getItem('accessToken');
@@ -91,18 +97,26 @@ const BoardPosting = () => {
 
   const saveBoard = async () => {
     console.log('선택된 파일들:', files);
-    if (!userData || !userData.id) {
-      console.error('Error: User data is missing or invalid.');
-      navigate('/board'); // 게시판 페이지로 리다이렉트
-      return;
-    }
 
     const formData = new FormData();
     formData.append(
       'dto',
       new Blob([JSON.stringify(boardPost)], { type: 'application/json' }),
     );
-    files.forEach((file) => formData.append('files', file));
+
+    // 파일이 선택되었을 경우에만 'files' 필드를 추가
+    if (files && files.length > 0) {
+      files.forEach((file) => {
+        formData.append('files', file); // 'files' 필드에 여러 파일을 추가
+      });
+    }
+
+    files.forEach((file) => {
+      console.log(
+        `파일명: ${file.name}, 파일 크기: ${file.size} bytes, 파일 타입: ${file.type}`,
+      );
+      formData.append('files', file);
+    });
 
     try {
       let url;
@@ -126,7 +140,10 @@ const BoardPosting = () => {
         },
       });
 
+      console.log('서버에 게시글 POST 후 응답 데이터:', response.data);
+
       if (response.data.code === 200) {
+        console.log('서버 응답:', response.data);
         alert(postId ? '게시글이 수정되었습니다.' : '게시글이 생성되었습니다.');
         setBoardData(response.data.data);
         navigate('/board');

@@ -6,7 +6,7 @@ export const BoardContext = createContext();
 
 export const BoardProvider = ({ children }) => {
   const [boardData, setBoardData] = useState(null);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState('');
 
   // console.log('context 내부:', error);
 

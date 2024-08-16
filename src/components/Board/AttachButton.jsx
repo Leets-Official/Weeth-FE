@@ -49,7 +49,7 @@ const FileName = styled.div`
   margin-bottom: 5px;
 `;
 
-const AttachButton = ({ onFileChange, fileUrl }) => {
+const AttachButton = ({ fileUrl = null, onFileChange = () => {} }) => {
   const fileInputRef = useRef(null);
   const { postId } = useParams();
 
@@ -90,8 +90,13 @@ const AttachButton = ({ onFileChange, fileUrl }) => {
 };
 
 AttachButton.propTypes = {
-  onFileChange: PropTypes.func.isRequired,
-  fileUrl: PropTypes.string.isRequired, // fileUrl은 필수 속성입니다.
+  fileUrl: PropTypes.string,
+  onFileChange: PropTypes.func,
+};
+
+AttachButton.defaultProps = {
+  fileUrl: '',
+  onFileChange: () => {},
 };
 
 export default AttachButton;

@@ -75,7 +75,8 @@ const Board = () => {
   };
 
   const handlePostingClick = (isNotice) => {
-    navigate('/boardPosting', { state: { isNotice } });
+    console.log('isNotice value:', isNotice); // 상태가 올바르게 전달되는지 확인을 위해 로그 추가
+    navigate('/boardPosting', { state: { isNotice } }); // 상태를 제대로 전달
   };
 
   const buttonElement = (() => {

@@ -165,14 +165,18 @@ const StudyDetail = () => {
   };
 
   useEffect(() => {
+    console.log('API 요청 시작'); // API 요청 전 확인
+
     const fetchData = async () => {
       try {
+        console.log('API 요청 시도 중...');
         const response = await axios.get(`${BASE_URL}/api/v1/posts/${postId}`, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
         });
 
+        console.log('서버 응답 데이터:', response.data);
         if (response.data.code === 200) {
           setContent(response.data.data);
           setTotalCommentCount(response.data.data.commentCount || 0);
@@ -186,20 +190,7 @@ const StudyDetail = () => {
       }
     };
 
-    if (state?.data) {
-      setContent(state.data);
-      setTotalCommentCount(state.data.commentCount || 0);
-    } else if (boardData) {
-      const currentData = boardData.find((post) => post.id === postId);
-      if (currentData) {
-        setContent(currentData);
-        setTotalCommentCount(currentData.commentCount || 0);
-      } else {
-        fetchData();
-      }
-    } else {
-      fetchData();
-    }
+    fetchData(); // 항상 서버에서 데이터를 가져오도록 함
   }, [state, boardData, postId, accessToken, BASE_URL, setError]);
 
   const fetchComments = async () => {
@@ -307,7 +298,7 @@ const StudyDetail = () => {
           <StudyContents>{content?.content || 'Loading...'}</StudyContents>
         </TextContainer>
         <ComponentRow>
-          {content.fileUrls && content.fileUrls[0] ? (
+          {content.fileUrls && content.fileUrls.length > 0 ? (
             <a href={content.fileUrls[0]} download>
               <AttachButton
                 fileUrl={content.fileUrls[0]}
