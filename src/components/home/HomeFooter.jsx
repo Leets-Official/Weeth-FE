@@ -150,7 +150,11 @@ const HomeFooter = () => {
         onMouseUp={draggableHandlers2.onMouseUp}
         onMouseLeave={draggableHandlers2.onMouseLeave}
       >
-        <GridItemWithImage image={commitato}>
+        <GridItemWithImage
+          image={commitato}
+          href="https://www.leets.land/project/13"
+          target="_blank"
+        >
           <span>Commitato</span>
         </GridItemWithImage>
         <GridItemWithImage
