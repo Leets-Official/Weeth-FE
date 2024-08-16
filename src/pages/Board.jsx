@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
 // import axios from 'axios';
 import { useNavigate } from 'react-router-dom'; // navigate 사용을 위해 import
+import { UserContext } from '../hooks/UserContext';
 import NoticeHeader from '../components/Board/NoticeHeader';
 import NoticeMiddle from '../components/Board/NoticeMiddle';
 import NoticeList from '../components/Board/NoticeList';
@@ -63,6 +64,7 @@ const PostingButton = styled.button`
 const Board = () => {
   const [activeTab, setActiveTab] = useState('notice');
   const navigate = useNavigate();
+  const { userData } = useContext(UserContext);
 
   const handleMenuClick = (action) => {
     console.logt(action);
@@ -77,7 +79,13 @@ const Board = () => {
   };
 
   const buttonElement = (() => {
-    return <PostingButton onClick={handlePostingClick}>글쓰기</PostingButton>;
+    if (activeTab === 'notice' && userData.role === 'ADMIN') {
+      return <PostingButton onClick={handlePostingClick}>글쓰기</PostingButton>;
+    }
+    if (activeTab === 'study') {
+      return <PostingButton onClick={handlePostingClick}>글쓰기</PostingButton>;
+    }
+    return null; // ADMIN이 아니고, 공지사항 탭이 선택된 경우에는 버튼을 숨김
   })();
 
   return (
