@@ -75,17 +75,10 @@ const Category = ({ setSelectedCardinal }) => {
         </Button>
         <Button
           type="button"
-          checked={selectedCategory === 1}
-          onClick={() => onClickCardinal(1)}
+          checked={selectedCategory === 4}
+          onClick={() => onClickCardinal(4)}
         >
-          1기
-        </Button>
-        <Button
-          type="button"
-          checked={selectedCategory === 2}
-          onClick={() => onClickCardinal(2)}
-        >
-          2기
+          4기
         </Button>
         <Button
           type="button"
@@ -96,10 +89,17 @@ const Category = ({ setSelectedCardinal }) => {
         </Button>
         <Button
           type="button"
-          checked={selectedCategory === 4}
-          onClick={() => onClickCardinal(4)}
+          checked={selectedCategory === 2}
+          onClick={() => onClickCardinal(2)}
         >
-          4기
+          2기
+        </Button>
+        <Button
+          type="button"
+          checked={selectedCategory === 1}
+          onClick={() => onClickCardinal(1)}
+        >
+          1기
         </Button>
       </ScrollContainer>
     </StyledCategory>
