@@ -4,6 +4,7 @@ import theme from '../styles/theme';
 
 const ContentWrapper = styled.div`
   position: fixed; // 화면 고정
+  left: 0;
   width: 100%;
   height: 100%;
   display: flex;

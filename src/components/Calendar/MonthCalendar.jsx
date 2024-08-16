@@ -97,6 +97,7 @@ const CalendarContainer = styled.div`
     padding: 0px;
     overflow: hidden;
     text-overflow: ellipsis;
+    font-weight: 400; //볼드가 자동으로 생겨서 강제로 굵기를 조절했음
   }
 `;
 

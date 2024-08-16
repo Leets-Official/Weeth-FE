@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import AttendHeader from '../components/Attendance/AttendHeader';
 import ReceiptMain from '../components/Receipt/ReceiptMain';
 import { DuesProvider } from '../hooks/DuesContext';
+import useCustomBack from '../router/useCustomBack';
 
 const Container = styled.div`
   display: flex;
@@ -12,6 +13,8 @@ const Container = styled.div`
 `;
 
 const Receipt = () => {
+  useCustomBack('/dues');
+
   return (
     <DuesProvider>
       <Container>

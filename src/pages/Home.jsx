@@ -6,6 +6,7 @@ import HomeFooter from '../components/home/HomeFooter';
 import LogoutButton from '../components/LogoutButton';
 import UserAPI from '../hooks/UserAPI';
 import logo from '../assets/images/ic_logo.svg';
+import useCustomBack from '../router/useCustomBack';
 
 const Container = styled.div`
   display: flex;
@@ -36,6 +37,8 @@ const Footer = styled.footer`
 `;
 
 const Home = () => {
+  useCustomBack('/home');
+
   const accessToken = localStorage.getItem('accessToken');
   const refreshToken = localStorage.getItem('refreshToken');
   // eslint-disable-next-line no-console
