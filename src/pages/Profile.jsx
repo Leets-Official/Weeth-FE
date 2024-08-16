@@ -44,6 +44,7 @@ const Profile = () => {
   const navigate = useNavigate();
   const { email, password } = location.state || { email: '', password: '' };
 
+  console.log(email, password);
   const [memberInfo, setMemberInfo] = useState({ email, password });
   const [isNextEnabled, setIsNextEnabled] = useState(false);
 

@@ -17,45 +17,8 @@ const Container = styled.div`
   padding-top: 0;
 `;
 
-const HeaderMargin = styled.div`
-  height: ${props => props.height}px;
-`;
-
-const CheckButton = styled.button`
-  margin-top: 15px;
-  margin-right: 5%;
-  text-align: right;
-  background: none;
-  border: none;
-  color: ${props => {
-    if (props.checked) {
-      return props.isDuplicate ? theme.color.main.negative : theme.color.main.positive;
-    }
-    return theme.color.main.positive;
-  }};
-  cursor: pointer;
-  font-family: 'Pretendard', sans-serif;
-  font-size: 14px;
-  text-decoration: ${props => props.underline ? 'underline' : 'none'};
-  &:disabled {
-    cursor: not-allowed;
-    color: ${theme.color.main.positive};
-  }
-`;
-
-const WarningText = styled.p`
-  color: ${theme.color.main.negative};
-  font-size: 12px;
-  margin-top: 5px;
-  text-align: right;
-`;
-
-const TextMargin = styled.div`
-  margin-top: 15px;
-`;
-
-const InputMargin = styled.div`
-  margin-bottom: 15px;
+const InputContainer = styled.div`
+  margin-top: 119px;
 `;
 
 const ToggleVisibilityButton = styled.button`
@@ -69,32 +32,60 @@ const ToggleVisibilityButton = styled.button`
   }
 `;
 
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+`;
+
+const CheckButton = styled.button`
+  margin: 10px 6% 30px 0;
+  background: none;
+  border: none;
+  color: ${theme.color.main.mainColor};
+  font-family: ${theme.font.family.pretendard_semiBold};
+  cursor: pointer;
+  text-decoration: underline;
+  font-size: 14px;
+  &:disabled {
+    cursor: not-allowed;
+  }
+`;
+
+const MessageText = styled.span`
+  margin: 10px 6% 30px 0;
+  font-family: ${theme.font.family.pretendard_semiBold};
+  font-size: 14px;
+`;
+
 const Signup = () => {
   useCustomBack('/');
 
   const navi = useNavigate();
 
-  const [page, setPage] = useState(0);
-  const [pageStates, setPageStates] = useState([
-    { email: '', password: '', isChecked: false, nextClicked: false, emailStatus: null }
-  ]);
-  const [headerHeight, setHeaderHeight] = useState(228);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [emailStatus, setEmailStatus] = useState(null);
   const [passwordVisible, setPasswordVisible] = useState(false);
-  const [emailWarning, setEmailWarning] = useState('');
+  const [isChecked, setIschecked] = useState(false);
 
-  const currentState = pageStates[page];
-  const { email, password, isChecked, nextClicked, emailStatus } = currentState;
-
-  const validateEmail = (email) => {
+  const validateEmail = (vaildEmail) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
+    return emailRegex.test(vaildEmail);
   };
 
-  const checkDuplicate = async (email) => {
+  // eslint-disable-next-line consistent-return
+  const checkDuplicate = async (DuplicatedEmail) => {
     try {
       const BASE_URL = process.env.REACT_APP_BASE_URL;
-      const response = await axios.get(`${BASE_URL}/api/v1/users/email?email=${email}`, {});
-      return response.data.code === 200;
+      const response = await axios.get(
+        `${BASE_URL}/api/v1/users/email?email=${DuplicatedEmail}`,
+        {},
+      );
+      console.log(response);
+
+      if (response.data.code === 200) {
+        return response.data.data;
+      }
     } catch (error) {
       if (error.response && error.response.data.code === 400) {
         return false; // Email is duplicate
@@ -105,82 +96,65 @@ const Signup = () => {
   };
 
   const handleCheckEmail = async () => {
-    if (!validateEmail(email)) {
-      setEmailWarning('유효한 이메일 형식을 입력해주세요.');
-      return;
+    if (email === '') {
+      alert('이메일을 입력해 주세요.');
+    } else if (!validateEmail(email)) {
+      alert('유효한 이메일 형식을 입력해주세요.');
+    } else {
+      const isDuplicate = await checkDuplicate(email);
+      setEmailStatus(isDuplicate ? 'available' : 'duplicate');
+      setIschecked(true);
     }
-
-    setEmailWarning('');
-    const isDuplicate = await checkDuplicate(email);
-    setPageStates(prev => {
-      const newState = [...prev];
-      newState[page] = { ...newState[page], emailStatus: isDuplicate ? 'available' : 'duplicate', isChecked: true };
-      return newState;
-    });
-
   };
 
   const handleNextClick = () => {
-    if (page === 0) {
-      if (!isChecked) {
-        alert('가입 여부를 확인해 주세요.');
-        return;
-      }
-
-      if (emailStatus === 'duplicate') {
-        alert('이메일을 다시 확인해 주세요.');
-        return;
-      }
+    if (email === '') {
+      alert('이메일을 입력해 주세요.');
+      return;
     }
 
-    if (page === 1) {
-      navi('/profile', { state: { email, password } });
-    } else {
-      setPageStates(prev => [...prev, { email, password, isChecked: false, nextClicked: true, emailStatus: null }]);
-      setPage(prevPage => prevPage + 1);
-      setHeaderHeight(208);
+    if (!isChecked) {
+      alert('가입 여부를 확인해 주세요.');
+      return;
     }
-  };
 
-  const onClickLeftButton = () => {
-    if (page > 0) {
-      setPage(prevPage => prevPage - 1);
-      setPageStates(prev => prev.slice(0, -1));
-      setHeaderHeight(228);
-    } else {
-      navi(-1);
+    if (emailStatus === 'duplicate') {
+      alert('이메일을 다시 확인해 주세요.');
+      return;
     }
+
+    if (password.trim() === '') {
+      alert('비밀번호를 입력해 주세요.');
+      return;
+    }
+    navi('/profile', { state: { email, password } });
   };
 
   const togglePasswordVisibility = () => {
-    setPasswordVisible(prevState => !prevState);
+    setPasswordVisible((prevState) => !prevState);
   };
 
   const handleEmailChange = (e) => {
     const emailValue = e.target.value.replace(/[^a-zA-Z0-9@.]/g, '');
-    setPageStates(prev => {
-      const newState = [...prev];
-      newState[page] = {
-        ...newState[page],
-        email: emailValue,
-        isChecked: false,
-        emailStatus: emailValue ? newState[page].emailStatus : null
-      };
-      return newState;
-    });
-    setEmailWarning('');
+    setEmail(emailValue);
+    setEmailStatus(null);
+    setIschecked(false); // 이메일이 변경될 때마다 isChecked 상태를 false로 초기화
   };
 
   const handlePasswordChange = (e) => {
-    setPageStates(prev => {
-      const newState = [...prev];
-      newState[page] = { ...newState[page], password: e.target.value };
-      return newState;
-    });
+    const pwValue = e.target.value.replace(
+      /[~!@#$%";'^,&*()_+|</>=>`?:{}]/g,
+      '',
+    );
+    setPassword(pwValue);
   };
 
   const getNextButtonColor = () => {
-    if (page === 0 && (!isChecked || emailStatus === 'duplicate')) {
+    if (
+      !validateEmail(email) ||
+      emailStatus === 'duplicate' ||
+      password.trim() === ''
+    ) {
       return 'white';
     }
     return 'green';
@@ -189,53 +163,56 @@ const Signup = () => {
   return (
     <Container>
       <SignupHeader
-        onClickLeftButton={onClickLeftButton}
-        isRightButtonEnabled={page === 0 ? (isChecked && emailStatus !== 'duplicate') : (password.trim() !== '')}
+        isRightButtonEnabled={
+          validateEmail(email) &&
+          emailStatus !== 'duplicate' &&
+          password.trim() !== '' &&
+          isChecked
+        }
         onClickTextButton={handleNextClick}
-        nextButtonText={page === 0 ? "다음" : "완료"}
         nextButtonColor={getNextButtonColor()}
       />
-      <HeaderMargin height={headerHeight} />
-      <SignupTextComponent
-        text="ID로 사용할 메일을 적어주세요"
-        value={email}
-        onChange={handleEmailChange}
-        placeholder="ex) weeth@gmail.com"
-        type=""
-        children=""
-      />
-      {!nextClicked && !isChecked && (
-        <>
-          <CheckButton onClick={handleCheckEmail} underline disabled={!email || !validateEmail(email)}>
-            가입 여부 확인
-          </CheckButton>
-          {emailWarning && <WarningText>{emailWarning}</WarningText>}
-        </>
-      )}
-      {!nextClicked && isChecked && (
-        <CheckButton 
-          isDuplicate={emailStatus === 'duplicate'}
-          style={{color: emailStatus === 'duplicate' ? theme.color.main.negative : theme.color.main.positive}}>
-          {emailStatus === 'duplicate' ? '이미 가입된 ID입니다' : '사용 가능한 ID입니다'}
-        </CheckButton>
-      )}
-      <TextMargin />
-      {nextClicked && (
-        <>
-          <InputMargin />
-          <SignupTextComponent
-            text="사용할 비밀번호를 입력해주세요"
-            value={password}
-            onChange={handlePasswordChange}
-            placeholder=""
-            type={passwordVisible ? 'text' : 'password'}
-          >
-            <ToggleVisibilityButton onClick={togglePasswordVisibility}>
-              {passwordVisible ? <ToggleVisibleIcon /> : <ToggleInvisibleIcon />}
-            </ToggleVisibilityButton>
-          </SignupTextComponent>
-        </>
-      )}
+      <InputContainer>
+        <SignupTextComponent
+          text="ID로 사용할 메일을 적어주세요"
+          value={email}
+          onChange={handleEmailChange}
+          placeholder="ex) weeth@gmail.com"
+          type=""
+        />
+        <ButtonContainer>
+          {!isChecked && (
+            <CheckButton onClick={handleCheckEmail} underline>
+              가입 여부 확인
+            </CheckButton>
+          )}
+          {isChecked && (
+            <MessageText
+              style={{
+                color:
+                  emailStatus === 'duplicate'
+                    ? theme.color.main.negative
+                    : theme.color.main.positive,
+              }}
+            >
+              {emailStatus === 'duplicate'
+                ? '이미 가입된 ID입니다'
+                : '사용 가능한 ID입니다'}
+            </MessageText>
+          )}
+        </ButtonContainer>
+        <SignupTextComponent
+          text="사용할 비밀번호를 입력해주세요"
+          value={password}
+          onChange={handlePasswordChange}
+          placeholder=""
+          type={passwordVisible ? 'text' : 'password'}
+        >
+          <ToggleVisibilityButton onClick={togglePasswordVisibility}>
+            {passwordVisible ? <ToggleVisibleIcon /> : <ToggleInvisibleIcon />}
+          </ToggleVisibilityButton>
+        </SignupTextComponent>
+      </InputContainer>
     </Container>
   );
 };

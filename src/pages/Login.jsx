@@ -72,6 +72,14 @@ const Login = () => {
  const handleLogin = async (e) => {
   e.preventDefault();
 
+  if(email===''){
+    alert('이메일을 입력해 주세요.');
+    return;
+  }
+  if(password===''){
+    alert('비밀번호를 입력해 주세요.');
+    return;
+  }
   const params = {
     email: email,
     password: password,
