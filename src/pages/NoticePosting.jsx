@@ -108,12 +108,12 @@ const NoticePosting = () => {
       });
     }
 
-    /* files.forEach((file) => {
+    files.forEach((file) => {
       console.log(
         `파일명: ${file.name}, 파일 크기: ${file.size} bytes, 파일 타입: ${file.type}`,
       );
       formData.append('files', file);
-    }); */
+    });
 
     try {
       let url;

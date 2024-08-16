@@ -1,5 +1,4 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import BoardComment from './BoardComment';
@@ -7,7 +6,6 @@ import Typing from './Typing';
 import { BoardContext } from '../../hooks/BoardContext';
 
 const CommentList = ({ noticeId, postId }) => {
-  const navigate = useNavigate();
   const [comments, setComments] = useState([]);
   const [replyingTo, setReplyingTo] = useState(null);
   const { boardData, setBoardData } = useContext(BoardContext);
@@ -73,6 +71,7 @@ const CommentList = ({ noticeId, postId }) => {
       // 일반 댓글인 경우
       setComments((prevComments) => [...prevComments, newComment]);
     }
+    setReplyingTo(null); // 대댓글이 달린 후에 대댓글 상태 초기화
     fetchComments();
   };
 
@@ -122,12 +121,6 @@ const CommentList = ({ noticeId, postId }) => {
     }
   };
 
-  const handleNavigate = (comment) => {
-    navigate(`/board/${comment.id}`, {
-      state: { data: comment },
-    });
-  };
-
   return (
     <div>
       {comments.map((comment, index) => {
@@ -147,7 +140,6 @@ const CommentList = ({ noticeId, postId }) => {
             recomments={comment.children || []}
             onDelete={() => handleDeleteComment(comment.id)}
             onReply={() => handleReply(comment.id, comment.deleted)}
-            onClick={() => handleNavigate(comment)}
             isDeleted={comment.deleted}
             setComments={setComments}
           />
@@ -158,6 +150,11 @@ const CommentList = ({ noticeId, postId }) => {
         postId={postId}
         onCommentSubmitted={handleCommentSubmitted}
         parentCommentId={replyingTo}
+        onInputFocus={() => {
+          if (!replyingTo) {
+            setReplyingTo(null); // 댓글 상태 초기화
+          }
+        }} // 입력창이 포커스될 때, 대댓글 상태 초기화
         comment=""
       />
     </div>

@@ -36,6 +36,7 @@ const Typing = ({
   postId,
   onCommentSubmitted,
   parentCommentId = null,
+  onInputFocus,
 }) => {
   const [comment, setComment] = useState('');
   // const location = useLocation();
@@ -113,6 +114,7 @@ const Typing = ({
         value={comment}
         placeholder="댓글을 입력하세요."
         onChange={handleCommentChange}
+        onFocus={onInputFocus} // 입력창이 포커스될 때 대댓글 상태 초기화
       />
       <RegisterComment
         alt=""
@@ -134,6 +136,7 @@ Typing.propTypes = {
   postId: PropTypes.number.isRequired,
   onCommentSubmitted: PropTypes.func.isRequired,
   parentCommentId: PropTypes.number,
+  onInputFocus: PropTypes.func.isRequired,
 };
 
 Typing.defaultProps = {
