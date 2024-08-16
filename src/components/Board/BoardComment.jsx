@@ -152,7 +152,7 @@ const BoardComment = ({
     <CommentContainer>
       <BoardCommented>
         <BottomRow>
-          <UserName>{name}</UserName>
+          <UserName>{isDeleted ? '알 수 없음' : name}</UserName>
           <CommentButton alt="" onClick={handleReplyClick} />
           <CommentButtonMargin />
           <CommentDeleteButton onClick={onDelete} />

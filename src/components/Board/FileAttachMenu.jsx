@@ -3,12 +3,7 @@ import { Box, Grid, Card, Typography, Button, Modal } from '@mui/material';
 import styled from 'styled-components';
 import theme from '../../styles/theme';
 
-const StyledTypography = styled(Typography)`
-  font-family: ${theme.font.family.pretendard_semiBold};
-  font-size: 16px;
-  color: white;
-`;
-
+// 기본 버튼 스타일
 const StyledButton = styled(Button)`
   color: white !important;
   text-transform: none;
@@ -17,13 +12,14 @@ const StyledButton = styled(Button)`
   margin-left: 0.5rem;
 `;
 
-const Divider = styled.div`
-  width: 100%;
-  height: 1px;
-  background-color: ${theme.color.grayScale.gray30};
-  margin: 24px 0 8px 0;
+// 모달 제목 및 버튼 스타일
+const StyledTypography = styled(Typography)`
+  font-family: ${theme.font.family.pretendard_semiBold};
+  font-size: 16px;
+  color: white;
 `;
 
+// 이미지 컨테이너와 이미지 스타일
 const ImageContainer = styled.div`
   position: relative;
   width: 100%;
@@ -41,6 +37,7 @@ const StyledImage = styled.img`
   object-fit: cover;
 `;
 
+// 삭제 버튼 스타일
 const RemoveButton = styled.button`
   position: absolute;
   top: 4px;
@@ -76,15 +73,9 @@ const RemoveButton = styled.button`
   }
 `;
 
-const FileAttachMenu = ({ isOpen, onClose, setFiles }) => {
+// 파일 첨부 메뉴 컴포넌트
+const FileAttachMenu = ({ isOpen, onClose, onFilesChange = () => {} }) => {
   const [attachments, setAttachments] = useState([]);
-
-  const handleRightButtonClick = () => {
-    // 현재 선택된 파일들을 부모 컴포넌트로 전달
-    setFiles(attachments);
-    // 모달 닫기
-    onClose();
-  };
 
   const handleFileChange = (event) => {
     const files = Array.from(event.target.files);
@@ -94,18 +85,22 @@ const FileAttachMenu = ({ isOpen, onClose, setFiles }) => {
       name: file.name,
     }));
 
-    setFiles((prevFiles) => [...prevFiles, ...newFiles]);
     setAttachments((prevAttachments) => [...prevAttachments, ...newFiles]);
+  };
+
+  const handleRightButtonClick = () => {
+    onFilesChange(attachments);
+    onClose();
+  };
+
+  const handleRemoveFile = (index) => {
+    setAttachments((prevAttachments) =>
+      prevAttachments.filter((_, i) => i !== index)
+    );
   };
 
   const triggerFileInput = () => {
     document.getElementById('fileInput-attachment').click();
-  };
-
-  const removeFile = (index) => {
-    setAttachments((prevAttachments) =>
-      prevAttachments.filter((_, i) => i !== index)
-    );
   };
 
   return (
@@ -121,8 +116,8 @@ const FileAttachMenu = ({ isOpen, onClose, setFiles }) => {
           top: '50%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
-          width: '60%',  // 너비를 80%로 설정하여 화면에 맞게 조정
-          maxWidth: '400px',  // 최대 너비를 400px로 지정하여 화면 크기에 맞게 제한
+          width: '60%',
+          maxWidth: '400px',
           bgcolor: '#3d3d3d',
           boxShadow: 24,
           p: 2,
@@ -143,7 +138,7 @@ const FileAttachMenu = ({ isOpen, onClose, setFiles }) => {
                   <Card sx={{ boxShadow: 'none', padding: 0 }}>
                     <ImageContainer>
                       <StyledImage src={file.url} alt={file.name} />
-                      <RemoveButton onClick={() => removeFile(index)}>X</RemoveButton>
+                      <RemoveButton onClick={() => handleRemoveFile(index)} />
                     </ImageContainer>
                     <Typography variant="body2" sx={{ mt: 1 }}>{file.name}</Typography>
                   </Card>

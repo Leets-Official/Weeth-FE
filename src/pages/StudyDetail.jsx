@@ -193,68 +193,11 @@ const StudyDetail = () => {
     fetchData(); // 항상 서버에서 데이터를 가져오도록 함
   }, [state, boardData, postId, accessToken, BASE_URL, setError]);
 
-  /* const fetchComments = async () => {
-    try {
-      const response = await axios.get(`${BASE_URL}/api/v1/posts/${postId}`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-
-      if (response.data.code === 200) {
-        setContent(response.data.data);
-        setTotalCommentCount(response.data.data.commentCount || 0);
-      } else {
-        console.error('Error fetching post data:', response.data.message);
-        setError(response.data.message);
-      }
-    } catch (err) {
-      console.error('API request error:', err);
-      setError('API request error');
-    }
-  }; */
-
-  /* const handleCommentSubmitted = async (newComment, parentCommentId = null) => {
-    if (!newComment || !newComment.content) {
-      console.error('댓글 데이터가 올바르지 않습니다:', newComment);
-      return;
-    }
-
-    const trimmedContent = newComment.content.trim();
-
-    if (!trimmedContent) {
-      setError('댓글 내용을 입력해주세요.');
-      return;
-    }
-
-    try {
-      const response = await axios.post(
-        `${BASE_URL}/api/v1/posts/${postId}/comments`,
-        {
-          ...newComment,
-          content: trimmedContent,
-          parentCommentId,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        },
-      );
-
-      if (response.data.code === 200) {
-        console.log('댓글이 성공적으로 등록되었습니다.');
-        // 댓글 등록 후 게시글의 최신 데이터를 다시 가져옵니다.
-        fetchComments(); // 댓글 데이터를 다시 가져오는 함수 호출
-      } else {
-        console.error('Error posting comment:', response.data.message);
-        setError(response.data.message);
-      }
-    } catch (err) {
-      console.error('API request error:', err);
-      setError('API request error');
-    }
-  }; */
+  // AttachButton에 전달할 파일 변경 핸들러 (기능이 필요 없으면 빈 함수라도 전달)
+  const handleFileChange = () => {
+    // 파일 변경 로직이 필요하다면 여기에 추가
+    console.log('File changed');
+  };
 
   const handleEditClick = () => {
     navigate(`/studyPosting`, {
@@ -297,22 +240,12 @@ const StudyDetail = () => {
           <StudyContents>{content?.content || 'Loading...'}</StudyContents>
         </TextContainer>
         <ComponentRow>
-          {content.fileUrls && content.fileUrls.length > 0 ? (
-            <a href={content.fileUrls[0]} download>
-              <AttachButton
-                fileUrl={content.fileUrls[0]}
-                aria-label="Download attached file"
-                title="Download attached file"
-              />
-            </a>
-          ) : (
+          {content.fileUrls ? (
             <AttachButton
-              fileUrl={null}
-              aria-label="No file available"
-              title="No file available"
+              fileUrl={content.fileUrls[0]}
+              onFileChange={handleFileChange}
             />
-          )}
-
+          ) : null}
           <RightMargin />
         </ComponentRow>
         <CommentCountWrapper>

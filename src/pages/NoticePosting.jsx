@@ -96,6 +96,8 @@ const NoticePosting = () => {
     console.log('선택된 파일들:', files);
 
     const formData = new FormData();
+
+    // JSON 데이터를 'dto' 필드로 추가
     formData.append(
       'dto',
       new Blob([JSON.stringify(boardPost)], { type: 'application/json' }),
@@ -104,16 +106,12 @@ const NoticePosting = () => {
     // 파일이 선택되었을 경우에만 'files' 필드를 추가
     if (files && files.length > 0) {
       files.forEach((file) => {
-        formData.append('files', file); // 'files' 필드에 여러 파일을 추가
+        console.log(
+          `파일명: ${file.file.name}, 파일 크기: ${file.file.size} bytes, 파일 타입: ${file.file.type}`,
+        );
+        formData.append('files', file.file); // 'files' 필드에 각각 파일을 추가
       });
     }
-
-    files.forEach((file) => {
-      console.log(
-        `파일명: ${file.name}, 파일 크기: ${file.size} bytes, 파일 타입: ${file.type}`,
-      );
-      formData.append('files', file);
-    });
 
     try {
       let url;
@@ -157,7 +155,7 @@ const NoticePosting = () => {
   };
 
   const handleBoardClick = () => {
-    if (isCompleteEnabled) {
+    if (boardPost.title && boardPost.content.length >= 1) {
       saveBoard();
     }
   };
@@ -203,7 +201,7 @@ const NoticePosting = () => {
       <FileAttachMenu
         isOpen={isMenuOpen}
         onClose={handleCloseMenu}
-        setFiles={setFiles}
+        onFilesChange={setFiles} // 파일 선택 시 업데이트
       />
     </StyledPosting>
   );
