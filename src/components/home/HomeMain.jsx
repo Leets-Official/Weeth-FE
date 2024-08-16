@@ -92,6 +92,7 @@ const HomeMain = () => {
   const { userData, error } = useContext(UserContext);
 
   let userName;
+  console.log(error);
   if (error) {
     userName = 'error';
   } else if (!userData) {
