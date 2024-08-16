@@ -6,7 +6,7 @@ import BoardComment from './BoardComment';
 import Typing from './Typing';
 import { BoardContext } from '../../hooks/BoardContext';
 
-const CommentList = ({ postId }) => {
+const CommentList = ({ noticeId, postId }) => {
   const navigate = useNavigate();
   const [comments, setComments] = useState([]);
   const [replyingTo, setReplyingTo] = useState(null);
@@ -14,37 +14,20 @@ const CommentList = ({ postId }) => {
 
   const accessToken = localStorage.getItem('accessToken');
   const BASE_URL = process.env.REACT_APP_BASE_URL;
-  /*
-  useEffect(() => {
-    const fetchComments = async () => {
-      const headers = {
-        Authorization: `Bearer ${accessToken}`,
-      };
-
-      try {
-        const response = await axios.get(`${BASE_URL}/api/v1/posts/${postId}`, {
-          headers,
-        });
-        console.log('API Response:', response);
-        if (response.data.code === 200) {
-          setComments(response.data.data.comments || []);
-        } else {
-          console.error('API response error:', response.data.message);
-          setError(response.data.message);
-        }
-      } catch (err) {
-        console.error('API Request Error:', err);
-        setError('An error occurred while fetching the data');
-      }
-    };
-
-    fetchComments(); // 마운트 시 fetchComments 호출
-  }, [accessToken, setError, postId]); */
 
   // API 호출 함수
   const fetchComments = async () => {
     try {
-      const response = await axios.get(`${BASE_URL}/api/v1/posts/${postId}`, {
+      let url;
+      if (postId) {
+        url = `${BASE_URL}/api/v1/posts/${postId}`;
+      } else if (noticeId) {
+        url = `${BASE_URL}/api/v1/notices/${noticeId}`;
+      } else {
+        console.error('Neither postId nor noticeId is provided.');
+        return;
+      }
+      const response = await axios.get(url, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
@@ -63,7 +46,7 @@ const CommentList = ({ postId }) => {
 
   useEffect(() => {
     fetchComments(); // 컴포넌트가 처음 마운트될 때 최신 데이터를 가져옴
-  }, [accessToken, postId]);
+  }, [accessToken, noticeId, postId]);
 
   const handleReply = (parentCommentId, isDeleted) => {
     if (isDeleted) {
@@ -96,14 +79,22 @@ const CommentList = ({ postId }) => {
   const handleDeleteComment = async (commentId) => {
     if (window.confirm('정말 이 댓글을 삭제하시겠습니까?')) {
       try {
-        const response = await axios.delete(
-          `${BASE_URL}/api/v1/posts/${postId}/comments/${commentId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
+        let url;
+        if (postId) {
+          url = `${BASE_URL}/api/v1/posts/${postId}/comments/${commentId}`;
+        } else if (noticeId) {
+          url = `${BASE_URL}/api/v1/notices/${noticeId}/comments/${commentId}`;
+        } else {
+          console.error('Neither postId nor noticeId is provided.');
+          return;
+        }
+
+        const response = await axios.delete(url, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
           },
-        );
+        });
+
         console.log(`DELETE request response:`, response);
 
         if (response.status === 200 && response.data.code === 200) {
@@ -147,6 +138,7 @@ const CommentList = ({ postId }) => {
         return (
           <BoardComment
             postId={postId}
+            noticeId={noticeId}
             key={comment.id || index} // 여기에 고유한 key를 추가
             commentId={comment.id}
             name={comment.name || 'Unknown User'}
@@ -162,6 +154,7 @@ const CommentList = ({ postId }) => {
         );
       })}
       <Typing
+        noticeId={noticeId}
         postId={postId}
         onCommentSubmitted={handleCommentSubmitted}
         parentCommentId={replyingTo}
@@ -172,6 +165,7 @@ const CommentList = ({ postId }) => {
 };
 
 CommentList.propTypes = {
+  noticeId: PropTypes.number.isRequired,
   postId: PropTypes.number.isRequired,
 };
 

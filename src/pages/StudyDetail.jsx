@@ -193,7 +193,7 @@ const StudyDetail = () => {
     fetchData(); // 항상 서버에서 데이터를 가져오도록 함
   }, [state, boardData, postId, accessToken, BASE_URL, setError]);
 
-  const fetchComments = async () => {
+  /* const fetchComments = async () => {
     try {
       const response = await axios.get(`${BASE_URL}/api/v1/posts/${postId}`, {
         headers: {
@@ -212,10 +212,9 @@ const StudyDetail = () => {
       console.error('API request error:', err);
       setError('API request error');
     }
-  };
+  }; */
 
-  // 댓글 작성
-  const handleCommentSubmitted = async (newComment, parentCommentId = null) => {
+  /* const handleCommentSubmitted = async (newComment, parentCommentId = null) => {
     if (!newComment || !newComment.content) {
       console.error('댓글 데이터가 올바르지 않습니다:', newComment);
       return;
@@ -255,7 +254,7 @@ const StudyDetail = () => {
       console.error('API request error:', err);
       setError('API request error');
     }
-  };
+  }; */
 
   const handleEditClick = () => {
     navigate(`/studyPosting`, {
@@ -321,10 +320,7 @@ const StudyDetail = () => {
           <CommentCount>{totalCommentCount}</CommentCount>
         </CommentCountWrapper>
         <CommentSection>
-          <CommentList
-            postId={postId}
-            onCommentSubmitted={handleCommentSubmitted}
-          />
+          <CommentList noticeId={null} postId={postId} />
         </CommentSection>
       </StudyRow>
     </Container>

@@ -248,7 +248,7 @@ const NoticeDetail = () => {
           <CommentCount>{content.commentCount || 0}</CommentCount>
         </CommentCountWrapper>
         <CommentSection>
-          <CommentList postId={noticeId} />
+          <CommentList noticeId={noticeId} postId={null} />
         </CommentSection>
       </NoticeRow>
     </Container>

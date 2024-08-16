@@ -31,7 +31,12 @@ const InputField = styled.input`
   }
 `;
 
-const Typing = ({ postId, onCommentSubmitted, parentCommentId = null }) => {
+const Typing = ({
+  noticeId,
+  postId,
+  onCommentSubmitted,
+  parentCommentId = null,
+}) => {
   const [comment, setComment] = useState('');
   // const location = useLocation();
   // const { parentCommentId = null } = location.state || {};
@@ -50,11 +55,27 @@ const Typing = ({ postId, onCommentSubmitted, parentCommentId = null }) => {
       return;
     }
 
-    console.log('댓글 작성 시도:', { postId, trimmedComment, parentCommentId });
+    console.log('댓글 작성 시도:', {
+      noticeId,
+      postId,
+      trimmedComment,
+      parentCommentId,
+    });
 
     try {
+      let url;
+      if (noticeId) {
+        url = `${BASE_URL}/api/v1/notices/${noticeId}/comments`; // 공지사항 댓글 경로
+        console.log('Notice 댓글 작성 URL:', url);
+      } else if (postId) {
+        url = `${BASE_URL}/api/v1/posts/${postId}/comments`; // 일반 게시물 댓글 경로
+      } else {
+        console.error('Neither postId nor noticeId is provided.');
+        return;
+      }
+
       const response = await axios.post(
-        `${BASE_URL}/api/v1/posts/${postId}/comments`,
+        url,
         {
           content: trimmedComment,
           parentCommentId,
@@ -109,6 +130,7 @@ const Typing = ({ postId, onCommentSubmitted, parentCommentId = null }) => {
 };
 
 Typing.propTypes = {
+  noticeId: PropTypes.number.isRequired,
   postId: PropTypes.number.isRequired,
   onCommentSubmitted: PropTypes.func.isRequired,
   parentCommentId: PropTypes.number,
