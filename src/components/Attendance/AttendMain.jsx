@@ -283,7 +283,7 @@ const AttendMain = () => {
       </StyledBox>
       <StyledBox>
         <img src={warning} alt="!" />
-        {!myPenaltyCount ? (
+        {myPenaltyCount === null ? (
           <SemiBold>
             <div className="attend-project">등록된 데이터가 없습니다.</div>
           </SemiBold>
