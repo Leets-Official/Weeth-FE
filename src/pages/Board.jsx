@@ -67,7 +67,7 @@ const Board = () => {
   const { userData } = useContext(UserContext);
 
   const handleMenuClick = (action) => {
-    console.logt(action);
+    console.log(action);
   };
 
   const handlePostingClick = () => {
@@ -79,7 +79,7 @@ const Board = () => {
   };
 
   const buttonElement = (() => {
-    if (activeTab === 'notice' && userData.role === 'ADMIN') {
+    if (activeTab === 'notice' && userData && userData.role === 'ADMIN') {
       return <PostingButton onClick={handlePostingClick}>글쓰기</PostingButton>;
     }
     if (activeTab === 'study') {

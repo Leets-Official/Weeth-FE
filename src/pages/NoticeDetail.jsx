@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
+import { UserContext } from '../hooks/UserContext';
 import BoardHeader from '../components/Board/NoticeHeader';
 import AttachButton from '../components/Board/AttachButton';
 import CommentList from '../components/Board/CommentList';
+import EditDelModal from '../components/EditDelModal';
 import { ReactComponent as BoardChat } from '../assets/images/ic_board_chat.svg';
 import theme from '../styles/theme';
 
@@ -112,6 +114,7 @@ const formatDateTime = (dateTimeString) => {
 
 const NoticeDetail = () => {
   const { id } = useParams();
+  const { userData } = useContext(UserContext);
 
   console.log('Post ID from useParams:', id);
 
@@ -123,6 +126,44 @@ const NoticeDetail = () => {
 
   const accessToken = localStorage.getItem('accessToken');
   const BASE_URL = process.env.REACT_APP_BASE_URL;
+
+  // 공지사항 삭제
+  const handleDeleteClick = async () => {
+    if (userData.role !== 'ADMIN') {
+      alert('삭제 권한이 없습니다.');
+      return;
+    }
+
+    if (window.confirm('삭제하시겠습니까?')) {
+      try {
+        const url = `${BASE_URL}/api/v1/admin/notices/${noticeId}`;
+        console.log('Sending DELETE request to:', url);
+        console.log('Authorization header:', `Bearer ${accessToken}`);
+
+        const response = await axios.delete(url, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+
+        console.log('Response status:', response.status);
+        console.log('Response data:', response.data);
+
+        if (response.data.code === 200) {
+          alert('삭제가 완료되었습니다.');
+          navigate('/board');
+        } else if (response.data.code === 400) {
+          alert(`삭제 실패: ${response.data.message}`);
+        } else {
+          console.error('알 수 없는 오류 발생:', response.data.message);
+          alert(`삭제에 실패했습니다. 오류 메시지: ${response.data.message}`);
+        }
+      } catch (err) {
+        console.error('삭제 요청 중 오류 발생:', err);
+        alert('삭제 도중 오류가 발생했습니다. 다시 시도해주세요.');
+      }
+    }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -157,6 +198,12 @@ const NoticeDetail = () => {
     console.log('File changed');
   };
 
+  const handleEditClick = () => {
+    navigate(`/noticePosting`, {
+      state: { title: content.title, content: content.content, noticeId },
+    });
+  };
+
   if (!content) {
     return <p>Loading...</p>;
   }
@@ -167,19 +214,13 @@ const NoticeDetail = () => {
         <BoardHeader
           onMenuClick={(action) => {
             if (action === 'delete') {
-              // handleDeleteClick(); // 삭제 기능 호출 부분
+              handleDeleteClick();
             } else if (action === 'edit') {
-              navigate(`/studyPosting`, {
-                state: {
-                  title: content.title,
-                  content: content.content,
-                  noticeId,
-                },
-              });
+              handleEditClick();
             }
           }}
           showModal={false}
-          showIndexButton
+          ModalComponent={EditDelModal} // EditDelModal을 사용
         />
       </HeaderWrapper>
       <NoticeRow>

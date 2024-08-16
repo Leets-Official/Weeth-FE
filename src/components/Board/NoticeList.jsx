@@ -1,21 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import BoardComponent from './BoardComponent';
 import Utils from '../../hooks/Utils';
 
-const NoticeList = ({ noticeId }) => {
+const NoticeList = () => {
   const navigate = useNavigate();
-  const [notices, setStudies] = useState([]);
+  const [notices, setNotices] = useState([]);
 
   const accessToken = localStorage.getItem('accessToken');
   const BASE_URL = process.env.REACT_APP_BASE_URL;
 
   // API 호출 함수
-  const fetchNotices = async (count = 2) => {
+  const fetchNotices = async (noticeId = null, count = 5) => {
     try {
-      const params = { count: count || 2 };
+      const params = { count: count || 5 };
       if (noticeId) {
         params.noticeId = noticeId;
       }
@@ -32,13 +32,13 @@ const NoticeList = ({ noticeId }) => {
       console.log('API Response:', response); // 응답 전체를 로그로 출력
 
       if (response.status === 200 && response.data.code === 200) {
-        const studiesData = response.data.data;
-        if (studiesData.length === 0) {
-          console.log('No more studies to load.');
+        const noticesData = response.data.data;
+        if (noticesData.length === 0) {
+          console.log('No more notices to load.');
           return;
         }
 
-        const newNotices = studiesData.map((notice) => ({
+        const newNotices = noticesData.map((notice) => ({
           id: notice.id,
           name: notice.name,
           title: notice.title,
@@ -47,7 +47,7 @@ const NoticeList = ({ noticeId }) => {
           commentCount: notice.commentCount,
         }));
 
-        setStudies((prevNotices) => [...prevNotices, ...newNotices]);
+        setNotices((prevNotices) => [...prevNotices, ...newNotices]);
       } else {
         console.error('API Error:', response.data.message);
       }
@@ -70,7 +70,7 @@ const NoticeList = ({ noticeId }) => {
             navigate,
           );
           if (retryResponse) {
-            setStudies((prevNotices) => [
+            setNotices((prevNotices) => [
               ...prevNotices,
               ...retryResponse.data.data,
             ]);
@@ -130,10 +130,6 @@ const NoticeList = ({ noticeId }) => {
       </button>
     </div>
   );
-};
-
-NoticeList.propTypes = {
-  noticeId: PropTypes.number,
 };
 
 NoticeList.defaultProps = {
