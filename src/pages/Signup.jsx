@@ -47,6 +47,12 @@ const CheckButton = styled.button`
   font-size: 14px;
 `;
 
+const MessageText = styled.span`
+  margin: 10px 6% 30px 0;
+  font-family: ${theme.font.family.pretendard_semiBold};
+  font-size: 14px;
+`;
+
 const Signup = () => {
   const navi = useNavigate();
 
@@ -54,12 +60,14 @@ const Signup = () => {
   const [password, setPassword] = useState('');
   const [emailStatus, setEmailStatus] = useState(null);
   const [passwordVisible, setPasswordVisible] = useState(false);
+  const [isChecked, setIschecked] = useState(false);
 
   const validateEmail = (vaildEmail) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(vaildEmail);
   };
 
+  // eslint-disable-next-line consistent-return
   const checkDuplicate = async (DuplicatedEmail) => {
     try {
       const BASE_URL = process.env.REACT_APP_BASE_URL;
@@ -67,7 +75,11 @@ const Signup = () => {
         `${BASE_URL}/api/v1/users/email?email=${DuplicatedEmail}`,
         {},
       );
-      return response.data.code === 200;
+      console.log(response);
+
+      if (response.data.code === 200) {
+        return response.data.data;
+      }
     } catch (error) {
       if (error.response && error.response.data.code === 400) {
         return false; // Email is duplicate
@@ -78,12 +90,17 @@ const Signup = () => {
   };
 
   const handleCheckEmail = async () => {
+    if (!email) {
+      alert('이메일을 입력해 주세요.');
+      return;
+    }
     if (!validateEmail(email)) {
       alert('유효한 이메일 형식을 입력해주세요.');
       return;
     }
     const isDuplicate = await checkDuplicate(email);
     setEmailStatus(isDuplicate ? 'available' : 'duplicate');
+    setIschecked(true);
   };
 
   const handleNextClick = () => {
@@ -111,7 +128,8 @@ const Signup = () => {
   const handleEmailChange = (e) => {
     const emailValue = e.target.value.replace(/[^a-zA-Z0-9@.]/g, '');
     setEmail(emailValue);
-    setEmailStatus(emailValue ? emailStatus : null);
+    setEmailStatus(null);
+    setIschecked(false); // 이메일이 변경될 때마다 isChecked 상태를 false로 초기화
   };
 
   const handlePasswordChange = (e) => {
@@ -153,13 +171,29 @@ const Signup = () => {
           type=""
         />
         <ButtonContainer>
-          <CheckButton
-            onClick={handleCheckEmail}
-            underline
-            disabled={!email || !validateEmail(email)}
-          >
-            가입 여부 확인
-          </CheckButton>
+          {!isChecked && (
+            <CheckButton
+              onClick={handleCheckEmail}
+              underline
+              disabled={!email || !validateEmail(email)}
+            >
+              가입 여부 확인
+            </CheckButton>
+          )}
+          {isChecked && (
+            <MessageText
+              style={{
+                color:
+                  emailStatus === 'duplicate'
+                    ? theme.color.main.negative
+                    : theme.color.main.positive,
+              }}
+            >
+              {emailStatus === 'duplicate'
+                ? '이미 가입된 ID입니다'
+                : '사용 가능한 ID입니다'}
+            </MessageText>
+          )}
         </ButtonContainer>
         <SignupTextComponent
           text="사용할 비밀번호를 입력해주세요"
