@@ -284,7 +284,9 @@ const AttendMain = () => {
       <StyledBox>
         <img src={warning} alt="!" />
         {!myPenaltyCount ? (
-          <SemiBold>데이터를 불러오지 못했습니다.</SemiBold>
+          <SemiBold>
+            <div className="attend-project">등록된 데이터가 없습니다.</div>
+          </SemiBold>
         ) : (
           <>
             {hasPenalty ? (

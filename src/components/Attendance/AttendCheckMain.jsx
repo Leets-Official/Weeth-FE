@@ -245,7 +245,7 @@ const AttendCheckMain = () => {
             );
           })
         ) : (
-          <NullBox>등록된 데이터가 없어요</NullBox>
+          <NullBox> </NullBox>
         )}
       </StyledBox>
     </Container>

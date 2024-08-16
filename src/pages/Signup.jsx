@@ -114,7 +114,7 @@ const Signup = () => {
     }
 
     if (!isChecked) {
-      alert('가입 여부를 확인해주세요.');
+      alert('가입 여부를 확인해 주세요.');
       return;
     }
 
