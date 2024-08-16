@@ -1,19 +1,41 @@
-import styled from 'styled-components';
-import { useState } from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
+import { useState, useRef } from 'react';
+import { useDraggable } from '../../hooks/useDraggable';
 import theme from '../../styles/theme';
 
 const StyledCategory = styled.div`
+  display: flex;
   padding-top: 20px;
+  overflow-x: auto;
+  white-space: nowrap;
   font-family: ${theme.font.family.pretendard_regulars};
   font-size: 16px;
+`;
+
+const ScrollContainer = styled.div`
+  display: flex;
+  width: 94%;
+  overflow-x: auto;
+  cursor: grab;
+  &::-webkit-scrollbar {
+    height: 1px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+  }
 `;
 
 const Button = styled.button`
   background-color: transparent;
   border: none;
   height: 39px;
-  width: 22%;
+  width: 62px;
+  flex-shrink: 0;
   border: 2px solid;
   border-width: 0 0 2px;
   border-color: ${(props) => (props.checked ? 'white' : 'transparent')};
@@ -26,44 +48,60 @@ const Button = styled.button`
 const Category = ({ setSelectedCardinal }) => {
   const [selectedCategory, setSelectedCategory] = useState(0);
 
-  const onClickAll = () => {
-    setSelectedCategory(0);
-    setSelectedCardinal(0);
+  const onClickCardinal = (index) => {
+    setSelectedCategory(index);
+    setSelectedCardinal(index);
   };
 
-  const onClick1 = () => {
-    setSelectedCategory(1);
-    setSelectedCardinal(1);
-  };
-
-  const onClick2 = () => {
-    setSelectedCategory(2);
-    setSelectedCardinal(2);
-  };
-
-  const onClick3 = () => {
-    setSelectedCategory(3);
-    setSelectedCardinal(3);
-  };
+  const scrollerRef1 = useRef(null);
+  const { onMouseDown, onMouseMove, onMouseUp, onMouseLeave } =
+    useDraggable(scrollerRef1);
 
   return (
     <StyledCategory>
-      <Button
-        type="button"
-        checked={selectedCategory === 0}
-        onClick={onClickAll}
+      <ScrollContainer
+        ref={scrollerRef1}
+        onMouseDown={onMouseDown}
+        onMouseMove={onMouseMove}
+        onMouseUp={onMouseUp}
+        onMouseLeave={onMouseLeave}
       >
-        전체
-      </Button>
-      <Button type="button" checked={selectedCategory === 1} onClick={onClick1}>
-        1기
-      </Button>
-      <Button type="button" checked={selectedCategory === 2} onClick={onClick2}>
-        2기
-      </Button>
-      <Button type="button" checked={selectedCategory === 3} onClick={onClick3}>
-        3기
-      </Button>
+        <Button
+          type="button"
+          checked={selectedCategory === 0}
+          onClick={() => onClickCardinal(0)}
+        >
+          전체
+        </Button>
+        <Button
+          type="button"
+          checked={selectedCategory === 4}
+          onClick={() => onClickCardinal(4)}
+        >
+          4기
+        </Button>
+        <Button
+          type="button"
+          checked={selectedCategory === 3}
+          onClick={() => onClickCardinal(3)}
+        >
+          3기
+        </Button>
+        <Button
+          type="button"
+          checked={selectedCategory === 2}
+          onClick={() => onClickCardinal(2)}
+        >
+          2기
+        </Button>
+        <Button
+          type="button"
+          checked={selectedCategory === 1}
+          onClick={() => onClickCardinal(1)}
+        >
+          1기
+        </Button>
+      </ScrollContainer>
     </StyledCategory>
   );
 };

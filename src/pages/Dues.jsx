@@ -7,6 +7,7 @@ import DuesInfo from '../components/Dues/DuesInfo';
 import DuesTitle from '../components/Dues/DuesTitle';
 import { DuesContext } from '../hooks/DuesContext';
 import DuesAPI from '../hooks/DuesAPI';
+import useCustomBack from '../router/useCustomBack';
 
 const StyledDues = styled.div`
   width: 370px;
@@ -58,6 +59,8 @@ const MoneyBox = styled.div`
 `;
 
 const Dues = () => {
+  useCustomBack('/home');
+
   const { duesData, totalAmount, currentAmount, myCardinal } =
     useContext(DuesContext);
   const [selected, setSelectedDues] = useState(null);
@@ -83,7 +86,9 @@ const Dues = () => {
       ) : (
         <DuesListBox>
           <MoneyBoxContainer>
-            <MoneyBox>{parseInt(currentAmount, 10).toLocaleString()}</MoneyBox>
+            <MoneyBox>
+              {parseInt(currentAmount, 10).toLocaleString()}원
+            </MoneyBox>
           </MoneyBoxContainer>
           <Line />
           <DuesList>

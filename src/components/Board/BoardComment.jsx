@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import axios from 'axios';
@@ -84,6 +84,7 @@ const BoardComment = ({
   setComments,
 }) => {
   const [showReplies, setShowReplies] = useState(recomments.length > 0);
+  const inputRef = useRef(null); // ref 생성
 
   const accessToken = localStorage.getItem('accessToken');
   const BASE_URL = process.env.REACT_APP_BASE_URL;
@@ -103,6 +104,9 @@ const BoardComment = ({
     if (window.confirm('대댓글을 입력하시겠습니까?')) {
       onReply(commentId); // 대댓글 입력창을 여는 콜백 함수 호출
       setShowReplies(true);
+      setTimeout(() => {
+        inputRef.current.focus(); // 입력창에 포커스를 주어 키보드가 자동으로 올라오게 함
+      }, 0);
     }
   };
 

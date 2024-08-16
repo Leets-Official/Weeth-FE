@@ -4,6 +4,7 @@ import styled, { ThemeProvider } from 'styled-components';
 import theme from '../styles/theme';
 import Button from '../components/Button/Button';
 import leets from '../assets/images/ic_name_logo.svg';
+import useCustomBack from '../router/useCustomBack';
 
 /* 높이를 810px로 잡고 각각의 margin을 px로 잡았습니다 */
 
@@ -40,6 +41,8 @@ const LoginButton = styled(Button)`
 `;
 
 const Landing = () => {
+  useCustomBack('/');
+
   const [signupClicked, setSignupClicked] = useState(false);
   const [loginClicked, setLoginClicked] = useState(false);
   const navi = useNavigate();

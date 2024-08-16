@@ -18,7 +18,7 @@ const StyledHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 45px 25px 20px 25px; //기본 헤더 마진
+  margin: 25px 25px 20px 25px; //기본 헤더 마진
 `;
 
 const TitleWrapper = styled.div`
@@ -63,7 +63,7 @@ const monthModalStyles = {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'flex-start',
-    margin: '75px auto', // 블러가 시작되는 위치를 정하고
+    margin: '55px auto', // 블러가 시작되는 위치를 정하고
   },
   content: {
     margin: '10px auto', // 모달은 블러 시작점으로부터 10px 떨어진 곳에 위치

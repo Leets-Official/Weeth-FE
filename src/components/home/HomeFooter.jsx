@@ -10,6 +10,7 @@ import gradu from '../../assets/images/ic_gradu.svg';
 import commitato from '../../assets/images/ic_commitato.svg';
 import moodmate from '../../assets/images/ic_moodmate.svg';
 import filling from '../../assets/images/ic_filling.svg';
+import weeth from '../../assets/images/ic_weeth.svg';
 
 const StyledHomeFooter = styled.div`
   font-family: ${theme.font.family.pretendard_semiBold};
@@ -150,7 +151,18 @@ const HomeFooter = () => {
         onMouseUp={draggableHandlers2.onMouseUp}
         onMouseLeave={draggableHandlers2.onMouseLeave}
       >
-        <GridItemWithImage image={commitato}>
+        <GridItemWithImage
+          image={weeth}
+          href="https://www.leets.land/project/12"
+          target="_blank"
+        >
+          <span>weeth</span>
+        </GridItemWithImage>
+        <GridItemWithImage
+          image={commitato}
+          href="https://www.leets.land/project/13"
+          target="_blank"
+        >
           <span>Commitato</span>
         </GridItemWithImage>
         <GridItemWithImage

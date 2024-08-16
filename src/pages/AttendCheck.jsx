@@ -5,6 +5,7 @@ import AttendHeader from '../components/Attendance/AttendHeader';
 import AttendCheckMain from '../components/Attendance/AttendCheckMain';
 import { PenaltyProvider } from '../hooks/PenaltyContext';
 import AttendCheckAPI from '../hooks/AttendCheckAPI';
+import useCustomBack from '../router/useCustomBack';
 
 const Container = styled.div`
   display: flex;
@@ -23,6 +24,7 @@ const Footer = styled.footer`
 `;
 
 const AttendCheck = () => {
+  useCustomBack('/attendance');
   return (
     <ThemeProvider theme={theme}>
       <AttendCheckAPI />

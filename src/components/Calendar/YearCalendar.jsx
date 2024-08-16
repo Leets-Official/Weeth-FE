@@ -44,7 +44,7 @@ const YearCalendar = ({ year }) => {
       <YearlyScheduleAPI start={formattedStart} end={formattedEnd} />
       <EvenMonth>
         {allMonth
-          .filter((monthItem) => monthItem % 2 !== 0)
+          .filter((monthItem) => monthItem >= 1 && monthItem <= 6)
           .map((monthItem) => (
             <MonthlyEvent
               key={monthItem}
@@ -55,7 +55,7 @@ const YearCalendar = ({ year }) => {
       </EvenMonth>
       <OddMonth>
         {allMonth
-          .filter((monthItem) => monthItem % 2 === 0)
+          .filter((monthItem) => monthItem >= 7 && monthItem <= 12)
           .map((monthItem) => (
             <MonthlyEvent
               key={monthItem}

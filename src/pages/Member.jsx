@@ -7,6 +7,7 @@ import Category from '../components/Member/Category';
 import MemberName from '../components/Member/MemberName';
 // import mockUser from '../components/mockData/mockUser';
 import { UserContext } from '../hooks/UserContext';
+import useCustomBack from '../router/useCustomBack';
 
 const StyledMember = styled.div`
   width: 370px;
@@ -14,18 +15,17 @@ const StyledMember = styled.div`
 `;
 
 const CategoryWrapper = styled.div`
-  margin: 0 30px;
+  margin-left: 30px;
 `;
 
 const MemberList = styled.div`
-  position: absolute;
   background-color: ${theme.color.grayScale.gray18};
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
   height: 100vh;
   width: 350px;
-  margin: 0px 10px auto;
-  padding-bottom: 183px;
+  margin: 0 10px auto;
+  padding-bottom: 50px;
 `;
 
 const Error = styled.div`
@@ -36,6 +36,8 @@ const Error = styled.div`
 `;
 
 const Member = () => {
+  useCustomBack('/home');
+
   const [selectedCardinal, setSelectedCardinal] = useState(0);
 
   const { allUserData, error } = useContext(UserContext);

@@ -5,6 +5,7 @@ import CalendarHeader from '../components/Calendar/CalendarHeader';
 import MonthCalendar from '../components/Calendar/MonthCalendar';
 import YearCalendar from '../components/Calendar/YearCalendar';
 import ToggleButton from '../components/Calendar/ToggleButton';
+import useCustomBack from '../router/useCustomBack';
 
 const StyledCalendar = styled.div`
   width: 370px;
@@ -21,6 +22,7 @@ const todayYear = new Date().getFullYear();
 const todayMonth = new Date().getMonth() + 1;
 
 const Calendar = () => {
+  useCustomBack('/home');
   const [calendarType, setCalendarType] = useState('month');
   const [isYear, setIsYear] = useState(false);
   const [year, setYear] = useState(todayYear);
