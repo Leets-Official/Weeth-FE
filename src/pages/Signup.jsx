@@ -17,7 +17,7 @@ const Container = styled.div`
 `;
 
 const InputContainer = styled.div`
-  margin-top: 15px;
+  margin-top: 119px;
 `;
 
 const ToggleVisibilityButton = styled.button`
@@ -40,11 +40,14 @@ const CheckButton = styled.button`
   margin: 10px 6% 30px 0;
   background: none;
   border: none;
-  color: ${theme.color.main.positive};
+  color: ${theme.color.main.mainColor};
   font-family: ${theme.font.family.pretendard_semiBold};
   cursor: pointer;
   text-decoration: underline;
   font-size: 14px;
+  &:disabled {
+    cursor: not-allowed;
+  }
 `;
 
 const MessageText = styled.span`
@@ -90,22 +93,25 @@ const Signup = () => {
   };
 
   const handleCheckEmail = async () => {
-    if (!email) {
+    if (email === '') {
       alert('이메일을 입력해 주세요.');
-      return;
-    }
-    if (!validateEmail(email)) {
+    } else if (!validateEmail(email)) {
       alert('유효한 이메일 형식을 입력해주세요.');
-      return;
+    } else {
+      const isDuplicate = await checkDuplicate(email);
+      setEmailStatus(isDuplicate ? 'available' : 'duplicate');
+      setIschecked(true);
     }
-    const isDuplicate = await checkDuplicate(email);
-    setEmailStatus(isDuplicate ? 'available' : 'duplicate');
-    setIschecked(true);
   };
 
   const handleNextClick = () => {
-    if (!validateEmail(email)) {
-      alert('유효한 이메일 형식을 입력해주세요.');
+    if (email === '') {
+      alert('이메일을 입력해 주세요.');
+      return;
+    }
+
+    if (!isChecked) {
+      alert('가입 여부를 확인해주세요.');
       return;
     }
 
@@ -118,7 +124,7 @@ const Signup = () => {
       alert('비밀번호를 입력해 주세요.');
       return;
     }
-    navi('/profile');
+    navi('/profile', { state: { email, password } });
   };
 
   const togglePasswordVisibility = () => {
@@ -157,7 +163,8 @@ const Signup = () => {
         isRightButtonEnabled={
           validateEmail(email) &&
           emailStatus !== 'duplicate' &&
-          password.trim() !== ''
+          password.trim() !== '' &&
+          isChecked
         }
         onClickTextButton={handleNextClick}
         nextButtonColor={getNextButtonColor()}
@@ -172,11 +179,7 @@ const Signup = () => {
         />
         <ButtonContainer>
           {!isChecked && (
-            <CheckButton
-              onClick={handleCheckEmail}
-              underline
-              disabled={!email || !validateEmail(email)}
-            >
+            <CheckButton onClick={handleCheckEmail} underline>
               가입 여부 확인
             </CheckButton>
           )}
