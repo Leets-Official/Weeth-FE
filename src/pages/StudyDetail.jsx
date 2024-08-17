@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import BoardHeader from '../components/Board/NoticeHeader';
+import NoticeHeader from '../components/Board/NoticeHeader';
 import AttachButton from '../components/Board/AttachButton';
 // import Typing from '../components/Board/Typing';
 import CommentList from '../components/Board/CommentList';
@@ -117,19 +117,21 @@ const formatDateTime = (dateTimeString) => {
 const StudyDetail = () => {
   const { state } = useLocation();
   const { id } = useParams();
-  console.log('Post ID from useParams:', id);
+  // console.log('Post ID from useParams:', id);
 
   const postId = parseInt(id, 10);
-  console.log('Parsed postId:', postId);
+  // console.log('Parsed postId:', postId);
 
   const { boardData, error, setError } = useContext(BoardContext);
   const [content, setContent] = useState(null);
   const [totalCommentCount, setTotalCommentCount] = useState(0);
   const navigate = useNavigate();
 
+  console.log('context 불러온 후:', error);
   const accessToken = localStorage.getItem('accessToken');
   const BASE_URL = process.env.REACT_APP_BASE_URL;
 
+  // 게시글 삭제
   const handleDeleteClick = async () => {
     if (window.confirm('삭제하시겠습니까?')) {
       try {
@@ -163,14 +165,18 @@ const StudyDetail = () => {
   };
 
   useEffect(() => {
+    console.log('API 요청 시작'); // API 요청 전 확인
+
     const fetchData = async () => {
       try {
+        console.log('API 요청 시도 중...');
         const response = await axios.get(`${BASE_URL}/api/v1/posts/${postId}`, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
         });
 
+        console.log('서버 응답 데이터:', response.data);
         if (response.data.code === 200) {
           setContent(response.data.data);
           setTotalCommentCount(response.data.data.commentCount || 0);
@@ -184,87 +190,17 @@ const StudyDetail = () => {
       }
     };
 
-    if (state?.data) {
-      setContent(state.data);
-      setTotalCommentCount(state.data.commentCount || 0);
-    } else if (boardData) {
-      const currentData = boardData.find((post) => post.id === postId);
-      if (currentData) {
-        setContent(currentData);
-        setTotalCommentCount(currentData.commentCount || 0);
-      } else {
-        fetchData();
-      }
-    } else {
-      fetchData();
-    }
+    fetchData(); // 항상 서버에서 데이터를 가져오도록 함
   }, [state, boardData, postId, accessToken, BASE_URL, setError]);
 
-  const fetchComments = async () => {
-    try {
-      const response = await axios.get(`${BASE_URL}/api/v1/posts/${postId}`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-
-      if (response.data.code === 200) {
-        setContent(response.data.data);
-        setTotalCommentCount(response.data.data.commentCount || 0);
-      } else {
-        console.error('Error fetching post data:', response.data.message);
-        setError(response.data.message);
-      }
-    } catch (err) {
-      console.error('API request error:', err);
-      setError('API request error');
-    }
-  };
-
-  const handleCommentSubmitted = async (newComment, parentCommentId = null) => {
-    if (!newComment || !newComment.content) {
-      console.error('댓글 데이터가 올바르지 않습니다:', newComment);
-      return;
-    }
-
-    const trimmedContent = newComment.content.trim();
-
-    if (!trimmedContent) {
-      setError('댓글 내용을 입력해주세요.');
-      return;
-    }
-
-    try {
-      const response = await axios.post(
-        `${BASE_URL}/api/v1/posts/${postId}/comments`,
-        {
-          ...newComment,
-          content: trimmedContent,
-          parentCommentId,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        },
-      );
-
-      if (response.data.code === 200) {
-        console.log('댓글이 성공적으로 등록되었습니다.');
-        // 댓글 등록 후 게시글의 최신 데이터를 다시 가져옵니다.
-        fetchComments(); // 댓글 데이터를 다시 가져오는 함수 호출
-      } else {
-        console.error('Error posting comment:', response.data.message);
-        setError(response.data.message);
-      }
-    } catch (err) {
-      console.error('API request error:', err);
-      setError('API request error');
-    }
+  // AttachButton에 전달할 파일 변경 핸들러 (기능이 필요 없으면 빈 함수라도 전달)
+  const handleFileChange = () => {
+    // 파일 변경 로직이 필요하다면 여기에 추가
+    console.log('File changed');
   };
 
   const handleEditClick = () => {
-    navigate(`/boardPosting`, {
+    navigate(`/studyPosting`, {
       state: { title: content.title, content: content.content, postId },
     });
   };
@@ -280,7 +216,7 @@ const StudyDetail = () => {
   return (
     <Container>
       <HeaderWrapper>
-        <BoardHeader
+        <NoticeHeader
           onMenuClick={(action) => {
             if (action === 'delete') {
               handleDeleteClick();
@@ -289,7 +225,6 @@ const StudyDetail = () => {
             }
           }}
           showModal={false}
-          isAdmin={false} // 모든 사용자가 창을 열 수 있음
           ModalComponent={EditDelModal} // EditDelModal을 사용
         />
       </HeaderWrapper>
@@ -306,7 +241,10 @@ const StudyDetail = () => {
         </TextContainer>
         <ComponentRow>
           {content.fileUrls ? (
-            <AttachButton fileUrl={content.fileUrls[0]} />
+            <AttachButton
+              fileUrl={content.fileUrls[0]}
+              onFileChange={handleFileChange}
+            />
           ) : null}
           <RightMargin />
         </ComponentRow>
@@ -315,10 +253,7 @@ const StudyDetail = () => {
           <CommentCount>{totalCommentCount}</CommentCount>
         </CommentCountWrapper>
         <CommentSection>
-          <CommentList
-            postId={postId}
-            onCommentSubmitted={handleCommentSubmitted}
-          />
+          <CommentList noticeId={null} postId={postId} />
         </CommentSection>
       </StudyRow>
     </Container>

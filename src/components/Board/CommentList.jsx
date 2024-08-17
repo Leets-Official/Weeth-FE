@@ -1,50 +1,31 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import BoardComment from './BoardComment';
 import Typing from './Typing';
 import { BoardContext } from '../../hooks/BoardContext';
 
-const CommentList = ({ postId }) => {
-  const navigate = useNavigate();
+const CommentList = ({ noticeId, postId }) => {
   const [comments, setComments] = useState([]);
   const [replyingTo, setReplyingTo] = useState(null);
-  const { boardData, setBoardData, setError } = useContext(BoardContext);
+  const { boardData, setBoardData } = useContext(BoardContext);
 
   const accessToken = localStorage.getItem('accessToken');
   const BASE_URL = process.env.REACT_APP_BASE_URL;
-  /*
-  useEffect(() => {
-    const fetchComments = async () => {
-      const headers = {
-        Authorization: `Bearer ${accessToken}`,
-      };
-
-      try {
-        const response = await axios.get(`${BASE_URL}/api/v1/posts/${postId}`, {
-          headers,
-        });
-        console.log('API Response:', response);
-        if (response.data.code === 200) {
-          setComments(response.data.data.comments || []);
-        } else {
-          console.error('API response error:', response.data.message);
-          setError(response.data.message);
-        }
-      } catch (err) {
-        console.error('API Request Error:', err);
-        setError('An error occurred while fetching the data');
-      }
-    };
-
-    fetchComments(); // 마운트 시 fetchComments 호출
-  }, [accessToken, setError, postId]); */
 
   // API 호출 함수
   const fetchComments = async () => {
     try {
-      const response = await axios.get(`${BASE_URL}/api/v1/posts/${postId}`, {
+      let url;
+      if (postId) {
+        url = `${BASE_URL}/api/v1/posts/${postId}`;
+      } else if (noticeId) {
+        url = `${BASE_URL}/api/v1/notices/${noticeId}`;
+      } else {
+        console.error('Neither postId nor noticeId is provided.');
+        return;
+      }
+      const response = await axios.get(url, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
@@ -54,19 +35,22 @@ const CommentList = ({ postId }) => {
         setBoardData(response.data.data);
         setComments(response.data.data.comments || []);
       } else {
-        setError(response.data.message);
+        console.log(response.data.message);
       }
     } catch (error) {
-      setError('An error occurred while fetching the data');
       console.error('API Request Error:', error); // 요청 에러 로그 출력
     }
   };
 
   useEffect(() => {
     fetchComments(); // 컴포넌트가 처음 마운트될 때 최신 데이터를 가져옴
-  }, [accessToken, postId]);
+  }, [accessToken, noticeId, postId]);
 
-  const handleReply = (parentCommentId) => {
+  const handleReply = (parentCommentId, isDeleted) => {
+    if (isDeleted) {
+      alert('삭제된 댓글에는 대댓글을 달 수 없습니다.');
+      return;
+    }
     setReplyingTo(parentCommentId);
   };
 
@@ -87,20 +71,29 @@ const CommentList = ({ postId }) => {
       // 일반 댓글인 경우
       setComments((prevComments) => [...prevComments, newComment]);
     }
+    setReplyingTo(null); // 대댓글이 달린 후에 대댓글 상태 초기화
     fetchComments();
   };
 
   const handleDeleteComment = async (commentId) => {
     if (window.confirm('정말 이 댓글을 삭제하시겠습니까?')) {
       try {
-        const response = await axios.delete(
-          `${BASE_URL}/api/v1/posts/${postId}/comments/${commentId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
+        let url;
+        if (postId) {
+          url = `${BASE_URL}/api/v1/posts/${postId}/comments/${commentId}`;
+        } else if (noticeId) {
+          url = `${BASE_URL}/api/v1/notices/${noticeId}/comments/${commentId}`;
+        } else {
+          console.error('Neither postId nor noticeId is provided.');
+          return;
+        }
+
+        const response = await axios.delete(url, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
           },
-        );
+        });
+
         console.log(`DELETE request response:`, response);
 
         if (response.status === 200 && response.data.code === 200) {
@@ -128,22 +121,17 @@ const CommentList = ({ postId }) => {
     }
   };
 
-  const handleNavigate = (comment) => {
-    navigate(`/board/${comment.id}`, {
-      state: { data: comment },
-    });
-  };
-
   return (
     <div>
       {comments.map((comment, index) => {
         if (!comment.id) {
           console.error('Comment has no ID:', comment);
-          return null; // or some fallback rendering
+          return null;
         }
         return (
           <BoardComment
             postId={postId}
+            noticeId={noticeId}
             key={comment.id || index} // 여기에 고유한 key를 추가
             commentId={comment.id}
             name={comment.name || 'Unknown User'}
@@ -151,15 +139,22 @@ const CommentList = ({ postId }) => {
             time={comment.time || '시간 정보 없음'}
             recomments={comment.children || []}
             onDelete={() => handleDeleteComment(comment.id)}
-            onReply={() => handleReply(comment.id)}
-            onClick={() => handleNavigate(comment)}
+            onReply={() => handleReply(comment.id, comment.deleted)}
+            isDeleted={comment.deleted}
+            setComments={setComments}
           />
         );
       })}
       <Typing
+        noticeId={noticeId}
         postId={postId}
         onCommentSubmitted={handleCommentSubmitted}
         parentCommentId={replyingTo}
+        onInputFocus={() => {
+          if (!replyingTo) {
+            setReplyingTo(null); // 댓글 상태 초기화
+          }
+        }} // 입력창이 포커스될 때, 대댓글 상태 초기화
         comment=""
       />
     </div>
@@ -167,6 +162,7 @@ const CommentList = ({ postId }) => {
 };
 
 CommentList.propTypes = {
+  noticeId: PropTypes.number.isRequired,
   postId: PropTypes.number.isRequired,
 };
 

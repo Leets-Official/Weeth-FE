@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
 // import axios from 'axios';
+import { useNavigate } from 'react-router-dom'; // navigate 사용을 위해 import
+import { UserContext } from '../hooks/UserContext';
 import NoticeHeader from '../components/Board/NoticeHeader';
 import NoticeMiddle from '../components/Board/NoticeMiddle';
 import NoticeList from '../components/Board/NoticeList';
@@ -59,40 +61,40 @@ const PostingButton = styled.button`
   align-items: center;
 `;
 
-/* const onMenuClick = () => {
-  console.log('Menu clicked');
-}; */
-
 const Board = () => {
   const [activeTab, setActiveTab] = useState('notice');
-  const buttonElement =
-    activeTab === 'study' ? <PostingButton>글쓰기</PostingButton> : <div />;
-  // const [noticeList, setNoticeList] = useState([]);
-  // const [noticeList, setNoticeList] = useState([]);
-
-  // const AdminhandleModifyClick = () => {
-  //   console.log('수정');
-  // };
-
-  // const AdminhandleDeleteClick = () => {
-  //   console.log('삭제');
-  // };
+  const navigate = useNavigate();
+  const { userData } = useContext(UserContext);
 
   const handleMenuClick = (action) => {
-    if (action === 'edit') {
-      console.log('수정');
-    } else if (action === 'delete') {
-      console.log('삭제');
+    console.log(action);
+  };
+
+  const handlePostingClick = () => {
+    if (activeTab === 'study') {
+      navigate('/studyPosting');
+    } else if (activeTab === 'notice') {
+      navigate('/noticePosting');
     }
   };
+
+  const buttonElement = (() => {
+    if (activeTab === 'notice' && userData && userData.role === 'ADMIN') {
+      return <PostingButton onClick={handlePostingClick}>글쓰기</PostingButton>;
+    }
+    if (activeTab === 'study') {
+      return <PostingButton onClick={handlePostingClick}>글쓰기</PostingButton>;
+    }
+    return null; // ADMIN이 아니고, 공지사항 탭이 선택된 경우에는 버튼을 숨김
+  })();
 
   return (
     <Container>
       <NoticeHeader
         showModal={false}
         onMenuClick={handleMenuClick}
-        isAdmin // 운영진만 창을 열 수 있음
         ModalComponent={AdminEditDelModal} // AdminEditModal을 사용
+        showIndexButton={false}
       />
       <NoticeMiddle
         title={activeTab === 'notice' ? '공지사항' : '스터디 게시판'}

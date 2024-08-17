@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-// import axios from 'axios';
+import axios from 'axios';
 import { ReactComponent as CommentButton } from '../../assets/images/ic_comment.svg';
 import { ReactComponent as ReplyButton } from '../../assets/images/ic_reply.svg';
 import { ReactComponent as CommentDeleteButton } from '../../assets/images/ic_comment_delete.svg';
@@ -72,6 +72,7 @@ const CommentButtonMargin = styled.div`
 `;
 
 const BoardComment = ({
+  postId,
   commentId,
   name,
   content,
@@ -79,21 +80,66 @@ const BoardComment = ({
   recomments = [],
   onDelete,
   onReply,
+  isDeleted,
+  setComments,
 }) => {
   const [showReplies, setShowReplies] = useState(recomments.length > 0);
+  const inputRef = useRef(null); // ref 생성
+
+  const accessToken = localStorage.getItem('accessToken');
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
+
+  useEffect(() => {
+    // 댓글이 삭제된 경우 대댓글 작성 기능을 비활성화
+    if (isDeleted) {
+      setShowReplies(false); // 대댓글 입력창을 숨기거나 비활성화
+    }
+  }, [isDeleted]);
 
   const handleReplyClick = () => {
+    if (isDeleted) {
+      alert('삭제된 댓글에는 대댓글을 달 수 없습니다.');
+      return;
+    }
     if (window.confirm('대댓글을 입력하시겠습니까?')) {
       onReply(commentId); // 대댓글 입력창을 여는 콜백 함수 호출
       setShowReplies(true);
+      setTimeout(() => {
+        inputRef.current.focus(); // 입력창에 포커스를 주어 키보드가 자동으로 올라오게 함
+      }, 0);
     }
   };
 
-  const handleDeleteRecomment = (recommentId) => {
+  const handleDeleteRecomment = async (recommentId) => {
     if (window.confirm('정말 이 대댓글을 삭제하시겠습니까?')) {
-      // 대댓글 삭제 로직을 여기에 추가하십시오.
-      console.log('대댓글 삭제:', recommentId);
-      // 여기에 실제로 대댓글을 삭제하는 API 요청 등을 추가할 수 있습니다.
+      try {
+        // 서버에 DELETE 요청 보내기
+        await axios.delete(
+          `${BASE_URL}/api/v1/posts/${postId}/comments/${recommentId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          },
+        );
+        // 서버 응답이 성공적일 경우 상태 업데이트
+        setComments((prevComments) =>
+          prevComments.map((comment) => {
+            if (comment.id === commentId) {
+              return {
+                ...comment,
+                children: comment.children.filter(
+                  (child) => child.id !== recommentId,
+                ),
+              };
+            }
+            return comment;
+          }),
+        );
+      } catch (error) {
+        console.error('대댓글 삭제 중 오류 발생:', error);
+        alert('대댓글 삭제에 실패했습니다. 다시 시도해주세요.');
+      }
     }
   };
 
@@ -110,7 +156,7 @@ const BoardComment = ({
     <CommentContainer>
       <BoardCommented>
         <BottomRow>
-          <UserName>{name}</UserName>
+          <UserName>{isDeleted ? '알 수 없음' : name}</UserName>
           <CommentButton alt="" onClick={handleReplyClick} />
           <CommentButtonMargin />
           <CommentDeleteButton onClick={onDelete} />
@@ -137,7 +183,7 @@ const BoardComment = ({
                       style={{
                         marginRight: '10px',
                       }}
-                      onClick={handleDeleteRecomment}
+                      onClick={() => handleDeleteRecomment(recomment.id)} // 이벤트 핸들러 수정
                     />
                   </BottomRow>
                   <StyledComment>{recomment.content}</StyledComment>
@@ -153,6 +199,7 @@ const BoardComment = ({
 };
 
 BoardComment.propTypes = {
+  postId: PropTypes.number.isRequired,
   commentId: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
@@ -163,14 +210,18 @@ BoardComment.propTypes = {
       name: PropTypes.string.isRequired,
       content: PropTypes.string.isRequired,
       time: PropTypes.string.isRequired,
+      isDeleted: PropTypes.bool,
     }),
   ),
   onDelete: PropTypes.func.isRequired,
   onReply: PropTypes.func.isRequired,
+  isDeleted: PropTypes.bool,
+  setComments: PropTypes.func.isRequired,
 };
 
 BoardComment.defaultProps = {
   recomments: [], // Default to an empty array if no recomments are provided
+  isDeleted: false,
 };
 
 export default BoardComment;
