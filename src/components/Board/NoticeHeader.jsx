@@ -11,7 +11,7 @@ const StyledHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 45px 25px 20px 25px; //기본 헤더 마진
+  margin: 25px 25px 20px 25px; //기본 헤더 마진
 `;
 
 const TitleWrapper = styled.div``;

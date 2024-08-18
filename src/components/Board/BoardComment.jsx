@@ -105,7 +105,9 @@ const BoardComment = ({
       onReply(commentId); // 대댓글 입력창을 여는 콜백 함수 호출
       setShowReplies(true);
       setTimeout(() => {
-        inputRef.current.focus(); // 입력창에 포커스를 주어 키보드가 자동으로 올라오게 함
+        if (inputRef.current) {
+          inputRef.current.focus(); // 입력창에 포커스를 주어 키보드가 자동으로 올라오게 함
+        }
       }, 0);
     }
   };
