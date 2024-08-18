@@ -108,7 +108,7 @@ const Login = () => {
         const newRefreshToken = response.headers['authorization-refresh'];
         localStorage.setItem('accessToken', newToken);
         localStorage.setItem('refreshToken', newRefreshToken);
-        //  console.log('login token', newToken, newRefreshToken);
+        console.log('login token', newToken, newRefreshToken);
 
         navigate('/home');
       }
