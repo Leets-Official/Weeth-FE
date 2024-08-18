@@ -130,7 +130,7 @@ const NoticeDetail = () => {
   const BASE_URL = process.env.REACT_APP_BASE_URL;
 
   // 글 작성자인지 확인하는 로직
-  const isAdmin = content?.name === userData?.name;
+  const isWriter = content?.name === userData?.name;
 
   // 공지사항 삭제
   const handleDeleteClick = async () => {
@@ -226,7 +226,7 @@ const NoticeDetail = () => {
           }}
           showModal={false}
           ModalComponent={EditDelModal} // EditDelModal을 사용
-          isAdmin={isAdmin}
+          isWriter={isWriter}
         />
       </HeaderWrapper>
       <NoticeRow>

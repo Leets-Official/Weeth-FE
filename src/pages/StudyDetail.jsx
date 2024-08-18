@@ -133,6 +133,7 @@ const StudyDetail = () => {
 
   // 글 작성자인지 확인하는 로직
   const isWriter = content?.name === userData?.name;
+
   // 게시글 삭제
   const handleDeleteClick = async () => {
     if (window.confirm('삭제하시겠습니까?')) {
