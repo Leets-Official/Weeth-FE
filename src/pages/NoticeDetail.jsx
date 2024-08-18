@@ -10,11 +10,12 @@ import EditDelModal from '../components/EditDelModal';
 import { ReactComponent as BoardChat } from '../assets/images/ic_board_chat.svg';
 import theme from '../styles/theme';
 
+// min-height: 810px;
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   width: 370px;
-  max-width: 370px;
+  width: 100%;
   min-height: 810px;
   color: ${theme.color.grayScale.white};
   margin-bottom: 50px;
@@ -125,7 +126,11 @@ const NoticeDetail = () => {
   const navigate = useNavigate();
 
   const accessToken = localStorage.getItem('accessToken');
+  // const accessToken = process.env.REACT_APP_ACCESS_TOKEN;
   const BASE_URL = process.env.REACT_APP_BASE_URL;
+
+  // 글 작성자인지 확인하는 로직
+  const isAdmin = content?.name === userData?.name;
 
   // 공지사항 삭제
   const handleDeleteClick = async () => {
@@ -221,6 +226,7 @@ const NoticeDetail = () => {
           }}
           showModal={false}
           ModalComponent={EditDelModal} // EditDelModal을 사용
+          isAdmin={isAdmin}
         />
       </HeaderWrapper>
       <NoticeRow>
