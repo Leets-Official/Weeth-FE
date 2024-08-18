@@ -32,19 +32,8 @@ const CommentList = ({ noticeId, postId }) => {
       });
 
       if (response.status === 200 && response.data.code === 200) {
-        const fetchedComments = response.data.data.comments || [];
-
-        // 댓글이 삭제된 경우 이름을 '알 수 없음'으로 변경
-        const updatedComments = fetchedComments.map((comment) => ({
-          ...comment,
-          name: comment.isDeleted ? '알 수 없음' : comment.name,
-          children: (comment.children || []).map((child) => ({
-            ...child,
-            name: child.isDeleted ? '알 수 없음' : child.name,
-          })),
-        }));
         setBoardData(response.data.data);
-        setComments(updatedComments);
+        setComments(response.data.data.comments || []);
       } else {
         console.log(response.data.message);
       }
