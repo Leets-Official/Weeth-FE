@@ -235,8 +235,8 @@ const AttendCheckMain = () => {
 
             return (
               <MeetingBox
-                key={meeting.attendanceId}
-                attend={meeting.isAttend}
+                key={meeting.id}
+                attend={meeting.status}
                 title={meeting.title}
                 week={`${meeting.weekNumber}주차`}
                 date={formattedDate}
