@@ -52,13 +52,13 @@ const ReceiptInfo = ({ money, date, memo }) => {
         <StyledCaptionBox>
           <Caption color={theme.color.main.negative}>지출</Caption>
           <StyledTextBox>
-            <Text>이월금액</Text>
+            <Text>{memo}</Text>
             <SmallText>{date}</SmallText>
           </StyledTextBox>
         </StyledCaptionBox>
         <StyledMemoBox>
           <Text>{money}원</Text>
-          <SmallText>{memo}</SmallText>
+          <SmallText>&nbsp;</SmallText>
         </StyledMemoBox>
       </StyledReceiptBox>
     </MemberWrapper>
