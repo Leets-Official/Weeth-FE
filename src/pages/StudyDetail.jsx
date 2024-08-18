@@ -244,7 +244,7 @@ const StudyDetail = () => {
           <StudyContents>{content?.content || 'Loading...'}</StudyContents>
         </TextContainer>
         <ComponentRow>
-          {content.fileUrls ? (
+          {content.fileUrls && content.fileUrls.length > 0 ? (
             <AttachButton
               fileUrl={content.fileUrls[0]}
               onFileChange={handleFileChange}

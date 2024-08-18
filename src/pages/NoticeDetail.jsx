@@ -10,12 +10,11 @@ import EditDelModal from '../components/EditDelModal';
 import { ReactComponent as BoardChat } from '../assets/images/ic_board_chat.svg';
 import theme from '../styles/theme';
 
-// min-height: 810px;
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   width: 370px;
-  width: 100%;
+  max-width: 370px;
   min-height: 810px;
   color: ${theme.color.grayScale.white};
   margin-bottom: 50px;
@@ -241,7 +240,7 @@ const NoticeDetail = () => {
           <NoticeContents>{content?.content || 'Loading...'}</NoticeContents>
         </TextContainer>
         <ComponentRow>
-          {content.fileUrls ? (
+          {content.fileUrls && content.fileUrls.length > 0 ? (
             <AttachButton
               fileUrl={content.fileUrls[0]}
               onFileChange={handleFileChange}
