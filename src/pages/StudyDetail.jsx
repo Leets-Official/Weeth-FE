@@ -5,6 +5,7 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import NoticeHeader from '../components/Board/NoticeHeader';
 import AttachButton from '../components/Board/AttachButton';
 // import Typing from '../components/Board/Typing';
+import { UserContext } from '../hooks/UserContext';
 import CommentList from '../components/Board/CommentList';
 import EditDelModal from '../components/EditDelModal';
 import { ReactComponent as BoardChat } from '../assets/images/ic_board_chat.svg';
@@ -117,10 +118,9 @@ const formatDateTime = (dateTimeString) => {
 const StudyDetail = () => {
   const { state } = useLocation();
   const { id } = useParams();
-  // console.log('Post ID from useParams:', id);
 
   const postId = parseInt(id, 10);
-  // console.log('Parsed postId:', postId);
+  const { userData } = useContext(UserContext);
 
   const { boardData, error, setError } = useContext(BoardContext);
   const [content, setContent] = useState(null);
@@ -130,6 +130,9 @@ const StudyDetail = () => {
   console.log('context 불러온 후:', error);
   const accessToken = localStorage.getItem('accessToken');
   const BASE_URL = process.env.REACT_APP_BASE_URL;
+
+  // 글 작성자인지 확인하는 로직
+  const isWriter = content?.name === userData?.name;
 
   // 게시글 삭제
   const handleDeleteClick = async () => {
@@ -226,6 +229,7 @@ const StudyDetail = () => {
           }}
           showModal={false}
           ModalComponent={EditDelModal} // EditDelModal을 사용
+          isWriter={isWriter} // isWriter 전달
         />
       </HeaderWrapper>
       <StudyRow>
@@ -240,7 +244,7 @@ const StudyDetail = () => {
           <StudyContents>{content?.content || 'Loading...'}</StudyContents>
         </TextContainer>
         <ComponentRow>
-          {content.fileUrls ? (
+          {content.fileUrls && content.fileUrls.length > 0 ? (
             <AttachButton
               fileUrl={content.fileUrls[0]}
               onFileChange={handleFileChange}

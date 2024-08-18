@@ -11,7 +11,7 @@ const StyledHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 45px 25px 20px 25px; //기본 헤더 마진
+  margin: 25px 25px 20px 25px; //기본 헤더 마진
 `;
 
 const TitleWrapper = styled.div``;
@@ -21,6 +21,8 @@ const NoticeHeader = ({
   showModal,
   ModalComponent,
   showIndexButton,
+  isWriter, // 추가: 글 작성자인지 여부를 받는 prop
+  isAdmin, // 추가: 관리자인지 여부를 받는 prop
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(showModal);
 
@@ -38,6 +40,9 @@ const NoticeHeader = ({
     setIsModalOpen(false);
   };
 
+  // 상세 페이지에서 IndexButton을 렌더링할지 여부를 결정
+  const shouldShowIndexButton = showIndexButton && (isWriter || isAdmin);
+
   return (
     <>
       <StyledHeader>
@@ -45,7 +50,7 @@ const NoticeHeader = ({
         <TitleWrapper>
           <Title text="게시판" />
         </TitleWrapper>
-        {showIndexButton ? (
+        {shouldShowIndexButton ? (
           <IndexButton onClick={handleIndexButtonClick} />
         ) : (
           <div />
@@ -68,10 +73,14 @@ NoticeHeader.propTypes = {
   showModal: PropTypes.bool.isRequired,
   ModalComponent: PropTypes.elementType.isRequired, // 모달 컴포넌트 타입 prop
   showIndexButton: PropTypes.bool,
+  isWriter: PropTypes.bool, // 글 작성자인지 여부
+  isAdmin: PropTypes.bool, // 관리자인지 여부
 };
 
 NoticeHeader.defaultProps = {
   showIndexButton: true,
+  isWriter: false, // 기본값 추가
+  isAdmin: false, // 기본값 추가
 };
 
 export default NoticeHeader;

@@ -3,13 +3,19 @@ import { Box, Grid, Card, Typography, Button, Modal } from '@mui/material';
 import styled from 'styled-components';
 import theme from '../../styles/theme';
 
-// 기본 버튼 스타일
-const StyledButton = styled(Button)`
-  color: white !important;
+// 기본 버튼 스타일 (HTML button 태그 사용)
+const StyledButton = styled.button`
+  color: white;
   text-transform: none;
   min-width: 0;
-  padding: 0;
+  padding: 0.5rem 1rem; /* 버튼 내 여백 조정 */
   margin-left: 0.5rem;
+  border: 0.5px solid white; /* 하얀색 테두리 추가 */
+  border-radius: 8px; /* 둥근 모서리 설정 */
+  background-color: transparent; /* 버튼 배경을 투명하게 설정 */
+  cursor: pointer;
+  font-family: ${theme.font.family.pretendard_semiBold};
+  font-size: 16px;
 `;
 
 // 모달 제목 및 버튼 스타일

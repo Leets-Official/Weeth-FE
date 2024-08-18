@@ -98,10 +98,8 @@ const CommentList = ({ noticeId, postId }) => {
 
         if (response.status === 200 && response.data.code === 200) {
           alert('댓글이 삭제되었습니다.');
-          // 상태를 업데이트하여 최신 댓글 목록 반영
-          setComments((prevComments) =>
-            prevComments.filter((comment) => comment.id !== commentId),
-          );
+
+          await fetchComments();
         } else {
           console.error('서버 응답 오류:', response.data.message);
           alert('댓글 삭제에 실패했습니다. 다시 시도해주세요.');

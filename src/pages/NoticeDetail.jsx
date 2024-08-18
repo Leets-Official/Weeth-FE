@@ -125,7 +125,11 @@ const NoticeDetail = () => {
   const navigate = useNavigate();
 
   const accessToken = localStorage.getItem('accessToken');
+  // const accessToken = process.env.REACT_APP_ACCESS_TOKEN;
   const BASE_URL = process.env.REACT_APP_BASE_URL;
+
+  // 글 작성자인지 확인하는 로직
+  const isWriter = content?.name === userData?.name;
 
   // 공지사항 삭제
   const handleDeleteClick = async () => {
@@ -221,6 +225,7 @@ const NoticeDetail = () => {
           }}
           showModal={false}
           ModalComponent={EditDelModal} // EditDelModal을 사용
+          isWriter={isWriter}
         />
       </HeaderWrapper>
       <NoticeRow>
@@ -235,7 +240,7 @@ const NoticeDetail = () => {
           <NoticeContents>{content?.content || 'Loading...'}</NoticeContents>
         </TextContainer>
         <ComponentRow>
-          {content.fileUrls ? (
+          {content.fileUrls && content.fileUrls.length > 0 ? (
             <AttachButton
               fileUrl={content.fileUrls[0]}
               onFileChange={handleFileChange}

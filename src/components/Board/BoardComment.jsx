@@ -73,6 +73,7 @@ const CommentButtonMargin = styled.div`
 
 const BoardComment = ({
   postId,
+  noticeId,
   commentId,
   name,
   content,
@@ -105,7 +106,9 @@ const BoardComment = ({
       onReply(commentId); // 대댓글 입력창을 여는 콜백 함수 호출
       setShowReplies(true);
       setTimeout(() => {
-        inputRef.current.focus(); // 입력창에 포커스를 주어 키보드가 자동으로 올라오게 함
+        if (inputRef.current) {
+          inputRef.current.focus(); // 입력창에 포커스를 주어 키보드가 자동으로 올라오게 함
+        }
       }, 0);
     }
   };
@@ -113,15 +116,30 @@ const BoardComment = ({
   const handleDeleteRecomment = async (recommentId) => {
     if (window.confirm('정말 이 대댓글을 삭제하시겠습니까?')) {
       try {
-        // 서버에 DELETE 요청 보내기
-        await axios.delete(
-          `${BASE_URL}/api/v1/posts/${postId}/comments/${recommentId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          },
+        let url;
+        if (postId) {
+          url = `${BASE_URL}/api/v1/posts/${postId}/comments/${recommentId}`;
+        } else if (noticeId) {
+          url = `${BASE_URL}/api/v1/notices/${noticeId}/comments/${recommentId}`;
+        } else {
+          console.error('Neither postId nor noticeId is provided.');
+          return;
+        }
+
+        console.log(
+          'Deleting recomment with ID:',
+          recommentId,
+          'using URL:',
+          url,
         );
+
+        const response = await axios.delete(url, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+
+        console.log('DELETE request successful:', response.data);
         // 서버 응답이 성공적일 경우 상태 업데이트
         setComments((prevComments) =>
           prevComments.map((comment) => {
@@ -156,7 +174,7 @@ const BoardComment = ({
     <CommentContainer>
       <BoardCommented>
         <BottomRow>
-          <UserName>{isDeleted ? '알 수 없음' : name}</UserName>
+          <UserName>{name}</UserName>
           <CommentButton alt="" onClick={handleReplyClick} />
           <CommentButtonMargin />
           <CommentDeleteButton onClick={onDelete} />
@@ -200,6 +218,7 @@ const BoardComment = ({
 
 BoardComment.propTypes = {
   postId: PropTypes.number.isRequired,
+  noticeId: PropTypes.number.isRequired,
   commentId: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
