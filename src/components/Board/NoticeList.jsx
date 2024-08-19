@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-// import PropTypes from 'prop-types';
 import BoardComponent from './BoardComponent';
+import more from '../../assets/images/ic_moreButton.svg';
 import Utils from '../../hooks/Utils';
 
 const NoticeList = () => {
@@ -113,6 +113,20 @@ const NoticeList = () => {
     });
   };
 
+  const buttonStyle = {
+    background: 'none',
+    border: 'none',
+    padding: 0,
+    cursor: 'pointer',
+    width: '62px',
+    height: '20px',
+  };
+
+  const imgStyle = {
+    width: '62px',
+    height: '20px',
+  };
+
   return (
     <div>
       {notices.map((notice) => (
@@ -126,9 +140,30 @@ const NoticeList = () => {
           onClick={() => handleNavigate(notice)}
         />
       ))}
-      <button type="button" onClick={loadMoreStudies}>
-        더 불러오기
-      </button>
+
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          width: '100%',
+          height: '100px',
+          transform: 'translateY(-10px)',
+        }}
+      >
+        <button
+          type="button"
+          style={buttonStyle}
+          onClick={loadMoreStudies}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              loadMoreStudies();
+            }
+          }}
+        >
+          <img src={more} alt="Load more" style={imgStyle} />
+        </button>
+      </div>
     </div>
   );
 };

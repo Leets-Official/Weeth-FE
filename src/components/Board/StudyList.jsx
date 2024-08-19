@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import BoardComponent from './BoardComponent';
 import { BoardContext } from '../../hooks/BoardContext';
+import more from '../../assets/images/ic_moreButton.svg';
 import Utils from '../../hooks/Utils';
 
 const StudyList = ({postId}) => {
@@ -93,6 +94,20 @@ const StudyList = ({postId}) => {
     navigate(`/board/posts/${study.id}`, { state: { type: 'study', data: study } });
   };
 
+  const buttonStyle = {
+    background: 'none',
+    border: 'none',
+    padding: 0,
+    cursor: 'pointer',
+    width: '62px',
+    height: '20px',
+  };
+
+  const imgStyle = {
+    width: '62px',
+    height: '20px',
+  };
+
   return (
     <div>
       {studies.map((study) => (
@@ -106,7 +121,30 @@ const StudyList = ({postId}) => {
           onClick={() => handleNavigate(study)}
         />
       ))}
-      <button onClick={loadMoreStudies}>더 불러오기</button>
+      
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          width: '100%',
+          height: '100px',
+          transform: 'translateY(-10px)',
+        }}
+      >
+        <button
+          type="button"
+          style={buttonStyle}
+          onClick={loadMoreStudies}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              loadMoreStudies();
+            }
+          }}
+        >
+          <img src={more} alt="Load more" style={imgStyle} />
+        </button>
+      </div>
     </div>
   );
 };
