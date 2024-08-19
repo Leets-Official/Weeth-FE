@@ -129,14 +129,21 @@ const SmallBox = ({ title, num }) => {
 };
 
 const MeetingBox = ({ attend, title, week, date, place }) => {
+  let captionText = '미결';
+  let captionColor = theme.color.grayScale.mediumGray;
+
+  if (attend === 'ATTEND') {
+    captionText = '출석';
+    captionColor = theme.color.main.mainColor;
+  } else if (attend === 'ABSENT') {
+    captionText = '결석';
+    captionColor = theme.color.main.negative;
+  }
+
   return (
     <MeetingInfoBox>
       <MeetingHeader>
-        {attend ? (
-          <Caption color={theme.color.main.mainColor}>출석</Caption>
-        ) : (
-          <Caption color={theme.color.main.negative}>결석</Caption>
-        )}
+        <Caption color={captionColor}>{captionText}</Caption>
         <MeetingTitle>
           {week}: {title}
         </MeetingTitle>
@@ -233,10 +240,11 @@ const AttendCheckMain = () => {
 
             const formattedDate = `${startDateTime} (${startTime} ~ ${endTime})`;
 
+            console.log(meeting.status);
             return (
               <MeetingBox
-                key={meeting.attendanceId}
-                attend={meeting.isAttend}
+                key={meeting.id}
+                attend={meeting.status}
                 title={meeting.title}
                 week={`${meeting.weekNumber}주차`}
                 date={formattedDate}

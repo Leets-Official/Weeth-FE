@@ -12,6 +12,8 @@ import calendar from '../../assets/images/ic_home_calendar.svg';
 import attend from '../../assets/images/ic_home_attend.svg';
 import board from '../../assets/images/ic_home_board.svg';
 
+import UserAPI from '../../hooks/UserAPI';
+
 const StyledHomeMain = styled.div`
   display: flex;
   flex-direction: column;
@@ -89,20 +91,18 @@ const PlaceholderImage = styled.div`
 
 const HomeMain = () => {
   const navi = useNavigate();
-  const { userData, error } = useContext(UserContext);
+  const { userData } = useContext(UserContext);
 
   let userName;
-  console.log(error);
-  if (error) {
-    userName = 'error';
-  } else if (!userData) {
-    userName = 'loading';
+  if (userData === null) {
+    userName = 'Loading';
   } else {
     userName = userData.name;
   }
 
   return (
     <StyledHomeMain>
+      <UserAPI />
       <CaptionContainer>
         <Caption color="#ffffff" textColor="#000000">
           3기

@@ -16,7 +16,7 @@ import AttendAPI from '../../hooks/AttendAPI';
 import PenaltyAPI from '../../hooks/PenaltyAPI';
 
 // 출석률 게이지 임시 값
-let ATTEND_GAUGE = 100;
+let ATTEND_GAUGE = 0;
 const MAX_ATTEND_GUAGE = 100;
 
 const StyledAttend = styled.div`

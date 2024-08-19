@@ -1,5 +1,5 @@
 /* eslint-disable react/no-children-prop */
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -9,7 +9,6 @@ import { ReactComponent as ToggleVisibleIcon } from '../assets/images/ic_toggleV
 import { ReactComponent as ToggleInvisibleIcon } from '../assets/images/ic_toggleInvisible.svg';
 import Utils from '../hooks/Utils';
 import useCustomBack from '../router/useCustomBack';
-import UserAPI from '../hooks/UserAPI';
 import theme from '../styles/theme';
 
 const Container = styled.div`
@@ -45,8 +44,6 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [error, setError] = useState(null);
-  // UserAPI 완료 상태 관리
-  const [userApiCompleted, setUserApiCompleted] = useState(false);
 
   const validateEmail = (vaildEmail) => {
     return vaildEmail.toLowerCase().match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/);
@@ -113,7 +110,7 @@ const Login = () => {
         localStorage.setItem('refreshToken', newRefreshToken);
         console.log('login token', newToken, newRefreshToken);
 
-        setUserApiCompleted(true); // UserAPI 완료 상태 설정
+        navigate('/home');
       }
     } catch (err) {
       console.error('Error:', err);
@@ -127,13 +124,6 @@ const Login = () => {
       }
     }
   };
-
-  useEffect(() => {
-    if (userApiCompleted) {
-      // UserAPI 완료 후 홈으로 이동
-      navigate('/home');
-    }
-  }, [userApiCompleted, navigate]);
 
   return (
     <Container>
@@ -181,7 +171,6 @@ const Login = () => {
         )}
       </SignupTextComponent>
       <ErrorMessage>{error}</ErrorMessage>
-      {userApiCompleted && <UserAPI />}
     </Container>
   );
 };
