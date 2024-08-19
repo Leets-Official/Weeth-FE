@@ -38,7 +38,8 @@ const Footer = styled.footer`
 
 const Home = () => {
   useCustomBack('/home');
-
+  const today = new Date();
+  console.log(today);
   const accessToken = localStorage.getItem('accessToken');
   const refreshToken = localStorage.getItem('refreshToken');
   // eslint-disable-next-line no-console

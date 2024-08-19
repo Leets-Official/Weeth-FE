@@ -14,7 +14,7 @@ const NoticeList = () => {
   const BASE_URL = process.env.REACT_APP_BASE_URL;
 
   // API 호출 함수
-  const fetchNotices = async (noticeId = null, count = 5) => {
+  const fetchNotices = async (noticeId = null, count = 15) => {
     try {
       const params = { count: count || 5 };
       if (noticeId) {
@@ -34,6 +34,7 @@ const NoticeList = () => {
 
       if (response.status === 200 && response.data.code === 200) {
         const noticesData = response.data.data;
+        console.log('Number of notices received:', noticesData.length);
         if (noticesData.length === 0) {
           console.log('No more notices to load.');
           return;
@@ -85,27 +86,26 @@ const NoticeList = () => {
 
   // 컴포넌트 마운트 시 서버로부터 최신 데이터를 로드
   useEffect(() => {
-    fetchNotices(); // 컴포넌트가 처음 마운트될 때 최신 데이터를 가져옴
+    fetchNotices(null, 15); // 컴포넌트가 처음 마운트될 때 최신 데이터를 가져옴
   }, [accessToken]);
 
   // 더 많은 데이터를 로드하는 함수
-  const loadMoreStudies = () => {
+  const loadMoreNotices = () => {
     if (notices.length > 0) {
       const lastNotice = notices[notices.length - 1];
       if (lastNotice && lastNotice.id) {
         console.log(
-          'loadMoreStudies: Fetching with noticeId:',
+          'loadMoreNotices: Fetching with postId:',
           lastNotice.id,
-          'and count: 5',
+          'and count: 15',
         );
-        fetchNotices(lastNotice.id, 5);
+        fetchNotices(lastNotice.id, 15);
       }
     } else {
-      console.log('loadMoreNotices: Fetching initial notices with count: 5');
-      fetchNotices(null, 5);
+      console.log('loadMoreNotices: Fetching initial studies with count: 15');
+      fetchNotices(null, 15);
     }
   };
-
   // 게시글 클릭 시 상세 페이지로 이동
   const handleNavigate = (notice) => {
     navigate(`/board/notices/${notice.id}`, {
@@ -154,10 +154,10 @@ const NoticeList = () => {
         <button
           type="button"
           style={buttonStyle}
-          onClick={loadMoreStudies}
+          onClick={loadMoreNotices}
           onKeyDown={(e) => {
             if (e.key === 'Enter' || e.key === ' ') {
-              loadMoreStudies();
+              loadMoreNotices();
             }
           }}
         >

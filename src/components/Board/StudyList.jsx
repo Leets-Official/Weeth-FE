@@ -14,9 +14,9 @@ const StudyList = ({postId}) => {
   const BASE_URL = process.env.REACT_APP_BASE_URL;
 
   // API 호출 함수
-  const fetchStudies = async (postId = null, count = 5) => {
+  const fetchStudies = async (postId = null, count = 15) => {
     try {
-      const params = { count: count || 5 };
+      const params = { count: count || 15 };
       if (postId) {
         params.postId = postId;
       }
@@ -80,12 +80,12 @@ const StudyList = ({postId}) => {
     if (studies.length > 0) {
       const lastStudy = studies[studies.length - 1];
       if (lastStudy && lastStudy.id) {
-        console.log('loadMoreStudies: Fetching with postId:', lastStudy.id, 'and count: 5');
-        fetchStudies(lastStudy.id, 5);
+        console.log('loadMoreStudies: Fetching with postId:', lastStudy.id, 'and count: 15');
+        fetchStudies(lastStudy.id, 15);
       }
     } else {
-      console.log('loadMoreStudies: Fetching initial studies with count: 5');
-      fetchStudies(null, 5);
+      console.log('loadMoreStudies: Fetching initial studies with count: 15');
+      fetchStudies(null, 15);
     }
   };
 
