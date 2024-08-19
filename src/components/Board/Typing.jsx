@@ -2,16 +2,16 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import PropTypes from 'prop-types';
-// import { useLocation } from 'react-router-dom';
 import { ReactComponent as RegisterComment } from '../../assets/images/ic_send.svg';
+import Utils, { replaceNewLines } from '../../hooks/Utils';
 import theme from '../../styles/theme';
 
 const InputWrapper = styled.div`
   position: relative;
   display: flex;
   align-items: center;
-  width: 81%;
-  margin: 10px 0 0 10%;
+  width: 370px;
+  margin: 10px 5% 10px 5%;
 `;
 
 const InputField = styled.input`
@@ -21,7 +21,7 @@ const InputField = styled.input`
   background-color: ${theme.color.main.mainColor};
   border: none;
   border-radius: 15px;
-  font-size: 14px;
+  font-size: 16px; // 확대 방지를 위해 16px로 설정
   font-family: ${theme.font.family.pretendard_semiBold};
   outline: none;
   padding: 0 48% 0 5%;
@@ -56,10 +56,13 @@ const Typing = ({
       return;
     }
 
+    // Use replaceNewLines function from Utils to process the comment
+    const processedComment = replaceNewLines(trimmedComment);
+
     console.log('댓글 작성 시도:', {
       noticeId,
       postId,
-      trimmedComment,
+      processedComment,
       parentCommentId,
     });
 
@@ -78,7 +81,7 @@ const Typing = ({
       const response = await axios.post(
         url,
         {
-          content: trimmedComment,
+          content: processedComment,
           parentCommentId,
         },
         {
@@ -89,21 +92,44 @@ const Typing = ({
         },
       );
 
-      if (response.data.code === 200) {
+      // Utils를 사용하여 토큰 만료 시 재시도 로직 추가
+      const finalResponse = await Utils(
+        response,
+        axios.post,
+        [
+          url,
+          { content: processedComment, parentCommentId },
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+              'Content-Type': 'application/json',
+            },
+          },
+        ],
+        null, // navigate는 여기서 사용되지 않으므로 null로 전달
+      );
+
+      if (finalResponse.data.code === 200) {
         console.log('댓글이 성공적으로 등록되었습니다.');
         setComment(''); // 입력 필드 초기화
-        console.log('onCommentSubmitted 호출 전:', response.data.data);
-        onCommentSubmitted(response.data.data); // 새로운 댓글 데이터를 부모 컴포넌트로 전달
+        console.log('onCommentSubmitted 호출 전:', finalResponse.data.data);
+        onCommentSubmitted(finalResponse.data.data); // 새로운 댓글 데이터를 부모 컴포넌트로 전달
         if (parentCommentId) {
-          console.log('대댓글이 등록되었습니다:', response.data.data);
+          console.log('대댓글이 등록되었습니다:', finalResponse.data.data);
         } else {
-          console.log('일반 댓글이 등록되었습니다:', response.data.data);
+          console.log('일반 댓글이 등록되었습니다:', finalResponse.data.data);
         }
       } else {
-        console.error('응답에서 오류 발생:', response.data.message);
+        console.error('응답에서 오류 발생:', finalResponse.data.message);
       }
     } catch (error) {
       console.error('댓글을 게시하는 데 실패했습니다:', error);
+    }
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleRegisterComment();
     }
   };
 
@@ -115,6 +141,7 @@ const Typing = ({
         placeholder="댓글을 입력하세요."
         onChange={handleCommentChange}
         onFocus={onInputFocus} // 입력창이 포커스될 때 대댓글 상태 초기화
+        onKeyPress={handleKeyPress}
       />
       <RegisterComment
         alt=""

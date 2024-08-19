@@ -1,10 +1,27 @@
 import React, { useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 import BoardComment from './BoardComment';
 import Typing from './Typing';
 import { UserContext } from '../../hooks/UserContext';
 import { BoardContext } from '../../hooks/BoardContext';
+import Utils from '../../hooks/Utils';
+import theme from '../../styles/theme';
+
+const TypingContainer = styled.div`
+  position: fixed;
+  bottom: 0;
+  width: 370px; /* 헤더와 동일한 너비 */
+  background-color: ${theme.color.grayScale.gray12};
+  display: flex;
+  justify-content: center;
+  padding: 0;
+  z-index: 2;
+  left: 50%;
+  transform: translateX(-50%); /* 가로 방향으로 정확히 중앙에 배치 */
+  font-size: 16px;
+`;
 
 const CommentList = ({ noticeId, postId }) => {
   const [comments, setComments] = useState([]);
@@ -101,20 +118,27 @@ const CommentList = ({ noticeId, postId }) => {
           },
         });
 
-        console.log(`DELETE request response:`, response);
+        const finalResponse = await Utils(response, axios.delete, [
+          url,
+          { headers: { Authorization: `Bearer ${accessToken}` } },
+        ]);
 
-        if (response.status === 200 && response.data.code === 200) {
+        console.log(`DELETE request finalResponse:`, finalResponse);
+
+        if (finalResponse.status === 200 && finalResponse.data.code === 200) {
           alert('댓글이 삭제되었습니다.');
 
           await fetchComments();
         } else {
-          console.error('서버 응답 오류:', response.data.message);
+          console.error('서버 응답 오류:', finalResponse.data.message);
           alert('댓글 삭제에 실패했습니다. 다시 시도해주세요.');
         }
       } catch (error) {
-        if (error.response) {
-          console.error('서버 오류:', error.response.data);
-          alert(`댓글 삭제에 실패했습니다: ${error.response.data.message}`);
+        if (error.finalResponse) {
+          console.error('서버 오류:', error.finalResponse.data);
+          alert(
+            `댓글 삭제에 실패했습니다: ${error.finalResponse.data.message}`,
+          );
         } else {
           console.error('요청 오류:', error.message);
           alert('댓글 삭제 중 오류가 발생했습니다. 다시 시도해주세요.');
@@ -125,6 +149,28 @@ const CommentList = ({ noticeId, postId }) => {
       );
     }
   };
+
+  // 키보드 입력하다가 스크롤할 때 입력창 사라지는 문제
+  useEffect(() => {
+    // Focus 시 TypingContainer로 스크롤
+    const handleFocus = () => {
+      const typingContainer = document.getElementById('typingContainer');
+      if (typingContainer) {
+        typingContainer.scrollIntoView({ behavior: 'smooth' });
+      }
+    };
+
+    const inputElements = document.querySelectorAll('input, textarea');
+    inputElements.forEach((input) =>
+      input.addEventListener('focus', handleFocus),
+    );
+
+    return () => {
+      inputElements.forEach((input) =>
+        input.removeEventListener('focus', handleFocus),
+      );
+    };
+  }, []);
 
   return (
     <div>
@@ -160,18 +206,20 @@ const CommentList = ({ noticeId, postId }) => {
           />
         );
       })}
-      <Typing
-        noticeId={noticeId}
-        postId={postId}
-        onCommentSubmitted={handleCommentSubmitted}
-        parentCommentId={replyingTo}
-        onInputFocus={() => {
-          if (!replyingTo) {
-            setReplyingTo(null); // 댓글 상태 초기화
-          }
-        }} // 입력창이 포커스될 때, 대댓글 상태 초기화
-        comment=""
-      />
+      <TypingContainer>
+        <Typing
+          noticeId={noticeId}
+          postId={postId}
+          onCommentSubmitted={handleCommentSubmitted}
+          parentCommentId={replyingTo}
+          onInputFocus={() => {
+            if (!replyingTo) {
+              setReplyingTo(null); // 댓글 상태 초기화
+            }
+          }} // 입력창이 포커스될 때, 대댓글 상태 초기화
+          comment=""
+        />
+      </TypingContainer>
     </div>
   );
 };

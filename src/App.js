@@ -27,7 +27,6 @@ import NoticePosting from './pages/NoticePosting';
 import EventAdmin from './pages/EventAdmin';
 import StudyDetail from './pages/StudyDetail';
 import NoticeDetail from './pages/NoticeDetail';
-import BoardEdit from './pages/BoardEdit';
 
 import theme from './styles/theme';
 import Receipt from './pages/Receipt';
@@ -87,7 +86,6 @@ const App = () => {
           <Route path="/board/notices/:id" element={<NoticeDetail />} />
           <Route path="/studyPosting" element={<StudyPosting />} />
           <Route path="/noticePosting" element={<NoticePosting />} />
-          <Route path="/boardEdit" element={<BoardEdit />} />
         </Routes>
         </AttendCheckProvider>
         </YearlyScheduleProvider>

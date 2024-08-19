@@ -8,6 +8,7 @@ import AttachButton from '../components/Board/AttachButton';
 import CommentList from '../components/Board/CommentList';
 import EditDelModal from '../components/EditDelModal';
 import { ReactComponent as BoardChat } from '../assets/images/ic_board_chat.svg';
+import Utils from '../hooks/Utils';
 import theme from '../styles/theme';
 
 const Container = styled.div`
@@ -34,6 +35,7 @@ const NoticeRow = styled.div`
   padding: 10px 6%;
   margin-top: 90px;
   flex-grow: 1;
+  margin-bottom: 100px; /* Typing 영역과 겹치지 않도록 하단 여백 추가 */
 `;
 
 const TextContainer = styled.div`
@@ -150,17 +152,30 @@ const NoticeDetail = () => {
           },
         });
 
-        console.log('Response status:', response.status);
-        console.log('Response data:', response.data);
+        // Utils를 통한 재시도 로직 추가
+        const finalResponse = await Utils(
+          response,
+          axios.get,
+          [
+            `${BASE_URL}/api/v1/notices/${noticeId}`,
+            { headers: { Authorization: `Bearer ${accessToken}` } },
+          ],
+          navigate,
+        );
 
-        if (response.data.code === 200) {
+        console.log('Response status:', finalResponse.status);
+        console.log('Response data:', finalResponse.data);
+
+        if (finalResponse.data.code === 200) {
           alert('삭제가 완료되었습니다.');
           navigate('/board');
-        } else if (response.data.code === 400) {
-          alert(`삭제 실패: ${response.data.message}`);
+        } else if (finalResponse.data.code === 400) {
+          alert(`삭제 실패: ${finalResponse.data.message}`);
         } else {
-          console.error('알 수 없는 오류 발생:', response.data.message);
-          alert(`삭제에 실패했습니다. 오류 메시지: ${response.data.message}`);
+          console.error('알 수 없는 오류 발생:', finalResponse.data.message);
+          alert(
+            `삭제에 실패했습니다. 오류 메시지: ${finalResponse.data.message}`,
+          );
         }
       } catch (err) {
         console.error('삭제 요청 중 오류 발생:', err);
@@ -181,13 +196,26 @@ const NoticeDetail = () => {
           },
         );
 
-        console.log('API Response:', response.data); // 응답 전체를 로그로 출력
+        const finalResponse = await Utils(
+          response,
+          axios.get,
+          [
+            `${BASE_URL}/api/v1/notices/${noticeId}`,
+            { headers: { Authorization: `Bearer ${accessToken}` } },
+          ],
+          navigate,
+        );
 
-        if (response.data.code === 200) {
-          setContent(response.data.data);
-          console.log('notice 데이터', response.data.data);
+        console.log('API Response:', finalResponse.data); // 응답 전체를 로그로 출력
+
+        if (finalResponse.data.code === 200) {
+          setContent(finalResponse.data.data);
+          console.log('notice 데이터', finalResponse.data.data);
         } else {
-          console.error('Error fetching notice data:', response.data.message);
+          console.error(
+            'Error fetching notice data:',
+            finalResponse.data.message,
+          );
         }
       } catch (err) {
         console.error('API request error:', err);

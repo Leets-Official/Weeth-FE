@@ -6,6 +6,7 @@ import { UserContext } from '../../hooks/UserContext';
 import { ReactComponent as CommentButton } from '../../assets/images/ic_comment.svg';
 import { ReactComponent as ReplyButton } from '../../assets/images/ic_reply.svg';
 import { ReactComponent as CommentDeleteButton } from '../../assets/images/ic_comment_delete.svg';
+import Utils from '../../hooks/Utils'; // Utils 모듈을 import
 import theme from '../../styles/theme';
 
 const CommentContainer = styled.div`
@@ -136,34 +137,37 @@ const BoardComment = ({
           return;
         }
 
-        console.log(
-          'Deleting recomment with ID:',
-          recommentId,
-          'using URL:',
-          url,
-        );
-
         const response = await axios.delete(url, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
         });
 
-        console.log('DELETE request successful:', response.data);
-        // 서버 응답이 성공적일 경우 상태 업데이트
-        setComments((prevComments) =>
-          prevComments.map((comment) => {
-            if (comment.id === commentId) {
-              return {
-                ...comment,
-                children: comment.children.filter(
-                  (child) => child.id !== recommentId,
-                ),
-              };
-            }
-            return comment;
-          }),
-        );
+        const finalResponse = await Utils(response, axios.delete, [
+          url,
+          { headers: { Authorization: `Bearer ${accessToken}` } },
+        ]);
+
+        if (finalResponse.status === 200) {
+          console.log('DELETE request successful:', finalResponse.data);
+          // 서버 응답이 성공적일 경우 상태 업데이트
+          setComments((prevComments) =>
+            prevComments.map((comment) => {
+              if (comment.id === commentId) {
+                return {
+                  ...comment,
+                  children: comment.children.filter(
+                    (child) => child.id !== recommentId,
+                  ),
+                };
+              }
+              return comment;
+            }),
+          );
+        } else {
+          console.error('DELETE request failed:', finalResponse.data);
+          alert('대댓글 삭제에 실패했습니다. 다시 시도해주세요.');
+        }
       } catch (error) {
         console.error('대댓글 삭제 중 오류 발생:', error);
         alert('대댓글 삭제에 실패했습니다. 다시 시도해주세요.');
