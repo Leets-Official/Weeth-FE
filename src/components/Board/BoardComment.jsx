@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import axios from 'axios';
+import { UserContext } from '../../hooks/UserContext';
 import { ReactComponent as CommentButton } from '../../assets/images/ic_comment.svg';
 import { ReactComponent as ReplyButton } from '../../assets/images/ic_reply.svg';
 import { ReactComponent as CommentDeleteButton } from '../../assets/images/ic_comment_delete.svg';
@@ -91,6 +92,8 @@ const BoardComment = ({
   const accessToken = localStorage.getItem('accessToken');
   const BASE_URL = process.env.REACT_APP_BASE_URL;
 
+  const { userData } = useContext(UserContext);
+
   useEffect(() => {
     // 댓글이 삭제된 경우 대댓글 작성 기능을 비활성화
     if (isDeleted) {
@@ -115,9 +118,11 @@ const BoardComment = ({
   };
 
   const handleDeleteRecomment = async (recommentId) => {
+    const recomment = recomments.find((r) => r.id === recommentId); // 삭제할 대댓글을 찾음
+    const isRecommentWriter = recomment.name === userData.name; // 대댓글 작성자인지 확인
     if (window.confirm('정말 이 대댓글을 삭제하시겠습니까?')) {
-      if (!isWriter) {
-        alert('댓글을 삭제할 권한이 없습니다.');
+      if (!isRecommentWriter) {
+        alert('대댓글을 삭제할 권한이 없습니다.');
         return;
       }
       try {
@@ -182,38 +187,45 @@ const BoardComment = ({
           <UserName>{name}</UserName>
           <CommentButton alt="" onClick={handleReplyClick} />
           <CommentButtonMargin />
-          <CommentDeleteButton onClick={onDelete} />
+          {isWriter && ( // 작성자인 경우에만 삭제 버튼을 보여줌
+            <CommentDeleteButton onClick={onDelete} />
+          )}
         </BottomRow>
         <StyledComment>{content}</StyledComment>
         <CommentDate>{formatDateTime(time) || '00/00 00:00'}</CommentDate>
 
         {showReplies && recomments.length > 0 && !isDeleted && (
           <div>
-            {recomments.map((recomment) => (
-              <ReplyRow key={recomment.id}>
-                <ReplyButton
-                  alt=""
-                  style={{
-                    marginRight: '2px',
-                    flexShrink: 0,
-                  }}
-                />
-                <BoardReply>
-                  <BottomRow>
-                    <UserName>{recomment.name}</UserName>
-                    <CommentDeleteButton
-                      alt=""
-                      style={{
-                        marginRight: '10px',
-                      }}
-                      onClick={() => handleDeleteRecomment(recomment.id)} // 이벤트 핸들러 수정
-                    />
-                  </BottomRow>
-                  <StyledComment>{recomment.content}</StyledComment>
-                  <CommentDate>{formatDateTime(recomment.time)}</CommentDate>
-                </BoardReply>
-              </ReplyRow>
-            ))}
+            {recomments.map((recomment) => {
+              const isRecommentWriter = recomment.name === userData.name; // 대댓글 작성자인지 확인
+              return (
+                <ReplyRow key={recomment.id}>
+                  <ReplyButton
+                    alt=""
+                    style={{
+                      marginRight: '2px',
+                      flexShrink: 0,
+                    }}
+                  />
+                  <BoardReply>
+                    <BottomRow>
+                      <UserName>{recomment.name}</UserName>
+                      {isRecommentWriter && ( // 대댓글 작성자인 경우에만 삭제 버튼을 보여줌
+                        <CommentDeleteButton
+                          alt=""
+                          style={{
+                            marginRight: '10px',
+                          }}
+                          onClick={() => handleDeleteRecomment(recomment.id)} // 이벤트 핸들러 수정
+                        />
+                      )}
+                    </BottomRow>
+                    <StyledComment>{recomment.content}</StyledComment>
+                    <CommentDate>{formatDateTime(recomment.time)}</CommentDate>
+                  </BoardReply>
+                </ReplyRow>
+              );
+            })}
           </div>
         )}
       </BoardCommented>
