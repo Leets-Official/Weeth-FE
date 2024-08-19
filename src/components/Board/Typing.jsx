@@ -10,8 +10,8 @@ const InputWrapper = styled.div`
   position: relative;
   display: flex;
   align-items: center;
-  width: 81%;
-  margin: 10px 0 0 10%;
+  width: 370px;
+  margin: 10px 5% 10px 5%;
 `;
 
 const InputField = styled.input`
@@ -21,7 +21,7 @@ const InputField = styled.input`
   background-color: ${theme.color.main.mainColor};
   border: none;
   border-radius: 15px;
-  font-size: 14px;
+  font-size: 16px; // 확대 방지를 위해 16px로 설정
   font-family: ${theme.font.family.pretendard_semiBold};
   outline: none;
   padding: 0 48% 0 5%;

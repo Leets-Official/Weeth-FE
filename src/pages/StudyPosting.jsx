@@ -28,6 +28,8 @@ const StyledTitle = styled.input`
   color: ${theme.color.grayScale.white};
   font-family: ${theme.font.family.pretendard_semiBold};
   outline: none;
+
+  font-size: 16px; // 확대 방지
 `;
 
 const StyledLine = styled.div`
@@ -48,6 +50,8 @@ const StyledContent = styled.textarea`
   outline: none;
   resize: none;
   height: 455px;
+
+  font-size: 16px; // 확대 방지
 `;
 
 const StudyPosting = () => {

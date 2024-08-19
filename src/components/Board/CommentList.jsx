@@ -1,10 +1,26 @@
 import React, { useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 import BoardComment from './BoardComment';
 import Typing from './Typing';
 import { UserContext } from '../../hooks/UserContext';
 import { BoardContext } from '../../hooks/BoardContext';
+import theme from '../../styles/theme';
+
+const TypingContainer = styled.div`
+  position: fixed;
+  bottom: 0;
+  width: 370px; /* 헤더와 동일한 너비 */
+  background-color: ${theme.color.grayScale.gray12};
+  display: flex;
+  justify-content: center;
+  padding: 0;
+  z-index: 2;
+  left: 50%;
+  transform: translateX(-50%); /* 가로 방향으로 정확히 중앙에 배치 */
+  font-size: 16px;
+`;
 
 const CommentList = ({ noticeId, postId }) => {
   const [comments, setComments] = useState([]);
@@ -126,6 +142,28 @@ const CommentList = ({ noticeId, postId }) => {
     }
   };
 
+  // 키보드 입력하다가 스크롤할 때 입력창 사라지는 문제
+  useEffect(() => {
+    // Focus 시 TypingContainer로 스크롤
+    const handleFocus = () => {
+      const typingContainer = document.getElementById('typingContainer');
+      if (typingContainer) {
+        typingContainer.scrollIntoView({ behavior: 'smooth' });
+      }
+    };
+
+    const inputElements = document.querySelectorAll('input, textarea');
+    inputElements.forEach((input) =>
+      input.addEventListener('focus', handleFocus),
+    );
+
+    return () => {
+      inputElements.forEach((input) =>
+        input.removeEventListener('focus', handleFocus),
+      );
+    };
+  }, []);
+
   return (
     <div>
       {comments.map((comment, index) => {
@@ -160,18 +198,20 @@ const CommentList = ({ noticeId, postId }) => {
           />
         );
       })}
-      <Typing
-        noticeId={noticeId}
-        postId={postId}
-        onCommentSubmitted={handleCommentSubmitted}
-        parentCommentId={replyingTo}
-        onInputFocus={() => {
-          if (!replyingTo) {
-            setReplyingTo(null); // 댓글 상태 초기화
-          }
-        }} // 입력창이 포커스될 때, 대댓글 상태 초기화
-        comment=""
-      />
+      <TypingContainer>
+        <Typing
+          noticeId={noticeId}
+          postId={postId}
+          onCommentSubmitted={handleCommentSubmitted}
+          parentCommentId={replyingTo}
+          onInputFocus={() => {
+            if (!replyingTo) {
+              setReplyingTo(null); // 댓글 상태 초기화
+            }
+          }} // 입력창이 포커스될 때, 대댓글 상태 초기화
+          comment=""
+        />
+      </TypingContainer>
     </div>
   );
 };
