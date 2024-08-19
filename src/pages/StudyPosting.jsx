@@ -6,6 +6,7 @@ import { BoardContext } from '../hooks/BoardContext';
 import PostingHeader from '../components/Board/PostingHeader';
 import FileAttachMenu from '../components/Board/FileAttachMenu';
 import { ReactComponent as FileAttach } from '../assets/images/ic_board_fileAttach.svg';
+import Utils from '../hooks/Utils';
 import theme from '../styles/theme';
 
 const StyledPosting = styled.div`
@@ -131,21 +132,45 @@ const StudyPosting = () => {
         },
       });
 
-      console.log('서버에 게시글 POST 후 응답 데이터:', response.data);
+      const finalResponse = await Utils(
+        response,
+        axios,
+        [
+          {
+            method,
+            url,
+            data: formData,
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+              'Content-Type': 'multipart/form-data',
+            },
+          },
+        ],
+        navigate,
+      );
 
-      if (response.data.code === 200) {
-        console.log('서버 응답:', response.data);
+      console.log('서버에 게시글 POST 후 응답 데이터:', finalResponse.data);
+
+      if (finalResponse.data.code === 200) {
+        console.log('서버 응답:', finalResponse.data);
         alert(postId ? '게시글이 수정되었습니다.' : '게시글이 생성되었습니다.');
-        setBoardData(response.data.data);
+        setBoardData(finalResponse.data.data);
         navigate('/board');
       } else {
-        console.error('Error:', response.data.message);
-        alert(`Error: ${response.data.message}`);
+        console.error('Error:', finalResponse.data.message);
+        alert(`Error: ${finalResponse.data.message}`);
       }
     } catch (err) {
       console.error('Error saving board study:', err);
-      if (err.response && err.response.data && err.response.data.message) {
-        console.error('Error message from server:', err.response.data.message);
+      if (
+        err.finalResponse &&
+        err.finalResponse.data &&
+        err.finalResponse.data.message
+      ) {
+        console.error(
+          'Error message from server:',
+          err.finalResponse.data.message,
+        );
       }
     }
   };
