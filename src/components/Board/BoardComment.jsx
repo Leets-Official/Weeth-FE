@@ -83,6 +83,7 @@ const BoardComment = ({
   onReply,
   isDeleted,
   setComments,
+  isWriter,
 }) => {
   const [showReplies, setShowReplies] = useState(recomments.length > 0);
   const inputRef = useRef(null); // ref 생성
@@ -115,6 +116,10 @@ const BoardComment = ({
 
   const handleDeleteRecomment = async (recommentId) => {
     if (window.confirm('정말 이 대댓글을 삭제하시겠습니까?')) {
+      if (!isWriter) {
+        alert('대댓글을 삭제할 권한이 없습니다.');
+        return;
+      }
       try {
         let url;
         if (postId) {
@@ -236,6 +241,7 @@ BoardComment.propTypes = {
   onReply: PropTypes.func.isRequired,
   isDeleted: PropTypes.bool,
   setComments: PropTypes.func.isRequired,
+  isWriter: PropTypes.bool.isRequired,
 };
 
 BoardComment.defaultProps = {

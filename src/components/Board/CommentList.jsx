@@ -3,12 +3,14 @@ import axios from 'axios';
 import PropTypes from 'prop-types';
 import BoardComment from './BoardComment';
 import Typing from './Typing';
+import { UserContext } from '../../hooks/UserContext';
 import { BoardContext } from '../../hooks/BoardContext';
 
 const CommentList = ({ noticeId, postId }) => {
   const [comments, setComments] = useState([]);
   const [replyingTo, setReplyingTo] = useState(null);
   const { boardData, setBoardData } = useContext(BoardContext);
+  const { userData } = useContext(UserContext);
 
   const accessToken = localStorage.getItem('accessToken');
   const BASE_URL = process.env.REACT_APP_BASE_URL;
@@ -75,7 +77,12 @@ const CommentList = ({ noticeId, postId }) => {
     fetchComments();
   };
 
-  const handleDeleteComment = async (commentId) => {
+  const handleDeleteComment = async (commentId, commentAuthor) => {
+    if (userData.name !== commentAuthor) {
+      alert('댓글을 삭제할 권한이 없습니다.');
+      return;
+    }
+
     if (window.confirm('정말 이 댓글을 삭제하시겠습니까?')) {
       try {
         let url;
@@ -126,6 +133,9 @@ const CommentList = ({ noticeId, postId }) => {
           console.error('Comment has no ID:', comment);
           return null;
         }
+
+        const isWriter = comment.name === userData.name;
+
         return (
           <BoardComment
             postId={postId}
@@ -136,10 +146,11 @@ const CommentList = ({ noticeId, postId }) => {
             content={comment.content || ''}
             time={comment.time || '시간 정보 없음'}
             recomments={comment.children || []}
-            onDelete={() => handleDeleteComment(comment.id)}
+            onDelete={() => handleDeleteComment(comment.id, comment.name)}
             onReply={() => handleReply(comment.id, comment.deleted)}
             isDeleted={comment.deleted}
             setComments={setComments}
+            isWriter={isWriter}
           />
         );
       })}
