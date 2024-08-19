@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import { ReactComponent as RegisterComment } from '../../assets/images/ic_send.svg';
-import Utils from '../../hooks/Utils';
+import Utils, { replaceNewLines } from '../../hooks/Utils';
 import theme from '../../styles/theme';
 
 const InputWrapper = styled.div`
@@ -56,10 +56,13 @@ const Typing = ({
       return;
     }
 
+    // Use replaceNewLines function from Utils to process the comment
+    const processedComment = replaceNewLines(trimmedComment);
+
     console.log('댓글 작성 시도:', {
       noticeId,
       postId,
-      trimmedComment,
+      processedComment,
       parentCommentId,
     });
 
@@ -78,7 +81,7 @@ const Typing = ({
       const response = await axios.post(
         url,
         {
-          content: trimmedComment,
+          content: processedComment,
           parentCommentId,
         },
         {
@@ -95,7 +98,7 @@ const Typing = ({
         axios.post,
         [
           url,
-          { content: trimmedComment, parentCommentId },
+          { content: processedComment, parentCommentId },
           {
             headers: {
               Authorization: `Bearer ${accessToken}`,
@@ -124,6 +127,12 @@ const Typing = ({
     }
   };
 
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleRegisterComment();
+    }
+  };
+
   return (
     <InputWrapper>
       <InputField
@@ -132,6 +141,7 @@ const Typing = ({
         placeholder="댓글을 입력하세요."
         onChange={handleCommentChange}
         onFocus={onInputFocus} // 입력창이 포커스될 때 대댓글 상태 초기화
+        onKeyPress={handleKeyPress}
       />
       <RegisterComment
         alt=""
