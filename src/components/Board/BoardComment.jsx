@@ -117,7 +117,7 @@ const BoardComment = ({
   const handleDeleteRecomment = async (recommentId) => {
     if (window.confirm('정말 이 대댓글을 삭제하시겠습니까?')) {
       if (!isWriter) {
-        alert('대댓글을 삭제할 권한이 없습니다.');
+        alert('댓글을 삭제할 권한이 없습니다.');
         return;
       }
       try {
@@ -187,7 +187,7 @@ const BoardComment = ({
         <StyledComment>{content}</StyledComment>
         <CommentDate>{formatDateTime(time) || '00/00 00:00'}</CommentDate>
 
-        {showReplies && recomments.length > 0 && (
+        {showReplies && recomments.length > 0 && !isDeleted && (
           <div>
             {recomments.map((recomment) => (
               <ReplyRow key={recomment.id}>

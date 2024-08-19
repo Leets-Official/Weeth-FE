@@ -136,13 +136,19 @@ const CommentList = ({ noticeId, postId }) => {
 
         const isWriter = comment.name === userData.name;
 
+        // 서버로부터 받아온 comment.content가 '삭제된 댓글입니다.'면 작성자 이름을 '알 수 없음'으로 변경
+        const displayName =
+          comment.content === '삭제된 댓글입니다.'
+            ? '알 수 없음'
+            : comment.name;
+
         return (
           <BoardComment
             postId={postId}
             noticeId={noticeId}
             key={comment.id || index} // 여기에 고유한 key를 추가
             commentId={comment.id}
-            name={comment.name || 'Unknown User'}
+            name={displayName || 'Unknown User'}
             content={comment.content || ''}
             time={comment.time || '시간 정보 없음'}
             recomments={comment.children || []}
