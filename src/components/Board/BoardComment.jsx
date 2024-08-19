@@ -99,7 +99,7 @@ const BoardComment = ({
   }, [isDeleted]);
 
   const handleReplyClick = () => {
-    if (isDeleted) {
+    if (isDeleted || content === '삭제된 댓글입니다.') {
       alert('삭제된 댓글에는 대댓글을 달 수 없습니다.');
       return;
     }
