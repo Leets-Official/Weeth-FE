@@ -108,11 +108,11 @@ const ReceiptMain = () => {
     months = [9, 10, 11, 12, 1, 2];
   }
 
+  // 현재 달이 3~12월일 경우는 년도를 다음해로 설정
+  // 1,2 월만 앞에 년도가 붙음, 1,2월은 해당 년도로 설정
   if (!(currentMonth === 1 || currentMonth === 2)) {
     currentYear += 1;
   }
-  console.log(currentYear);
-  console.log(currentMonth);
 
   return (
     <StyledReceipt>
