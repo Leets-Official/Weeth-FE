@@ -47,14 +47,18 @@ const DateInput = ({
 }) => {
   const [date, setDate] = useState(value);
 
-  const checkValidDate = (val) => {
+  const validateValue = (val) => {
     if (val === '') return true; // Allow empty value for clearing input
     switch (inputType) {
       case 'year':
-        return val.length <= 4 && val >= 2020 && val <= 2040; // 2020년부터 2040년까지 입력가능
+        return val.length <= 4 && val >= 2020 && val <= 2040; // 최대 4자리
       case 'month':
         return val >= 1 && val <= 12; // 1~12 사이
       case 'day':
+        if (year && month) {
+          const maxDays = getMaxDaysInMonth(year, month);
+          return val >= 1 && val <= maxDays;
+        }
         return val >= 1 && val <= 31; // 기본 1~31 사이
       case 'hour':
         return val >= 0 && val <= 23; // 0~23 사이
@@ -72,41 +76,15 @@ const DateInput = ({
   };
 
   const onBlur = () => {
-    if (!checkValidDate(date)) {
-      let validDate = value;
-      switch (inputType) {
-        case 'year':
-          validDate = Math.min(Math.max(date, 2020), 2040);
-          break;
-        case 'month':
-          validDate = Math.min(Math.max(date, 1), 12);
-          break;
-        case 'day':
-          if (year && month) {
-            const maxDays = getMaxDaysInMonth(year, month);
-            console.log('maxdays', month);
-            validDate = Math.min(Math.max(date, 1), maxDays);
-          } else {
-            validDate = Math.min(Math.max(date, 1), 31); // year와 month가 없는 경우 최대 31일까지 허용
-          }
-          break;
-
-        case 'hour':
-          validDate = Math.min(Math.max(date, 0), 23);
-          break;
-        case 'minute':
-          validDate = Math.min(Math.max(date, 0), 59);
-          break;
-        default:
-          break;
-      }
-      setDate(validDate);
-      onChange(validDate);
+    if (!validateValue(date)) {
+      alert('입력값이 올바르지 않습니다.');
+      setDate(value);
     }
   };
 
   useEffect(() => {
     setDate(value);
+    console.log('data', value);
   }, [value]);
 
   return (
@@ -119,7 +97,6 @@ const DateInput = ({
         width={width}
         height={height}
         margin={margin}
-        // 년도는 4자리로만 입력할 수 있음
         min={inputType === 'year' ? '1000' : undefined}
         max={inputType === 'year' ? '9999' : undefined}
       />

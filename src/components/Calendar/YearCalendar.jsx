@@ -24,19 +24,20 @@ const OddMonth = styled.div`
 const allMonth = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
 const YearCalendar = ({ year }) => {
-  const yearNumber = parseInt(year, 10); // 문자열을 숫자로 변환
+  const validYear = year.toString().length === 4 ? parseInt(year, 10) : 2024; // 유효한 연도인지 확인
 
   const [formattedStart, setFormattedStart] = useState(
-    `${year}-01-01T00:00:00.000Z`,
+    `${validYear}-01-01T00:00:00.000Z`,
   );
   const [formattedEnd, setFormattedEnd] = useState(
-    `${year}-12-31T23:59:59.999Z`,
+    `${validYear}-12-31T23:59:59.999Z`,
   );
 
   useEffect(() => {
-    setFormattedStart(`${year}-01-01T00:00:00.000Z`);
-    // UTC 기준이라 대한민국 표준시로는 6일 23시임
-    setFormattedEnd(`${year}-12-31T23:59:59.999Z`);
+    if (year.toString().length === 4) {
+      setFormattedStart(`${year}-01-01T00:00:00.000Z`);
+      setFormattedEnd(`${year}-12-31T23:59:59.999Z`);
+    }
   }, [year]);
 
   return (
@@ -49,7 +50,7 @@ const YearCalendar = ({ year }) => {
             <MonthlyEvent
               key={monthItem}
               thisMonth={monthItem}
-              year={yearNumber}
+              year={validYear}
             />
           ))}
       </EvenMonth>
@@ -60,7 +61,7 @@ const YearCalendar = ({ year }) => {
             <MonthlyEvent
               key={monthItem}
               thisMonth={monthItem}
-              year={yearNumber}
+              year={validYear}
             />
           ))}
       </OddMonth>

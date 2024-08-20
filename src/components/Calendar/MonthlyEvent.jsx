@@ -71,6 +71,8 @@ const MonthlyEvent = ({ thisMonth, year }) => {
     return <div>Loading...</div>;
   }
 
+  console.log('year', year);
+
   const todayMonth = new Date().getMonth() + 1;
   const todayYear = new Date().getFullYear();
   const istoday = thisMonth === todayMonth && todayYear === year;
