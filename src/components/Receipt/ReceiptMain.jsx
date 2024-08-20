@@ -38,15 +38,12 @@ const ScrollContainer = styled.div`
   &::-webkit-scrollbar-thumb {
     border-radius: 4px;
   }
-
-  &::-webkit-scrollbar-thumb:hover {
-  }
 `;
 
 const GridItem = styled.div`
   flex: 0 0 auto;
   margin-right: 10px;
-  padding: 0; /* 패딩 제거 */
+  padding: 0;
   background-color: ${theme.color.grayScale.gray18};
   width: 56%;
   height: 124px;
@@ -57,7 +54,7 @@ const GridItem = styled.div`
   align-items: center;
   font-size: 14px;
   white-space: nowrap;
-  cursor: pointer; /* 커서 추가 */
+  cursor: pointer;
   &:last-child {
     margin-right: 0;
   }
@@ -90,7 +87,6 @@ const ReceiptMain = () => {
     setModalIsOpen(false);
     setSelectedImage('');
   };
-  console.log(duesData);
 
   const groupedByMonth = duesData.reduce((acc, curr) => {
     const month = new Date(curr.date).getMonth() + 1;
@@ -101,14 +97,33 @@ const ReceiptMain = () => {
     return acc;
   }, {});
 
-  const months = [3, 4, 5, 6, 7, 8];
+  const currentDate = new Date();
+  const currentMonth = currentDate.getMonth() + 1;
+  let currentYear = currentDate.getFullYear();
+
+  let months = [];
+  if (currentMonth >= 3 && currentMonth <= 8) {
+    months = [3, 4, 5, 6, 7, 8];
+  } else {
+    months = [9, 10, 11, 12, 1, 2];
+  }
+
+  if (!(currentMonth === 1 || currentMonth === 2)) {
+    currentYear += 1;
+  }
+  console.log(currentYear);
+  console.log(currentMonth);
 
   return (
     <StyledReceipt>
       <DuesAPI />
       {months.map((month) => (
         <div key={month}>
-          <StyledMonth>{month}월</StyledMonth>
+          <StyledMonth>
+            {month >= 1 && month <= 2
+              ? `${currentYear}년 ${month}월`
+              : `${month}월`}
+          </StyledMonth>
           {groupedByMonth[month] ? (
             groupedByMonth[month].map((receipt) => (
               <div key={receipt.id}>
