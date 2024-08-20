@@ -99,12 +99,10 @@ const AttendMain = () => {
   const [shouldFetchData, setShouldFetchData] = useState(false);
   const [hasPenalty, setHasPenalty] = useState(false);
 
-  const { userData, error } = useContext(UserContext);
+  const { userData } = useContext(UserContext);
 
   let userName;
-  if (error) {
-    userName = 'error';
-  } else if (!userData) {
+  if (!userData) {
     userName = 'loading';
   } else {
     userName = userData.name;
