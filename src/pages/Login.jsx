@@ -7,7 +7,6 @@ import LoginHeader from '../components/Login/LoginHeader';
 import SignupTextComponent from '../components/Signup/SignupTextComponent';
 import { ReactComponent as ToggleVisibleIcon } from '../assets/images/ic_toggleVisible.svg';
 import { ReactComponent as ToggleInvisibleIcon } from '../assets/images/ic_toggleInvisible.svg';
-import Utils from '../hooks/Utils';
 import useCustomBack from '../router/useCustomBack';
 import theme from '../styles/theme';
 
@@ -95,17 +94,11 @@ const Login = () => {
       const BASE_URL = process.env.REACT_APP_BASE_URL;
       const response = await axios.post(`${BASE_URL}/api/v1/login`, params);
 
-      const validatedResponse = await Utils(
-        response,
-        axios.post,
-        [params],
-        navigate,
-      );
-
-      if (validatedResponse.status === 200) {
+      if (response.status === 200) {
         setError(null);
+        // console.log(response);
         const newToken = response.headers.authorization;
-        const newRefreshToken = response.headers['authorization-refresh'];
+        const newRefreshToken = response.headers.authorization_refresh;
         localStorage.setItem('accessToken', newToken);
         localStorage.setItem('refreshToken', newRefreshToken);
         console.log('login token', newToken, newRefreshToken);
