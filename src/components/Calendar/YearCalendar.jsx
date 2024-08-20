@@ -39,7 +39,7 @@ const YearCalendar = ({ year }) => {
   console.log('yearScheduledata', yearScheduleData);
 
   if (error) {
-    return <Error>{error}</Error>;
+    return <Error>데이터를 불러오는 중 문제가 발생했습니다</Error>;
   }
 
   if (!yearScheduleData) {

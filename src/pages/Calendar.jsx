@@ -25,7 +25,7 @@ const todayMonth = new Date().getMonth() + 1;
 const Calendar = () => {
   useCustomBack('/home');
   const [calendarType, setCalendarType] = useState('month');
-  const [isMonth, setisMonth] = useState(false);
+  const [isMonth, setisMonth] = useState(true);
   const [year, setYear] = useState(todayYear);
   const [month, setMonth] = useState(todayMonth);
 
@@ -62,14 +62,14 @@ const Calendar = () => {
       <Content>
         <ToggleButton onToggle={onToggle} />
         {calendarType === 'month' ? (
-          <YearCalendar year={year} />
-        ) : (
           <MonthCalendar
             month={month}
             year={year}
             editYear={editYear}
             editMonth={editMonth}
           />
+        ) : (
+          <YearCalendar year={year} />
         )}
       </Content>
     </StyledCalendar>

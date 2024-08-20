@@ -116,7 +116,7 @@ const CalendarHeader = ({ month, year, isMonth, editYear, editMonth }) => {
       <LeftButton />
       <TitleWrapper>
         <TitleYear>{year}년</TitleYear>
-        <TitleMonth>{isMonth ? null : `${month}월`}</TitleMonth>
+        <TitleMonth>{isMonth ? `${month}월` : null}</TitleMonth>
         <ImgButton onClick={openMonthModal}>
           <img src={under} alt="select" />
         </ImgButton>
