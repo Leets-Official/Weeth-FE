@@ -31,7 +31,7 @@ const MemberList = styled.div`
 const Error = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: 20px;
+  padding-top: 20px;
   font-family: ${theme.font.family.pretendard_semiBold};
 `;
 
@@ -47,6 +47,13 @@ const Member = () => {
   혹은 데이터의 값이 유효하지 않다면 빈 배열 반환
   */
   const isValid = error ? [] : allUserData?.[selectedCardinal] || [];
+
+  let errorMessage;
+  if (isValid.length === 0) {
+    errorMessage = `${selectedCardinal}기 멤버가 존재하지 않습니다.`;
+  } else if (error) {
+    errorMessage = '멤버 정보를 불러올 수 없습니다.';
+  } else errorMessage = '';
 
   return (
     <StyledMember>
@@ -72,7 +79,7 @@ const Member = () => {
             />
           ))
         ) : (
-          <Error>멤버 정보를 불러올 수 없습니다.</Error>
+          <Error>{errorMessage}</Error>
         )}
       </MemberList>
     </StyledMember>
