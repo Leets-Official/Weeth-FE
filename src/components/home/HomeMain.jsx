@@ -97,12 +97,18 @@ const HomeMain = () => {
   } else {
     userName = userData.name;
   }
+  let cardinal;
+  if (userData === null) {
+    cardinal = 'Loading';
+  } else {
+    cardinal = userData.cardinals;
+  }
 
   return (
     <StyledHomeMain>
       <CaptionContainer>
         <Caption color="#ffffff" textColor="#000000">
-          3기
+          {cardinal}기
         </Caption>
       </CaptionContainer>
       <div className="user-info">
