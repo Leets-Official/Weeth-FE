@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import theme from '../../styles/theme';
 
 import MonthlyEvent from './MonthlyEvent';
-import YearlyScheduleAPI from '../../hooks/YearlyScheduleAPI';
+import { YearlyScheduleContext } from '../../hooks/YearlyScheduleContext';
 
 const MonthlyBox = styled.div`
   display: flex;
@@ -13,37 +14,41 @@ const MonthlyBox = styled.div`
   padding-bottom: 183px;
 `;
 
-const EvenMonth = styled.div`
+const FirstHalfMonth = styled.div`
   padding-left: 15px;
 `;
 
-const OddMonth = styled.div`
+const SecondHalfMonth = styled.div`
   padding-right: 15px;
+`;
+
+const Error = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  font-family: ${theme.font.family.pretendard_semiBold};
 `;
 
 const allMonth = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
 const YearCalendar = ({ year }) => {
-  const validYear = year.toString().length === 4 ? parseInt(year, 10) : 2024; // 유효한 연도인지 확인
+  const validYear = year.toString().length === 4 ? parseInt(year, 10) : 2024;
 
-  const [formattedStart, setFormattedStart] = useState(
-    `${validYear}-01-01T00:00:00.000Z`,
-  );
-  const [formattedEnd, setFormattedEnd] = useState(
-    `${validYear}-12-31T23:59:59.999Z`,
-  );
+  const { yearScheduleData, error } = useContext(YearlyScheduleContext);
 
-  useEffect(() => {
-    if (year.toString().length === 4) {
-      setFormattedStart(`${year}-01-01T00:00:00.000Z`);
-      setFormattedEnd(`${year}-12-31T23:59:59.999Z`);
-    }
-  }, [year]);
+  console.log('yearScheduledata', yearScheduleData);
+
+  if (error) {
+    return <Error>{error}</Error>;
+  }
+
+  if (!yearScheduleData) {
+    return <Error>Loading...</Error>;
+  }
 
   return (
     <MonthlyBox>
-      <YearlyScheduleAPI start={formattedStart} end={formattedEnd} />
-      <EvenMonth>
+      <FirstHalfMonth>
         {allMonth
           .filter((monthItem) => monthItem >= 1 && monthItem <= 6)
           .map((monthItem) => (
@@ -51,10 +56,11 @@ const YearCalendar = ({ year }) => {
               key={monthItem}
               thisMonth={monthItem}
               year={validYear}
+              events={yearScheduleData[monthItem] || []}
             />
           ))}
-      </EvenMonth>
-      <OddMonth>
+      </FirstHalfMonth>
+      <SecondHalfMonth>
         {allMonth
           .filter((monthItem) => monthItem >= 7 && monthItem <= 12)
           .map((monthItem) => (
@@ -62,9 +68,10 @@ const YearCalendar = ({ year }) => {
               key={monthItem}
               thisMonth={monthItem}
               year={validYear}
+              events={yearScheduleData[monthItem] || []}
             />
           ))}
-      </OddMonth>
+      </SecondHalfMonth>
     </MonthlyBox>
   );
 };

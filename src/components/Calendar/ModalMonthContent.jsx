@@ -9,7 +9,7 @@ const StyledContent = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: ${(props) => (props.isYear ? '121px' : '275px')};
+  width: ${(props) => (props.isMonth ? '121px' : '275px')};
   height: 38px;
   background: ${theme.color.grayScale.gray18};
   border-radius: 14px;
@@ -38,7 +38,7 @@ const Text = styled.div`
 const ModalContent = ({
   origYear,
   origMonth,
-  isYear,
+  isMonth,
   onClickTextButton,
   editMonth,
   editYear,
@@ -56,10 +56,10 @@ const ModalContent = ({
     editMonth(value);
   };
 
-  if (isYear) {
+  if (isMonth) {
     // 연력일 경우
     return (
-      <StyledContent isYear={isYear}>
+      <StyledContent isMonth={isMonth}>
         <YearButton>
           <TextButton
             text="완료"
@@ -82,7 +82,7 @@ const ModalContent = ({
   }
   // 달력일 경우
   return (
-    <StyledContent isYear={isYear}>
+    <StyledContent isMonth={isMonth}>
       <MonthButton>
         <TextButton text="완료" color="mainColor" onClick={onClickTextButton} />
       </MonthButton>
@@ -113,7 +113,7 @@ const ModalContent = ({
 ModalContent.propTypes = {
   origYear: PropTypes.number.isRequired,
   origMonth: PropTypes.number.isRequired,
-  isYear: PropTypes.bool.isRequired,
+  isMonth: PropTypes.bool.isRequired,
   onClickTextButton: PropTypes.func.isRequired,
   editMonth: PropTypes.func.isRequired,
   editYear: PropTypes.func.isRequired,
