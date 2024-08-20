@@ -1,6 +1,7 @@
 import { useEffect, useContext } from 'react';
 import axios from 'axios';
 import { DuesContext } from './DuesContext';
+import Utils from './Utils';
 
 const DuesAPI = () => {
   const {
@@ -14,7 +15,6 @@ const DuesAPI = () => {
 
   const accessToken = localStorage.getItem('accessToken');
   const refreshToken = localStorage.getItem('refreshToken');
-
   useEffect(() => {
     const fetchDuesData = async () => {
       try {
@@ -25,12 +25,14 @@ const DuesAPI = () => {
         };
         const BASE_URL = process.env.REACT_APP_BASE_URL;
 
-        // 비동기 요청에 await 추가
-        const response = await axios.get(
-          `${BASE_URL}/api/v1/account/${cardinal}`,
-          {
-            headers,
-          },
+        const originalApiFunc = (funcCardinal) =>
+          axios.get(`${BASE_URL}/api/v1/account/${funcCardinal}`, { headers });
+
+        // API 호출을 Utils로 처리
+        const response = await Utils(
+          await originalApiFunc(cardinal),
+          originalApiFunc,
+          [cardinal],
         );
 
         const result = response.data;
@@ -42,13 +44,19 @@ const DuesAPI = () => {
             setCardinal(result.data.cardinal);
             setCurrentAmount(result.data.currentAmount);
             setTime(result.data.time);
-            console.log(result);
+            // console.log(result);
           }
         } else {
           console.error('Failed to get data:', result.message);
         }
       } catch (error) {
-        console.error('Error getting data:', error);
+        // 무한 리다이렉션 방지
+        if (window.location.pathname !== '/login') {
+          console.error('An error occurred while fetching the data');
+          localStorage.removeItem('accessToken');
+          localStorage.removeItem('refreshToken');
+          window.location.href = '/login';
+        }
       }
     };
 
