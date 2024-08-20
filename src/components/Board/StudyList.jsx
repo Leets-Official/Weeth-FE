@@ -9,6 +9,7 @@ import Utils from '../../hooks/Utils';
 const StudyList = ({postId}) => {
   const navigate = useNavigate();
   const [studies, setStudies] = useState([]);
+  const [hasMore, setHasMore] = useState(true);
 
   const accessToken = localStorage.getItem('accessToken');
   const BASE_URL = process.env.REACT_APP_BASE_URL;
@@ -34,11 +35,11 @@ const StudyList = ({postId}) => {
   
       if (response.status === 200 && response.data.code === 200) {
         const studiesData = response.data.data;
+
         if (studiesData.length === 0) {
           console.log("No more studies to load.");
-          return;
-        }
-        
+          setHasMore(false);
+        } else {
         const newStudies = studiesData.map(study => ({
           id: study.id,
           name: study.name,
@@ -49,22 +50,43 @@ const StudyList = ({postId}) => {
         }));
 
         setStudies(prevStudies => [...prevStudies, ...newStudies]);
+        setHasMore(!response.data.isLastPage);
+      }
       } else {
         console.error("API Error:", response.data.message);
+        setHasMore(false);
       }
     } catch (error) {
       console.error("Request Error:", error); // 요청 에러 로그 출력
 
-      if (error.response && error.response.data && error.response.data.code === 400) {
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.code === 400
+      ) {
         console.error("Error: Non-existent post ID.");
       } else {
         // Utils를 사용하여 토큰 갱신 및 API 재시도
         try {
-          const retryResponse = await Utils(error.response, fetchStudies, [postId, count], navigate);
+          const retryResponse = await Utils(
+            error.response,
+            fetchStudies,
+            [postId, count],
+            navigate,
+          );
           if (retryResponse) {
-            setStudies(prevStudies => [...prevStudies, ...retryResponse.data.data]);
+            const studiesData = retryResponse.data.data;
+            if (studiesData.length === 0) {
+              console.log('No more studies to load after retry.');
+              setHasMore(false); // 재시도 후에도 더 이상 로드할 공지가 없으므로 'hasMore'를 false로 설정
+            } else {
+              setStudies((prevStudies) => [...prevStudies, ...studiesData]);
+              setHasMore(!retryResponse.data.isLastPage);
+            }
           }
         } catch (retryError) {
+          console.log('스터디 데이터를 가져오는 중 오류가 발생했습니다.');
+          setHasMore(false); // 재시도 중에도 오류가 발생했으므로 더 이상 로드할 공지가 없다고 처리
         }
       }
     }
@@ -110,41 +132,75 @@ const StudyList = ({postId}) => {
 
   return (
     <div>
-      {studies.map((study) => (
-        <BoardComponent
-          key={study.id}
-          name={study.name}
-          title={study.title}
-          content={study.content}
-          time={study.time}
-          totalComments={parseInt(study.commentCount, 10) || 0}
-          onClick={() => handleNavigate(study)}
-        />
-      ))}
-      
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          width: '100%',
-          height: '100px',
-          transform: 'translateY(-10px)',
-        }}
-      >
-        <button
-          type="button"
-          style={buttonStyle}
-          onClick={loadMoreStudies}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-              loadMoreStudies();
-            }
-          }}
-        >
-          <img src={more} alt="Load more" style={imgStyle} />
-        </button>
-      </div>
+      {studies.length > 0 ? (
+        <>
+          {studies.map((study) => (
+            <BoardComponent
+              key={study.id}
+              name={study.name}
+              title={study.title}
+              content={study.content}
+              time={study.time}
+              totalComments={parseInt(study.commentCount, 10) || 0}
+              onClick={() => handleNavigate(study)}
+            />
+          ))}
+
+          {hasMore ? (
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                width: '100%',
+                height: '100px',
+                transform: 'translateY(-10px)',
+              }}
+            >
+              <button
+                type="button"
+                style={buttonStyle}
+                onClick={loadMoreStudies}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    loadMoreStudies();
+                  }
+                }}
+              >
+                <img src={more} alt="Load more" style={imgStyle} />
+              </button>
+            </div>
+          ) : (
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                width: '100%',
+                height: '100px',
+                transform: 'translateY(-10px)',
+              }}
+            >
+              더 이상 불러올 게시물이 없습니다.
+            </div>
+          )}
+        </>
+      ) : (
+        !hasMore && (
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              width: '100%',
+              height: '100px',
+              transform: 'translateY(-10px)',
+            }}
+          >
+            더 이상 불러올 게시물이 없습니다.
+          </div>
+        )
+      )}
     </div>
   );
 };
