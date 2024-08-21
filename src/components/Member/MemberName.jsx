@@ -13,6 +13,12 @@ const MemberWrapper = styled.div`
   padding: 20px 10px 0px 10px;
   font-family: ${theme.font.family.pretendard_regular};
   font-size: 16px;
+  background-color: ${theme.color.grayScale.gray18};
+
+  &:first-of-type {
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+  }
 `;
 
 const MemberContent = styled.div`
@@ -89,7 +95,7 @@ MemberName.propTypes = {
   studentId: PropTypes.string.isRequired,
   department: PropTypes.string.isRequired,
   email: PropTypes.string.isRequired,
-  cardinal: PropTypes.arrayOf(PropTypes.number).isRequired,
+  cardinal: PropTypes.number.isRequired,
   position: PropTypes.string.isRequired,
 };
 

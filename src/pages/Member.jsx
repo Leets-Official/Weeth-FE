@@ -12,27 +12,43 @@ import useCustomBack from '../router/useCustomBack';
 const StyledMember = styled.div`
   width: 370px;
   font-family: ${theme.font.family.pretendard_regular};
+  margin-bottom: 50px;
 `;
 
 const CategoryWrapper = styled.div`
   margin-left: 30px;
 `;
 
+const MemberContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
 const MemberList = styled.div`
-  background-color: ${theme.color.grayScale.gray18};
+  // background-color: ${theme.color.grayScale.gray18};
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
-  height: 100vh;
   width: 350px;
   margin: 0 10px auto;
-  padding-bottom: 50px;
 `;
 
 const Error = styled.div`
   display: flex;
   justify-content: center;
   padding-top: 20px;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  background-color: ${theme.color.grayScale.gray18};
   font-family: ${theme.font.family.pretendard_semiBold};
+`;
+
+const Margin = styled.div`
+  height: 20px;
+  width: 350px;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  background-color: ${theme.color.grayScale.gray18};
 `;
 
 const Member = () => {
@@ -48,41 +64,36 @@ const Member = () => {
   */
   const isValid = error ? [] : allUserData?.[selectedCardinal] || [];
 
-  let errorMessage;
-
-  if (error) {
-    errorMessage = '멤버 정보를 불러올 수 없습니다.';
-  } else if (isValid.length === 0) {
-    errorMessage = `${selectedCardinal}기 멤버가 존재하지 않습니다.`;
-  } else errorMessage = '';
-
   return (
     <StyledMember>
       <MemberHeader />
       <CategoryWrapper>
         <Category setSelectedCardinal={setSelectedCardinal} />
       </CategoryWrapper>
-      <MemberList>
-        {/* isValid가 빈배열인가?(==error?)
-        true: MemberName 렌더링
-        false: ERROR
-        */}
-        {isValid.length > 0 ? (
-          isValid.map((user) => (
-            <MemberName
-              key={user.studentId}
-              name={user.name}
-              studentId={user.studentId}
-              department={user.department}
-              email={user.email}
-              cardinal={user.cardinals}
-              position={user.position}
-            />
-          ))
-        ) : (
-          <Error>{errorMessage}</Error>
-        )}
-      </MemberList>
+      <MemberContent>
+        <MemberList>
+          {/* isValid가 빈배열인가?(==error?)
+          true: MemberName 렌더링
+          false: ERROR
+          */}
+          {isValid.length > 0 ? (
+            isValid.map((user) => (
+              <MemberName
+                key={user.studentId}
+                name={user.name}
+                studentId={user.studentId}
+                department={user.department}
+                email={user.email}
+                cardinal={user.cardinals}
+                position={user.position}
+              />
+            ))
+          ) : (
+            <Error>멤버 정보를 불러올 수 없습니다.</Error>
+          )}
+        </MemberList>
+        <Margin />
+      </MemberContent>
     </StyledMember>
   );
 };
