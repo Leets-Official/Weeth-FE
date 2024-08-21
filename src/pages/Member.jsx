@@ -6,6 +6,7 @@ import MemberHeader from '../components/Member/MemberHeader';
 import Category from '../components/Member/Category';
 import MemberName from '../components/Member/MemberName';
 // import mockUser from '../components/mockData/mockUser';
+import UserAPI from '../hooks/UserAPI';
 import { UserContext } from '../hooks/UserContext';
 import useCustomBack from '../router/useCustomBack';
 
@@ -73,6 +74,7 @@ const Member = () => {
 
   return (
     <StyledMember>
+      <UserAPI />
       <MemberHeader />
       <CategoryWrapper>
         <Category setSelectedCardinal={setSelectedCardinal} />
