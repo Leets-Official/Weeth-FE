@@ -97,6 +97,10 @@ const BoardTitle = ({ id, text, writer, createdAt, isMeeting }) => {
     }
   };
 
+  if (!userData) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <StyledTitle>
       <UserAPI />

@@ -1,13 +1,11 @@
 /* eslint-disable react/require-default-props */
 import { useEffect, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import { MonthlyScheduleContext } from './MonthlyScheduleContext';
 
 const MonthlyScheduleAPI = ({ start = '', end = '' }) => {
   const { setMonthScheduleData, setError } = useContext(MonthlyScheduleContext);
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (!start || !end) return;
@@ -48,7 +46,7 @@ const MonthlyScheduleAPI = ({ start = '', end = '' }) => {
     };
 
     fetchData();
-  }, [navigate, setMonthScheduleData, setError, start, end]);
+  }, [setMonthScheduleData, setError, start, end]);
 
   return null;
 };
