@@ -75,7 +75,7 @@ const CalendarHeader = ({ month, year, isMonth, editYear, editMonth }) => {
   const { userData, error } = useContext(UserContext);
   const navi = useNavigate();
 
-  console.log('userData', userData);
+  // console.log('userData', userData);
 
   const openMonthModal = () => {
     setMonthModalIsOpen(true);

@@ -31,7 +31,6 @@ const YearlyScheduleAPI = ({ start, end }) => {
           headers,
           params,
         });
-        console.log('util상관없이 받아온거');
         // Utils 함수를 사용하여 응답 처리 및 토큰 갱신
         response = await Utils(
           response,
@@ -41,7 +40,6 @@ const YearlyScheduleAPI = ({ start, end }) => {
         );
 
         if (response.data.code === 200) {
-          console.log('모든 게 성공햇을 때.. 서버 응답', response.data.data); // 데이터 확인용
           setYearScheduleData(response.data.data);
         } else {
           setError(response.data.message);

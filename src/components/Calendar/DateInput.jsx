@@ -47,7 +47,7 @@ const DateInput = ({
 }) => {
   const [date, setDate] = useState(value);
 
-  const validateValue = (val) => {
+  const checkValidDate = (val) => {
     if (val === '') return true; // Allow empty value for clearing input
     switch (inputType) {
       case 'year':
@@ -69,23 +69,52 @@ const DateInput = ({
     }
   };
 
+  useEffect(() => {
+    // value가 변경될 때만 date 상태를 업데이트
+    if (checkValidDate(value)) {
+      setDate(value);
+    }
+  }, [value]);
+
   const onChangeValue = (e) => {
     const val = e.target.value;
-    setDate(val);
-    onChange(val);
+    setDate(val); // 우선 상태값을 설정
+    // 유효성 검사는 onBlur에서만 처리
   };
 
   const onBlur = () => {
-    if (!validateValue(date)) {
-      alert('입력값이 올바르지 않습니다.');
-      setDate(value);
+    if (!checkValidDate(date)) {
+      let validDate = value; // 유효하지 않다면 원래 값을 복구
+      switch (inputType) {
+        case 'year':
+          validDate = Math.min(Math.max(date, 2020), 2040);
+          break;
+        case 'month':
+          validDate = Math.min(Math.max(date, 1), 12);
+          break;
+        case 'day':
+          if (year && month) {
+            const maxDays = getMaxDaysInMonth(year, month);
+            validDate = Math.min(Math.max(date, 1), maxDays);
+          } else {
+            validDate = Math.min(Math.max(date, 1), 31);
+          }
+          break;
+        case 'hour':
+          validDate = Math.min(Math.max(date, 0), 23);
+          break;
+        case 'minute':
+          validDate = Math.min(Math.max(date, 0), 59);
+          break;
+        default:
+          break;
+      }
+      setDate(validDate);
+      onChange(validDate);
+    } else {
+      onChange(date); // 유효하다면 그대로 부모 컴포넌트에 전달
     }
   };
-
-  useEffect(() => {
-    setDate(value);
-    console.log('data', value);
-  }, [value]);
 
   return (
     <div>

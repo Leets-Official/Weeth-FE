@@ -47,8 +47,15 @@ const ModalContent = ({
   const [month, setMonth] = useState(origMonth);
 
   const onChangeYear = (value) => {
-    setYear(value);
-    editYear(value);
+    const numericValue = parseInt(value, 10);
+    if (!Number.isNaN(numericValue)) {
+      setYear(numericValue);
+      editYear(numericValue);
+    } else {
+      const defaultValue = 2024;
+      setYear(defaultValue);
+      editYear(defaultValue);
+    }
   };
 
   const onChangeMonth = (value) => {
