@@ -64,6 +64,13 @@ const Member = () => {
   */
   const isValid = error ? [] : allUserData?.[selectedCardinal] || [];
 
+  let errorMessage;
+  if (isValid.length === 0) {
+    errorMessage = `${selectedCardinal}기 멤버가 존재하지 않습니다.`;
+  } else if (error) {
+    errorMessage = '멤버 정보를 불러올 수 없습니다.';
+  } else errorMessage = '';
+
   return (
     <StyledMember>
       <MemberHeader />
@@ -89,7 +96,7 @@ const Member = () => {
               />
             ))
           ) : (
-            <Error>멤버 정보를 불러올 수 없습니다.</Error>
+            <Error>{errorMessage}</Error>
           )}
         </MemberList>
         <Margin />
