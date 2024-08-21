@@ -105,7 +105,7 @@ const CalendarHeader = ({ month, year, isMonth, editYear, editMonth }) => {
         src={icPlus}
         alt="+"
         onClick={() => {
-          navi('/event/create');
+          navi('/events/create');
         }}
       />
     );

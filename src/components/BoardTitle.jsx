@@ -98,7 +98,7 @@ const BoardTitle = ({ id, text, writer, createdAt, isMeeting }) => {
   };
 
   if (!userData) {
-    return <div>Loading...</div>;
+    return null;
   }
 
   return (
@@ -127,7 +127,7 @@ const BoardTitle = ({ id, text, writer, createdAt, isMeeting }) => {
         <EditDelModal
           title="일정"
           onClickEdit={() => {
-            navi(`/event/${id}/edit`);
+            navi(`/events/${id}/edit`);
           }}
           onClickDel={onClickDel}
           onClickCancel={closeAdminModal}
