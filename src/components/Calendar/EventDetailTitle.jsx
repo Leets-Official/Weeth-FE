@@ -5,12 +5,12 @@ import axios from 'axios';
 
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { UserContext } from '../hooks/UserContext';
-import LeftButton from './Header/LeftButton';
-import IndexButton from './Header/IndexButton';
-import theme from '../styles/theme';
-import EditDelModal from './EditDelModal';
-import UserAPI from '../hooks/UserAPI';
+import { UserContext } from '../../hooks/UserContext';
+import LeftButton from '../Header/LeftButton';
+import IndexButton from '../Header/IndexButton';
+import theme from '../../styles/theme';
+import EditDelModal from '../EditDelModal';
+import UserAPI from '../../hooks/UserAPI';
 
 Modal.setAppElement('#root');
 
@@ -58,7 +58,7 @@ const adminModalStyles = {
   },
 };
 
-const BoardTitle = ({ id, text, writer, createdAt, isMeeting }) => {
+const EventDetailTitle = ({ id, text, writer, createdAt, isMeeting }) => {
   const { userData } = useContext(UserContext);
   const [adminModalIsOpen, setAdminModalIsOpen] = useState(false);
   const navi = useNavigate();
@@ -127,7 +127,7 @@ const BoardTitle = ({ id, text, writer, createdAt, isMeeting }) => {
         <EditDelModal
           title="일정"
           onClickEdit={() => {
-            navi(`/events/${id}/edit`);
+            navi(`/event/${id}/edit`);
           }}
           onClickDel={onClickDel}
           onClickCancel={closeAdminModal}
@@ -137,7 +137,7 @@ const BoardTitle = ({ id, text, writer, createdAt, isMeeting }) => {
   );
 };
 
-BoardTitle.propTypes = {
+EventDetailTitle.propTypes = {
   id: PropTypes.number.isRequired,
   text: PropTypes.string.isRequired,
   writer: PropTypes.string.isRequired,
@@ -145,4 +145,4 @@ BoardTitle.propTypes = {
   isMeeting: PropTypes.bool.isRequired,
 };
 
-export default BoardTitle;
+export default EventDetailTitle;

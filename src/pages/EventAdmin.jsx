@@ -91,7 +91,6 @@ const EventAdmin = () => {
   useCustomBack('/calendar');
 
   const { infoData, error } = useContext(EventInfoContext);
-  console.log(error);
   const [eventInfo, setEventInfo] = useState([
     { key: 'title', value: '' },
     { key: 'start', value: getTodayArr() },
@@ -233,24 +232,26 @@ const EventAdmin = () => {
       return;
     }
 
-    let response;
-
     if (window.confirm('저장하시겠습니까?')) {
       try {
-        if (isEditMode) response = await editEvent(data, id);
-        else response = await createEvent(data);
+        if (isEditMode) await editEvent(data, id);
+        else await createEvent(data);
 
-        console.log(response);
-        console.log('전달할 데이터', data);
+        // console.log(response);
+        // console.log('전달할 데이터', data);
 
         alert('저장이 완료되었습니다.');
         navigate('/calendar');
       } catch (err) {
-        console.error(err);
+        // console.error(err);
         alert('저장 중 오류가 발생했습니다.');
       }
     }
   };
+
+  if (error) {
+    return null;
+  }
 
   return (
     <StyledCreate>

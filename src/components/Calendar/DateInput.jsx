@@ -51,7 +51,12 @@ const DateInput = ({
     if (val === '') return true; // Allow empty value for clearing input
     switch (inputType) {
       case 'year':
-        return val.length <= 4 && val >= 2020 && val <= 2040; // 최대 4자리
+        return (
+          typeof val === 'string' &&
+          val.length <= 4 &&
+          val >= 2020 &&
+          val <= 2040
+        ); // 최대 4자리
       case 'month':
         return val >= 1 && val <= 12; // 1~12 사이
       case 'day':

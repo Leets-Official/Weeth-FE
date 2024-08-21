@@ -1,13 +1,13 @@
 /* eslint-disable no-console */
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { useParams, useLocation } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
 import icCalendar from '../assets/images/ic_date.svg';
 import icClock from '../assets/images/ic_clock.svg';
 import theme from '../styles/theme';
-import BoardTitle from '../components/BoardTitle';
+import EventDetailTitle from '../components/Calendar/EventDetailTitle';
 import EventInfoAPI from '../hooks/EventInfoAPI';
 import useCustomBack from '../router/useCustomBack';
 import UserAPI from '../hooks/UserAPI';
@@ -52,8 +52,7 @@ const EventDetails = () => {
   const { type } = useParams();
   const [eventDetailData, setEventDetailData] = useState(null);
   const [error, setError] = useState(null);
-  const location = useLocation();
-  const { isMeeting } = location.state || {};
+  const isMeeting = type === 'meetings';
 
   useEffect(() => {
     const fetchData = async () => {
@@ -122,7 +121,7 @@ const EventDetails = () => {
     <StyledEventDetails>
       <UserAPI />
       <EventInfoAPI id={id} />
-      <BoardTitle
+      <EventDetailTitle
         id={eventDetailData.id}
         text={eventDetailData.title}
         writer={eventDetailData.name}
