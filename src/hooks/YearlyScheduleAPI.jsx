@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import { YearlyScheduleContext } from './YearlyScheduleContext';
-import Utils from './Utils';
 
 const YearlyScheduleAPI = ({ start, end }) => {
   const { setYearScheduleData, setError } = useContext(YearlyScheduleContext);
@@ -27,16 +26,12 @@ const YearlyScheduleAPI = ({ start, end }) => {
       };
 
       try {
-        let response = await axios.get(`${BASE_URL}/api/v1/schedules/yearly`, {
-          headers,
-          params,
-        });
-        // Utils 함수를 사용하여 응답 처리 및 토큰 갱신
-        response = await Utils(
-          response,
-          axios.get,
-          [{ url: `${BASE_URL}/api/v1/schedules/yearly`, headers, params }],
-          navigate,
+        const response = await axios.get(
+          `${BASE_URL}/api/v1/schedules/yearly`,
+          {
+            headers,
+            params,
+          },
         );
 
         if (response.data.code === 200) {

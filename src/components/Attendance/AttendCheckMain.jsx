@@ -183,12 +183,10 @@ const AttendCheckMain = () => {
     return <div>Loading...</div>;
   }
 
-  const { userData, error } = useContext(UserContext);
+  const { userData } = useContext(UserContext);
 
   let userName;
-  if (error) {
-    userName = 'error';
-  } else if (!userData) {
+  if (!userData) {
     userName = 'loading';
   } else {
     userName = userData.name;
@@ -240,7 +238,6 @@ const AttendCheckMain = () => {
 
             const formattedDate = `${startDateTime} (${startTime} ~ ${endTime})`;
 
-            console.log(meeting.status);
             return (
               <MeetingBox
                 key={meeting.id}

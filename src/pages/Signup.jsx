@@ -174,7 +174,7 @@ const Signup = () => {
       />
       <InputContainer>
         <SignupTextComponent
-          text="ID로 사용할 메일을 적어주세요"
+          text="ID로 사용할 메일을 적어주세요."
           value={email}
           onChange={handleEmailChange}
           placeholder="ex) weeth@gmail.com"
@@ -196,13 +196,13 @@ const Signup = () => {
               }}
             >
               {emailStatus === 'duplicate'
-                ? '이미 가입된 ID입니다'
-                : '사용 가능한 ID입니다'}
+                ? '이미 가입된 ID입니다.'
+                : '사용 가능한 ID입니다.'}
             </MessageText>
           )}
         </ButtonContainer>
         <SignupTextComponent
-          text="사용할 비밀번호를 입력해주세요"
+          text="사용할 비밀번호를 입력해주세요."
           value={password}
           onChange={handlePasswordChange}
           placeholder=""

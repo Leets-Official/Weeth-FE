@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import { MonthlyScheduleContext } from './MonthlyScheduleContext';
-import Utils from './Utils';
 
 const MonthlyScheduleAPI = ({ start = '', end = '' }) => {
   const { setMonthScheduleData, setError } = useContext(MonthlyScheduleContext);
@@ -28,17 +27,12 @@ const MonthlyScheduleAPI = ({ start = '', end = '' }) => {
       };
 
       try {
-        let response = await axios.get(`${BASE_URL}/api/v1/schedules/monthly`, {
-          headers,
-          params,
-        });
-
-        // Utils 함수를 사용하여 응답 처리 및 토큰 갱신
-        response = await Utils(
-          response,
-          axios.get,
-          [{ url: `${BASE_URL}/api/v1/schedules/monthly`, headers, params }],
-          navigate,
+        const response = await axios.get(
+          `${BASE_URL}/api/v1/schedules/monthly`,
+          {
+            headers,
+            params,
+          },
         );
 
         if (response.data.code === 200) {

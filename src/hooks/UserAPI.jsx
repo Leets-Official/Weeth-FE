@@ -1,6 +1,7 @@
 import React, { useEffect, useContext } from 'react';
 import axios from 'axios';
 import { UserContext } from './UserContext';
+import Utils from './Utils';
 
 const UserAPI = () => {
   const { setUserData, setError, setAllUserData } = useContext(UserContext);
@@ -15,35 +16,63 @@ const UserAPI = () => {
       Authorization_refresh: `Bearer ${refreshToken}`,
     };
 
-    // 내 정보 조회
-    axios
-      .get(`${BASE_URL}/api/v1/users`, { headers })
-      .then((response) => {
-        if (response.data.code === 200) {
-          setUserData(response.data.data);
-        } else {
-          setError(response.data.message);
-        }
-      // console.log('유저 api 받아옴!', response.data.data);
-      })
-      .catch((err) => {
-        setError('An error occurred while fetching the data');
-      });
+    const fetchUserData = async () => {
+      try {
+        const originalApiFuncUser = () =>
+          axios.get(`${BASE_URL}/api/v1/users`, { headers });
 
-      // 모든 멤버 조회
-      axios.get(`${BASE_URL}/api/v1/users/all`, { headers })
-      .then((response) => {
-        if (response.data.code === 200) {
-          setAllUserData(response.data.data);
-        } else {
-          setError(response.data.message);
-        }
-      })
-      .catch((err) => {
-        setError('An error occurred while fetching the all users data');
-      });
+        const userResponse = await Utils(
+          await originalApiFuncUser(),
+          originalApiFuncUser,
+          []
+        );
 
-  }, [accessToken, setUserData, setError, setAllUserData]);
+        if (userResponse.data.code === 200) {
+          setUserData(userResponse.data.data);
+        } else {
+          setError(userResponse.data.message);
+        }
+      } catch (err) {
+        // 무한 리다이렉션 방지
+        if (window.location.pathname !== '/login') {
+          setError('An error occurred while fetching the data');
+          localStorage.removeItem('accessToken');
+          localStorage.removeItem('refreshToken');
+          window.location.href = '/login';
+        }
+      }
+    };
+
+    const fetchAllUsersData = async () => {
+      try {
+        const originalApiFuncAllUsers = () =>
+          axios.get(`${BASE_URL}/api/v1/users/all`, { headers });
+
+        const allUsersResponse = await Utils(
+          await originalApiFuncAllUsers(),
+          originalApiFuncAllUsers,
+          []
+        );
+
+        if (allUsersResponse.data.code === 200) {
+          setAllUserData(allUsersResponse.data.data);
+        } else {
+          setError(allUsersResponse.data.message);
+        }
+      } catch (err) {
+        // 무한 리다이렉션 방지
+        if (window.location.pathname !== '/login') {
+          setError('An error occurred while fetching the data');
+          localStorage.removeItem('accessToken');
+          localStorage.removeItem('refreshToken');
+          window.location.href = '/login';
+        }
+      }
+    };
+
+    fetchUserData();
+    fetchAllUsersData();
+  }, [accessToken, setUserData, setError, setAllUserData, BASE_URL]);
 
   return null;
 };

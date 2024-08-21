@@ -12,8 +12,6 @@ import calendar from '../../assets/images/ic_home_calendar.svg';
 import attend from '../../assets/images/ic_home_attend.svg';
 import board from '../../assets/images/ic_home_board.svg';
 
-import UserAPI from '../../hooks/UserAPI';
-
 const StyledHomeMain = styled.div`
   display: flex;
   flex-direction: column;
@@ -99,13 +97,21 @@ const HomeMain = () => {
   } else {
     userName = userData.name;
   }
+  let cardinal;
+  if (userData === null) {
+    cardinal = 'Loading';
+  } else if (userData.cardinals.length >= 2) {
+    cardinal = userData.cardinals[userData.cardinals.length - 1];
+  } else {
+    // eslint-disable-next-line prefer-destructuring
+    cardinal = userData.cardinals[0];
+  }
 
   return (
     <StyledHomeMain>
-      <UserAPI />
       <CaptionContainer>
-        <Caption color="#ffffff" textColor="#000000">
-          3기
+        <Caption color="#ffffff" textcolor="#000000">
+          {cardinal}기
         </Caption>
       </CaptionContainer>
       <div className="user-info">

@@ -1,24 +1,28 @@
-const Utils = async (response, originalApiFunc, originalParams, navigate) => {
-  // 데이터가 비어있는지 확인(데이터가 null/undefined, 객체, 배열일 때를 확인)
+const Utils = async (response, originalApiFunc, originalParams) => {
+  // 데이터가 비어있는지 확인
   const isResponseBodyEmpty = (data) => {
-    if (data === null || data === undefined) return true;
+    if (data === null || data === undefined || data=='') {
+      return true;
+    };
     if (typeof data === 'object') return Object.keys(data).length === 0;
     if (Array.isArray(data)) return data.length === 0;
     return false;
   };
+  console.log('utils 코드', response.status);
 
   if (response.status === 200) {
+    // Body가 비어 있지 않으면 데이터를 반환
+    // console.log('utils',isResponseBodyEmpty(response.data));
+    // console.log('utils.data', response.data);
     if (!isResponseBodyEmpty(response.data)) {
-      const newToken = response.headers['authorization'];
-      const newRefreshToken = response.headers['authorization-refresh'];
-      // alert('login token', newToken, newRefreshToken);
+      // console.log(response);
       return response;
     } else {
-      // Body가 비어있으면 token, refresh tokens을 local storage에 저장하기
-      const newToken = response.headers['authorization'];
-      const newRefreshToken = response.headers['authorization-refresh'];
-      console.log('login token', newToken, newRefreshToken);
-      // 새 토큰, refreshToken 둘 다 있는지
+      // Body가 비어있다면 새로운 토큰이 있는지 확인하고, 로컬 스토리지에 저장
+      console.log('utils.header', response);
+      const newToken = response.headers.authorization;
+      const newRefreshToken = response.headers.authorization_refresh;
+      console.log(newToken, newRefreshToken);
       if (newToken && newRefreshToken) {
         localStorage.setItem('accessToken', newToken);
         localStorage.setItem('refreshToken', newRefreshToken);
@@ -30,12 +34,14 @@ const Utils = async (response, originalApiFunc, originalParams, navigate) => {
         throw new Error('새 토큰이 없습니다');
       }
     }
-  } else {
-    // local Storage 비우고 로그인 화면으로 리다이렉트
+  } else if (response.status === 403) {
+    // 403 상태 코드일 경우 토큰이 만료되었으므로 로컬 스토리지를 비우고 로그인 페이지로 리다이렉트
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');
-    navigate('/login');
-    throw new Error('Forbidden : 로그인 화면으로 리디렉션합니다.');
+    window.location.href = '/login';
+    throw new Error('Forbidden: 로그인 화면으로 리디렉션합니다.');
+  } else {
+    throw new Error(`Unexpected status code: ${response.status}`);
   }
 };
 

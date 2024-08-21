@@ -10,7 +10,6 @@ import EditDelModal from '../components/EditDelModal';
 import { ReactComponent as BoardChat } from '../assets/images/ic_board_chat.svg';
 import theme from '../styles/theme';
 import { BoardContext } from '../hooks/BoardContext';
-import Utils from '../hooks/Utils';
 
 const Container = styled.div`
   display: flex;
@@ -148,30 +147,17 @@ const StudyDetail = () => {
           },
         });
 
-        // Utils를 통한 재시도 로직 추가
-        const finalResponse = await Utils(
-          response,
-          axios.get,
-          [
-            `${BASE_URL}/api/v1/posts/${postId}`,
-            { headers: { Authorization: `Bearer ${accessToken}` } },
-          ],
-          navigate,
-        );
+        // console.log('Response status:', finalResponse.status);
+        // console.log('Response data:', finalResponse.data);
 
-        console.log('Response status:', finalResponse.status);
-        console.log('Response data:', finalResponse.data);
-
-        if (finalResponse.data.code === 200) {
+        if (response.data.code === 200) {
           alert('삭제가 완료되었습니다.');
           navigate('/board');
-        } else if (finalResponse.data.code === 400) {
-          alert(`삭제 실패: ${finalResponse.data.message}`);
+        } else if (response.data.code === 400) {
+          alert(`삭제 실패: ${response.data.message}`);
         } else {
-          console.error('알 수 없는 오류 발생:', finalResponse.data.message);
-          alert(
-            `삭제에 실패했습니다. 오류 메시지: ${finalResponse.data.message}`,
-          );
+          console.error('알 수 없는 오류 발생:', response.data.message);
+          alert(`삭제에 실패했습니다. 오류 메시지: ${response.data.message}`);
         }
       } catch (err) {
         console.error('삭제 요청 중 오류 발생:', err);
@@ -192,26 +178,13 @@ const StudyDetail = () => {
           },
         });
 
-        const finalResponse = await Utils(
-          response,
-          axios.get,
-          [
-            `${BASE_URL}/api/v1/posts/${postId}`,
-            { headers: { Authorization: `Bearer ${accessToken}` } },
-          ],
-          navigate,
-        );
-
-        console.log('서버 응답 데이터:', finalResponse.data);
-        if (finalResponse.data.code === 200) {
-          setContent(finalResponse.data.data);
-          setTotalCommentCount(finalResponse.data.data.commentCount || 0);
+        console.log('서버 응답 데이터:', response.data);
+        if (response.data.code === 200) {
+          setContent(response.data.data);
+          setTotalCommentCount(response.data.data.commentCount || 0);
         } else {
-          console.error(
-            'Error fetching post data:',
-            finalResponse.data.message,
-          );
-          setError(finalResponse.data.message);
+          console.error('Error fetching post data:', response.data.message);
+          setError(response.data.message);
         }
       } catch (err) {
         console.error('API request error:', err);
