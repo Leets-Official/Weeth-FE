@@ -110,7 +110,7 @@ const HomeMain = () => {
   return (
     <StyledHomeMain>
       <CaptionContainer>
-        <Caption color="#ffffff" textColor="#000000">
+        <Caption color="#ffffff" textcolor="#000000">
           {cardinal}기
         </Caption>
       </CaptionContainer>
