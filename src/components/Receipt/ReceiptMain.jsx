@@ -99,7 +99,6 @@ const ReceiptMain = () => {
 
   const currentDate = new Date();
   const currentMonth = currentDate.getMonth() + 1;
-  let currentYear = currentDate.getFullYear();
 
   let months = [];
   if (currentMonth >= 3 && currentMonth <= 8) {
@@ -108,22 +107,12 @@ const ReceiptMain = () => {
     months = [9, 10, 11, 12, 1, 2];
   }
 
-  // 현재 달이 3~12월일 경우는 년도를 다음해로 설정
-  // 1,2 월만 앞에 년도가 붙음, 1,2월은 해당 년도로 설정
-  if (!(currentMonth === 1 || currentMonth === 2)) {
-    currentYear += 1;
-  }
-
   return (
     <StyledReceipt>
       <DuesAPI />
       {months.map((month) => (
         <div key={month}>
-          <StyledMonth>
-            {month >= 1 && month <= 2
-              ? `${currentYear}년 ${month}월`
-              : `${month}월`}
-          </StyledMonth>
+          <StyledMonth>{month}월</StyledMonth>
           {groupedByMonth[month] ? (
             groupedByMonth[month].map((receipt) => (
               <div key={receipt.id}>
