@@ -35,7 +35,6 @@ const YearlyScheduleAPI = ({ start, end }) => {
         );
 
         if (response.data.code === 200) {
-          console.log('모든 게 성공햇을 때.. 서버 응답', response.data.data); // 데이터 확인용
           setYearScheduleData(response.data.data);
         } else {
           setError(response.data.message);

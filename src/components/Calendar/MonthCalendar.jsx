@@ -200,12 +200,12 @@ const MonthCalendar = ({ year, month }) => {
 
   return (
     <CalendarContainer>
+      <UserAPI />
       <MonthlyShceduleAPI
         start={formattedStart}
         end={formattedEnd}
         year={year}
       />
-      <UserAPI />
       <FullCalendar
         ref={calendarRef}
         plugins={[dayGridPlugin]}
