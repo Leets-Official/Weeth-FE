@@ -67,7 +67,11 @@ const Login = () => {
   };
 
   const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
+    const pwValue = e.target.value.replace(
+      /[~!@#$%";'^,&*()_+|</>=>`?:{}\\]/g,
+      '',
+    );
+    setPassword(pwValue);
   };
 
   const handleLogin = async (e) => {
