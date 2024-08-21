@@ -100,8 +100,11 @@ const HomeMain = () => {
   let cardinal;
   if (userData === null) {
     cardinal = 'Loading';
+  } else if (userData.cardinals.length >= 2) {
+    cardinal = userData.cardinals[userData.cardinals.length - 1];
   } else {
-    cardinal = userData.cardinals;
+    // eslint-disable-next-line prefer-destructuring
+    cardinal = userData.cardinals[0];
   }
 
   return (
