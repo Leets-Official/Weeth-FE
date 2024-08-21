@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import UserAPI from '../hooks/UserAPI';
 import NoticeHeader from '../components/Board/NoticeHeader';
 import AttachButton from '../components/Board/AttachButton';
 import { UserContext } from '../hooks/UserContext';
@@ -187,6 +188,13 @@ const StudyDetail = () => {
           setError(response.data.message);
         }
       } catch (err) {
+        // 무한 리다이렉션 방지
+        if (window.location.pathname !== '/login') {
+          console.error('An error occurred while fetching the data');
+          localStorage.removeItem('accessToken');
+          localStorage.removeItem('refreshToken');
+          window.location.href = '/login';
+        }
         console.error('API request error:', err);
         setError('API request error');
       }
@@ -217,6 +225,7 @@ const StudyDetail = () => {
 
   return (
     <Container>
+      <UserAPI />
       <HeaderWrapper>
         <NoticeHeader
           onMenuClick={(action) => {
