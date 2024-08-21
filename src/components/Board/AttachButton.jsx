@@ -10,7 +10,6 @@ import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
 import theme from '../../styles/theme';
 import { ReactComponent as InstallIcon } from '../../assets/images/ic_install.svg'; // 경로 나중에 수정
-import Utils from '../../hooks/Utils';
 
 const Container = styled.div`
   width: 370px;
