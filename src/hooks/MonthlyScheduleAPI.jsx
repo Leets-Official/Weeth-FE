@@ -1,3 +1,4 @@
+/* eslint-disable react/require-default-props */
 import { useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -5,7 +6,7 @@ import PropTypes from 'prop-types';
 import { MonthlyScheduleContext } from './MonthlyScheduleContext';
 import Utils from './Utils';
 
-const MonthlyScheduleAPI = ({ start, end }) => {
+const MonthlyScheduleAPI = ({ start = '', end = '' }) => {
   const { setMonthScheduleData, setError } = useContext(MonthlyScheduleContext);
   const navigate = useNavigate();
 
@@ -61,11 +62,6 @@ const MonthlyScheduleAPI = ({ start, end }) => {
 MonthlyScheduleAPI.propTypes = {
   start: PropTypes.string,
   end: PropTypes.string,
-};
-
-MonthlyScheduleAPI.defaultProps = {
-  start: '',
-  end: '',
 };
 
 export default MonthlyScheduleAPI;
