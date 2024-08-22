@@ -64,6 +64,7 @@ const Login = () => {
     setEmail(e.target.value);
     const emailValue = e.target.value.replace(/[^a-zA-Z0-9@._-]/g, '');
     setEmail(emailValue);
+    setError(null);
   };
 
   const handlePasswordChange = (e) => {
@@ -72,6 +73,7 @@ const Login = () => {
       '',
     );
     setPassword(pwValue);
+    setError(null);
   };
 
   const handleLogin = async (e) => {
