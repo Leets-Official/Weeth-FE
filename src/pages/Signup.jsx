@@ -153,17 +153,6 @@ const Signup = () => {
     setPassword(pwValue);
   };
 
-  const getNextButtonColor = () => {
-    if (
-      !validateEmail(email) ||
-      emailStatus === 'duplicate' ||
-      password.trim() === ''
-    ) {
-      return 'white';
-    }
-    return 'green';
-  };
-
   return (
     <Container>
       <SignupHeader
@@ -171,10 +160,10 @@ const Signup = () => {
           validateEmail(email) &&
           emailStatus !== 'duplicate' &&
           password.trim() !== '' &&
-          isChecked
+          isChecked &&
+          !(password.length < 4 || password.length > 8)
         }
         onClickTextButton={handleNextClick}
-        nextButtonColor={getNextButtonColor()}
       />
       <InputContainer>
         <SignupTextComponent

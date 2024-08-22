@@ -49,7 +49,7 @@ const Login = () => {
   };
 
   const validatePwd = (pw) => {
-    return pw.length >= 8;
+    return pw.length >= 4 && pw.length <= 8;
   };
 
   const isEmailValid = email && validateEmail(email);
@@ -125,7 +125,7 @@ const Login = () => {
   return (
     <Container>
       <LoginHeader
-        isRightButtonEnabled={!!isAllValid}
+        isRightButtonEnabled={!!isAllValid && isPwdValid && isEmailValid}
         onCompleteClick={handleLogin}
       />
       <LoginHeaderMargin />
