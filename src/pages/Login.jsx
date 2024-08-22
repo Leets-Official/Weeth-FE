@@ -49,7 +49,7 @@ const Login = () => {
   };
 
   const validatePwd = (pw) => {
-    return pw.length >= 8;
+    return pw.length >= 4 && pw.length <= 8;
   };
 
   const isEmailValid = email && validateEmail(email);
@@ -64,10 +64,16 @@ const Login = () => {
     setEmail(e.target.value);
     const emailValue = e.target.value.replace(/[^a-zA-Z0-9@._-]/g, '');
     setEmail(emailValue);
+    setError(null);
   };
 
   const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
+    const pwValue = e.target.value.replace(
+      /[~!@#$%";'^,&*()_+|</>=>`?:{}\\]/g,
+      '',
+    );
+    setPassword(pwValue);
+    setError(null);
   };
 
   const handleLogin = async (e) => {
@@ -121,7 +127,7 @@ const Login = () => {
   return (
     <Container>
       <LoginHeader
-        isRightButtonEnabled={!!isAllValid}
+        isRightButtonEnabled={!!isAllValid && isPwdValid && isEmailValid}
         onCompleteClick={handleLogin}
       />
       <LoginHeaderMargin />
