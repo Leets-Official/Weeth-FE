@@ -17,7 +17,7 @@ const BoardContainer = styled.div`
   width: 100%;
   height: 87px;
   margin: 0 7%;
-  padding: 10px 0;
+  padding: 10px 0 0 0;
   position: relative;
   border-bottom: 1px solid ${theme.color.grayScale.gray65};
   overflow: hidden; /* 컨텐츠가 컨테이너를 넘어가지 않도록 설정 */
@@ -42,6 +42,7 @@ const StyledName = styled.div`
   display: flex;
   align-items: flex-start;
   width: 57%;
+  margin: 7px 0 0 0;
 `;
 
 const StyledDate = styled.div`
@@ -49,11 +50,12 @@ const StyledDate = styled.div`
   font-family: ${theme.font.family.pretendard_regular};
   font-size: 12px;
   line-height: 14.32px;
+  margin: 5px 0 0 0;
 `;
 
 const StyledNotice = styled.div`
   width: 100%; //
-  margin: 5px 0 10px 0; // 5px 15% 10px 0;
+  margin: 5px 0 8px 0; // 5px 15% 10px 0;
 `;
 
 const ContentRow = styled.div`
@@ -82,6 +84,7 @@ const BottomRow = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  margin: 7px 0 0 0;
 `;
 
 const CommentCount = styled.div`
@@ -113,16 +116,16 @@ const BoardComponent = ({
     <Container onClick={onClick}>
       <BoardContainer>
         <TopRow>
-          <StyledName>
-            <StyledText>{name}</StyledText>
-          </StyledName>
+          <StyledNotice>
+            <StyledText>{title}</StyledText>
+          </StyledNotice>
           <StyledDate>{formatDate(time)}</StyledDate>
         </TopRow>
-        <StyledNotice>
-          <StyledText>{title}</StyledText>
-        </StyledNotice>
+        <StyledText>{content}</StyledText>
         <ContentRow>
-          <NoticeContent>{content}</NoticeContent>
+          <StyledName>
+            <NoticeContent>{name}</NoticeContent>
+          </StyledName>
           <BottomRow>
             <BoardChat />
             <CommentCount>

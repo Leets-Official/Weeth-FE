@@ -24,7 +24,7 @@ const InputField = styled.input`
   font-size: 16px; // 확대 방지를 위해 16px로 설정
   font-family: ${theme.font.family.pretendard_semiBold};
   outline: none;
-  padding: 0 48% 0 5%;
+  padding: 0 10% 0 5%;
 
   &::placeholder {
     color: ${theme.color.grayScale.white};

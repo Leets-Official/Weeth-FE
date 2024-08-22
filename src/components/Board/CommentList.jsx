@@ -164,6 +164,10 @@ const CommentList = ({ noticeId, postId }) => {
     };
   }, []);
 
+  if (!userData) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div>
       {comments.map((comment, index) => {

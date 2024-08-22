@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
+import UserAPI from '../hooks/UserAPI';
 import { UserContext } from '../hooks/UserContext';
 import BoardHeader from '../components/Board/NoticeHeader';
 import AttachButton from '../components/Board/AttachButton';
@@ -77,6 +78,8 @@ const NoticeContents = styled.div`
   font-family: ${theme.font.family.pretendard_regular};
   font-size: 16px;
   line-height: 19.09px;
+  word-wrap: break-word; /* 단어가 길 경우에도 줄바꿈 허용 */
+  overflow-wrap: break-word; /* 긴 단어를 줄바꿈 */
 `;
 
 const RightMargin = styled.div`
@@ -191,6 +194,13 @@ const NoticeDetail = () => {
           console.error('Error fetching notice data:', response.data.message);
         }
       } catch (err) {
+        // 무한 리다이렉션 방지
+        if (window.location.pathname !== '/login') {
+          console.error('An error occurred while fetching the data');
+          localStorage.removeItem('accessToken');
+          localStorage.removeItem('refreshToken');
+          window.location.href = '/login';
+        }
         console.error('API request error:', err);
       }
     };
@@ -215,6 +225,7 @@ const NoticeDetail = () => {
 
   return (
     <Container>
+      <UserAPI />
       <HeaderWrapper>
         <BoardHeader
           onMenuClick={(action) => {
