@@ -160,7 +160,10 @@ const NoticePosting = () => {
 
   const handleBoardClick = () => {
     if (boardPost.title && boardPost.content.length >= 1) {
-      saveBoard();
+      const confirmSave = window.confirm('게시글을 생성하시겠습니까?');
+      if (confirmSave) {
+        saveBoard();
+      }
     }
   };
 
