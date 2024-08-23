@@ -146,10 +146,7 @@ const Signup = () => {
   };
 
   const handlePasswordChange = (e) => {
-    const pwValue = e.target.value.replace(
-      /[~!@#$%";'^,&*()_+|</>=>`?:{}\\]/g,
-      '',
-    );
+    const pwValue = e.target.value.replace(/[^a-zA-Z0-9]/g, '');
     setPassword(pwValue);
   };
 
