@@ -247,7 +247,7 @@ const StudyDetail = () => {
         <ComponentRow>
           {content.fileUrls && content.fileUrls.length > 0 ? (
             <AttachButton
-              fileUrl={content.fileUrls[0]}
+              fileUrls={content.fileUrls}
               onFileChange={handleFileChange}
             />
           ) : null}
