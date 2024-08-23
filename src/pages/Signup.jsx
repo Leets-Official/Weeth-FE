@@ -127,6 +127,10 @@ const Signup = () => {
       alert('비밀번호를 입력해 주세요.');
       return;
     }
+    if (password.length < 4 || password.length > 8) {
+      alert('비밀번호를 4~8자리로 입력해 주세요.');
+      return;
+    }
     navi('/profile', { state: { email, password } });
   };
 
@@ -143,21 +147,10 @@ const Signup = () => {
 
   const handlePasswordChange = (e) => {
     const pwValue = e.target.value.replace(
-      /[~!@#$%";'^,&*()_+|</>=>`?:{}]/g,
+      /[~!@#$%";'^,&*()_+|</>=>`?:{}\\]/g,
       '',
     );
     setPassword(pwValue);
-  };
-
-  const getNextButtonColor = () => {
-    if (
-      !validateEmail(email) ||
-      emailStatus === 'duplicate' ||
-      password.trim() === ''
-    ) {
-      return 'white';
-    }
-    return 'green';
   };
 
   return (
@@ -167,10 +160,10 @@ const Signup = () => {
           validateEmail(email) &&
           emailStatus !== 'duplicate' &&
           password.trim() !== '' &&
-          isChecked
+          isChecked &&
+          !(password.length < 4 || password.length > 8)
         }
         onClickTextButton={handleNextClick}
-        nextButtonColor={getNextButtonColor()}
       />
       <InputContainer>
         <SignupTextComponent
@@ -205,7 +198,7 @@ const Signup = () => {
           text="사용할 비밀번호를 입력해주세요."
           value={password}
           onChange={handlePasswordChange}
-          placeholder=""
+          placeholder="4~8자리 / 영문 대소문자, 숫자 조합"
           type={passwordVisible ? 'text' : 'password'}
         >
           <ToggleVisibilityButton onClick={togglePasswordVisibility}>

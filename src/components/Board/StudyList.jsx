@@ -4,9 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import BoardComponent from './BoardComponent';
 import { BoardContext } from '../../hooks/BoardContext';
 import more from '../../assets/images/ic_moreButton.svg';
-import Utils from '../../hooks/Utils';
 
-const StudyList = ({postId}) => {
+const StudyList = () => {
   const navigate = useNavigate();
   const [studies, setStudies] = useState([]);
   const [hasMore, setHasMore] = useState(true);
@@ -53,7 +52,6 @@ const StudyList = ({postId}) => {
         setHasMore(!response.data.isLastPage);
       }
       } else {
-        console.error("API Error:", response.data.message);
         setHasMore(false);
       }
     } catch (error) {
@@ -66,28 +64,7 @@ const StudyList = ({postId}) => {
       ) {
         console.error("Error: Non-existent post ID.");
       } else {
-        // Utils를 사용하여 토큰 갱신 및 API 재시도
-        try {
-          const retryResponse = await Utils(
-            error.response,
-            fetchStudies,
-            [postId, count],
-            navigate,
-          );
-          if (retryResponse) {
-            const studiesData = retryResponse.data.data;
-            if (studiesData.length === 0) {
-              console.log('No more studies to load after retry.');
-              setHasMore(false); // 재시도 후에도 더 이상 로드할 공지가 없으므로 'hasMore'를 false로 설정
-            } else {
-              setStudies((prevStudies) => [...prevStudies, ...studiesData]);
-              setHasMore(!retryResponse.data.isLastPage);
-            }
-          }
-        } catch (retryError) {
-          console.log('스터디 데이터를 가져오는 중 오류가 발생했습니다.');
           setHasMore(false); // 재시도 중에도 오류가 발생했으므로 더 이상 로드할 공지가 없다고 처리
-        }
       }
     }
   };
