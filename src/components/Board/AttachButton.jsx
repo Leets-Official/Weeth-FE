@@ -1,15 +1,8 @@
-/* eslint-disable no-unused-vars */
-
-// 해당 파일 수정하기 전에 위에 eslint 무시하는거 꼭 지우고 하기!!!!
-// 배포 버전에 계속 오류 생겨서 임시로 막아둔거임!!!!
-
-import React, { useRef } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import axios from 'axios';
 import PropTypes from 'prop-types';
-import { useParams } from 'react-router-dom';
 import theme from '../../styles/theme';
-import { ReactComponent as InstallIcon } from '../../assets/images/ic_install.svg'; // 경로 나중에 수정
+import { ReactComponent as InstallIcon } from '../../assets/images/ic_install.svg';
 
 const Container = styled.div`
   width: 370px;
@@ -48,23 +41,26 @@ const FileName = styled.div`
   margin-bottom: 5px;
 `;
 
-const AttachButton = ({ fileUrl = null, onFileChange = () => {} }) => {
-  const fileInputRef = useRef(null);
-  const { postId } = useParams();
-
-  const accessToken = localStorage.getItem('accessToken');
-  const BASE_URL = process.env.REACT_APP_BASE_URL;
-
+const AttachButton = ({ fileUrls = [] }) => {
   const handleButtonClick = async () => {
     try {
-      const response = await fetch(fileUrl);
-      const blob = await response.blob();
-      const link = document.createElement('a');
-      const url = window.URL.createObjectURL(blob);
-      link.href = url;
-      link.download = fileUrl.split('/').pop(); // 파일 이름을 URL에서 추출
-      link.click();
-      window.URL.revokeObjectURL(url); // 메모리 해제를 위해 Object URL을 해제
+      await Promise.all(
+        fileUrls.map(async (fileUrl) => {
+          const response = await fetch(fileUrl);
+          if (!response.ok) {
+            throw new Error(`Failed to download file: ${fileUrl}`);
+          }
+          const blob = await response.blob();
+          const link = document.createElement('a');
+          const url = window.URL.createObjectURL(blob);
+          link.href = url;
+          link.download = fileUrl.split('/').pop(); // Extract filename from URL
+          document.body.appendChild(link); // Append to DOM to make it clickable
+          link.click(); // Trigger download
+          document.body.removeChild(link); // Remove from DOM after clicking
+          window.URL.revokeObjectURL(url); // Release memory
+        }),
+      );
     } catch (error) {
       console.error('파일 다운로드 실패:', error);
     }
@@ -89,13 +85,11 @@ const AttachButton = ({ fileUrl = null, onFileChange = () => {} }) => {
 };
 
 AttachButton.propTypes = {
-  fileUrl: PropTypes.string,
-  onFileChange: PropTypes.func,
+  fileUrls: PropTypes.arrayOf(PropTypes.string),
 };
 
 AttachButton.defaultProps = {
-  fileUrl: '',
-  onFileChange: () => {},
+  fileUrls: [],
 };
 
 export default AttachButton;
