@@ -83,9 +83,9 @@ const StudyContents = styled.div`
   overflow-wrap: break-word; /* 긴 단어를 줄바꿈 */
 `;
 
-const RightMargin = styled.div`
-  margin-right: 27%;
-`;
+/* const RightMargin = styled.div`
+  margin-right: 27%; 
+`; */
 
 const CommentCountWrapper = styled.div`
   display: flex;
@@ -245,13 +245,15 @@ const StudyDetail = () => {
           <StudyContents>{content?.content || 'Loading...'}</StudyContents>
         </TextContainer>
         <ComponentRow>
-          {content.fileUrls && content.fileUrls.length > 0 ? (
-            <AttachButton
-              fileUrls={content.fileUrls}
-              onFileChange={handleFileChange}
-            />
-          ) : null}
-          <RightMargin />
+          {content.fileUrls && content.fileUrls.length > 0
+            ? content.fileUrls.map((fileUrl) => (
+                <AttachButton
+                  key={fileUrl} // Use fileUrl as the key
+                  fileUrls={[fileUrl]}
+                  onFileChange={handleFileChange}
+                />
+              ))
+            : null}
         </ComponentRow>
         <CommentCountWrapper>
           <BoardChat alt="" />
