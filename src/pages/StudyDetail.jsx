@@ -15,7 +15,6 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   width: 370px;
-  max-width: 370px;
   min-height: 810px;
   color: ${theme.color.grayScale.white};
   margin-bottom: 50px;
@@ -59,9 +58,13 @@ const SubRow = styled.div`
 
 const ComponentRow = styled.div`
   display: flex;
-  margin-top: 10px;
-  margin: 40px 4% 0 0;
+  margin-top: 40px;
+  margin-right: -50px;
 `;
+
+/* const AttachMargin = styled.div`
+  margin-right: -10px;
+`; */
 
 const UserName = styled.div`
   padding: 0;

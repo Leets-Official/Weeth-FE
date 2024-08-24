@@ -5,14 +5,13 @@ import theme from '../../styles/theme';
 import { ReactComponent as InstallIcon } from '../../assets/images/ic_install.svg';
 
 const Container = styled.div`
-  width: 370px;
+  width: 100%;
 `;
 
 const StyledButton = styled.button`
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  width: 98px;
+  width: auto; /* Button width adjusts to text */
   height: 56px;
   margin-top: 40px;
   margin-right: 0;
@@ -23,7 +22,7 @@ const StyledButton = styled.button`
   font-size: 14px;
   cursor: pointer;
   border: none;
-  padding: 0;
+  padding: 0 2px; /* 텍스트 주변에 약간의 패딩을 추가 */
 
   .text {
     display: flex;
@@ -33,7 +32,7 @@ const StyledButton = styled.button`
   }
 
   .icon {
-    margin: 30px 10px 0 0;
+    margin: 30px 5px 0 5px;
   }
 `;
 
