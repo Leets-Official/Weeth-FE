@@ -15,7 +15,6 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   width: 370px;
-  max-width: 370px;
   min-height: 810px;
   color: ${theme.color.grayScale.white};
   margin-bottom: 50px;
@@ -59,9 +58,13 @@ const SubRow = styled.div`
 
 const ComponentRow = styled.div`
   display: flex;
-  margin-top: 10px;
-  margin: 40px 4% 0 0;
+  margin-top: 40px;
+  margin-right: -50px;
 `;
+
+/* const AttachMargin = styled.div`
+  margin-right: -10px;
+`; */
 
 const UserName = styled.div`
   padding: 0;
@@ -83,9 +86,9 @@ const StudyContents = styled.div`
   overflow-wrap: break-word; /* 긴 단어를 줄바꿈 */
 `;
 
-const RightMargin = styled.div`
-  margin-right: 27%;
-`;
+/* const RightMargin = styled.div`
+  margin-right: 27%; 
+`; */
 
 const CommentCountWrapper = styled.div`
   display: flex;
@@ -245,13 +248,15 @@ const StudyDetail = () => {
           <StudyContents>{content?.content || 'Loading...'}</StudyContents>
         </TextContainer>
         <ComponentRow>
-          {content.fileUrls && content.fileUrls.length > 0 ? (
-            <AttachButton
-              fileUrls={content.fileUrls}
-              onFileChange={handleFileChange}
-            />
-          ) : null}
-          <RightMargin />
+          {content.fileUrls && content.fileUrls.length > 0
+            ? content.fileUrls.map((fileUrl) => (
+                <AttachButton
+                  key={fileUrl} // Use fileUrl as the key
+                  fileUrls={[fileUrl]}
+                  onFileChange={handleFileChange}
+                />
+              ))
+            : null}
         </ComponentRow>
         <CommentCountWrapper>
           <BoardChat alt="" />
