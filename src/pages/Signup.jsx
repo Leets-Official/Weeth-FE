@@ -127,8 +127,8 @@ const Signup = () => {
       alert('비밀번호를 입력해 주세요.');
       return;
     }
-    if (password.length < 4 || password.length > 8) {
-      alert('비밀번호를 4~8자리로 입력해 주세요.');
+    if (password.length < 6 || password.length > 12) {
+      alert('비밀번호를 6~12자리로 입력해 주세요.');
       return;
     }
     navi('/profile', { state: { email, password } });
@@ -158,7 +158,7 @@ const Signup = () => {
           emailStatus !== 'duplicate' &&
           password.trim() !== '' &&
           isChecked &&
-          !(password.length < 4 || password.length > 8)
+          !(password.length < 6 || password.length > 12)
         }
         onClickTextButton={handleNextClick}
       />
@@ -201,7 +201,7 @@ const Signup = () => {
           onKeyPress={(e) => {
             if (e.key === 'Enter') handleNextClick();
           }}
-          placeholder="4~8자리 / 영문 대소문자, 숫자 조합"
+          placeholder="6~12자리 / 영문 대소문자, 숫자 조합"
           type={passwordVisible ? 'text' : 'password'}
         >
           <ToggleVisibilityButton onClick={togglePasswordVisibility}>

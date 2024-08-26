@@ -49,7 +49,7 @@ const Login = () => {
   };
 
   const validatePwd = (pw) => {
-    return pw.length >= 4 && pw.length <= 8;
+    return pw.length >= 6 && pw.length <= 12;
   };
 
   const isEmailValid = email && validateEmail(email);
@@ -88,8 +88,8 @@ const Login = () => {
       alert('비밀번호를 입력해 주세요.');
       return;
     }
-    if (password.length < 4 || password.length > 8) {
-      alert('비밀번호를 4~8자리로 입력해 주세요.');
+    if (password.length < 4 || password.length > 12) {
+      alert('비밀번호를 4~12자리로 입력해 주세요.');
       return;
     }
     const params = {
