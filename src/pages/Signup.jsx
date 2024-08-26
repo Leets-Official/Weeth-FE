@@ -167,6 +167,9 @@ const Signup = () => {
           text="ID로 사용할 메일을 적어주세요."
           value={email}
           onChange={handleEmailChange}
+          onKeyPress={(e) => {
+            if (e.key === 'Enter') handleNextClick();
+          }}
           placeholder="ex) weeth@gmail.com"
           type=""
         />
@@ -195,6 +198,9 @@ const Signup = () => {
           text="사용할 비밀번호를 입력해주세요."
           value={password}
           onChange={handlePasswordChange}
+          onKeyPress={(e) => {
+            if (e.key === 'Enter') handleNextClick();
+          }}
           placeholder="4~8자리 / 영문 대소문자, 숫자 조합"
           type={passwordVisible ? 'text' : 'password'}
         >

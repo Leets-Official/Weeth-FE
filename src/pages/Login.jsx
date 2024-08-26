@@ -61,7 +61,6 @@ const Login = () => {
   };
 
   const handleEmailChange = (e) => {
-    setEmail(e.target.value);
     const emailValue = e.target.value.replace(/[^a-zA-Z0-9@._-]/g, '');
     setEmail(emailValue);
     setError(null);
@@ -76,9 +75,7 @@ const Login = () => {
     setError(null);
   };
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-
+  const handleLogin = async () => {
     if (email === '') {
       alert('이메일을 입력해 주세요.');
       return;
@@ -89,6 +86,10 @@ const Login = () => {
     }
     if (password === '') {
       alert('비밀번호를 입력해 주세요.');
+      return;
+    }
+    if (password.length < 4 || password.length > 8) {
+      alert('비밀번호를 4~8자리로 입력해 주세요.');
       return;
     }
     const params = {
@@ -135,6 +136,9 @@ const Login = () => {
         text="email"
         value={email}
         onChange={handleEmailChange}
+        onKeyPress={(e) => {
+          if (e.key === 'Enter') handleLogin();
+        }}
         placeholder="ex) weeth@gmail.com"
         type="text"
         children=""
@@ -144,6 +148,9 @@ const Login = () => {
         text="password"
         value={password}
         onChange={handlePasswordChange}
+        onKeyPress={(e) => {
+          if (e.key === 'Enter') handleLogin();
+        }}
         placeholder=""
         type={passwordVisible ? 'text' : 'password'}
       >
