@@ -5,7 +5,7 @@ import theme from '../../styles/theme';
 import { ReactComponent as InstallIcon } from '../../assets/images/ic_install.svg';
 
 const Container = styled.div`
-  width: 100%;
+  width: 30%;
 `;
 
 const StyledButton = styled.button`

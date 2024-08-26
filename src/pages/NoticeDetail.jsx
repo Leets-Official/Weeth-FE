@@ -15,7 +15,6 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   width: 370px;
-  max-width: 370px;
   min-height: 810px;
   color: ${theme.color.grayScale.white};
   margin-bottom: 50px;
@@ -35,7 +34,6 @@ const NoticeRow = styled.div`
   padding: 10px 6%;
   margin-top: 90px;
   flex-grow: 1;
-  margin-bottom: 100px; /* Typing 영역과 겹치지 않도록 하단 여백 추가 */
 `;
 
 const TextContainer = styled.div`
@@ -45,6 +43,8 @@ const TextContainer = styled.div`
 
 const NoticeNamed = styled.div`
   font-size: 24px;
+  word-wrap: break-word; /* 단어가 길 경우에도 줄바꿈 허용 */
+  overflow-wrap: break-word; /* 긴 단어를 줄바꿈 */
 `;
 
 const SubRow = styled.div`
@@ -58,9 +58,13 @@ const SubRow = styled.div`
 
 const ComponentRow = styled.div`
   display: flex;
-  margin-top: 10px;
-  margin: 40px 4% 0 0;
+  margin-top: 40px;
+  margin-right: -50px;
 `;
+
+/* const AttachMargin = styled.div`
+  margin-right: -10px;
+`; */
 
 const UserName = styled.div`
   padding: 0;
@@ -78,11 +82,13 @@ const NoticeContents = styled.div`
   font-family: ${theme.font.family.pretendard_regular};
   font-size: 16px;
   line-height: 19.09px;
+  word-wrap: break-word; /* 단어가 길 경우에도 줄바꿈 허용 */
+  overflow-wrap: break-word; /* 긴 단어를 줄바꿈 */
 `;
 
-const RightMargin = styled.div`
-  margin-right: 27%;
-`;
+/* const RightMargin = styled.div`
+  margin-right: 27%; 
+`; */
 
 const CommentCountWrapper = styled.div`
   display: flex;
@@ -250,13 +256,15 @@ const NoticeDetail = () => {
           <NoticeContents>{content?.content || 'Loading...'}</NoticeContents>
         </TextContainer>
         <ComponentRow>
-          {content.fileUrls && content.fileUrls.length > 0 ? (
-            <AttachButton
-              fileUrls={content.fileUrls}
-              onFileChange={handleFileChange}
-            />
-          ) : null}
-          <RightMargin />
+          {content.fileUrls && content.fileUrls.length > 0
+            ? content.fileUrls.map((fileUrl) => (
+                <AttachButton
+                  key={fileUrl} // Use fileUrl as the key
+                  fileUrls={[fileUrl]}
+                  onFileChange={handleFileChange}
+                />
+              ))
+            : null}
         </ComponentRow>
         <CommentCountWrapper>
           <BoardChat alt="" />
