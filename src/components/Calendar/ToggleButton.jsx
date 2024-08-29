@@ -42,14 +42,14 @@ const Slider = styled.span`
     transition: 0.4s;
     border-radius: 9px;
     transform: ${(props) =>
-      props.checked ? 'translateX(169px)' : 'translateX(0)'};
+      props.$checked ? 'translateX(169px)' : 'translateX(0)'};
   }
 `;
 
 const TextMonth = styled.span`
   position: absolute;
   left: 18%;
-  color: ${(props) => (props.checked ? '#a6a6a6' : '#ffffff')};
+  color: ${(props) => (props.$checked ? '#a6a6a6' : '#ffffff')};
   //eslint 이슈로 색상코드를 작성하였음
   font-family: ${theme.font.family.pretendard_semiBold};
   font-size: 12px;
@@ -59,7 +59,7 @@ const TextMonth = styled.span`
 const TextYear = styled.span`
   position: absolute;
   right: 22%;
-  color: ${(props) => (props.checked ? '#ffffff' : '#a6a6a6')};
+  color: ${(props) => (props.$checked ? '#ffffff' : '#a6a6a6')};
   //eslint 이슈로 색상코드를 작성하였음
   font-family: ${theme.font.family.pretendard_semiBold};
   font-size: 12px;
@@ -77,15 +77,10 @@ const ToggleButton = ({ onToggle }) => {
   return (
     <div>
       <Switch>
-        <Checkbox
-          type="checkbox"
-          checked={isMonth}
-          onChange={handleToggle}
-          text="text"
-        />
-        <Slider checked={isMonth}>
-          <TextMonth checked={isMonth}>Month</TextMonth>
-          <TextYear checked={isMonth}>Year</TextYear>
+        <Checkbox type="checkbox" checked={isMonth} onChange={handleToggle} />
+        <Slider $checked={isMonth}>
+          <TextMonth $checked={isMonth}>Month</TextMonth>
+          <TextYear $checked={isMonth}>Year</TextYear>
         </Slider>
       </Switch>
     </div>
