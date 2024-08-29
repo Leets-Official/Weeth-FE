@@ -112,7 +112,7 @@ const EventAdmin = () => {
   ]);
 
   const [startArr, setStartArr] = useState(getTodayArr('start'));
-  const [endArr, setEndArr] = useState([]);
+  const [endArr, setEndArr] = useState(['', '', '', '', '']);
 
   const navigate = useNavigate();
   const { id } = useParams();
@@ -270,7 +270,7 @@ const EventAdmin = () => {
   return (
     <StyledCreate>
       <UserAPI />
-      <EventInfoAPI id={id} />
+      {id && <EventInfoAPI id={id} />}
       <Header
         title={isEditMode ? '일정 수정' : '일정 추가'}
         text="완료"

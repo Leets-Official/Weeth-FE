@@ -18,7 +18,7 @@ const WaveImg = styled.img`
 `;
 
 const DatePicker = ({ status, onDateChange, date }) => {
-  // console.log('date', date[0]);
+  // console.log('date', date);
   return (
     <StyledPicker>
       {status === 'start' ? (
@@ -79,5 +79,7 @@ export default DatePicker;
 DatePicker.propTypes = {
   status: PropTypes.string.isRequired,
   onDateChange: PropTypes.func.isRequired,
-  date: PropTypes.arrayOf(PropTypes.number).isRequired,
+  date: PropTypes.arrayOf(
+    PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  ).isRequired,
 };
