@@ -26,11 +26,16 @@ const Input = styled.input`
   border: none;
   border-radius: 4px;
   background-color: ${theme.color.grayScale.gray18};
-  color: ${(props) => (props.edit ? theme.color.grayScale.gray30 : 'white')};
+  color: ${(props) => (props.$edit ? theme.color.grayScale.gray30 : 'white')};
   padding-left: 10px;
   padding-right: 10px;
   text-align: ${(props) => props.$align || 'right'};
+  font-family: ${theme.font.family.pretendard_regular};
   font-size: 16px;
+
+  &::placeholder {
+    font-family: ${theme.font.family.pretendard_regular};
+  }
 `;
 
 const PwInput = styled.input`
@@ -45,6 +50,10 @@ const PwInput = styled.input`
   padding-right: 43px;
   text-align: ${(props) => props.align || 'right'};
   font-size: 16px;
+
+  &::placeholder {
+    font-family: ${theme.font.family.pretendard_regular};
+  }
 `;
 
 const Visible = styled.div`
@@ -142,7 +151,7 @@ const InfoInput = ({
         onChange={onChangeValue}
         width={width}
         $align={align}
-        edit={edit}
+        $edit={edit}
         type={inputType === 'number' ? 'text' : inputType} // 숫자 입력도 text로 처리하고 유효성 검사함
       />
     </StyledInfoInput>

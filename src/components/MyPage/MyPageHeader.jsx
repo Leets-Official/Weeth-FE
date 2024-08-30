@@ -1,3 +1,4 @@
+/* eslint-disable react/require-default-props */
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
@@ -36,7 +37,7 @@ const MyPageHeader = ({ isEdit, onSave }) => {
 
 MyPageHeader.propTypes = {
   isEdit: PropTypes.bool.isRequired,
-  onSave: PropTypes.func.isRequired,
+  onSave: PropTypes.func,
 };
 
 export default MyPageHeader;
