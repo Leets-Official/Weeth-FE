@@ -31,15 +31,15 @@ const StyledAttend = styled.div`
 const Progress = styled.div`
   width: 86%;
   height: 19px;
-  background-color: ${({ isAttend }) =>
-    isAttend === 0 ? theme.color.grayScale.gray20 : theme.color.main.negative};
+  background-color: ${({ $isAttend }) =>
+    $isAttend === 0 ? theme.color.grayScale.gray20 : theme.color.main.negative};
   border-radius: 10px;
   overflow: hidden;
   margin: 5% 10px 0px 10px;
 `;
 
 const Dealt = styled.div`
-  width: ${(props) => `${props.dealt}%`};
+  width: ${(props) => `${props.$dealt}%`};
   height: 100%;
   border-radius: 10px;
   background-color: ${theme.color.main.mainColor};
@@ -219,8 +219,8 @@ const AttendMain = () => {
           />
         </RightButtonWrapper>
       </div>
-      <Progress isAttend={ATTEND_GAUGE}>
-        <Dealt dealt={dealt} />
+      <Progress $isAttend={ATTEND_GAUGE}>
+        <Dealt $dealt={dealt} />
       </Progress>
       <StyledBox height="200px">
         <img src={check} alt="v" />
