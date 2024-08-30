@@ -52,9 +52,7 @@ const Detail = styled.div`
 
 const adminModalStyles = {
   overlay: {
-    backgroundColor: 'rgba(0,0,0,0.5)',
-    backdropFilter: 'blur(5px)',
-    WebkitBackdropFilter: 'blur(5px)',
+    backgroundColor: 'rgba(0,0,0,0.4)',
   },
 };
 
@@ -79,17 +77,13 @@ const EventDetailTitle = ({ id, text, writer, createdAt, isMeeting }) => {
     const BASE_URL = process.env.REACT_APP_BASE_URL;
     if (window.confirm('삭제하시겠습니까?')) {
       try {
-        const response = await axios.delete(
-          `${BASE_URL}/api/v1/admin/events/${id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-              Authorization_refresh: `Bearer ${refreshToken}`,
-            },
+        await axios.delete(`${BASE_URL}/api/v1/admin/events/${id}`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            Authorization_refresh: `Bearer ${refreshToken}`,
           },
-        );
+        });
         alert('삭제가 완료되었습니다.');
-        console.log(response);
         navi('/calendar');
       } catch (err) {
         alert('삭제 중 오류가 발생했습니다.');
