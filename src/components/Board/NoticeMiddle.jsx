@@ -11,6 +11,7 @@ const NoticeMiddleContainer = styled.div`
   width: auto;
   padding: 0 7%;
   margin-bottom: 20px;
+  font-family: ${theme.font.family.pretendard_regular};
 `;
 
 const NoticeTextContainer = styled.div`
@@ -23,7 +24,7 @@ const NoticeTextContainer = styled.div`
 const NoticeTitle = styled.div`
   margin-top: 20px;
   color: ${theme.color.grayScale.white};
-  font-family: ${theme.font.family.Pretendard_SemiBold};
+  font-family: ${theme.font.family.pretendard_semiBold};
   font-size: 16px;
   line-height: 19.09px;
 `;
@@ -31,7 +32,7 @@ const NoticeTitle = styled.div`
 const NoticeIntroduce = styled.div`
   width: 100%;
   color: ${theme.color.grayScale.gray65};
-  font-family: ${theme.font.family.Pretendard_regular};
+  font-family: ${theme.font.family.pretendard_regular};
   font-size: 12px;
   margin-top: 10px;
 `;
@@ -46,9 +47,9 @@ const NoticeMiddle = ({ title, button }) => {
 
   const handleButtonClick = () => {
     if (title === '공지사항') {
-      navi('/noticePosting');
+      navi('/notice/post');
     } else if (title === '스터디 게시판') {
-      navi('/studyPosting');
+      navi('/study/post');
     }
   };
 

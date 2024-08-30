@@ -18,6 +18,7 @@ const Container = styled.div`
   min-height: 810px;
   color: ${theme.color.grayScale.white};
   margin-bottom: 50px;
+  font-family: ${theme.font.family.pretendard_regular};
 `;
 
 const HeaderWrapper = styled.div`
@@ -218,7 +219,7 @@ const NoticeDetail = () => {
   };
 
   const handleEditClick = () => {
-    navigate(`/noticePosting`, {
+    navigate(`/notice/post`, {
       state: { title: content.title, content: content.content, noticeId },
     });
   };

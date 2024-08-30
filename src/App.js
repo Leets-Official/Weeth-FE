@@ -73,10 +73,10 @@ const App = () => {
           <Route path="/dues" element={<Dues />} />
           <Route path="/receipt" element={<Receipt />} />
           <Route path="/board" element={<Board />} />
-          <Route path="/board/posts/:id" element={<StudyDetail />} />
-          <Route path="/board/notices/:id" element={<NoticeDetail />} />
-          <Route path="/studyPosting" element={<StudyPosting />} />
-          <Route path="/noticePosting" element={<NoticePosting />} />
+          <Route path="/study/:id" element={<StudyDetail />} />
+          <Route path="/notice/:id" element={<NoticeDetail />} />
+          <Route path="/study/post" element={<StudyPosting />} />
+          <Route path="/notice/post" element={<NoticePosting />} />
         </Routes>
         </AttendCheckProvider>
         </YearlyScheduleProvider>

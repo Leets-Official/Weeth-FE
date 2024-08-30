@@ -18,6 +18,7 @@ const Container = styled.div`
   min-height: 810px;
   color: ${theme.color.grayScale.white};
   margin-bottom: 50px;
+  font-family: ${theme.font.family.pretendard_regular};
 `;
 
 const HeaderWrapper = styled.div`
@@ -210,7 +211,7 @@ const StudyDetail = () => {
   };
 
   const handleEditClick = () => {
-    navigate(`/studyPosting`, {
+    navigate(`/study/post`, {
       state: { title: content.title, content: content.content, postId },
     });
   };

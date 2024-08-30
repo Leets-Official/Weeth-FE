@@ -8,6 +8,7 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  font-family: ${theme.font.family.pretendard_regular};
 `;
 
 const BoardContainer = styled.div`
@@ -40,7 +41,7 @@ const StyledName = styled.div`
   display: flex;
   align-items: flex-start;
   width: 57%;
-  margin: 7px 0 7px 0;
+  margin-top: 7px;
 `;
 
 const StyledDate = styled.div`
@@ -65,6 +66,7 @@ const ContentRow = styled.div`
   justify-content: space-between;
   align-items: flex-start; //center
   width: 100%;
+  margin-bottom: 10px;
 `;
 
 const NoticeContent = styled.div`

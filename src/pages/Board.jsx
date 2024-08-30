@@ -55,7 +55,6 @@ const PostingButton = styled.button`
   cursor: pointer;
   font-family: ${theme.font.family.pretendard_semiBold};
   font-size: 12px;
-  line-height: 14.32px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -72,9 +71,9 @@ const Board = () => {
 
   const handlePostingClick = () => {
     if (activeTab === 'study') {
-      navigate('/studyPosting');
+      navigate('/study/post');
     } else if (activeTab === 'notice') {
-      navigate('/noticePosting');
+      navigate('/notice/post');
     }
   };
 

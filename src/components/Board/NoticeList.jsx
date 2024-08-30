@@ -1,8 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import styled from 'styled-components';
+import theme from '../../styles/theme';
 import BoardComponent from './BoardComponent';
 import more from '../../assets/images/ic_moreButton.svg';
+
+const StyledText = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30px;
+  font-family: ${theme.font.family.pretendard_regular};
+`;
 
 const NoticeList = () => {
   const navigate = useNavigate();
@@ -84,7 +94,7 @@ const NoticeList = () => {
 
   // 게시글 클릭 시 상세 페이지로 이동
   const handleNavigate = (notice) => {
-    navigate(`/board/notices/${notice.id}`, {
+    navigate(`/notice/${notice.id}`, {
       state: { type: 'notice', data: notice },
     });
   };
@@ -120,16 +130,7 @@ const NoticeList = () => {
           ))}
 
           {hasMore ? (
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                width: '100%',
-                height: '100px',
-                transform: 'translateY(-10px)',
-              }}
-            >
+            <StyledText>
               <button
                 type="button"
                 style={buttonStyle}
@@ -142,37 +143,13 @@ const NoticeList = () => {
               >
                 <img src={more} alt="Load more" style={imgStyle} />
               </button>
-            </div>
+            </StyledText>
           ) : (
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                width: '100%',
-                height: '100px',
-                transform: 'translateY(-10px)',
-              }}
-            >
-              더 이상 불러올 공지사항이 없습니다.
-            </div>
+            <StyledText>더 이상 불러올 공지사항이 없습니다.</StyledText>
           )}
         </>
       ) : (
-        !hasMore && (
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              width: '100%',
-              height: '100px',
-              transform: 'translateY(-10px)',
-            }}
-          >
-            더 이상 불러올 공지사항이 없습니다.
-          </div>
-        )
+        !hasMore && <StyledText>더 이상 불러올 공지사항이 없습니다.</StyledText>
       )}
     </div>
   );
