@@ -88,8 +88,8 @@ const Login = () => {
       alert('비밀번호를 입력해 주세요.');
       return;
     }
-    if (password.length < 4 || password.length > 12) {
-      alert('비밀번호를 4~12자리로 입력해 주세요.');
+    if (password.length < 6 || password.length > 12) {
+      alert('비밀번호를 6~12자리로 입력해 주세요.');
       return;
     }
     const params = {
