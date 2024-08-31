@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+/* eslint-disable no-alert */
 import React, { useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
@@ -40,7 +42,6 @@ const CommentList = ({ noticeId, postId }) => {
       } else if (noticeId) {
         url = `${BASE_URL}/api/v1/notices/${noticeId}`;
       } else {
-        console.error('Neither postId nor noticeId is provided.');
         return;
       }
       const response = await axios.get(url, {
@@ -53,10 +54,10 @@ const CommentList = ({ noticeId, postId }) => {
         setBoardData(response.data.data);
         setComments(response.data.data.comments || []);
       } else {
-        console.log(response.data.message);
+        // console.log(response.data.message);
       }
     } catch (error) {
-      console.error('API Request Error:', error); // 요청 에러 로그 출력
+      // console.error('API Request Error:', error); // 요청 에러 로그 출력
     }
   };
 
@@ -95,11 +96,11 @@ const CommentList = ({ noticeId, postId }) => {
 
   const handleDeleteComment = async (commentId, commentAuthor) => {
     if (userData.name !== commentAuthor) {
-      alert('댓글을 삭제할 권한이 없습니다.');
+      alert('댓글 삭제는 본인만 가능합니다.');
       return;
     }
 
-    if (window.confirm('정말 이 댓글을 삭제하시겠습니까?')) {
+    if (window.confirm('댓글을 삭제하시겠습니까?')) {
       try {
         let url;
         if (postId) {
@@ -107,7 +108,7 @@ const CommentList = ({ noticeId, postId }) => {
         } else if (noticeId) {
           url = `${BASE_URL}/api/v1/notices/${noticeId}/comments/${commentId}`;
         } else {
-          console.error('Neither postId nor noticeId is provided.');
+          // console.error('Neither postId nor noticeId is provided.');
           return;
         }
 
@@ -117,23 +118,18 @@ const CommentList = ({ noticeId, postId }) => {
           },
         });
 
-        console.log(`DELETE request response:`, response);
-
         if (response.status === 200 && response.data.code === 200) {
           alert('댓글이 삭제되었습니다.');
 
           await fetchComments();
         } else {
-          console.error('서버 응답 오류:', response.data.message);
-          alert('댓글 삭제에 실패했습니다. 다시 시도해주세요.');
+          alert('댓글 삭제 중 오류가 발생했습니다.');
         }
       } catch (error) {
         if (error.response) {
-          console.error('서버 오류:', error.response.data);
-          alert(`댓글 삭제에 실패했습니다: ${error.response.data.message}`);
+          alert('댓글 삭제 중 오류가 발생했습니다.');
         } else {
-          console.error('요청 오류:', error.message);
-          alert('댓글 삭제 중 오류가 발생했습니다. 다시 시도해주세요.');
+          alert('댓글 삭제 중 오류가 발생했습니다.');
         }
       }
       boardData.comments = boardData.comments.filter(
@@ -172,7 +168,6 @@ const CommentList = ({ noticeId, postId }) => {
     <div>
       {comments.map((comment, index) => {
         if (!comment.id) {
-          console.error('Comment has no ID:', comment);
           return null;
         }
 

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
 // import axios from 'axios';
@@ -66,7 +67,7 @@ const Board = () => {
   const { userData } = useContext(UserContext);
 
   const handleMenuClick = (action) => {
-    console.log(action);
+    // console.log(action);
   };
 
   const handlePostingClick = () => {

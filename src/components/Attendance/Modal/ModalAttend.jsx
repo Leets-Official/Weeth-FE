@@ -133,7 +133,6 @@ const ModalAttend = ({ open, close }) => {
         { code: inputValue },
         { headers },
       );
-      console.log(inputValue);
       setMessage(response.data.message);
       if (response.data.code === 200) {
         setCodeCheck(1); // Correct

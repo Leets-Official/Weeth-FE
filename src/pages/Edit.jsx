@@ -112,13 +112,10 @@ const Edit = () => {
     } else if (window.confirm('저장하시겠습니까?')) {
       if (response.data.code === 200) {
         alert('저장이 완료되었습니다.');
-        // console.log(response);
         navi('/mypage');
       } else {
-        // console.log(response);
-        alert('서버 오류: 저장 중 오류가 발생했습니다.');
+        alert('저장 중 오류가 발생했습니다.');
       }
-      // console.log(response);
     }
   };
 

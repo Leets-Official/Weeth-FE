@@ -59,17 +59,15 @@ const NoticeList = () => {
         setHasMore(false); // 에러가 발생했으므로 더 이상 로드할 공지가 없다고 처리
       }
     } catch (error) {
-      console.error('Request Error:', error);
-
       if (
         error.response &&
         error.response.data &&
         error.response.data.code === 400
       ) {
-        console.error('Error: Non-existent notice ID.');
+        // console.error('Error: Non-existent notice ID.');
       } else {
         // 새 토큰을 얻고 다시 시도하는 코드 대신 단순히 에러를 처리
-        console.error('Unexpected error:', error);
+        // console.error('Unexpected error:', error);
         setHasMore(false); // 에러가 발생했으므로 더 이상 로드할 공지가 없다고 처리
       }
     }

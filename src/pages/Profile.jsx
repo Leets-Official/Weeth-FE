@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -71,7 +72,7 @@ const Profile = () => {
     }
 
     if (!allFieldsFilled) {
-      alert('입력되지 않은 값이 있습니다.');
+      alert('모든 항목을 입력해 주세요.');
       return;
     }
 
@@ -88,10 +89,11 @@ const Profile = () => {
       );
 
       if (response.data.code === 200) {
-        alert('가입 완료!');
+        alert(`가입 신청이 완료되었습니다.
+        운영진의 승인 후 서비스 이용이 가능합니다.`);
         navigate('/');
       } else {
-        alert(`Error: ${response.data.message}`);
+        alert(response.data.message);
       }
     } catch (error) {
       alert(error.response?.data.message || error.message);

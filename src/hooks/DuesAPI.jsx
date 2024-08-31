@@ -47,12 +47,12 @@ const DuesAPI = () => {
             // console.log(result);
           }
         } else {
-          console.error('Failed to get data:', result.message);
+          // console.error('Failed to get data:', result.message);
         }
       } catch (error) {
         // 무한 리다이렉션 방지
         if (window.location.pathname !== '/login') {
-          console.error('An error occurred while fetching the data');
+          // console.error('An error occurred while fetching the data');
           localStorage.removeItem('accessToken');
           localStorage.removeItem('refreshToken');
           window.location.href = '/login';

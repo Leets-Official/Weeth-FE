@@ -29,7 +29,6 @@ const StudyList = () => {
       if (postId) {
         params.postId = postId;
       }
-      console.log('Request Params:', params);
       const response = await axios.get(`${BASE_URL}/api/v1/posts`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -37,13 +36,10 @@ const StudyList = () => {
         params,
       });
 
-      console.log('API Response:', response); // 응답 전체를 로그로 출력
-
       if (response.status === 200 && response.data.code === 200) {
         const studiesData = response.data.data;
 
         if (studiesData.length === 0) {
-          console.log('No more studies to load.');
           setHasMore(false);
         } else {
           const newStudies = studiesData.map((study) => ({
@@ -62,14 +58,14 @@ const StudyList = () => {
         setHasMore(false);
       }
     } catch (error) {
-      console.error('Request Error:', error); // 요청 에러 로그 출력
+      // console.error('Request Error:', error); // 요청 에러 로그 출력
 
       if (
         error.response &&
         error.response.data &&
         error.response.data.code === 400
       ) {
-        console.error('Error: Non-existent post ID.');
+        // console.error('Error: Non-existent post ID.');
       } else {
         setHasMore(false); // 재시도 중에도 오류가 발생했으므로 더 이상 로드할 공지가 없다고 처리
       }
@@ -86,15 +82,9 @@ const StudyList = () => {
     if (studies.length > 0) {
       const lastStudy = studies[studies.length - 1];
       if (lastStudy && lastStudy.id) {
-        console.log(
-          'loadMoreStudies: Fetching with postId:',
-          lastStudy.id,
-          'and count: 15',
-        );
         fetchStudies(lastStudy.id, 15);
       }
     } else {
-      console.log('loadMoreStudies: Fetching initial studies with count: 15');
       fetchStudies(null, 15);
     }
   };

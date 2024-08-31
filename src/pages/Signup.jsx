@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
@@ -94,10 +95,8 @@ const Signup = () => {
   };
 
   const handleCheckEmail = async () => {
-    if (email === '') {
-      alert('이메일을 입력해 주세요.');
-    } else if (!validateEmail(email)) {
-      alert('유효한 이메일 형식을 입력해주세요.');
+    if (!validateEmail(email)) {
+      alert('올바른 이메일 형식이 아닙니다.');
     } else {
       const isDuplicate = await checkDuplicate(email);
       setEmailStatus(isDuplicate ? 'available' : 'duplicate');
@@ -117,7 +116,6 @@ const Signup = () => {
     }
 
     if (emailStatus === 'duplicate') {
-      alert('이메일을 다시 확인해 주세요.');
       return;
     }
 

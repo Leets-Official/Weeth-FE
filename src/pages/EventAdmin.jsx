@@ -249,7 +249,6 @@ const EventAdmin = () => {
         alert('저장이 완료되었습니다.');
         navigate('/calendar');
       } catch (err) {
-        console.log('response', err.response);
         if (err.response.status === 403) {
           alert('일정 생성 및 수정은 운영진만 가능합니다.');
           return;
