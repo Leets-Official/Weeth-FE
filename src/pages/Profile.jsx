@@ -95,10 +95,10 @@ const Profile = () => {
       }
     } catch (error) {
       alert(error.response?.data.message || error.message);
-      console.error(
-        'Error submitting form:',
-        error.response?.data || error.message,
-      );
+      // console.error(
+      //   'Error submitting form:',
+      //   error.response?.data || error.message,
+      // );
     }
   };
 

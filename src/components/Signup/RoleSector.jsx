@@ -110,13 +110,9 @@ const RoleSector = ({ labelName, value, onChange }) => {
 };
 
 RoleSector.propTypes = {
-  labelName: PropTypes.string,
+  labelName: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
-};
-
-RoleSector.defaultProps = {
-  labelName: '역할',
 };
 
 export default RoleSector;

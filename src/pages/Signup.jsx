@@ -81,7 +81,6 @@ const Signup = () => {
         `${BASE_URL}/api/v1/users/email?email=${DuplicatedEmail}`,
         {},
       );
-      console.log(response);
 
       if (response.data.code === 200) {
         return response.data.data;
@@ -90,7 +89,6 @@ const Signup = () => {
       if (error.response && error.response.data.code === 400) {
         return false; // Email is duplicate
       }
-      console.error('An error occurred:', error);
       return null;
     }
   };
@@ -175,9 +173,7 @@ const Signup = () => {
         />
         <ButtonContainer>
           {!isChecked && (
-            <CheckButton onClick={handleCheckEmail} underline>
-              가입 여부 확인
-            </CheckButton>
+            <CheckButton onClick={handleCheckEmail}>가입 여부 확인</CheckButton>
           )}
           {isChecked && (
             <MessageText
