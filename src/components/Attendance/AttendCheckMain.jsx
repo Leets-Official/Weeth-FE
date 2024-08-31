@@ -174,6 +174,7 @@ MeetingBox.propTypes = {
 
 const AttendCheckMain = () => {
   const { attendanceData, attendFetchError } = useContext(AttendCheckContext);
+  const { userData } = useContext(UserContext);
 
   if (attendFetchError) {
     return <div>error</div>;
@@ -183,12 +184,8 @@ const AttendCheckMain = () => {
     return <div>Loading...</div>;
   }
 
-  const { userData } = useContext(UserContext);
-
-  let userName;
-  if (!userData) {
-    userName = 'loading';
-  } else {
+  let userName = 'loading';
+  if (userData) {
     userName = userData.name;
   }
 

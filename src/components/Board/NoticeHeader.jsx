@@ -1,10 +1,10 @@
+/* eslint-disable react/require-default-props */
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import LeftButton from '../Header/LeftButton';
 import IndexButton from '../Header/IndexButton';
 import Title from '../Header/Title';
-// import theme from '../../styles/theme';
 
 const StyledHeader = styled.div`
   width: 320px;
@@ -14,7 +14,11 @@ const StyledHeader = styled.div`
   margin: 25px 25px 20px 25px; //기본 헤더 마진
 `;
 
-const TitleWrapper = styled.div``;
+const TitleWrapper = styled.div`
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+`;
 
 const NoticeHeader = ({
   onMenuClick,
@@ -69,7 +73,7 @@ const NoticeHeader = ({
 };
 
 NoticeHeader.propTypes = {
-  onMenuClick: PropTypes.func.isRequired,
+  onMenuClick: PropTypes.func,
   showModal: PropTypes.bool.isRequired,
   ModalComponent: PropTypes.elementType.isRequired, // 모달 컴포넌트 타입 prop
   showIndexButton: PropTypes.bool,

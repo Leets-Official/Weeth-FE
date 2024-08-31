@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -5,7 +6,7 @@ import axios from 'axios';
 import theme from '../styles/theme';
 import SignupMemInput from '../components/Signup/SignupMemInput';
 import SignupHeader from '../components/Signup/SignupHeader';
-import RoleSector from '../components/Signup/RoleSector';
+import PositionSector from '../components/Signup/PositionSector';
 import SignupDropDown from '../components/Signup/SignupDropDown';
 import useCustomBack from '../router/useCustomBack';
 
@@ -71,7 +72,7 @@ const Profile = () => {
     }
 
     if (!allFieldsFilled) {
-      alert('입력되지 않은 값이 있습니다.');
+      alert('모든 항목을 입력해 주세요.');
       return;
     }
 
@@ -88,17 +89,18 @@ const Profile = () => {
       );
 
       if (response.data.code === 200) {
-        alert('가입 완료!');
+        alert(`가입 신청이 완료되었습니다.
+        운영진의 승인 후 서비스 이용이 가능합니다.`);
         navigate('/');
       } else {
-        alert(`Error: ${response.data.message}`);
+        alert(response.data.message);
       }
     } catch (error) {
       alert(error.response?.data.message || error.message);
-      console.error(
-        'Error submitting form:',
-        error.response?.data || error.message,
-      );
+      // console.error(
+      //   'Error submitting form:',
+      //   error.response?.data || error.message,
+      // );
     }
   };
 
@@ -172,14 +174,14 @@ const Profile = () => {
         <InputWrapper>
           <SignupMemInput
             labelName="기수"
-            placeholderText="3"
+            placeholderText="4"
             origValue={memberInfo.cardinal || ''}
             inputType="number"
             onChange={(value) => handleChange('cardinal', value)}
           />
         </InputWrapper>
         <InputWrapper>
-          <RoleSector
+          <PositionSector
             labelName="역할"
             value={memberInfo.position || ''}
             onChange={(value) => handleChange('position', value)}

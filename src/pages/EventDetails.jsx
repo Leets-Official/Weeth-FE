@@ -45,6 +45,13 @@ const Line = styled.div`
   transform: scaleY(0.2);
 `;
 
+const Error = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  font-family: ${theme.font.family.pretendard_semiBold};
+`;
+
 const EventDetails = () => {
   useCustomBack('/calendar');
 
@@ -72,15 +79,15 @@ const EventDetails = () => {
             headers,
           });
           if (response.data.code === 200) {
-            console.log('response detail data:', response.data.data); // 데이터 확인용
+            // console.log('response detail data:', response.data.data); // 데이터 확인용
             setEventDetailData(response.data.data);
           } else {
-            console.error('Error message from API:', response.data.message);
+            // console.error('Error message from API:', response.data.message);
             setError(response.data.message);
           }
         }
       } catch (err) {
-        console.error('API Request Error:', err); // 에러 로그
+        // console.error('API Request Error:', err); // 에러 로그
         setError('An error occurred while fetching the data');
       }
     };
@@ -89,11 +96,11 @@ const EventDetails = () => {
   }, [id]);
 
   if (error) {
-    return <div>Error: {error}</div>;
+    return <Error>데이터를 불러올 수 없습니다.</Error>;
   }
 
   if (!eventDetailData) {
-    return <div>Loading...</div>;
+    return null;
   }
 
   const origStartDate = eventDetailData.start;
@@ -120,7 +127,7 @@ const EventDetails = () => {
   return (
     <StyledEventDetails>
       <UserAPI />
-      <EventInfoAPI id={id} />
+      {id && <EventInfoAPI id={id} />}
       <EventDetailTitle
         id={eventDetailData.id}
         text={eventDetailData.title}

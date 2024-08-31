@@ -1,3 +1,4 @@
+/* eslint-disable react/require-default-props */
 /* eslint-disable react/prop-types */
 import React from 'react';
 import styled from 'styled-components';
@@ -95,12 +96,6 @@ SignupTextComponent.propTypes = {
   placeholder: PropTypes.string,
   type: PropTypes.string,
   children: PropTypes.node,
-};
-
-SignupTextComponent.defaultProps = {
-  placeholder: 'ex) weeth@gmail.com',
-  type: 'text',
-  children: null,
 };
 
 export default SignupTextComponent;

@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 /* eslint-disable react/no-children-prop */
 import React, { useState } from 'react';
 import styled from 'styled-components';
@@ -81,7 +82,7 @@ const Login = () => {
       return;
     }
     if (!validateEmail(email)) {
-      alert('형식에 맞지 않는 이메일입니다.');
+      alert('올바른 이메일 형식이 아닙니다.');
       return;
     }
     if (password === '') {
@@ -103,18 +104,13 @@ const Login = () => {
 
       if (response.status === 200) {
         setError(null);
-        // console.log(response);
         const newToken = response.headers.authorization;
         const newRefreshToken = response.headers.authorization_refresh;
         localStorage.setItem('accessToken', newToken);
         localStorage.setItem('refreshToken', newRefreshToken);
-        console.log('login token', newToken, newRefreshToken);
-
         navigate('/home');
       }
     } catch (err) {
-      console.error('Error:', err);
-
       if (err.response) {
         setError(err.response.data); // 서버에서 제공하는 오류 메시지를 설정
       } else if (err.request) {

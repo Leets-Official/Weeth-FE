@@ -142,13 +142,13 @@ const MonthCalendar = ({ year, month }) => {
 
   useEffect(() => {
     if (error) {
-      console.error('Error:', error);
+      // console.error('Error:', error);
     }
   }, [error]);
 
   useEffect(() => {
     if (!monthScheduleData) {
-      console.log('Loading event data...');
+      // console.log('Loading event data...');
     }
   }, [monthScheduleData]);
 

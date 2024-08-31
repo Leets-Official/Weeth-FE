@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import SignupWhite from './SignupWhite';
+import theme from '../../styles/theme';
 
 const MemTextContainer = styled.div`
   display: flex;
@@ -34,6 +35,7 @@ const InputLine = styled.input`
 
   &::placeholder {
     color: #333333;
+    font-family: ${theme.font.family.pretendard_regular};
   }
 `;
 

@@ -41,7 +41,7 @@ const Dot = styled.img`
 const MonthName = styled.div`
   padding-left: 10px;
   padding-bottom: 7px;
-  color: ${(props) => (props.istoday === 'true' ? '#00dda8' : '#ffffff')};
+  color: ${(props) => (props.$istoday === 'true' ? '#00dda8' : '#ffffff')};
   font-size: 18px;
   font-family: ${theme.font.family.pretendard_semiBold};
 `;
@@ -66,7 +66,7 @@ const MonthlyEvent = ({ thisMonth, year, events }) => {
 
   return (
     <StyledYear>
-      <MonthName istoday={istoday.toString()}>{thisMonth}월</MonthName>
+      <MonthName $istoday={istoday.toString()}>{thisMonth}월</MonthName>
       <ContentWrapper>
         {events.length > 0 ? (
           events.map((event) => (

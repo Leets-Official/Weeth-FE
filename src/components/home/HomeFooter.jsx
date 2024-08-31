@@ -64,7 +64,7 @@ const GridItem = styled.a`
 `;
 
 const GridItemWithImage = styled(GridItem)`
-  background-image: url(${({ image }) => image});
+  background-image: url(${({ $image }) => $image});
   background-size: cover;
   background-position: center;
   border: none;
@@ -152,35 +152,35 @@ const HomeFooter = () => {
         onMouseLeave={draggableHandlers2.onMouseLeave}
       >
         <GridItemWithImage
-          image={weeth}
+          $image={weeth}
           href="https://www.leets.land/project/12"
           target="_blank"
         >
           <span>Weeth</span>
         </GridItemWithImage>
         <GridItemWithImage
-          image={commitato}
+          $image={commitato}
           href="https://www.leets.land/project/13"
           target="_blank"
         >
           <span>COMMITATO</span>
         </GridItemWithImage>
         <GridItemWithImage
-          image={moodmate}
+          $image={moodmate}
           href="https://www.leets.land/project/7"
           target="_blank"
         >
           <span>moodmate</span>
         </GridItemWithImage>
         <GridItemWithImage
-          image={filling}
+          $image={filling}
           href="https://www.leets.land/project/8"
           target="_blank"
         >
           <span>filling</span>
         </GridItemWithImage>
         <GridItemWithImage
-          image={gradu}
+          $image={gradu}
           href="https://www.leets.land/project/10"
           target="_blank"
         >

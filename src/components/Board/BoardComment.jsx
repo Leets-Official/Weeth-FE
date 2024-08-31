@@ -120,9 +120,9 @@ const BoardComment = ({
   const handleDeleteRecomment = async (recommentId) => {
     const recomment = recomments.find((r) => r.id === recommentId); // 삭제할 대댓글을 찾음
     const isRecommentWriter = recomment.name === userData.name; // 대댓글 작성자인지 확인
-    if (window.confirm('정말 이 대댓글을 삭제하시겠습니까?')) {
+    if (window.confirm('댓글을 삭제하시겠습니까?')) {
       if (!isRecommentWriter) {
-        alert('대댓글을 삭제할 권한이 없습니다.');
+        alert('댓글 삭제는 본인만 가능합니다.');
         return;
       }
       try {
@@ -132,7 +132,6 @@ const BoardComment = ({
         } else if (noticeId) {
           url = `${BASE_URL}/api/v1/notices/${noticeId}/comments/${recommentId}`;
         } else {
-          console.error('Neither postId nor noticeId is provided.');
           return;
         }
 
@@ -143,7 +142,6 @@ const BoardComment = ({
         });
 
         if (response.status === 200) {
-          console.log('DELETE request successful:', response.data);
           // 서버 응답이 성공적일 경우 상태 업데이트
           setComments((prevComments) =>
             prevComments.map((comment) => {
@@ -159,12 +157,10 @@ const BoardComment = ({
             }),
           );
         } else {
-          console.error('DELETE request failed:', response.data);
-          alert('대댓글 삭제에 실패했습니다. 다시 시도해주세요.');
+          alert('댓글 삭제 중 오류가 발생했습니다.');
         }
       } catch (error) {
-        console.error('대댓글 삭제 중 오류 발생:', error);
-        alert('대댓글 삭제에 실패했습니다. 다시 시도해주세요.');
+        alert('댓글 삭제 중 오류가 발생했습니다.');
       }
     }
   };

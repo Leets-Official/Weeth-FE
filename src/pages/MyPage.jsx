@@ -27,9 +27,9 @@ import theme from '../styles/theme';
 
 const StyledDetails = styled.div`
   width: 370px;
-  // 해당페이지는 컴포넌트화될 예정이므로 따로 추가하지 않음
-  // 추후에 만들어질 컴포넌트에서 설정하겟습니당
   padding-bottom: 50px;
+  font-family: ${theme.font.family.pretendard_regular};
+  font-size: 16px;
 `;
 
 const InfoWrapper = styled.div`
@@ -63,6 +63,7 @@ const LeaveButton = styled.button`
   border-radius: 10px;
   color: ${theme.color.grayScale.gray65};
   background-color: ${theme.color.grayScale.gray18};
+  font-family: ${theme.font.family.pretendard_regular};
   margin-right: 5px;
 `;
 
@@ -78,6 +79,7 @@ const LogoutButton = styled.button`
   border-radius: 10px;
   color: white;
   background-color: ${theme.color.grayScale.gray30};
+  font-family: ${theme.font.family.pretendard_regular};
   cursor: pointer;
 `;
 

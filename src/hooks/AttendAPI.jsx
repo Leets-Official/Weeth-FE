@@ -26,7 +26,7 @@ const AttendAPI = () => {
         const { data } = response.data;
         setAttendanceData(data);
         // eslint-disable-next-line no-console
-        console.log(data);
+        // console.log(data);
 
         if (data.title != null && data.start != null) {
           setHasSchedule(true);

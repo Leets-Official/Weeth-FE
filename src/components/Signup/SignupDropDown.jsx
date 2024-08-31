@@ -18,14 +18,12 @@ const DropdownButton = styled.div`
   font-size: 16px;
   outline: none;
   border-bottom: 1px solid ${theme.color.grayScale.gray20};
-  border-radius: 4px;
   background-color: ${theme.color.grayScale.gray12};
   color: ${(props) =>
-    props.hasValue ? 'white' : theme.color.grayScale.gray20};
+    props.$hasValue ? 'white' : theme.color.grayScale.gray20};
   cursor: pointer;
   display: flex;
   align-items: flex-end;
-  padding-bottom: 10px;
   justify-content: space-between;
 `;
 
@@ -107,7 +105,7 @@ const SignupDropDown = ({ text, origValue, editValue }) => {
       <Label>
         <SignupWhite text={text} />
       </Label>
-      <DropdownButton onClick={handleToggle} hasValue={!!selectedValue}>
+      <DropdownButton onClick={handleToggle} $hasValue={!!selectedValue}>
         {selectedValue || '학과를 선택해주세요'}
       </DropdownButton>
       {isOpen && (
