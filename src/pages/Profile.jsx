@@ -5,7 +5,7 @@ import axios from 'axios';
 import theme from '../styles/theme';
 import SignupMemInput from '../components/Signup/SignupMemInput';
 import SignupHeader from '../components/Signup/SignupHeader';
-import RoleSector from '../components/Signup/RoleSector';
+import PositionSector from '../components/Signup/PositionSector';
 import SignupDropDown from '../components/Signup/SignupDropDown';
 import useCustomBack from '../router/useCustomBack';
 
@@ -172,14 +172,14 @@ const Profile = () => {
         <InputWrapper>
           <SignupMemInput
             labelName="기수"
-            placeholderText="3"
+            placeholderText="4"
             origValue={memberInfo.cardinal || ''}
             inputType="number"
             onChange={(value) => handleChange('cardinal', value)}
           />
         </InputWrapper>
         <InputWrapper>
-          <RoleSector
+          <PositionSector
             labelName="역할"
             value={memberInfo.position || ''}
             onChange={(value) => handleChange('position', value)}
