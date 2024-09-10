@@ -58,6 +58,7 @@ const DropdownMenu = ({ text, origValue, editValue }) => {
 
   const options = [
     { value: '경영학과', label: '경영학과' },
+    { value: '경제학과', label: '경제학과' },
     { value: '시각디자인학과', label: '시각디자인학과' },
     { value: '산업공학과', label: '산업공학과' },
     { value: '소프트웨어전공', label: '소프트웨어전공' },
