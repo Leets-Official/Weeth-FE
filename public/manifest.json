@@ -4,7 +4,7 @@
   "icons": [
     {
       "src": "/Weeth_logo.svg",
-      "type": "image/png",
+      "type": "image/svg+xml",
       "sizes": "512x512"
     }
   ],
