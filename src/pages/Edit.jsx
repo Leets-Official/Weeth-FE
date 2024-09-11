@@ -79,8 +79,8 @@ const Edit = () => {
       }, {});
 
       const password = userInfo.find((item) => item.key === 'password').value;
-      if (password.length < 4 || password.length > 12) {
-        alert('비밀번호를 4~12자리로 입력해 주세요.');
+      if (password.length < 6 || password.length > 12) {
+        alert('비밀번호를 6~12자리로 입력해 주세요.');
         return;
       }
 
@@ -204,7 +204,7 @@ const Edit = () => {
             editValue={(value) => editValue('password', value)}
             width="191px"
             padding="25px"
-            placeholder="4~12자리/영문, 숫자 조합"
+            placeholder="6~12자리/영문, 숫자 조합"
             align="right"
             edit={false}
             inputType="eng-num"
