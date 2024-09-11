@@ -61,7 +61,7 @@ const AttachButton = ({ fileUrls = [] }) => {
         }),
       );
     } catch (error) {
-      console.error('파일 다운로드 실패:', error);
+      // console.error('파일 다운로드 실패:', error);
     }
   };
 

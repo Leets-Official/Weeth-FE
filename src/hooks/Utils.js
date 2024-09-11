@@ -8,7 +8,7 @@ const Utils = async (response, originalApiFunc, originalParams) => {
     if (Array.isArray(data)) return data.length === 0;
     return false;
   };
-  console.log('utils 코드', response.status);
+  // console.log('utils 코드', response.status);
 
   if (response.status === 200) {
     // Body가 비어 있지 않으면 데이터를 반환
@@ -19,10 +19,10 @@ const Utils = async (response, originalApiFunc, originalParams) => {
       return response;
     } else {
       // Body가 비어있다면 새로운 토큰이 있는지 확인하고, 로컬 스토리지에 저장
-      console.log('utils.header', response);
+      // console.log('utils.header', response);
       const newToken = response.headers.authorization;
       const newRefreshToken = response.headers.authorization_refresh;
-      console.log(newToken, newRefreshToken);
+      // console.log(newToken, newRefreshToken);
       if (newToken && newRefreshToken) {
         localStorage.setItem('accessToken', newToken);
         localStorage.setItem('refreshToken', newRefreshToken);

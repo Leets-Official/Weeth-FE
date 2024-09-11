@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-catch */
 import axios from 'axios';
 
 const accessToken = localStorage.getItem('accessToken');
@@ -14,7 +15,6 @@ export const createEvent = async (data) => {
     });
     return response;
   } catch (err) {
-    console.error(err);
     throw err;
   }
 };
@@ -31,10 +31,8 @@ export const editEvent = async (data, id) => {
         },
       },
     );
-    console.log('edit');
     return response;
   } catch (err) {
-    console.error(err);
     throw err;
   }
 };

@@ -1,3 +1,5 @@
+/* eslint-disable no-alert */
+/* eslint-disable no-console */
 import React, { useEffect, useState, useContext } from 'react';
 import styled from 'styled-components';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -90,8 +92,6 @@ const StudyPosting = () => {
   };
 
   const saveBoard = async () => {
-    console.log('선택된 파일들:', files);
-
     const formData = new FormData();
 
     // JSON 데이터를 'dto' 필드로 추가
@@ -104,9 +104,9 @@ const StudyPosting = () => {
     // 파일이 선택되었을 경우에만 'files' 필드를 추가
     if (files && files.length > 0) {
       files.forEach((file) => {
-        console.log(
-          `파일명: ${file.name}, 파일 크기: ${file.size} bytes, 파일 타입: ${file.type}`,
-        );
+        // console.log(
+        //   `파일명: ${file.name}, 파일 크기: ${file.size} bytes, 파일 타입: ${file.type}`,
+        // );
         formData.append('files', file); // 'files' 필드에 각각 파일을 추가
       });
     }
@@ -131,28 +131,23 @@ const StudyPosting = () => {
         },
       });
 
-      console.log('서버에 게시글 POST 후 응답 데이터:', response.data);
-
       if (response.data.code === 200) {
-        console.log('서버 응답:', response.data);
-        alert(postId ? '게시글이 수정되었습니다.' : '게시글이 생성되었습니다.');
+        alert(postId ? '게시글이 수정되었습니다.' : '게시글이 작성되었습니다.');
         setBoardData(response.data.data);
         navigate('/board');
       } else {
-        console.error('Error:', response.data.message);
-        alert(`Error: ${response.data.message}`);
+        alert(response.data.message);
       }
     } catch (err) {
-      console.error('Error saving board study:', err);
       if (
         err.finalResponse &&
         err.finalResponse.data &&
         err.finalResponse.data.message
       ) {
-        console.error(
-          'Error message from server:',
-          err.finalResponse.data.message,
-        );
+        // console.error(
+        //   'Error message from server:',
+        //   err.finalResponse.data.message,
+        // );
       }
     }
   };

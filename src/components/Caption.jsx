@@ -10,7 +10,7 @@ const BasicCaption = styled.button`
   height: 19px;
   background-color: ${({ color }) => color || theme.color.grayScale.gray30};
   font-family: ${theme.font.family.pretendard_semiBold};
-  color: ${({ textcolor }) => textcolor || theme.color.grayScale.white};
+  color: ${({ $textcolor }) => $textcolor || theme.color.grayScale.white};
   border: none;
   border-radius: 30px;
   cursor: pointer;
@@ -21,7 +21,7 @@ const BasicCaption = styled.button`
 `;
 
 const Caption = ({ children, color, textcolor }) => (
-  <BasicCaption color={color} textcolor={textcolor}>
+  <BasicCaption color={color} $textcolor={textcolor}>
     {children}
   </BasicCaption>
 );

@@ -13,8 +13,8 @@ const StyledInfoInput = styled.div`
   position: relative;
   padding-top: 16px;
   padding-bottom: 8px;
-  padding-left: ${(props) => props.padding || '0px'};
-  padding-right: ${(props) => props.padding || '0px'};
+  padding-left: ${(props) => props.$padding || '0px'};
+  padding-right: ${(props) => props.$padding || '0px'};
   font-family: ${theme.font.family.pretendard_regular};
   font-size: 16px;
 `;
@@ -26,11 +26,16 @@ const Input = styled.input`
   border: none;
   border-radius: 4px;
   background-color: ${theme.color.grayScale.gray18};
-  color: ${(props) => (props.edit ? theme.color.grayScale.gray30 : 'white')};
+  color: ${(props) => (props.$edit ? theme.color.grayScale.gray30 : 'white')};
   padding-left: 10px;
   padding-right: 10px;
-  text-align: ${(props) => props.align || 'right'};
+  text-align: ${(props) => props.$align || 'right'};
+  font-family: ${theme.font.family.pretendard_regular};
   font-size: 16px;
+
+  &::placeholder {
+    font-family: ${theme.font.family.pretendard_regular};
+  }
 `;
 
 const PwInput = styled.input`
@@ -45,6 +50,10 @@ const PwInput = styled.input`
   padding-right: 43px;
   text-align: ${(props) => props.align || 'right'};
   font-size: 16px;
+
+  &::placeholder {
+    font-family: ${theme.font.family.pretendard_regular};
+  }
 `;
 
 const Visible = styled.div`
@@ -111,14 +120,14 @@ const InfoInput = ({
 
   if (text === '비밀번호') {
     return (
-      <StyledInfoInput padding={padding}>
+      <StyledInfoInput $padding={padding}>
         <div>{text}</div>
         <PwInput
           placeholder={placeholder}
           value={value}
           onChange={onChangeValue}
           width={width}
-          align={align}
+          $align={align}
           type={passwordVisible ? 'text' : 'password'}
         />
         {passwordVisible ? (
@@ -134,15 +143,15 @@ const InfoInput = ({
     );
   }
   return (
-    <StyledInfoInput padding={padding}>
+    <StyledInfoInput $padding={padding}>
       <div>{text}</div>
       <Input
         placeholder={placeholder}
         value={value}
         onChange={onChangeValue}
         width={width}
-        align={align}
-        edit={edit}
+        $align={align}
+        $edit={edit}
         type={inputType === 'number' ? 'text' : inputType} // 숫자 입력도 text로 처리하고 유효성 검사함
       />
     </StyledInfoInput>
@@ -150,11 +159,11 @@ const InfoInput = ({
 };
 
 InfoInput.propTypes = {
-  text: PropTypes.string.isRequired,
+  text: PropTypes.string,
   origValue: PropTypes.oneOfType([PropTypes.string, PropTypes.array])
     .isRequired,
   editValue: PropTypes.func.isRequired,
-  placeholder: PropTypes.string.isRequired,
+  placeholder: PropTypes.string,
   width: PropTypes.string,
   padding: PropTypes.string.isRequired,
   align: PropTypes.string.isRequired,

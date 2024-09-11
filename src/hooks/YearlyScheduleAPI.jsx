@@ -1,3 +1,4 @@
+/* eslint-disable react/require-default-props */
 import { useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -40,7 +41,7 @@ const YearlyScheduleAPI = ({ start, end }) => {
           setError(response.data.message);
         }
       } catch (err) {
-        console.error('에러', err); // 에러 로그
+        // console.error('에러', err); // 에러 로그
         setError('An error occurred while fetching the data');
       }
     };
@@ -54,11 +55,6 @@ const YearlyScheduleAPI = ({ start, end }) => {
 YearlyScheduleAPI.propTypes = {
   start: PropTypes.string,
   end: PropTypes.string,
-};
-
-YearlyScheduleAPI.defaultProps = {
-  start: '',
-  end: '',
 };
 
 export default YearlyScheduleAPI;

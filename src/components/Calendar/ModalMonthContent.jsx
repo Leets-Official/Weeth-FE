@@ -9,7 +9,7 @@ const StyledContent = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: ${(props) => (props.isMonth ? '275px' : '121px')};
+  width: ${(props) => (props.$isMonth ? '275px' : '121px')};
   height: 38px;
   background: ${theme.color.grayScale.gray18};
   border-radius: 14px;
@@ -35,7 +35,7 @@ const Text = styled.div`
   margin-right: 15px;
 `;
 
-const ModalContent = ({
+const ModalMonthContent = ({
   origYear,
   origMonth,
   isMonth,
@@ -66,7 +66,7 @@ const ModalContent = ({
   if (isMonth) {
     // 달력일 경우
     return (
-      <StyledContent isMonth={isMonth}>
+      <StyledContent $isMonth={isMonth}>
         <MonthButton>
           <TextButton
             text="완료"
@@ -99,7 +99,7 @@ const ModalContent = ({
   }
   // 연력일 경우
   return (
-    <StyledContent isMonth={isMonth}>
+    <StyledContent $isMonth={isMonth}>
       <YearButton>
         <TextButton text="완료" color="mainColor" onClick={onClickTextButton} />
       </YearButton>
@@ -117,7 +117,7 @@ const ModalContent = ({
   );
 };
 
-ModalContent.propTypes = {
+ModalMonthContent.propTypes = {
   origYear: PropTypes.number.isRequired,
   origMonth: PropTypes.number.isRequired,
   isMonth: PropTypes.bool.isRequired,
@@ -126,4 +126,4 @@ ModalContent.propTypes = {
   editYear: PropTypes.func.isRequired,
 };
 
-export default ModalContent;
+export default ModalMonthContent;

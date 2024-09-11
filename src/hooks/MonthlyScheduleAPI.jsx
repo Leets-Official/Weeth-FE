@@ -34,13 +34,13 @@ const MonthlyScheduleAPI = ({ start = '', end = '' }) => {
         );
 
         if (response.data.code === 200) {
-          console.log('월별 조회', response.data.data); // 데이터 확인용
+          // console.log('월별 조회', response.data.data); // 데이터 확인용
           setMonthScheduleData(response.data.data);
         } else {
           setError(response.data.message);
         }
       } catch (err) {
-        console.error('월별 조회 에러', err); // 에러 로그
+        // console.error('월별 조회 에러', err); // 에러 로그
         setError('An error occurred while fetching the data');
       }
     };

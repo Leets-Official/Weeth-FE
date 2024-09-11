@@ -51,7 +51,6 @@ const InfoComponent = ({ src, alt, index, value }) => {
       return positionKo;
     }
     if (index === '기수') {
-      console.log({ value });
       return value;
     }
     return value;

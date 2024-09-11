@@ -97,7 +97,7 @@ MemberName.propTypes = {
   studentId: PropTypes.string.isRequired,
   department: PropTypes.string.isRequired,
   email: PropTypes.string.isRequired,
-  cardinal: PropTypes.number.isRequired,
+  cardinal: PropTypes.arrayOf(PropTypes.number).isRequired,
   position: PropTypes.string.isRequired,
   isLast: PropTypes.bool,
 };

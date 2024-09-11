@@ -24,16 +24,16 @@ const AttendCheckAPI = () => {
         );
         const result = response.data;
         setAttendanceData(result.data);
-        console.log(result);
+        // console.log(result);
         if (result.code === 200) {
           setAttendanceData(result.data);
-          console.log(result);
+          // console.log(result);
         } else {
-          console.error('Failed to get data:', result.message);
+          // console.error('Failed to get data:', result.message);
         }
       } catch (error) {
-        console.error('Error fetching attendance data:', error);
-        console.error('Error details:', error.response);
+        // console.error('Error fetching attendance data:', error);
+        // console.error('Error details:', error.response);
         setAttendFetchError(error.message);
       }
     };

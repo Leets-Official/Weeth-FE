@@ -1,9 +1,18 @@
-import React, { useEffect, useState, useContext } from 'react';
-import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import styled from 'styled-components';
+import theme from '../../styles/theme';
 import BoardComponent from './BoardComponent';
-import { BoardContext } from '../../hooks/BoardContext';
 import more from '../../assets/images/ic_moreButton.svg';
+
+const StyledText = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30px;
+  font-family: ${theme.font.family.pretendard_regular};
+`;
 
 const StudyList = () => {
   const navigate = useNavigate();
@@ -20,51 +29,45 @@ const StudyList = () => {
       if (postId) {
         params.postId = postId;
       }
-  
-      console.log("Request Params:", params);
-  
       const response = await axios.get(`${BASE_URL}/api/v1/posts`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
         params,
       });
-  
-      console.log("API Response:", response); // 응답 전체를 로그로 출력
-  
+
       if (response.status === 200 && response.data.code === 200) {
         const studiesData = response.data.data;
 
         if (studiesData.length === 0) {
-          console.log("No more studies to load.");
           setHasMore(false);
         } else {
-        const newStudies = studiesData.map(study => ({
-          id: study.id,
-          name: study.name,
-          title: study.title,
-          content: study.content,
-          time: study.time,
-          commentCount: study.commentCount
-        }));
+          const newStudies = studiesData.map((study) => ({
+            id: study.id,
+            name: study.name,
+            title: study.title,
+            content: study.content,
+            time: study.time,
+            commentCount: study.commentCount,
+          }));
 
-        setStudies(prevStudies => [...prevStudies, ...newStudies]);
-        setHasMore(!response.data.isLastPage);
-      }
+          setStudies((prevStudies) => [...prevStudies, ...newStudies]);
+          setHasMore(!response.data.isLastPage);
+        }
       } else {
         setHasMore(false);
       }
     } catch (error) {
-      console.error("Request Error:", error); // 요청 에러 로그 출력
+      // console.error('Request Error:', error); // 요청 에러 로그 출력
 
       if (
         error.response &&
         error.response.data &&
         error.response.data.code === 400
       ) {
-        console.error("Error: Non-existent post ID.");
+        // console.error('Error: Non-existent post ID.');
       } else {
-          setHasMore(false); // 재시도 중에도 오류가 발생했으므로 더 이상 로드할 공지가 없다고 처리
+        setHasMore(false); // 재시도 중에도 오류가 발생했으므로 더 이상 로드할 공지가 없다고 처리
       }
     }
   };
@@ -79,18 +82,18 @@ const StudyList = () => {
     if (studies.length > 0) {
       const lastStudy = studies[studies.length - 1];
       if (lastStudy && lastStudy.id) {
-        console.log('loadMoreStudies: Fetching with postId:', lastStudy.id, 'and count: 15');
         fetchStudies(lastStudy.id, 15);
       }
     } else {
-      console.log('loadMoreStudies: Fetching initial studies with count: 15');
       fetchStudies(null, 15);
     }
   };
 
   // 게시글 클릭 시 상세 페이지로 이동
   const handleNavigate = (study) => {
-    navigate(`/board/posts/${study.id}`, { state: { type: 'study', data: study } });
+    navigate(`/study/${study.id}`, {
+      state: { type: 'study', data: study },
+    });
   };
 
   const buttonStyle = {
@@ -124,16 +127,7 @@ const StudyList = () => {
           ))}
 
           {hasMore ? (
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                width: '100%',
-                height: '100px',
-                transform: 'translateY(-10px)',
-              }}
-            >
+            <StyledText>
               <button
                 type="button"
                 style={buttonStyle}
@@ -146,37 +140,13 @@ const StudyList = () => {
               >
                 <img src={more} alt="Load more" style={imgStyle} />
               </button>
-            </div>
+            </StyledText>
           ) : (
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                width: '100%',
-                height: '100px',
-                transform: 'translateY(-10px)',
-              }}
-            >
-              더 이상 불러올 게시물이 없습니다.
-            </div>
+            <StyledText>더 이상 불러올 게시물이 없습니다.</StyledText>
           )}
         </>
       ) : (
-        !hasMore && (
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              width: '100%',
-              height: '100px',
-              transform: 'translateY(-10px)',
-            }}
-          >
-            더 이상 불러올 게시물이 없습니다.
-          </div>
-        )
+        !hasMore && <StyledText>더 이상 불러올 게시물이 없습니다.</StyledText>
       )}
     </div>
   );

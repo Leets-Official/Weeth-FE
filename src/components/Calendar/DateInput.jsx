@@ -6,16 +6,16 @@ import styled from 'styled-components';
 import theme from '../../styles/theme';
 
 const StyledInput = styled.input`
-  height: ${(props) => props.height || '0px'};
-  width: ${(props) => props.width || '0px'};
+  height: ${(props) => props.$height || '0px'};
+  width: ${(props) => props.$width || '0px'};
   outline: none;
   border: none;
   border-radius: 4px;
   background-color: ${theme.color.grayScale.gray12};
   color: white;
   text-align: center;
-  margin-left: ${(props) => props.margin || '0px'};
-  margin-right: ${(props) => props.margin || '0px'};
+  margin-left: ${(props) => props.$margin || '0px'};
+  margin-right: ${(props) => props.$margin || '0px'};
   padding: 0px;
   font-size: 16px;
 
@@ -128,9 +128,9 @@ const DateInput = ({
         value={date}
         onChange={onChangeValue}
         onBlur={onBlur}
-        width={width}
-        height={height}
-        margin={margin}
+        $width={width}
+        $height={height}
+        $margin={margin}
         min={inputType === 'year' ? '1000' : undefined}
         max={inputType === 'year' ? '9999' : undefined}
       />
@@ -139,7 +139,7 @@ const DateInput = ({
 };
 
 DateInput.propTypes = {
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   onChange: PropTypes.func.isRequired,
   width: PropTypes.string.isRequired,
   height: PropTypes.string.isRequired,

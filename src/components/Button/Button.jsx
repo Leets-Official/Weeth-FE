@@ -11,7 +11,7 @@ import theme from '../../styles/theme';
 const BasicButton = styled.button`
   background-color: ${({ color }) => color || theme.color.grayScale.gray30};
   font-family: ${theme.font.family.pretendard_semiBold};
-  color: ${({ textcolor }) => textcolor || theme.color.grayScale.white};
+  color: ${({ $textcolor }) => $textcolor || theme.color.grayScale.white};
   border: none;
   border-radius: 10px;
   cursor: pointer;
@@ -25,7 +25,7 @@ const BasicButton = styled.button`
 // 화면 너비인 370의 84%가 버튼의 너비
 
 const Button = ({ children, color, textcolor, onClick }) => (
-  <BasicButton color={color} textcolor={textcolor} onClick={onClick}>
+  <BasicButton color={color} $textcolor={textcolor} onClick={onClick}>
     {children}
   </BasicButton>
 );
@@ -34,6 +34,6 @@ Button.propTypes = {
   children: PropTypes.node.isRequired,
   color: PropTypes.string.isRequired,
   textcolor: PropTypes.string.isRequired,
-  onClick: PropTypes.func.isRequired,
+  onClick: PropTypes.func,
 };
 export default Button;
