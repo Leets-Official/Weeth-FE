@@ -175,13 +175,6 @@ const HomeFooter = () => {
           <span>moodmate</span>
         </GridItemWithImage>
         <GridItemWithImage
-          $image={weneed}
-          href="https://www.leets.land/project/11"
-          target="_blank"
-        >
-          <span>weneed</span>
-        </GridItemWithImage>
-        <GridItemWithImage
           $image={filling}
           href="https://www.leets.land/project/8"
           target="_blank"
