@@ -76,7 +76,7 @@ const DuesTitle = () => {
   const formatTime = (timeString) => {
     const date = new Date(timeString);
     if (!timeString) {
-      return '데이터 로드 실패';
+      return '-';
     }
     // 날짜
     const year = date.getFullYear();
