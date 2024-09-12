@@ -50,13 +50,14 @@ const PwInput = styled.input`
   padding-right: 43px;
   text-align: ${(props) => props.align || 'right'};
   font-size: 16px;
+  font-family: ${theme.font.family.pretendard_regular};
 
   &::placeholder {
     font-family: ${theme.font.family.pretendard_regular};
   }
 `;
 
-const Visible = styled.div`
+const Visible = styled.img`
   position: absolute;
   right: 35px;
   cursor: pointer;
@@ -131,13 +132,17 @@ const InfoInput = ({
           type={passwordVisible ? 'text' : 'password'}
         />
         {passwordVisible ? (
-          <Visible onClick={togglePasswordVisibility}>
-            <img src={icVisible} alt="숨김" />
-          </Visible>
+          <Visible
+            onClick={togglePasswordVisibility}
+            src={icVisible}
+            alt="숨김"
+          />
         ) : (
-          <Visible onClick={togglePasswordVisibility}>
-            <img src={icInvisible} alt="보임" />
-          </Visible>
+          <Visible
+            onClick={togglePasswordVisibility}
+            src={icInvisible}
+            alt="보임"
+          />
         )}
       </StyledInfoInput>
     );

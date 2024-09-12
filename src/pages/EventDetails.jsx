@@ -15,6 +15,7 @@ import UserAPI from '../hooks/UserAPI';
 const StyledEventDetails = styled.div`
   width: 370px;
   margin-bottom: 50px;
+  font-family: ${theme.font.family.pretendard_regular};
 `;
 
 const ContentBlock = styled.div`

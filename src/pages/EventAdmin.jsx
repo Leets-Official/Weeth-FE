@@ -21,6 +21,7 @@ const StyledCreate = styled.div`
   justify-content: center;
   width: 370px;
   padding-bottom: 183px;
+  font-family: ${theme.font.family.pretendard_regular};
 `;
 
 const DatePickerWrapper = styled.div`
