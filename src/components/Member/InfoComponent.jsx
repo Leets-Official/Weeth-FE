@@ -51,7 +51,7 @@ const InfoComponent = ({ src, alt, index, value }) => {
       return positionKo;
     }
     if (index === '기수') {
-      return value;
+      return value.join(',');
     }
     return value;
   };
