@@ -103,7 +103,6 @@ const NoticePosting = () => {
     const formData = new FormData();
 
     boardPost.content = replaceNewLines(boardPost.content);
-    console.log(boardPost);
 
     // JSON 데이터를 'dto' 필드로 추가
     formData.append(
