@@ -10,6 +10,7 @@ import PostingHeader from '../components/Board/PostingHeader';
 import FileAttachMenu from '../components/Board/FileAttachMenu';
 import { ReactComponent as FileAttach } from '../assets/images/ic_board_fileAttach.svg';
 import theme from '../styles/theme';
+import { replaceNewLines } from '../hooks/Utils';
 
 const StyledPosting = styled.div`
   width: 370px;
@@ -100,6 +101,9 @@ const NoticePosting = () => {
     }
 
     const formData = new FormData();
+
+    boardPost.content = replaceNewLines(boardPost.content);
+    console.log(boardPost);
 
     // JSON 데이터를 'dto' 필드로 추가
     formData.append(

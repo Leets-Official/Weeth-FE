@@ -83,8 +83,7 @@ const NoticeContents = styled.div`
   font-family: ${theme.font.family.pretendard_regular};
   font-size: 16px;
   line-height: 19.09px;
-  word-wrap: break-word; /* 단어가 길 경우에도 줄바꿈 허용 */
-  overflow-wrap: break-word; /* 긴 단어를 줄바꿈 */
+  white-space: pre-wrap;
 `;
 
 /* const RightMargin = styled.div`
