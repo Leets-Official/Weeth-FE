@@ -77,7 +77,6 @@ const StyledDate = styled.div`
 `;
 
 const NoticeContents = styled.div`
-  width: 88%;
   margin-top: 20px;
   margin-right: 4%;
   font-family: ${theme.font.family.pretendard_regular};
