@@ -16,14 +16,12 @@ const StyledPosting = styled.div`
 `;
 
 const StyledText = styled.div`
-  margin-left: 7%;
+  margin: 0 7%;
   color: ${theme.color.grayScale.white};
   font-size: 16px;
-  line-height: 19.09px;
 `;
 
 const StyledTitle = styled.input`
-  width: 88%;
   margin-top: 20px;
   margin-bottom: 20px;
   background: transparent;
@@ -36,14 +34,14 @@ const StyledTitle = styled.input`
 `;
 
 const StyledLine = styled.div`
-  width: 88%;
+  width: 325px;
   height: 1px;
-  margin: 0 7%;
+  margin: 0 25px;
   background-color: ${theme.color.grayScale.gray30};
 `;
 
 const StyledContent = styled.textarea`
-  width: 88%;
+  width: 100%;
   margin-top: 12px;
   background: transparent;
   border: none;

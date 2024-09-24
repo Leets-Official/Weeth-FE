@@ -78,7 +78,6 @@ const StyledDate = styled.div`
 
 const NoticeContents = styled.div`
   margin-top: 20px;
-  margin-right: 4%;
   font-family: ${theme.font.family.pretendard_regular};
   font-size: 16px;
   line-height: 19.09px;
