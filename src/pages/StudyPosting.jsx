@@ -22,8 +22,9 @@ const StyledText = styled.div`
 `;
 
 const StyledTitle = styled.input`
+  width: 100%;
   margin-top: 20px;
-  margin-bottom: 20px;
+  margin-bottom: 20pnx;
   background: transparent;
   border: none;
   color: ${theme.color.grayScale.white};

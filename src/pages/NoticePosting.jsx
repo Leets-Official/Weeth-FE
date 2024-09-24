@@ -23,6 +23,7 @@ const StyledText = styled.div`
 `;
 
 const StyledTitle = styled.input`
+  width: 100%;
   margin-top: 20px;
   margin-bottom: 20px;
   background: transparent;
