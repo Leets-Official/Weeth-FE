@@ -61,8 +61,9 @@ const MoneyBox = styled.div`
 const Dues = () => {
   useCustomBack('/home');
 
-  const { duesData, totalAmount, currentAmount, myCardinal } =
+  const { duesData, description, totalAmount, currentAmount, myCardinal } =
     useContext(DuesContext);
+  console.log(duesData);
   const [selected, setSelectedDues] = useState(null);
 
   const filteredDues =
@@ -99,7 +100,7 @@ const Dues = () => {
                 dues={totalAmount}
                 category="회비" // 회비
                 date="2024-04-01"
-                memo={`${myCardinal}기 회비 등록`}
+                memo={description}
               />
             )}
             {/* 지출 항목들 */}

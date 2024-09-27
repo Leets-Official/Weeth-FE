@@ -7,6 +7,7 @@ const DuesAPI = () => {
   const {
     myCardinal,
     setDuesData,
+    setDescription,
     setTotalAmount,
     setCurrentAmount,
     setCardinal,
@@ -40,6 +41,7 @@ const DuesAPI = () => {
         if (result.code === 200) {
           if (result.data.cardinal !== myCardinal) {
             setDuesData(result.data.receipts);
+            setDescription(result.data.description);
             setTotalAmount(result.data.totalAmount);
             setCardinal(result.data.cardinal);
             setCurrentAmount(result.data.currentAmount);
