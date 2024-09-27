@@ -48,5 +48,5 @@ const Utils = async (response, originalApiFunc, originalParams) => {
 export default Utils;
 
 export const replaceNewLines = (text) => {
-  return text.replace(/\r?\n/g, '\\n');
+  return text.replace(/\r?\n/g, '\n');
 };

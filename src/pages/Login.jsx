@@ -147,7 +147,7 @@ const Login = () => {
         onKeyPress={(e) => {
           if (e.key === 'Enter') handleLogin();
         }}
-        placeholder=""
+        placeholder="6~12자리 / 영문 대소문자, 숫자 조합"
         type={passwordVisible ? 'text' : 'password'}
       >
         {passwordVisible ? (

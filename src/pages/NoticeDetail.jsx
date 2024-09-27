@@ -77,14 +77,11 @@ const StyledDate = styled.div`
 `;
 
 const NoticeContents = styled.div`
-  width: 88%;
   margin-top: 20px;
-  margin-right: 4%;
   font-family: ${theme.font.family.pretendard_regular};
   font-size: 16px;
   line-height: 19.09px;
-  word-wrap: break-word; /* 단어가 길 경우에도 줄바꿈 허용 */
-  overflow-wrap: break-word; /* 긴 단어를 줄바꿈 */
+  white-space: pre-wrap;
 `;
 
 /* const RightMargin = styled.div`

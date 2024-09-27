@@ -9,22 +9,22 @@ import PostingHeader from '../components/Board/PostingHeader';
 import FileAttachMenu from '../components/Board/FileAttachMenu';
 import { ReactComponent as FileAttach } from '../assets/images/ic_board_fileAttach.svg';
 import theme from '../styles/theme';
+import { replaceNewLines } from '../hooks/Utils';
 
 const StyledPosting = styled.div`
   width: 370px;
 `;
 
 const StyledText = styled.div`
-  margin-left: 7%;
+  margin: 0 7%;
   color: ${theme.color.grayScale.white};
   font-size: 16px;
-  line-height: 19.09px;
 `;
 
 const StyledTitle = styled.input`
-  width: 88%;
+  width: 100%;
   margin-top: 20px;
-  margin-bottom: 20px;
+  margin-bottom: 20pnx;
   background: transparent;
   border: none;
   color: ${theme.color.grayScale.white};
@@ -35,14 +35,14 @@ const StyledTitle = styled.input`
 `;
 
 const StyledLine = styled.div`
-  width: 88%;
+  width: 325px;
   height: 1px;
-  margin: 0 7%;
+  margin: 0 25px;
   background-color: ${theme.color.grayScale.gray30};
 `;
 
 const StyledContent = styled.textarea`
-  width: 88%;
+  width: 100%;
   margin-top: 12px;
   background: transparent;
   border: none;
@@ -93,6 +93,8 @@ const StudyPosting = () => {
 
   const saveBoard = async () => {
     const formData = new FormData();
+    boardPost.content = replaceNewLines(boardPost.content);
+    console.log(boardPost);
 
     // JSON 데이터를 'dto' 필드로 추가
     formData.append(
