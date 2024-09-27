@@ -7,6 +7,7 @@ export const DuesContext = createContext();
 // eslint-disable-next-line react/prop-types
 export const DuesProvider = ({ children }) => {
   const [duesData, setDuesData] = useState([]);
+  const [description, setDescription] = useState('');
   const [totalAmount, setTotalAmount] = useState(0);
   const [currentAmount, setCurrentAmount] = useState(0);
   const [time, setTime] = useState('');
@@ -17,6 +18,8 @@ export const DuesProvider = ({ children }) => {
       value={{
         duesData,
         setDuesData,
+        description,
+        setDescription,
         totalAmount,
         setTotalAmount,
         currentAmount,
