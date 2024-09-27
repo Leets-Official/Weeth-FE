@@ -18,7 +18,7 @@ const DuesAPI = () => {
   useEffect(() => {
     const fetchDuesData = async () => {
       try {
-        const cardinal = 3;
+        const cardinal = 4;
         const headers = {
           Authorization: `Bearer ${accessToken}`,
           Authorization_refresh: `Bearer ${refreshToken}`,
