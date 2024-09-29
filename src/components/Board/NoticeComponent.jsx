@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { ReactComponent as BoardChat } from '../../assets/images/ic_board_chat.svg';
+import boardChat from '../../assets/images/ic_board_chat.svg';
 import theme from '../../styles/theme';
 
 const Container = styled.div`
@@ -108,7 +108,7 @@ const NoticeComponent = ({ noticeTitle, noticeContent }) => {
             {noticeContent}
           </NoticeContent>
           <BottomRow>
-            <BoardChat />
+            <img src={boardChat} />
             <CommentCount>3</CommentCount>
           </BottomRow>
         </ContentRow>

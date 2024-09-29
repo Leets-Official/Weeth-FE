@@ -3,13 +3,13 @@ import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
-import UserAPI from '../hooks/UserAPI';
-import { UserContext } from '../hooks/UserContext';
+import UserAPI from '../service/UserAPI';
+import { UserContext } from '../service/UserContext';
 import NoticeHeader from '../components/Board/NoticeHeader';
 import AttachButton from '../components/Board/AttachButton';
 import CommentList from '../components/Board/CommentList';
 import EditDelModal from '../components/EditDelModal';
-import { ReactComponent as BoardChat } from '../assets/images/ic_board_chat.svg';
+import boardChat from '../assets/images/ic_board_chat.svg';
 import theme from '../styles/theme';
 
 const Container = styled.div`
@@ -130,7 +130,7 @@ const StudyDetail = () => {
   const navigate = useNavigate();
 
   const accessToken = localStorage.getItem('accessToken');
-  const BASE_URL = process.env.REACT_APP_BASE_URL;
+  const BASE_URL = import.meta.env.VITE_API_URL;
 
   // 글 작성자인지 확인하는 로직
   const isWriter = content?.name === userData?.name;
@@ -243,7 +243,7 @@ const StudyDetail = () => {
             : null}
         </ComponentRow>
         <CommentCountWrapper>
-          <BoardChat alt="" />
+          <img src={boardChat} alt="" />
           <CommentCount>{content.commentCount || 0}</CommentCount>
         </CommentCountWrapper>
         <CommentSection>

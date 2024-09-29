@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import theme from '../../styles/theme';
-import { ReactComponent as InstallIcon } from '../../assets/images/ic_install.svg';
+import installIcon from '../../assets/images/ic_install.svg';
 
 const Container = styled.div`
   width: 30%;
@@ -71,7 +71,8 @@ const AttachButton = ({ fileUrls = [] }) => {
         <div className="text">
           <FileName>첨부파일</FileName>
         </div>
-        <InstallIcon
+        <img
+          src={installIcon}
           className="icon"
           alt="install"
           style={{

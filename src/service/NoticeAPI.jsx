@@ -2,28 +2,30 @@
 import { useEffect, useContext } from 'react';
 import axios from 'axios';
 // import PropTypes from 'prop-types';
-import { BoardContext } from './BoardContext';
+import { NoticeContext } from './NoticeContext';
 
-const BoardAPI = () => {
-  const { setBoardData, setError } = useContext(BoardContext);
+const NoticeAPI = () => {
+  const { setNoticeData, setError } = useContext(NoticeContext);
 
+  // const ACCESS_TOKEN = import.meta.env.REACT_APP_ACCESS_TOKEN;
   const accessToken = localStorage.getItem('accessToken');
-  const BASE_URL = process.env.REACT_APP_BASE_URL;
+  const BASE_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     if (!accessToken) {
       setError('Access token is not set');
       return;
     }
+
     const headers = {
       Authorization: `Bearer ${accessToken}`,
     };
 
     axios
-      .get(`${BASE_URL}/api/v1/posts`, { headers })
+      .get(`${BASE_URL}`, { headers })
       .then((response) => {
         if (response.data.code === 200) {
-          setBoardData(response.data.data);
+          setNoticeData(response.data.data);
         } else {
           setError(response.data.message);
         }
@@ -31,9 +33,9 @@ const BoardAPI = () => {
       .catch((err) => {
         setError('An error occurred while fetching the data');
       });
-  }, [accessToken, setBoardData, setError]);
+  }, [accessToken, setNoticeData, setError]);
 
   return null;
 };
 
-export default BoardAPI;
+export default NoticeAPI;

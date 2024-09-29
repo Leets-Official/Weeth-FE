@@ -5,8 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import SignupHeader from '../components/Signup/SignupHeader';
 import SignupTextComponent from '../components/Signup/SignupTextComponent';
-import { ReactComponent as ToggleVisibleIcon } from '../assets/images/ic_toggleVisible.svg';
-import { ReactComponent as ToggleInvisibleIcon } from '../assets/images/ic_toggleInvisible.svg';
+import toggleVisibleIcon from '../assets/images/ic_toggleVisible.svg';
+import toggleInvisibleIcon from '../assets/images/ic_toggleInvisible.svg';
 import theme from '../styles/theme';
 import useCustomBack from '../router/useCustomBack';
 
@@ -77,7 +77,7 @@ const Signup = () => {
   // eslint-disable-next-line consistent-return
   const checkDuplicate = async (DuplicatedEmail) => {
     try {
-      const BASE_URL = process.env.REACT_APP_BASE_URL;
+      const BASE_URL = import.meta.env.VITE_API_URL;
       const response = await axios.get(
         `${BASE_URL}/api/v1/users/email?email=${DuplicatedEmail}`,
         {},
@@ -199,7 +199,7 @@ const Signup = () => {
           type={passwordVisible ? 'text' : 'password'}
         >
           <ToggleVisibilityButton onClick={togglePasswordVisibility}>
-            {passwordVisible ? <ToggleVisibleIcon /> : <ToggleInvisibleIcon />}
+            {passwordVisible ? <img src={toggleVisibleIcon} /> : <img src={toggleInvisibleIcon} />}
           </ToggleVisibilityButton>
         </SignupTextComponent>
       </InputContainer>

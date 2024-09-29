@@ -12,8 +12,8 @@ const AttendAPI = () => {
   useEffect(() => {
     const fetchAttendances = async () => {
       try {
-        // const ACCESS_TOKEN = process.env.REACT_APP_ADMIN_TOKEN;
-        const BASE_URL = process.env.REACT_APP_BASE_URL;
+        // const ACCESS_TOKEN = import.meta.env.REACT_APP_ADMIN_TOKEN;
+        const BASE_URL = import.meta.env.VITE_API_URL;
         const headers = {
           Authorization: `Bearer ${accessToken}`,
           Authorization_refresh: `Bearer ${refreshToken}`,

@@ -6,8 +6,8 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import LoginHeader from '../components/Login/LoginHeader';
 import SignupTextComponent from '../components/Signup/SignupTextComponent';
-import { ReactComponent as ToggleVisibleIcon } from '../assets/images/ic_toggleVisible.svg';
-import { ReactComponent as ToggleInvisibleIcon } from '../assets/images/ic_toggleInvisible.svg';
+import toggleVisibleIcon from '../assets/images/ic_toggleVisible.svg';
+import toggleInvisibleIcon from '../assets/images/ic_toggleInvisible.svg';
 import useCustomBack from '../router/useCustomBack';
 import theme from '../styles/theme';
 
@@ -99,7 +99,8 @@ const Login = () => {
     };
 
     try {
-      const BASE_URL = process.env.REACT_APP_BASE_URL;
+      const BASE_URL = import.meta.env.VITE_API_URL;
+      console.log(BASE_URL);
       const response = await axios.post(`${BASE_URL}/api/v1/login`, params);
 
       if (response.status === 200) {
@@ -151,7 +152,8 @@ const Login = () => {
         type={passwordVisible ? 'text' : 'password'}
       >
         {passwordVisible ? (
-          <ToggleVisibleIcon
+          <img
+            src={toggleVisibleIcon}
             alt=""
             onClick={togglePasswordVisibility}
             style={{
@@ -161,7 +163,8 @@ const Login = () => {
             }}
           />
         ) : (
-          <ToggleInvisibleIcon
+          <img
+            src={toggleInvisibleIcon}
             alt=""
             onClick={togglePasswordVisibility}
             style={{

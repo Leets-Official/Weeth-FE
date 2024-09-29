@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const accessToken = localStorage.getItem('accessToken');
 const refreshToken = localStorage.getItem('refreshToken');
-const BASE_URL = process.env.REACT_APP_BASE_URL;
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 export const createEvent = async (data) => {
   try {
