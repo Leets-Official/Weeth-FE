@@ -3,7 +3,7 @@ import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
 // import axios from 'axios';
 import { useNavigate } from 'react-router-dom'; // navigate 사용을 위해 import
-import { UserContext } from '../hooks/UserContext';
+import { UserContext } from '../service/UserContext';
 import NoticeHeader from '../components/Board/NoticeHeader';
 import NoticeMiddle from '../components/Board/NoticeMiddle';
 import NoticeList from '../components/Board/NoticeList';

@@ -6,7 +6,7 @@ import MonthCalendar from '../components/Calendar/MonthCalendar';
 import YearCalendar from '../components/Calendar/YearCalendar';
 import ToggleButton from '../components/Calendar/ToggleButton';
 import useCustomBack from '../router/useCustomBack';
-import YearlyScheduleAPI from '../hooks/YearlyScheduleAPI';
+import YearlyScheduleAPI from '../service/YearlyScheduleAPI';
 
 const StyledCalendar = styled.div`
   width: 370px;

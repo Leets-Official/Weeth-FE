@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import styled from 'styled-components';
 import theme from '../../styles/theme';
-import { useDraggable } from '../../hooks/useDraggable';
+import { useDraggable } from '../../service/useDraggable';
 import leets from '../../assets/images/ic_leets.svg';
 import insta from '../../assets/images/ic_insta.svg';
 import discord from '../../assets/images/ic_discord.svg';

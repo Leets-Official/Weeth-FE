@@ -7,13 +7,13 @@ import theme from '../styles/theme';
 import Header from '../components/Header/Header';
 import InfoInput from '../components/MyPage/InfoInput';
 import DatePicker from '../components/Calendar/DatePicker';
-import { replaceNewLines } from '../hooks/Utils';
-import { createEvent, editEvent } from '../hooks/EventAdminAPI';
-import EventInfoAPI from '../hooks/EventInfoAPI';
-import { EventInfoContext } from '../hooks/EventInfoContext';
+import { replaceNewLines } from '../service/Utils';
+import { createEvent, editEvent } from '../service/EventAdminAPI';
+import EventInfoAPI from '../service/EventInfoAPI';
+import { EventInfoContext } from '../service/EventInfoContext';
 import useCustomBack from '../router/useCustomBack';
-import UserAPI from '../hooks/UserAPI';
-import { UserContext } from '../hooks/UserContext';
+import UserAPI from '../service/UserAPI';
+import { UserContext } from '../service/UserContext';
 
 const StyledCreate = styled.div`
   display: flex;

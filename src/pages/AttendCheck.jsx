@@ -3,10 +3,10 @@ import styled, { ThemeProvider } from 'styled-components';
 import theme from '../styles/theme';
 import AttendHeader from '../components/Attendance/AttendHeader';
 import AttendCheckMain from '../components/Attendance/AttendCheckMain';
-import { PenaltyProvider } from '../hooks/PenaltyContext';
-import AttendCheckAPI from '../hooks/AttendCheckAPI';
+import { PenaltyProvider } from '../service/PenaltyContext';
+import AttendCheckAPI from '../service/AttendCheckAPI';
 import useCustomBack from '../router/useCustomBack';
-import UserAPI from '../hooks/UserAPI';
+import UserAPI from '../service/UserAPI';
 
 const Container = styled.div`
   display: flex;

@@ -4,7 +4,7 @@ import theme from '../styles/theme';
 import HomeMain from '../components/home/HomeMain';
 import HomeFooter from '../components/home/HomeFooter';
 import LogoutButton from '../components/LogoutButton';
-import UserAPI from '../hooks/UserAPI';
+import UserAPI from '../service/UserAPI';
 import logo from '../assets/images/ic_logo.svg';
 import useCustomBack from '../router/useCustomBack';
 

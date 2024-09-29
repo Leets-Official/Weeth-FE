@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import theme from '../../styles/theme';
 
 import MonthlyEvent from './MonthlyEvent';
-import { YearlyScheduleContext } from '../../hooks/YearlyScheduleContext';
+import { YearlyScheduleContext } from '../../service/YearlyScheduleContext';
 
 const MonthlyBox = styled.div`
   display: flex;

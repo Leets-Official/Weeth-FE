@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import AttendHeader from '../components/Attendance/AttendHeader';
 import ReceiptMain from '../components/Receipt/ReceiptMain';
-import { DuesProvider } from '../hooks/DuesContext';
+import { DuesProvider } from '../service/DuesContext';
 import useCustomBack from '../router/useCustomBack';
 
 const Container = styled.div`

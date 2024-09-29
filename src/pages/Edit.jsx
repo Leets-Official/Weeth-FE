@@ -12,8 +12,8 @@ import MyPageHeader from '../components/MyPage/MyPageHeader';
 import InfoInput from '../components/MyPage/InfoInput';
 // import mockUser from '../components/mockData/mockUser';
 import DropdownMenu from '../components/DropdownMenu';
-import UserAPI from '../hooks/UserAPI';
-import { UserContext } from '../hooks/UserContext';
+import UserAPI from '../service/UserAPI';
+import { UserContext } from '../service/UserContext';
 import useCustomBack from '../router/useCustomBack';
 
 const StyledEdit = styled.div`

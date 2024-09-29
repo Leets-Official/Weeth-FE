@@ -31,14 +31,14 @@ import NoticeDetail from './pages/NoticeDetail';
 import theme from './styles/theme';
 import Receipt from './pages/Receipt';
 
-import { UserProvider } from './hooks/UserContext';
-import { MonthlyScheduleProvider } from './hooks/MonthlyScheduleContext';
-import { BoardProvider } from './hooks/BoardContext';
-import { DuesProvider } from './hooks/DuesContext';
-import { EventInfoProvider } from './hooks/EventInfoContext';
-import { NoticeProvider } from './hooks/NoticeContext';
-import { YearlyScheduleProvider } from './hooks/YearlyScheduleContext';
-import { AttendCheckProvider } from './hooks/AttendCheckContext';
+import { UserProvider } from './service/UserContext';
+import { MonthlyScheduleProvider } from './service/MonthlyScheduleContext';
+import { BoardProvider } from './service/BoardContext';
+import { DuesProvider } from './service/DuesContext';
+import { EventInfoProvider } from './service/EventInfoContext';
+import { NoticeProvider } from './service/NoticeContext';
+import { YearlyScheduleProvider } from './service/YearlyScheduleContext';
+import { AttendCheckProvider } from './service/AttendCheckContext';
 
 import ScrollToTop from './router/ScrollToTop';
 

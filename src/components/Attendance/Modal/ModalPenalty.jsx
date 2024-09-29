@@ -5,9 +5,9 @@ import styled from 'styled-components';
 import theme from '../../../styles/theme';
 import icClose from '../../../assets/images/ic_close.svg';
 import check from '../../../assets/images/ic_check.svg';
-import { PenaltyContext } from '../../../hooks/PenaltyContext';
-import { UserContext } from '../../../hooks/UserContext';
-import PenaltyAPI from '../../../hooks/PenaltyAPI';
+import { PenaltyContext } from '../../../service/PenaltyContext';
+import { UserContext } from '../../../service/UserContext';
+import PenaltyAPI from '../../../service/PenaltyAPI';
 
 const StyledModal = styled.div`
   display: ${(props) => (props.open ? 'block' : 'none')};

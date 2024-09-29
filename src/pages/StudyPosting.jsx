@@ -4,12 +4,12 @@ import React, { useEffect, useState, useContext } from 'react';
 import styled from 'styled-components';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
-import { BoardContext } from '../hooks/BoardContext';
+import { BoardContext } from '../service/BoardContext';
 import PostingHeader from '../components/Board/PostingHeader';
 import FileAttachMenu from '../components/Board/FileAttachMenu';
 import fileAttach from '../assets/images/ic_board_fileAttach.svg';
 import theme from '../styles/theme';
-import { replaceNewLines } from '../hooks/Utils';
+import { replaceNewLines } from '../service/Utils';
 
 const StyledPosting = styled.div`
   width: 370px;

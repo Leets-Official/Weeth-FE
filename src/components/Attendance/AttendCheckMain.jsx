@@ -3,8 +3,8 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import theme from '../../styles/theme';
 import Caption from '../Caption';
-import { UserContext } from '../../hooks/UserContext';
-import { AttendCheckContext } from '../../hooks/AttendCheckContext';
+import { UserContext } from '../../service/UserContext';
+import { AttendCheckContext } from '../../service/AttendCheckContext';
 
 const Container = styled.div`
   display: flex;

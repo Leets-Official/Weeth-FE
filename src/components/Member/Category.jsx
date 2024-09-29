@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { useState, useRef } from 'react';
-import { useDraggable } from '../../hooks/useDraggable';
+import { useDraggable } from '../../service/useDraggable';
 import theme from '../../styles/theme';
 
 const StyledCategory = styled.div`

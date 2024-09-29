@@ -9,11 +9,11 @@ import ModalAttend from './Modal/ModalAttend';
 import check from '../../assets/images/ic_check.svg';
 import warning from '../../assets/images/ic_warning.svg';
 import ModalPenalty from './Modal/ModalPenalty';
-import { UserContext } from '../../hooks/UserContext';
-import { PenaltyContext } from '../../hooks/PenaltyContext';
-import { AttendContext } from '../../hooks/AttendContext';
-import AttendAPI from '../../hooks/AttendAPI';
-import PenaltyAPI from '../../hooks/PenaltyAPI';
+import { UserContext } from '../../service/UserContext';
+import { PenaltyContext } from '../../service/PenaltyContext';
+import { AttendContext } from '../../service/AttendContext';
+import AttendAPI from '../../service/AttendAPI';
+import PenaltyAPI from '../../service/PenaltyAPI';
 
 // 출석률 게이지 임시 값
 let ATTEND_GAUGE = 0;

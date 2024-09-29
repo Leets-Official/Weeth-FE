@@ -5,8 +5,8 @@ import DuesHeader from '../components/Dues/DuesHeader';
 import DueCategory from '../components/Dues/DueCategory';
 import DuesInfo from '../components/Dues/DuesInfo';
 import DuesTitle from '../components/Dues/DuesTitle';
-import { DuesContext } from '../hooks/DuesContext';
-import DuesAPI from '../hooks/DuesAPI';
+import { DuesContext } from '../service/DuesContext';
+import DuesAPI from '../service/DuesAPI';
 import useCustomBack from '../router/useCustomBack';
 
 const StyledDues = styled.div`

@@ -8,9 +8,9 @@ import icCalendar from '../assets/images/ic_date.svg';
 import icClock from '../assets/images/ic_clock.svg';
 import theme from '../styles/theme';
 import EventDetailTitle from '../components/Calendar/EventDetailTitle';
-import EventInfoAPI from '../hooks/EventInfoAPI';
+import EventInfoAPI from '../service/EventInfoAPI';
 import useCustomBack from '../router/useCustomBack';
-import UserAPI from '../hooks/UserAPI';
+import UserAPI from '../service/UserAPI';
 
 const StyledEventDetails = styled.div`
   width: 370px;

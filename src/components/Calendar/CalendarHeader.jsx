@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import theme from '../../styles/theme';
 import LeftButton from '../Header/LeftButton';
 import ModalMonthContent from './ModalMonthContent';
-import { UserContext } from '../../hooks/UserContext';
+import { UserContext } from '../../service/UserContext';
 
 import under from '../../assets/images/ic_under.svg';
 import icPlus from '../../assets/images/ic_plus.svg';

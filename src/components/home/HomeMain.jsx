@@ -6,7 +6,7 @@ import RightButton from '../Header/RightButton';
 import './HomeMain.css';
 import theme from '../../styles/theme';
 
-import { UserContext } from '../../hooks/UserContext';
+import { UserContext } from '../../service/UserContext';
 
 import calendar from '../../assets/images/ic_home_calendar.svg';
 import attend from '../../assets/images/ic_home_attend.svg';

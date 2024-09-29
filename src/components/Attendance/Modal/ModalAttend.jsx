@@ -9,7 +9,7 @@ import check from '../../../assets/images/ic_check.svg';
 import './ModalAttend.css';
 import wrong from '../../../assets/images/ic_wrong.svg';
 import correct from '../../../assets/images/ic_correct.svg';
-import { AttendContext } from '../../../hooks/AttendContext';
+import { AttendContext } from '../../../service/AttendContext';
 
 const StyledModal = styled.div`
   display: ${(props) => (props.open ? 'block' : 'none')};

@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import theme from '../../styles/theme';
 import icDot from '../../assets/images/ic_dot.svg';
-import { YearlyScheduleContext } from '../../hooks/YearlyScheduleContext';
+import { YearlyScheduleContext } from '../../service/YearlyScheduleContext';
 
 const StyledYear = styled.div`
   display: flex;

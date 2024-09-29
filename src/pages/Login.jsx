@@ -100,7 +100,6 @@ const Login = () => {
 
     try {
       const BASE_URL = import.meta.env.VITE_API_URL;
-      console.log(BASE_URL);
       const response = await axios.post(`${BASE_URL}/api/v1/login`, params);
 
       if (response.status === 200) {

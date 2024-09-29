@@ -3,8 +3,8 @@ import { useContext, useState } from 'react';
 import ReactModal from 'react-modal';
 import theme from '../../styles/theme';
 import ReceiptInfo from './ReceiptInfo';
-import { DuesContext } from '../../hooks/DuesContext';
-import DuesAPI from '../../hooks/DuesAPI';
+import { DuesContext } from '../../service/DuesContext';
+import DuesAPI from '../../service/DuesAPI';
 
 const StyledReceipt = styled.div`
   width: 370px;

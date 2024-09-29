@@ -8,9 +8,9 @@ import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import theme from '../../styles/theme';
 // import mockEventMonth from '../mockData/mockEventMonth';
-import { MonthlyScheduleContext } from '../../hooks/MonthlyScheduleContext';
-import MonthlyShceduleAPI from '../../hooks/MonthlyScheduleAPI';
-import UserAPI from '../../hooks/UserAPI';
+import { MonthlyScheduleContext } from '../../service/MonthlyScheduleContext';
+import MonthlyShceduleAPI from '../../service/MonthlyScheduleAPI';
+import UserAPI from '../../service/UserAPI';
 
 const CalendarContainer = styled.div`
   width: 100%;
