@@ -7,9 +7,9 @@ import { NoticeContext } from './NoticeContext';
 const NoticeAPI = () => {
   const { setNoticeData, setError } = useContext(NoticeContext);
 
-  // const ACCESS_TOKEN = process.env.REACT_APP_ACCESS_TOKEN;
+  // const ACCESS_TOKEN = import.meta.env.REACT_APP_ACCESS_TOKEN;
   const accessToken = localStorage.getItem('accessToken');
-  const BASE_URL = process.env.REACT_APP_BASE_URL;
+  const BASE_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     if (!accessToken) {

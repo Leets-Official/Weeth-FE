@@ -24,7 +24,7 @@ const DuesAPI = () => {
           Authorization: `Bearer ${accessToken}`,
           Authorization_refresh: `Bearer ${refreshToken}`,
         };
-        const BASE_URL = process.env.REACT_APP_BASE_URL;
+        const BASE_URL = import.meta.env.VITE_API_URL;
 
         const originalApiFunc = (funcCardinal) =>
           axios.get(`${BASE_URL}/api/v1/account/${funcCardinal}`, { headers });

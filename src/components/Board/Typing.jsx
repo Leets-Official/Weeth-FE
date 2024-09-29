@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import PropTypes from 'prop-types';
-import { ReactComponent as RegisterComment } from '../../assets/images/ic_send.svg';
+import registerComment from '../../assets/images/ic_send.svg';
 import { replaceNewLines } from '../../hooks/Utils';
 import theme from '../../styles/theme';
 
@@ -43,7 +43,7 @@ const Typing = ({
   // const { parentCommentId = null } = location.state || {};
 
   const accessToken = localStorage.getItem('accessToken');
-  const BASE_URL = process.env.REACT_APP_BASE_URL;
+  const BASE_URL = import.meta.env.VITE_API_URL;
 
   const handleCommentChange = (e) => {
     setComment(e.target.value);
@@ -111,7 +111,8 @@ const Typing = ({
         onFocus={onInputFocus} // 입력창이 포커스될 때 대댓글 상태 초기화
         onKeyPress={handleKeyPress}
       />
-      <RegisterComment
+      <img
+        src={registerComment}
         alt=""
         onClick={handleRegisterComment}
         style={{

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import { ReactComponent as BoardChat } from '../../assets/images/ic_board_chat.svg';
+import boardChat from '../../assets/images/ic_board_chat.svg';
 import theme from '../../styles/theme';
 
 const Container = styled.div`
@@ -129,7 +129,7 @@ const BoardComponent = ({
             <NoticeContent>{name}</NoticeContent>
           </StyledName>
           <BottomRow>
-            <BoardChat />
+            <img src={boardChat} />
             <CommentCount>
               {totalComments !== undefined ? totalComments : '0'}
             </CommentCount>

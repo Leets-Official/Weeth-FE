@@ -20,7 +20,7 @@ const NoticeList = () => {
   const [hasMore, setHasMore] = useState(true); // 더 불러올 공지가 있는지 여부를 확인하는 상태 변수
 
   const accessToken = localStorage.getItem('accessToken');
-  const BASE_URL = process.env.REACT_APP_BASE_URL;
+  const BASE_URL = import.meta.env.VITE_API_URL;
 
   // API 호출 함수
   const fetchNotices = async (noticeId = null, count = 15) => {

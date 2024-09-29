@@ -82,7 +82,7 @@ const Profile = () => {
     };
 
     try {
-      const BASE_URL = process.env.REACT_APP_BASE_URL;
+      const BASE_URL = import.meta.env.VITE_API_URL;
       const response = await axios.post(
         `${BASE_URL}/api/v1/users/apply`,
         mappedMemberInfo,

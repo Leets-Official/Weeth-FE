@@ -3,9 +3,9 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import { UserContext } from '../../hooks/UserContext';
-import { ReactComponent as CommentButton } from '../../assets/images/ic_comment.svg';
-import { ReactComponent as ReplyButton } from '../../assets/images/ic_reply.svg';
-import { ReactComponent as CommentDeleteButton } from '../../assets/images/ic_comment_delete.svg';
+import commentButton from '../../assets/images/ic_comment.svg';
+import replyButton from '../../assets/images/ic_reply.svg';
+import commentDeleteButton from '../../assets/images/ic_comment_delete.svg';
 import theme from '../../styles/theme';
 
 const CommentContainer = styled.div`
@@ -90,7 +90,7 @@ const BoardComment = ({
   const inputRef = useRef(null); // ref 생성
 
   const accessToken = localStorage.getItem('accessToken');
-  const BASE_URL = process.env.REACT_APP_BASE_URL;
+  const BASE_URL = import.meta.env.VITE_API_URL;
 
   const { userData } = useContext(UserContext);
 
@@ -182,7 +182,7 @@ const BoardComment = ({
           <CommentButton alt="" onClick={handleReplyClick} />
           <CommentButtonMargin />
           {isWriter && ( // 작성자인 경우에만 삭제 버튼을 보여줌
-            <CommentDeleteButton onClick={onDelete} />
+            <img src={commentButton} onClick={onDelete} />
           )}
         </BottomRow>
         <StyledComment>{content}</StyledComment>
@@ -194,7 +194,8 @@ const BoardComment = ({
               const isRecommentWriter = recomment.name === userData.name; // 대댓글 작성자인지 확인
               return (
                 <ReplyRow key={recomment.id}>
-                  <ReplyButton
+                  <img
+                    src={replyButton}
                     alt=""
                     style={{
                       marginRight: '2px',
@@ -205,7 +206,8 @@ const BoardComment = ({
                     <BottomRow>
                       <UserName>{recomment.name}</UserName>
                       {isRecommentWriter && ( // 대댓글 작성자인 경우에만 삭제 버튼을 보여줌
-                        <CommentDeleteButton
+                        <img
+                          src={commentButton}
                           alt=""
                           style={{
                             marginRight: '10px',

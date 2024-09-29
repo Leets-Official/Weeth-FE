@@ -8,7 +8,7 @@ import { UserContext } from '../hooks/UserContext';
 import { BoardContext } from '../hooks/BoardContext';
 import PostingHeader from '../components/Board/PostingHeader';
 import FileAttachMenu from '../components/Board/FileAttachMenu';
-import { ReactComponent as FileAttach } from '../assets/images/ic_board_fileAttach.svg';
+import fileAttach from '../assets/images/ic_board_fileAttach.svg';
 import theme from '../styles/theme';
 import { replaceNewLines } from '../hooks/Utils';
 
@@ -74,7 +74,7 @@ const NoticePosting = () => {
   const { setBoardData } = useContext(BoardContext);
 
   const accessToken = localStorage.getItem('accessToken');
-  const BASE_URL = process.env.REACT_APP_BASE_URL;
+  const BASE_URL = import.meta.env.VITE_API_URL;
 
   const [boardPost, setBoardPost] = useState({
     title: initialTitle,
@@ -198,7 +198,8 @@ const NoticePosting = () => {
           onChange={onChange}
         />
       </StyledText>
-      <FileAttach
+      <img
+        src={fileAttach}
         alt=""
         onClick={handleOpenMenu}
         style={{ marginLeft: '7%', marginBottom: '148px' }}

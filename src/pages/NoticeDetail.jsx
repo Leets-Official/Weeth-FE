@@ -8,7 +8,7 @@ import BoardHeader from '../components/Board/NoticeHeader';
 import AttachButton from '../components/Board/AttachButton';
 import CommentList from '../components/Board/CommentList';
 import EditDelModal from '../components/EditDelModal';
-import { ReactComponent as BoardChat } from '../assets/images/ic_board_chat.svg';
+import boardChat from '../assets/images/ic_board_chat.svg';
 import theme from '../styles/theme';
 
 const Container = styled.div`
@@ -128,8 +128,8 @@ const NoticeDetail = () => {
   const navigate = useNavigate();
 
   const accessToken = localStorage.getItem('accessToken');
-  // const accessToken = process.env.REACT_APP_ACCESS_TOKEN;
-  const BASE_URL = process.env.REACT_APP_BASE_URL;
+  // const accessToken = import.meta.env.REACT_APP_ACCESS_TOKEN;
+  const BASE_URL = import.meta.env.VITE_API_URL;
 
   // 글 작성자인지 확인하는 로직
   const isWriter = content?.name === userData?.name;
@@ -249,7 +249,7 @@ const NoticeDetail = () => {
             : null}
         </ComponentRow>
         <CommentCountWrapper>
-          <BoardChat alt="" />
+          <img src={boardChat} alt="" />
           <CommentCount>{content.commentCount || 0}</CommentCount>
         </CommentCountWrapper>
         <CommentSection>

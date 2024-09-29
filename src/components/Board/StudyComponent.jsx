@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { ReactComponent as BoardChat } from '../../assets/images/ic_board_chat.svg';
+import boardChat from '../../assets/images/ic_board_chat.svg';
 import theme from '../../styles/theme';
 
 const Container = styled.div`
@@ -29,7 +29,7 @@ const TopRow = styled.div`
   width: 100%;
 `;
 
-const StyledText = styled.div`
+const StyledText = styled.div`s
   color: ${theme.color.grayScale.white};
   font-family: ${theme.font.family.pretendard_semiBold};
   font-size: 16px;
@@ -115,7 +115,7 @@ const StudyComponent = ({ studyTitle, studyContent, commentCount }) => {
         <ContentRow>
           <StudyContent onClick={handleStudyClick}>{studyContent}</StudyContent>
           <BottomRow>
-            <BoardChat />
+            <img src={boardChat} />
             <CommentCount>{commentCount}</CommentCount>
           </BottomRow>
         </ContentRow>
