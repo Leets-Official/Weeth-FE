@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 
@@ -10,7 +9,7 @@ const ImgButton = styled.div`
   cursor: pointer;
 `;
 
-const LeftButton = () => {
+const LeftButton: React.FC = () => {
   const navi = useNavigate();
 
   return (

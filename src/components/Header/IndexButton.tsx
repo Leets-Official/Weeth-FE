@@ -1,8 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import more from '../../assets/images/ic_menu.svg';
+
+interface IndexButtonProps {
+  onClick: () => void;
+}
 
 const ImgButton = styled.div`
   display: flex;
@@ -10,16 +13,12 @@ const ImgButton = styled.div`
   cursor: pointer;
 `;
 
-const IndexButton = ({ onClick }) => {
+const IndexButton: React.FC<IndexButtonProps> = ({ onClick }) => {
   return (
     <ImgButton onClick={onClick}>
       <img src={more} alt="more" />
     </ImgButton>
   );
-};
-
-IndexButton.propTypes = {
-  onClick: PropTypes.func.isRequired,
 };
 
 export default IndexButton;

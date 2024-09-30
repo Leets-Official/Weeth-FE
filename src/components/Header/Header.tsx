@@ -6,6 +6,13 @@ import LeftButton from './LeftButton';
 import TextButton from './TextButton';
 import Title from './Title';
 
+interface HeaderProps {
+  title: string;
+  text: string;
+  color: 'mainColor' | 'default';
+  onClick: () => void;
+}
+
 const StyledHeader = styled.div`
   display: flex;
   justify-content: space-between;
@@ -41,7 +48,7 @@ onClick은 아래 함수에 각각의 함수를 작성
 @@@@안 하면 에러남@@@@
 */
 
-const Header = ({ title, text, color, onClick }) => {
+const Header: React.FC<HeaderProps> = ({ title, text, color, onClick }) => {
   return (
     <StyledHeader>
       <LeftButton />
@@ -52,14 +59,6 @@ const Header = ({ title, text, color, onClick }) => {
       <TextButton onClick={onClick} text={text} color={color} />
     </StyledHeader>
   );
-};
-
-Header.propTypes = {
-  title: PropTypes.string.isRequired,
-  text: PropTypes.string.isRequired,
-  color: PropTypes.string.isRequired,
-  // eslint-disable-next-line react/require-default-props
-  onClick: PropTypes.func,
 };
 
 export default Header;

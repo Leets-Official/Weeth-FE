@@ -1,12 +1,16 @@
 /* eslint-disable react/require-default-props */
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 
 import LeftButton from '../Header/LeftButton';
 import Title from '../Header/Title';
 import TextButton from '../Header/TextButton';
 
 /* eslint-disable no-alert */
+
+interface MyPageHeaderProps {
+  isEdit: boolean;
+  onSave: () => void;
+}
 
 const StyledHeader = styled.div`
   display: flex;
@@ -21,7 +25,7 @@ const TitleWrapper = styled.div`
   transform: translateX(-50%);
 `;
 
-const MyPageHeader = ({ isEdit, onSave }) => {
+const MyPageHeader: React.FC<MyPageHeaderProps> = ({ isEdit, onSave }) => {
   return (
     <StyledHeader>
       <LeftButton />
@@ -33,11 +37,6 @@ const MyPageHeader = ({ isEdit, onSave }) => {
       ) : null}
     </StyledHeader>
   );
-};
-
-MyPageHeader.propTypes = {
-  isEdit: PropTypes.bool.isRequired,
-  onSave: PropTypes.func,
 };
 
 export default MyPageHeader;

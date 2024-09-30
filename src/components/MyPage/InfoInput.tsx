@@ -29,7 +29,7 @@ const StyledInfoInput = styled.div<{ $padding: string }>`
   font-size: 16px;
 `;
 
-const Input = styled.input<{ width?: string; $edit?: boolean; $align?: string }>`
+const Input = styled.input<{ width?: string; $edit?: boolean; align?: string }>`
   width: ${(props) => props.width || '100%'};
   height: 45px;
   outline: none;
@@ -37,6 +37,7 @@ const Input = styled.input<{ width?: string; $edit?: boolean; $align?: string }>
   border-radius: 4px;
   background-color: ${theme.color.grayScale.gray18};
   color: ${(props) => (props.$edit ? theme.color.grayScale.gray30 : 'white')};
+  text-align: ${(props) => props.align || 'right'};
   padding-left: 10px;
   padding-right: 10px;
   font-family: ${theme.font.family.pretendard_regular};
@@ -164,7 +165,7 @@ const InfoInput: React.FC<InfoInputProps> = ({
         value={value}
         onChange={onChangeValue}
         width={width}
-        $align={align}
+        align={align}
         $edit={edit}
         type={inputType === 'number' ? 'text' : inputType}
       />
