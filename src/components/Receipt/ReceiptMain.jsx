@@ -55,19 +55,37 @@ const GridItem = styled.div`
   font-size: 14px;
   white-space: nowrap;
   cursor: pointer;
+  position: relative;
   &:last-child {
     margin-right: 0;
   }
 `;
 
-const GridItemImage = styled.img`
+const OpenModalButton = styled.button`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: transparent;
+  border: none;
+`;
+
+const GridItemImage = styled.iframe`
   width: 100%;
   height: 100%;
   border-radius: 10px;
   object-fit: cover;
+  scroll: no;
+  overflow: hidden;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
-const ModalImage = styled.img`
+const ModalImage = styled.embed`
   width: 100%;
   height: 100%;
   object-fit: contain;
@@ -125,13 +143,15 @@ const ReceiptMain = () => {
                   {receipt.images.length > 0 ? (
                     receipt.images.map((image, index) => (
                       <GridItem
-                        key={receipt.id}
                         onClick={() => openModal(image)}
+                        key={receipt.id}
                       >
                         <GridItemImage
                           src={image}
+                          scrolling="no"
                           alt={`영수증 사진 ${index + 1}`}
                         />
+                        <OpenModalButton onClick={() => openModal(image)} />
                       </GridItem>
                     ))
                   ) : (
