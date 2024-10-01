@@ -2,7 +2,7 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-alert */
 
-import React, { useState, useContext, useEffect } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import axios from 'axios';
@@ -10,11 +10,15 @@ import axios from 'axios';
 import theme from '../styles/theme';
 import MyPageHeader from '../components/MyPage/MyPageHeader';
 import InfoInput from '../components/MyPage/InfoInput';
-// import mockUser from '../components/mockData/mockUser';
 import DropdownMenu from '../components/DropdownMenu';
 import UserAPI from '../service/UserAPI';
 import { UserContext } from '../service/UserContext';
 import useCustomBack from '../router/useCustomBack';
+
+interface EditProps {
+  key: string;
+  value: string | number | number[];
+}
 
 const StyledEdit = styled.div`
   width: 370px;
@@ -42,8 +46,7 @@ const Edit = () => {
   useCustomBack('/mypage');
 
   const { userData, error } = useContext(UserContext);
-  const [userInfo, setUserInfo] = useState([]);
-  const accessToken = localStorage.getItem('accessToken');
+  const [userInfo, setUserInfo] = useState<{ key: string; value: any }[]>([]);  const accessToken = localStorage.getItem('accessToken');
   const refreshToken = localStorage.getItem('refreshToken');
   const BASE_URL = import.meta.env.VITE_API_URL;
   const navi = useNavigate();
@@ -63,7 +66,7 @@ const Edit = () => {
     }
   }, [userData]);
 
-  const editValue = (key, value) => {
+  const editValue = (key: string, value: string | number | number[]) => {
     const newUserInfo = userInfo.map((item) =>
       item.key === key ? { ...item, value } : item,
     );
@@ -73,12 +76,14 @@ const Edit = () => {
   const onSave = async () => {
     let response;
     try {
-      const data = userInfo.reduce((acc, item) => {
+      const data = userInfo.reduce((acc: any, item) => {
         acc[item.key] = item.value;
         return acc;
       }, {});
 
-      const password = userInfo.find((item) => item.key === 'password').value;
+      const passwordItem = userInfo.find((item) => item.key === 'password');
+      const password = passwordItem ? passwordItem.value : '';
+
       if (password.length < 6 || password.length > 12) {
         alert('비밀번호를 6~12자리로 입력해 주세요.');
         return;
@@ -107,10 +112,10 @@ const Edit = () => {
       alert('저장 중 오류가 발생했습니다.');
     }
 
-    if (response.data.code === 400) {
-      alert(response.data.message);
+    if (response?.data?.code === 400) {
+      alert(response?.data?.message);
     } else if (window.confirm('저장하시겠습니까?')) {
-      if (response.data.code === 200) {
+      if (response?.data?.code === 200) {
         alert('저장이 완료되었습니다.');
         navi('/mypage');
       } else {
@@ -122,7 +127,7 @@ const Edit = () => {
   return (
     <StyledEdit>
       <UserAPI />
-      <MyPageHeader isEdit userInfo={userInfo} onSave={onSave} />
+      <MyPageHeader isEdit onSave={onSave} />
       {!error && userData ? (
         <InfoWrapper>
           <InfoInput
