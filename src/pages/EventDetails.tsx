@@ -12,6 +12,20 @@ import EventInfoAPI from '../service/EventInfoAPI';
 import useCustomBack from '../router/useCustomBack';
 import UserAPI from '../service/UserAPI';
 
+interface EventDeatilData {
+  id: number;
+  title: string;
+  content: string;
+  location: string;
+  requiredItem: string;
+  name: string;
+  memberCount: string;
+  start: string;
+  end: string;
+  createdAt: string;
+  modifiedAt: string;
+}
+
 const StyledEventDetails = styled.div`
   width: 370px;
   margin-bottom: 50px;
@@ -58,8 +72,8 @@ const EventDetails = () => {
 
   const { id } = useParams();
   const { type } = useParams();
-  const [eventDetailData, setEventDetailData] = useState(null);
-  const [error, setError] = useState(null);
+  const [eventDetailData, setEventDetailData] = useState<EventDeatilData | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const isMeeting = type === 'meetings';
 
   useEffect(() => {
