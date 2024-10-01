@@ -39,7 +39,7 @@ const DatePicker: React.FC<DatePickerProps> = ({ status, onDateChange, date }) =
         margin="5px"
         onChange={(value) => onDateChange(0, typeof value === 'string' ? parseInt(value, 10) : value)}
         inputType="year"
-      />
+      />년
       <DateInput
         value={date[1]}
         width="37px"
@@ -47,7 +47,7 @@ const DatePicker: React.FC<DatePickerProps> = ({ status, onDateChange, date }) =
         margin="5px"
         onChange={(value) => onDateChange(1, typeof value === 'string' ? parseInt(value, 10) : value)}
         inputType="month"
-      />
+      />월
       <DateInput
         value={date[2]}
         width="37px"
@@ -55,7 +55,7 @@ const DatePicker: React.FC<DatePickerProps> = ({ status, onDateChange, date }) =
         margin="5px"
         onChange={(value) => onDateChange(2, typeof value === 'string' ? parseInt(value, 10) : value)}
         inputType="day"
-      />
+      />일
       <DateInput
         value={date[3]}
         width="37px"
@@ -63,7 +63,7 @@ const DatePicker: React.FC<DatePickerProps> = ({ status, onDateChange, date }) =
         margin="5px"
         onChange={(value) => onDateChange(3, typeof value === 'string' ? parseInt(value, 10) : value)}
         inputType="hour"
-      />
+      />:
       <DateInput
         value={date[4]}
         width="37px"

@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import theme from '../../styles/theme';
 
 interface DateInputProps {
-  type: string;
+  type?: string;
   value?: string | number;
   onChange: (value: string | number ) => void;
   width: string;
