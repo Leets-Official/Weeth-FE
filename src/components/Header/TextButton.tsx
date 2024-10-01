@@ -4,7 +4,7 @@ import theme from '../../styles/theme';
 interface TextButtonProps {
   text: string;
   color: 'mainColor' | 'default';
-  onClick: () => void;
+  onClick?: () => void;
 }
 
 const StyledText = styled.div<{ color: 'mainColor' | 'default' }>`

@@ -9,7 +9,7 @@ import TextButton from '../Header/TextButton';
 
 interface MyPageHeaderProps {
   isEdit: boolean;
-  onSave: () => void;
+  onSave?: () => void;
 }
 
 const StyledHeader = styled.div`
