@@ -142,8 +142,4 @@ const ModalMonthContent: React.FC<ModalMonthContentProps> = ({
   );
 };
 
-ModalMonthContent.propTypes = {
-  
-};
-
 export default ModalMonthContent;
