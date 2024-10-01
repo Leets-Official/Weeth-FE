@@ -8,7 +8,7 @@ interface DatePickerProps {
   status: string;
   onDateChange: (index: number, value: number) => void;
   date: string[] | number[];
-  onChange: () => void;
+  onChange?: () => void;
 }
 
 const StyledPicker = styled.div`

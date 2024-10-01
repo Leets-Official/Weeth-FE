@@ -6,7 +6,7 @@ import icInvisible from '../../assets/images/ic_toggleInvisible.svg';
 
 interface InfoInputProps {
   text?: string;
-  origValue: string | string[];
+  origValue: string | number[];
   editValue: (val: string) => void;
   placeholder?: string;
   width?: string;
@@ -135,7 +135,7 @@ const InfoInput: React.FC<InfoInputProps> = ({
         <div>{text}</div>
         <PwInput
           placeholder={placeholder}
-          value={value}
+          value={value as string}
           onChange={onChangeValue}
           width={width}
           align={align}
@@ -162,7 +162,7 @@ const InfoInput: React.FC<InfoInputProps> = ({
       <div>{text}</div>
       <Input
         placeholder={placeholder}
-        value={value}
+        value={value as string}
         onChange={onChangeValue}
         width={width}
         align={align}

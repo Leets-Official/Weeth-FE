@@ -85,7 +85,7 @@ const getTodayArr = () => {
   ];
 };
 
-const ISOToArray = (isoString) => {
+const ISOToArray = (isoString: string) => {
   if (!isoString) return [];
   const date = new Date(isoString);
   return [
@@ -112,7 +112,7 @@ const EventAdmin = () => {
     { key: 'content', value: '' },
   ]);
 
-  const [startArr, setStartArr] = useState(getTodayArr('start'));
+  const [startArr, setStartArr] = useState(['', '', '', '', '']);
   const [endArr, setEndArr] = useState(['', '', '', '', '']);
 
   const navigate = useNavigate();
@@ -123,12 +123,12 @@ const EventAdmin = () => {
     if (isEditMode && infoData) {
       const updatedEventInfo = eventInfo.map((item) => {
         if (item.key === 'start') {
-          const startArray = ISOToArray(infoData.start);
+          const startArray = ISOToArray(infoData.start).map(num => num.toString());  // number[] -> string[]
           setStartArr(startArray);
           return { ...item, value: startArray };
         }
         if (item.key === 'end') {
-          const endArray = ISOToArray(infoData.end);
+          const endArray = ISOToArray(infoData.end).map(num => num.toString());  // number[] -> string[]
           setEndArr(endArray);
           return { ...item, value: endArray };
         }
@@ -138,14 +138,14 @@ const EventAdmin = () => {
     }
   }, [isEditMode, infoData]);
 
-  const editValue = (key, value) => {
+  const editValue = (key: string, value: any) => {
     const updatedEventInfo = eventInfo.map((item) =>
       item.key === key ? { ...item, value } : item,
     );
     setEventInfo(updatedEventInfo);
   };
 
-  const editDate = (key, date) => {
+  const editDate = (key: string, date: any) => {
     const updatedEventInfo = eventInfo.map((item) =>
       item.key === key ? { ...item, value: date } : item,
     );
@@ -153,46 +153,48 @@ const EventAdmin = () => {
   };
 
   const onSave = async () => {
-    const title = eventInfo.find((item) => item.key === 'title').value;
-    const location = eventInfo.find((item) => item.key === 'location').value;
+    const title = eventInfo.find((item) => item.key === 'title')?.value;
+    const location = eventInfo.find((item) => item.key === 'location')?.value;
     const requiredItem = eventInfo.find(
       (item) => item.key === 'requiredItem',
-    ).value;
+    )?.value;
     const memberCount = eventInfo.find(
       (item) => item.key === 'memberCount',
-    ).value;
-    let content = eventInfo.find((item) => item.key === 'content').value;
+    )?.value;
+    let content = eventInfo.find((item) => item.key === 'content')?.value;
 
     content = replaceNewLines(content);
 
-    const data = eventInfo.reduce((acc, item) => {
+    const data = eventInfo.reduce((acc: any, item) => {
       acc[item.key] = item.value;
       return acc;
     }, {});
 
-    const dateArrayToKSTISO = (dateArray) => {
-      if (dateArray.length === 5) {
-        const [year, month, day, hour, minute] = dateArray;
-        const dateObj = new Date(year, month - 1, day, hour, minute);
-        const KST_OFFSET = 9 * 60;
-        const kstDate = new Date(dateObj.getTime() + KST_OFFSET * 60 * 1000);
-        return kstDate.toISOString().replace('Z', '');
-      }
-      return '';
+    const dateArrayToKSTISO = (dateArray: [number, number, number, number, number]) => {
+      const [year, month, day, hour, minute] = dateArray;
+      const dateObj = new Date(year, month - 1, day, hour, minute);
+      const KST_OFFSET = 9 * 60;
+      const kstDate = new Date(dateObj.getTime() + KST_OFFSET * 60 * 1000);
+      return kstDate.toISOString().replace('Z', '');
     };
+    
+    const startDate = eventInfo.find(item => item.key === 'start')?.value;
+    const endDate = eventInfo.find(item => item.key === 'end')?.value;
 
-    const startDate = eventInfo.find((item) => item.key === 'start').value;
-    const endDate = eventInfo.find((item) => item.key === 'end').value;
+    if (Array.isArray(startDate) && startDate.length === 5 && startDate.every(Number.isFinite)) {
+      data.start = dateArrayToKSTISO(startDate as [number, number, number, number, number]);
+    }
 
-    data.start = dateArrayToKSTISO(startDate);
-    data.end = dateArrayToKSTISO(endDate);
+    if (Array.isArray(endDate) && endDate.length === 5 && endDate.every(Number.isFinite)) {
+      data.end = dateArrayToKSTISO(endDate as [number, number, number, number, number]);
+    }
 
     if (
-      !title.trim() &&
-      !location.trim() &&
-      !requiredItem.trim() &&
-      !memberCount.trim() &&
-      !content.trim()
+      (typeof title === 'string' && !title.trim()) &&
+      (typeof location === 'string' && !location.trim()) &&
+      (typeof requiredItem === 'string' && !requiredItem.trim()) &&
+      (typeof memberCount === 'string' && !memberCount.trim()) &&
+      (typeof content === 'string' && !content.trim())
     ) {
       alert('모든 항목을 입력해 주세요.');
       return;
@@ -218,27 +220,27 @@ const EventAdmin = () => {
       return;
     }
 
-    if (!title.trim()) {
+    if (typeof title === 'string' && !title.trim()) {
       alert('제목을 입력해 주세요.');
       return;
     }
 
-    if (!location.trim()) {
+    if (typeof location === 'string' && !location.trim()) {
       alert('장소를 입력해 주세요.');
       return;
     }
 
-    if (!requiredItem.trim()) {
+    if (typeof requiredItem === 'string' && !requiredItem.trim()) {
       alert('준비물을 입력해 주세요.');
       return;
     }
 
-    if (!memberCount.trim()) {
+    if (typeof memberCount === 'string' && !memberCount.trim()) {
       alert('총인원을 입력해 주세요.');
       return;
     }
 
-    if (!content.trim()) {
+    if (typeof content === 'string' && !content.trim()) {
       alert('내용을 입력해 주세요.');
       return;
     }
@@ -249,7 +251,7 @@ const EventAdmin = () => {
         else await createEvent(data);
         alert('저장이 완료되었습니다.');
         navigate('/calendar');
-      } catch (err) {
+      } catch (err: any) {
         if (err.response.status === 403) {
           alert('일정 생성 및 수정은 운영진만 가능합니다.');
           return;
@@ -289,7 +291,7 @@ const EventAdmin = () => {
           status="start"
           onDateChange={(index, value) => {
             const startDate = [...startArr];
-            startDate[index] = value;
+            startDate[index] = value.toString();
             setStartArr(startDate);
             editDate('start', startDate);
           }}
@@ -299,7 +301,7 @@ const EventAdmin = () => {
           status="end"
           onDateChange={(index, value) => {
             const endDate = [...endArr];
-            endDate[index] = value;
+            endDate[index] = value.toString();
             setEndArr(endDate);
             editDate('end', endDate);
           }}
@@ -337,11 +339,11 @@ const EventAdmin = () => {
         editValue={(value) => editValue('memberCount', value)}
       />
       <TextAreaWrapper>
-        <StyledTextArea
-          placeholder="내용"
-          value={eventInfo.find((item) => item.key === 'content')?.value || ''}
-          onChange={(e) => editValue('content', e.target.value)}
-        />
+      <StyledTextArea
+        placeholder="내용"
+        value={(eventInfo.find((item) => item.key === 'content')?.value as string) || ''}
+        onChange={(e) => editValue('content', e.target.value)}
+      />
       </TextAreaWrapper>
     </StyledCreate>
   );
