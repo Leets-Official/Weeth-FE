@@ -5,10 +5,18 @@ import theme from '../styles/theme';
 import MemberHeader from '../components/Member/MemberHeader';
 import Category from '../components/Member/Category';
 import MemberName from '../components/Member/MemberName';
-// import mockUser from '../components/mockData/mockUser';
 import UserAPI from '../service/UserAPI';
 import { UserContext } from '../service/UserContext';
 import useCustomBack from '../router/useCustomBack';
+
+interface User {
+  studentId: string;
+  name: string;
+  department: string;
+  email: string;
+  cardinals: number[];
+  position: string;
+}
 
 const StyledMember = styled.div`
   width: 370px;
@@ -55,7 +63,7 @@ const Margin = styled.div`
 const Member = () => {
   useCustomBack('/home');
 
-  const [selectedCardinal, setSelectedCardinal] = useState(0);
+  const [selectedCardinal, setSelectedCardinal] = useState<number>(0);
 
   const { allUserData, error } = useContext(UserContext);
 
@@ -86,7 +94,7 @@ const Member = () => {
           false: ERROR
           */}
           {isValid.length > 0 ? (
-            isValid.map((user, index) => (
+            isValid.map((user: User, index: number) => (
               <MemberName
                 key={user.studentId}
                 name={user.name}

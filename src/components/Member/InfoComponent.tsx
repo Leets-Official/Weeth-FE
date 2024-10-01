@@ -1,6 +1,12 @@
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 import theme from '../../styles/theme';
+
+interface InfoComponentProps {
+  src: string;
+  alt: string;
+  index: string;
+  value: string | number | number[];
+}
 
 const Line = styled.div`
   border: 1px solid;
@@ -26,7 +32,7 @@ const MainColor = styled.div`
   color: ${theme.color.main.mainColor};
 `;
 
-const InfoComponent = ({ src, alt, index, value }) => {
+const InfoComponent: React.FC<InfoComponentProps> = ({ src, alt, index, value }) => {
   let positionKo = 'none';
 
   switch (value) {
@@ -50,7 +56,7 @@ const InfoComponent = ({ src, alt, index, value }) => {
     if (index === '역할') {
       return positionKo;
     }
-    if (index === '기수') {
+    if (index === '기수' && Array.isArray(value)) {
       return value.join(',');
     }
     return value;
@@ -68,17 +74,6 @@ const InfoComponent = ({ src, alt, index, value }) => {
       <Line />
     </div>
   );
-};
-
-InfoComponent.propTypes = {
-  src: PropTypes.string.isRequired,
-  alt: PropTypes.string.isRequired,
-  index: PropTypes.string.isRequired,
-  value: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.arrayOf(PropTypes.string),
-    PropTypes.arrayOf(PropTypes.number),
-  ]).isRequired,
 };
 
 export default InfoComponent;

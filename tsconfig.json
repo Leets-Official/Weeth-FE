@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "jsx": "react-jsx",
+    "allowJs": true,
     "module": "es2020",
     "target": "es2020",
     "moduleResolution": "node",
@@ -8,6 +9,7 @@
     "paths": {
       "@/*": ["src/*"]
     },
+    "outDir": "./dist",
     "typeRoots": ["./node_modules/@types", "./src/types"],
     "esModuleInterop": true,                             /* Emit additional JavaScript to ease support for importing CommonJS modules. This enables 'allowSyntheticDefaultImports' for type compatibility. */
     "forceConsistentCasingInFileNames": true,            /* Ensure that casing is correct in imports. */

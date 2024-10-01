@@ -1,6 +1,5 @@
 /* eslint-disable react/require-default-props */
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
 
 import FE from '../../assets/images/ic_FE.svg';
@@ -10,6 +9,15 @@ import MA from '../../assets/images/ic_MA.svg';
 
 import theme from '../../styles/theme';
 
+interface MemberNameProps {
+  name: string;
+  studentId: string;
+  department: string;
+  email: string;
+  cardinal: number[];
+  position: string;
+  isLast?: boolean;
+}
 const MemberWrapper = styled.div`
   padding: 20px 10px 0px 10px;
   font-family: ${theme.font.family.pretendard_regular};
@@ -45,7 +53,7 @@ const TextWrapper = styled.div`
   margin-left: 10px;
 `;
 
-const MemberName = ({
+const MemberName: React.FC<MemberNameProps> = ({
   name,
   studentId,
   department,
@@ -90,16 +98,6 @@ const MemberName = ({
       {!isLast && <Line />}
     </MemberWrapper>
   );
-};
-
-MemberName.propTypes = {
-  name: PropTypes.string.isRequired,
-  studentId: PropTypes.string.isRequired,
-  department: PropTypes.string.isRequired,
-  email: PropTypes.string.isRequired,
-  cardinal: PropTypes.arrayOf(PropTypes.number).isRequired,
-  position: PropTypes.string.isRequired,
-  isLast: PropTypes.bool,
 };
 
 export default MemberName;
