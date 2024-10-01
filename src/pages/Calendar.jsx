@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 
 import CalendarHeader from '../components/Calendar/CalendarHeader';
 import MonthCalendar from '../components/Calendar/MonthCalendar';
-import YearCalendar from '../components/Calendar/YearCalendar';
-import ToggleButton from '../components/Calendar/ToggleButton';
+import YearCalendar from '../components/Calendar/YearCalendar.tsx';
+import ToggleButton from '../components/Calendar/ToggleButton.tsx';
 import useCustomBack from '../router/useCustomBack';
 import YearlyScheduleAPI from '../service/YearlyScheduleAPI';
 

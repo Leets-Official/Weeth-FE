@@ -5,6 +5,13 @@ import icCalendar from '../../assets/images/ic_date.svg';
 import icWave from '../../assets/images/ic_wave.svg';
 import DateInput from './DateInput';
 
+interface DatePickerProps {
+  status: string;
+  onDateChange: (index: number, value: number) => void;
+  date: string[] | number[];
+  onChange: () => void;
+}
+
 const StyledPicker = styled.div`
   display: flex;
   flex-direction: row;
@@ -17,7 +24,7 @@ const WaveImg = styled.img`
   margin: 0px 6px;
 `;
 
-const DatePicker = ({ status, onDateChange, date }) => {
+const DatePicker: React.FC<DatePickerProps> = ({ status, onDateChange, date }) => {
   return (
     <StyledPicker>
       {status === 'start' ? (
@@ -30,43 +37,39 @@ const DatePicker = ({ status, onDateChange, date }) => {
         width="58px"
         height="28px"
         margin="5px"
-        onChange={(value) => onDateChange(0, value)}
+        onChange={(value) => onDateChange(0, typeof value === 'string' ? parseInt(value, 10) : value)}
         inputType="year"
       />
-      년
       <DateInput
         value={date[1]}
         width="37px"
         height="28px"
         margin="5px"
-        onChange={(value) => onDateChange(1, value)}
+        onChange={(value) => onDateChange(1, typeof value === 'string' ? parseInt(value, 10) : value)}
         inputType="month"
       />
-      월
       <DateInput
         value={date[2]}
         width="37px"
         height="28px"
         margin="5px"
-        onChange={(value) => onDateChange(2, value)}
+        onChange={(value) => onDateChange(2, typeof value === 'string' ? parseInt(value, 10) : value)}
         inputType="day"
       />
-      일
       <DateInput
         value={date[3]}
         width="37px"
         height="28px"
         margin="5px"
-        onChange={(value) => onDateChange(3, value)}
+        onChange={(value) => onDateChange(3, typeof value === 'string' ? parseInt(value, 10) : value)}
         inputType="hour"
       />
-      :
       <DateInput
         value={date[4]}
         width="37px"
         height="28px"
         margin="5px"
-        onChange={(value) => onDateChange(4, value)}
+        onChange={(value) => onDateChange(4, typeof value === 'string' ? parseInt(value, 10) : value)}
         inputType="minute"
       />
     </StyledPicker>
@@ -74,11 +77,3 @@ const DatePicker = ({ status, onDateChange, date }) => {
 };
 
 export default DatePicker;
-
-DatePicker.propTypes = {
-  status: PropTypes.string.isRequired,
-  onDateChange: PropTypes.func.isRequired,
-  date: PropTypes.arrayOf(
-    PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  ).isRequired,
-};

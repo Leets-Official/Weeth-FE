@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 import Modal from 'react-modal';
 import axios from 'axios';
 
@@ -13,6 +12,14 @@ import EditDelModal from '../EditDelModal';
 import UserAPI from '../../service/UserAPI';
 
 Modal.setAppElement('#root');
+
+interface EventDetailTitleProps {
+  id: number;
+  text: string;
+  writer: string;
+  createdAt: string;
+  isMeeting: boolean;
+}
 
 const StyledTitle = styled.div`
   margin: 25px 25px 20px 25px; //기본 헤더 마진
@@ -56,7 +63,7 @@ const adminModalStyles = {
   },
 };
 
-const EventDetailTitle = ({ id, text, writer, createdAt, isMeeting }) => {
+const EventDetailTitle: React.FC<EventDetailTitleProps> = ({ id, text, writer, createdAt, isMeeting }) => {
   const { userData } = useContext(UserContext);
   const [adminModalIsOpen, setAdminModalIsOpen] = useState(false);
   const navi = useNavigate();
@@ -129,14 +136,6 @@ const EventDetailTitle = ({ id, text, writer, createdAt, isMeeting }) => {
       </Modal>
     </StyledTitle>
   );
-};
-
-EventDetailTitle.propTypes = {
-  id: PropTypes.number.isRequired,
-  text: PropTypes.string.isRequired,
-  writer: PropTypes.string.isRequired,
-  createdAt: PropTypes.string.isRequired,
-  isMeeting: PropTypes.bool.isRequired,
 };
 
 export default EventDetailTitle;

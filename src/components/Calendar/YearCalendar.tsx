@@ -1,10 +1,13 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 import theme from '../../styles/theme';
 
 import MonthlyEvent from './MonthlyEvent';
 import { YearlyScheduleContext } from '../../service/YearlyScheduleContext';
+
+interface YearCalendarProps {
+  year: string;
+}
 
 const MonthlyBox = styled.div`
   display: flex;
@@ -31,7 +34,7 @@ const Error = styled.div`
 
 const allMonth = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
-const YearCalendar = ({ year }) => {
+const YearCalendar: React.FC<YearCalendarProps> = ({ year }) => {
   const validYear = year.toString().length === 4 ? parseInt(year, 10) : 2024;
   const { yearScheduleData, error } = useContext(YearlyScheduleContext);
 
@@ -71,10 +74,6 @@ const YearCalendar = ({ year }) => {
       </SecondHalfMonth>
     </MonthlyBox>
   );
-};
-
-YearCalendar.propTypes = {
-  year: PropTypes.number.isRequired,
 };
 
 export default YearCalendar;

@@ -1,11 +1,19 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 import theme from '../../styles/theme';
 import TextButton from '../Header/TextButton';
 import DateInput from './DateInput';
 
-const StyledContent = styled.div`
+interface ModalMonthContentProps {
+  origYear: number;
+  origMonth: number;
+  isMonth: boolean;
+  onClickTextButton: () => void;
+  editMonth: (numericValue: number) => void;
+  editYear: (numericValue: number) => void;
+}
+
+const StyledContent = styled.div<{ $isMonth: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -35,7 +43,7 @@ const Text = styled.div`
   margin-right: 15px;
 `;
 
-const ModalMonthContent = ({
+const ModalMonthContent: React.FC<ModalMonthContentProps> = ({
   origYear,
   origMonth,
   isMonth,
@@ -46,8 +54,15 @@ const ModalMonthContent = ({
   const [year, setYear] = useState(origYear);
   const [month, setMonth] = useState(origMonth);
 
-  const onChangeYear = (value) => {
-    const numericValue = parseInt(value, 10);
+  const onChangeYear = (value: string | number) => {
+    let numericValue: number;
+  
+    if (typeof value === 'number') {
+      numericValue = value;
+    } else {
+      numericValue = parseInt(value, 10);
+    }
+  
     if (!Number.isNaN(numericValue)) {
       setYear(numericValue);
       editYear(numericValue);
@@ -58,9 +73,19 @@ const ModalMonthContent = ({
     }
   };
 
-  const onChangeMonth = (value) => {
-    setMonth(value);
-    editMonth(value);
+  const onChangeMonth = (value: string | number) => {
+    let numericValue: number;
+  
+    if (typeof value === 'number') {
+      numericValue = value;
+    } else {
+      numericValue = parseInt(value, 10);
+    }
+  
+    if (!Number.isNaN(numericValue)) {
+      setMonth(numericValue);
+      editMonth(numericValue);
+    }
   };
 
   if (isMonth) {
@@ -118,12 +143,7 @@ const ModalMonthContent = ({
 };
 
 ModalMonthContent.propTypes = {
-  origYear: PropTypes.number.isRequired,
-  origMonth: PropTypes.number.isRequired,
-  isMonth: PropTypes.bool.isRequired,
-  onClickTextButton: PropTypes.func.isRequired,
-  editMonth: PropTypes.func.isRequired,
-  editYear: PropTypes.func.isRequired,
+  
 };
 
 export default ModalMonthContent;

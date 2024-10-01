@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import Modal from 'react-modal';
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import PropTypes from 'prop-types';
 
 import theme from '../../styles/theme';
 import LeftButton from '../Header/LeftButton';
@@ -13,6 +12,14 @@ import under from '../../assets/images/ic_under.svg';
 import icPlus from '../../assets/images/ic_plus.svg';
 
 Modal.setAppElement('#root');
+
+interface CalendarHeaderProps {
+  month: number;
+  year: number;
+  isMonth: boolean;
+  editYear: () => void;
+  editMonth: () => void;
+}
 
 const StyledHeader = styled.div`
   display: flex;
@@ -70,7 +77,7 @@ const monthModalStyles = {
   },
 };
 
-const CalendarHeader = ({ month, year, isMonth, editYear, editMonth }) => {
+const CalendarHeader: React.FC<CalendarHeaderProps> = ({ month, year, isMonth, editYear, editMonth }) => {
   const [monthModalIsOpen, setMonthModalIsOpen] = useState(false);
   const { userData, error } = useContext(UserContext);
   const navi = useNavigate();
@@ -137,14 +144,6 @@ const CalendarHeader = ({ month, year, isMonth, editYear, editMonth }) => {
       </Modal>
     </StyledHeader>
   );
-};
-
-CalendarHeader.propTypes = {
-  month: PropTypes.number.isRequired,
-  year: PropTypes.number.isRequired,
-  isMonth: PropTypes.bool.isRequired,
-  editYear: PropTypes.func.isRequired,
-  editMonth: PropTypes.func.isRequired,
 };
 
 export default CalendarHeader;

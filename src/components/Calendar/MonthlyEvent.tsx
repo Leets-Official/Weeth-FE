@@ -2,10 +2,27 @@
 /* eslint-disable no-console */
 import React, { useContext } from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 import theme from '../../styles/theme';
 import icDot from '../../assets/images/ic_dot.svg';
 import { YearlyScheduleContext } from '../../service/YearlyScheduleContext';
+
+interface EventComponentProps {
+  title: string;
+}
+
+interface MonthlyEventProps {
+  thisMonth: number;
+  year: string | number;
+  events: Event[];
+}
+
+interface Event {
+  id: number;
+  title: string;
+  start: string;
+  end: string;
+  isMeeting: boolean;
+}
 
 const StyledYear = styled.div`
   display: flex;
@@ -38,15 +55,15 @@ const Dot = styled.img`
   padding-right: 10px;
 `;
 
-const MonthName = styled.div`
+const MonthName = styled.div<{ $isToday: boolean }>`
   padding-left: 10px;
   padding-bottom: 7px;
-  color: ${(props) => (props.$istoday === 'true' ? '#00dda8' : '#ffffff')};
+  color: ${(props) => (props.$isToday === true ? '#00dda8' : '#ffffff')};
   font-size: 18px;
   font-family: ${theme.font.family.pretendard_semiBold};
 `;
 
-const EventComponent = ({ title }) => {
+const EventComponent: React.FC<EventComponentProps> = ({ title }) => {
   return (
     <Content>
       <Dot src={icDot} alt="dot" />
@@ -55,18 +72,14 @@ const EventComponent = ({ title }) => {
   );
 };
 
-EventComponent.propTypes = {
-  title: PropTypes.string.isRequired,
-};
-
-const MonthlyEvent = ({ thisMonth, year, events }) => {
+const MonthlyEvent: React.FC<MonthlyEventProps> = ({ thisMonth, year, events }) => {
   const todayMonth = new Date().getMonth() + 1;
   const todayYear = new Date().getFullYear();
   const istoday = thisMonth === todayMonth && todayYear === year;
 
   return (
     <StyledYear>
-      <MonthName $istoday={istoday.toString()}>{thisMonth}월</MonthName>
+      <MonthName $isToday={istoday}>{thisMonth}월</MonthName>
       <ContentWrapper>
         {events.length > 0 ? (
           events.map((event) => (
@@ -78,20 +91,6 @@ const MonthlyEvent = ({ thisMonth, year, events }) => {
       </ContentWrapper>
     </StyledYear>
   );
-};
-
-MonthlyEvent.propTypes = {
-  thisMonth: PropTypes.number.isRequired,
-  year: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-  events: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      title: PropTypes.string.isRequired,
-      start: PropTypes.string.isRequired,
-      end: PropTypes.string.isRequired,
-      isMeeting: PropTypes.bool.isRequired,
-    }),
-  ).isRequired,
 };
 
 export default MonthlyEvent;

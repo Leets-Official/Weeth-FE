@@ -1,16 +1,19 @@
 /* eslint-disable no-console */
-import React, { useEffect, useRef, useContext, useState } from 'react';
+import { useEffect, useRef, useContext, useState } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import styled from 'styled-components';
 import { format } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import theme from '../../styles/theme';
-// import mockEventMonth from '../mockData/mockEventMonth';
 import { MonthlyScheduleContext } from '../../service/MonthlyScheduleContext';
 import MonthlyShceduleAPI from '../../service/MonthlyScheduleAPI';
 import UserAPI from '../../service/UserAPI';
+
+interface MonthCalendarProps {
+  year: number;
+  month: number;
+}
 
 const CalendarContainer = styled.div`
   width: 100%;
@@ -124,8 +127,8 @@ const Today = styled.div`
   z-index: 0;
 `;
 
-const MonthCalendar = ({ year, month }) => {
-  const calendarRef = useRef(null);
+const MonthCalendar: React.FC<MonthCalendarProps> = ({ year, month }) => {
+  const calendarRef = useRef<FullCalendar | null>(null);
   const navi = useNavigate();
 
   const { monthScheduleData, error } = useContext(MonthlyScheduleContext);
@@ -153,8 +156,8 @@ const MonthCalendar = ({ year, month }) => {
   }, [monthScheduleData]);
 
   // 데이터 전처리 함수
-  const preprocessData = (data) => {
-    return data.map((event) => ({
+  const preprocessData = (data: any) => {
+    return data.map((event: any) => ({
       ...event,
       id: `${event.id}_${event.isMeeting}`, // 고유 ID 생성
     }));
@@ -162,7 +165,7 @@ const MonthCalendar = ({ year, month }) => {
 
   const processedData = preprocessData(monthScheduleData || []);
 
-  const renderDayCell = (arg) => {
+  const renderDayCell = (arg: any) => {
     const isToday =
       format(arg.date, 'yyyy-MM-dd') === format(new Date(), 'yyyy-MM-dd');
     return (
@@ -173,7 +176,7 @@ const MonthCalendar = ({ year, month }) => {
     );
   };
 
-  const onClickEvent = (clickInfo) => {
+  const onClickEvent = (clickInfo: any) => {
     const [id] = clickInfo.event.id.split('_'); // 원래 ID 추출
     const { isMeeting } = clickInfo.event.extendedProps;
 
@@ -204,7 +207,6 @@ const MonthCalendar = ({ year, month }) => {
       <MonthlyShceduleAPI
         start={formattedStart}
         end={formattedEnd}
-        year={year}
       />
       <FullCalendar
         ref={calendarRef}
@@ -219,11 +221,6 @@ const MonthCalendar = ({ year, month }) => {
       />
     </CalendarContainer>
   );
-};
-
-MonthCalendar.propTypes = {
-  month: PropTypes.number.isRequired,
-  year: PropTypes.number.isRequired,
 };
 
 export default MonthCalendar;
