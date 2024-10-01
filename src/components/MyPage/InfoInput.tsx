@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import theme from '@/styles/theme';
-import icVisible from '../../assets/images/ic_toggleVisible.svg';
-import icInvisible from '../../assets/images/ic_toggleInvisible.svg';
+import icVisible from '@/assets/images/ic_toggleVisible.svg';
+import icInvisible from '@/assets/images/ic_toggleInvisible.svg';
 
 interface InfoInputProps {
   text?: string;

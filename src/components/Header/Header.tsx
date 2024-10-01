@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 
-import LeftButton from './LeftButton';
+import LeftButton from '@/components/Header/LeftButton';
 // import IndexButton from './IndexButton';
-import TextButton from './TextButton';
-import Title from './Title';
+import TextButton from '@/components/Header/TextButton';
+import Title from '@/components/Header/Title';
 
 interface HeaderProps {
   title: string;

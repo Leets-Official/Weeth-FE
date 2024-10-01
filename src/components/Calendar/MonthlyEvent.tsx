@@ -1,10 +1,9 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-console */
-import React, { useContext } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import theme from '../../styles/theme';
-import icDot from '../../assets/images/ic_dot.svg';
-import { YearlyScheduleContext } from '../../service/YearlyScheduleContext';
+import theme from '@/styles/theme';
+import icDot from '@/assets/images/ic_dot.svg';
 
 interface EventComponentProps {
   title: string;

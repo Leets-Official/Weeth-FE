@@ -2,7 +2,7 @@
 /* eslint-disable react/require-default-props */
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import theme from '../../styles/theme';
+import theme from '@/styles/theme';
 
 interface DateInputProps {
   type?: string;

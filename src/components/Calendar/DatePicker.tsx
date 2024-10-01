@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 
-import icCalendar from '../../assets/images/ic_date.svg';
-import icWave from '../../assets/images/ic_wave.svg';
-import DateInput from './DateInput';
+import icCalendar from '@/assets/images/ic_date.svg';
+import icWave from '@/assets/images/ic_wave.svg';
+import DateInput from '@/components/Calendar/DateInput';
 
 interface DatePickerProps {
   status: string;

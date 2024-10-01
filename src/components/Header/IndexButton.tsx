@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import more from '../../assets/images/ic_menu.svg';
+import more from '@/assets/images/ic_menu.svg';
 
 interface IndexButtonProps {
   onClick: () => void;

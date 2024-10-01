@@ -3,13 +3,13 @@ import Modal from 'react-modal';
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import theme from '../../styles/theme';
-import LeftButton from '../Header/LeftButton';
-import ModalMonthContent from './ModalMonthContent';
-import { UserContext } from '../../service/UserContext';
+import theme from '@/styles/theme';
+import LeftButton from '@/components/Header/LeftButton';
+import ModalMonthContent from '@/components/Calendar/ModalMonthContent';
+import { UserContext } from '@/service/UserContext';
 
-import under from '../../assets/images/ic_under.svg';
-import icPlus from '../../assets/images/ic_plus.svg';
+import under from '@/assets/images/ic_under.svg';
+import icPlus from '@/assets/images/ic_plus.svg';
 
 Modal.setAppElement('#root');
 

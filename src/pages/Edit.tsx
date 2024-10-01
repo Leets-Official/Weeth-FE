@@ -7,13 +7,13 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import axios from 'axios';
 
-import theme from '../styles/theme';
-import MyPageHeader from '../components/MyPage/MyPageHeader';
-import InfoInput from '../components/MyPage/InfoInput';
-import DropdownMenu from '../components/DropdownMenu';
-import UserAPI from '../service/UserAPI';
-import { UserContext } from '../service/UserContext';
-import useCustomBack from '../router/useCustomBack';
+import theme from '@/styles/theme';
+import MyPageHeader from '@/components/MyPage/MyPageHeader';
+import InfoInput from '@/components/MyPage/InfoInput';
+import DropdownMenu from '@/components/DropdownMenu';
+import UserAPI from '@/service/UserAPI';
+import { UserContext } from '@/service/UserContext';
+import useCustomBack from '@/router/useCustomBack';
 
 interface EditProps {
   key: string;

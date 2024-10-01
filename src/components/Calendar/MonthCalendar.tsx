@@ -5,10 +5,10 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import styled from 'styled-components';
 import { format } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
-import theme from '../../styles/theme';
-import { MonthlyScheduleContext } from '../../service/MonthlyScheduleContext';
-import MonthlyShceduleAPI from '../../service/MonthlyScheduleAPI';
-import UserAPI from '../../service/UserAPI';
+import theme from '@/styles/theme';
+import { MonthlyScheduleContext } from '@/service/MonthlyScheduleContext';
+import MonthlyShceduleAPI from '@/service/MonthlyScheduleAPI';
+import UserAPI from '@/service/UserAPI';
 
 interface MonthCalendarProps {
   year: number;

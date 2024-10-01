@@ -4,12 +4,12 @@ import axios from 'axios';
 
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { UserContext } from '../../service/UserContext';
-import LeftButton from '../Header/LeftButton';
-import IndexButton from '../Header/IndexButton';
-import theme from '../../styles/theme';
-import EditDelModal from '../EditDelModal';
-import UserAPI from '../../service/UserAPI';
+import { UserContext } from '@/service/UserContext';
+import LeftButton from '@/components/Header/LeftButton';
+import IndexButton from '@/components/Header/IndexButton';
+import theme from '@/styles/theme';
+import EditDelModal from '@/components/EditDelModal';
+import UserAPI from '@/service/UserAPI';
 
 Modal.setAppElement('#root');
 

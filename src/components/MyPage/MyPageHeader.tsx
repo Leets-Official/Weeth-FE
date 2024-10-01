@@ -1,9 +1,9 @@
 /* eslint-disable react/require-default-props */
 import styled from 'styled-components';
 
-import LeftButton from '../Header/LeftButton';
-import Title from '../Header/Title';
-import TextButton from '../Header/TextButton';
+import LeftButton from '@/components/Header/LeftButton';
+import Title from '@/components/Header/Title';
+import TextButton from '@/components/Header/TextButton';
 
 /* eslint-disable no-alert */
 

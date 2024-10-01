@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import next from '../../assets/images/ic_right.svg';
+import next from '@/assets/images/ic_right.svg';
 
 interface RightButtonProps {
   onClick: () => void;

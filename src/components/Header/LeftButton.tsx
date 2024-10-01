@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 
-import prev from '../../assets/images/ic_left.svg';
+import prev from '@/assets/images/ic_left.svg';
 
 const ImgButton = styled.div`
   display: flex;

@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
-import theme from '../../styles/theme';
+import theme from '@/styles/theme';
 
-import MonthlyEvent from './MonthlyEvent';
-import { YearlyScheduleContext } from '../../service/YearlyScheduleContext';
+import MonthlyEvent from '@/components/Calendar/MonthlyEvent';
+import { YearlyScheduleContext } from '@/service/YearlyScheduleContext';
 
 interface YearCalendarProps {
   year: string;

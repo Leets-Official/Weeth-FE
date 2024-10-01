@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import theme from '../../styles/theme';
-import TextButton from '../Header/TextButton';
-import DateInput from './DateInput';
+import theme from '@/styles/theme';
+import TextButton from '@/components/Header/TextButton';
+import DateInput from '@/components/Calendar/DateInput';
 
 interface ModalMonthContentProps {
   origYear: number;

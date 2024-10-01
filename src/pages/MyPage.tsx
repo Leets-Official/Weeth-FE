@@ -4,24 +4,24 @@ import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-import MyPageHeader from '../components/MyPage/MyPageHeader';
-import InfoComponent from '../components/Member/InfoComponent';
-// import mockUser from '../components/mockData//mockUser';
+import MyPageHeader from '@/components/MyPage/MyPageHeader';
+import InfoComponent from '@/components/Member/InfoComponent';
+// import mockUser from '@/components/mockData//mockUser';
 
-import icName from '../assets/images/ic_name.svg';
-import icId from '../assets/images/ic_studentID.svg';
-import icDepartment from '../assets/images/ic_department.svg';
-import icCardinal from '../assets/images/ic_cardinal.svg';
-import icPhone from '../assets/images/ic_phone.svg';
-import icPosition from '../assets/images/ic_position.svg';
-import icEmail from '../assets/images/ic_mail.svg';
-import icEdit from '../assets/images/ic_edit.svg';
-import icLogout from '../assets/images/ic_logout_white.svg';
-import { UserContext } from '../service/UserContext';
-import UserAPI from '../service/UserAPI';
-import handleLogout from '../utils/handleLogout';
-import useCustomBack from '../router/useCustomBack';
-import theme from '../styles/theme';
+import icName from '@/assets/images/ic_name.svg';
+import icId from '@/assets/images/ic_studentID.svg';
+import icDepartment from '@/assets/images/ic_department.svg';
+import icCardinal from '@/assets/images/ic_cardinal.svg';
+import icPhone from '@/assets/images/ic_phone.svg';
+import icPosition from '@/assets/images/ic_position.svg';
+import icEmail from '@/assets/images/ic_mail.svg';
+import icEdit from '@/assets/images/ic_edit.svg';
+import icLogout from '@/assets/images/ic_logout_white.svg';
+import { UserContext } from '@/service/UserContext';
+import UserAPI from '@/service/UserAPI';
+import handleLogout from '@/utils/handleLogout';
+import useCustomBack from '@/router/useCustomBack';
+import theme from '@/styles/theme';
 
 /* eslint-disable no-alert */
 
