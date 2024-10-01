@@ -1,11 +1,22 @@
 /* eslint-disable no-alert */
 /* eslint-disable react/require-default-props */
-import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import theme from '../../styles/theme';
 
-const StyledInput = styled.input`
+interface DateInputProps {
+  type: string;
+  value?: string | number;
+  onChange: (value: string | number ) => void;
+  width: string;
+  height: string;
+  margin: string;
+  year?: number;
+  month?: number;
+  inputType: 'year' | 'month' | 'day' | 'hour' | 'minute'
+}
+
+const StyledInput = styled.input<{ $height: string, $width: string, $margin: string }>`
   height: ${(props) => props.$height || '0px'};
   width: ${(props) => props.$width || '0px'};
   outline: none;
@@ -32,11 +43,11 @@ const StyledInput = styled.input`
   -moz-appearance: textfield;
 `;
 
-const getMaxDaysInMonth = (year, month) => {
+const getMaxDaysInMonth = (year: number, month: number) => {
   return new Date(year, month, 0).getDate();
 };
 
-const DateInput = ({
+const DateInput: React.FC<DateInputProps> = ({
   value,
   onChange,
   width,
@@ -48,13 +59,12 @@ const DateInput = ({
 }) => {
   const [date, setDate] = useState(value);
 
-  const checkValidDate = (val) => {
-    if (val === '') return true; // Allow empty value for clearing input
+  const checkValidDate = (val: number | undefined) => {
+    if (val === undefined) return true; // Allow empty value for clearing input
     switch (inputType) {
       case 'year':
         return (
           typeof val === 'string' &&
-          val.length <= 4 &&
           val >= 2020 &&
           val <= 2040
         ); // 최대 4자리
@@ -77,48 +87,50 @@ const DateInput = ({
 
   useEffect(() => {
     // value가 변경될 때만 date 상태를 업데이트
-    if (checkValidDate(value)) {
-      setDate(value);
+    const numericValue = Number(value);
+    if (checkValidDate(numericValue)) {
+      setDate(numericValue);
     }
   }, [value]);
 
-  const onChangeValue = (e) => {
+  const onChangeValue = (e: any) => {
     const val = e.target.value;
     setDate(val); // 우선 상태값을 설정
     // 유효성 검사는 onBlur에서만 처리
   };
 
   const onBlur = () => {
-    if (!checkValidDate(date)) {
+    const numericDate = Number(date);
+    if (!checkValidDate(numericDate)) {
       let validDate = value; // 유효하지 않다면 원래 값을 복구
       switch (inputType) {
         case 'year':
-          validDate = Math.min(Math.max(date, 2020), 2040);
+          validDate = Math.min(Math.max(numericDate, 2020), 2040);
           break;
         case 'month':
-          validDate = Math.min(Math.max(date, 1), 12);
+          validDate = Math.min(Math.max(numericDate, 1), 12);
           break;
         case 'day':
           if (year && month) {
             const maxDays = getMaxDaysInMonth(year, month);
-            validDate = Math.min(Math.max(date, 1), maxDays);
+            validDate = Math.min(Math.max(numericDate, 1), maxDays);
           } else {
-            validDate = Math.min(Math.max(date, 1), 31);
+            validDate = Math.min(Math.max(numericDate, 1), 31);
           }
           break;
         case 'hour':
-          validDate = Math.min(Math.max(date, 0), 23);
+          validDate = Math.min(Math.max(numericDate, 0), 23);
           break;
         case 'minute':
-          validDate = Math.min(Math.max(date, 0), 59);
+          validDate = Math.min(Math.max(numericDate, 0), 59);
           break;
         default:
           break;
       }
       setDate(validDate);
-      onChange(validDate);
+      onChange(validDate ?? 0);
     } else {
-      onChange(date); // 유효하다면 그대로 부모 컴포넌트에 전달
+      onChange(numericDate); // 유효하다면 그대로 부모 컴포넌트에 전달
     }
   };
 
@@ -137,18 +149,6 @@ const DateInput = ({
       />
     </div>
   );
-};
-
-DateInput.propTypes = {
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  onChange: PropTypes.func.isRequired,
-  width: PropTypes.string.isRequired,
-  height: PropTypes.string.isRequired,
-  margin: PropTypes.string.isRequired,
-  year: PropTypes.number,
-  month: PropTypes.number,
-  inputType: PropTypes.oneOf(['year', 'month', 'day', 'hour', 'minute'])
-    .isRequired,
 };
 
 export default DateInput;
