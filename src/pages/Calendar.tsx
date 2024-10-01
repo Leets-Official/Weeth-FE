@@ -3,8 +3,8 @@ import styled from 'styled-components';
 
 import CalendarHeader from '../components/Calendar/CalendarHeader';
 import MonthCalendar from '../components/Calendar/MonthCalendar';
-import YearCalendar from '../components/Calendar/YearCalendar.tsx';
-import ToggleButton from '../components/Calendar/ToggleButton.tsx';
+import YearCalendar from '../components/Calendar/YearCalendar';
+import ToggleButton from '../components/Calendar/ToggleButton';
 import useCustomBack from '../router/useCustomBack';
 import YearlyScheduleAPI from '../service/YearlyScheduleAPI';
 
@@ -41,11 +41,11 @@ const Calendar = () => {
     setisMonth(!isMonth);
   };
 
-  const editYear = (newYear) => {
+  const editYear = (newYear: number) => {
     setYear(newYear);
   };
 
-  const editMonth = (newMonth) => {
+  const editMonth = (newMonth: number) => {
     setMonth(newMonth);
   };
 
@@ -69,7 +69,7 @@ const Calendar = () => {
             editMonth={editMonth}
           />
         ) : (
-          <YearCalendar year={year} />
+          <YearCalendar year={year.toString()} />
         )}
       </Content>
     </StyledCalendar>

@@ -1,7 +1,12 @@
-import React, { useState, useRef, useEffect } from 'react';
-import PropTypes from 'prop-types';
+import { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import theme from '../styles/theme';
+
+interface DropdownMenuProps {
+  text: string;
+  origValue: string;
+  editValue: (value: string) => void;
+}
 
 const DropdownContainer = styled.div`
   position: relative;
@@ -51,10 +56,10 @@ const DropdownItem = styled.div`
   }
 `;
 
-const DropdownMenu = ({ text, origValue, editValue }) => {
+const DropdownMenu: React.FC<DropdownMenuProps> = ({ text, origValue, editValue }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState(origValue);
-  const dropdownRef = useRef(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   const options = [
     { value: '경영학과', label: '경영학과' },
@@ -70,13 +75,13 @@ const DropdownMenu = ({ text, origValue, editValue }) => {
     setIsOpen(!isOpen);
   };
 
-  const handleSelect = (label, value) => {
+  const handleSelect = (label: string, value: string) => {
     setSelectedValue(label);
     editValue(value);
     setIsOpen(false);
   };
 
-  const handleClickOutside = (event) => {
+  const handleClickOutside = (event: any) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
       setIsOpen(false);
     }
@@ -111,12 +116,6 @@ const DropdownMenu = ({ text, origValue, editValue }) => {
       )}
     </DropdownContainer>
   );
-};
-
-DropdownMenu.propTypes = {
-  text: PropTypes.string.isRequired,
-  origValue: PropTypes.string.isRequired,
-  editValue: PropTypes.func.isRequired,
 };
 
 export default DropdownMenu;

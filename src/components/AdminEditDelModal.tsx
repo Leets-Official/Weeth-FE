@@ -1,6 +1,12 @@
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import theme from '../styles/theme';
+
+interface EditDelModalProps {
+  title: string;
+  onClickWrite: () => void;
+  onClickEdit: () => void;
+  onClickCancel: () => void;
+}
 
 const ModalBackground = styled.div`
   position: fixed;
@@ -64,7 +70,7 @@ const CancelButton = styled.div`
   font-family: ${theme.font.family.pretendard_semiBold};
 `;
 
-const EditDelModal = ({ title, onClickWrite, onClickEdit, onClickCancel }) => {
+const EditDelModal: React.FC<EditDelModalProps> = ({ title, onClickWrite, onClickEdit, onClickCancel }) => {
   return (
     <ModalBackground>
       <ContentWrapper>
@@ -77,13 +83,6 @@ const EditDelModal = ({ title, onClickWrite, onClickEdit, onClickCancel }) => {
       </ContentWrapper>
     </ModalBackground>
   );
-};
-
-EditDelModal.propTypes = {
-  title: PropTypes.string.isRequired,
-  onClickWrite: PropTypes.func.isRequired,
-  onClickEdit: PropTypes.func.isRequired,
-  onClickCancel: PropTypes.func.isRequired,
 };
 
 export default EditDelModal;

@@ -2,6 +2,13 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import theme from '../styles/theme';
 
+interface EditDelModalProps {
+  title: string;
+  onClickEdit: () => void;
+  onClickDel: () => void;
+  onClickCancel: () => void;
+}
+
 const ContentWrapper = styled.div`
   position: fixed; // 화면 고정
   top: 200px;
@@ -58,7 +65,7 @@ const CancelButton = styled.div`
   font-family: ${theme.font.family.pretendard_semiBold};
 `;
 
-const EditDelModal = ({ title, onClickEdit, onClickDel, onClickCancel }) => {
+const EditDelModal: React.FC<EditDelModalProps> = ({ title, onClickEdit, onClickDel, onClickCancel }) => {
   return (
     <ContentWrapper>
       <ModalContent>

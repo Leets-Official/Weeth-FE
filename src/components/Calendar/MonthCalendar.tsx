@@ -13,6 +13,8 @@ import UserAPI from '../../service/UserAPI';
 interface MonthCalendarProps {
   year: number;
   month: number;
+  editYear: (newYear: number) => void;
+  editMonth: (newMonth: number) => void;
 }
 
 const CalendarContainer = styled.div`

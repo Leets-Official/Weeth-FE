@@ -17,8 +17,8 @@ interface CalendarHeaderProps {
   month: number;
   year: number;
   isMonth: boolean;
-  editYear: () => void;
-  editMonth: () => void;
+  editYear: (newYear: number) => void;
+  editMonth: (newMonth: number) => void;
 }
 
 const StyledHeader = styled.div`
