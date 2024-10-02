@@ -1,7 +1,14 @@
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import Caption from '../Caption';
-import theme from '../../styles/theme';
+import Caption from '@/components/Caption';
+import theme from '@/styles/theme';
+import React from 'react';
+
+interface ReceiptInfoProps {
+  money: string;
+  date: string;
+  memo: string;
+}
 
 const MemberWrapper = styled.div`
   width; 88%;
@@ -45,7 +52,7 @@ const SmallText = styled.div`
   color: rgba(255, 255, 255, 0.5);
 `;
 
-const ReceiptInfo = ({ money, date, memo }) => {
+const ReceiptInfo: React.FC<ReceiptInfoProps> = ({ money, date, memo }) => {
   return (
     <MemberWrapper>
       <StyledReceiptBox>
@@ -63,12 +70,6 @@ const ReceiptInfo = ({ money, date, memo }) => {
       </StyledReceiptBox>
     </MemberWrapper>
   );
-};
-
-ReceiptInfo.propTypes = {
-  money: PropTypes.string.isRequired,
-  date: PropTypes.string.isRequired,
-  memo: PropTypes.string.isRequired,
 };
 
 export default ReceiptInfo;

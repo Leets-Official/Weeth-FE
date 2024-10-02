@@ -1,10 +1,22 @@
 import styled from 'styled-components';
 import { useContext, useState } from 'react';
 import ReactModal from 'react-modal';
-import theme from '../../styles/theme';
-import ReceiptInfo from './ReceiptInfo';
+import theme from '@/styles/theme';
+import ReceiptInfo from '@/components/Receipt/ReceiptInfo';
 import { DuesContext } from '../../service/DuesContext';
 import DuesAPI from '../../service/DuesAPI';
+
+interface Receipt {
+  id: number;
+  date: string;
+  amount: number;
+  description: string;
+  images: string[];
+}
+
+interface GroupedByMonth {
+  [key: number]: Receipt[];
+}
 
 const StyledReceipt = styled.div`
   width: 370px;
@@ -73,7 +85,7 @@ const OpenModalButton = styled.button`
   border: none;
 `;
 
-const GridItemImage = styled.iframe`
+const GridItemImage = styled.embed`
   width: 100%;
   height: 100%;
   border-radius: 10px;
@@ -91,12 +103,12 @@ const ModalImage = styled.embed`
   object-fit: contain;
 `;
 
-const ReceiptMain = () => {
+const ReceiptMain: React.FC = () => {
   const { duesData } = useContext(DuesContext);
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [selectedImage, setSelectedImage] = useState('');
+  const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
+  const [selectedImage, setSelectedImage] = useState<string>('');
 
-  const openModal = (image) => {
+  const openModal = (image: string) => {
     setSelectedImage(image);
     setModalIsOpen(true);
   };
@@ -106,7 +118,7 @@ const ReceiptMain = () => {
     setSelectedImage('');
   };
 
-  const groupedByMonth = duesData.reduce((acc, curr) => {
+  const groupedByMonth: GroupedByMonth = duesData.reduce((acc: GroupedByMonth, curr: Receipt) => {
     const month = new Date(curr.date).getMonth() + 1;
     if (!acc[month]) {
       acc[month] = [];
@@ -118,7 +130,7 @@ const ReceiptMain = () => {
   const currentDate = new Date();
   const currentMonth = currentDate.getMonth() + 1;
 
-  let months = [];
+  let months: number[] = [];
   if (currentMonth >= 3 && currentMonth <= 8) {
     months = [3, 4, 5, 6, 7, 8];
   } else {
@@ -142,14 +154,10 @@ const ReceiptMain = () => {
                 <ScrollContainer>
                   {receipt.images.length > 0 ? (
                     receipt.images.map((image, index) => (
-                      <GridItem
-                        onClick={() => openModal(image)}
-                        key={receipt.id}
-                      >
+                      <GridItem onClick={() => openModal(image)} key={`${receipt.id}-${index}`}>
                         <GridItemImage
                           src={image}
-                          scrolling="no"
-                          alt={`영수증 사진 ${index + 1}`}
+                          title={`영수증 사진 ${index + 1}`}
                         />
                         <OpenModalButton onClick={() => openModal(image)} />
                       </GridItem>
@@ -189,7 +197,7 @@ const ReceiptMain = () => {
           },
         }}
       >
-        <ModalImage src={selectedImage} alt="영수증 큰 이미지" />
+        <ModalImage src={selectedImage} title="영수증 큰 이미지" />
       </ReactModal>
     </StyledReceipt>
   );
