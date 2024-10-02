@@ -1,15 +1,32 @@
-/* eslint-disable no-nested-ternary */
 import React, { useContext } from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import theme from '../../../styles/theme';
-import icClose from '../../../assets/images/ic_close.svg';
-import check from '../../../assets/images/ic_check.svg';
-import { PenaltyContext } from '../../../service/PenaltyContext';
-import { UserContext } from '../../../service/UserContext';
-import PenaltyAPI from '../../../service/PenaltyAPI';
+import theme from '@/styles/theme';
+import icClose from '@/assets/images/ic_close.svg';
+import check from '@/assets/images/ic_check.svg';
+import { PenaltyContext } from '@/service/PenaltyContext';
+import { UserContext } from '@/service/UserContext';
+import PenaltyAPI from '@/service/PenaltyAPI';
 
-const StyledModal = styled.div`
+interface CloseButtonProps {
+  onClick: () => void;
+}
+interface PenaltyBoxProps {
+  date: string;
+  reason: string;
+}
+interface ModalPenaltyProps {
+  open: boolean;
+  close: () => void;
+}
+interface PenaltyProps {
+  penaltyId: string;
+  penaltyDescription: string;
+  time: string; // ISO 8601 형식의 날짜 문자열
+}
+
+
+// Styled components
+const StyledModal = styled.div<{ open: boolean }>`
   display: ${(props) => (props.open ? 'block' : 'none')};
   position: fixed;
   z-index: 1;
@@ -46,18 +63,7 @@ const ImgButton = styled.div`
   cursor: pointer;
 `;
 
-const CloseButton = ({ onClick }) => {
-  return (
-    <ImgButton onClick={onClick}>
-      <img src={icClose} alt="X" />
-    </ImgButton>
-  );
-};
-
-CloseButton.propTypes = {
-  onClick: PropTypes.func.isRequired,
-};
-
+// PenaltyBox Component
 const PenaltyDetail = styled.div`
   display: flex;
   align-items: center;
@@ -86,7 +92,16 @@ const PenaltyText = styled.div`
   color: white;
 `;
 
-const PenaltyBox = ({ date, reason }) => {
+// CloseButton Component
+const CloseButton: React.FC<CloseButtonProps> = ({ onClick }) => {
+  return (
+    <ImgButton onClick={onClick}>
+      <img src={icClose} alt="Close" />
+    </ImgButton>
+  );
+};
+
+const PenaltyBox: React.FC<PenaltyBoxProps> = ({ date, reason }) => {
   return (
     <PenaltyDetail>
       <PenaltyIcon>+1</PenaltyIcon>
@@ -98,16 +113,13 @@ const PenaltyBox = ({ date, reason }) => {
   );
 };
 
-PenaltyBox.propTypes = {
-  date: PropTypes.string.isRequired,
-  reason: PropTypes.string.isRequired,
-};
-
-const ModalPenalty = ({ open, close }) => {
+// ModalPenalty Component
+const ModalPenalty: React.FC<ModalPenaltyProps> = ({ open, close }) => {
   const { myPenaltyCount, penaltyData, penaltyFetchError } =
     useContext(PenaltyContext);
   const { userData, error } = useContext(UserContext);
-  let userName;
+  
+  let userName: string;
   if (error) {
     userName = 'error';
   } else if (!userData) {
@@ -122,7 +134,7 @@ const ModalPenalty = ({ open, close }) => {
       <Regular>
         <div className="modal-content" style={{ width: '320px' }}>
           <div className="modal-header">
-            <img src={check} alt="V" className="modal-check-icon" />
+            <img src={check} alt="Check" className="modal-check-icon" />
             <CloseButton onClick={close} />
           </div>
           <div className="modal-body">
@@ -141,9 +153,8 @@ const ModalPenalty = ({ open, close }) => {
                   {myPenaltyCount}회
                 </SemiBold>
                 <Line />
-                {penaltyData.map((penalty) => {
+                {penaltyData.map((penalty : PenaltyProps) => {
                   const myDate = new Date(penalty.time);
-
                   const formattedDate = `${myDate.getFullYear()}년 ${
                     myDate.getMonth() + 1
                   }월 ${myDate.getDate()}일 ${myDate.getHours()}:${myDate
@@ -166,11 +177,6 @@ const ModalPenalty = ({ open, close }) => {
       </Regular>
     </StyledModal>
   );
-};
-
-ModalPenalty.propTypes = {
-  open: PropTypes.bool.isRequired,
-  close: PropTypes.func.isRequired,
 };
 
 export default ModalPenalty;
