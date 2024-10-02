@@ -1,10 +1,9 @@
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
-import receipt from '../../assets/images/ic_receipt.svg';
-import theme from '../../styles/theme';
-import { DuesContext } from '../../service/DuesContext';
+import receipt from '@/assets/images/ic_receipt.svg';
+import theme from '@/styles/theme';
+import { DuesContext } from '@/service/DuesContext';
 
 const DuesBox = styled.div`
   display: flex;
@@ -43,24 +42,25 @@ const BasicCaption = styled.button`
   justify-content: center;
 `;
 
-const ImgCaption = ({ navi }) => (
+
+interface ImgCaptionProps {
+  navi: (path: string) => void;
+}
+
+const ImgCaption: React.FC<ImgCaptionProps> = ({ navi }) => (
   <BasicCaption onClick={() => navi('/receipt')}>
     <img src={receipt} alt="영수증" />
   </BasicCaption>
 );
 
-ImgCaption.propTypes = {
-  navi: PropTypes.func.isRequired,
-};
-
-const DuesTitle = () => {
+const DuesTitle: React.FC = () => {
   const navi = useNavigate();
 
   const currentDate = new Date();
   const currentYear = currentDate.getFullYear();
   const currentMonth = currentDate.getMonth() + 1; // 0부터 시작하므로 +1
 
-  let semester;
+  let semester: string;
   let displayYear = currentYear;
 
   if (currentMonth >= 3 && currentMonth <= 8) {
@@ -72,12 +72,18 @@ const DuesTitle = () => {
       displayYear = currentYear - 1;
     }
   }
+
+  // DuesContext에서 time을 가져옴
   const { time } = useContext(DuesContext);
-  const formatTime = (timeString) => {
-    const date = new Date(timeString);
+
+  // timeString의 타입을 정의
+  const formatTime = (timeString: string | null): string => {
     if (!timeString) {
       return '-';
     }
+
+    const date = new Date(timeString);
+
     // 날짜
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, '0');

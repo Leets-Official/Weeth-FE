@@ -1,7 +1,13 @@
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
-import Caption from '../Caption';
-import theme from '../../styles/theme';
+import Caption from '@/components/Caption';
+import theme from '@/styles/theme';
+
+interface DuseInfoProps {
+  dues: number;
+  category: string;
+  date: string;
+  memo: string;
+}
 
 const MemberWrapper = styled.div`
   width; 100%;
@@ -45,7 +51,7 @@ const SmallText = styled.div`
   color: rgba(255, 255, 255, 0.5);
 `;
 
-const DuesInfo = ({ dues, category, date, memo }) => {
+const DuesInfo: React.FC<DuseInfoProps> = ({ dues, category, date, memo }) => {
   return (
     <MemberWrapper>
       <StyledDuesBox>
@@ -61,7 +67,7 @@ const DuesInfo = ({ dues, category, date, memo }) => {
           </StyledTextBox>
         </StyledCaptionBox>
         <StyledMemoBox>
-          <Text>{parseInt(dues, 10).toLocaleString()}원</Text>
+          <Text>{dues.toLocaleString()}원</Text>
           <SmallText>{memo}</SmallText>
         </StyledMemoBox>
       </StyledDuesBox>
@@ -69,11 +75,5 @@ const DuesInfo = ({ dues, category, date, memo }) => {
   );
 };
 
-DuesInfo.propTypes = {
-  dues: PropTypes.number.isRequired,
-  category: PropTypes.string.isRequired,
-  date: PropTypes.string.isRequired,
-  memo: PropTypes.string.isRequired,
-};
 
 export default DuesInfo;

@@ -63,7 +63,6 @@ const Dues = () => {
 
   const { duesData, description, totalAmount, currentAmount, myCardinal } =
     useContext(DuesContext);
-  console.log(duesData);
   const [selected, setSelectedDues] = useState(null);
 
   const filteredDues =

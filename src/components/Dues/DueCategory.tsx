@@ -1,7 +1,10 @@
 import styled from 'styled-components';
 import { useState } from 'react';
-import PropTypes from 'prop-types';
-import theme from '../../styles/theme';
+import theme from '@/styles/theme';
+
+interface DueCategoryProps {
+  setSelectedDues: (dues: string | null) => void;
+}
 
 const StyledCategory = styled.div`
   padding-top: 30px;
@@ -10,7 +13,7 @@ const StyledCategory = styled.div`
   justify-content: space-around;
 `;
 
-const Button = styled.button`
+const Button = styled.button<{ checked: boolean }>`
   background-color: transparent;
   border: none;
   height: 39px;
@@ -25,8 +28,8 @@ const Button = styled.button`
   text-align: center;
 `;
 
-const DueCategory = ({ setSelectedDues }) => {
-  const [selectedCategory, setSelectedCategory] = useState('all');
+const DueCategory: React.FC<DueCategoryProps> = ({ setSelectedDues }) => {
+  const [selectedCategory, setSelectedCategory] = useState<string>('all');
 
   const onClickAll = () => {
     setSelectedCategory('all');
@@ -68,10 +71,6 @@ const DueCategory = ({ setSelectedDues }) => {
       </Button>
     </StyledCategory>
   );
-};
-
-DueCategory.propTypes = {
-  setSelectedDues: PropTypes.func.isRequired,
 };
 
 export default DueCategory;
