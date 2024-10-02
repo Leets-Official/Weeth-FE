@@ -1,8 +1,13 @@
-import React, { useState, useRef, useEffect } from 'react';
-import PropTypes from 'prop-types';
+import { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
-import theme from '../../styles/theme';
-import SignupWhite from './SignupWhite';
+import theme from '@/styles/theme';
+import SignupWhite from '@/components/Signup/SignupWhite';
+
+interface SignupDropDownProps {
+  text: string;
+  origValue: string;
+  editValue: (value: string) => void;
+}
 
 const DropdownContainer = styled.div`
   position: relative;
@@ -12,7 +17,7 @@ const DropdownContainer = styled.div`
   font-size: 16px;
 `;
 
-const DropdownButton = styled.div`
+const DropdownButton = styled.div<{ $hasValue: boolean }>`
   width: 58%;
   height: 25px;
   font-size: 16px;
@@ -59,10 +64,11 @@ const DropdownItem = styled.div`
   }
 `;
 
-const SignupDropDown = ({ text, origValue, editValue }) => {
+
+const SignupDropDown: React.FC<SignupDropDownProps> = ({ text, origValue, editValue }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedValue, setSelectedValue] = useState(origValue);
-  const dropdownRef = useRef(null);
+  const [selectedValue, setSelectedValue] = useState<string>(origValue);
+  const dropdownRef = useRef<HTMLDivElement | null>(null);
 
   const options = [
     { value: '경영학과', label: '경영학과' },
@@ -75,17 +81,17 @@ const SignupDropDown = ({ text, origValue, editValue }) => {
   ];
 
   const handleToggle = () => {
-    setIsOpen(!isOpen);
+    setIsOpen((prev) => !prev);
   };
 
-  const handleSelect = (label, value) => {
+  const handleSelect = (label: string, value: string) => {
     setSelectedValue(label);
     editValue(value);
     setIsOpen(false);
   };
 
-  const handleClickOutside = (event) => {
-    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+  const handleClickOutside = (event: MouseEvent) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
       setIsOpen(false);
     }
   };
@@ -123,12 +129,6 @@ const SignupDropDown = ({ text, origValue, editValue }) => {
       )}
     </DropdownContainer>
   );
-};
-
-SignupDropDown.propTypes = {
-  text: PropTypes.string.isRequired,
-  origValue: PropTypes.string.isRequired,
-  editValue: PropTypes.func.isRequired,
 };
 
 export default SignupDropDown;

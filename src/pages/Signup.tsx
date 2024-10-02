@@ -3,13 +3,14 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import SignupHeader from '../components/Signup/SignupHeader';
-import SignupTextComponent from '../components/Signup/SignupTextComponent';
-import toggleVisibleIcon from '../assets/images/ic_toggleVisible.svg';
-import toggleInvisibleIcon from '../assets/images/ic_toggleInvisible.svg';
-import theme from '../styles/theme';
-import useCustomBack from '../router/useCustomBack';
+import SignupHeader from '@/components/Signup/SignupHeader';
+import SignupTextComponent from '@/components/Signup/SignupTextComponent';
+import toggleVisibleIcon from '@/assets/images/ic_toggleVisible.svg';
+import toggleInvisibleIcon from '@/assets/images/ic_toggleInvisible.svg';
+import theme from '@/styles/theme';
+import useCustomBack from '@/router/useCustomBack';
 
+// Styled components
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -58,41 +59,42 @@ const MessageText = styled.span`
   font-size: 14px;
 `;
 
-const Signup = () => {
+const Signup: React.FC = () => {
   useCustomBack('/');
 
-  const navi = useNavigate();
+  const navigate = useNavigate();
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [emailStatus, setEmailStatus] = useState(null);
-  const [passwordVisible, setPasswordVisible] = useState(false);
-  const [isChecked, setIschecked] = useState(false);
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [emailStatus, setEmailStatus] = useState<'available' | 'duplicate' | null>(null);
+  const [passwordVisible, setPasswordVisible] = useState<boolean>(false);
+  const [isChecked, setIsChecked] = useState<boolean>(false);
 
-  const validateEmail = (vaildEmail) => {
+  const validateEmail = (validEmail: string): boolean => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(vaildEmail);
+    return emailRegex.test(validEmail);
   };
 
-  // eslint-disable-next-line consistent-return
-  const checkDuplicate = async (DuplicatedEmail) => {
+  const checkDuplicate = async (DuplicatedEmail: string): Promise<boolean | null> => {
     try {
-      const BASE_URL = import.meta.env.VITE_API_URL;
-      const response = await axios.get(
-        `${BASE_URL}/api/v1/users/email?email=${DuplicatedEmail}`,
-        {},
-      );
+        const BASE_URL = import.meta.env.VITE_API_URL;
+        const response = await axios.get(
+            `${BASE_URL}/api/v1/users/email?email=${DuplicatedEmail}`
+        );
 
-      if (response.data.code === 200) {
-        return response.data.data;
-      }
-    } catch (error) {
-      if (error.response && error.response.data.code === 400) {
-        return false; // Email is duplicate
-      }
-      return null;
+        if (response.data.code === 200) {
+            return response.data.data;
+        }
+    } catch (error: unknown) {
+        if (error instanceof axios.AxiosError && error.response?.data.code === 400) {
+            return false;
+        }
+        return null;
     }
-  };
+
+    return null;
+};
+
 
   const handleCheckEmail = async () => {
     if (!validateEmail(email)) {
@@ -100,7 +102,7 @@ const Signup = () => {
     } else {
       const isDuplicate = await checkDuplicate(email);
       setEmailStatus(isDuplicate ? 'available' : 'duplicate');
-      setIschecked(true);
+      setIsChecked(true);
     }
   };
 
@@ -127,21 +129,21 @@ const Signup = () => {
       alert('비밀번호를 6~12자리로 입력해 주세요.');
       return;
     }
-    navi('/profile', { state: { email, password } });
+    navigate('/profile', { state: { email, password } });
   };
 
   const togglePasswordVisibility = () => {
     setPasswordVisible((prevState) => !prevState);
   };
 
-  const handleEmailChange = (e) => {
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const emailValue = e.target.value.replace(/[^a-zA-Z0-9@.]/g, '');
     setEmail(emailValue);
     setEmailStatus(null);
-    setIschecked(false); // 이메일이 변경될 때마다 isChecked 상태를 false로 초기화
+    setIsChecked(false); // 이메일이 변경될 때마다 isChecked 상태를 false로 초기화
   };
 
-  const handlePasswordChange = (e) => {
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const pwValue = e.target.value.replace(/[^a-zA-Z0-9]/g, '');
     setPassword(pwValue);
   };
@@ -199,7 +201,7 @@ const Signup = () => {
           type={passwordVisible ? 'text' : 'password'}
         >
           <ToggleVisibilityButton onClick={togglePasswordVisibility}>
-            {passwordVisible ? <img src={toggleVisibleIcon} /> : <img src={toggleInvisibleIcon} />}
+            {passwordVisible ? <img src={toggleVisibleIcon} alt="Toggle to visible" /> : <img src={toggleInvisibleIcon} alt="Toggle to invisible" />}
           </ToggleVisibilityButton>
         </SignupTextComponent>
       </InputContainer>
