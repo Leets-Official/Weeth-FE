@@ -6,7 +6,7 @@ import ReceiptInfo from '@/components/Receipt/ReceiptInfo';
 import { DuesContext } from '../../service/DuesContext';
 import DuesAPI from '../../service/DuesAPI';
 
-interface Receipt {
+interface ReceiptProps {
   id: number;
   date: string;
   amount: number;
@@ -15,7 +15,7 @@ interface Receipt {
 }
 
 interface GroupedByMonth {
-  [key: number]: Receipt[];
+  [key: number]: ReceiptProps[];
 }
 
 const StyledReceipt = styled.div`
@@ -118,7 +118,7 @@ const ReceiptMain: React.FC = () => {
     setSelectedImage('');
   };
 
-  const groupedByMonth: GroupedByMonth = duesData.reduce((acc: GroupedByMonth, curr: Receipt) => {
+  const groupedByMonth: GroupedByMonth = duesData.reduce((acc: GroupedByMonth, curr: ReceiptProps) => {
     const month = new Date(curr.date).getMonth() + 1;
     if (!acc[month]) {
       acc[month] = [];
