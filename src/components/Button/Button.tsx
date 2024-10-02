@@ -10,6 +10,7 @@ interface ButtonProps {
   onClick?: () => void;
   height?: string;
   width?: string;
+  disabled?: boolean;
 }
 
 
@@ -29,8 +30,8 @@ const BasicButton = styled.button<ButtonProps>`
 `;
 
 // function 컴포넌트
-const Button: FC<ButtonProps> = ({ children, color, textcolor, onClick, height, width }) => (
-  <BasicButton color={color} textcolor={textcolor} onClick={onClick} height={height} width={width}>
+const Button: FC<ButtonProps> = ({ children, color, textcolor, onClick, height, width, disabled}) => (
+  <BasicButton color={color} textcolor={textcolor} onClick={onClick} height={height} width={width}  disabled={disabled}>
     {children}
   </BasicButton>
 );

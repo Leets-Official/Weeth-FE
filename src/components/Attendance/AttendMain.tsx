@@ -1,24 +1,28 @@
 import { useEffect, useContext, useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import theme from '../../styles/theme';
-import './AttendMain.css';
-import RightButton from '../Header/RightButton';
-import Button from '../Button/Button';
-import ModalAttend from './Modal/ModalAttend';
-import check from '../../assets/images/ic_check.svg';
-import warning from '../../assets/images/ic_warning.svg';
-import ModalPenalty from './Modal/ModalPenalty';
-import { UserContext } from '../../service/UserContext';
-import { PenaltyContext } from '../../service/PenaltyContext';
-import { AttendContext } from '../../service/AttendContext';
-import AttendAPI from '../../service/AttendAPI';
-import PenaltyAPI from '../../service/PenaltyAPI';
+import theme from '@/styles/theme';
+
+import '@/components/Attendance/AttendMain.css';
+import RightButton from '@/components/Header/RightButton';
+import Button from '@/components/Button/Button';
+import ModalAttend from '@/components/Attendance/Modal/ModalAttend';
+import ModalPenalty from '@/components/Attendance/Modal/ModalPenalty';
+
+import check from '@/assets/images/ic_check.svg';
+import warning from '@/assets/images/ic_warning.svg';
+
+import { UserContext } from '@/service/UserContext';
+import { PenaltyContext } from '@/service/PenaltyContext';
+import { AttendContext } from '@/service/AttendContext';
+import AttendAPI from '@/service/AttendAPI';
+import PenaltyAPI from '@/service/PenaltyAPI';
 
 // 출석률 게이지 임시 값
 let ATTEND_GAUGE = 0;
 const MAX_ATTEND_GUAGE = 100;
 
+// 스타일 컴포넌트 정의
 const StyledAttend = styled.div`
   display: flex;
   flex-direction: column;
@@ -28,7 +32,7 @@ const StyledAttend = styled.div`
   include-font-padding: false;
 `;
 
-const Progress = styled.div`
+const Progress = styled.div<{ $isAttend: number }>`
   width: 86%;
   height: 19px;
   background-color: ${({ $isAttend }) =>
@@ -38,7 +42,7 @@ const Progress = styled.div`
   margin: 5% 10px 0px 10px;
 `;
 
-const Dealt = styled.div`
+const Dealt = styled.div<{ $dealt: number }>`
   width: ${(props) => `${props.$dealt}%`};
   height: 100%;
   border-radius: 10px;
@@ -92,28 +96,29 @@ const ButtonContainer = styled.div`
   margin-right: 3%;
 `;
 
-const AttendMain = () => {
+// AttendMain 컴포넌트
+const AttendMain: React.FC = () => {
   const navi = useNavigate();
-  const [modalOpen, setModalOpen] = useState(false);
-  const [penaltyModalOpen, setPenaltyModalOpen] = useState(false);
-  const [shouldFetchData, setShouldFetchData] = useState(false);
-  const [hasPenalty, setHasPenalty] = useState(false);
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [penaltyModalOpen, setPenaltyModalOpen] = useState<boolean>(false);
+  const [shouldFetchData, setShouldFetchData] = useState<boolean>(false);
+  const [hasPenalty, setHasPenalty] = useState<boolean>(false);
 
   const { userData } = useContext(UserContext);
 
-  let userName;
+  let userName: string;
   if (!userData) {
     userName = 'loading';
   } else {
     userName = userData.name;
   }
-  const { attendanceData, attendFetchError, hasSchedule } =
-    useContext(AttendContext);
 
-  let title;
-  let location;
-  let startDateTime; // 날짜
-  let endDateTime; // 시간
+  const { attendanceData, attendFetchError, hasSchedule } = useContext(AttendContext);
+
+  let title: string;
+  let location: string;
+  let startDateTime: string; // 날짜
+  let endDateTime: string; // 시간
   let isWithinTimeRange = false;
 
   if (attendFetchError) {
@@ -122,7 +127,6 @@ const AttendMain = () => {
     startDateTime = 'error';
     endDateTime = 'error';
   } else if (!attendanceData) {
-    // 데이터를 아직 가져오지 않았거나, 일정이 없는 경우
     title = '로딩중';
     location = '로딩중';
     startDateTime = '로딩중';
@@ -136,11 +140,11 @@ const AttendMain = () => {
     const endDate = new Date(attendanceData.end);
 
     // 날짜 형식으로 변환
-    const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+    const dateOptions: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
     startDateTime = startDate.toLocaleDateString('ko-KR', dateOptions);
 
     // 시간 형식으로 변환 (24시간 형식)
-    const timeOptions = { hour: '2-digit', minute: '2-digit', hour12: false };
+    const timeOptions: Intl.DateTimeFormatOptions = { hour: '2-digit', minute: '2-digit', hour12: false };
     const startTime = startDate.toLocaleTimeString('ko-KR', timeOptions);
     const endTime = endDate.toLocaleTimeString('ko-KR', timeOptions);
 
@@ -154,21 +158,15 @@ const AttendMain = () => {
     if (currentTime >= startTime && currentTime <= endTime) {
       isWithinTimeRange = true;
     }
+
     // 출석률 지정
-    if (attendanceData.attendanceRate === null) {
-      ATTEND_GAUGE = 0;
-    } else {
-      ATTEND_GAUGE = attendanceData.attendanceRate;
-    }
+    ATTEND_GAUGE = attendanceData.attendanceRate ?? 0;
   }
 
   const { myPenaltyCount } = useContext(PenaltyContext);
+  
   useEffect(() => {
-    if (myPenaltyCount > 0) {
-      setHasPenalty(true);
-    } else {
-      setHasPenalty(false);
-    }
+    setHasPenalty(myPenaltyCount > 0);
   }, [myPenaltyCount]);
 
   const dealt = Math.floor((ATTEND_GAUGE / MAX_ATTEND_GUAGE) * 100);
@@ -179,6 +177,7 @@ const AttendMain = () => {
       setModalOpen(true);
     }
   };
+
   const handleCloseModal = () => {
     setModalOpen(false);
     setShouldFetchData(true); // 모달이 닫힐 때 API를 다시 호출하도록 상태를 업데이트
@@ -197,7 +196,7 @@ const AttendMain = () => {
 
   return (
     <StyledAttend>
-      <AttendAPI key={shouldFetchData} />
+      <AttendAPI key={shouldFetchData.toString()} />
       <PenaltyAPI />
       <div className="name-container">
         <SemiBold>
@@ -212,17 +211,13 @@ const AttendMain = () => {
           </SemiBold>
         </TitleWrapper>
         <RightButtonWrapper>
-          <RightButton
-            onClick={() => {
-              navi('/attendCheck');
-            }}
-          />
+          <RightButton onClick={() => navi('/attendCheck')} />
         </RightButtonWrapper>
       </div>
       <Progress $isAttend={ATTEND_GAUGE}>
         <Dealt $dealt={dealt} />
       </Progress>
-      <StyledBox height="200px">
+      <StyledBox>
         <img src={check} alt="v" />
         {hasSchedule ? (
           // 일정 있을 때 출석 컴포넌트
@@ -236,22 +231,12 @@ const AttendMain = () => {
                 이&#40;가&#41; 있는 날이에요
               </div>
             </SemiBold>
-            <div className="attend-date">
-              날짜 : {startDateTime} {endDateTime}
-            </div>
+            <div className="attend-date">날짜 : {startDateTime} {endDateTime}</div>
             <div className="attend-place">장소 : {location}</div>
             <div className="attend-button">
               <Button
-                color={
-                  isWithinTimeRange
-                    ? theme.color.grayScale.gray30
-                    : theme.color.grayScale.gray30
-                }
-                textcolor={
-                  isWithinTimeRange
-                    ? theme.color.grayScale.white
-                    : theme.color.grayScale.gray20
-                }
+                color={isWithinTimeRange ? theme.color.grayScale.gray30 : theme.color.grayScale.gray30}
+                textcolor={isWithinTimeRange ? theme.color.grayScale.white : theme.color.grayScale.gray20}
                 onClick={handleOpenModal}
                 disabled={!isWithinTimeRange}
               >
@@ -265,9 +250,7 @@ const AttendMain = () => {
             <SemiBold>
               <div className="attend-project">오늘은 일정이 없어요</div>
             </SemiBold>
-            <div className="attend-place">
-              동아리원과 스터디를 하는건 어때요?
-            </div>
+            <div className="attend-place">동아리원과 스터디를 하는건 어때요?</div>
             <div className="attend-button">
               <Button
                 color={theme.color.grayScale.gray30}
