@@ -1,17 +1,32 @@
 import styled from 'styled-components';
 import { useState, useContext } from 'react';
-import theme from '../styles/theme';
-import DuesHeader from '../components/Dues/DuesHeader';
-import DueCategory from '../components/Dues/DueCategory';
-import DuesInfo from '../components/Dues/DuesInfo';
-import DuesTitle from '../components/Dues/DuesTitle';
-import { DuesContext } from '../service/DuesContext';
-import DuesAPI from '../service/DuesAPI';
-import useCustomBack from '../router/useCustomBack';
+import theme from '@/styles/theme';
+import DuesHeader from '@/components/Dues/DuesHeader';
+import DueCategory from '@/components/Dues/DueCategory';
+import DuesInfo from '@/components/Dues/DuesInfo';
+import DuesTitle from '@/components/Dues/DuesTitle';
+import { DuesContext } from '@/service/DuesContext';
+import DuesAPI from '@/service/DuesAPI';
+import useCustomBack from '@/router/useCustomBack';
+
+interface DueProps {
+  id: number;
+  amount: number;
+  date: string;
+  description: string;
+}
+
+interface DuesContextType {
+  duesData: DueProps[] | null;
+  description: string;
+  totalAmount: number;
+  currentAmount: string;
+  myCardinal: string;
+}
 
 const StyledDues = styled.div`
   width: 370px;
-  height: height: calc(var(--vh, 1vh) * 100);
+  height: calc(var(--vh, 1vh) * 100);
   font-family: ${theme.font.family.pretendard_regular};
 `;
 
@@ -58,21 +73,31 @@ const MoneyBox = styled.div`
   align-items: start;
 `;
 
-const Dues = () => {
+
+const Dues: React.FC = () => {
   useCustomBack('/home');
 
-  const { duesData, description, totalAmount, currentAmount, myCardinal } =
-    useContext(DuesContext);
-  const [selected, setSelectedDues] = useState(null);
+  const {
+    duesData,
+    description,
+    totalAmount,
+    currentAmount,
+    myCardinal,
+  } = useContext<DuesContextType>(DuesContext);
+
+  const [selected, setSelectedDues] = useState<string | null>(null);
 
   const filteredDues =
-    selected === null
+    selected === null && duesData
       ? duesData
-      : duesData.filter(
+      : duesData?.filter(
           (dues) => dues.description !== `${myCardinal}기 회비 등록`,
         );
-  if (duesData.description === `${myCardinal}기 회비 등록`)
+
+  if (duesData && duesData.some((dues) => dues.description === `${myCardinal}기 회비 등록`)) {
     setSelectedDues('회비');
+  }
+
   return (
     <StyledDues>
       <DuesAPI />
@@ -81,7 +106,7 @@ const Dues = () => {
       <CategoryWrapper>
         <DueCategory setSelectedDues={setSelectedDues} />
       </CategoryWrapper>
-      {duesData == null ? (
+      {duesData == null || duesData.length === 0 ? (
         <MoneyBox>등록된 회비가 없습니다.</MoneyBox>
       ) : (
         <DuesListBox>
@@ -104,7 +129,7 @@ const Dues = () => {
             )}
             {/* 지출 항목들 */}
             {selected !== '회비' &&
-              filteredDues.map((receipt) => (
+              filteredDues?.map((receipt) => (
                 <DuesInfo
                   key={receipt.id}
                   dues={receipt.amount}
