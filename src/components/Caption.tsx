@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import styled, { ThemeProvider } from 'styled-components';
+import styled from 'styled-components';
 import theme from '../styles/theme';
 
 // 배경색이랑 글자색 props로 전달 받아 설정 가능

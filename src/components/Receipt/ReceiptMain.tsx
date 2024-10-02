@@ -3,8 +3,8 @@ import { useContext, useState } from 'react';
 import ReactModal from 'react-modal';
 import theme from '@/styles/theme';
 import ReceiptInfo from '@/components/Receipt/ReceiptInfo';
-import { DuesContext } from '../../service/DuesContext';
-import DuesAPI from '../../service/DuesAPI';
+import { DuesContext } from '@/service/DuesContext';
+import DuesAPI from '@/service/DuesAPI';
 
 interface ReceiptProps {
   id: number;
