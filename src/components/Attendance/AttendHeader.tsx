@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import LeftButton from '@/components/Header/LeftButton';
 import Title from '@/components/Header/Title';
 
-interface AttendHeaderProp{
+interface AttendHeaderProp {
   text: string;
 }
 

@@ -17,7 +17,7 @@ const TitleWrapper = styled.div`
 // //  해당 함수에 온클릭 이벤트 작성
 // const onClickLeftButton = () => {};
 
-const DuesHeader: React.FC = ()=> {
+const DuesHeader: React.FC = () => {
   return (
     <StyledHeader>
       <LeftButton />

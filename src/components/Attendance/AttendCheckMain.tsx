@@ -10,7 +10,7 @@ interface SmallBoxProps {
   num: string;
 }
 interface MeetingBoxProps {
-  attend: 'ATTEND' | 'ABSENT' | 'NOT_ATTENDED'; 
+  attend: 'ATTEND' | 'ABSENT' | 'NOT_ATTENDED';
   title: string;
   week: string;
   date: string;
@@ -19,13 +19,12 @@ interface MeetingBoxProps {
 interface MeetingProps {
   id: string;
   title: string;
-  start: string; 
+  start: string;
   end: string;
   status: 'ATTEND' | 'ABSENT';
   weekNumber: number;
   location: string;
 }
-
 
 // Styled Components
 const Container = styled.div`
@@ -155,7 +154,13 @@ const SmallBox: React.FC<SmallBoxProps> = ({ title, num }) => {
   );
 };
 
-const MeetingBox: React.FC<MeetingBoxProps> = ({ attend, title, week, date, place }) => {
+const MeetingBox: React.FC<MeetingBoxProps> = ({
+  attend,
+  title,
+  week,
+  date,
+  place,
+}) => {
   let captionText = '미결';
   let captionColor = theme.color.grayScale.mediumGray;
 
@@ -222,7 +227,7 @@ const AttendCheckMain: React.FC = () => {
         </SmallStyledBoxContainer>
         <Line />
         {attendanceData.attendances.length > 0 ? (
-          attendanceData.attendances.map((meeting : MeetingProps) => {
+          attendanceData.attendances.map((meeting: MeetingProps) => {
             const startDate = new Date(meeting.start);
             const endDate = new Date(meeting.end);
 
@@ -231,14 +236,20 @@ const AttendCheckMain: React.FC = () => {
               month: 'long',
               day: 'numeric',
             };
-            const startDateTime = startDate.toLocaleDateString('ko-KR', dateOptions);
+            const startDateTime = startDate.toLocaleDateString(
+              'ko-KR',
+              dateOptions,
+            );
 
             const timeOptions: Intl.DateTimeFormatOptions = {
               hour: '2-digit',
               minute: '2-digit',
               hour12: false,
             };
-            const startTime = startDate.toLocaleTimeString('ko-KR', timeOptions);
+            const startTime = startDate.toLocaleTimeString(
+              'ko-KR',
+              timeOptions,
+            );
             const endTime = endDate.toLocaleTimeString('ko-KR', timeOptions);
 
             const formattedDate = `${startDateTime} (${startTime} ~ ${endTime})`;

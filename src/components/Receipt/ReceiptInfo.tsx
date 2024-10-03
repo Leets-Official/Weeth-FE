@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 import Caption from '@/components/Caption';
 import theme from '@/styles/theme';
 import React from 'react';

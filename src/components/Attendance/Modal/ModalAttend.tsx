@@ -107,7 +107,7 @@ const ModalAttend: React.FC<ModalAttendProps> = ({ open, close }) => {
   const [inputValue, setInputValue] = useState('');
   const [message, setMessage] = useState('');
   const [accessToken, setAccessToken] = useState<string | null>(
-    localStorage.getItem('accessToken')
+    localStorage.getItem('accessToken'),
   );
   const refreshToken = localStorage.getItem('refreshToken');
 
@@ -138,7 +138,7 @@ const ModalAttend: React.FC<ModalAttendProps> = ({ open, close }) => {
       const response = await axios.patch(
         `${BASE_URL}/api/v1/attendances`,
         { code: inputValue },
-        { headers }
+        { headers },
       );
       setMessage(response.data.message);
       if (response.data.code === 200) {
@@ -149,6 +149,7 @@ const ModalAttend: React.FC<ModalAttendProps> = ({ open, close }) => {
     } catch (error) {
       setCodeCheck(2); // Wrong
       setMessage('ERROR');
+      console.error(error);
     }
   };
 
@@ -159,7 +160,10 @@ const ModalAttend: React.FC<ModalAttendProps> = ({ open, close }) => {
     }
   };
 
-  let title: string, location: string, startDateTime: string, endDateTime: string;
+  let title: string;
+  let location: string;
+  let startDateTime: string;
+  let endDateTime: string;
 
   if (attendFetchError) {
     title = 'error';
@@ -179,25 +183,24 @@ const ModalAttend: React.FC<ModalAttendProps> = ({ open, close }) => {
     const endDate = new Date(attendanceData.end);
 
     // 날짜 형식으로 변환 (정확한 타입 설정)
-    const dateOptions: Intl.DateTimeFormatOptions = { 
-      year: 'numeric', 
-      month: 'long', 
-      day: 'numeric' 
+    const dateOptions: Intl.DateTimeFormatOptions = {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
     };
     startDateTime = startDate.toLocaleDateString('ko-KR', dateOptions);
 
     // 시간 형식으로 변환 (24시간 형식)
-    const timeOptions: Intl.DateTimeFormatOptions = { 
-      hour: '2-digit', 
-      minute: '2-digit', 
-      hour12: false 
+    const timeOptions: Intl.DateTimeFormatOptions = {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false,
     };
     const startTime = startDate.toLocaleTimeString('ko-KR', timeOptions);
     const endTime = endDate.toLocaleTimeString('ko-KR', timeOptions);
 
     // 피그마 형식대로 변환
     endDateTime = `(${startTime} ~ ${endTime})`;
-
   }
 
   useEffect(() => {
@@ -246,8 +249,8 @@ const ModalAttend: React.FC<ModalAttendProps> = ({ open, close }) => {
           <div className="modal-buttons">
             <Button
               onClick={handleCompleteBtn}
-              width= "{370 * 0.76}"
-              height= "45"
+              width="{370 * 0.76}"
+              height="45"
             >
               입력완료
             </Button>

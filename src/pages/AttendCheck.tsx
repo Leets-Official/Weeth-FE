@@ -3,9 +3,10 @@ import theme from '@//styles/theme';
 import AttendHeader from '@//components/Attendance/AttendHeader';
 import AttendCheckMain from '@//components/Attendance/AttendCheckMain';
 import { PenaltyProvider } from '@//service/PenaltyContext';
-import AttendCheckAPI from '@//service/AttendCheckAPI';
 import useCustomBack from '@//router/useCustomBack';
 import UserAPI from '@//service/UserAPI';
+import {AttendCheckAPI} from '@/service/AttendAPI';
+
 import React from 'react';
 
 const Container = styled.div`
