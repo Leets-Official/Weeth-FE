@@ -5,7 +5,7 @@ import icClose from '@/assets/images/ic_close.svg';
 import check from '@/assets/images/ic_check.svg';
 import { PenaltyContext } from '@/service/PenaltyContext';
 import { UserContext } from '@/service/UserContext';
-import PenaltyAPI from '@/service/PenaltyAPI';
+import {PenaltyAPI} from '@/service/AttendAPI';
 
 interface CloseButtonProps {
   onClick: () => void;

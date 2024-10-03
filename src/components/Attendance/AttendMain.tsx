@@ -15,8 +15,7 @@ import warning from '@/assets/images/ic_warning.svg';
 import { UserContext } from '@/service/UserContext';
 import { PenaltyContext } from '@/service/PenaltyContext';
 import { AttendContext } from '@/service/AttendContext';
-import {AttendAPI} from '@/service/AttendAPI';
-import PenaltyAPI from '@/service/PenaltyAPI';
+import { AttendAPI, PenaltyAPI } from '@/service/AttendAPI';
 
 // 출석률 게이지 임시 값
 let ATTEND_GAUGE = 0;

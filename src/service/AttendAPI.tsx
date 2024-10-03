@@ -2,6 +2,7 @@ import { useEffect, useContext } from 'react';
 import axios from 'axios';
 import { AttendContext } from '@/service/AttendContext';
 import { AttendCheckContext } from '@/service/AttendCheckContext';
+import { PenaltyContext } from './PenaltyContext';
 
 // 공통으로 사용하는 토큰, URL, 헤더 설정 함수
 const getAuthHeaders = () => {
@@ -75,6 +76,32 @@ export const AttendCheckAPI = () => {
 
     fetchAttendanceData();
   }, [setAttendanceData, setAttendFetchError]);
+
+  return null;
+};
+
+// 패널티 정보 받아오는 API
+export const PenaltyAPI = () => {
+  const { setMyPenalty, setPenaltyData, setPenaltyFetchError } =
+    useContext(PenaltyContext);
+
+  useEffect(() => {
+    const fetchPenalty = async () => {
+      const BASE_URL = import.meta.env.VITE_API_URL;
+      const headers = getAuthHeaders();
+      try {
+        const response = await fetchData(`${BASE_URL}/api/v1/penalties`, headers, setPenaltyFetchError);
+        
+        const { data } = response.data;
+        setPenaltyData(data.Penalties);
+        setMyPenalty(data.penaltyCount);
+      } catch (error) {
+
+      }
+    };
+
+    fetchPenalty();
+  }, [setPenaltyData, setPenaltyFetchError]);
 
   return null;
 };
