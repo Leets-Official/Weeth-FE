@@ -58,7 +58,7 @@ const GridItem = styled.a<{ color?: string }>`
   font-size: 16px;
   white-space: nowrap;
   text-decoration: none;
-  
+
   &:last-child {
     margin-right: 0;
   }
@@ -76,7 +76,7 @@ const GridItemWithImage = styled(GridItem)<{ $image: string }>`
   position: relative;
   overflow: hidden;
   padding: 10px;
-  
+
   &:after {
     content: '';
     position: absolute;
@@ -103,8 +103,9 @@ const GridItemWithImage = styled(GridItem)<{ $image: string }>`
 const HomeFooter: React.FC = () => {
   const scrollerRef1 = useRef<HTMLDivElement | null>(null);
   const scrollerRef2 = useRef<HTMLDivElement | null>(null);
-  
-  const { onMouseDown, onMouseMove, onMouseUp, onMouseLeave } = useDraggable(scrollerRef1);
+
+  const { onMouseDown, onMouseMove, onMouseUp, onMouseLeave } =
+    useDraggable(scrollerRef1);
   const draggableHandlers2 = useDraggable(scrollerRef2);
 
   return (

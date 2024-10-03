@@ -21,16 +21,23 @@ const defaultPenaltyContext: PenaltyContextProps = {
 };
 
 // 컨텍스트
-export const PenaltyContext = createContext<PenaltyContextProps>(defaultPenaltyContext);
+export const PenaltyContext = createContext<PenaltyContextProps>(
+  defaultPenaltyContext,
+);
 
 // PenaltyProvider
-export const PenaltyProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+export const PenaltyProvider: React.FC<{ children: ReactNode }> = ({
+  children,
+}) => {
   const [penaltyData, setPenaltyData] = useState<any>(null);
-  const [penaltyFetchError, setPenaltyFetchError] = useState<string | null>(null);
+  const [penaltyFetchError, setPenaltyFetchError] = useState<string | null>(
+    null,
+  );
   const [myPenaltyCount, setMyPenalty] = useState<number>(0);
 
   return (
     <PenaltyContext.Provider
+      // eslint-disable-next-line react/jsx-no-constructed-context-values
       value={{
         myPenaltyCount,
         setMyPenalty,

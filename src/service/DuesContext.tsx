@@ -36,7 +36,9 @@ const defaultDuesContext: DuesContextProps = {
 export const DuesContext = createContext<DuesContextProps>(defaultDuesContext);
 
 // DuesProvider
-export const DuesProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+export const DuesProvider: React.FC<{ children: ReactNode }> = ({
+  children,
+}) => {
   const [duesData, setDuesData] = useState<any[]>([]);
   const [description, setDescription] = useState<string>('');
   const [totalAmount, setTotalAmount] = useState<number>(0);
@@ -46,6 +48,7 @@ export const DuesProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   return (
     <DuesContext.Provider
+      // eslint-disable-next-line react/jsx-no-constructed-context-values
       value={{
         duesData,
         setDuesData,

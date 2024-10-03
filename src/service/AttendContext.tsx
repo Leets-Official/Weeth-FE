@@ -31,6 +31,7 @@ export const AttendProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <AttendContext.Provider
+      // eslint-disable-next-line react/jsx-no-constructed-context-values
       value={{
         attendanceData,
         setAttendanceData,

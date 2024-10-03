@@ -94,7 +94,7 @@ const HomeMain: React.FC = () => {
 
   const userName = userData?.name || 'Loading';
   const cardinal =
-    userData?.cardinals.length! >= 2
+    userData?.cardinals.length >= 2
       ? userData.cardinals[userData.cardinals.length - 1]
       : userData?.cardinals[0] || 'Loading';
 

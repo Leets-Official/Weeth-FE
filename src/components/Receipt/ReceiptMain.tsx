@@ -118,14 +118,17 @@ const ReceiptMain: React.FC = () => {
     setSelectedImage('');
   };
 
-  const groupedByMonth: GroupedByMonth = duesData.reduce((acc: GroupedByMonth, curr: ReceiptProps) => {
-    const month = new Date(curr.date).getMonth() + 1;
-    if (!acc[month]) {
-      acc[month] = [];
-    }
-    acc[month].push(curr);
-    return acc;
-  }, {});
+  const groupedByMonth: GroupedByMonth = duesData.reduce(
+    (acc: GroupedByMonth, curr: ReceiptProps) => {
+      const month = new Date(curr.date).getMonth() + 1;
+      if (!acc[month]) {
+        acc[month] = [];
+      }
+      acc[month].push(curr);
+      return acc;
+    },
+    {},
+  );
 
   const currentDate = new Date();
   const currentMonth = currentDate.getMonth() + 1;
@@ -154,7 +157,7 @@ const ReceiptMain: React.FC = () => {
                 <ScrollContainer>
                   {receipt.images.length > 0 ? (
                     receipt.images.map((image, index) => (
-                      <GridItem onClick={() => openModal(image)} key={`${receipt.id}-${index}`}>
+                      <GridItem onClick={() => openModal(image)}>
                         <GridItemImage
                           src={image}
                           title={`영수증 사진 ${index + 1}`}

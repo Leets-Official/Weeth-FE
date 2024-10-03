@@ -17,7 +17,8 @@ const defaultContext: AttendCheckContextProps = {
 };
 
 // AttendCheckContext
-export const AttendCheckContext = createContext<AttendCheckContextProps>(defaultContext);
+export const AttendCheckContext =
+  createContext<AttendCheckContextProps>(defaultContext);
 
 // AttendCheckProvider
 export const AttendCheckProvider = ({ children }: { children: ReactNode }) => {
@@ -26,6 +27,7 @@ export const AttendCheckProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <AttendCheckContext.Provider
+      // eslint-disable-next-line react/jsx-no-constructed-context-values
       value={{
         attendanceData,
         setAttendanceData,

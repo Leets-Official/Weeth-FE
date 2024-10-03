@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React, { useContext } from 'react';
 import styled from 'styled-components';
 import theme from '@/styles/theme';
@@ -5,7 +6,7 @@ import icClose from '@/assets/images/ic_close.svg';
 import check from '@/assets/images/ic_check.svg';
 import { PenaltyContext } from '@/service/PenaltyContext';
 import { UserContext } from '@/service/UserContext';
-import {PenaltyAPI} from '@/service/AttendAPI';
+import { PenaltyAPI } from '@/service/AttendAPI';
 
 interface CloseButtonProps {
   onClick: () => void;
@@ -23,7 +24,6 @@ interface PenaltyProps {
   penaltyDescription: string;
   time: string; // ISO 8601 형식의 날짜 문자열
 }
-
 
 // Styled components
 const StyledModal = styled.div<{ open: boolean }>`
@@ -118,7 +118,7 @@ const ModalPenalty: React.FC<ModalPenaltyProps> = ({ open, close }) => {
   const { myPenaltyCount, penaltyData, penaltyFetchError } =
     useContext(PenaltyContext);
   const { userData, error } = useContext(UserContext);
-  
+
   let userName: string;
   if (error) {
     userName = 'error';
@@ -153,7 +153,7 @@ const ModalPenalty: React.FC<ModalPenaltyProps> = ({ open, close }) => {
                   {myPenaltyCount}회
                 </SemiBold>
                 <Line />
-                {penaltyData.map((penalty : PenaltyProps) => {
+                {penaltyData.map((penalty: PenaltyProps) => {
                   const myDate = new Date(penalty.time);
                   const formattedDate = `${myDate.getFullYear()}년 ${
                     myDate.getMonth() + 1

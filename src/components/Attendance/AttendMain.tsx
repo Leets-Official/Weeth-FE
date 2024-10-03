@@ -112,7 +112,8 @@ const AttendMain: React.FC = () => {
     userName = userData.name;
   }
 
-  const { attendanceData, attendFetchError, hasSchedule } = useContext(AttendContext);
+  const { attendanceData, attendFetchError, hasSchedule } =
+    useContext(AttendContext);
 
   let title: string;
   let location: string;
@@ -139,11 +140,19 @@ const AttendMain: React.FC = () => {
     const endDate = new Date(attendanceData.end);
 
     // 날짜 형식으로 변환
-    const dateOptions: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+    const dateOptions: Intl.DateTimeFormatOptions = {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    };
     startDateTime = startDate.toLocaleDateString('ko-KR', dateOptions);
 
     // 시간 형식으로 변환 (24시간 형식)
-    const timeOptions: Intl.DateTimeFormatOptions = { hour: '2-digit', minute: '2-digit', hour12: false };
+    const timeOptions: Intl.DateTimeFormatOptions = {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false,
+    };
     const startTime = startDate.toLocaleTimeString('ko-KR', timeOptions);
     const endTime = endDate.toLocaleTimeString('ko-KR', timeOptions);
 
@@ -163,7 +172,7 @@ const AttendMain: React.FC = () => {
   }
 
   const { myPenaltyCount } = useContext(PenaltyContext);
-  
+
   useEffect(() => {
     setHasPenalty(myPenaltyCount > 0);
   }, [myPenaltyCount]);
@@ -230,12 +239,22 @@ const AttendMain: React.FC = () => {
                 이&#40;가&#41; 있는 날이에요
               </div>
             </SemiBold>
-            <div className="attend-date">날짜 : {startDateTime} {endDateTime}</div>
+            <div className="attend-date">
+              날짜 : {startDateTime} {endDateTime}
+            </div>
             <div className="attend-place">장소 : {location}</div>
             <div className="attend-button">
               <Button
-                color={isWithinTimeRange ? theme.color.grayScale.gray30 : theme.color.grayScale.gray30}
-                textcolor={isWithinTimeRange ? theme.color.grayScale.white : theme.color.grayScale.gray20}
+                color={
+                  isWithinTimeRange
+                    ? theme.color.grayScale.gray30
+                    : theme.color.grayScale.gray30
+                }
+                textcolor={
+                  isWithinTimeRange
+                    ? theme.color.grayScale.white
+                    : theme.color.grayScale.gray20
+                }
                 onClick={handleOpenModal}
                 disabled={!isWithinTimeRange}
               >
@@ -249,7 +268,9 @@ const AttendMain: React.FC = () => {
             <SemiBold>
               <div className="attend-project">오늘은 일정이 없어요</div>
             </SemiBold>
-            <div className="attend-place">동아리원과 스터디를 하는건 어때요?</div>
+            <div className="attend-place">
+              동아리원과 스터디를 하는건 어때요?
+            </div>
             <div className="attend-button">
               <Button
                 color={theme.color.grayScale.gray30}

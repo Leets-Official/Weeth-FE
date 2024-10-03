@@ -35,7 +35,7 @@ const DuesAPI: React.FC = () => {
         const response = await Utils(
           await originalApiFunc(cardinal),
           originalApiFunc,
-          [cardinal]
+          [cardinal],
         );
 
         const result = response.data;
@@ -61,6 +61,7 @@ const DuesAPI: React.FC = () => {
           localStorage.removeItem('refreshToken');
           window.location.href = '/login';
         }
+        console.error(error);
       }
     };
 

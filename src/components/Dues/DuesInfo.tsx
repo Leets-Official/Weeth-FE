@@ -75,5 +75,4 @@ const DuesInfo: React.FC<DuseInfoProps> = ({ dues, category, date, memo }) => {
   );
 };
 
-
 export default DuesInfo;

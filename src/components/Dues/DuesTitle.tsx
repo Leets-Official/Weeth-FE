@@ -42,7 +42,6 @@ const BasicCaption = styled.button`
   justify-content: center;
 `;
 
-
 interface ImgCaptionProps {
   navi: (path: string) => void;
 }

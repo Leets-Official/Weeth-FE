@@ -2,7 +2,7 @@ import { useEffect, useContext } from 'react';
 import axios from 'axios';
 import { AttendContext } from '@/service/AttendContext';
 import { AttendCheckContext } from '@/service/AttendCheckContext';
-import { PenaltyContext } from './PenaltyContext';
+import { PenaltyContext } from '@/service/PenaltyContext';
 
 // 공통으로 사용하는 토큰, URL, 헤더 설정 함수
 const getAuthHeaders = () => {
@@ -15,7 +15,11 @@ const getAuthHeaders = () => {
 };
 
 // 공통 API 호출 함수
-const fetchData = async (url: string, headers: object, errorHandler: (error: any) => void) => {
+const fetchData = async (
+  url: string,
+  headers: object,
+  errorHandler: (error: any) => void,
+) => {
   try {
     const response = await axios.get(url, { headers });
     return response.data;
@@ -28,22 +32,24 @@ const fetchData = async (url: string, headers: object, errorHandler: (error: any
 
 // 출석 정보 받아오는 API
 export const AttendAPI = () => {
-  const { setAttendanceData, setAttendFetchError, setHasSchedule } = useContext(AttendContext);
+  const { setAttendanceData, setAttendFetchError, setHasSchedule } =
+    useContext(AttendContext);
 
   useEffect(() => {
     const fetchAttendances = async () => {
       const BASE_URL = import.meta.env.VITE_API_URL;
       const headers = getAuthHeaders();
 
-      try {
-        const response = await fetchData(`${BASE_URL}/api/v1/attendances`, headers, setAttendFetchError);
-        const { data } = response;
-        setAttendanceData(data);
+      const response = await fetchData(
+        `${BASE_URL}/api/v1/attendances`,
+        headers,
+        setAttendFetchError,
+      );
+      const { data } = response;
+      setAttendanceData(data);
 
-        if (data.title && data.start) {
-          setHasSchedule(true);
-        }
-      } catch (error) {
+      if (data.title && data.start) {
+        setHasSchedule(true);
       }
     };
 
@@ -55,7 +61,8 @@ export const AttendAPI = () => {
 
 // 출석 조회 정보 받아오는 API
 export const AttendCheckAPI = () => {
-  const { setAttendanceData, setAttendFetchError } = useContext(AttendCheckContext);
+  const { setAttendanceData, setAttendFetchError } =
+    useContext(AttendCheckContext);
 
   useEffect(() => {
     const fetchAttendanceData = async () => {
@@ -65,12 +72,13 @@ export const AttendCheckAPI = () => {
         'Cache-Control': 'no-cache',
       };
 
-      try {
-        const response = await fetchData(`${BASE_URL}/api/v1/attendances/detail`, headers, setAttendFetchError);
-        if (response.code === 200) {
-          setAttendanceData(response.data);
-        }
-      } catch (error) {
+      const response = await fetchData(
+        `${BASE_URL}/api/v1/attendances/detail`,
+        headers,
+        setAttendFetchError,
+      );
+      if (response.code === 200) {
+        setAttendanceData(response.data);
       }
     };
 
@@ -89,15 +97,15 @@ export const PenaltyAPI = () => {
     const fetchPenalty = async () => {
       const BASE_URL = import.meta.env.VITE_API_URL;
       const headers = getAuthHeaders();
-      try {
-        const response = await fetchData(`${BASE_URL}/api/v1/penalties`, headers, setPenaltyFetchError);
-        
-        const { data } = response.data;
-        setPenaltyData(data.Penalties);
-        setMyPenalty(data.penaltyCount);
-      } catch (error) {
+      const response = await fetchData(
+        `${BASE_URL}/api/v1/penalties`,
+        headers,
+        setPenaltyFetchError,
+      );
 
-      }
+      const { data } = response.data;
+      setPenaltyData(data.Penalties);
+      setMyPenalty(data.penaltyCount);
     };
 
     fetchPenalty();
