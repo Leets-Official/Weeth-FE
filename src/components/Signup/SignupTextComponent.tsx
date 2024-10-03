@@ -1,10 +1,16 @@
-/* eslint-disable react/require-default-props */
-/* eslint-disable react/prop-types */
-import React from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
-import SignupWhite from './SignupWhite';
-import theme from '../../styles/theme';
+import SignupWhite from '@/components/Signup/SignupWhite';
+import theme from '@/styles/theme';
+
+interface SignupTextComponentProps {
+  text: string;
+  value: string;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  placeholder?: string;
+  type?: string;
+  children?: React.ReactNode;
+  onKeyPress?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
+}
 
 const SignupContainer = styled.div`
   width: 370px;
@@ -60,12 +66,12 @@ const IconWrapper = styled.div`
   }
 `;
 
-const SignupTextComponent = ({
+const SignupTextComponent: React.FC<SignupTextComponentProps> = ({
   text,
   value,
   onChange,
   placeholder,
-  type,
+  type = 'text',
   children,
   onKeyPress,
 }) => {
@@ -87,15 +93,6 @@ const SignupTextComponent = ({
       </InputWrapper>
     </SignupContainer>
   );
-};
-
-SignupTextComponent.propTypes = {
-  text: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
-  placeholder: PropTypes.string,
-  type: PropTypes.string,
-  children: PropTypes.node,
 };
 
 export default SignupTextComponent;

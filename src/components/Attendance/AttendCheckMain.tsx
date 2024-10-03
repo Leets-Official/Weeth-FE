@@ -1,11 +1,33 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
-import theme from '../../styles/theme';
-import Caption from '../Caption';
-import { UserContext } from '../../service/UserContext';
-import { AttendCheckContext } from '../../service/AttendCheckContext';
+import theme from '@/styles/theme';
+import Caption from '@/components/Caption';
+import { UserContext } from '@/service/UserContext';
+import { AttendCheckContext } from '@/service/AttendCheckContext';
 
+interface SmallBoxProps {
+  title: string;
+  num: string;
+}
+interface MeetingBoxProps {
+  attend: 'ATTEND' | 'ABSENT' | 'NOT_ATTENDED'; 
+  title: string;
+  week: string;
+  date: string;
+  place: string;
+}
+interface MeetingProps {
+  id: string;
+  title: string;
+  start: string; 
+  end: string;
+  status: 'ATTEND' | 'ABSENT';
+  weekNumber: number;
+  location: string;
+}
+
+
+// Styled Components
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -99,6 +121,7 @@ const MeetingHeader = styled.div`
   margin-left: 5%;
   width: 95%;
 `;
+
 const MeetingTitle = styled.div`
   display: flex;
   flex-direction: row;
@@ -106,6 +129,7 @@ const MeetingTitle = styled.div`
   font-size: 16px;
   font-family: ${theme.font.family.pretendard_semiBold};
 `;
+
 const MeetingInfo = styled.div`
   display: flex;
   flex-direction: column;
@@ -113,13 +137,16 @@ const MeetingInfo = styled.div`
   font-size: 14px;
   line-height: 1.7;
 `;
+
 const StyledText = styled.div`
   margin-top: -2.5px;
 `;
+
 const NullBox = styled.div`
   margin: 20px 0;
 `;
-const SmallBox = ({ title, num }) => {
+
+const SmallBox: React.FC<SmallBoxProps> = ({ title, num }) => {
   return (
     <SmallStyledBox>
       <SmallBoxTitle>{title}</SmallBoxTitle>
@@ -128,7 +155,7 @@ const SmallBox = ({ title, num }) => {
   );
 };
 
-const MeetingBox = ({ attend, title, week, date, place }) => {
+const MeetingBox: React.FC<MeetingBoxProps> = ({ attend, title, week, date, place }) => {
   let captionText = '미결';
   let captionColor = theme.color.grayScale.mediumGray;
 
@@ -159,20 +186,7 @@ const MeetingBox = ({ attend, title, week, date, place }) => {
   );
 };
 
-SmallBox.propTypes = {
-  title: PropTypes.string.isRequired,
-  num: PropTypes.string.isRequired,
-};
-
-MeetingBox.propTypes = {
-  attend: PropTypes.bool.isRequired,
-  title: PropTypes.string.isRequired,
-  week: PropTypes.string.isRequired,
-  date: PropTypes.string.isRequired,
-  place: PropTypes.string.isRequired,
-};
-
-const AttendCheckMain = () => {
+const AttendCheckMain: React.FC = () => {
   const { attendanceData, attendFetchError } = useContext(AttendCheckContext);
   const { userData } = useContext(UserContext);
 
@@ -208,29 +222,23 @@ const AttendCheckMain = () => {
         </SmallStyledBoxContainer>
         <Line />
         {attendanceData.attendances.length > 0 ? (
-          attendanceData.attendances.map((meeting) => {
+          attendanceData.attendances.map((meeting : MeetingProps) => {
             const startDate = new Date(meeting.start);
             const endDate = new Date(meeting.end);
 
-            const dateOptions = {
+            const dateOptions: Intl.DateTimeFormatOptions = {
               year: 'numeric',
               month: 'long',
               day: 'numeric',
             };
-            const startDateTime = startDate.toLocaleDateString(
-              'ko-KR',
-              dateOptions,
-            );
+            const startDateTime = startDate.toLocaleDateString('ko-KR', dateOptions);
 
-            const timeOptions = {
+            const timeOptions: Intl.DateTimeFormatOptions = {
               hour: '2-digit',
               minute: '2-digit',
               hour12: false,
             };
-            const startTime = startDate.toLocaleTimeString(
-              'ko-KR',
-              timeOptions,
-            );
+            const startTime = startDate.toLocaleTimeString('ko-KR', timeOptions);
             const endTime = endDate.toLocaleTimeString('ko-KR', timeOptions);
 
             const formattedDate = `${startDateTime} (${startTime} ~ ${endTime})`;

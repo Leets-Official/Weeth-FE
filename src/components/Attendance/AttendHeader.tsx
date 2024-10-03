@@ -1,7 +1,10 @@
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
-import LeftButton from '../Header/LeftButton';
-import Title from '../Header/Title';
+import LeftButton from '@/components/Header/LeftButton';
+import Title from '@/components/Header/Title';
+
+interface AttendHeaderProp{
+  text: string;
+}
 
 const StyledAttendHeader = styled.div`
   display: flex;
@@ -17,7 +20,7 @@ const TitleWrapper = styled.div`
   transform: translateX(-50%);
 `;
 
-const AttendHeader = ({ text }) => {
+const AttendHeader: React.FC<AttendHeaderProp> = ({ text }) => {
   return (
     <StyledAttendHeader>
       <LeftButton />
@@ -28,7 +31,4 @@ const AttendHeader = ({ text }) => {
   );
 };
 
-AttendHeader.propTypes = {
-  text: PropTypes.string.isRequired,
-};
 export default AttendHeader;

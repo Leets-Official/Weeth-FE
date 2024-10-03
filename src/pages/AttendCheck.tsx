@@ -1,12 +1,12 @@
-import React from 'react';
 import styled, { ThemeProvider } from 'styled-components';
-import theme from '../styles/theme';
-import AttendHeader from '../components/Attendance/AttendHeader';
-import AttendCheckMain from '../components/Attendance/AttendCheckMain';
-import { PenaltyProvider } from '../service/PenaltyContext';
-import AttendCheckAPI from '../service/AttendCheckAPI';
-import useCustomBack from '../router/useCustomBack';
-import UserAPI from '../service/UserAPI';
+import theme from '@//styles/theme';
+import AttendHeader from '@//components/Attendance/AttendHeader';
+import AttendCheckMain from '@//components/Attendance/AttendCheckMain';
+import { PenaltyProvider } from '@//service/PenaltyContext';
+import AttendCheckAPI from '@//service/AttendCheckAPI';
+import useCustomBack from '@//router/useCustomBack';
+import UserAPI from '@//service/UserAPI';
+import React from 'react';
 
 const Container = styled.div`
   display: flex;
@@ -24,7 +24,7 @@ const Footer = styled.footer`
   width: 100%;
 `;
 
-const AttendCheck = () => {
+const AttendCheck: React.FC = () => {
   useCustomBack('/attendance');
   return (
     <ThemeProvider theme={theme}>

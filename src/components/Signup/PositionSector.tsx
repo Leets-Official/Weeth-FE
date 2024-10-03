@@ -1,15 +1,15 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import SignupWhite from './SignupWhite';
+import SignupWhite from '@/components/Signup/SignupWhite';
 
+// Styled components
 const PositionContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
   width: 370px;
   max-width: 370px;
-  margin: 8=10px 0 33px 0;
+  margin: 8px 0 33px 0;
 `;
 
 const PositionLabel = styled.div`
@@ -40,7 +40,7 @@ const HiddenCheckbox = styled.input.attrs({ type: 'checkbox' })`
   display: none;
 `;
 
-const StyledCheckbox = styled.div`
+const StyledCheckbox = styled.div<{ checked: boolean }>`
   width: 18px;
   height: 18px;
   background-color: #2f2f2f;
@@ -58,8 +58,8 @@ const StyledCheckbox = styled.div`
   &::after {
     content: '';
     position: absolute;
-    width: 14px; /* 내부 정사각형 크기 */
-    height: 14px; /* 내부 정사각형 크기 */
+    width: 14px; /* Internal square size */
+    height: 14px; /* Internal square size */
     background-color: ${({ checked }) => (checked ? '#00DDA8' : '#2F2F2F')};
     border-radius: 1px;
     top: 2px;
@@ -67,21 +67,30 @@ const StyledCheckbox = styled.div`
   }
 `;
 
-const PositionCheckbox = ({ checked, onChange }) => (
+// Type definitions for PositionCheckbox props
+interface PositionCheckboxProps {
+  checked: boolean;
+  onChange: () => void;
+}
+
+const PositionCheckbox: React.FC<PositionCheckboxProps> = ({ checked, onChange }) => (
   <>
     <HiddenCheckbox checked={checked} onChange={onChange} />
     <StyledCheckbox checked={checked} onClick={onChange} />
   </>
 );
 
-PositionCheckbox.propTypes = {
-  checked: PropTypes.bool.isRequired,
-  onChange: PropTypes.func.isRequired,
-};
-
+// List of positions
 const positions = ['프론트', '백', '디자인'];
 
-const PositionSector = ({ labelName, value, onChange }) => {
+// Type definitions for PositionSector props
+interface PositionSectorProps {
+  labelName: string;
+  value: string;
+  onChange: (position: string) => void;
+}
+
+const PositionSector: React.FC<PositionSectorProps> = ({ labelName, value, onChange }) => {
   return (
     <PositionContainer>
       <PositionLabel>
@@ -107,12 +116,6 @@ const PositionSector = ({ labelName, value, onChange }) => {
       </Positions>
     </PositionContainer>
   );
-};
-
-PositionSector.propTypes = {
-  labelName: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
 };
 
 export default PositionSector;

@@ -1,8 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import SignupWhite from './SignupWhite';
-import theme from '../../styles/theme';
+import SignupWhite from '@/components/Signup/SignupWhite';
+import theme from '@/styles/theme';
+
+interface SignupMemInputProps {
+  labelName: string;
+  placeholderText: string;
+  origValue: string | string[]; 
+  inputType: 'text' | 'number'; 
+  onChange: (value: string) => void;
+}
 
 const MemTextContainer = styled.div`
   display: flex;
@@ -39,16 +46,16 @@ const InputLine = styled.input`
   }
 `;
 
-const SignupMemInput = ({
+const SignupMemInput: React.FC<SignupMemInputProps> = ({
   labelName,
   placeholderText,
   origValue,
   inputType,
   onChange,
 }) => {
-  const [value, setValue] = useState(origValue);
+  const [value, setValue] = useState<string>(origValue as string);
 
-  const validateValue = (val) => {
+  const validateValue = (val: string): boolean => {
     const numberRegex = /^[0-9]*$/;
     switch (inputType) {
       case 'text':
@@ -69,7 +76,7 @@ const SignupMemInput = ({
     }
   };
 
-  const onChangeValue = (e) => {
+  const onChangeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value;
     if (validateValue(val)) {
       setValue(val); // 로컬 상태 업데이트
@@ -78,7 +85,7 @@ const SignupMemInput = ({
   };
 
   useEffect(() => {
-    setValue(origValue); // origValue 변경 시 로컬 상태 업데이트
+    setValue(origValue as string); // origValue 변경 시 로컬 상태 업데이트
   }, [origValue]);
 
   return (
@@ -87,21 +94,13 @@ const SignupMemInput = ({
         <SignupWhite text={labelName} />
       </Label>
       <InputLine
+        type={inputType}
         placeholder={placeholderText}
         value={value}
         onChange={onChangeValue}
       />
     </MemTextContainer>
   );
-};
-
-SignupMemInput.propTypes = {
-  labelName: PropTypes.string.isRequired,
-  placeholderText: PropTypes.string.isRequired,
-  origValue: PropTypes.oneOfType([PropTypes.string, PropTypes.array])
-    .isRequired,
-  inputType: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired, // 부모 컴포넌트로 상태 전달
 };
 
 export default SignupMemInput;

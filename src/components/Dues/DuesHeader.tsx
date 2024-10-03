@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import LeftButton from '../Header/LeftButton';
-import Title from '../Header/Title';
+import LeftButton from '@/components/Header/LeftButton';
+import Title from '@/components/Header/Title';
 
 const StyledHeader = styled.div`
   display: flex;
@@ -17,7 +17,7 @@ const TitleWrapper = styled.div`
 // //  해당 함수에 온클릭 이벤트 작성
 // const onClickLeftButton = () => {};
 
-const DuesHeader = () => {
+const DuesHeader: React.FC = ()=> {
   return (
     <StyledHeader>
       <LeftButton />

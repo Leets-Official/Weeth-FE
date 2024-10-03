@@ -1,11 +1,7 @@
 App.js
-Home.jsx
-Attendance.jsx
-Button.jsx
+
 index.js
-SmallButton.jsx
-Caption.jsx
-MiddleButton.jsx
+
 Utils.js
 
 UserAPI.jsx

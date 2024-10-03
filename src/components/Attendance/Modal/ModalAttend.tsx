@@ -1,17 +1,30 @@
-import React, { useState, useEffect, useContext } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState, useEffect, useContext, ChangeEvent } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
-import MiddleButton from '../../Button/MiddleButton';
-import theme from '../../../styles/theme';
-import icClose from '../../../assets/images/ic_close.svg';
-import check from '../../../assets/images/ic_check.svg';
-import './ModalAttend.css';
-import wrong from '../../../assets/images/ic_wrong.svg';
-import correct from '../../../assets/images/ic_correct.svg';
-import { AttendContext } from '../../../service/AttendContext';
 
-const StyledModal = styled.div`
+import Button from '@/components/Button/Button';
+import theme from '@/styles/theme';
+import icClose from '@/assets/images/ic_close.svg';
+import check from '@/assets/images/ic_check.svg';
+import './ModalAttend.css';
+import wrong from '@/assets/images/ic_wrong.svg';
+import correct from '@/assets/images/ic_correct.svg';
+import { AttendContext } from '@/service/AttendContext';
+
+interface ModalAttendProps {
+  open: boolean;
+  close: () => void;
+}
+
+interface WrongContainerProps {
+  message: string;
+}
+
+interface CloseButtonProps {
+  onClick: () => void;
+}
+
+const StyledModal = styled.div<{ open: boolean }>`
   display: ${(props) => (props.open ? 'block' : 'none')};
   position: fixed;
   z-index: 1;
@@ -72,7 +85,7 @@ const RightContainer = () => {
   );
 };
 
-const WrongContainer = ({ message }) => {
+const WrongContainer: React.FC<WrongContainerProps> = ({ message }) => {
   return (
     <>
       <ImgContainer>
@@ -82,30 +95,24 @@ const WrongContainer = ({ message }) => {
     </>
   );
 };
-WrongContainer.propTypes = {
-  message: PropTypes.string.isRequired,
-};
 
-const CloseButton = ({ onClick }) => (
+const CloseButton: React.FC<CloseButtonProps> = ({ onClick }) => (
   <ImgButton onClick={onClick}>
     <img src={icClose} alt="닫기" />
   </ImgButton>
 );
 
-CloseButton.propTypes = {
-  onClick: PropTypes.func.isRequired,
-};
-
-const ModalAttend = ({ open, close }) => {
+const ModalAttend: React.FC<ModalAttendProps> = ({ open, close }) => {
   const [codeCheck, setCodeCheck] = useState(0);
   const [inputValue, setInputValue] = useState('');
   const [message, setMessage] = useState('');
-  const [accessToken, setAccessToken] = useState(
-    localStorage.getItem('accessToken'),
+  const [accessToken, setAccessToken] = useState<string | null>(
+    localStorage.getItem('accessToken')
   );
   const refreshToken = localStorage.getItem('refreshToken');
 
-  // 모달창 나갔다 들어왔을 때 입력 창 비워지고, 하단부 화면 비워지도록
+  const { attendanceData, attendFetchError } = useContext(AttendContext);
+
   useEffect(() => {
     if (!open) {
       setCodeCheck(0);
@@ -131,7 +138,7 @@ const ModalAttend = ({ open, close }) => {
       const response = await axios.patch(
         `${BASE_URL}/api/v1/attendances`,
         { code: inputValue },
-        { headers },
+        { headers }
       );
       setMessage(response.data.message);
       if (response.data.code === 200) {
@@ -145,20 +152,14 @@ const ModalAttend = ({ open, close }) => {
     }
   };
 
-  const handleChange = (e) => {
-    // 4자리 숫자만 입력 가능
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     if (/^\d{0,4}$/.test(value)) {
       setInputValue(value);
     }
   };
 
-  const { attendanceData, attendFetchError } = useContext(AttendContext);
-
-  let title;
-  let location;
-  let startDateTime; // 날짜
-  let endDateTime; // 시간
+  let title: string, location: string, startDateTime: string, endDateTime: string;
 
   if (attendFetchError) {
     title = 'error';
@@ -166,7 +167,6 @@ const ModalAttend = ({ open, close }) => {
     startDateTime = 'error';
     endDateTime = 'error';
   } else if (!attendanceData) {
-    // 데이터를 아직 가져오지 않았거나, 일정이 없는 경우
     title = '로딩중';
     location = '로딩중';
     startDateTime = '로딩중';
@@ -174,25 +174,32 @@ const ModalAttend = ({ open, close }) => {
   } else {
     title = attendanceData.title;
     location = attendanceData.location;
-
     // Date 객체로 변환
     const startDate = new Date(attendanceData.start);
     const endDate = new Date(attendanceData.end);
 
-    // 날짜 형식으로 변환
-    const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+    // 날짜 형식으로 변환 (정확한 타입 설정)
+    const dateOptions: Intl.DateTimeFormatOptions = { 
+      year: 'numeric', 
+      month: 'long', 
+      day: 'numeric' 
+    };
     startDateTime = startDate.toLocaleDateString('ko-KR', dateOptions);
 
     // 시간 형식으로 변환 (24시간 형식)
-    const timeOptions = { hour: '2-digit', minute: '2-digit', hour12: false };
+    const timeOptions: Intl.DateTimeFormatOptions = { 
+      hour: '2-digit', 
+      minute: '2-digit', 
+      hour12: false 
+    };
     const startTime = startDate.toLocaleTimeString('ko-KR', timeOptions);
     const endTime = endDate.toLocaleTimeString('ko-KR', timeOptions);
 
     // 피그마 형식대로 변환
     endDateTime = `(${startTime} ~ ${endTime})`;
+
   }
 
-  // Listen for accessToken changes in localStorage
   useEffect(() => {
     const handleStorageChange = () => {
       const newToken = localStorage.getItem('accessToken');
@@ -237,25 +244,21 @@ const ModalAttend = ({ open, close }) => {
             />
           </div>
           <div className="modal-buttons">
-            <MiddleButton
+            <Button
               onClick={handleCompleteBtn}
-              disabled={!inputValue || codeCheck === 1}
+              width= "{370 * 0.76}"
+              height= "45"
             >
               입력완료
-            </MiddleButton>
+            </Button>
           </div>
           {codeCheck === 0 && <div> </div>}
-          {codeCheck === 1 && <RightContainer message={message} />}
+          {codeCheck === 1 && <RightContainer />}
           {codeCheck === 2 && <WrongContainer message={message} />}
         </div>
       </Regular>
     </StyledModal>
   );
-};
-
-ModalAttend.propTypes = {
-  open: PropTypes.bool.isRequired,
-  close: PropTypes.func.isRequired,
 };
 
 export default ModalAttend;

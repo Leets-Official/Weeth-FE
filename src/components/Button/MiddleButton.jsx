@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import theme from '../../styles/theme';
+import theme from '@/styles/theme';
 
 // 배경색이랑 글자색 props로 전달 받아 설정 가능
 // props 전달 없으면 gray30에 흰색 글씨로 기본형 버튼

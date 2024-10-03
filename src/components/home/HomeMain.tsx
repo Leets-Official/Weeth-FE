@@ -1,16 +1,17 @@
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
-import Caption from '../Caption';
-import RightButton from '../Header/RightButton';
-import './HomeMain.css';
-import theme from '../../styles/theme';
 
-import { UserContext } from '../../service/UserContext';
+import Caption from '@/components/Caption';
+import RightButton from '@/components/Header/RightButton';
+import '@/components/home/HomeMain.css';
+import theme from '@/styles/theme';
 
-import calendar from '../../assets/images/ic_home_calendar.svg';
-import attend from '../../assets/images/ic_home_attend.svg';
-import board from '../../assets/images/ic_home_board.svg';
+import { UserContext } from '@/service/UserContext';
+
+import calendar from '@/assets/images/ic_home_calendar.svg';
+import attend from '@/assets/images/ic_home_attend.svg';
+import board from '@/assets/images/ic_home_board.svg';
 
 const StyledHomeMain = styled.div`
   display: flex;
@@ -36,7 +37,7 @@ const GridContainer = styled.div`
   gap: 10px;
 `;
 
-const GridItem = styled.div`
+const GridItem = styled.div<{ color?: string }>`
   background-color: ${({ color }) => color || theme.color.grayScale.gray18};
   font-family: ${theme.font.family.pretendard_semiBold};
   font-size: 18px;
@@ -75,7 +76,7 @@ const FeeItem = styled(GridItem)`
   justify-content: start;
 `;
 
-const PlaceholderImage = styled.div`
+const PlaceholderImage = styled.div<{ color?: string }>`
   display: flex;
   padding-right: 8%;
   align-items: center;
@@ -87,25 +88,15 @@ const PlaceholderImage = styled.div`
   justify-self: flex-start;
 `;
 
-const HomeMain = () => {
+const HomeMain: React.FC = () => {
   const navi = useNavigate();
   const { userData } = useContext(UserContext);
 
-  let userName;
-  if (userData === null) {
-    userName = 'Loading';
-  } else {
-    userName = userData.name;
-  }
-  let cardinal;
-  if (userData === null) {
-    cardinal = 'Loading';
-  } else if (userData.cardinals.length >= 2) {
-    cardinal = userData.cardinals[userData.cardinals.length - 1];
-  } else {
-    // eslint-disable-next-line prefer-destructuring
-    cardinal = userData.cardinals[0];
-  }
+  const userName = userData?.name || 'Loading';
+  const cardinal =
+    userData?.cardinals.length! >= 2
+      ? userData.cardinals[userData.cardinals.length - 1]
+      : userData?.cardinals[0] || 'Loading';
 
   return (
     <StyledHomeMain>

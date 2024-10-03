@@ -3,18 +3,20 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
-import theme from '../styles/theme';
-import SignupMemInput from '../components/Signup/SignupMemInput';
-import SignupHeader from '../components/Signup/SignupHeader';
-import PositionSector from '../components/Signup/PositionSector';
-import SignupDropDown from '../components/Signup/SignupDropDown';
-import useCustomBack from '../router/useCustomBack';
 
+import theme from '@/styles/theme';
+import SignupMemInput from '@/components/Signup/SignupMemInput';
+import SignupHeader from '@/components/Signup/SignupHeader';
+import PositionSector from '@/components/Signup/PositionSector';
+import SignupDropDown from '@/components/Signup/SignupDropDown';
+import useCustomBack from '@/router/useCustomBack';
+
+// Styled components
 const ProfileContainer = styled.div`
   width: 370px;
   height: 812px;
   max-width: 370px;
-  overflow-x: hidden; /* 가로 스크롤 삭제 */
+  overflow-x: hidden; /* Prevent horizontal scroll */
 `;
 
 const HeaderText = styled.div`
@@ -29,24 +31,39 @@ const InputContainer = styled.div`
 `;
 
 const InputWrapper = styled.div`
-  margin-bottom: 33px; /* 요소 간 간격 33px */
+  margin-bottom: 33px; /* Spacing between elements */
 `;
 
-const roleMapping = {
+const roleMapping: Record<string, string> = {
   프론트: 'FE',
   백: 'BE',
   디자인: 'D',
 };
 
-const Profile = () => {
+// Member info state type
+interface MemberInfo {
+  email?: string;
+  password?: string;
+  name?: string;
+  studentId?: string;
+  department?: string;
+  tel?: string;
+  cardinal?: string;
+  position?: string;
+}
+
+// Define a type for the valid keys of MemberInfo
+type MemberInfoKeys = keyof MemberInfo;
+
+const Profile: React.FC = () => {
   useCustomBack('/signup');
 
   const location = useLocation();
   const navigate = useNavigate();
   const { email, password } = location.state || { email: '', password: '' };
 
-  const [memberInfo, setMemberInfo] = useState({ email, password });
-  const [isNextEnabled, setIsNextEnabled] = useState(false);
+  const [memberInfo, setMemberInfo] = useState<MemberInfo>({ email, password });
+  const [isNextEnabled, setIsNextEnabled] = useState<boolean>(false);
 
   const handleNextClick = async () => {
     const allFieldsFilled = [
@@ -56,11 +73,7 @@ const Profile = () => {
       'tel',
       'cardinal',
       'position',
-    ].every(
-      (field) =>
-        typeof memberInfo[field] === 'string' &&
-        memberInfo[field].trim() !== '',
-    );
+    ].every((field) => typeof memberInfo[field as keyof MemberInfo] === 'string' && memberInfo[field as keyof MemberInfo]?.trim() !== '');
 
     if (memberInfo.studentId && memberInfo.studentId.trim().length < 9) {
       alert('올바른 학번을 입력해 주세요.');
@@ -78,15 +91,12 @@ const Profile = () => {
 
     const mappedMemberInfo = {
       ...memberInfo,
-      position: roleMapping[memberInfo.position] || memberInfo.position, // Map the role value
+      position: roleMapping[memberInfo.position || ''] || memberInfo.position,
     };
 
     try {
       const BASE_URL = import.meta.env.VITE_API_URL;
-      const response = await axios.post(
-        `${BASE_URL}/api/v1/users/apply`,
-        mappedMemberInfo,
-      );
+      const response = await axios.post(`${BASE_URL}/api/v1/users/apply`, mappedMemberInfo);
 
       if (response.data.code === 200) {
         alert(`가입 신청이 완료되었습니다.
@@ -95,16 +105,12 @@ const Profile = () => {
       } else {
         alert(response.data.message);
       }
-    } catch (error) {
+    } catch (error: any) {
       alert(error.response?.data.message || error.message);
-      // console.error(
-      //   'Error submitting form:',
-      //   error.response?.data || error.message,
-      // );
     }
   };
 
-  const handleChange = (key, value) => {
+  const handleChange = (key: MemberInfoKeys, value: string) => {
     const newMemberInfo = { ...memberInfo, [key]: value };
     setMemberInfo(newMemberInfo);
 
@@ -115,17 +121,9 @@ const Profile = () => {
       'tel',
       'cardinal',
       'position',
-    ].every(
-      (field) =>
-        typeof newMemberInfo[field] === 'string' &&
-        newMemberInfo[field].trim() !== '',
-    );
+    ].every((field) => typeof newMemberInfo[field as keyof MemberInfo] === 'string' && newMemberInfo[field as keyof MemberInfo]?.trim() !== '');
 
     setIsNextEnabled(allFieldsFilled);
-  };
-
-  const getNextButtonColor = () => {
-    return isNextEnabled ? 'green' : 'white';
   };
 
   return (
@@ -133,7 +131,6 @@ const Profile = () => {
       <SignupHeader
         isRightButtonEnabled={isNextEnabled}
         onClickTextButton={handleNextClick}
-        nextButtonColor={getNextButtonColor()}
       />
       <HeaderText>동아리원의 정보를 입력해주세요.</HeaderText>
       <InputContainer>

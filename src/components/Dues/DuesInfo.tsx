@@ -1,15 +1,21 @@
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
-import Caption from '../Caption';
-import theme from '../../styles/theme';
+import Caption from '@/components/Caption';
+import theme from '@/styles/theme';
+
+interface DuseInfoProps {
+  dues: number;
+  category: string;
+  date: string;
+  memo: string;
+}
 
 const MemberWrapper = styled.div`
-  width; 88%;
-  margin: 16px 6% 0 6%;
+  width; 100%;
+  padding: 20px 0px 0px 0px;
   font-family: ${theme.font.family.pretendard_regular};
 `;
 
-const StyledReceiptBox = styled.div`
+const StyledDuesBox = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -45,30 +51,29 @@ const SmallText = styled.div`
   color: rgba(255, 255, 255, 0.5);
 `;
 
-const ReceiptInfo = ({ money, date, memo }) => {
+const DuesInfo: React.FC<DuseInfoProps> = ({ dues, category, date, memo }) => {
   return (
     <MemberWrapper>
-      <StyledReceiptBox>
+      <StyledDuesBox>
         <StyledCaptionBox>
-          <Caption color={theme.color.main.negative}>지출</Caption>
+          {category === '회비' ? (
+            <Caption color={theme.color.main.positive}>회비</Caption>
+          ) : (
+            <Caption color={theme.color.main.negative}>지출</Caption>
+          )}
           <StyledTextBox>
-            <Text>{memo}</Text>
+            <Text>금액</Text>
             <SmallText>{date}</SmallText>
           </StyledTextBox>
         </StyledCaptionBox>
         <StyledMemoBox>
-          <Text>{money}원</Text>
-          <SmallText>&nbsp;</SmallText>
+          <Text>{dues.toLocaleString()}원</Text>
+          <SmallText>{memo}</SmallText>
         </StyledMemoBox>
-      </StyledReceiptBox>
+      </StyledDuesBox>
     </MemberWrapper>
   );
 };
 
-ReceiptInfo.propTypes = {
-  money: PropTypes.string.isRequired,
-  date: PropTypes.string.isRequired,
-  memo: PropTypes.string.isRequired,
-};
 
-export default ReceiptInfo;
+export default DuesInfo;
