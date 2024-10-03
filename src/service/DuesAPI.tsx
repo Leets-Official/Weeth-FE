@@ -1,9 +1,10 @@
 import { useEffect, useContext } from 'react';
 import axios from 'axios';
-import { DuesContext } from './DuesContext';
-import Utils from './Utils';
+import { DuesContext } from '@/service/DuesContext';
+import Utils from '@/service/Utils';
 
-const DuesAPI = () => {
+// DuesAPI 컴포넌트
+const DuesAPI: React.FC = () => {
   const {
     myCardinal,
     setDuesData,
@@ -14,8 +15,9 @@ const DuesAPI = () => {
     setTime,
   } = useContext(DuesContext);
 
-  const accessToken = localStorage.getItem('accessToken');
-  const refreshToken = localStorage.getItem('refreshToken');
+  const accessToken = localStorage.getItem('accessToken') || '';
+  const refreshToken = localStorage.getItem('refreshToken') || '';
+
   useEffect(() => {
     const fetchDuesData = async () => {
       try {
@@ -26,14 +28,14 @@ const DuesAPI = () => {
         };
         const BASE_URL = import.meta.env.VITE_API_URL;
 
-        const originalApiFunc = (funcCardinal) =>
+        const originalApiFunc = (funcCardinal: number) =>
           axios.get(`${BASE_URL}/api/v1/account/${funcCardinal}`, { headers });
 
         // API 호출을 Utils로 처리
         const response = await Utils(
           await originalApiFunc(cardinal),
           originalApiFunc,
-          [cardinal],
+          [cardinal]
         );
 
         const result = response.data;
@@ -62,7 +64,7 @@ const DuesAPI = () => {
       }
     };
 
-    fetchDuesData(); // 비동기 함수를 호출
+    fetchDuesData();
   }, [
     accessToken,
     myCardinal,

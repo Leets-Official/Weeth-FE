@@ -1,28 +1,40 @@
-const Utils = async (response, originalApiFunc, originalParams) => {
+// Utils.ts
+import { AxiosResponse } from 'axios';
+
+// API 응답 타입 정의
+type ApiResponse<T = any> = {
+  status: number;
+  data: T;
+  headers: {
+    authorization?: string;
+    authorization_refresh?: string;
+  };
+};
+
+// Utils 함수 정의
+const Utils = async <T>(
+  response: AxiosResponse<T>,
+  originalApiFunc: (...args: any[]) => Promise<AxiosResponse<T>>,
+  originalParams: any[]
+): Promise<AxiosResponse<T>> => {
   // 데이터가 비어있는지 확인
-  const isResponseBodyEmpty = (data) => {
-    if (data === null || data === undefined || data=='') {
+  const isResponseBodyEmpty = (data: any): boolean => {
+    if (data === null || data === undefined || data === '') {
       return true;
-    };
+    }
     if (typeof data === 'object') return Object.keys(data).length === 0;
     if (Array.isArray(data)) return data.length === 0;
     return false;
   };
-  // console.log('utils 코드', response.status);
 
   if (response.status === 200) {
     // Body가 비어 있지 않으면 데이터를 반환
-    // console.log('utils',isResponseBodyEmpty(response.data));
-    // console.log('utils.data', response.data);
     if (!isResponseBodyEmpty(response.data)) {
-      // console.log(response);
       return response;
     } else {
       // Body가 비어있다면 새로운 토큰이 있는지 확인하고, 로컬 스토리지에 저장
-      // console.log('utils.header', response);
       const newToken = response.headers.authorization;
       const newRefreshToken = response.headers.authorization_refresh;
-      // console.log(newToken, newRefreshToken);
       if (newToken && newRefreshToken) {
         localStorage.setItem('accessToken', newToken);
         localStorage.setItem('refreshToken', newRefreshToken);
@@ -47,6 +59,7 @@ const Utils = async (response, originalApiFunc, originalParams) => {
 
 export default Utils;
 
-export const replaceNewLines = (text) => {
+// 줄바꿈 변환 함수
+export const replaceNewLines = (text: string): string => {
   return text.replace(/\r?\n/g, '\n');
 };
