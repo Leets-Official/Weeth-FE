@@ -1,8 +1,6 @@
 import React, { useRef } from 'react';
-import styled from 'styled-components';
-
-import theme from '@/styles/theme';
 import { useDraggable } from '@/service/useDraggable';
+import * as S from '@/styles/home/HomeFooter.styled';
 
 import leets from '@/assets/images/ic_leets.svg';
 import insta from '@/assets/images/ic_insta.svg';
@@ -15,91 +13,6 @@ import filling from '@/assets/images/ic_filling.svg';
 import weeth from '@/assets/images/ic_weeth.svg';
 import weneed from '@/assets/images/ic_weneed.svg';
 
-const StyledHomeFooter = styled.div`
-  font-family: ${theme.font.family.pretendard_semiBold};
-  font-size: 18px;
-  width: 86.8%;
-  margin: 8% 6.6% 0px 6.6%;
-`;
-
-const ScrollContainer = styled.div`
-  display: flex;
-  width: 94%;
-  margin: 4% 3% 0px 3%;
-  overflow-x: auto;
-  cursor: grab;
-  &::-webkit-scrollbar {
-    height: 8px;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    border-radius: 4px;
-  }
-`;
-
-const ImgContainer = styled.div`
-  margin-bottom: 5px;
-`;
-
-const GridItem = styled.a<{ color?: string }>`
-  flex: 0 0 auto;
-  margin-right: 10px;
-  padding: 10px 15px 15px 0;
-  background-color: ${({ color }) => color || theme.color.grayScale.gray18};
-  font-family: ${theme.font.family.pretendard_semiBold};
-  width: 34%;
-  height: 77px;
-  color: #fff;
-  border-radius: 10px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  align-items: flex-end;
-  font-size: 16px;
-  white-space: nowrap;
-  text-decoration: none;
-
-  &:last-child {
-    margin-right: 0;
-  }
-`;
-
-const GridItemWithImage = styled(GridItem)<{ $image: string }>`
-  background-image: url(${({ $image }) => $image});
-  background-size: cover;
-  background-position: center;
-  border: none;
-  text-align: center;
-  display: flex;
-  justify-content: flex-end;
-  align-items: flex-end;
-  position: relative;
-  overflow: hidden;
-  padding: 10px;
-
-  &:after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(
-      to bottom,
-      rgba(0, 0, 0, 0),
-      rgba(0, 0, 0, 0.9)
-    );
-    z-index: 1;
-  }
-
-  span {
-    position: relative;
-    z-index: 2;
-    color: #fff;
-    font-size: 16px;
-  }
-`;
-
 const HomeFooter: React.FC = () => {
   const scrollerRef1 = useRef<HTMLDivElement | null>(null);
   const scrollerRef2 = useRef<HTMLDivElement | null>(null);
@@ -110,93 +23,93 @@ const HomeFooter: React.FC = () => {
 
   return (
     <>
-      <StyledHomeFooter>From Leets</StyledHomeFooter>
-      <ScrollContainer
+      <S.StyledHomeFooter>From Leets</S.StyledHomeFooter>
+      <S.ScrollContainer
         ref={scrollerRef1}
         onMouseDown={onMouseDown}
         onMouseMove={onMouseMove}
         onMouseUp={onMouseUp}
         onMouseLeave={onMouseLeave}
       >
-        <GridItem href="https://www.leets.land/" target="_blank">
-          <ImgContainer>
+        <S.GridItem href="https://www.leets.land/" target="_blank">
+          <S.ImgContainer>
             <img src={leets} alt="leets" />
-          </ImgContainer>
+          </S.ImgContainer>
           홈페이지
-        </GridItem>
-        <GridItem
+        </S.GridItem>
+        <S.GridItem
           href="https://www.instagram.com/leets.official/"
           target="_blank"
         >
-          <ImgContainer>
+          <S.ImgContainer>
             <img src={insta} alt="instagram" />
-          </ImgContainer>
+          </S.ImgContainer>
           Instagram
-        </GridItem>
-        <GridItem href="https://discord.gg/XvZqeAca4K" target="_blank">
-          <ImgContainer>
+        </S.GridItem>
+        <S.GridItem href="https://discord.gg/XvZqeAca4K" target="_blank">
+          <S.ImgContainer>
             <img src={discord} alt="discord" />
-          </ImgContainer>
+          </S.ImgContainer>
           Discord
-        </GridItem>
-        <GridItem href="https://github.com/Leets-Official" target="_blank">
-          <ImgContainer>
+        </S.GridItem>
+        <S.GridItem href="https://github.com/Leets-Official" target="_blank">
+          <S.ImgContainer>
             <img src={github} alt="github" />
-          </ImgContainer>
+          </S.ImgContainer>
           Github
-        </GridItem>
-      </ScrollContainer>
-      <StyledHomeFooter>Leets의 프로젝트를 둘러보세요!</StyledHomeFooter>
-      <ScrollContainer
+        </S.GridItem>
+      </S.ScrollContainer>
+      <S.StyledHomeFooter>Leets의 프로젝트를 둘러보세요!</S.StyledHomeFooter>
+      <S.ScrollContainer
         ref={scrollerRef2}
         onMouseDown={draggableHandlers2.onMouseDown}
         onMouseMove={draggableHandlers2.onMouseMove}
         onMouseUp={draggableHandlers2.onMouseUp}
         onMouseLeave={draggableHandlers2.onMouseLeave}
       >
-        <GridItemWithImage
+        <S.GridItemWithImage
           $image={weeth}
           href="https://www.leets.land/project/12"
           target="_blank"
         >
           <span>Weeth</span>
-        </GridItemWithImage>
-        <GridItemWithImage
+        </S.GridItemWithImage>
+        <S.GridItemWithImage
           $image={commitato}
           href="https://www.leets.land/project/13"
           target="_blank"
         >
           <span>COMMITATO</span>
-        </GridItemWithImage>
-        <GridItemWithImage
+        </S.GridItemWithImage>
+        <S.GridItemWithImage
           $image={moodmate}
           href="https://www.leets.land/project/7"
           target="_blank"
         >
           <span>moodmate</span>
-        </GridItemWithImage>
-        <GridItemWithImage
+        </S.GridItemWithImage>
+        <S.GridItemWithImage
           $image={filling}
           href="https://www.leets.land/project/8"
           target="_blank"
         >
           <span>filling</span>
-        </GridItemWithImage>
-        <GridItemWithImage
+        </S.GridItemWithImage>
+        <S.GridItemWithImage
           $image={weneed}
           href="https://www.leets.land/project/11"
           target="_blank"
         >
           <span>weneed</span>
-        </GridItemWithImage>
-        <GridItemWithImage
+        </S.GridItemWithImage>
+        <S.GridItemWithImage
           $image={gradu}
           href="https://www.leets.land/project/10"
           target="_blank"
         >
           <span>Gradu</span>
-        </GridItemWithImage>
-      </ScrollContainer>
+        </S.GridItemWithImage>
+      </S.ScrollContainer>
     </>
   );
 };
