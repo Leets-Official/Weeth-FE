@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 
-import Caption from '@/components/Caption';
+import Caption from '@/components/Button/Caption';
 import RightButton from '@/components/Header/RightButton';
 import '@/components/home/HomeMain.css';
 import theme from '@/styles/theme';

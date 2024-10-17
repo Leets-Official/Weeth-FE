@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import styled from 'styled-components';
 import theme from '@/styles/theme';
-import Caption from '@/components/Caption';
+import Caption from '@/components/Button/Caption';
 import { UserContext } from '@/service/UserContext';
 import { AttendCheckContext } from '@/service/AttendCheckContext';
 

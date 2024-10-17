@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import Caption from '@/components/Caption';
+import Caption from '@/components/Button/Caption';
 import theme from '@/styles/theme';
 
 interface DuseInfoProps {
@@ -38,6 +38,7 @@ const StyledMemoBox = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+  text-align: end;
   margin-left: 10px;
 `;
 
@@ -46,6 +47,13 @@ const Text = styled.div`
 `;
 
 const SmallText = styled.div`
+  margin-top: 7px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.5);
+`;
+
+const SmallTextMemo = styled.div`
+  width: 100px;
   margin-top: 7px;
   font-size: 12px;
   color: rgba(255, 255, 255, 0.5);
@@ -68,7 +76,7 @@ const DuesInfo: React.FC<DuseInfoProps> = ({ dues, category, date, memo }) => {
         </StyledCaptionBox>
         <StyledMemoBox>
           <Text>{dues.toLocaleString()}원</Text>
-          <SmallText>{memo}</SmallText>
+          <SmallTextMemo>{memo}</SmallTextMemo>
         </StyledMemoBox>
       </StyledDuesBox>
     </MemberWrapper>

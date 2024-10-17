@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import Caption from '@/components/Caption';
+import Caption from '@/components/Button/Caption';
 import theme from '@/styles/theme';
 import React from 'react';
 
