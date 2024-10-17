@@ -46,44 +46,50 @@ const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <UserProvider>
-      <MonthlyScheduleProvider>
-      <BoardProvider>
-      <DuesProvider>
-      <EventInfoProvider>
-      <NoticeProvider>
-      <YearlyScheduleProvider>
-      <AttendCheckProvider>
-      <ScrollToTop />
-        <Routes>
-          <Route path="/" element={<Landing />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/attendance" element={<Attendance />} />
-          <Route path="/calendar" element={<Calendar />} />
-          <Route path="/:type/:id" element={<EventDetails />} />
-          <Route path="/event/create" element={<EventAdmin />} />
-          <Route path="/event/:id/edit" element={<EventAdmin />} />
-          <Route path="/home" element={<Home />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/attendCheck" element={<AttendCheck />} />
-          <Route path="/member" element={<Member />} />
-          <Route path="/member/:id" element={<MemberDetail />} />
-          <Route path="/mypage" element={<MyPage />} />
-          <Route path="/edit" element={<Edit />} />
-          <Route path="/dues" element={<Dues />} />
-          <Route path="/receipt" element={<Receipt />} />
-          <Route path="/board" element={<Board />} />
-          <Route path="/study/:id" element={<StudyDetail />} />
-          <Route path="/notice/:id" element={<NoticeDetail />} />
-          <Route path="/study/post" element={<StudyPosting />} />
-          <Route path="/notice/post" element={<NoticePosting />} />
-        </Routes>
-        </AttendCheckProvider>
-        </YearlyScheduleProvider>
-        </NoticeProvider>
-        </EventInfoProvider>
-        </DuesProvider>
-        </BoardProvider>
+        <MonthlyScheduleProvider>
+          <BoardProvider>
+            <DuesProvider>
+              <EventInfoProvider>
+                <NoticeProvider>
+                  <YearlyScheduleProvider>
+                    <AttendCheckProvider>
+                      <ScrollToTop />
+                      <Routes>
+                        <Route path="/" element={<Landing />} />
+                        <Route path="/login" element={<Login />} />
+                        <Route path="/attendance" element={<Attendance />} />
+                        <Route path="/calendar" element={<Calendar />} />
+                        <Route path="/:type/:id" element={<EventDetails />} />
+                        <Route path="/event/create" element={<EventAdmin />} />
+                        <Route
+                          path="/event/:id/edit"
+                          element={<EventAdmin />}
+                        />
+                        <Route path="/home" element={<Home />} />
+                        <Route path="/signup" element={<Signup />} />
+                        <Route path="/profile" element={<Profile />} />
+                        <Route path="/attendCheck" element={<AttendCheck />} />
+                        <Route path="/member" element={<Member />} />
+                        <Route path="/member/:id" element={<MemberDetail />} />
+                        <Route path="/mypage" element={<MyPage />} />
+                        <Route path="/edit" element={<Edit />} />
+                        <Route path="/dues" element={<Dues />} />
+                        <Route path="/receipt" element={<Receipt />} />
+                        <Route path="/board" element={<Board />} />
+                        <Route path="/study/:id" element={<StudyDetail />} />
+                        <Route path="/notice/:id" element={<NoticeDetail />} />
+                        <Route path="/study/post" element={<StudyPosting />} />
+                        <Route
+                          path="/notice/post"
+                          element={<NoticePosting />}
+                        />
+                      </Routes>
+                    </AttendCheckProvider>
+                  </YearlyScheduleProvider>
+                </NoticeProvider>
+              </EventInfoProvider>
+            </DuesProvider>
+          </BoardProvider>
         </MonthlyScheduleProvider>
       </UserProvider>
     </ThemeProvider>
