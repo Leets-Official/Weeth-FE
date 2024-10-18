@@ -1,4 +1,3 @@
-import styled from 'styled-components';
 import Modal from 'react-modal';
 import axios from 'axios';
 
@@ -7,9 +6,10 @@ import { useNavigate } from 'react-router-dom';
 import { UserContext } from '@/service/UserContext';
 import LeftButton from '@/components/Header/LeftButton';
 import IndexButton from '@/components/Header/IndexButton';
-import theme from '@/styles/theme';
 import EditDelModal from '@/components/EditDelModal';
 import UserAPI from '@/service/UserAPI';
+import * as S from '@/styles/calendar/EventDetailTitle.styled';
+import { adminModalStyles } from '@/styles/calendar/EventDetailTitle.styled';
 
 Modal.setAppElement('#root');
 
@@ -20,48 +20,6 @@ interface EventDetailTitleProps {
   createdAt: string;
   isMeeting: boolean;
 }
-
-const StyledTitle = styled.div`
-  margin: 25px 25px 20px 25px; //기본 헤더 마진
-`;
-
-const StyledHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-const Title = styled.div`
-  font-family: ${theme.font.family.pretendard_semiBold};
-  font-size: 24px;
-  padding: 10px 0px;
-`;
-
-const Writer = styled.div`
-  font-family: ${theme.font.family.pretendard_regular};
-  font-size: 12px;
-  color: #a6a6a6;
-`;
-
-const WrittenTime = styled.div`
-  font-family: ${theme.font.family.pretendard_regular};
-  font-size: 12px;
-  color: #a6a6a6;
-`;
-
-const Detail = styled.div`
-  display: flex;
-
-  div {
-    margin-right: 10px;
-  }
-`;
-
-const adminModalStyles = {
-  overlay: {
-    backgroundColor: 'rgba(0,0,0,0.4)',
-  },
-};
 
 const EventDetailTitle: React.FC<EventDetailTitleProps> = ({ id, text, writer, createdAt, isMeeting }) => {
   const { userData } = useContext(UserContext);
@@ -103,21 +61,21 @@ const EventDetailTitle: React.FC<EventDetailTitleProps> = ({ id, text, writer, c
   }
 
   return (
-    <StyledTitle>
+    <S.StyledTitle>
       <UserAPI />
-      <StyledHeader>
+      <S.StyledHeader>
         <LeftButton />
         {userData.role === 'ADMIN' && !isMeeting ? (
           <IndexButton onClick={openAdminModal} />
         ) : null}
-      </StyledHeader>
-      <Title>{text}</Title>
-      <Detail>
-        <Writer>{writer}</Writer>
-        <WrittenTime>
+      </S.StyledHeader>
+      <S.Title>{text}</S.Title>
+      <S.Detail>
+        <S.Writer>{writer}</S.Writer>
+        <S.WrittenTime>
           {splittedDate[0].replace(/-/gi, '/')} {splittedTime}
-        </WrittenTime>
-      </Detail>
+        </S.WrittenTime>
+      </S.Detail>
 
       <Modal
         className="calendar-modal"
@@ -134,7 +92,7 @@ const EventDetailTitle: React.FC<EventDetailTitleProps> = ({ id, text, writer, c
           onClickCancel={closeAdminModal}
         />
       </Modal>
-    </StyledTitle>
+    </S.StyledTitle>
   );
 };
 

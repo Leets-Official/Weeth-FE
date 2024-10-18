@@ -1,8 +1,7 @@
-import styled from 'styled-components';
-
 import icCalendar from '@/assets/images/ic_date.svg';
 import icWave from '@/assets/images/ic_wave.svg';
 import DateInput from '@/components/Calendar/DateInput';
+import * as S from '@/styles/calendar/DatePicker.styled';
 
 interface DatePickerProps {
   status: string;
@@ -11,25 +10,13 @@ interface DatePickerProps {
   onChange?: () => void;
 }
 
-const StyledPicker = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  padding: 5px;
-`;
-
-const WaveImg = styled.img`
-  margin: 0px 6px;
-`;
-
 const DatePicker: React.FC<DatePickerProps> = ({ status, onDateChange, date }) => {
   return (
-    <StyledPicker>
+    <S.StyledPicker>
       {status === 'start' ? (
         <img src={icCalendar} alt="달력" />
       ) : (
-        <WaveImg src={icWave} alt="물결" />
+        <S.WaveImg src={icWave} alt="물결" />
       )}
       <DateInput
         value={date[0]}
@@ -71,7 +58,7 @@ const DatePicker: React.FC<DatePickerProps> = ({ status, onDateChange, date }) =
         onChange={(value) => onDateChange(4, typeof value === 'string' ? parseInt(value, 10) : value)}
         inputType="minute"
       />
-    </StyledPicker>
+    </S.StyledPicker>
   );
 };
 

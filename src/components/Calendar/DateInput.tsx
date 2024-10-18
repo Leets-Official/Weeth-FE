@@ -1,8 +1,7 @@
 /* eslint-disable no-alert */
 /* eslint-disable react/require-default-props */
 import { useState, useEffect } from 'react';
-import styled from 'styled-components';
-import theme from '@/styles/theme';
+import * as S from "@/styles/calendar/DateInput.styled";
 
 interface DateInputProps {
   type?: string;
@@ -15,33 +14,6 @@ interface DateInputProps {
   month?: number;
   inputType: 'year' | 'month' | 'day' | 'hour' | 'minute'
 }
-
-const StyledInput = styled.input<{ $height: string, $width: string, $margin: string }>`
-  height: ${(props) => props.$height || '0px'};
-  width: ${(props) => props.$width || '0px'};
-  outline: none;
-  border: none;
-  border-radius: 4px;
-  background-color: ${theme.color.grayScale.gray12};
-  color: white;
-  text-align: center;
-  margin-left: ${(props) => props.$margin || '0px'};
-  margin-right: ${(props) => props.$margin || '0px'};
-  padding: 0px;
-  font-size: 16px;
-  font-family: ${theme.font.family.pretendard_regular};
-
-  /* Custom CSS to remove arrows in number input */
-  /* Chrome, Safari, Edge, Opera */
-  &::-webkit-outer-spin-button,
-  &::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
-
-  /* Firefox */
-  -moz-appearance: textfield;
-`;
 
 const getMaxDaysInMonth = (year: number, month: number) => {
   return new Date(year, month, 0).getDate();
@@ -136,7 +108,7 @@ const DateInput: React.FC<DateInputProps> = ({
 
   return (
     <div>
-      <StyledInput
+      <S.StyledInput
         type="number"
         value={date}
         onChange={onChangeValue}
