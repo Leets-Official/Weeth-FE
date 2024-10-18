@@ -10,7 +10,11 @@ interface DatePickerProps {
   onChange?: () => void;
 }
 
-const DatePicker: React.FC<DatePickerProps> = ({ status, onDateChange, date }) => {
+const DatePicker: React.FC<DatePickerProps> = ({
+  status,
+  onDateChange,
+  date,
+}) => {
   return (
     <S.StyledPicker>
       {status === 'start' ? (
@@ -23,39 +27,68 @@ const DatePicker: React.FC<DatePickerProps> = ({ status, onDateChange, date }) =
         width="58px"
         height="28px"
         margin="5px"
-        onChange={(value) => onDateChange(0, typeof value === 'string' ? parseInt(value, 10) : value)}
+        onChange={(value) =>
+          onDateChange(
+            0,
+            typeof value === 'string' ? parseInt(value, 10) : value,
+          )
+        }
         inputType="year"
-      />년
+      />
+      년
       <DateInput
         value={date[1]}
         width="37px"
         height="28px"
         margin="5px"
-        onChange={(value) => onDateChange(1, typeof value === 'string' ? parseInt(value, 10) : value)}
+        onChange={(value) =>
+          onDateChange(
+            1,
+            typeof value === 'string' ? parseInt(value, 10) : value,
+          )
+        }
         inputType="month"
-      />월
+      />
+      월
       <DateInput
         value={date[2]}
         width="37px"
         height="28px"
         margin="5px"
-        onChange={(value) => onDateChange(2, typeof value === 'string' ? parseInt(value, 10) : value)}
+        onChange={(value) =>
+          onDateChange(
+            2,
+            typeof value === 'string' ? parseInt(value, 10) : value,
+          )
+        }
         inputType="day"
-      />일
+      />
+      일
       <DateInput
         value={date[3]}
         width="37px"
         height="28px"
         margin="5px"
-        onChange={(value) => onDateChange(3, typeof value === 'string' ? parseInt(value, 10) : value)}
+        onChange={(value) =>
+          onDateChange(
+            3,
+            typeof value === 'string' ? parseInt(value, 10) : value,
+          )
+        }
         inputType="hour"
-      />:
+      />
+      :
       <DateInput
         value={date[4]}
         width="37px"
         height="28px"
         margin="5px"
-        onChange={(value) => onDateChange(4, typeof value === 'string' ? parseInt(value, 10) : value)}
+        onChange={(value) =>
+          onDateChange(
+            4,
+            typeof value === 'string' ? parseInt(value, 10) : value,
+          )
+        }
         inputType="minute"
       />
     </S.StyledPicker>

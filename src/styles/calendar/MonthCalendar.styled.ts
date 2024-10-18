@@ -1,5 +1,5 @@
-import styled from 'styled-components';
 import theme from '@/styles/theme';
+import styled from 'styled-components';
 
 export const CalendarContainer = styled.div`
   width: 100%;

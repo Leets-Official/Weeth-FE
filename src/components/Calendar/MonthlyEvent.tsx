@@ -1,17 +1,11 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-console */
-import React from 'react';
 import icDot from '@/assets/images/ic_dot.svg';
 import * as S from '@/styles/calendar/MonthlyEvent.styled';
+import React from 'react';
 
 interface EventComponentProps {
   title: string;
-}
-
-interface MonthlyEventProps {
-  thisMonth: number;
-  year: string | number;
-  events: Event[];
 }
 
 interface Event {
@@ -20,6 +14,12 @@ interface Event {
   start: string;
   end: string;
   isMeeting: boolean;
+}
+
+interface MonthlyEventProps {
+  thisMonth: number;
+  year: string | number;
+  events: Event[];
 }
 
 const EventComponent: React.FC<EventComponentProps> = ({ title }) => {
@@ -31,7 +31,11 @@ const EventComponent: React.FC<EventComponentProps> = ({ title }) => {
   );
 };
 
-const MonthlyEvent: React.FC<MonthlyEventProps> = ({ thisMonth, year, events }) => {
+const MonthlyEvent: React.FC<MonthlyEventProps> = ({
+  thisMonth,
+  year,
+  events,
+}) => {
   const todayMonth = new Date().getMonth() + 1;
   const todayYear = new Date().getFullYear();
   const istoday = thisMonth === todayMonth && todayYear === year;

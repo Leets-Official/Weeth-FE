@@ -1,5 +1,5 @@
-import styled from 'styled-components';
 import theme from '@/styles/theme';
+import styled from 'styled-components';
 
 export const StyledContent = styled.div<{ $isMonth: boolean }>`
   display: flex;

@@ -1,5 +1,5 @@
-import styled from 'styled-components';
 import theme from '@/styles/theme';
+import styled from 'styled-components';
 
 export const StyledTitle = styled.div`
   margin: 25px 25px 20px 25px; //기본 헤더 마진

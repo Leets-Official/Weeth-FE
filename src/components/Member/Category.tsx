@@ -1,6 +1,6 @@
-import { useState, useRef } from 'react';
 import { useDraggable } from '@/service/useDraggable';
 import * as S from '@/styles/memeber/Category.styled';
+import { useRef, useState } from 'react';
 
 interface CategoryProps {
   setSelectedCardinal: (index: number) => void;

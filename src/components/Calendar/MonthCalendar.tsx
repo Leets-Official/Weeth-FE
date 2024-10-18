@@ -1,13 +1,13 @@
 /* eslint-disable no-console */
-import { useEffect, useRef, useContext, useState } from 'react';
-import FullCalendar from '@fullcalendar/react';
-import dayGridPlugin from '@fullcalendar/daygrid';
-import { format } from 'date-fns';
-import { useNavigate } from 'react-router-dom';
-import { MonthlyScheduleContext } from '@/service/MonthlyScheduleContext';
 import MonthlyShceduleAPI from '@/service/MonthlyScheduleAPI';
+import { MonthlyScheduleContext } from '@/service/MonthlyScheduleContext';
 import UserAPI from '@/service/UserAPI';
 import * as S from '@/styles/calendar/MonthCalendar.styled';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import FullCalendar from '@fullcalendar/react';
+import { format } from 'date-fns';
+import { useContext, useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 interface MonthCalendarProps {
   year: number;
@@ -15,7 +15,6 @@ interface MonthCalendarProps {
   editYear: (newYear: number) => void;
   editMonth: (newMonth: number) => void;
 }
-
 
 const MonthCalendar: React.FC<MonthCalendarProps> = ({ year, month }) => {
   const calendarRef = useRef<FullCalendar | null>(null);
@@ -94,10 +93,7 @@ const MonthCalendar: React.FC<MonthCalendarProps> = ({ year, month }) => {
   return (
     <S.CalendarContainer>
       <UserAPI />
-      <MonthlyShceduleAPI
-        start={formattedStart}
-        end={formattedEnd}
-      />
+      <MonthlyShceduleAPI start={formattedStart} end={formattedEnd} />
       <FullCalendar
         ref={calendarRef}
         plugins={[dayGridPlugin]}

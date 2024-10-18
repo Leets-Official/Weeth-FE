@@ -1,15 +1,17 @@
-import Modal from 'react-modal';
+/* eslint-disable no-console */
+/* eslint-disable no-alert */
 import axios from 'axios';
+import Modal from 'react-modal';
 
-import React, { useState, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { UserContext } from '@/service/UserContext';
-import LeftButton from '@/components/Header/LeftButton';
-import IndexButton from '@/components/Header/IndexButton';
 import EditDelModal from '@/components/EditDelModal';
+import IndexButton from '@/components/Header/IndexButton';
+import LeftButton from '@/components/Header/LeftButton';
 import UserAPI from '@/service/UserAPI';
+import { UserContext } from '@/service/UserContext';
 import * as S from '@/styles/calendar/EventDetailTitle.styled';
 import { adminModalStyles } from '@/styles/calendar/EventDetailTitle.styled';
+import React, { useContext, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 Modal.setAppElement('#root');
 
@@ -21,7 +23,13 @@ interface EventDetailTitleProps {
   isMeeting: boolean;
 }
 
-const EventDetailTitle: React.FC<EventDetailTitleProps> = ({ id, text, writer, createdAt, isMeeting }) => {
+const EventDetailTitle: React.FC<EventDetailTitleProps> = ({
+  id,
+  text,
+  writer,
+  createdAt,
+  isMeeting,
+}) => {
   const { userData } = useContext(UserContext);
   const [adminModalIsOpen, setAdminModalIsOpen] = useState(false);
   const navi = useNavigate();
@@ -52,6 +60,7 @@ const EventDetailTitle: React.FC<EventDetailTitleProps> = ({ id, text, writer, c
         navi('/calendar');
       } catch (err) {
         alert('삭제 중 오류가 발생했습니다.');
+        console.error(err);
       }
     }
   };

@@ -1,5 +1,5 @@
-import styled from 'styled-components';
 import theme from '@/styles/theme';
+import styled from 'styled-components';
 
 export const MemberWrapper = styled.div`
   padding: 20px 10px 0px 10px;

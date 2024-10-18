@@ -1,8 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 
-import FE from '@/assets/images/ic_FE.svg';
 import BE from '@/assets/images/ic_BE.svg';
 import D from '@/assets/images/ic_DE.svg';
+import FE from '@/assets/images/ic_FE.svg';
 import MA from '@/assets/images/ic_MA.svg';
 
 import * as S from '@/styles/memeber/MemberName.styled';

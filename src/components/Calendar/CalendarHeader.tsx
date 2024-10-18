@@ -1,15 +1,15 @@
+import React, { useContext, useState } from 'react';
 import Modal from 'react-modal';
-import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import LeftButton from '@/components/Header/LeftButton';
 import ModalMonthContent from '@/components/Calendar/ModalMonthContent';
+import LeftButton from '@/components/Header/LeftButton';
 import { UserContext } from '@/service/UserContext';
-import * as S from '@/styles/calendar/CalendarHeader.styled'
+import * as S from '@/styles/calendar/CalendarHeader.styled';
 import { monthModalStyles } from '@/styles/calendar/CalendarHeader.styled';
 
-import under from '@/assets/images/ic_under.svg';
 import icPlus from '@/assets/images/ic_plus.svg';
+import under from '@/assets/images/ic_under.svg';
 
 Modal.setAppElement('#root');
 
@@ -21,7 +21,13 @@ interface CalendarHeaderProps {
   editMonth: (newMonth: number) => void;
 }
 
-const CalendarHeader: React.FC<CalendarHeaderProps> = ({ month, year, isMonth, editYear, editMonth }) => {
+const CalendarHeader: React.FC<CalendarHeaderProps> = ({
+  month,
+  year,
+  isMonth,
+  editYear,
+  editMonth,
+}) => {
   const [monthModalIsOpen, setMonthModalIsOpen] = useState(false);
   const { userData, error } = useContext(UserContext);
   const navi = useNavigate();

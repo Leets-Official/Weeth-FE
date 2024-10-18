@@ -1,6 +1,6 @@
+import theme from '@/styles/theme';
 import React, { useContext } from 'react';
 import styled from 'styled-components';
-import theme from '@/styles/theme';
 
 import MonthlyEvent from '@/components/Calendar/MonthlyEvent';
 import { YearlyScheduleContext } from '@/service/YearlyScheduleContext';

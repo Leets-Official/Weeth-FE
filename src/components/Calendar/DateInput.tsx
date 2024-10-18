@@ -1,18 +1,17 @@
 /* eslint-disable no-alert */
-/* eslint-disable react/require-default-props */
-import { useState, useEffect } from 'react';
-import * as S from "@/styles/calendar/DateInput.styled";
+import * as S from '@/styles/calendar/DateInput.styled';
+import { useEffect, useState } from 'react';
 
 interface DateInputProps {
   type?: string;
   value?: string | number;
-  onChange: (value: string | number ) => void;
+  onChange: (value: string | number) => void;
   width: string;
   height: string;
   margin: string;
   year?: number;
   month?: number;
-  inputType: 'year' | 'month' | 'day' | 'hour' | 'minute'
+  inputType: 'year' | 'month' | 'day' | 'hour' | 'minute';
 }
 
 const getMaxDaysInMonth = (year: number, month: number) => {
@@ -35,11 +34,7 @@ const DateInput: React.FC<DateInputProps> = ({
     if (val === undefined) return true; // Allow empty value for clearing input
     switch (inputType) {
       case 'year':
-        return (
-          typeof val === 'string' &&
-          val >= 2020 &&
-          val <= 2040
-        ); // 최대 4자리
+        return typeof val === 'string' && val >= 2020 && val <= 2040; // 최대 4자리
       case 'month':
         return val >= 1 && val <= 12; // 1~12 사이
       case 'day':

@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import TextButton from '@/components/Header/TextButton';
 import DateInput from '@/components/Calendar/DateInput';
+import TextButton from '@/components/Header/TextButton';
 import * as S from '@/styles/calendar/ModalMonthContent.styled';
+import { useState } from 'react';
 
 interface ModalMonthContentProps {
   origYear: number;
@@ -25,13 +25,13 @@ const ModalMonthContent: React.FC<ModalMonthContentProps> = ({
 
   const onChangeYear = (value: string | number) => {
     let numericValue: number;
-  
+
     if (typeof value === 'number') {
       numericValue = value;
     } else {
       numericValue = parseInt(value, 10);
     }
-  
+
     if (!Number.isNaN(numericValue)) {
       setYear(numericValue);
       editYear(numericValue);
@@ -44,13 +44,13 @@ const ModalMonthContent: React.FC<ModalMonthContentProps> = ({
 
   const onChangeMonth = (value: string | number) => {
     let numericValue: number;
-  
+
     if (typeof value === 'number') {
       numericValue = value;
     } else {
       numericValue = parseInt(value, 10);
     }
-  
+
     if (!Number.isNaN(numericValue)) {
       setMonth(numericValue);
       editMonth(numericValue);
