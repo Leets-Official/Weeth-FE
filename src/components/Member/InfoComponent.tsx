@@ -1,5 +1,4 @@
-import styled from 'styled-components';
-import theme from '../../styles/theme';
+import * as S from '@/styles/memeber/InfoComponent.styled';
 
 interface InfoComponentProps {
   src: string;
@@ -8,31 +7,12 @@ interface InfoComponentProps {
   value: string | number | number[];
 }
 
-const Line = styled.div`
-  border: 1px solid;
-  width: 325px;
-  transform: scaleY(0.2);
-  margin: auto;
-`;
-
-const Info = styled.div`
-  display: flex;
-  align-items: center;
-  margin: 25px;
-`;
-
-const Text = styled.div`
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  margin-left: 10px;
-`;
-
-const MainColor = styled.div`
-  color: ${theme.color.main.mainColor};
-`;
-
-const InfoComponent: React.FC<InfoComponentProps> = ({ src, alt, index, value }) => {
+const InfoComponent: React.FC<InfoComponentProps> = ({
+  src,
+  alt,
+  index,
+  value,
+}) => {
   let positionKo = 'none';
 
   switch (value) {
@@ -64,14 +44,14 @@ const InfoComponent: React.FC<InfoComponentProps> = ({ src, alt, index, value })
 
   return (
     <div>
-      <Info>
+      <S.Info>
         <img src={src} alt={alt} />
-        <Text>
+        <S.Text>
           <div>{index}</div>
-          <MainColor>{renderValue()}</MainColor>
-        </Text>
-      </Info>
-      <Line />
+          <S.MainColor>{renderValue()}</S.MainColor>
+        </S.Text>
+      </S.Info>
+      <S.Line />
     </div>
   );
 };

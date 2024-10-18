@@ -1,13 +1,11 @@
-/* eslint-disable react/require-default-props */
-import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 
-import FE from '../../assets/images/ic_FE.svg';
-import BE from '../../assets/images/ic_BE.svg';
-import D from '../../assets/images/ic_DE.svg';
-import MA from '../../assets/images/ic_MA.svg';
+import FE from '@/assets/images/ic_FE.svg';
+import BE from '@/assets/images/ic_BE.svg';
+import D from '@/assets/images/ic_DE.svg';
+import MA from '@/assets/images/ic_MA.svg';
 
-import theme from '../../styles/theme';
+import * as S from '@/styles/memeber/MemberName.styled';
 
 interface MemberNameProps {
   name: string;
@@ -18,40 +16,6 @@ interface MemberNameProps {
   position: string;
   isLast?: boolean;
 }
-const MemberWrapper = styled.div`
-  padding: 20px 10px 0px 10px;
-  font-family: ${theme.font.family.pretendard_regular};
-  font-size: 16px;
-  background-color: ${theme.color.grayScale.gray18};
-
-  &:first-of-type {
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-  }
-`;
-
-const MemberContent = styled.div`
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-`;
-
-const Line = styled.div`
-  border: 1px solid;
-  color: ${theme.color.grayScale.gray30};
-  width: 325px;
-  margin: auto;
-  margin-top: 10px;
-  transform: scaleY(0.2);
-`;
-
-const Caption = styled.div`
-  font-size: 12px;
-`;
-
-const TextWrapper = styled.div`
-  margin-left: 10px;
-`;
 
 const MemberName: React.FC<MemberNameProps> = ({
   name,
@@ -87,16 +51,16 @@ const MemberName: React.FC<MemberNameProps> = ({
   };
 
   return (
-    <MemberWrapper>
-      <MemberContent onClick={onClickMember}>
+    <S.MemberWrapper>
+      <S.MemberContent onClick={onClickMember}>
         <img src={imgSrc} alt={alt} />
-        <TextWrapper>
+        <S.TextWrapper>
           <div>{name}</div>
-          <Caption>{cardinal[0]}기</Caption>
-        </TextWrapper>
-      </MemberContent>
-      {!isLast && <Line />}
-    </MemberWrapper>
+          <S.Caption>{cardinal[0]}기</S.Caption>
+        </S.TextWrapper>
+      </S.MemberContent>
+      {!isLast && <S.Line />}
+    </S.MemberWrapper>
   );
 };
 
