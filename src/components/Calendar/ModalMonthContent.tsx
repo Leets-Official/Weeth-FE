@@ -1,8 +1,7 @@
-import { useState } from 'react';
-import styled from 'styled-components';
-import theme from '@/styles/theme';
-import TextButton from '@/components/Header/TextButton';
 import DateInput from '@/components/Calendar/DateInput';
+import TextButton from '@/components/Header/TextButton';
+import * as S from '@/styles/calendar/ModalMonthContent.styled';
+import { useState } from 'react';
 
 interface ModalMonthContentProps {
   origYear: number;
@@ -12,36 +11,6 @@ interface ModalMonthContentProps {
   editMonth: (numericValue: number) => void;
   editYear: (numericValue: number) => void;
 }
-
-const StyledContent = styled.div<{ $isMonth: boolean }>`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: ${(props) => (props.$isMonth ? '275px' : '121px')};
-  height: 38px;
-  background: ${theme.color.grayScale.gray18};
-  border-radius: 14px;
-  padding: 20px;
-  margin: auto;
-  font-family: ${theme.font.family.pretendard_regular};
-  font-size: 16px;
-`;
-
-const YearButton = styled.div`
-  position: fixed;
-  width: 370px;
-  transform: translate(320px, -80px);
-`;
-
-const MonthButton = styled.div`
-  position: fixed;
-  width: 370px;
-  transform: translate(320px, -80px);
-`;
-
-const Text = styled.div`
-  margin-right: 15px;
-`;
 
 const ModalMonthContent: React.FC<ModalMonthContentProps> = ({
   origYear,
@@ -56,13 +25,13 @@ const ModalMonthContent: React.FC<ModalMonthContentProps> = ({
 
   const onChangeYear = (value: string | number) => {
     let numericValue: number;
-  
+
     if (typeof value === 'number') {
       numericValue = value;
     } else {
       numericValue = parseInt(value, 10);
     }
-  
+
     if (!Number.isNaN(numericValue)) {
       setYear(numericValue);
       editYear(numericValue);
@@ -75,13 +44,13 @@ const ModalMonthContent: React.FC<ModalMonthContentProps> = ({
 
   const onChangeMonth = (value: string | number) => {
     let numericValue: number;
-  
+
     if (typeof value === 'number') {
       numericValue = value;
     } else {
       numericValue = parseInt(value, 10);
     }
-  
+
     if (!Number.isNaN(numericValue)) {
       setMonth(numericValue);
       editMonth(numericValue);
@@ -91,14 +60,14 @@ const ModalMonthContent: React.FC<ModalMonthContentProps> = ({
   if (isMonth) {
     // 달력일 경우
     return (
-      <StyledContent $isMonth={isMonth}>
-        <MonthButton>
+      <S.StyledContent $isMonth={isMonth}>
+        <S.MonthButton>
           <TextButton
             text="완료"
             color="mainColor"
             onClick={onClickTextButton}
           />
-        </MonthButton>
+        </S.MonthButton>
         <DateInput
           type="number"
           value={year}
@@ -108,7 +77,7 @@ const ModalMonthContent: React.FC<ModalMonthContentProps> = ({
           margin="10px"
           inputType="year"
         />
-        <Text>년</Text>
+        <S.Text>년</S.Text>
         <DateInput
           type="number"
           value={month}
@@ -118,16 +87,16 @@ const ModalMonthContent: React.FC<ModalMonthContentProps> = ({
           margin="10px"
           inputType="month"
         />
-        <Text>월</Text>
-      </StyledContent>
+        <S.Text>월</S.Text>
+      </S.StyledContent>
     );
   }
   // 연력일 경우
   return (
-    <StyledContent $isMonth={isMonth}>
-      <YearButton>
+    <S.StyledContent $isMonth={isMonth}>
+      <S.YearButton>
         <TextButton text="완료" color="mainColor" onClick={onClickTextButton} />
-      </YearButton>
+      </S.YearButton>
       <DateInput
         type="number"
         value={year}
@@ -137,8 +106,8 @@ const ModalMonthContent: React.FC<ModalMonthContentProps> = ({
         margin="10px"
         inputType="year"
       />
-      <Text>년</Text>
-    </StyledContent>
+      <S.Text>년</S.Text>
+    </S.StyledContent>
   );
 };
 

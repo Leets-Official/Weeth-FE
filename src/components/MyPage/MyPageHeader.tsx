@@ -1,4 +1,3 @@
-/* eslint-disable react/require-default-props */
 import styled from 'styled-components';
 
 import LeftButton from '@/components/Header/LeftButton';
@@ -11,6 +10,8 @@ interface MyPageHeaderProps {
   isEdit: boolean;
   onSave?: () => void;
 }
+
+// 모든 Header를 하나의 컴포넌트로 통합할 예정이라 분리하지 않음
 
 const StyledHeader = styled.div`
   display: flex;

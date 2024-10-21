@@ -1,8 +1,7 @@
-import { useState, useEffect } from 'react';
-import styled from 'styled-components';
-import theme from '@/styles/theme';
-import icVisible from '@/assets/images/ic_toggleVisible.svg';
 import icInvisible from '@/assets/images/ic_toggleInvisible.svg';
+import icVisible from '@/assets/images/ic_toggleVisible.svg';
+import * as S from '@/styles/mypage/InfoInput.styled';
+import { useEffect, useState } from 'react';
 
 interface InfoInputProps {
   text?: string;
@@ -15,63 +14,6 @@ interface InfoInputProps {
   edit?: boolean;
   inputType?: 'text' | 'number' | 'no-korean' | 'eng-num';
 }
-
-const StyledInfoInput = styled.div<{ $padding: string }>`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  position: relative;
-  padding-top: 16px;
-  padding-bottom: 8px;
-  padding-left: ${(props) => props.$padding || '0px'};
-  padding-right: ${(props) => props.$padding || '0px'};
-  font-family: ${theme.font.family.pretendard_regular};
-  font-size: 16px;
-`;
-
-const Input = styled.input<{ width?: string; $edit?: boolean; align?: string }>`
-  width: ${(props) => props.width || '100%'};
-  height: 45px;
-  outline: none;
-  border: none;
-  border-radius: 4px;
-  background-color: ${theme.color.grayScale.gray18};
-  color: ${(props) => (props.$edit ? theme.color.grayScale.gray30 : 'white')};
-  text-align: ${(props) => props.align || 'right'};
-  padding-left: 10px;
-  padding-right: 10px;
-  font-family: ${theme.font.family.pretendard_regular};
-  font-size: 16px;
-
-  &::placeholder {
-    font-family: ${theme.font.family.pretendard_regular};
-  }
-`;
-
-const PwInput = styled.input<{ width?: string; align?: string }>`
-  width: ${(props) => props.width || '100%'};
-  height: 45px;
-  outline: none;
-  border: none;
-  border-radius: 4px;
-  background-color: ${theme.color.grayScale.gray18};
-  color: white;
-  padding-left: 10px;
-  padding-right: 43px;
-  text-align: ${(props) => props.align || 'right'};
-  font-size: 16px;
-  font-family: ${theme.font.family.pretendard_regular};
-
-  &::placeholder {
-    font-family: ${theme.font.family.pretendard_regular};
-  }
-`;
-
-const Visible = styled.img`
-  position: absolute;
-  right: 35px;
-  cursor: pointer;
-`;
 
 const InfoInput: React.FC<InfoInputProps> = ({
   text,
@@ -131,9 +73,9 @@ const InfoInput: React.FC<InfoInputProps> = ({
 
   if (text === '비밀번호') {
     return (
-      <StyledInfoInput $padding={padding}>
+      <S.StyledInfoInput $padding={padding}>
         <div>{text}</div>
-        <PwInput
+        <S.PwInput
           placeholder={placeholder}
           value={value as string}
           onChange={onChangeValue}
@@ -142,25 +84,25 @@ const InfoInput: React.FC<InfoInputProps> = ({
           type={passwordVisible ? 'text' : 'password'}
         />
         {passwordVisible ? (
-          <Visible
+          <S.Visible
             onClick={togglePasswordVisibility}
             src={icVisible}
             alt="숨김"
           />
         ) : (
-          <Visible
+          <S.Visible
             onClick={togglePasswordVisibility}
             src={icInvisible}
             alt="보임"
           />
         )}
-      </StyledInfoInput>
+      </S.StyledInfoInput>
     );
   }
   return (
-    <StyledInfoInput $padding={padding}>
+    <S.StyledInfoInput $padding={padding}>
       <div>{text}</div>
-      <Input
+      <S.Input
         placeholder={placeholder}
         value={value as string}
         onChange={onChangeValue}
@@ -169,7 +111,7 @@ const InfoInput: React.FC<InfoInputProps> = ({
         $edit={edit}
         type={inputType === 'number' ? 'text' : inputType}
       />
-    </StyledInfoInput>
+    </S.StyledInfoInput>
   );
 };
 

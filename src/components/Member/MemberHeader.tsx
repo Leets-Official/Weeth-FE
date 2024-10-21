@@ -4,6 +4,8 @@ import LeftButton from '../Header/LeftButton';
 import Title from '../Header/Title';
 import theme from '../../styles/theme';
 
+// 모든 Header를 하나의 컴포넌트로 통합할 예정이라 분리하지 않음
+
 const StyledHeader = styled.div`
   display: flex;
   align-items: center;
