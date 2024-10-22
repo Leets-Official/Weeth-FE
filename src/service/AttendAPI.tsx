@@ -103,7 +103,7 @@ export const PenaltyAPI = () => {
         setPenaltyFetchError,
       );
 
-      const { data } = response.data;
+      const { data } = response;
       setPenaltyData(data.Penalties);
       setMyPenalty(data.penaltyCount);
     };

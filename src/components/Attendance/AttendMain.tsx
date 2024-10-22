@@ -1,9 +1,7 @@
 import { useEffect, useContext, useState } from 'react';
-import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import theme from '@/styles/theme';
 
-import '@/components/Attendance/AttendMain.css';
 import RightButton from '@/components/Header/RightButton';
 import Button from '@/components/Button/Button';
 import ModalAttend from '@/components/Attendance/Modal/ModalAttend';
@@ -17,85 +15,12 @@ import { PenaltyContext } from '@/service/PenaltyContext';
 import { AttendContext } from '@/service/AttendContext';
 import { AttendAPI, PenaltyAPI } from '@/service/AttendAPI';
 
+import * as S from '@/styles/attend/AttendMain.styled';
+
 // 출석률 게이지 임시 값
 let ATTEND_GAUGE = 0;
 const MAX_ATTEND_GUAGE = 100;
 
-// 스타일 컴포넌트 정의
-const StyledAttend = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  font-family: ${theme.font.family.pretendard_regular};
-  include-font-padding: false;
-`;
-
-const Progress = styled.div<{ $isAttend: number }>`
-  width: 86%;
-  height: 19px;
-  background-color: ${({ $isAttend }) =>
-    $isAttend === 0 ? theme.color.grayScale.gray20 : theme.color.main.negative};
-  border-radius: 10px;
-  overflow: hidden;
-  margin: 5% 10px 0px 10px;
-`;
-
-const Dealt = styled.div<{ $dealt: number }>`
-  width: ${(props) => `${props.$dealt}%`};
-  height: 100%;
-  border-radius: 10px;
-  background-color: ${theme.color.main.mainColor};
-`;
-
-const StyledBox = styled.div`
-  background-color: ${theme.color.grayScale.gray18};
-  border-radius: 10px;
-  padding: 4%;
-  margin: 5.3% 10px 0px 10px;
-  display: flex;
-  flex-direction: column;
-  align-items: start;
-  width: 86%;
-`;
-
-const SemiBold = styled.div`
-  font-family: ${theme.font.family.pretendard_semiBold};
-  include-font-padding: false;
-  display: flex;
-  flex-direction: row;
-`;
-
-const TitleWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex: 1;
-`;
-
-const RightButtonWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-`;
-
-const PenaltyInfo = styled.div`
-  color: ${theme.color.grayScale.gray65};
-  margin-top: 20px;
-  margin-bottom: 10px;
-  font-size: 14px;
-  line-height: 1.6;
-`;
-
-const ButtonContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
-  width: 97%;
-  margin-right: 3%;
-`;
-
-// AttendMain 컴포넌트
 const AttendMain: React.FC = () => {
   const navi = useNavigate();
   const [modalOpen, setModalOpen] = useState<boolean>(false);
@@ -117,8 +42,8 @@ const AttendMain: React.FC = () => {
 
   let title: string;
   let location: string;
-  let startDateTime: string; // 날짜
-  let endDateTime: string; // 시간
+  let startDateTime: string;
+  let endDateTime: string;
   let isWithinTimeRange = false;
 
   if (attendFetchError) {
@@ -135,11 +60,9 @@ const AttendMain: React.FC = () => {
     title = attendanceData.title;
     location = attendanceData.location;
 
-    // Date 객체로 변환
     const startDate = new Date(attendanceData.start);
     const endDate = new Date(attendanceData.end);
 
-    // 날짜 형식으로 변환
     const dateOptions: Intl.DateTimeFormatOptions = {
       year: 'numeric',
       month: 'long',
@@ -147,7 +70,6 @@ const AttendMain: React.FC = () => {
     };
     startDateTime = startDate.toLocaleDateString('ko-KR', dateOptions);
 
-    // 시간 형식으로 변환 (24시간 형식)
     const timeOptions: Intl.DateTimeFormatOptions = {
       hour: '2-digit',
       minute: '2-digit',
@@ -156,18 +78,14 @@ const AttendMain: React.FC = () => {
     const startTime = startDate.toLocaleTimeString('ko-KR', timeOptions);
     const endTime = endDate.toLocaleTimeString('ko-KR', timeOptions);
 
-    // 피그마 형식대로 변환
     endDateTime = `(${startTime} ~ ${endTime})`;
 
-    // 현재 시간
     const currentTime = new Date().toLocaleTimeString('ko-KR', timeOptions);
 
-    // 현재 시간이 startTime과 endTime 사이에 있는지 확인
     if (currentTime >= startTime && currentTime <= endTime) {
       isWithinTimeRange = true;
     }
 
-    // 출석률 지정
     ATTEND_GAUGE = attendanceData.attendanceRate ?? 0;
   }
 
@@ -179,7 +97,6 @@ const AttendMain: React.FC = () => {
 
   const dealt = Math.floor((ATTEND_GAUGE / MAX_ATTEND_GUAGE) * 100);
 
-  // 출석체크 모달
   const handleOpenModal = () => {
     if (isWithinTimeRange) {
       setModalOpen(true);
@@ -188,14 +105,12 @@ const AttendMain: React.FC = () => {
 
   const handleCloseModal = () => {
     setModalOpen(false);
-    setShouldFetchData(true); // 모달이 닫힐 때 API를 다시 호출하도록 상태를 업데이트
+    setShouldFetchData(true);
   };
 
-  // 패널티 모달
   const handleOpenPenaltyModal = () => setPenaltyModalOpen(true);
   const handleClosePenaltyModal = () => setPenaltyModalOpen(false);
 
-  // 모달이 닫힐 때 shouldFetchData가 true로 업데이트되면, API를 다시 호출
   useEffect(() => {
     if (shouldFetchData) {
       setShouldFetchData(false);
@@ -203,47 +118,46 @@ const AttendMain: React.FC = () => {
   }, [shouldFetchData]);
 
   return (
-    <StyledAttend>
+    <S.StyledAttend>
       <AttendAPI key={shouldFetchData.toString()} />
       <PenaltyAPI />
-      <div className="name-container">
-        <SemiBold>
-          <div className="attend-name">{userName}&nbsp;</div>
-        </SemiBold>
-        <div className="attend-text">님의 출석률은</div>
-      </div>
-      <div className="attend-percent">
-        <TitleWrapper>
-          <SemiBold>
+      <S.NameContainer>
+        <S.SemiBold>
+          <S.AttendName>{userName}&nbsp;</S.AttendName>
+        </S.SemiBold>
+        <S.AttendText>님의 출석률은</S.AttendText>
+      </S.NameContainer>
+      <S.AttendPercent>
+        <S.TitleWrapper>
+          <S.SemiBold>
             <div>{ATTEND_GAUGE}%</div>
-          </SemiBold>
-        </TitleWrapper>
-        <RightButtonWrapper>
+          </S.SemiBold>
+        </S.TitleWrapper>
+        <S.RightButtonWrapper>
           <RightButton onClick={() => navi('/attendCheck')} />
-        </RightButtonWrapper>
-      </div>
-      <Progress $isAttend={ATTEND_GAUGE}>
-        <Dealt $dealt={dealt} />
-      </Progress>
-      <StyledBox>
+        </S.RightButtonWrapper>
+      </S.AttendPercent>
+      <S.Progress $isAttend={ATTEND_GAUGE}>
+        <S.Dealt $dealt={dealt} />
+      </S.Progress>
+      <S.StyledBox>
         <img src={check} alt="v" />
         {hasSchedule ? (
-          // 일정 있을 때 출석 컴포넌트
-          <div className="attend-container">
-            <SemiBold>
-              <div className="attend-project">
+          <div>
+            <S.SemiBold>
+              <S.AttendProject>
                 오늘은{' '}
                 <span style={{ color: theme.color.main.mainColor }}>
                   &quot;{title}&quot;
                 </span>
                 이&#40;가&#41; 있는 날이에요
-              </div>
-            </SemiBold>
-            <div className="attend-date">
+              </S.AttendProject>
+            </S.SemiBold>
+            <S.AttendDate>
               날짜 : {startDateTime} {endDateTime}
-            </div>
-            <div className="attend-place">장소 : {location}</div>
-            <div className="attend-button">
+            </S.AttendDate>
+            <S.AttendPlace>장소 : {location}</S.AttendPlace>
+            <S.AttendButton>
               <Button
                 color={
                   isWithinTimeRange
@@ -260,64 +174,59 @@ const AttendMain: React.FC = () => {
               >
                 출석하기
               </Button>
-            </div>
+            </S.AttendButton>
           </div>
         ) : (
-          // 일정 없을 때 출석 컴포넌트
-          <div className="attend-container">
-            <SemiBold>
-              <div className="attend-project">오늘은 일정이 없어요</div>
-            </SemiBold>
-            <div className="attend-place">
-              동아리원과 스터디를 하는건 어때요?
-            </div>
-            <div className="attend-button">
+          <div>
+            <S.SemiBold>
+              <S.AttendProject>오늘은 일정이 없어요</S.AttendProject>
+            </S.SemiBold>
+            <S.AttendPlace>동아리원과 스터디를 하는건 어때요?</S.AttendPlace>
+            <S.AttendButton>
               <Button
                 color={theme.color.grayScale.gray30}
                 textcolor={theme.color.grayScale.gray20}
               >
                 출석하기
               </Button>
-            </div>
+            </S.AttendButton>
           </div>
         )}
-      </StyledBox>
-      <StyledBox>
+      </S.StyledBox>
+      <S.StyledBox>
         <img src={warning} alt="!" />
         {myPenaltyCount === null ? (
-          <SemiBold>
-            <div className="attend-project">등록된 데이터가 없습니다.</div>
-          </SemiBold>
+          <S.SemiBold>
+            <S.AttendProject>등록된 데이터가 없습니다.</S.AttendProject>
+          </S.SemiBold>
         ) : (
           <>
             {hasPenalty ? (
-              // 패널티 있을 때 패널티 컴포넌트
-              <div className="penalty-container">
-                <ButtonContainer>
-                  <SemiBold>
+              <S.PenaltyContainer>
+                <S.ButtonContainer>
+                  <S.SemiBold>
                     패널티&nbsp;
                     <div style={{ color: theme.color.main.negative }}>
                       {myPenaltyCount}회
                     </div>
-                  </SemiBold>
+                  </S.SemiBold>
                   <RightButton onClick={handleOpenPenaltyModal} />
-                </ButtonContainer>
-                <div className="penalty-info">
+                </S.ButtonContainer>
+                <S.PenaltyCount>
                   패널티가 {myPenaltyCount}회 적립이 되었어요.
                   <br />
                   어떤 이유인지 알아볼까요?
-                </div>
-              </div>
+                </S.PenaltyCount>
+              </S.PenaltyContainer>
             ) : (
-              // 패널티 없을 때 패널티 컴포넌트
-              <div className="penalty-container">
-                <div className="no-penalty-info">
-                  <SemiBold>패널티를 받은 이력이 없네요!</SemiBold>
-                </div>
-              </div>
+              <S.PenaltyContainer>
+                <S.NoPenaltyInfo>
+                  <S.SemiBold>패널티를 받은 이력이 없네요!</S.SemiBold>
+                </S.NoPenaltyInfo>
+              </S.PenaltyContainer>
             )}
             <div>
-              <PenaltyInfo>
+              <S.PenaltyInfo>
                 패널티를 받는 기준은 아래와 같아요
                 <br />
                 - 정기 모임에 출석을 하지 않았을 때
@@ -326,14 +235,14 @@ const AttendMain: React.FC = () => {
                 <br />
                 - 스터디 발표를 하지 않았을 때
                 <br />
-              </PenaltyInfo>
+              </S.PenaltyInfo>
             </div>
           </>
         )}
-      </StyledBox>
+      </S.StyledBox>
       <ModalAttend open={modalOpen} close={handleCloseModal} />
       <ModalPenalty open={penaltyModalOpen} close={handleClosePenaltyModal} />
-    </StyledAttend>
+    </S.StyledAttend>
   );
 };
 

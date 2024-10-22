@@ -1,9 +1,10 @@
 import { useContext } from 'react';
-import styled from 'styled-components';
 import theme from '@/styles/theme';
-import Caption from '@/components/Caption';
+import Caption from '@/components/Button/Caption';
 import { UserContext } from '@/service/UserContext';
 import { AttendCheckContext } from '@/service/AttendCheckContext';
+
+import * as S from '@/styles/attend/AttendCheck.styled';
 
 interface SmallBoxProps {
   title: string;
@@ -26,131 +27,12 @@ interface MeetingProps {
   location: string;
 }
 
-// Styled Components
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  font-family: ${theme.font.family.pretendard_regular};
-  color: ${theme.color.grayScale.white};
-`;
-
-const Header = styled.div`
-  margin-left: 8%;
-`;
-
-const SemiTitle = styled.div`
-  display: flex;
-  flex-direction: row;
-  margin-top: 25px;
-  font-size: 16px;
-`;
-
-const Penalty = styled.div`
-  margin-top: 19px;
-  font-size: 32px;
-`;
-
-const SemiBold = styled.div`
-  font-family: ${theme.font.family.pretendard_semiBold};
-  include-font-padding: false;
-  display: flex;
-  flex-direction: row;
-`;
-
-const StyledBox = styled.div`
-  background-color: ${theme.color.grayScale.gray18};
-  border-radius: 10px;
-  margin: 26px 4% 0 4%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 92%;
-`;
-
-const SmallStyledBoxContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  width: 92%;
-  margin: 15px 4% 0 4%;
-`;
-
-const SmallStyledBox = styled.div`
-  background-color: ${theme.color.grayScale.gray30};
-  border-radius: 10px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 95px;
-  height: 93px;
-  text-align: center;
-`;
-
-const SmallBoxTitle = styled.div`
-  margin-top: 15px;
-  font-size: 14px;
-`;
-
-const SmallBoxNum = styled.div`
-  margin-top: 20px;
-  font-size: 18px;
-  font-family: ${theme.font.family.pretendard_semiBold};
-`;
-
-const Line = styled.div`
-  width: 94%;
-  height: 1px;
-  background-color: ${theme.color.grayScale.gray30};
-  margin: 30px 3% 0 3%;
-`;
-
-const MeetingInfoBox = styled.div`
-  background-color: ${theme.color.grayScale.gray18};
-  border-radius: 10px;
-  margin: 20px 0;
-  display: flex;
-  flex-direction: column;
-  align-items: start;
-  width: 100%;
-`;
-
-const MeetingHeader = styled.div`
-  display: flex;
-  flex-direction: row;
-  margin-left: 5%;
-  width: 95%;
-`;
-
-const MeetingTitle = styled.div`
-  display: flex;
-  flex-direction: row;
-  margin-left: 2%;
-  font-size: 16px;
-  font-family: ${theme.font.family.pretendard_semiBold};
-`;
-
-const MeetingInfo = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin: 13px 5% 0 5%;
-  font-size: 14px;
-  line-height: 1.7;
-`;
-
-const StyledText = styled.div`
-  margin-top: -2.5px;
-`;
-
-const NullBox = styled.div`
-  margin: 20px 0;
-`;
-
 const SmallBox: React.FC<SmallBoxProps> = ({ title, num }) => {
   return (
-    <SmallStyledBox>
-      <SmallBoxTitle>{title}</SmallBoxTitle>
-      <SmallBoxNum>{num}</SmallBoxNum>
-    </SmallStyledBox>
+    <S.SmallStyledBox>
+      <S.SmallBoxTitle>{title}</S.SmallBoxTitle>
+      <S.SmallBoxNum>{num}</S.SmallBoxNum>
+    </S.SmallStyledBox>
   );
 };
 
@@ -173,21 +55,21 @@ const MeetingBox: React.FC<MeetingBoxProps> = ({
   }
 
   return (
-    <MeetingInfoBox>
-      <MeetingHeader>
+    <S.MeetingInfoBox>
+      <S.MeetingHeader>
         <Caption color={captionColor}>{captionText}</Caption>
-        <MeetingTitle>
+        <S.MeetingTitle>
           {week}: {title}
-        </MeetingTitle>
-      </MeetingHeader>
-      <MeetingInfo>
+        </S.MeetingTitle>
+      </S.MeetingHeader>
+      <S.MeetingInfo>
         <div>
           날짜: {date}
           <br />
           장소: {place}
         </div>
-      </MeetingInfo>
-    </MeetingInfoBox>
+      </S.MeetingInfo>
+    </S.MeetingInfoBox>
   );
 };
 
@@ -209,23 +91,23 @@ const AttendCheckMain: React.FC = () => {
   }
 
   return (
-    <Container>
-      <Header>
-        <SemiTitle>
-          <SemiBold>{userName}</SemiBold>
-          <StyledText>&nbsp;님의 출석횟수</StyledText>
-        </SemiTitle>
-        <Penalty>
-          <SemiBold>{attendanceData.attendanceCount}회</SemiBold>
-        </Penalty>
-      </Header>
-      <StyledBox>
-        <SmallStyledBoxContainer>
+    <S.Container>
+      <S.Header>
+        <S.SemiTitle>
+          <S.SemiBold>{userName}</S.SemiBold>
+          <S.StyledText>&nbsp;님의 출석횟수</S.StyledText>
+        </S.SemiTitle>
+        <S.Penalty>
+          <S.SemiBold>{attendanceData.attendanceCount}회</S.SemiBold>
+        </S.Penalty>
+      </S.Header>
+      <S.StyledBox>
+        <S.SmallStyledBoxContainer>
           <SmallBox title="정기 모임" num={`${attendanceData.total}회`} />
           <SmallBox title="출석" num={`${attendanceData.attendanceCount}회`} />
           <SmallBox title="결석" num={`${attendanceData.absenceCount}회`} />
-        </SmallStyledBoxContainer>
-        <Line />
+        </S.SmallStyledBoxContainer>
+        <S.Line />
         {attendanceData.attendances.length > 0 ? (
           attendanceData.attendances.map((meeting: MeetingProps) => {
             const startDate = new Date(meeting.start);
@@ -266,10 +148,10 @@ const AttendCheckMain: React.FC = () => {
             );
           })
         ) : (
-          <NullBox> </NullBox>
+          <S.NullBox> </S.NullBox>
         )}
-      </StyledBox>
-    </Container>
+      </S.StyledBox>
+    </S.Container>
   );
 };
 

@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useContext, ChangeEvent } from 'react';
-import styled from 'styled-components';
+import * as S from '@/styles/attend/ModalAttend.styled';
 import axios from 'axios';
+import '@/components/Attendance/Modal/ModalStyled.css';
 
 import Button from '@/components/Button/Button';
 import theme from '@/styles/theme';
 import icClose from '@/assets/images/ic_close.svg';
 import check from '@/assets/images/ic_check.svg';
-import './ModalAttend.css';
 import wrong from '@/assets/images/ic_wrong.svg';
 import correct from '@/assets/images/ic_correct.svg';
 import { AttendContext } from '@/service/AttendContext';
@@ -24,63 +24,13 @@ interface CloseButtonProps {
   onClick: () => void;
 }
 
-const StyledModal = styled.div<{ open: boolean }>`
-  display: ${(props) => (props.open ? 'block' : 'none')};
-  position: fixed;
-  z-index: 1;
-  left: 0;
-  top: -15%;
-  width: 100%;
-  height: 115%;
-  overflow: auto;
-  background-color: rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(2px);
-  webkitbackdropfilter: 'blur(5px)';
-`;
-
-const Line = styled.div`
-  border: 1px solid #4d4d4d;
-  margin: 30px 10px 0px 10px;
-  transform: scaleY(0.2);
-`;
-
-const Regular = styled.div`
-  font-family: ${theme.font.family.pretendard_regular};
-`;
-
-const SemiBold = styled.div`
-  font-family: ${theme.font.family.pretendard_semiBold};
-  include-font-padding: false;
-  display: flex;
-  flex-direction: row;
-`;
-
-const ImgButton = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  cursor: pointer;
-`;
-
-const ImgContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-top: 25px;
-`;
-
-const TextContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-top: 13px;
-  font-size: 16px;
-`;
-
 const RightContainer = () => {
   return (
     <>
-      <ImgContainer>
+      <S.ImgContainer>
         <img src={correct} alt="정확한 입력 이미지" />
-      </ImgContainer>
-      <TextContainer>저장 되었습니다.</TextContainer>
+      </S.ImgContainer>
+      <S.TextContainer>저장 되었습니다.</S.TextContainer>
     </>
   );
 };
@@ -88,18 +38,18 @@ const RightContainer = () => {
 const WrongContainer: React.FC<WrongContainerProps> = ({ message }) => {
   return (
     <>
-      <ImgContainer>
+      <S.ImgContainer>
         <img src={wrong} alt="잘못된 입력 이미지" />
-      </ImgContainer>
-      <TextContainer>{message}</TextContainer>
+      </S.ImgContainer>
+      <S.TextContainer>{message}</S.TextContainer>
     </>
   );
 };
 
 const CloseButton: React.FC<CloseButtonProps> = ({ onClick }) => (
-  <ImgButton onClick={onClick}>
+  <S.ImgButton onClick={onClick}>
     <img src={icClose} alt="닫기" />
-  </ImgButton>
+  </S.ImgButton>
 );
 
 const ModalAttend: React.FC<ModalAttendProps> = ({ open, close }) => {
@@ -219,25 +169,25 @@ const ModalAttend: React.FC<ModalAttendProps> = ({ open, close }) => {
   }, [accessToken]);
 
   return (
-    <StyledModal open={open}>
-      <Regular>
+    <S.StyledModal open={open}>
+      <S.Regular>
         <div className="modal-content">
           <div className="modal-header">
             <img src={check} alt="체크" className="modal-check-icon" />
             <CloseButton onClick={close} />
           </div>
           <div className="modal-body">
-            <SemiBold className="modal-title">출석하기</SemiBold>
-            <SemiBold className="modal-text">
+            <S.SemiBold className="modal-title">출석하기</S.SemiBold>
+            <S.SemiBold className="modal-text">
               오늘은&nbsp;
               <div style={{ color: theme.color.main.mainColor }}>{title}</div>
               &nbsp;이&#40;가&#41; 있는 날이에요
-            </SemiBold>
+            </S.SemiBold>
             <div className="modal-date">
               날짜: {startDateTime} {endDateTime}
             </div>
             <div className="modal-place">장소: {location}</div>
-            <Line />
+            <S.Line />
             <input
               className="modal-input"
               type="text"
@@ -259,8 +209,8 @@ const ModalAttend: React.FC<ModalAttendProps> = ({ open, close }) => {
           {codeCheck === 1 && <RightContainer />}
           {codeCheck === 2 && <WrongContainer message={message} />}
         </div>
-      </Regular>
-    </StyledModal>
+      </S.Regular>
+    </S.StyledModal>
   );
 };
 
