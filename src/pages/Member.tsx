@@ -3,11 +3,11 @@ import { useState, useContext } from 'react';
 
 import theme from '@/styles/theme';
 import MemberHeader from '@/components/Member/MemberHeader';
-import Category from '@/components/Member/Category';
 import MemberName from '@/components/Member/MemberName';
 import UserAPI from '@/service/UserAPI';
 import { UserContext } from '@/service/UserContext';
 import useCustomBack from '@/router/useCustomBack';
+import Category from '@/components/Member/Cardinal';
 
 interface User {
   studentId: string;
