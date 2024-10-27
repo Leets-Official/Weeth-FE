@@ -1,5 +1,5 @@
 import { useDraggable } from '@/service/useDraggable';
-import * as S from '@/styles/memeber/Category.styled';
+import * as S from '@/styles/memeber/Cardinal.styled';
 import { useRef, useState } from 'react';
 
 interface CardinalProps {
@@ -22,7 +22,7 @@ const Cardinal: React.FC<CardinalProps> = ({ setSelectedCardinal }) => {
   const cardinals: number[] = [0, 4, 3, 2, 1];
 
   return (
-    <S.StyledCategory>
+    <S.Cardinal>
       <S.ScrollContainer
         ref={scrollerRef1}
         onMouseDown={onMouseDown}
@@ -40,7 +40,7 @@ const Cardinal: React.FC<CardinalProps> = ({ setSelectedCardinal }) => {
           </S.Button>
         ))}
       </S.ScrollContainer>
-    </S.StyledCategory>
+    </S.Cardinal>
   );
 };
 

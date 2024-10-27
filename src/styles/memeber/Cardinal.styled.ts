@@ -1,7 +1,7 @@
 import theme from '@/styles/theme';
 import styled from 'styled-components';
 
-export const StyledCategory = styled.div`
+export const Cardinal = styled.div`
   display: flex;
   padding-top: 20px;
   overflow-x: auto;

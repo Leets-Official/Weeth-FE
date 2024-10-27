@@ -25,9 +25,6 @@ const InfoComponent: React.FC<InfoComponentProps> = ({
     case 'D':
       positionKo = '디자인';
       break;
-    case 'MA':
-      positionKo = '임원';
-      break;
     default:
       positionKo = '없음';
   }

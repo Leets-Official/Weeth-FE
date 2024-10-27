@@ -9,58 +9,49 @@ import * as S from '@/styles/memeber/MemberName.styled';
 
 interface MemberNameProps {
   name: string;
-  studentId: string;
-  department: string;
-  email: string;
   cardinal: number[];
   position: string;
+  role: 'USER' | 'ADMIN';
   isLast?: boolean;
 }
 
 const MemberName: React.FC<MemberNameProps> = ({
   name,
-  studentId,
-  department,
-  email,
   cardinal,
   position,
+  role,
   isLast = false,
 }) => {
-  let imgSrc;
-  let alt;
+  let positionIcon;
   const navi = useNavigate();
 
   if (position === 'FE') {
-    imgSrc = FE;
-    alt = 'FE';
+    positionIcon = FE;
   } else if (position === 'BE') {
-    imgSrc = BE;
-    alt = 'BE';
+    positionIcon = BE;
   } else if (position === 'D') {
-    imgSrc = D;
-    alt = 'D';
-  } else {
-    imgSrc = MA;
-    alt = 'MA';
+    positionIcon = D;
   }
 
   const onClickMember = () => {
-    navi(`/member/${name}`, {
-      state: { name, studentId, department, email, cardinal, position },
-    });
+    navi(`/member/${name}`);
   };
 
   return (
-    <S.MemberWrapper>
-      <S.MemberContent onClick={onClickMember}>
-        <img src={imgSrc} alt={alt} />
+    <S.Wrapper>
+      <S.Content onClick={onClickMember}>
+        {role === 'ADMIN' ? (
+          <img src={MA} alt="MA" />
+        ) : (
+          <img src={positionIcon} alt={String(positionIcon)} />
+        )}
         <S.TextWrapper>
           <div>{name}</div>
           <S.Caption>{cardinal[0]}기</S.Caption>
         </S.TextWrapper>
-      </S.MemberContent>
+      </S.Content>
       {!isLast && <S.Line />}
-    </S.MemberWrapper>
+    </S.Wrapper>
   );
 };
 

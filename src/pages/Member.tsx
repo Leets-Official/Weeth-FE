@@ -12,10 +12,9 @@ import Category from '@/components/Member/Cardinal';
 interface User {
   studentId: string;
   name: string;
-  department: string;
-  email: string;
   cardinals: number[];
   position: string;
+  role: 'USER' | 'ADMIN';
 }
 
 const StyledMember = styled.div`
@@ -98,11 +97,9 @@ const Member = () => {
               <MemberName
                 key={user.studentId}
                 name={user.name}
-                studentId={user.studentId}
-                department={user.department}
-                email={user.email}
                 cardinal={user.cardinals}
                 position={user.position}
+                role={user.role}
                 isLast={index === isValid.length - 1} // 마지막 요소에만 isLast prop 전달
               />
             ))
