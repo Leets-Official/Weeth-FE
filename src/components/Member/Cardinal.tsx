@@ -1,20 +1,17 @@
 import { useDraggable } from '@/service/useDraggable';
 import * as S from '@/styles/memeber/Cardinal.styled';
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 
 interface CardinalProps {
+  selectedCardinal: number;
   setSelectedCardinal: (index: number) => void;
   index?: number;
 }
 
-const Cardinal: React.FC<CardinalProps> = ({ setSelectedCardinal }) => {
-  const [selectedCategory, setSelectedCategory] = useState(0);
-
-  const onClickCardinal = (index: number) => {
-    setSelectedCategory(index);
-    setSelectedCardinal(index);
-  };
-
+const Cardinal: React.FC<CardinalProps> = ({
+  selectedCardinal,
+  setSelectedCardinal,
+}) => {
   const scrollerRef1 = useRef(null);
   const { onMouseDown, onMouseMove, onMouseUp, onMouseLeave } =
     useDraggable(scrollerRef1);
@@ -33,8 +30,8 @@ const Cardinal: React.FC<CardinalProps> = ({ setSelectedCardinal }) => {
         {cardinals.map((cardinal: number) => (
           <S.Button
             type="button"
-            $isSelected={selectedCategory === cardinal}
-            onClick={() => onClickCardinal(cardinal)}
+            $isSelected={selectedCardinal === cardinal}
+            onClick={() => setSelectedCardinal(cardinal)}
           >
             {cardinal === 0 ? '전체' : `${cardinal}기`}
           </S.Button>
