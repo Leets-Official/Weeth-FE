@@ -3,7 +3,7 @@ import MemberName from '@/components/Member/MemberName';
 import { UserContext } from '@/service/UserContext';
 import { useContext } from 'react';
 
-import * as S from '@/styles/memeber/MemberList.styled';
+import * as S from '@/styles/member/MemberList.styled';
 
 interface User {
   name: string;

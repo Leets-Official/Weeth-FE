@@ -1,4 +1,4 @@
-import * as S from '@/styles/memeber/InfoComponent.styled';
+import * as S from '@/styles/member/InfoComponent.styled';
 
 interface InfoComponentProps {
   src: string;

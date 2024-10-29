@@ -5,7 +5,7 @@ import UserAPI from '@/service/UserAPI';
 import { useState } from 'react';
 
 import MemberList from '@/components/Member/MemberList';
-import * as S from '@/styles/memeber/MemberList.styled';
+import * as S from '@/styles/member/MemberList.styled';
 import { useSearchParams } from 'react-router-dom';
 
 const Member = () => {

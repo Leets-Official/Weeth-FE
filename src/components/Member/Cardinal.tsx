@@ -1,5 +1,5 @@
 import { useDraggable } from '@/service/useDraggable';
-import * as S from '@/styles/memeber/Cardinal.styled';
+import * as S from '@/styles/member/Cardinal.styled';
 import { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 

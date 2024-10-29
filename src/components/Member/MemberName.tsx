@@ -5,7 +5,7 @@ import D from '@/assets/images/ic_DE.svg';
 import FE from '@/assets/images/ic_FE.svg';
 import MA from '@/assets/images/ic_MA.svg';
 
-import * as S from '@/styles/memeber/MemberName.styled';
+import * as S from '@/styles/member/MemberName.styled';
 
 interface MemberNameProps {
   name: string;
