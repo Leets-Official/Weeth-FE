@@ -6,10 +6,15 @@ import { useState } from 'react';
 
 import MemberList from '@/components/Member/MemberList';
 import * as S from '@/styles/memeber/MemberList.styled';
+import { useSearchParams } from 'react-router-dom';
 
 const Member = () => {
   useCustomBack('/home');
-  const [selectedCardinal, setSelectedCardinal] = useState<number>(0);
+  const [searchParams] = useSearchParams();
+  const cardinal = searchParams.get('cardinal');
+  const [selectedCardinal, setSelectedCardinal] = useState<number>(
+    Number(cardinal) || 0,
+  );
 
   return (
     <S.Wrapper>
@@ -22,7 +27,7 @@ const Member = () => {
         />
       </S.CardinalWrapper>
       <S.ListWrapper>
-        <MemberList selectedCardinal={selectedCardinal} />
+        <MemberList />
         <S.Margin />
       </S.ListWrapper>
     </S.Wrapper>

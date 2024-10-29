@@ -22,11 +22,19 @@ const InfoWrapper = styled.div`
   padding-top: 20px;
 `;
 
-const UserDetail = () => {
-  useCustomBack('/member');
+const MemberDetail = () => {
+  // TODO: 서버 api 추가 (멤버 상세 조회) 후 로직 수정 필요
   const location = useLocation();
-  const { name, studentId, department, email, cardinal, position } =
-    location.state;
+  const {
+    name,
+    studentId,
+    department,
+    email,
+    cardinal,
+    position,
+    currentCardinal,
+  } = location.state;
+  useCustomBack(`/member?cardinal=${currentCardinal}`);
 
   return (
     <StyledDetails>
@@ -58,4 +66,4 @@ const UserDetail = () => {
   );
 };
 
-export default UserDetail;
+export default MemberDetail;

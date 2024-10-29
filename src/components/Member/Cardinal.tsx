@@ -1,6 +1,7 @@
 import { useDraggable } from '@/service/useDraggable';
 import * as S from '@/styles/memeber/Cardinal.styled';
 import { useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 interface CardinalProps {
   selectedCardinal: number;
@@ -15,6 +16,7 @@ const Cardinal: React.FC<CardinalProps> = ({
   const scrollerRef1 = useRef(null);
   const { onMouseDown, onMouseMove, onMouseUp, onMouseLeave } =
     useDraggable(scrollerRef1);
+  const nav = useNavigate();
 
   const cardinals: number[] = [0, 4, 3, 2, 1];
 
@@ -31,7 +33,10 @@ const Cardinal: React.FC<CardinalProps> = ({
           <S.Button
             type="button"
             $isSelected={selectedCardinal === cardinal}
-            onClick={() => setSelectedCardinal(cardinal)}
+            onClick={() => {
+              setSelectedCardinal(cardinal);
+              nav(`?cardinal=${cardinal}`);
+            }}
           >
             {cardinal === 0 ? '전체' : `${cardinal}기`}
           </S.Button>
