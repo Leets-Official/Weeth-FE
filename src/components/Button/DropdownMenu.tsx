@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import theme from '@/styles/theme';
+import SignupWhite from '@/components/Signup/SignupWhite';
 
 interface DropdownMenuProps {
   text: string;
@@ -9,14 +10,18 @@ interface DropdownMenuProps {
   buttonstyle: string;
 }
 
-const DropdownContainer = styled.div`
+const DropdownContainer = styled.div<{ buttonstyle: 'member' | 'signup' }>`
   position: relative;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 16px 25px 8px 25px;
   font-family: ${theme.font.family.pretendard_regular};
   font-size: 16px;
+  ${(props) =>
+    props.buttonstyle === 'member' &&
+    `
+  justify-content: space-between;
+  padding: 16px 25px 8px 25px;
+    `}
 `;
 
 const DropdownButton = styled.div`
@@ -35,7 +40,31 @@ const DropdownButton = styled.div`
   justify-content: flex-end;
 `;
 
-const DropdownList = styled.div`
+const SignupDropDownButton = styled.div<{ $hasValue: boolean }>`
+  width: 58%;
+  height: 25px;
+  font-size: 16px;
+  outline: none;
+  border-bottom: 1px solid ${theme.color.grayScale.gray20};
+  background-color: ${theme.color.grayScale.gray12};
+  color: ${(props) =>
+    props.$hasValue ? 'white' : theme.color.grayScale.gray20};
+  cursor: pointer;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+`;
+
+const Label = styled.div`
+  width: 7%;
+  height: 19px;
+  margin-left: 10%;
+  margin-right: 9%;
+  font-size: 16px;
+  line-height: 19.09px;
+`;
+
+const DropdownList = styled.div<{ buttonstyle: 'member' | 'signup' }>`
   position: absolute;
   width: 244px;
   top: calc(100% - 8px);
@@ -43,6 +72,8 @@ const DropdownList = styled.div`
   border-radius: 4px;
   margin-top: 5px;
   z-index: 1000;
+  background-color: ${(props) =>
+    props.buttonstyle === 'signup' ? '#2c2c2c' : 'transparent'};
 `;
 
 const DropdownItem = styled.div`
@@ -105,11 +136,32 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({
   }, [origValue]);
 
   return (
-    <DropdownContainer ref={dropdownRef}>
-      <div>{text}</div>
-      <DropdownButton onClick={handleToggle}>{selectedValue}</DropdownButton>
+    <DropdownContainer
+      ref={dropdownRef}
+      buttonstyle={buttonstyle as 'member' | 'signup'}
+    >
+      {buttonstyle === 'member' ? (
+        <>
+          <div>{text}</div>
+          <DropdownButton onClick={handleToggle}>
+            {selectedValue}
+          </DropdownButton>
+        </>
+      ) : (
+        <>
+          <Label>
+            <SignupWhite text={text} />
+          </Label>
+          <SignupDropDownButton
+            onClick={handleToggle}
+            $hasValue={!!selectedValue}
+          >
+            {selectedValue || '학과를 선택해주세요'}
+          </SignupDropDownButton>
+        </>
+      )}
       {isOpen && (
-        <DropdownList>
+        <DropdownList buttonstyle={buttonstyle as 'member' | 'signup'}>
           {options.map((option) => (
             <DropdownItem
               key={option.value}

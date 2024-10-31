@@ -3,12 +3,12 @@ import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
 // import axios from 'axios';
 import { useNavigate } from 'react-router-dom'; // navigate 사용을 위해 import
+import AdminEditDelModal from '@/components/Modal/AdminEditDelModal';
 import { UserContext } from '../service/UserContext';
 import NoticeHeader from '../components/Board/NoticeHeader';
 import NoticeMiddle from '../components/Board/NoticeMiddle';
 import NoticeList from '../components/Board/NoticeList';
 import StudyList from '../components/Board/StudyList';
-import AdminEditDelModal from '../components/AdminEditDelModal';
 import theme from '../styles/theme';
 
 const Container = styled.div`

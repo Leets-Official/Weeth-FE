@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import theme from '@/styles/theme';
 
-interface EditDelModalProps {
+interface AdminEditDelModalProps {
   title: string;
   onClickWrite: () => void;
   onClickEdit: () => void;
@@ -70,7 +70,7 @@ const CancelButton = styled.div`
   font-family: ${theme.font.family.pretendard_semiBold};
 `;
 
-const EditDelModal: React.FC<EditDelModalProps> = ({ title, onClickWrite, onClickEdit, onClickCancel }) => {
+const AdminEditDelModal: React.FC<AdminEditDelModalProps> = ({ title, onClickWrite, onClickEdit, onClickCancel }) => {
   return (
     <ModalBackground>
       <ContentWrapper>
@@ -85,4 +85,4 @@ const EditDelModal: React.FC<EditDelModalProps> = ({ title, onClickWrite, onClic
   );
 };
 
-export default EditDelModal;
+export default AdminEditDelModal;

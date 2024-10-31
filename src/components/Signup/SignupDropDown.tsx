@@ -9,7 +9,7 @@ interface SignupDropDownProps {
   editValue: (value: string) => void;
 }
 
-const DropdownContainer = styled.div`
+const SignupDropdownContainer = styled.div`
   position: relative;
   display: flex;
   align-items: center;
@@ -17,7 +17,7 @@ const DropdownContainer = styled.div`
   font-size: 16px;
 `;
 
-const DropdownButton = styled.div<{ $hasValue: boolean }>`
+const SignupDropDownButton = styled.div<{ $hasValue: boolean }>`
   width: 58%;
   height: 25px;
   font-size: 16px;
@@ -49,7 +49,7 @@ const DropdownList = styled.div`
   border-radius: 4px;
   margin-top: 5px;
   z-index: 1000;
-  background-color: #2c2c2c; /* 드롭다운 배경색 추가 */
+  background-color: #2c2c2c;
 `;
 
 const DropdownItem = styled.div`
@@ -64,8 +64,11 @@ const DropdownItem = styled.div`
   }
 `;
 
-
-const SignupDropDown: React.FC<SignupDropDownProps> = ({ text, origValue, editValue }) => {
+const SignupDropDown: React.FC<SignupDropDownProps> = ({
+  text,
+  origValue,
+  editValue,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState<string>(origValue);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
@@ -91,7 +94,10 @@ const SignupDropDown: React.FC<SignupDropDownProps> = ({ text, origValue, editVa
   };
 
   const handleClickOutside = (event: MouseEvent) => {
-    if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+    if (
+      dropdownRef.current &&
+      !dropdownRef.current.contains(event.target as Node)
+    ) {
       setIsOpen(false);
     }
   };
@@ -108,13 +114,13 @@ const SignupDropDown: React.FC<SignupDropDownProps> = ({ text, origValue, editVa
   }, [origValue]);
 
   return (
-    <DropdownContainer ref={dropdownRef}>
+    <SignupDropdownContainer ref={dropdownRef}>
       <Label>
         <SignupWhite text={text} />
       </Label>
-      <DropdownButton onClick={handleToggle} $hasValue={!!selectedValue}>
+      <SignupDropDownButton onClick={handleToggle} $hasValue={!!selectedValue}>
         {selectedValue || '학과를 선택해주세요'}
-      </DropdownButton>
+      </SignupDropDownButton>
       {isOpen && (
         <DropdownList>
           {options.map((option) => (
@@ -127,7 +133,7 @@ const SignupDropDown: React.FC<SignupDropDownProps> = ({ text, origValue, editVa
           ))}
         </DropdownList>
       )}
-    </DropdownContainer>
+    </SignupDropdownContainer>
   );
 };
 

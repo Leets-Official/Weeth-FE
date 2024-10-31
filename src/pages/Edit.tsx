@@ -15,10 +15,10 @@ import UserAPI from '@/service/UserAPI';
 import { UserContext } from '@/service/UserContext';
 import useCustomBack from '@/router/useCustomBack';
 
-interface EditProps {
-  key: string;
-  value: string | number | number[];
-}
+// interface EditProps {
+//   key: string;
+//   value: string | number | number[];
+// }
 
 const StyledEdit = styled.div`
   width: 370px;
@@ -111,6 +111,7 @@ const Edit = () => {
       });
     } catch (err) {
       alert('저장 중 오류가 발생했습니다.');
+      console.error(err);
     }
 
     if (response?.data?.code === 400) {
@@ -157,6 +158,7 @@ const Edit = () => {
             text="학과"
             origValue={userData.department}
             editValue={(value) => editValue('department', value)}
+            buttonstyle="member"
           />
           <InfoInput
             text="핸드폰"

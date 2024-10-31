@@ -8,8 +8,8 @@ import theme from '@/styles/theme';
 import SignupMemInput from '@/components/Signup/SignupMemInput';
 import SignupHeader from '@/components/Signup/SignupHeader';
 import PositionSector from '@/components/Signup/PositionSector';
-import SignupDropDown from '@/components/Signup/SignupDropDown';
 import useCustomBack from '@/router/useCustomBack';
+import DropdownMenu from '@/components/Button/DropdownMenu';
 
 // Styled components
 const ProfileContainer = styled.div`
@@ -73,7 +73,11 @@ const Profile: React.FC = () => {
       'tel',
       'cardinal',
       'position',
-    ].every((field) => typeof memberInfo[field as keyof MemberInfo] === 'string' && memberInfo[field as keyof MemberInfo]?.trim() !== '');
+    ].every(
+      (field) =>
+        typeof memberInfo[field as keyof MemberInfo] === 'string' &&
+        memberInfo[field as keyof MemberInfo]?.trim() !== '',
+    );
 
     if (memberInfo.studentId && memberInfo.studentId.trim().length < 9) {
       alert('올바른 학번을 입력해 주세요.');
@@ -96,7 +100,10 @@ const Profile: React.FC = () => {
 
     try {
       const BASE_URL = import.meta.env.VITE_API_URL;
-      const response = await axios.post(`${BASE_URL}/api/v1/users/apply`, mappedMemberInfo);
+      const response = await axios.post(
+        `${BASE_URL}/api/v1/users/apply`,
+        mappedMemberInfo,
+      );
 
       if (response.data.code === 200) {
         alert(`가입 신청이 완료되었습니다.
@@ -121,7 +128,11 @@ const Profile: React.FC = () => {
       'tel',
       'cardinal',
       'position',
-    ].every((field) => typeof newMemberInfo[field as keyof MemberInfo] === 'string' && newMemberInfo[field as keyof MemberInfo]?.trim() !== '');
+    ].every(
+      (field) =>
+        typeof newMemberInfo[field as keyof MemberInfo] === 'string' &&
+        newMemberInfo[field as keyof MemberInfo]?.trim() !== '',
+    );
 
     setIsNextEnabled(allFieldsFilled);
   };
@@ -153,10 +164,11 @@ const Profile: React.FC = () => {
           />
         </InputWrapper>
         <InputWrapper>
-          <SignupDropDown
+          <DropdownMenu
             text="학과"
             origValue={memberInfo.department || ''}
             editValue={(value) => handleChange('department', value)}
+            buttonstyle="signup"
           />
         </InputWrapper>
         <InputWrapper>
