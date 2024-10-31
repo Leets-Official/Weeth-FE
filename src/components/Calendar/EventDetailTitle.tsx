@@ -3,7 +3,7 @@
 import axios from 'axios';
 import Modal from 'react-modal';
 
-import EditDelModal from '@/components/EditDelModal';
+import EditDelModal from '@/components/Modal/EditDelModal';
 import IndexButton from '@/components/Header/IndexButton';
 import LeftButton from '@/components/Header/LeftButton';
 import UserAPI from '@/service/UserAPI';

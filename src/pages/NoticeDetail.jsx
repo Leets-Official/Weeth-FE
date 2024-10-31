@@ -7,7 +7,7 @@ import { UserContext } from '../service/UserContext';
 import BoardHeader from '../components/Board/NoticeHeader';
 import AttachButton from '../components/Board/AttachButton';
 import CommentList from '../components/Board/CommentList';
-import EditDelModal from '../components/EditDelModal';
+import EditDelModal from '../components/Modal/EditDelModal';
 import boardChat from '../assets/images/ic_board_chat.svg';
 import theme from '../styles/theme';
 
