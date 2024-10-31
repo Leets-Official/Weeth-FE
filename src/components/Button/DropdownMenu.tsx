@@ -6,6 +6,7 @@ interface DropdownMenuProps {
   text: string;
   origValue: string;
   editValue: (value: string) => void;
+  buttonstyle: string;
 }
 
 const DropdownContainer = styled.div`
@@ -56,7 +57,12 @@ const DropdownItem = styled.div`
   }
 `;
 
-const DropdownMenu: React.FC<DropdownMenuProps> = ({ text, origValue, editValue }) => {
+const DropdownMenu: React.FC<DropdownMenuProps> = ({
+  text,
+  origValue,
+  editValue,
+  buttonstyle,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState(origValue);
   const dropdownRef = useRef<HTMLDivElement>(null);

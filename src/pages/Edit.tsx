@@ -10,7 +10,7 @@ import axios from 'axios';
 import theme from '@/styles/theme';
 import MyPageHeader from '@/components/MyPage/MyPageHeader';
 import InfoInput from '@/components/MyPage/InfoInput';
-import DropdownMenu from '@/components/DropdownMenu';
+import DropdownMenu from '@/components/Button/DropdownMenu';
 import UserAPI from '@/service/UserAPI';
 import { UserContext } from '@/service/UserContext';
 import useCustomBack from '@/router/useCustomBack';
@@ -46,7 +46,8 @@ const Edit = () => {
   useCustomBack('/mypage');
 
   const { userData, error } = useContext(UserContext);
-  const [userInfo, setUserInfo] = useState<{ key: string; value: any }[]>([]);  const accessToken = localStorage.getItem('accessToken');
+  const [userInfo, setUserInfo] = useState<{ key: string; value: any }[]>([]);
+  const accessToken = localStorage.getItem('accessToken');
   const refreshToken = localStorage.getItem('refreshToken');
   const BASE_URL = import.meta.env.VITE_API_URL;
   const navi = useNavigate();
