@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 /* eslint-disable no-alert */
 import DatePicker from '@/components/Event/DatePicker';
 import Header from '@/components/Header/Header';
@@ -10,80 +9,9 @@ import { EventInfoContext } from '@/service/EventInfoContext';
 import UserAPI from '@/service/UserAPI';
 import { UserContext } from '@/service/UserContext';
 import { replaceNewLines } from '@/service/Utils';
-import theme from '@/styles/theme';
+import * as S from '@/styles/event/EventEditor.styled';
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import styled from 'styled-components';
-
-const StyledCreate = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 370px;
-  padding-bottom: 183px;
-  font-family: ${theme.font.family.pretendard_regular};
-`;
-
-const DatePickerWrapper = styled.div`
-  height: 86px;
-  border-radius: 4px;
-  background-color: ${theme.color.grayScale.gray18};
-  margin: 12px 15px 4px 15px;
-  padding-top: 10px;
-`;
-
-const TextAreaWrapper = styled.div`
-  margin: 12px 10px;
-  width: 344px;
-  background-color: ${theme.color.grayScale.gray18};
-  border-radius: 4px;
-`;
-
-const StyledTextArea = styled.textarea`
-  height: 504px;
-  width: 310px;
-  margin: 15px 10px;
-  padding-right: 10px;
-  resize: none;
-  border: none;
-  outline: none;
-  background-color: ${theme.color.grayScale.gray18};
-  color: white;
-  font-family: ${theme.font.family.pretendard_regular};
-  font-size: 16px;
-
-  &::-webkit-scrollbar {
-    width: 5px;
-    margin: 15px 10px;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background-color: rgba(255, 255, 255, 0.5);
-    border-radius: 4px;
-  }
-
-  &::-webkit-scrollbar-track {
-    background-color: transparent;
-  }
-`;
-
-const Error = styled.div`
-  display: flex;
-  justify-content: center;
-  margin: 50px 0px;
-  font-family: ${theme.font.family.pretendard_semiBold};
-`;
-
-const getTodayArr = () => {
-  const today = new Date();
-  return [
-    today.getFullYear(),
-    today.getMonth() + 1,
-    today.getDate(),
-    today.getHours(),
-    today.getMinutes(),
-  ];
-};
 
 const ISOToArray = (isoString: string) => {
   if (!isoString) return [];
@@ -97,13 +25,23 @@ const ISOToArray = (isoString: string) => {
   ];
 };
 
+const dateArrayToKSTISO = (
+  dateArray: [number, number, number, number, number],
+) => {
+  const [year, month, day, hour, minute] = dateArray;
+  const dateObj = new Date(year, month - 1, day, hour, minute);
+  const KST_OFFSET = 9 * 60;
+  const kstDate = new Date(dateObj.getTime() + KST_OFFSET * 60 * 1000);
+  return kstDate.toISOString().replace('Z', '');
+};
+
 const EventEditor = () => {
   useCustomBack('/calendar');
 
   const { infoData, error } = useContext(EventInfoContext);
   const [eventInfo, setEventInfo] = useState([
     { key: 'title', value: '' },
-    { key: 'start', value: getTodayArr() },
+    { key: 'start', value: [] },
     { key: 'end', value: [] },
     { key: 'location', value: '' },
     { key: 'requiredItem', value: '' },
@@ -119,20 +57,27 @@ const EventEditor = () => {
   const isEditMode = Boolean(id);
   const { userData } = useContext(UserContext);
 
+  const infoInputs = [
+    { key: 'location', text: '장소' },
+    { key: 'requiredItem', text: '준비물' },
+    { key: 'memberCount', text: '총인원' },
+  ];
+
+  // start,end 배열 타입 변경 (number -> string)
   useEffect(() => {
     if (isEditMode && infoData) {
       const updatedEventInfo = eventInfo.map((item) => {
         if (item.key === 'start') {
           const startArray = ISOToArray(infoData.start).map((num) =>
             num.toString(),
-          ); // number[] -> string[]
+          );
           setStartArr(startArray);
           return { ...item, value: startArray };
         }
         if (item.key === 'end') {
           const endArray = ISOToArray(infoData.end).map((num) =>
             num.toString(),
-          ); // number[] -> string[]
+          );
           setEndArr(endArray);
           return { ...item, value: endArray };
         }
@@ -142,31 +87,37 @@ const EventEditor = () => {
     }
   }, [isEditMode, infoData]);
 
-  const editValue = (key: string, value: any) => {
+  const editEventInfo = (key: string, value: any) => {
     const updatedEventInfo = eventInfo.map((item) =>
       item.key === key ? { ...item, value } : item,
     );
     setEventInfo(updatedEventInfo);
   };
 
-  const editDate = (key: string, date: any) => {
-    const updatedEventInfo = eventInfo.map((item) =>
-      item.key === key ? { ...item, value: date } : item,
-    );
-    setEventInfo(updatedEventInfo);
-  };
-
   const onSave = async () => {
-    const title = eventInfo.find((item) => item.key === 'title')?.value;
-    const location = eventInfo.find((item) => item.key === 'location')?.value;
-    const requiredItem = eventInfo.find(
-      (item) => item.key === 'requiredItem',
-    )?.value;
-    const memberCount = eventInfo.find(
-      (item) => item.key === 'memberCount',
-    )?.value;
-    let content = eventInfo.find((item) => item.key === 'content')?.value;
+    const title: string | undefined = (() => {
+      const value = eventInfo.find((item) => item.key === 'title')?.value;
+      return typeof value === 'string' ? value : undefined;
+    })();
 
+    const location: string | undefined = (() => {
+      const value = eventInfo.find((item) => item.key === 'location')?.value;
+      return typeof value === 'string' ? value : undefined;
+    })();
+
+    const requiredItem: string | undefined = (() => {
+      const value = eventInfo.find(
+        (item) => item.key === 'requiredItem',
+      )?.value;
+      return typeof value === 'string' ? value : undefined;
+    })();
+
+    const memberCount: string | undefined = (() => {
+      const value = eventInfo.find((item) => item.key === 'memberCount')?.value;
+      return typeof value === 'string' ? value : undefined;
+    })();
+
+    let content = eventInfo.find((item) => item.key === 'content')?.value;
     content = typeof content === 'string' ? replaceNewLines(content) : '';
 
     const data = eventInfo.reduce((acc: any, item) => {
@@ -174,26 +125,17 @@ const EventEditor = () => {
       return acc;
     }, {});
 
-    const dateArrayToKSTISO = (
-      dateArray: [number, number, number, number, number],
-    ) => {
-      const [year, month, day, hour, minute] = dateArray;
-      const dateObj = new Date(year, month - 1, day, hour, minute);
-      const KST_OFFSET = 9 * 60;
-      const kstDate = new Date(dateObj.getTime() + KST_OFFSET * 60 * 1000);
-      return kstDate.toISOString().replace('Z', '');
-    };
-
     const startDate = eventInfo.find((item) => item.key === 'start')?.value;
     const endDate = eventInfo.find((item) => item.key === 'end')?.value;
 
+    // TODO: start, end 초기값 설정 로직 추가 (오늘 00:00~23:59)
     if (
       Array.isArray(startDate) &&
       startDate.length === 5 &&
       startDate.every(Number.isFinite)
     ) {
       data.start = dateArrayToKSTISO(
-        startDate as [number, number, number, number, number],
+        startDate as unknown as [number, number, number, number, number],
       );
     }
 
@@ -203,33 +145,28 @@ const EventEditor = () => {
       endDate.every(Number.isFinite)
     ) {
       data.end = dateArrayToKSTISO(
-        endDate as [number, number, number, number, number],
+        endDate as unknown as [number, number, number, number, number],
       );
     }
 
+    function checkEmpty(field: string | undefined, message: string): boolean {
+      // TODO🚨important!!🚨: 배열 내에 빈 값이 있는 경우를 처리하는 로직 추가
+      if (Array.isArray(field) && field.length === 0) {
+        alert(message);
+        return true;
+      }
+      return false;
+    }
+
     if (
-      typeof title === 'string' &&
-      !title.trim() &&
-      typeof location === 'string' &&
-      !location.trim() &&
-      typeof requiredItem === 'string' &&
-      !requiredItem.trim() &&
-      typeof memberCount === 'string' &&
-      !memberCount.trim() &&
-      typeof content === 'string' &&
-      !content.trim()
+      checkEmpty(title, '제목을 입력해 주세요.') ||
+      checkEmpty(data.start, '시작 시간을 입력해 주세요.') ||
+      checkEmpty(data.end, '종료 시간을 입력해 주세요.') ||
+      checkEmpty(location, '장소를 입력해 주세요.') ||
+      checkEmpty(requiredItem, '준비물을 입력해 주세요.') ||
+      checkEmpty(memberCount, '총인원을 입력해 주세요.') ||
+      checkEmpty(content, '내용을 입력해 주세요.')
     ) {
-      alert('모든 항목을 입력해 주세요.');
-      return;
-    }
-
-    if (!data.start) {
-      alert('시작 시간을 입력해주세요.');
-      return;
-    }
-
-    if (!data.end) {
-      alert('종료 시간을 입력해주세요.');
       return;
     }
 
@@ -240,31 +177,6 @@ const EventEditor = () => {
 
     if (data.start > data.end) {
       alert('종료 시간은 시작 시간보다 빠를 수 없습니다.');
-      return;
-    }
-
-    if (typeof title === 'string' && !title.trim()) {
-      alert('제목을 입력해 주세요.');
-      return;
-    }
-
-    if (typeof location === 'string' && !location.trim()) {
-      alert('장소를 입력해 주세요.');
-      return;
-    }
-
-    if (typeof requiredItem === 'string' && !requiredItem.trim()) {
-      alert('준비물을 입력해 주세요.');
-      return;
-    }
-
-    if (typeof memberCount === 'string' && !memberCount.trim()) {
-      alert('총인원을 입력해 주세요.');
-      return;
-    }
-
-    if (typeof content === 'string' && !content.trim()) {
-      alert('내용을 입력해 주세요.');
       return;
     }
 
@@ -289,11 +201,11 @@ const EventEditor = () => {
   }
 
   if (userData && userData.role !== 'ADMIN') {
-    return <Error>일정 생성 및 수정은 운영진만 가능합니다</Error>;
+    return <S.Error>일정 생성 및 수정은 운영진만 가능합니다</S.Error>;
   }
 
   return (
-    <StyledCreate>
+    <S.EventEditorWrapper>
       <UserAPI />
       {id && <EventInfoAPI id={id} />}
       <Header
@@ -307,71 +219,48 @@ const EventEditor = () => {
         origValue={eventInfo.find((item) => item.key === 'title')?.value || ''}
         padding="15px"
         align="left"
-        editValue={(value) => editValue('title', value)}
+        editValue={(value) => editEventInfo('title', value)}
       />
-      <DatePickerWrapper>
-        <DatePicker
-          status="start"
-          onDateChange={(index, value) => {
-            const startDate = [...startArr];
-            startDate[index] = value.toString();
-            setStartArr(startDate);
-            editDate('start', startDate);
-          }}
-          date={startArr}
+      <DatePicker
+        startDate={startArr}
+        endDate={endArr}
+        onStartDateChange={(index, value) => {
+          const updatedStartDate = [...startArr];
+          updatedStartDate[index] = value.toString();
+          setStartArr(updatedStartDate);
+          editEventInfo('start', updatedStartDate);
+        }}
+        onEndDateChange={(index, value) => {
+          const updatedEndDate = [...endArr];
+          updatedEndDate[index] = value.toString();
+          setEndArr(updatedEndDate);
+          editEventInfo('end', updatedEndDate);
+        }}
+      />
+      {infoInputs.map((input) => (
+        <InfoInput
+          key={input.key}
+          text={input.text}
+          origValue={
+            eventInfo.find((item) => item.key === input.key)?.value || ''
+          }
+          width="75%"
+          padding="15px"
+          align="left"
+          editValue={(value) => editEventInfo(input.key, value)}
         />
-        <DatePicker
-          status="end"
-          onDateChange={(index, value) => {
-            const endDate = [...endArr];
-            endDate[index] = value.toString();
-            setEndArr(endDate);
-            editDate('end', endDate);
-          }}
-          date={endArr}
-        />
-      </DatePickerWrapper>
-      <InfoInput
-        text="장소"
-        origValue={
-          eventInfo.find((item) => item.key === 'location')?.value || ''
-        }
-        width="75%"
-        padding="15px"
-        align="left"
-        editValue={(value) => editValue('location', value)}
-      />
-      <InfoInput
-        text="준비물"
-        origValue={
-          eventInfo.find((item) => item.key === 'requiredItem')?.value || ''
-        }
-        width="75%"
-        padding="15px"
-        align="left"
-        editValue={(value) => editValue('requiredItem', value)}
-      />
-      <InfoInput
-        text="총인원"
-        origValue={
-          eventInfo.find((item) => item.key === 'memberCount')?.value || ''
-        }
-        width="75%"
-        padding="15px"
-        align="left"
-        editValue={(value) => editValue('memberCount', value)}
-      />
-      <TextAreaWrapper>
-        <StyledTextArea
+      ))}
+      <S.TextAreaWrapper>
+        <S.TextArea
           placeholder="내용"
           value={
             (eventInfo.find((item) => item.key === 'content')
               ?.value as string) || ''
           }
-          onChange={(e) => editValue('content', e.target.value)}
+          onChange={(e) => editEventInfo('content', e.target.value)}
         />
-      </TextAreaWrapper>
-    </StyledCreate>
+      </S.TextAreaWrapper>
+    </S.EventEditorWrapper>
   );
 };
 

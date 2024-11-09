@@ -4,13 +4,15 @@ import DateInput from '@/components/Calendar/DateInput';
 import * as S from '@/styles/calendar/DatePicker.styled';
 
 const DatePicker = ({
-  status,
-  onDateChange,
-  date,
+  startDate,
+  endDate,
+  onStartDateChange,
+  onEndDateChange,
 }: {
-  status: string;
-  onDateChange: (index: number, value: number) => void;
-  date: string[] | number[];
+  startDate: string[];
+  endDate: string[];
+  onStartDateChange: (index: number, value: number) => void;
+  onEndDateChange: (index: number, value: number) => void;
 }) => {
   const dateFields = [
     { label: '년', width: '58px', inputType: 'year' },
@@ -21,31 +23,50 @@ const DatePicker = ({
   ];
 
   return (
-    <S.PickerWrapper>
-      {status === 'start' ? (
+    <S.DatePickerWrapper>
+      <S.DatePickerContent>
         <img src={icCalendar} alt="달력" />
-      ) : (
+        {dateFields.map((field, index) => (
+          <>
+            <DateInput
+              value={startDate[index]}
+              width={field.width}
+              height="28px"
+              margin="5px"
+              onChange={(value) =>
+                onStartDateChange(
+                  index,
+                  typeof value === 'string' ? parseInt(value, 10) : value,
+                )
+              }
+              inputType={field.inputType}
+            />
+            {field.label === '시' ? ' : ' : field.label !== '분' && field.label}
+          </>
+        ))}
+      </S.DatePickerContent>
+      <S.DatePickerContent>
         <S.Icon src={icWave} alt="물결" />
-      )}
-      {dateFields.map((field, index) => (
-        <>
-          <DateInput
-            value={date[index]}
-            width={field.width}
-            height="28px"
-            margin="5px"
-            onChange={(value) =>
-              onDateChange(
-                index,
-                typeof value === 'string' ? parseInt(value, 10) : value,
-              )
-            }
-            inputType={field.inputType}
-          />
-          {field.label === '시' ? ' : ' : field.label !== '분' && field.label}
-        </>
-      ))}
-    </S.PickerWrapper>
+        {dateFields.map((field, index) => (
+          <>
+            <DateInput
+              value={endDate[index]}
+              width={field.width}
+              height="28px"
+              margin="5px"
+              onChange={(value) =>
+                onEndDateChange(
+                  index,
+                  typeof value === 'string' ? parseInt(value, 10) : value,
+                )
+              }
+              inputType={field.inputType}
+            />
+            {field.label === '시' ? ' : ' : field.label !== '분' && field.label}
+          </>
+        ))}
+      </S.DatePickerContent>
+    </S.DatePickerWrapper>
   );
 };
 
