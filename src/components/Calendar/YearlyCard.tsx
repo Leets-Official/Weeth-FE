@@ -1,12 +1,8 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-console */
 import icDot from '@/assets/images/ic_dot.svg';
+import { CURRENT_MONTH, CURRENT_YEAR } from '@/constants/dateConstants';
 import * as S from '@/styles/calendar/MonthlyEvent.styled';
-import React from 'react';
-
-interface EventComponentProps {
-  title: string;
-}
 
 interface Event {
   id: number;
@@ -16,13 +12,7 @@ interface Event {
   isMeeting: boolean;
 }
 
-interface MonthlyEventProps {
-  thisMonth: number;
-  year: string | number;
-  events: Event[];
-}
-
-const EventComponent: React.FC<EventComponentProps> = ({ title }) => {
+const EventComponent = ({ title }: { title: string }) => {
   return (
     <S.Content>
       <S.Dot src={icDot} alt="dot" />
@@ -31,18 +21,20 @@ const EventComponent: React.FC<EventComponentProps> = ({ title }) => {
   );
 };
 
-const MonthlyEvent: React.FC<MonthlyEventProps> = ({
+const YearlyCard = ({
   thisMonth,
   year,
   events,
+}: {
+  thisMonth: number;
+  year: string | number;
+  events: Event[];
 }) => {
-  const todayMonth = new Date().getMonth() + 1;
-  const todayYear = new Date().getFullYear();
-  const istoday = thisMonth === todayMonth && todayYear === year;
+  const isToday = CURRENT_MONTH === thisMonth && CURRENT_YEAR === year;
 
   return (
     <S.StyledYear>
-      <S.MonthName $isToday={istoday}>{thisMonth}월</S.MonthName>
+      <S.MonthName $isToday={isToday}>{thisMonth}월</S.MonthName>
       <S.ContentWrapper>
         {events.length > 0 ? (
           events.map((event) => (
@@ -56,4 +48,4 @@ const MonthlyEvent: React.FC<MonthlyEventProps> = ({
   );
 };
 
-export default MonthlyEvent;
+export default YearlyCard;

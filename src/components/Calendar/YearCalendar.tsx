@@ -1,16 +1,11 @@
 import * as S from '@/styles/calendar/YearCalendar.styled';
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 
-import MonthlyEvent from '@/components/Calendar/MonthlyEvent';
+import { MONTH } from '@/constants/dateConstants';
 import { YearlyScheduleContext } from '@/service/YearlyScheduleContext';
+import YearlyCard from './YearlyCard';
 
-interface YearCalendarProps {
-  year: string;
-}
-
-const allMonth = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-
-const YearCalendar: React.FC<YearCalendarProps> = ({ year }) => {
+const YearCalendar = ({ year }: { year: string }) => {
   const validYear = year.toString().length === 4 ? parseInt(year, 10) : 2024;
   const { yearScheduleData, error } = useContext(YearlyScheduleContext);
 
@@ -25,28 +20,28 @@ const YearCalendar: React.FC<YearCalendarProps> = ({ year }) => {
   return (
     <S.MonthlyBox>
       <S.FirstHalfMonth>
-        {allMonth
-          .filter((monthItem) => monthItem >= 1 && monthItem <= 6)
-          .map((monthItem) => (
-            <MonthlyEvent
+        {MONTH.filter((monthItem) => monthItem >= 1 && monthItem <= 6).map(
+          (monthItem) => (
+            <YearlyCard
               key={monthItem}
               thisMonth={monthItem}
               year={validYear}
               events={yearScheduleData[monthItem] || []}
             />
-          ))}
+          ),
+        )}
       </S.FirstHalfMonth>
       <S.SecondHalfMonth>
-        {allMonth
-          .filter((monthItem) => monthItem >= 7 && monthItem <= 12)
-          .map((monthItem) => (
-            <MonthlyEvent
+        {MONTH.filter((monthItem) => monthItem >= 7 && monthItem <= 12).map(
+          (monthItem) => (
+            <YearlyCard
               key={monthItem}
               thisMonth={monthItem}
               year={validYear}
               events={yearScheduleData[monthItem] || []}
             />
-          ))}
+          ),
+        )}
       </S.SecondHalfMonth>
     </S.MonthlyBox>
   );
