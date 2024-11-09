@@ -1,11 +1,11 @@
 import * as S from '@/styles/calendar/ToggleButton.styled';
 import { useState } from 'react';
 
-interface ToggleButtonProps {
+const ToggleButton = ({
+  onToggle,
+}: {
   onToggle: (isMonth: boolean) => void;
-}
-
-const ToggleButton: React.FC<ToggleButtonProps> = ({ onToggle }) => {
+}) => {
   const [isMonth, setIsMonth] = useState(false);
 
   const handleToggle = () => {
@@ -14,15 +14,13 @@ const ToggleButton: React.FC<ToggleButtonProps> = ({ onToggle }) => {
   };
 
   return (
-    <div>
-      <S.Switch>
-        <S.Checkbox type="checkbox" checked={isMonth} onChange={handleToggle} />
-        <S.Slider $isChecked={isMonth}>
-          <S.TextMonth $isChecked={isMonth}>Month</S.TextMonth>
-          <S.TextYear $isChecked={isMonth}>Year</S.TextYear>
-        </S.Slider>
-      </S.Switch>
-    </div>
+    <S.Switch>
+      <S.Checkbox type="checkbox" onChange={handleToggle} />
+      <S.Slider $isMonth={isMonth}>
+        <S.TextMonth $isMonth={isMonth}>Month</S.TextMonth>
+        <S.TextYear $isMonth={isMonth}>Year</S.TextYear>
+      </S.Slider>
+    </S.Switch>
   );
 };
 

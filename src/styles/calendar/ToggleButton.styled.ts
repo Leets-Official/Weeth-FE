@@ -16,7 +16,7 @@ export const Checkbox = styled.input`
   height: 0;
 `;
 
-export const Slider = styled.span<{ $isChecked: boolean }>`
+export const Slider = styled.span<{ $isMonth: boolean }>`
   display: flex;
   align-items: center;
   position: absolute;
@@ -40,25 +40,29 @@ export const Slider = styled.span<{ $isChecked: boolean }>`
     transition: 0.4s;
     border-radius: 9px;
     transform: ${(props) =>
-      props.$isChecked ? 'translateX(169px)' : 'translateX(0)'};
+      props.$isMonth ? 'translateX(169px)' : 'translateX(0)'};
   }
 `;
 
-export const TextMonth = styled.span<{ $isChecked: boolean }>`
+export const TextMonth = styled.span<{ $isMonth: boolean }>`
   position: absolute;
   left: 18%;
-  color: ${(props) => (props.$isChecked ? '#a6a6a6' : '#ffffff')};
-  //eslint 이슈로 색상코드를 작성하였음
+  color: ${(props) =>
+    props.$isMonth
+      ? theme.color.grayScale.gray65
+      : theme.color.grayScale.white};
   font-family: ${theme.font.family.pretendard_semiBold};
   font-size: 12px;
   z-index: 1;
 `;
 
-export const TextYear = styled.span<{ $isChecked: boolean }>`
+export const TextYear = styled.span<{ $isMonth: boolean }>`
   position: absolute;
   right: 22%;
-  color: ${(props) => (props.$isChecked ? '#ffffff' : '#a6a6a6')};
-  //eslint 이슈로 색상코드를 작성하였음
+  color: ${(props) =>
+    props.$isMonth
+      ? theme.color.grayScale.white
+      : theme.color.grayScale.gray65};
   font-family: ${theme.font.family.pretendard_semiBold};
   font-size: 12px;
   z-index: 1;
