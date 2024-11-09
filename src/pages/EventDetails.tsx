@@ -8,7 +8,6 @@ import icClock from '@/assets/images/ic_clock.svg';
 import icCalendar from '@/assets/images/ic_date.svg';
 import EventTitle from '@/components/Event/EventTitle';
 import useCustomBack from '@/router/useCustomBack';
-import EventInfoAPI from '@/service/EventInfoAPI';
 import UserAPI from '@/service/UserAPI';
 import theme from '@/styles/theme';
 
@@ -95,16 +94,14 @@ const EventDetails = () => {
             headers,
           });
           if (response.data.code === 200) {
-            // console.log('response detail data:', response.data.data); // 데이터 확인용
             setEventDetailData(response.data.data);
           } else {
-            // console.error('Error message from API:', response.data.message);
             setError(response.data.message);
           }
         }
       } catch (err) {
-        // console.error('API Request Error:', err); // 에러 로그
         setError('An error occurred while fetching the data');
+        console.error(err);
       }
     };
 
@@ -143,7 +140,6 @@ const EventDetails = () => {
   return (
     <StyledEventDetails>
       <UserAPI />
-      {id && <EventInfoAPI id={id} />}
       <EventTitle
         id={eventDetailData.id}
         text={eventDetailData.title}
