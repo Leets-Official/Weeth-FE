@@ -3,95 +3,49 @@ import icWave from '@/assets/images/ic_wave.svg';
 import DateInput from '@/components/Calendar/DateInput';
 import * as S from '@/styles/calendar/DatePicker.styled';
 
-interface DatePickerProps {
-  status: string;
-  onDateChange: (index: number, value: number) => void;
-  date: string[] | number[];
-  onChange?: () => void;
-}
-
-const DatePicker: React.FC<DatePickerProps> = ({
+const DatePicker = ({
   status,
   onDateChange,
   date,
+}: {
+  status: string;
+  onDateChange: (index: number, value: number) => void;
+  date: string[] | number[];
 }) => {
+  const dateFields = [
+    { label: '년', width: '58px', inputType: 'year' },
+    { label: '월', width: '37px', inputType: 'month' },
+    { label: '일', width: '37px', inputType: 'day' },
+    { label: '시', width: '37px', inputType: 'hour' },
+    { label: '분', width: '37px', inputType: 'minute' },
+  ];
+
   return (
-    <S.StyledPicker>
+    <S.PickerWrapper>
       {status === 'start' ? (
         <img src={icCalendar} alt="달력" />
       ) : (
-        <S.WaveImg src={icWave} alt="물결" />
+        <S.Icon src={icWave} alt="물결" />
       )}
-      <DateInput
-        value={date[0]}
-        width="58px"
-        height="28px"
-        margin="5px"
-        onChange={(value) =>
-          onDateChange(
-            0,
-            typeof value === 'string' ? parseInt(value, 10) : value,
-          )
-        }
-        inputType="year"
-      />
-      년
-      <DateInput
-        value={date[1]}
-        width="37px"
-        height="28px"
-        margin="5px"
-        onChange={(value) =>
-          onDateChange(
-            1,
-            typeof value === 'string' ? parseInt(value, 10) : value,
-          )
-        }
-        inputType="month"
-      />
-      월
-      <DateInput
-        value={date[2]}
-        width="37px"
-        height="28px"
-        margin="5px"
-        onChange={(value) =>
-          onDateChange(
-            2,
-            typeof value === 'string' ? parseInt(value, 10) : value,
-          )
-        }
-        inputType="day"
-      />
-      일
-      <DateInput
-        value={date[3]}
-        width="37px"
-        height="28px"
-        margin="5px"
-        onChange={(value) =>
-          onDateChange(
-            3,
-            typeof value === 'string' ? parseInt(value, 10) : value,
-          )
-        }
-        inputType="hour"
-      />
-      :
-      <DateInput
-        value={date[4]}
-        width="37px"
-        height="28px"
-        margin="5px"
-        onChange={(value) =>
-          onDateChange(
-            4,
-            typeof value === 'string' ? parseInt(value, 10) : value,
-          )
-        }
-        inputType="minute"
-      />
-    </S.StyledPicker>
+      {dateFields.map((field, index) => (
+        <>
+          <DateInput
+            value={date[index]}
+            width={field.width}
+            height="28px"
+            margin="5px"
+            onChange={(value) =>
+              onDateChange(
+                index,
+                typeof value === 'string' ? parseInt(value, 10) : value,
+              )
+            }
+            inputType={field.inputType}
+          />
+          {field.label === '시' ? ' : ' : field.label !== '분' && field.label}
+        </>
+      ))}
+    </S.PickerWrapper>
   );
 };
 

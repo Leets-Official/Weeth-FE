@@ -1,4 +1,3 @@
-// src/styles/theme.d.ts
 declare module 'src/styles/theme' {
   interface Theme {
     color: {
@@ -10,7 +9,7 @@ declare module 'src/styles/theme' {
         pointPink: string;
         pointBlue: string;
         selectedMain: string;
-      }
+      };
       grayScale: {
         black: string;
         lightBlack: string;
@@ -36,7 +35,7 @@ declare module 'src/styles/theme' {
       };
     };
   }
-  
-    const theme: Theme;
-    export default theme;
-  }
+
+  const theme: Theme;
+  export default theme;
+}

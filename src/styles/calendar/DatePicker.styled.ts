@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const StyledPicker = styled.div`
+export const PickerWrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -8,6 +8,6 @@ export const StyledPicker = styled.div`
   padding: 5px;
 `;
 
-export const WaveImg = styled.img`
+export const Icon = styled.img`
   margin: 0px 6px;
 `;
