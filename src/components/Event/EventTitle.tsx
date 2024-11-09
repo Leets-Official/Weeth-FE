@@ -10,25 +10,23 @@ import UserAPI from '@/service/UserAPI';
 import { UserContext } from '@/service/UserContext';
 import * as S from '@/styles/calendar/EventDetailTitle.styled';
 import { adminModalStyles } from '@/styles/calendar/EventDetailTitle.styled';
-import React, { useContext, useState } from 'react';
+import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 Modal.setAppElement('#root');
 
-interface EventDetailTitleProps {
-  id: number;
-  text: string;
-  writer: string;
-  createdAt: string;
-  isMeeting: boolean;
-}
-
-const EventDetailTitle: React.FC<EventDetailTitleProps> = ({
+const EventTitle = ({
   id,
   text,
   writer,
   createdAt,
   isMeeting,
+}: {
+  id: number;
+  text: string;
+  writer: string;
+  createdAt: string;
+  isMeeting: boolean;
 }) => {
   const { userData } = useContext(UserContext);
   const [adminModalIsOpen, setAdminModalIsOpen] = useState(false);
@@ -70,21 +68,21 @@ const EventDetailTitle: React.FC<EventDetailTitleProps> = ({
   }
 
   return (
-    <S.StyledTitle>
+    <S.EventTitleWrapper>
       <UserAPI />
-      <S.StyledHeader>
+      <S.Header>
         <LeftButton />
         {userData.role === 'ADMIN' && !isMeeting ? (
           <IndexButton onClick={openAdminModal} />
         ) : null}
-      </S.StyledHeader>
+      </S.Header>
       <S.Title>{text}</S.Title>
-      <S.Detail>
+      <S.WriteInfo>
         <S.Writer>{writer}</S.Writer>
         <S.WrittenTime>
           {splittedDate[0].replace(/-/gi, '/')} {splittedTime}
         </S.WrittenTime>
-      </S.Detail>
+      </S.WriteInfo>
 
       <Modal
         className="calendar-modal"
@@ -101,8 +99,8 @@ const EventDetailTitle: React.FC<EventDetailTitleProps> = ({
           onClickCancel={closeAdminModal}
         />
       </Modal>
-    </S.StyledTitle>
+    </S.EventTitleWrapper>
   );
 };
 
-export default EventDetailTitle;
+export default EventTitle;

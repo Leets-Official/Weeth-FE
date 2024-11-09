@@ -1,3 +1,6 @@
+/*
+UI 수정시 삭제되는 파일입니다
+*/
 import DateInput from '@/components/Calendar/DateInput';
 import TextButton from '@/components/Header/TextButton';
 import * as S from '@/styles/calendar/ModalMonthContent.styled';

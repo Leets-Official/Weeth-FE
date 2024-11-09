@@ -1,18 +1,18 @@
 /* eslint-disable no-console */
-import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
-import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import styled from 'styled-components';
 
-import icCalendar from '@/assets/images/ic_date.svg';
 import icClock from '@/assets/images/ic_clock.svg';
-import theme from '@/styles/theme';
-import EventDetailTitle from '@/components/Calendar/EventDetailTitle';
-import EventInfoAPI from '@/service/EventInfoAPI';
+import icCalendar from '@/assets/images/ic_date.svg';
+import EventTitle from '@/components/Event/EventTitle';
 import useCustomBack from '@/router/useCustomBack';
+import EventInfoAPI from '@/service/EventInfoAPI';
 import UserAPI from '@/service/UserAPI';
+import theme from '@/styles/theme';
 
-interface EventDeatilData {
+interface EventDetailData {
   id: number;
   title: string;
   content: string;
@@ -72,7 +72,8 @@ const EventDetails = () => {
 
   const { id } = useParams();
   const { type } = useParams();
-  const [eventDetailData, setEventDetailData] = useState<EventDeatilData | null>(null);
+  const [eventDetailData, setEventDetailData] =
+    useState<EventDetailData | null>(null);
   const [error, setError] = useState<string | null>(null);
   const isMeeting = type === 'meetings';
 
@@ -143,7 +144,7 @@ const EventDetails = () => {
     <StyledEventDetails>
       <UserAPI />
       {id && <EventInfoAPI id={id} />}
-      <EventDetailTitle
+      <EventTitle
         id={eventDetailData.id}
         text={eventDetailData.title}
         writer={eventDetailData.name}
