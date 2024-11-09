@@ -1,7 +1,7 @@
 import theme from '@/styles/theme';
 import styled from 'styled-components';
 
-export const CalendarContainer = styled.div`
+export const Calendar = styled.div`
   width: 100%;
   padding-bottom: 183px;
   font-family: ${theme.font.family.pretendard_regular};

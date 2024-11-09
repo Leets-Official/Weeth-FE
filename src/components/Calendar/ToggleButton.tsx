@@ -1,21 +1,20 @@
 import * as S from '@/styles/calendar/ToggleButton.styled';
-import { useState } from 'react';
 
 const ToggleButton = ({
   onToggle,
+  isMonth,
 }: {
-  onToggle: (isMonth: boolean) => void;
+  onToggle: () => void;
+  isMonth: boolean;
 }) => {
-  const [isMonth, setIsMonth] = useState(false);
-
-  const handleToggle = () => {
-    setIsMonth(!isMonth);
-    onToggle(!isMonth);
-  };
+  // const handleToggle = () => {
+  //   setIsMonth(!isMonth);
+  //   onToggle(!isMonth);
+  // };
 
   return (
     <S.Switch>
-      <S.Checkbox type="checkbox" onChange={handleToggle} />
+      <S.Checkbox type="checkbox" onChange={onToggle} />
       <S.Slider $isMonth={isMonth}>
         <S.TextMonth $isMonth={isMonth}>Month</S.TextMonth>
         <S.TextYear $isMonth={isMonth}>Year</S.TextYear>

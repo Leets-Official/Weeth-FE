@@ -40,29 +40,29 @@ export const Slider = styled.span<{ $isMonth: boolean }>`
     transition: 0.4s;
     border-radius: 9px;
     transform: ${(props) =>
-      props.$isMonth ? 'translateX(169px)' : 'translateX(0)'};
+      props.$isMonth ? 'translateX(0)' : 'translateX(169px)'};
   }
 `;
 
-export const TextMonth = styled.span<{ $isMonth: boolean }>`
+export const TextMonth = styled.div<{ $isMonth: boolean }>`
   position: absolute;
   left: 18%;
   color: ${(props) =>
     props.$isMonth
-      ? theme.color.grayScale.gray65
-      : theme.color.grayScale.white};
+      ? theme.color.grayScale.white
+      : theme.color.grayScale.gray65};
   font-family: ${theme.font.family.pretendard_semiBold};
   font-size: 12px;
   z-index: 1;
 `;
 
-export const TextYear = styled.span<{ $isMonth: boolean }>`
+export const TextYear = styled.div<{ $isMonth: boolean }>`
   position: absolute;
   right: 22%;
   color: ${(props) =>
     props.$isMonth
-      ? theme.color.grayScale.white
-      : theme.color.grayScale.gray65};
+      ? theme.color.grayScale.gray65
+      : theme.color.grayScale.white};
   font-family: ${theme.font.family.pretendard_semiBold};
   font-size: 12px;
   z-index: 1;

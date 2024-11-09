@@ -9,14 +9,8 @@ import { format } from 'date-fns';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-interface MonthCalendarProps {
-  year: number;
-  month: number;
-  editYear: (newYear: number) => void;
-  editMonth: (newMonth: number) => void;
-}
-
-const MonthCalendar: React.FC<MonthCalendarProps> = ({ year, month }) => {
+// TODO: any 타입 수정
+const MonthCalendar = ({ year, month }: { year: number; month: number }) => {
   const calendarRef = useRef<FullCalendar | null>(null);
   const navi = useNavigate();
 
@@ -34,26 +28,22 @@ const MonthCalendar: React.FC<MonthCalendarProps> = ({ year, month }) => {
 
   useEffect(() => {
     if (error) {
-      // console.error('Error:', error);
+      // TODO: 에러처리 로직 추가
     }
   }, [error]);
 
-  useEffect(() => {
-    if (!monthScheduleData) {
-      // console.log('Loading event data...');
-    }
-  }, [monthScheduleData]);
-
   // 데이터 전처리 함수
+  // TODO: 백엔드 수정 후 삭제 예정
   const preprocessData = (data: any) => {
     return data.map((event: any) => ({
       ...event,
-      id: `${event.id}_${event.isMeeting}`, // 고유 ID 생성
+      id: `${event.id}_${event.isMeeting}`,
     }));
   };
 
   const processedData = preprocessData(monthScheduleData || []);
 
+  // 오늘 표시
   const renderDayCell = (arg: any) => {
     const isToday =
       format(arg.date, 'yyyy-MM-dd') === format(new Date(), 'yyyy-MM-dd');
@@ -91,7 +81,7 @@ const MonthCalendar: React.FC<MonthCalendarProps> = ({ year, month }) => {
   }, [year, month]);
 
   return (
-    <S.CalendarContainer>
+    <S.Calendar>
       <UserAPI />
       <MonthlyShceduleAPI start={formattedStart} end={formattedEnd} />
       <FullCalendar
@@ -105,7 +95,7 @@ const MonthCalendar: React.FC<MonthCalendarProps> = ({ year, month }) => {
         dayCellContent={renderDayCell}
         height="auto"
       />
-    </S.CalendarContainer>
+    </S.Calendar>
   );
 };
 
