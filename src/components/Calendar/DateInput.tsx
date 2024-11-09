@@ -1,7 +1,4 @@
 /* eslint-disable no-alert */
-/*
-UI 수정시 삭제되는 파일입니다
-*/
 import * as S from '@/styles/calendar/DateInput.styled';
 import { useEffect, useState } from 'react';
 
@@ -106,7 +103,7 @@ const DateInput: React.FC<DateInputProps> = ({
 
   return (
     <div>
-      <S.StyledInput
+      <S.Input
         type="number"
         value={date}
         onChange={onChangeValue}

@@ -5,6 +5,7 @@ import Modal from 'react-modal';
 import EditDelModal from '@/components/EditDelModal';
 import IndexButton from '@/components/Header/IndexButton';
 import LeftButton from '@/components/Header/LeftButton';
+import { EventDetailData } from '@/pages/EventDetails';
 import { deleteEvent } from '@/service/EventAdminAPI';
 import UserAPI from '@/service/UserAPI';
 import { UserContext } from '@/service/UserContext';
@@ -16,22 +17,16 @@ import { useNavigate } from 'react-router-dom';
 Modal.setAppElement('#root');
 
 const EventTitle = ({
-  id,
-  text,
-  writer,
-  createdAt,
+  data,
   isMeeting,
 }: {
-  id: number;
-  text: string;
-  writer: string;
-  createdAt: string;
+  data: EventDetailData;
   isMeeting: boolean;
 }) => {
   const { userData } = useContext(UserContext);
   const [adminModalIsOpen, setAdminModalIsOpen] = useState(false);
   const navi = useNavigate();
-  const splittedDate = createdAt.split('T'); // YYYY-MM-DD,HH:MM:SS.SSSZ
+  const splittedDate = data.createdAt.split('T'); // YYYY-MM-DD,HH:MM:SS.SSSZ
   const splittedTime = splittedDate[1].substr(0, 5);
 
   const openAdminModal = () => {
@@ -44,7 +39,7 @@ const EventTitle = ({
   const onClickDel = async () => {
     if (window.confirm('삭제하시겠습니까?')) {
       try {
-        await deleteEvent(id);
+        await deleteEvent(data.id);
         alert('삭제가 완료되었습니다.');
         navi('/calendar');
       } catch (err) {
@@ -67,9 +62,9 @@ const EventTitle = ({
           <IndexButton onClick={openAdminModal} />
         ) : null}
       </S.Header>
-      <S.Title>{text}</S.Title>
+      <S.Title>{data.title}</S.Title>
       <S.WriteInfo>
-        <S.Writer>{writer}</S.Writer>
+        <S.Writer>{data.name}</S.Writer>
         <S.WrittenTime>
           {splittedDate[0].replace(/-/gi, '/')} {splittedTime}
         </S.WrittenTime>
@@ -84,7 +79,7 @@ const EventTitle = ({
         <EditDelModal
           title="일정"
           onClickEdit={() => {
-            navi(`/event/${id}/edit`);
+            navi(`/event/${data.id}/edit`);
           }}
           onClickDel={onClickDel}
           onClickCancel={closeAdminModal}

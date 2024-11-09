@@ -4,7 +4,6 @@ import Header from '@/components/Header/Header';
 import InfoInput from '@/components/MyPage/InfoInput';
 import useCustomBack from '@/router/useCustomBack';
 import { createEvent, editEvent } from '@/service/EventAdminAPI';
-import EventInfoAPI from '@/service/EventInfoAPI';
 import { EventInfoContext } from '@/service/EventInfoContext';
 import UserAPI from '@/service/UserAPI';
 import { UserContext } from '@/service/UserContext';
@@ -54,7 +53,6 @@ const EventEditor = () => {
 
   const navigate = useNavigate();
   const { id } = useParams();
-  const numericId = Number(id);
   const isEditMode = Boolean(id);
   const { userData } = useContext(UserContext);
 
@@ -183,7 +181,7 @@ const EventEditor = () => {
 
     if (window.confirm('저장하시겠습니까?')) {
       try {
-        if (isEditMode) await editEvent(data, numericId);
+        if (isEditMode) await editEvent(data, Number(id));
         else await createEvent(data);
         alert('저장이 완료되었습니다.');
         navigate('/calendar');
@@ -208,7 +206,6 @@ const EventEditor = () => {
   return (
     <S.EventEditorWrapper>
       <UserAPI />
-      {id && <EventInfoAPI id={id} />}
       <Header
         title={isEditMode ? '일정 수정' : '일정 추가'}
         text="완료"

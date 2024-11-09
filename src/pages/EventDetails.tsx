@@ -1,17 +1,15 @@
 /* eslint-disable no-console */
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import styled from 'styled-components';
 
-import icClock from '@/assets/images/ic_clock.svg';
-import icCalendar from '@/assets/images/ic_date.svg';
+import EventContent from '@/components/Event/EventContent';
 import EventTitle from '@/components/Event/EventTitle';
 import useCustomBack from '@/router/useCustomBack';
+import getEventInfo from '@/service/getEventInfo';
 import UserAPI from '@/service/UserAPI';
-import theme from '@/styles/theme';
+import * as S from '@/styles/event/EventDetail.styled';
 
-interface EventDetailData {
+export interface EventDetailData {
   id: number;
   title: string;
   content: string;
@@ -24,47 +22,6 @@ interface EventDetailData {
   createdAt: string;
   modifiedAt: string;
 }
-
-const StyledEventDetails = styled.div`
-  width: 370px;
-  margin-bottom: 50px;
-  font-family: ${theme.font.family.pretendard_regular};
-`;
-
-const ContentBlock = styled.div`
-  background-color: ${theme.color.grayScale.gray18};
-  padding: 15px;
-  border-radius: 20px;
-  margin: 10px;
-  white-space: pre-wrap;
-`;
-
-const TimeInfo = styled.div`
-  display: flex;
-  flex-direction: row;
-`;
-
-const Icon = styled.img`
-  padding-right: 5px;
-`;
-
-const EndTime = styled.div`
-  padding-left: 25px;
-`;
-
-const Line = styled.div`
-  border: 1px solid;
-  color: ${theme.color.grayScale.gray30};
-  margin: 10px;
-  transform: scaleY(0.2);
-`;
-
-const Error = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
-  font-family: ${theme.font.family.pretendard_semiBold};
-`;
 
 const EventDetails = () => {
   useCustomBack('/calendar');
@@ -79,20 +36,8 @@ const EventDetails = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const accessToken = localStorage.getItem('accessToken');
-        const refreshToken = localStorage.getItem('refreshToken');
-
-        const BASE_URL = import.meta.env.VITE_API_URL;
-
-        const headers = {
-          Authorization: `Bearer ${accessToken}`,
-          Authorization_refresh: `Bearer ${refreshToken}`,
-        };
-
-        if (id) {
-          const response = await axios.get(`${BASE_URL}/api/v1/${type}/${id}`, {
-            headers,
-          });
+        if (id && type) {
+          const response = await getEventInfo(type, Number(id));
           if (response.data.code === 200) {
             setEventDetailData(response.data.data);
           } else {
@@ -100,103 +45,28 @@ const EventDetails = () => {
           }
         }
       } catch (err) {
-        setError('An error occurred while fetching the data');
         console.error(err);
       }
     };
 
     fetchData();
-  }, [id]);
+  }, [id, type]);
 
   if (error) {
-    return <Error>데이터를 불러올 수 없습니다.</Error>;
+    return <S.Error>데이터를 불러올 수 없습니다.</S.Error>;
   }
 
   if (!eventDetailData) {
     return null;
   }
 
-  const origStartDate = eventDetailData.start;
-  const origEndDate = eventDetailData.end;
-
-  const splittedStartDate = origStartDate.split('T'); // YYYY-MM-DD,HH:MM:SS.SSSZ
-  const startDate = splittedStartDate[0].split('-'); // [YYYY, MM, DD]
-  const startTime = splittedStartDate[1].split(':'); // [HH, MM]
-
-  const splittedEndDate = origEndDate.split('T'); // YYYY-MM-DD,HH:MM:SS.SSSZ
-  const endDate = splittedEndDate[0].split('-'); // [YYYY, MM, DD]
-  const endTime = splittedEndDate[1].split(':'); // [HH, MM]
-
-  const weekDay = ['일', '월', '화', '수', '목', '금', '토'];
-
-  let isOneday = true;
-  // eslint-disable-next-line no-plusplus
-  for (let i = 0; i < startDate.length; i++) {
-    if (startDate[i] !== endDate[i]) {
-      isOneday = false;
-    }
-  }
-
   return (
-    <StyledEventDetails>
+    <S.EventDetailWrapper>
       <UserAPI />
-      <EventTitle
-        id={eventDetailData.id}
-        text={eventDetailData.title}
-        writer={eventDetailData.name}
-        createdAt={eventDetailData.createdAt}
-        isMeeting={isMeeting}
-      />
-      <Line />
-      <ContentBlock>
-        {isOneday ? (
-          <>
-            <TimeInfo>
-              <Icon src={icCalendar} alt="calendar" />
-              <div>
-                {startDate[0]}년 {parseInt(startDate[1], 10)}월{' '}
-                {parseInt(startDate[2], 10)}일{' '}
-                {weekDay[new Date(origStartDate).getDay()]}요일
-              </div>
-            </TimeInfo>
-            <TimeInfo>
-              <Icon src={icClock} alt="clock" />
-              <div>
-                {startTime[0]}:{startTime[1]} ~ {endTime[0]}:{endTime[1]}
-              </div>
-            </TimeInfo>
-          </>
-        ) : (
-          <>
-            <TimeInfo>
-              <Icon src={icCalendar} alt="calendar" />
-              <div>
-                {startDate[0]}년 {parseInt(startDate[1], 10)}월{' '}
-                {parseInt(startDate[2], 10)}일 &#40;
-                {weekDay[new Date(origStartDate).getDay()]}&#41; {startTime[0]}:
-                {startTime[1]}에서
-              </div>
-            </TimeInfo>
-            <TimeInfo>
-              <EndTime>
-                {endDate[0]}년 {parseInt(endDate[1], 10)}월{' '}
-                {parseInt(endDate[2], 10)}일 &#40;
-                {weekDay[new Date(origEndDate).getDay()]}&#41; {endTime[0]}:
-                {endTime[1]}까지
-              </EndTime>
-            </TimeInfo>
-          </>
-        )}
-      </ContentBlock>
-      <ContentBlock>
-        <div>장소 : {eventDetailData.location} </div>
-        <div>준비물 : {eventDetailData.requiredItem} </div>
-        <div>총 인원 : {eventDetailData.memberCount}</div>
-      </ContentBlock>
-      <ContentBlock>
-        <div>{eventDetailData.content}</div>
-      </ContentBlock>
-    </StyledEventDetails>
+      <EventTitle data={{ ...eventDetailData }} isMeeting={isMeeting} />
+      <S.Line />
+      <EventContent data={{ ...eventDetailData }} />
+    </S.EventDetailWrapper>
   );
 };
 
