@@ -1,7 +1,7 @@
 import theme from '@/styles/theme';
 import styled from 'styled-components';
 
-export const MemberWrapper = styled.div`
+export const Wrapper = styled.div`
   padding: 20px 10px 0px 10px;
   font-family: ${theme.font.family.pretendard_regular};
   font-size: 16px;
@@ -13,7 +13,7 @@ export const MemberWrapper = styled.div`
   }
 `;
 
-export const MemberContent = styled.div`
+export const Content = styled.div`
   display: flex;
   align-items: center;
   cursor: pointer;

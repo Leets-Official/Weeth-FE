@@ -1,4 +1,4 @@
-import * as S from '@/styles/memeber/InfoComponent.styled';
+import * as S from '@/styles/member/InfoComponent.styled';
 
 interface InfoComponentProps {
   src: string;
@@ -24,9 +24,6 @@ const InfoComponent: React.FC<InfoComponentProps> = ({
       break;
     case 'D':
       positionKo = '디자인';
-      break;
-    case 'MA':
-      positionKo = '임원';
       break;
     default:
       positionKo = '없음';
