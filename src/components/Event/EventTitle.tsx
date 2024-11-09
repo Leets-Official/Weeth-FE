@@ -1,11 +1,11 @@
 /* eslint-disable no-console */
 /* eslint-disable no-alert */
-import axios from 'axios';
 import Modal from 'react-modal';
 
 import EditDelModal from '@/components/EditDelModal';
 import IndexButton from '@/components/Header/IndexButton';
 import LeftButton from '@/components/Header/LeftButton';
+import { deleteEvent } from '@/service/EventAdminAPI';
 import UserAPI from '@/service/UserAPI';
 import { UserContext } from '@/service/UserContext';
 import * as S from '@/styles/calendar/EventDetailTitle.styled';
@@ -34,9 +34,6 @@ const EventTitle = ({
   const splittedDate = createdAt.split('T'); // YYYY-MM-DD,HH:MM:SS.SSSZ
   const splittedTime = splittedDate[1].substr(0, 5);
 
-  const accessToken = localStorage.getItem('accessToken');
-  const refreshToken = localStorage.getItem('refreshToken');
-
   const openAdminModal = () => {
     setAdminModalIsOpen(true);
   };
@@ -45,15 +42,9 @@ const EventTitle = ({
   };
 
   const onClickDel = async () => {
-    const BASE_URL = import.meta.env.VITE_API_URL;
     if (window.confirm('삭제하시겠습니까?')) {
       try {
-        await axios.delete(`${BASE_URL}/api/v1/admin/events/${id}`, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-            Authorization_refresh: `Bearer ${refreshToken}`,
-          },
-        });
+        await deleteEvent(id);
         alert('삭제가 완료되었습니다.');
         navi('/calendar');
       } catch (err) {

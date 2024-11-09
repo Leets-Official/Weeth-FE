@@ -54,6 +54,7 @@ const EventEditor = () => {
 
   const navigate = useNavigate();
   const { id } = useParams();
+  const numericId = Number(id);
   const isEditMode = Boolean(id);
   const { userData } = useContext(UserContext);
 
@@ -182,7 +183,7 @@ const EventEditor = () => {
 
     if (window.confirm('저장하시겠습니까?')) {
       try {
-        if (isEditMode) await editEvent(data, id);
+        if (isEditMode) await editEvent(data, numericId);
         else await createEvent(data);
         alert('저장이 완료되었습니다.');
         navigate('/calendar');
