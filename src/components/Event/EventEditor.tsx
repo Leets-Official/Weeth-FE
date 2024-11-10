@@ -2,9 +2,18 @@
 import DatePicker from '@/components/Event/DatePicker';
 import Header from '@/components/Header/Header';
 import InfoInput from '@/components/MyPage/InfoInput';
+import {
+  CURRENT_DAY,
+  CURRENT_MONTH,
+  CURRENT_YEAR,
+} from '@/constants/dateConstants';
 import useCustomBack from '@/router/useCustomBack';
-import { createEvent, editEvent } from '@/service/EventAdminAPI';
-import { EventInfoContext } from '@/service/EventInfoContext';
+import {
+  EventRequestType,
+  createEvent,
+  editEvent,
+} from '@/service/EventAdminAPI';
+import getEventInfo from '@/service/getEventInfo';
 import UserAPI from '@/service/UserAPI';
 import { UserContext } from '@/service/UserContext';
 import { replaceNewLines } from '@/service/Utils';
@@ -12,168 +21,120 @@ import * as S from '@/styles/event/EventEditor.styled';
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
-const ISOToArray = (isoString: string) => {
-  if (!isoString) return [];
-  const date = new Date(isoString);
-  return [
-    date.getFullYear(),
-    date.getMonth() + 1,
-    date.getDate(),
-    date.getHours(),
-    date.getMinutes(),
-  ];
-};
-
-const dateArrayToKSTISO = (
-  dateArray: [number, number, number, number, number],
-) => {
-  const [year, month, day, hour, minute] = dateArray;
-  const dateObj = new Date(year, month - 1, day, hour, minute);
-  const KST_OFFSET = 9 * 60;
-  const kstDate = new Date(dateObj.getTime() + KST_OFFSET * 60 * 1000);
-  return kstDate.toISOString().replace('Z', '');
-};
+function checkEmpty(field: string | undefined, message: string): boolean {
+  // TODO🚨important!!🚨: 배열 내에 빈 값이 있는 경우를 처리하는 로직 추가
+  if (Array.isArray(field) && field.length === 0) {
+    alert(message);
+    return true;
+  }
+  return false;
+}
 
 const EventEditor = () => {
   useCustomBack('/calendar');
 
-  const { infoData, error } = useContext(EventInfoContext);
-  const [eventInfo, setEventInfo] = useState([
-    { key: 'title', value: '' },
-    { key: 'start', value: [] },
-    { key: 'end', value: [] },
-    { key: 'location', value: '' },
-    { key: 'requiredItem', value: '' },
-    { key: 'memberCount', value: '' },
-    { key: 'content', value: '' },
+  const { id } = useParams();
+  const { userData } = useContext(UserContext);
+  const isEditMode = Boolean(id);
+  const navigate = useNavigate();
+  const [eventRequest, setEventRequest] = useState<EventRequestType>({
+    title: '',
+    start: '',
+    end: '',
+    location: '',
+    requiredItem: '',
+    memberCount: '',
+    content: '',
+  });
+
+  const [startArr, setStartArr] = useState([
+    CURRENT_YEAR,
+    CURRENT_MONTH,
+    CURRENT_DAY,
+    0,
+    0,
+  ]);
+  const [endArr, setEndArr] = useState([
+    CURRENT_YEAR,
+    CURRENT_MONTH,
+    CURRENT_DAY,
+    23,
+    59,
   ]);
 
-  const [startArr, setStartArr] = useState(['', '', '', '', '']);
-  const [endArr, setEndArr] = useState(['', '', '', '', '']);
-
-  const navigate = useNavigate();
-  const { id } = useParams();
-  const isEditMode = Boolean(id);
-  const { userData } = useContext(UserContext);
-
-  const infoInputs = [
-    { key: 'location', text: '장소' },
-    { key: 'requiredItem', text: '준비물' },
-    { key: 'memberCount', text: '총인원' },
-  ];
-
-  // start,end 배열 타입 변경 (number -> string)
   useEffect(() => {
-    if (isEditMode && infoData) {
-      const updatedEventInfo = eventInfo.map((item) => {
-        if (item.key === 'start') {
-          const startArray = ISOToArray(infoData.start).map((num) =>
-            num.toString(),
-          );
-          setStartArr(startArray);
-          return { ...item, value: startArray };
+    const fetchData = async () => {
+      try {
+        if (id) {
+          const response = await getEventInfo('events', Number(id));
+          if (response.data.code === 200) {
+            const { data } = response.data;
+            setEventRequest({
+              title: data.title,
+              start: data.start,
+              end: data.end,
+              location: data.location,
+              requiredItem: data.requiredItem,
+              memberCount: data.memberCount,
+              content: data.content,
+            });
+            setStartArr([
+              Number(data.start.slice(0, 4)),
+              Number(data.start.slice(5, 7)),
+              Number(data.start.slice(8, 10)),
+              Number(data.start.slice(11, 13)),
+              Number(data.start.slice(14, 16)),
+            ]);
+            setEndArr([
+              Number(data.end.slice(0, 4)),
+              Number(data.end.slice(5, 7)),
+              Number(data.end.slice(8, 10)),
+              Number(data.end.slice(11, 13)),
+              Number(data.end.slice(14, 16)),
+            ]);
+          } else {
+            console.error(response.data.message);
+          }
         }
-        if (item.key === 'end') {
-          const endArray = ISOToArray(infoData.end).map((num) =>
-            num.toString(),
-          );
-          setEndArr(endArray);
-          return { ...item, value: endArray };
-        }
-        return { ...item, value: infoData[item.key] || item.value };
-      });
-      setEventInfo(updatedEventInfo);
-    }
-  }, [isEditMode, infoData]);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    fetchData();
+  }, [id]);
 
-  const editEventInfo = (key: string, value: any) => {
-    const updatedEventInfo = eventInfo.map((item) =>
-      item.key === key ? { ...item, value } : item,
-    );
-    setEventInfo(updatedEventInfo);
+  const editEventInfo = (key: keyof EventRequestType, value: any) => {
+    setEventRequest((prevInfo) => ({
+      ...prevInfo,
+      [key]: value,
+    }));
   };
 
   const onSave = async () => {
-    const title: string | undefined = (() => {
-      const value = eventInfo.find((item) => item.key === 'title')?.value;
-      return typeof value === 'string' ? value : undefined;
-    })();
-
-    const location: string | undefined = (() => {
-      const value = eventInfo.find((item) => item.key === 'location')?.value;
-      return typeof value === 'string' ? value : undefined;
-    })();
-
-    const requiredItem: string | undefined = (() => {
-      const value = eventInfo.find(
-        (item) => item.key === 'requiredItem',
-      )?.value;
-      return typeof value === 'string' ? value : undefined;
-    })();
-
-    const memberCount: string | undefined = (() => {
-      const value = eventInfo.find((item) => item.key === 'memberCount')?.value;
-      return typeof value === 'string' ? value : undefined;
-    })();
-
-    let content = eventInfo.find((item) => item.key === 'content')?.value;
-    content = typeof content === 'string' ? replaceNewLines(content) : '';
-
-    const data = eventInfo.reduce((acc: any, item) => {
-      acc[item.key] = item.value;
-      return acc;
-    }, {});
-
-    const startDate = eventInfo.find((item) => item.key === 'start')?.value;
-    const endDate = eventInfo.find((item) => item.key === 'end')?.value;
-
-    // TODO: start, end 초기값 설정 로직 추가 (오늘 00:00~23:59)
-    if (
-      Array.isArray(startDate) &&
-      startDate.length === 5 &&
-      startDate.every(Number.isFinite)
-    ) {
-      data.start = dateArrayToKSTISO(
-        startDate as unknown as [number, number, number, number, number],
-      );
-    }
+    const data = {
+      ...eventRequest,
+      content:
+        typeof eventRequest.content === 'string'
+          ? replaceNewLines(eventRequest.content)
+          : '',
+    };
+    console.log('data', data);
 
     if (
-      Array.isArray(endDate) &&
-      endDate.length === 5 &&
-      endDate.every(Number.isFinite)
-    ) {
-      data.end = dateArrayToKSTISO(
-        endDate as unknown as [number, number, number, number, number],
-      );
-    }
-
-    function checkEmpty(field: string | undefined, message: string): boolean {
-      // TODO🚨important!!🚨: 배열 내에 빈 값이 있는 경우를 처리하는 로직 추가
-      if (Array.isArray(field) && field.length === 0) {
-        alert(message);
-        return true;
-      }
-      return false;
-    }
-
-    if (
-      checkEmpty(title, '제목을 입력해 주세요.') ||
+      checkEmpty(data.title, '제목을 입력해 주세요.') ||
       checkEmpty(data.start, '시작 시간을 입력해 주세요.') ||
       checkEmpty(data.end, '종료 시간을 입력해 주세요.') ||
-      checkEmpty(location, '장소를 입력해 주세요.') ||
-      checkEmpty(requiredItem, '준비물을 입력해 주세요.') ||
-      checkEmpty(memberCount, '총인원을 입력해 주세요.') ||
-      checkEmpty(content, '내용을 입력해 주세요.')
+      checkEmpty(data.location, '장소를 입력해 주세요.') ||
+      checkEmpty(data.requiredItem, '준비물을 입력해 주세요.') ||
+      checkEmpty(data.memberCount, '총인원을 입력해 주세요.') ||
+      checkEmpty(data.content, '내용을 입력해 주세요.')
     ) {
       return;
     }
-
     if (data.start === data.end) {
       alert('시작 시간과 종료 시간은 같을 수 없습니다.');
       return;
     }
-
     if (data.start > data.end) {
       alert('종료 시간은 시작 시간보다 빠를 수 없습니다.');
       return;
@@ -195,10 +156,6 @@ const EventEditor = () => {
     }
   };
 
-  if (error) {
-    return null;
-  }
-
   if (userData && userData.role !== 'ADMIN') {
     return <S.Error>일정 생성 및 수정은 운영진만 가능합니다</S.Error>;
   }
@@ -214,7 +171,7 @@ const EventEditor = () => {
       />
       <InfoInput
         placeholder="제목"
-        origValue={eventInfo.find((item) => item.key === 'title')?.value || ''}
+        origValue={eventRequest.title}
         padding="15px"
         align="left"
         editValue={(value) => editEventInfo('title', value)}
@@ -224,37 +181,41 @@ const EventEditor = () => {
         endDate={endArr}
         onStartDateChange={(index, value) => {
           const updatedStartDate = [...startArr];
-          updatedStartDate[index] = value.toString();
+          updatedStartDate[index] = value;
           setStartArr(updatedStartDate);
-          editEventInfo('start', updatedStartDate);
+          editEventInfo('start', updatedStartDate.join('-')); // start는 문자열로 처리
         }}
         onEndDateChange={(index, value) => {
           const updatedEndDate = [...endArr];
-          updatedEndDate[index] = value.toString();
+          updatedEndDate[index] = value;
           setEndArr(updatedEndDate);
-          editEventInfo('end', updatedEndDate);
+          editEventInfo('end', updatedEndDate.join('-')); // end도 문자열로 처리
         }}
       />
-      {infoInputs.map((input) => (
+      {['location', 'requiredItem', 'memberCount'].map((key) => (
         <InfoInput
-          key={input.key}
-          text={input.text}
-          origValue={
-            eventInfo.find((item) => item.key === input.key)?.value || ''
+          key={key}
+          text={
+            // eslint-disable-next-line no-nested-ternary
+            key === 'location'
+              ? '장소'
+              : key === 'requiredItem'
+                ? '준비물'
+                : '총인원'
           }
+          origValue={eventRequest[key as keyof EventRequestType]}
           width="75%"
           padding="15px"
           align="left"
-          editValue={(value) => editEventInfo(input.key, value)}
+          editValue={(value) =>
+            editEventInfo(key as keyof EventRequestType, value)
+          }
         />
       ))}
       <S.TextAreaWrapper>
         <S.TextArea
           placeholder="내용"
-          value={
-            (eventInfo.find((item) => item.key === 'content')
-              ?.value as string) || ''
-          }
+          value={eventRequest.content}
           onChange={(e) => editEventInfo('content', e.target.value)}
         />
       </S.TextAreaWrapper>

@@ -9,8 +9,8 @@ const DatePicker = ({
   onStartDateChange,
   onEndDateChange,
 }: {
-  startDate: string[];
-  endDate: string[];
+  startDate: number[];
+  endDate: number[];
   onStartDateChange: (index: number, value: number) => void;
   onEndDateChange: (index: number, value: number) => void;
 }) => {

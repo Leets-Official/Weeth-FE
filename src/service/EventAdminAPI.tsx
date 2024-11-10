@@ -5,10 +5,10 @@ const accessToken = localStorage.getItem('accessToken');
 const refreshToken = localStorage.getItem('refreshToken');
 const BASE_URL = import.meta.env.VITE_API_URL;
 
-interface EventRequestType {
+export interface EventRequestType {
   title: string;
-  start: Array<number>;
-  end: Array<number>;
+  start: string;
+  end: string;
   location: string;
   requiredItem: string;
   memberCount: string;
