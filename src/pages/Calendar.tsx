@@ -12,7 +12,6 @@ import * as S from '@/styles/calendar/Calendar.styled';
 
 const Calendar = () => {
   useCustomBack('/home');
-  const [calendarType, setCalendarType] = useState('month');
   const [isMonth, setIsMonth] = useState(true);
   const [year, setYear] = useState(CURRENT_YEAR);
   const [month, setMonth] = useState(CURRENT_MONTH);
@@ -22,7 +21,6 @@ const Calendar = () => {
   const end = `${year}-12-31T23:59:59.999Z`;
 
   const onToggle = () => {
-    setCalendarType(isMonth ? 'year' : 'month');
     setIsMonth(!isMonth);
   };
 
@@ -38,7 +36,7 @@ const Calendar = () => {
       />
       <S.Content>
         <ToggleButton isMonth={isMonth} onToggle={onToggle} />
-        {calendarType === 'month' ? (
+        {isMonth ? (
           <MonthCalendar month={month} year={year} />
         ) : (
           <YearCalendar year={year.toString()} />

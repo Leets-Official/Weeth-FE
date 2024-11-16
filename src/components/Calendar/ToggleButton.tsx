@@ -7,11 +7,6 @@ const ToggleButton = ({
   onToggle: () => void;
   isMonth: boolean;
 }) => {
-  // const handleToggle = () => {
-  //   setIsMonth(!isMonth);
-  //   onToggle(!isMonth);
-  // };
-
   return (
     <S.Switch>
       <S.Checkbox type="checkbox" onChange={onToggle} />
