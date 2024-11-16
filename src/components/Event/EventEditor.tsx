@@ -30,6 +30,15 @@ function checkEmpty(field: string | undefined, message: string): boolean {
   return false;
 }
 
+function parseDate(dateString: string) {
+  const parts = [0, 4, 5, 7, 8, 10, 11, 13, 14, 16];
+  const result: number[] = [];
+  for (let i = 0; i < parts.length - 1; i += 2) {
+    result.push(Number(dateString.slice(parts[i], parts[i + 1])));
+  }
+  return result;
+}
+
 const EventEditor = () => {
   useCustomBack('/calendar');
 
@@ -78,20 +87,8 @@ const EventEditor = () => {
               memberCount: data.memberCount,
               content: data.content,
             });
-            setStartArr([
-              Number(data.start.slice(0, 4)),
-              Number(data.start.slice(5, 7)),
-              Number(data.start.slice(8, 10)),
-              Number(data.start.slice(11, 13)),
-              Number(data.start.slice(14, 16)),
-            ]);
-            setEndArr([
-              Number(data.end.slice(0, 4)),
-              Number(data.end.slice(5, 7)),
-              Number(data.end.slice(8, 10)),
-              Number(data.end.slice(11, 13)),
-              Number(data.end.slice(14, 16)),
-            ]);
+            setStartArr(parseDate(data.start));
+            setEndArr(parseDate(data.end));
           } else {
             console.error(response.data.message);
           }
