@@ -1,6 +1,10 @@
 import theme from '@/styles/theme';
-import { Title } from '@mui/icons-material';
 import styled from 'styled-components';
+
+type InfoProps = {
+  title: string;
+  isbutton: boolean;
+};
 
 const Container = styled.div`
   margin: 0 25px 0 24px;
@@ -28,7 +32,7 @@ const InfoText = styled.div`
 `;
 
 const PostingButton = styled.button`
-  width: calc(370 * 0.13);
+  width: calc(370px * 0.13);
   height: 28px;
   background-color: ${theme.color.main.mainColor};
   color: ${theme.color.grayScale.white};
@@ -36,11 +40,12 @@ const PostingButton = styled.button`
   border-radius: 10px;
   cursor: pointer;
   font-family: ${theme.font.family.pretendard_semiBold};
+  display: flex;
   justify-content: center;
   align-items: center;
 `;
 
-const Info = (title: string, isbutton: boolean) => {
+const Info = ({ title, isbutton }: InfoProps) => {
   return (
     <Container>
       <TextContainer>
