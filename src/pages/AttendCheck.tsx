@@ -1,11 +1,11 @@
 import styled, { ThemeProvider } from 'styled-components';
-import theme from '@//styles/theme';
-import AttendHeader from '@//components/Attendance/AttendHeader';
-import AttendCheckMain from '@//components/Attendance/AttendCheckMain';
-import { PenaltyProvider } from '@//service/PenaltyContext';
-import useCustomBack from '@//router/useCustomBack';
-import UserAPI from '@//service/UserAPI';
-import {AttendCheckAPI} from '@/service/AttendAPI';
+import theme from '@/styles/theme';
+import AttendHeader from '@/components/Attendance/AttendHeader';
+import AttendCheckMain from '@/components/Attendance/AttendCheckMain';
+import { PenaltyProvider } from '@/api/PenaltyContext';
+import useCustomBack from '@/hooks/useCustomBack';
+import UserAPI from '@/api/UserAPI';
+import { AttendCheckAPI } from '@/api/AttendAPI';
 
 import React from 'react';
 

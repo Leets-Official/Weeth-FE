@@ -3,11 +3,11 @@
 import axios from 'axios';
 import Modal from 'react-modal';
 
-import EditDelModal from '@/components/EditDelModal';
+import EditDelModal from '@/components/Modal/EditDelModal';
 import IndexButton from '@/components/Header/IndexButton';
 import LeftButton from '@/components/Header/LeftButton';
-import UserAPI from '@/service/UserAPI';
-import { UserContext } from '@/service/UserContext';
+import UserAPI from '@/api/UserAPI';
+import { UserContext } from '@/api/UserContext';
 import * as S from '@/styles/calendar/EventDetailTitle.styled';
 import { adminModalStyles } from '@/styles/calendar/EventDetailTitle.styled';
 import React, { useContext, useState } from 'react';

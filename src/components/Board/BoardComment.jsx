@@ -2,10 +2,9 @@ import React, { useState, useEffect, useRef, useContext } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import { UserContext } from '../../service/UserContext';
+import { UserContext } from '@/api/UserContext';
 import commentButton from '../../assets/images/ic_comment.svg';
 import replyButton from '../../assets/images/ic_reply.svg';
-import commentDeleteButton from '../../assets/images/ic_comment_delete.svg';
 import theme from '../../styles/theme';
 
 const CommentContainer = styled.div`

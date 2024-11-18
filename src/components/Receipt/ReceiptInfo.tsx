@@ -16,12 +16,12 @@ const ReceiptInfo: React.FC<ReceiptInfoProps> = ({ money, date, memo }) => {
         <S.StyledCaptionBox>
           <Caption color={theme.color.main.negative}>지출</Caption>
           <S.StyledTextBox>
-            <S.Text>{memo}</S.Text>
+            <S.Text isLong={memo.length >= 10}>{memo}</S.Text>
             <S.SmallText>{date}</S.SmallText>
           </S.StyledTextBox>
         </S.StyledCaptionBox>
         <S.StyledMemoBox>
-          <S.Text>{money}원</S.Text>
+          <S.MoneyText>{money}원</S.MoneyText>
           <S.SmallText>&nbsp;</S.SmallText>
         </S.StyledMemoBox>
       </S.StyledReceiptBox>

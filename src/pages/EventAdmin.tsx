@@ -7,13 +7,13 @@ import theme from '@/styles/theme';
 import Header from '@/components/Header/Header';
 import InfoInput from '@/components/MyPage/InfoInput';
 import DatePicker from '@/components/Calendar/DatePicker';
-import { replaceNewLines } from '@/service/Utils';
-import { createEvent, editEvent } from '@/service/EventAdminAPI';
-import EventInfoAPI from '@/service/EventInfoAPI';
-import { EventInfoContext } from '@/service/EventInfoContext';
-import useCustomBack from '@/router/useCustomBack';
-import UserAPI from '@/service/UserAPI';
-import { UserContext } from '@/service/UserContext';
+import { replaceNewLines } from '@/hooks/Utils';
+import { createEvent, editEvent } from '@/api/EventAdminAPI';
+import EventInfoAPI from '@/api/EventInfoAPI';
+import { EventInfoContext } from '@/api/EventInfoContext';
+import useCustomBack from '@/hooks/useCustomBack';
+import UserAPI from '@/api/UserAPI';
+import { UserContext } from '@/api/UserContext';
 
 const StyledCreate = styled.div`
   display: flex;
@@ -123,12 +123,16 @@ const EventAdmin = () => {
     if (isEditMode && infoData) {
       const updatedEventInfo = eventInfo.map((item) => {
         if (item.key === 'start') {
-          const startArray = ISOToArray(infoData.start).map(num => num.toString());  // number[] -> string[]
+          const startArray = ISOToArray(infoData.start).map((num) =>
+            num.toString(),
+          ); // number[] -> string[]
           setStartArr(startArray);
           return { ...item, value: startArray };
         }
         if (item.key === 'end') {
-          const endArray = ISOToArray(infoData.end).map(num => num.toString());  // number[] -> string[]
+          const endArray = ISOToArray(infoData.end).map((num) =>
+            num.toString(),
+          ); // number[] -> string[]
           setEndArr(endArray);
           return { ...item, value: endArray };
         }
@@ -170,31 +174,50 @@ const EventAdmin = () => {
       return acc;
     }, {});
 
-    const dateArrayToKSTISO = (dateArray: [number, number, number, number, number]) => {
+    const dateArrayToKSTISO = (
+      dateArray: [number, number, number, number, number],
+    ) => {
       const [year, month, day, hour, minute] = dateArray;
       const dateObj = new Date(year, month - 1, day, hour, minute);
       const KST_OFFSET = 9 * 60;
       const kstDate = new Date(dateObj.getTime() + KST_OFFSET * 60 * 1000);
       return kstDate.toISOString().replace('Z', '');
     };
-    
-    const startDate = eventInfo.find(item => item.key === 'start')?.value;
-    const endDate = eventInfo.find(item => item.key === 'end')?.value;
 
-    if (Array.isArray(startDate) && startDate.length === 5 && startDate.every(Number.isFinite)) {
-      data.start = dateArrayToKSTISO(startDate as [number, number, number, number, number]);
-    }
+    const startDate = eventInfo.find((item) => item.key === 'start')?.value;
+    const endDate = eventInfo.find((item) => item.key === 'end')?.value;
 
-    if (Array.isArray(endDate) && endDate.length === 5 && endDate.every(Number.isFinite)) {
-      data.end = dateArrayToKSTISO(endDate as [number, number, number, number, number]);
+    if (
+      Array.isArray(startDate) &&
+      startDate.length === 5 &&
+      startDate.every(Number.isFinite)
+    ) {
+      data.start = dateArrayToKSTISO(
+        startDate as [number, number, number, number, number],
+      );
     }
 
     if (
-      (typeof title === 'string' && !title.trim()) &&
-      (typeof location === 'string' && !location.trim()) &&
-      (typeof requiredItem === 'string' && !requiredItem.trim()) &&
-      (typeof memberCount === 'string' && !memberCount.trim()) &&
-      (typeof content === 'string' && !content.trim())
+      Array.isArray(endDate) &&
+      endDate.length === 5 &&
+      endDate.every(Number.isFinite)
+    ) {
+      data.end = dateArrayToKSTISO(
+        endDate as [number, number, number, number, number],
+      );
+    }
+
+    if (
+      typeof title === 'string' &&
+      !title.trim() &&
+      typeof location === 'string' &&
+      !location.trim() &&
+      typeof requiredItem === 'string' &&
+      !requiredItem.trim() &&
+      typeof memberCount === 'string' &&
+      !memberCount.trim() &&
+      typeof content === 'string' &&
+      !content.trim()
     ) {
       alert('모든 항목을 입력해 주세요.');
       return;
@@ -339,11 +362,14 @@ const EventAdmin = () => {
         editValue={(value) => editValue('memberCount', value)}
       />
       <TextAreaWrapper>
-      <StyledTextArea
-        placeholder="내용"
-        value={(eventInfo.find((item) => item.key === 'content')?.value as string) || ''}
-        onChange={(e) => editValue('content', e.target.value)}
-      />
+        <StyledTextArea
+          placeholder="내용"
+          value={
+            (eventInfo.find((item) => item.key === 'content')
+              ?.value as string) || ''
+          }
+          onChange={(e) => editValue('content', e.target.value)}
+        />
       </TextAreaWrapper>
     </StyledCreate>
   );

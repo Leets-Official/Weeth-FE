@@ -1,6 +1,6 @@
 import { useSearchParams } from 'react-router-dom';
 import MemberName from '@/components/Member/MemberName';
-import { UserContext } from '@/service/UserContext';
+import { UserContext } from '@/api/UserContext';
 import { useContext } from 'react';
 
 import * as S from '@/styles/member/MemberList.styled';

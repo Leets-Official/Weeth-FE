@@ -9,7 +9,7 @@ import icClose from '@/assets/images/ic_close.svg';
 import check from '@/assets/images/ic_check.svg';
 import wrong from '@/assets/images/ic_wrong.svg';
 import correct from '@/assets/images/ic_correct.svg';
-import { AttendContext } from '@/service/AttendContext';
+import { AttendContext } from '@/api/AttendContext';
 
 interface ModalAttendProps {
   open: boolean;

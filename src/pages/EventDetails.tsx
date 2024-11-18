@@ -8,9 +8,9 @@ import icCalendar from '@/assets/images/ic_date.svg';
 import icClock from '@/assets/images/ic_clock.svg';
 import theme from '@/styles/theme';
 import EventDetailTitle from '@/components/Calendar/EventDetailTitle';
-import EventInfoAPI from '@/service/EventInfoAPI';
-import useCustomBack from '@/router/useCustomBack';
-import UserAPI from '@/service/UserAPI';
+import EventInfoAPI from '@/api/EventInfoAPI';
+import useCustomBack from '@/hooks/useCustomBack';
+import UserAPI from '@/api/UserAPI';
 
 interface EventDeatilData {
   id: number;
