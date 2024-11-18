@@ -15,11 +15,6 @@ import UserAPI from '@/service/UserAPI';
 import { UserContext } from '@/service/UserContext';
 import useCustomBack from '@/router/useCustomBack';
 
-// interface EditProps {
-//   key: string;
-//   value: string | number | number[];
-// }
-
 const StyledEdit = styled.div`
   width: 370px;
   padding-bottom: 183px;
