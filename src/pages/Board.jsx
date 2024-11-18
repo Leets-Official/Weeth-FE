@@ -1,9 +1,8 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
-// import axios from 'axios';
-import { useNavigate } from 'react-router-dom'; // navigate 사용을 위해 import
-import AdminEditDelModal from '@/components/Modal/AdminEditDelModal';
+import { useNavigate } from 'react-router-dom';
+import EditDelModal from '@/components/Modal/EditDelModal';
 import { UserContext } from '../service/UserContext';
 import NoticeHeader from '../components/Board/NoticeHeader';
 import NoticeMiddle from '../components/Board/NoticeMiddle';
@@ -66,9 +65,6 @@ const Board = () => {
   const navigate = useNavigate();
   const { userData } = useContext(UserContext);
 
-  const handleMenuClick = (action) => {
-    // console.log(action);
-  };
 
   const handlePostingClick = () => {
     if (activeTab === 'study') {
@@ -92,8 +88,7 @@ const Board = () => {
     <Container>
       <NoticeHeader
         showModal={false}
-        onMenuClick={handleMenuClick}
-        ModalComponent={AdminEditDelModal} // AdminEditModal을 사용
+        ModalComponent={EditDelModal}
         showIndexButton={false}
       />
       <NoticeMiddle
