@@ -41,6 +41,7 @@ import { YearlyScheduleProvider } from '@/api/YearlyScheduleContext';
 import { AttendCheckProvider } from '@/api/AttendCheckContext';
 
 import ScrollToTop from '@/hooks/ScrollToTop';
+import NoticeBoard from './pages/NoticeBoard';
 
 const App = () => {
   return (
@@ -75,7 +76,7 @@ const App = () => {
                         <Route path="/edit" element={<Edit />} />
                         <Route path="/dues" element={<Dues />} />
                         <Route path="/receipt" element={<Receipt />} />
-                        <Route path="/board" element={<Board />} />
+                        <Route path="/board" element={<NoticeBoard />} />
                         <Route path="/study/:id" element={<StudyDetail />} />
                         <Route path="/notice/:id" element={<NoticeDetail />} />
                         <Route path="/study/post" element={<StudyPosting />} />
