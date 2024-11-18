@@ -2,10 +2,10 @@ import styled, { ThemeProvider } from 'styled-components';
 import theme from '@/styles/theme';
 import AttendHeader from '@/components/Attendance/AttendHeader';
 import AttendMain from '@/components/Attendance/AttendMain';
-import { PenaltyProvider } from '@/service/PenaltyContext';
-import { AttendProvider } from '@/service/AttendContext';
+import { PenaltyProvider } from '@/api/hook/router/PenaltyContext';
+import { AttendProvider } from '@/api/hook/router/AttendContext';
 import useCustomBack from '@/router/useCustomBack';
-import UserAPI from '@/service/UserAPI';
+import UserAPI from '@/api/hook/router/UserAPI';
 
 const Container = styled.div`
   display: flex;

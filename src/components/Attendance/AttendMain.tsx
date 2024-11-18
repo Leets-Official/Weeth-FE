@@ -10,10 +10,10 @@ import ModalPenalty from '@/components/Attendance/Modal/ModalPenalty';
 import check from '@/assets/images/ic_check.svg';
 import warning from '@/assets/images/ic_warning.svg';
 
-import { UserContext } from '@/service/UserContext';
-import { PenaltyContext } from '@/service/PenaltyContext';
-import { AttendContext } from '@/service/AttendContext';
-import { AttendAPI, PenaltyAPI } from '@/service/AttendAPI';
+import { UserContext } from '@/api/hook/router/UserContext';
+import { PenaltyContext } from '@/api/hook/router/PenaltyContext';
+import { AttendContext } from '@/api/hook/router/AttendContext';
+import { AttendAPI, PenaltyAPI } from '@/api/hook/router/AttendAPI';
 
 import * as S from '@/styles/attend/AttendMain.styled';
 

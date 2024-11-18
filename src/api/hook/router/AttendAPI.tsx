@@ -1,8 +1,8 @@
 import { useEffect, useContext } from 'react';
 import axios from 'axios';
-import { AttendContext } from '@/service/AttendContext';
-import { AttendCheckContext } from '@/service/AttendCheckContext';
-import { PenaltyContext } from '@/service/PenaltyContext';
+import { AttendContext } from '@/api/hook/router/AttendContext';
+import { AttendCheckContext } from '@/api/hook/router/AttendCheckContext';
+import { PenaltyContext } from '@/api/hook/router/PenaltyContext';
 
 // 공통으로 사용하는 토큰, URL, 헤더 설정 함수
 const getAuthHeaders = () => {

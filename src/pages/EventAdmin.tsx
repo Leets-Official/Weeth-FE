@@ -8,12 +8,12 @@ import Header from '@/components/Header/Header';
 import InfoInput from '@/components/MyPage/InfoInput';
 import DatePicker from '@/components/Calendar/DatePicker';
 import { replaceNewLines } from '@/service/Utils';
-import { createEvent, editEvent } from '@/service/EventAdminAPI';
-import EventInfoAPI from '@/service/EventInfoAPI';
-import { EventInfoContext } from '@/service/EventInfoContext';
+import { createEvent, editEvent } from '@/api/hook/router/EventAdminAPI';
+import EventInfoAPI from '@/api/hook/router/EventInfoAPI';
+import { EventInfoContext } from '@/api/hook/router/EventInfoContext';
 import useCustomBack from '@/router/useCustomBack';
-import UserAPI from '@/service/UserAPI';
-import { UserContext } from '@/service/UserContext';
+import UserAPI from '@/api/hook/router/UserAPI';
+import { UserContext } from '@/api/hook/router/UserContext';
 
 const StyledCreate = styled.div`
   display: flex;

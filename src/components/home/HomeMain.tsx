@@ -4,7 +4,7 @@ import { useContext } from 'react';
 import Caption from '@/components/Button/Caption';
 import RightButton from '@/components/Header/RightButton';
 
-import { UserContext } from '@/service/UserContext';
+import { UserContext } from '@/api/hook/router/UserContext';
 
 import calendar from '@/assets/images/ic_home_calendar.svg';
 import attend from '@/assets/images/ic_home_attend.svg';

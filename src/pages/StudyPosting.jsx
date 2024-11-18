@@ -4,7 +4,7 @@ import React, { useEffect, useState, useContext } from 'react';
 import styled from 'styled-components';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
-import { BoardContext } from '../service/BoardContext';
+import { BoardContext } from '@/api/hook/router/BoardContext';
 import PostingHeader from '../components/Board/PostingHeader';
 import FileAttachMenu from '../components/Board/FileAttachMenu';
 import fileAttach from '../assets/images/ic_board_fileAttach.svg';

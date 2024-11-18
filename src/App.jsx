@@ -7,40 +7,40 @@ import { Route, Routes } from 'react-router-dom';
 import './assets/fonts/fonts.css';
 
 import { ThemeProvider } from 'styled-components';
-import Attendance from './pages/Attendance';
-import Calendar from './pages/Calendar';
-import Home from './pages/Home';
-import Landing from './pages/Landing';
-import Login from './pages/Login';
-import Profile from './pages/Profile';
-import Signup from './pages/Signup';
-import EventDetails from './pages/EventDetails';
-import AttendCheck from './pages/AttendCheck';
-import Member from './pages/Member';
-import MemberDetail from './pages/MemberDetail';
-import MyPage from './pages/MyPage';
-import Edit from './pages/Edit';
-import Dues from './pages/Dues';
-import Board from './pages/Board';
-import StudyPosting from './pages/StudyPosting';
-import NoticePosting from './pages/NoticePosting';
-import EventAdmin from './pages/EventAdmin';
-import StudyDetail from './pages/StudyDetail';
-import NoticeDetail from './pages/NoticeDetail';
+import Attendance from '@/pages/Attendance';
+import Calendar from '@/pages/Calendar';
+import Home from '@/pages/Home';
+import Landing from '@/pages/Landing';
+import Login from '@/pages/Login';
+import Profile from '@/pages/Profile';
+import Signup from '@/pages/Signup';
+import EventDetails from '@/pages/EventDetails';
+import AttendCheck from '@/pages/AttendCheck';
+import Member from '@/pages/Member';
+import MemberDetail from '@/pages/MemberDetail';
+import MyPage from '@/pages/MyPage';
+import Edit from '@/pages/Edit';
+import Dues from '@/pages/Dues';
+import Board from '@/pages/Board';
+import StudyPosting from '@/pages/StudyPosting';
+import NoticePosting from '@/pages/NoticePosting';
+import EventAdmin from '@/pages/EventAdmin';
+import StudyDetail from '@/pages/StudyDetail';
+import NoticeDetail from '@/pages/NoticeDetail';
 
-import theme from './styles/theme';
-import Receipt from './pages/Receipt';
+import theme from '@/styles/theme';
+import Receipt from '@/pages/Receipt';
 
-import { UserProvider } from './service/UserContext';
-import { MonthlyScheduleProvider } from './service/MonthlyScheduleContext';
-import { BoardProvider } from './service/BoardContext';
-import { DuesProvider } from './service/DuesContext';
-import { EventInfoProvider } from './service/EventInfoContext';
-import { NoticeProvider } from './service/NoticeContext';
-import { YearlyScheduleProvider } from './service/YearlyScheduleContext';
-import { AttendCheckProvider } from './service/AttendCheckContext';
+import { UserProvider } from '@/api/hook/router/UserContext';
+import { MonthlyScheduleProvider } from '@/api/hook/router/MonthlyScheduleContext';
+import { BoardProvider } from '@/api/hook/router/BoardContext';
+import { DuesProvider } from '@/api/hook/router/DuesContext';
+import { EventInfoProvider } from '@/api/hook/router/EventInfoContext';
+import { NoticeProvider } from '@/api/hook/router/NoticeContext';
+import { YearlyScheduleProvider } from '@/api/hook/router/YearlyScheduleContext';
+import { AttendCheckProvider } from '@/api/hook/router/AttendCheckContext';
 
-import ScrollToTop from './router/ScrollToTop';
+import ScrollToTop from '@/router/ScrollToTop';
 
 const App = () => {
   return (

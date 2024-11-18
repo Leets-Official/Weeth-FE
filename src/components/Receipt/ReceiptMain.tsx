@@ -1,8 +1,8 @@
 import { useContext, useState } from 'react';
 import ReactModal from 'react-modal';
 import ReceiptInfo from '@/components/Receipt/ReceiptInfo';
-import { DuesContext } from '@/service/DuesContext';
-import DuesAPI from '@/service/DuesAPI';
+import { DuesContext } from '@/api/hook/router/DuesContext';
+import DuesAPI from '@/api/hook/router/DuesAPI';
 import * as S from '@/styles/receipt/ReceiptMain.styled';
 
 interface ReceiptProps {

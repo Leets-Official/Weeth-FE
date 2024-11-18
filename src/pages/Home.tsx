@@ -3,7 +3,7 @@ import theme from '@/styles/theme';
 import HomeMain from '@/components/home/HomeMain';
 import HomeFooter from '@/components/home/HomeFooter';
 import LogoutButton from '@/components/home/LogoutButton';
-import UserAPI from '@/service/UserAPI';
+import UserAPI from '@/api/hook/router/UserAPI';
 import logo from '@/assets/images/ic_logo.svg';
 import useCustomBack from '@/router/useCustomBack';
 

@@ -2,12 +2,12 @@
 /* eslint-disable no-alert */
 import React, { useState, useContext, useEffect } from 'react';
 import axios from 'axios';
+import { UserContext } from '@/api/hook/router/UserContext';
+import { BoardContext } from '@/api/hook/router/BoardContext';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import BoardComment from './BoardComment';
 import Typing from './Typing';
-import { UserContext } from '../../service/UserContext';
-import { BoardContext } from '../../service/BoardContext';
 import theme from '../../styles/theme';
 
 const TypingContainer = styled.div`

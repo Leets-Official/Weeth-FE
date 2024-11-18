@@ -3,9 +3,9 @@ import React, { useContext } from 'react';
 import theme from '@/styles/theme';
 import icClose from '@/assets/images/ic_close.svg';
 import check from '@/assets/images/ic_check.svg';
-import { PenaltyContext } from '@/service/PenaltyContext';
-import { UserContext } from '@/service/UserContext';
-import { PenaltyAPI } from '@/service/AttendAPI';
+import { PenaltyContext } from '@/api/hook/router/PenaltyContext';
+import { UserContext } from '@/api/hook/router/UserContext';
+import { PenaltyAPI } from '@/api/hook/router/AttendAPI';
 
 import * as S from '@/styles/attend/ModalPenalty.styled';
 

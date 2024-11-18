@@ -1,8 +1,8 @@
 import { useContext } from 'react';
 import theme from '@/styles/theme';
 import Caption from '@/components/Button/Caption';
-import { UserContext } from '@/service/UserContext';
-import { AttendCheckContext } from '@/service/AttendCheckContext';
+import { UserContext } from '@/api/hook/router/UserContext';
+import { AttendCheckContext } from '@/api/hook/router/AttendCheckContext';
 
 import * as S from '@/styles/attend/AttendCheck.styled';
 
