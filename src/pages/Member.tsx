@@ -1,7 +1,7 @@
 import Cardinal from '@/components/Member/Cardinal';
 import MemberHeader from '@/components/Member/MemberHeader';
 import useCustomBack from '@/hooks/useCustomBack';
-import UserAPI from '@/api/hook/router/UserAPI';
+import UserAPI from '@/api/UserAPI';
 import { useState } from 'react';
 
 import MemberList from '@/components/Member/MemberList';

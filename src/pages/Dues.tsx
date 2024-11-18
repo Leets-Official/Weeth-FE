@@ -3,8 +3,8 @@ import DuesHeader from '@/components/Dues/DuesHeader';
 import DueCategory from '@/components/Dues/DueCategory';
 import DuesInfo from '@/components/Dues/DuesInfo';
 import DuesTitle from '@/components/Dues/DuesTitle';
-import { DuesContext } from '@/api/hook/router/DuesContext';
-import DuesAPI from '@/api/hook/router/DuesAPI';
+import { DuesContext } from '@/api/DuesContext';
+import DuesAPI from '@/api/DuesAPI';
 import useCustomBack from '@/hooks/useCustomBack';
 import * as S from '@/styles/dues/Dues.styled';
 

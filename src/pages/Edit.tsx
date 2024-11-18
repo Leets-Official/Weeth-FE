@@ -11,8 +11,8 @@ import theme from '@/styles/theme';
 import MyPageHeader from '@/components/MyPage/MyPageHeader';
 import InfoInput from '@/components/MyPage/InfoInput';
 import DropdownMenu from '@/components/Button/DropdownMenu';
-import UserAPI from '@/api/hook/router/UserAPI';
-import { UserContext } from '@/api/hook/router/UserContext';
+import UserAPI from '@/api/UserAPI';
+import { UserContext } from '@/api/UserContext';
 import useCustomBack from '@/hooks/useCustomBack';
 
 const StyledEdit = styled.div`

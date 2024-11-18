@@ -1,6 +1,6 @@
 import { useEffect, useContext } from 'react';
 import axios from 'axios';
-import { DuesContext } from '@/api/hook/router/DuesContext';
+import { DuesContext } from '@/api/DuesContext';
 import Utils from '@/hooks/Utils';
 
 // DuesAPI 컴포넌트

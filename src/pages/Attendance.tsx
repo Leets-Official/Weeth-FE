@@ -2,10 +2,10 @@ import styled, { ThemeProvider } from 'styled-components';
 import theme from '@/styles/theme';
 import AttendHeader from '@/components/Attendance/AttendHeader';
 import AttendMain from '@/components/Attendance/AttendMain';
-import { PenaltyProvider } from '@/api/hook/router/PenaltyContext';
-import { AttendProvider } from '@/api/hook/router/AttendContext';
+import { PenaltyProvider } from '@/api/PenaltyContext';
+import { AttendProvider } from '@/api/AttendContext';
 import useCustomBack from '@/hooks/useCustomBack';
-import UserAPI from '@/api/hook/router/UserAPI';
+import UserAPI from '@/api/UserAPI';
 
 const Container = styled.div`
   display: flex;
@@ -25,7 +25,7 @@ const Footer = styled.footer`
 
 const Attendance: React.FC = () => {
   useCustomBack('/home');
-  
+
   return (
     <ThemeProvider theme={theme}>
       <UserAPI />

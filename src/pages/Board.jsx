@@ -3,7 +3,7 @@ import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import EditDelModal from '@/components/Modal/EditDelModal';
-import { UserContext } from '@/api/hook/router/UserContext';
+import { UserContext } from '@/api/UserContext';
 import NoticeHeader from '../components/Board/NoticeHeader';
 import NoticeMiddle from '../components/Board/NoticeMiddle';
 import NoticeList from '../components/Board/NoticeList';

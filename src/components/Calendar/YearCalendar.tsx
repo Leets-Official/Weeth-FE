@@ -2,7 +2,7 @@ import * as S from '@/styles/calendar/YearCalendar.styled';
 import React, { useContext } from 'react';
 
 import MonthlyEvent from '@/components/Calendar/MonthlyEvent';
-import { YearlyScheduleContext } from '@/api/hook/router/YearlyScheduleContext';
+import { YearlyScheduleContext } from '@/api/YearlyScheduleContext';
 
 interface YearCalendarProps {
   year: string;

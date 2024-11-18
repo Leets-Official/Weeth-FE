@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 import ModalMonthContent from '@/components/Calendar/ModalMonthContent';
 import LeftButton from '@/components/Header/LeftButton';
-import { UserContext } from '@/api/hook/router/UserContext';
+import { UserContext } from '@/api/UserContext';
 import * as S from '@/styles/calendar/CalendarHeader.styled';
 import { monthModalStyles } from '@/styles/calendar/CalendarHeader.styled';
 

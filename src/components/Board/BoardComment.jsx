@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useContext } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import { UserContext } from '@/api/hook/router/UserContext';
+import { UserContext } from '@/api/UserContext';
 import commentButton from '../../assets/images/ic_comment.svg';
 import replyButton from '../../assets/images/ic_reply.svg';
 import theme from '../../styles/theme';

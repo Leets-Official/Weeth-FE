@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
-import MonthlyShceduleAPI from '@/api/hook/router/MonthlyScheduleAPI';
-import { MonthlyScheduleContext } from '@/api/hook/router/MonthlyScheduleContext';
-import UserAPI from '@/api/hook/router/UserAPI';
+import MonthlyShceduleAPI from '@/api/MonthlyScheduleAPI';
+import { MonthlyScheduleContext } from '@/api/MonthlyScheduleContext';
+import UserAPI from '@/api/UserAPI';
 import * as S from '@/styles/calendar/MonthCalendar.styled';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import FullCalendar from '@fullcalendar/react';
