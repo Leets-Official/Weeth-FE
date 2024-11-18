@@ -8,7 +8,7 @@ import SignupTextComponent from '@/components/Signup/SignupTextComponent';
 import toggleVisibleIcon from '@/assets/images/ic_toggleVisible.svg';
 import toggleInvisibleIcon from '@/assets/images/ic_toggleInvisible.svg';
 import theme from '@/styles/theme';
-import useCustomBack from '@/router/useCustomBack';
+import useCustomBack from '@/hooks/useCustomBack';
 
 // Styled components
 const Container = styled.div`

@@ -5,7 +5,7 @@ import DuesInfo from '@/components/Dues/DuesInfo';
 import DuesTitle from '@/components/Dues/DuesTitle';
 import { DuesContext } from '@/api/hook/router/DuesContext';
 import DuesAPI from '@/api/hook/router/DuesAPI';
-import useCustomBack from '@/router/useCustomBack';
+import useCustomBack from '@/hooks/useCustomBack';
 import * as S from '@/styles/dues/Dues.styled';
 
 interface DueProps {

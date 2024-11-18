@@ -7,11 +7,11 @@ import theme from '@/styles/theme';
 import Header from '@/components/Header/Header';
 import InfoInput from '@/components/MyPage/InfoInput';
 import DatePicker from '@/components/Calendar/DatePicker';
-import { replaceNewLines } from '@/service/Utils';
+import { replaceNewLines } from '@/hooks/Utils';
 import { createEvent, editEvent } from '@/api/hook/router/EventAdminAPI';
 import EventInfoAPI from '@/api/hook/router/EventInfoAPI';
 import { EventInfoContext } from '@/api/hook/router/EventInfoContext';
-import useCustomBack from '@/router/useCustomBack';
+import useCustomBack from '@/hooks/useCustomBack';
 import UserAPI from '@/api/hook/router/UserAPI';
 import { UserContext } from '@/api/hook/router/UserContext';
 

@@ -9,7 +9,7 @@ import icClock from '@/assets/images/ic_clock.svg';
 import theme from '@/styles/theme';
 import EventDetailTitle from '@/components/Calendar/EventDetailTitle';
 import EventInfoAPI from '@/api/hook/router/EventInfoAPI';
-import useCustomBack from '@/router/useCustomBack';
+import useCustomBack from '@/hooks/useCustomBack';
 import UserAPI from '@/api/hook/router/UserAPI';
 
 interface EventDeatilData {

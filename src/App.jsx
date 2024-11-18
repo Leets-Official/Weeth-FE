@@ -40,7 +40,7 @@ import { NoticeProvider } from '@/api/hook/router/NoticeContext';
 import { YearlyScheduleProvider } from '@/api/hook/router/YearlyScheduleContext';
 import { AttendCheckProvider } from '@/api/hook/router/AttendCheckContext';
 
-import ScrollToTop from '@/router/ScrollToTop';
+import ScrollToTop from '@/hooks/ScrollToTop';
 
 const App = () => {
   return (

@@ -10,7 +10,7 @@ import icDepartment from '@/assets/images/ic_department.svg';
 import icCardinal from '@/assets/images/ic_cardinal.svg';
 import icPosition from '@/assets/images/ic_position.svg';
 import icEmail from '@/assets/images/ic_mail.svg';
-import useCustomBack from '@/router/useCustomBack';
+import useCustomBack from '@/hooks/useCustomBack';
 import theme from '@/styles/theme';
 
 const StyledDetails = styled.div`

@@ -19,8 +19,8 @@ import icEdit from '@/assets/images/ic_edit.svg';
 import icLogout from '@/assets/images/ic_logout_white.svg';
 import { UserContext } from '@/api/hook/router/UserContext';
 import UserAPI from '@/api/hook/router/UserAPI';
-import handleLogout from '@/utils/handleLogout';
-import useCustomBack from '@/router/useCustomBack';
+import useLogout from '@/hooks/useLogout';
+import useCustomBack from '@/hooks/useCustomBack';
 import theme from '@/styles/theme';
 
 /* eslint-disable no-alert */
@@ -92,7 +92,7 @@ const MyPage = () => {
 
   const BASE_URL = import.meta.env.VITE_API_URL;
 
-  const confirmLogout = handleLogout();
+  const confirmLogout = useLogout();
   const onClickLeave = async () => {
     if (window.confirm('탈퇴하시겠습니까?')) {
       try {

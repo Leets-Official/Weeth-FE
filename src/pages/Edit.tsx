@@ -13,7 +13,7 @@ import InfoInput from '@/components/MyPage/InfoInput';
 import DropdownMenu from '@/components/Button/DropdownMenu';
 import UserAPI from '@/api/hook/router/UserAPI';
 import { UserContext } from '@/api/hook/router/UserContext';
-import useCustomBack from '@/router/useCustomBack';
+import useCustomBack from '@/hooks/useCustomBack';
 
 const StyledEdit = styled.div`
   width: 370px;

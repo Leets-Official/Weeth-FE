@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { useDraggable } from '@/service/useDraggable';
+import { useDraggable } from '@/hooks/useDraggable';
 import * as S from '@/styles/home/HomeFooter.styled';
 
 import leets from '@/assets/images/ic_leets.svg';

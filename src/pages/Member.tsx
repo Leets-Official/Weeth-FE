@@ -7,7 +7,7 @@ import Category from '@/components/Member/Category';
 import MemberName from '@/components/Member/MemberName';
 import UserAPI from '@/api/hook/router/UserAPI';
 import { UserContext } from '@/api/hook/router/UserContext';
-import useCustomBack from '@/router/useCustomBack';
+import useCustomBack from '@/hooks/useCustomBack';
 
 interface User {
   studentId: string;

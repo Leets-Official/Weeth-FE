@@ -4,7 +4,7 @@ import AttendHeader from '@/components/Attendance/AttendHeader';
 import AttendMain from '@/components/Attendance/AttendMain';
 import { PenaltyProvider } from '@/api/hook/router/PenaltyContext';
 import { AttendProvider } from '@/api/hook/router/AttendContext';
-import useCustomBack from '@/router/useCustomBack';
+import useCustomBack from '@/hooks/useCustomBack';
 import UserAPI from '@/api/hook/router/UserAPI';
 
 const Container = styled.div`

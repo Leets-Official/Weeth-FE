@@ -8,7 +8,7 @@ import theme from '@/styles/theme';
 import SignupMemInput from '@/components/Signup/SignupMemInput';
 import SignupHeader from '@/components/Signup/SignupHeader';
 import PositionSector from '@/components/Signup/PositionSector';
-import useCustomBack from '@/router/useCustomBack';
+import useCustomBack from '@/hooks/useCustomBack';
 import DropdownMenu from '@/components/Button/DropdownMenu';
 
 // Styled components

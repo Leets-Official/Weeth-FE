@@ -1,7 +1,7 @@
 import React, { useEffect, useContext } from 'react';
 import axios from 'axios';
 import { UserContext } from './UserContext';
-import Utils from '@/service/Utils';
+import Utils from '@/hooks/Utils';
 
 const UserAPI = () => {
   const { setUserData, setError, setAllUserData } = useContext(UserContext);

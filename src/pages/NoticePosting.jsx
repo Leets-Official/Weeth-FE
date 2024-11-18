@@ -10,7 +10,7 @@ import PostingHeader from '../components/Board/PostingHeader';
 import FileAttachMenu from '../components/Board/FileAttachMenu';
 import fileAttach from '../assets/images/ic_board_fileAttach.svg';
 import theme from '../styles/theme';
-import { replaceNewLines } from '../service/Utils';
+import { replaceNewLines } from '../hooks/Utils';
 
 const StyledPosting = styled.div`
   width: 370px;

@@ -1,7 +1,7 @@
 import { useEffect, useContext } from 'react';
 import axios from 'axios';
 import { DuesContext } from '@/api/hook/router/DuesContext';
-import Utils from '@/service/Utils';
+import Utils from '@/hooks/Utils';
 
 // DuesAPI 컴포넌트
 const DuesAPI: React.FC = () => {
