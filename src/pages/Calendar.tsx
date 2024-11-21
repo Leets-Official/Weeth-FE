@@ -5,8 +5,8 @@ import MonthCalendar from '@/components/Calendar/MonthCalendar';
 import ToggleButton from '@/components/Calendar/ToggleButton';
 import YearCalendar from '@/components/Calendar/YearCalendar';
 import { CURRENT_MONTH, CURRENT_YEAR } from '@/constants/dateConstants';
-import useCustomBack from '@/router/useCustomBack';
-import YearlyScheduleAPI from '@/service/YearlyScheduleAPI';
+import useCustomBack from '@/hooks/useCustomBack';
+import YearlyScheduleAPI from '@/api/YearlyScheduleAPI';
 
 import * as S from '@/styles/calendar/Calendar.styled';
 

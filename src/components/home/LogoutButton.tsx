@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 import logout from '@/assets/images/ic_logout_gray.svg';
-import handleLogout from '@/utils/handleLogout';
+import useLogout from '@/hooks/useLogout';
 
 const ImgButton = styled.div`
   display: flex;
@@ -14,7 +14,7 @@ const ImgButton = styled.div`
 
 const LogoutButton: React.FC = () => {
   const confirmLogout = () => {
-    handleLogout();
+    useLogout();
   };
 
   return (

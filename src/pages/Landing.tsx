@@ -4,7 +4,7 @@ import styled, { ThemeProvider } from 'styled-components';
 import theme from '@/styles/theme';
 import Button from '@/components/Button/Button';
 import leets from '@/assets/images/ic_name_logo.svg';
-import useCustomBack from '@/router/useCustomBack';
+import useCustomBack from '@/hooks/useCustomBack';
 
 // Styled Components
 const Container = styled.div`

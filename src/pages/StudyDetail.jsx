@@ -3,12 +3,12 @@ import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
-import UserAPI from '../service/UserAPI';
-import { UserContext } from '../service/UserContext';
+import UserAPI from '@/api/UserAPI';
+import { UserContext } from '@/api/UserContext';
 import NoticeHeader from '../components/Board/NoticeHeader';
 import AttachButton from '../components/Board/AttachButton';
 import CommentList from '../components/Board/CommentList';
-import EditDelModal from '../components/EditDelModal';
+import EditDelModal from '../components/Modal/EditDelModal';
 import boardChat from '../assets/images/ic_board_chat.svg';
 import theme from '../styles/theme';
 

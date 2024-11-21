@@ -10,15 +10,10 @@ import axios from 'axios';
 import theme from '@/styles/theme';
 import MyPageHeader from '@/components/MyPage/MyPageHeader';
 import InfoInput from '@/components/MyPage/InfoInput';
-import DropdownMenu from '@/components/DropdownMenu';
-import UserAPI from '@/service/UserAPI';
-import { UserContext } from '@/service/UserContext';
-import useCustomBack from '@/router/useCustomBack';
-
-interface EditProps {
-  key: string;
-  value: string | number | number[];
-}
+import DropdownMenu from '@/components/Button/DropdownMenu';
+import UserAPI from '@/api/UserAPI';
+import { UserContext } from '@/api/UserContext';
+import useCustomBack from '@/hooks/useCustomBack';
 
 const StyledEdit = styled.div`
   width: 370px;
@@ -46,7 +41,8 @@ const Edit = () => {
   useCustomBack('/mypage');
 
   const { userData, error } = useContext(UserContext);
-  const [userInfo, setUserInfo] = useState<{ key: string; value: any }[]>([]);  const accessToken = localStorage.getItem('accessToken');
+  const [userInfo, setUserInfo] = useState<{ key: string; value: any }[]>([]);
+  const accessToken = localStorage.getItem('accessToken');
   const refreshToken = localStorage.getItem('refreshToken');
   const BASE_URL = import.meta.env.VITE_API_URL;
   const navi = useNavigate();
@@ -110,6 +106,7 @@ const Edit = () => {
       });
     } catch (err) {
       alert('저장 중 오류가 발생했습니다.');
+      console.error(err);
     }
 
     if (response?.data?.code === 400) {
@@ -156,6 +153,7 @@ const Edit = () => {
             text="학과"
             origValue={userData.department}
             editValue={(value) => editValue('department', value)}
+            buttonstyle="member"
           />
           <InfoInput
             text="핸드폰"

@@ -2,7 +2,7 @@ import * as S from '@/styles/calendar/YearCalendar.styled';
 import { useContext } from 'react';
 
 import { MONTH } from '@/constants/dateConstants';
-import { YearlyScheduleContext } from '@/service/YearlyScheduleContext';
+import { YearlyScheduleContext } from '@/api/YearlyScheduleContext';
 import YearlyCard from './YearlyCard';
 
 const YearCalendar = ({ year }: { year: string }) => {

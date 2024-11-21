@@ -1,66 +1,75 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import BE from '@/assets/images/ic_BE.svg';
 import D from '@/assets/images/ic_DE.svg';
 import FE from '@/assets/images/ic_FE.svg';
 import MA from '@/assets/images/ic_MA.svg';
 
-import * as S from '@/styles/memeber/MemberName.styled';
+import * as S from '@/styles/member/MemberName.styled';
 
 interface MemberNameProps {
   name: string;
-  studentId: string;
+  cardinal: number[];
+  studentId: number;
   department: string;
   email: string;
-  cardinal: number[];
   position: string;
+  role: 'USER' | 'ADMIN';
   isLast?: boolean;
 }
 
 const MemberName: React.FC<MemberNameProps> = ({
   name,
+  cardinal,
   studentId,
   department,
   email,
-  cardinal,
   position,
+  role,
   isLast = false,
 }) => {
-  let imgSrc;
-  let alt;
+  let positionIcon;
   const navi = useNavigate();
+  const [searchParams] = useSearchParams();
+  const currentCardinal = searchParams.get('cardinal');
 
   if (position === 'FE') {
-    imgSrc = FE;
-    alt = 'FE';
+    positionIcon = FE;
   } else if (position === 'BE') {
-    imgSrc = BE;
-    alt = 'BE';
+    positionIcon = BE;
   } else if (position === 'D') {
-    imgSrc = D;
-    alt = 'D';
-  } else {
-    imgSrc = MA;
-    alt = 'MA';
+    positionIcon = D;
   }
 
   const onClickMember = () => {
     navi(`/member/${name}`, {
-      state: { name, studentId, department, email, cardinal, position },
+      state: {
+        name,
+        studentId,
+        department,
+        email,
+        cardinal,
+        position,
+        currentCardinal,
+      },
     });
   };
 
   return (
-    <S.MemberWrapper>
-      <S.MemberContent onClick={onClickMember}>
-        <img src={imgSrc} alt={alt} />
+    <S.Wrapper>
+      <S.Content onClick={onClickMember}>
+        {role === 'ADMIN' ? (
+          <img src={MA} alt="MA" />
+        ) : (
+          <img src={positionIcon} alt={String(positionIcon)} />
+        )}
         <S.TextWrapper>
           <div>{name}</div>
           <S.Caption>{cardinal[0]}기</S.Caption>
         </S.TextWrapper>
-      </S.MemberContent>
+      </S.Content>
       {!isLast && <S.Line />}
-    </S.MemberWrapper>
+    </S.Wrapper>
   );
 };
 

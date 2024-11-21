@@ -4,10 +4,10 @@ import { useParams } from 'react-router-dom';
 
 import EventContent from '@/components/Event/EventContent';
 import EventTitle from '@/components/Event/EventTitle';
-import useCustomBack from '@/router/useCustomBack';
-import getEventInfo from '@/service/getEventInfo';
-import UserAPI from '@/service/UserAPI';
 import * as S from '@/styles/event/EventDetail.styled';
+import useCustomBack from '@/hooks/useCustomBack';
+import getEventInfo from '@/api/getEventInfo';
+import UserAPI from '@/api/UserAPI';
 
 export interface EventDetailData {
   id: number;

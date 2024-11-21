@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import receipt from '@/assets/images/ic_receipt.svg';
 import theme from '@/styles/theme';
-import { DuesContext } from '@/service/DuesContext';
+import { DuesContext } from '@/api/DuesContext';
 
 const DuesBox = styled.div`
   display: flex;

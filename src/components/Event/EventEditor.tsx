@@ -7,16 +7,12 @@ import {
   CURRENT_MONTH,
   CURRENT_YEAR,
 } from '@/constants/dateConstants';
-import useCustomBack from '@/router/useCustomBack';
-import {
-  EventRequestType,
-  createEvent,
-  editEvent,
-} from '@/service/EventAdminAPI';
-import getEventInfo from '@/service/getEventInfo';
-import UserAPI from '@/service/UserAPI';
-import { UserContext } from '@/service/UserContext';
-import { replaceNewLines } from '@/service/Utils';
+import useCustomBack from '@/hooks/useCustomBack';
+import { EventRequestType, createEvent, editEvent } from '@/api/EventAdminAPI';
+import getEventInfo from '@/api/getEventInfo';
+import UserAPI from '@/api/UserAPI';
+import { UserContext } from '@/api/UserContext';
+import { replaceNewLines } from '@/hooks/Utils';
 import * as S from '@/styles/event/EventEditor.styled';
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';

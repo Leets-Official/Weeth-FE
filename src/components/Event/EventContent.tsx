@@ -4,7 +4,7 @@ import icClock from '@/assets/images/ic_clock.svg';
 import icCalendar from '@/assets/images/ic_date.svg';
 import { WEEK_DAYS } from '@/constants/dateConstants';
 import { EventDetailData } from '@/pages/EventDetails';
-import useCustomBack from '@/router/useCustomBack';
+import useCustomBack from '@/hooks/useCustomBack';
 import * as S from '@/styles/event/EventContent.styled';
 
 const EventContent = ({ data }: { data: EventDetailData }) => {

@@ -1,13 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 
-/*
-const confirmLogout = handleLogout();
-이거 선언하고 onClick에 confirmLogout 넣으면 됩니당
-
-이러면 로그아웃 하냐 물어보고 ㅇㅋ 하면 로그아웃
-*/
-
-const handleLogout = () => {
+const useLogout = () => {
   const navigate = useNavigate();
 
   const confirmLogout = () => {
@@ -22,4 +15,4 @@ const handleLogout = () => {
   return confirmLogout;
 };
 
-export default handleLogout;
+export default useLogout;

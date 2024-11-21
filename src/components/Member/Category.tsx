@@ -1,4 +1,4 @@
-import { useDraggable } from '@/service/useDraggable';
+import { useDraggable } from '@/hooks/useDraggable';
 import * as S from '@/styles/memeber/Category.styled';
 import { useRef, useState } from 'react';
 

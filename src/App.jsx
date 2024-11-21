@@ -7,39 +7,39 @@ import './App.css';
 import './assets/fonts/fonts.css';
 
 import { ThemeProvider } from 'styled-components';
-import Attendance from './pages/Attendance';
-import AttendCheck from './pages/AttendCheck';
-import Board from './pages/Board';
-import Calendar from './pages/Calendar';
-import Dues from './pages/Dues';
-import Edit from './pages/Edit';
-import EventAdmin from './pages/EventAdmin';
-import EventDetails from './pages/EventDetails';
-import Home from './pages/Home';
-import Landing from './pages/Landing';
-import Login from './pages/Login';
-import Member from './pages/Member';
-import MemberDetail from './pages/MemberDetail';
-import MyPage from './pages/MyPage';
-import NoticeDetail from './pages/NoticeDetail';
-import NoticePosting from './pages/NoticePosting';
-import Profile from './pages/Profile';
-import Signup from './pages/Signup';
-import StudyDetail from './pages/StudyDetail';
-import StudyPosting from './pages/StudyPosting';
+import Attendance from '@/pages/Attendance';
+import Calendar from '@/pages/Calendar';
+import Home from '@/pages/Home';
+import Landing from '@/pages/Landing';
+import Login from '@/pages/Login';
+import Profile from '@/pages/Profile';
+import Signup from '@/pages/Signup';
+import EventDetails from '@/pages/EventDetails';
+import AttendCheck from '@/pages/AttendCheck';
+import Member from '@/pages/Member';
+import MemberDetail from '@/pages/MemberDetail';
+import MyPage from '@/pages/MyPage';
+import Edit from '@/pages/Edit';
+import Dues from '@/pages/Dues';
+import Board from '@/pages/Board';
+import StudyPosting from '@/pages/StudyPosting';
+import NoticePosting from '@/pages/NoticePosting';
+import EventAdmin from '@/pages/EventAdmin';
+import StudyDetail from '@/pages/StudyDetail';
+import NoticeDetail from '@/pages/NoticeDetail';
 
-import Receipt from './pages/Receipt';
-import theme from './styles/theme';
+import theme from '@/styles/theme';
+import Receipt from '@/pages/Receipt';
 
-import { AttendCheckProvider } from './service/AttendCheckContext';
-import { BoardProvider } from './service/BoardContext';
-import { DuesProvider } from './service/DuesContext';
-import { MonthlyScheduleProvider } from './service/MonthlyScheduleContext';
-import { NoticeProvider } from './service/NoticeContext';
-import { UserProvider } from './service/UserContext';
-import { YearlyScheduleProvider } from './service/YearlyScheduleContext';
+import { UserProvider } from '@/api/UserContext';
+import { MonthlyScheduleProvider } from '@/api/MonthlyScheduleContext';
+import { BoardProvider } from '@/api/BoardContext';
+import { DuesProvider } from '@/api/DuesContext';
+import { NoticeProvider } from '@/api/NoticeContext';
+import { YearlyScheduleProvider } from '@/api/YearlyScheduleContext';
+import { AttendCheckProvider } from '@/api/AttendCheckContext';
 
-import ScrollToTop from './router/ScrollToTop';
+import ScrollToTop from '@/hooks/ScrollToTop';
 
 const App = () => {
   return (
@@ -88,4 +88,3 @@ const App = () => {
 };
 
 export default App;
-
