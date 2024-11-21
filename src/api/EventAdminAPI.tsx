@@ -5,7 +5,17 @@ const accessToken = localStorage.getItem('accessToken');
 const refreshToken = localStorage.getItem('refreshToken');
 const BASE_URL = import.meta.env.VITE_API_URL;
 
-export const createEvent = async (data) => {
+export interface EventRequestType {
+  title: string;
+  start: string;
+  end: string;
+  location: string;
+  requiredItem: string;
+  memberCount: string;
+  content: string;
+}
+
+export const createEvent = async (data: EventRequestType) => {
   try {
     const response = await axios.post(`${BASE_URL}/api/v1/admin/events`, data, {
       headers: {
@@ -19,7 +29,7 @@ export const createEvent = async (data) => {
   }
 };
 
-export const editEvent = async (data, id) => {
+export const editEvent = async (data: EventRequestType, id: number) => {
   try {
     const response = await axios.patch(
       `${BASE_URL}/api/v1/admin/events/${id}`,
@@ -37,4 +47,19 @@ export const editEvent = async (data, id) => {
   }
 };
 
-export default createEvent;
+export const deleteEvent = async (id: number) => {
+  try {
+    const response = await axios.delete(
+      `${BASE_URL}/api/v1/admin/events/${id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          Authorization_refresh: `Bearer ${refreshToken}`,
+        },
+      },
+    );
+    return response;
+  } catch (err) {
+    throw err;
+  }
+};

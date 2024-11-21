@@ -1,6 +1,6 @@
+import theme from '@/styles/theme';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import theme from '@/styles/theme';
 
 interface EditDelModalProps {
   title: string;
@@ -65,7 +65,12 @@ const CancelButton = styled.div`
   font-family: ${theme.font.family.pretendard_semiBold};
 `;
 
-const EditDelModal: React.FC<EditDelModalProps> = ({ title, onClickEdit, onClickDel, onClickCancel }) => {
+const EditDelModal: React.FC<EditDelModalProps> = ({
+  title,
+  onClickEdit,
+  onClickDel,
+  onClickCancel,
+}) => {
   return (
     <ContentWrapper>
       <ModalContent>

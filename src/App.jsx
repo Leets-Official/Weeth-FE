@@ -2,8 +2,8 @@
 /* eslint-disable import/extensions */
 /* eslint-disable react/function-component-definition */
 
-import './App.css';
 import { Route, Routes } from 'react-router-dom';
+import './App.css';
 import './assets/fonts/fonts.css';
 
 import { ThemeProvider } from 'styled-components';
@@ -35,7 +35,6 @@ import { UserProvider } from '@/api/UserContext';
 import { MonthlyScheduleProvider } from '@/api/MonthlyScheduleContext';
 import { BoardProvider } from '@/api/BoardContext';
 import { DuesProvider } from '@/api/DuesContext';
-import { EventInfoProvider } from '@/api/EventInfoContext';
 import { NoticeProvider } from '@/api/NoticeContext';
 import { YearlyScheduleProvider } from '@/api/YearlyScheduleContext';
 import { AttendCheckProvider } from '@/api/AttendCheckContext';
@@ -49,45 +48,37 @@ const App = () => {
         <MonthlyScheduleProvider>
           <BoardProvider>
             <DuesProvider>
-              <EventInfoProvider>
-                <NoticeProvider>
-                  <YearlyScheduleProvider>
-                    <AttendCheckProvider>
-                      <ScrollToTop />
-                      <Routes>
-                        <Route path="/" element={<Landing />} />
-                        <Route path="/login" element={<Login />} />
-                        <Route path="/attendance" element={<Attendance />} />
-                        <Route path="/calendar" element={<Calendar />} />
-                        <Route path="/:type/:id" element={<EventDetails />} />
-                        <Route path="/event/create" element={<EventAdmin />} />
-                        <Route
-                          path="/event/:id/edit"
-                          element={<EventAdmin />}
-                        />
-                        <Route path="/home" element={<Home />} />
-                        <Route path="/signup" element={<Signup />} />
-                        <Route path="/profile" element={<Profile />} />
-                        <Route path="/attendCheck" element={<AttendCheck />} />
-                        <Route path="/member" element={<Member />} />
-                        <Route path="/member/:id" element={<MemberDetail />} />
-                        <Route path="/mypage" element={<MyPage />} />
-                        <Route path="/edit" element={<Edit />} />
-                        <Route path="/dues" element={<Dues />} />
-                        <Route path="/receipt" element={<Receipt />} />
-                        <Route path="/board" element={<Board />} />
-                        <Route path="/study/:id" element={<StudyDetail />} />
-                        <Route path="/notice/:id" element={<NoticeDetail />} />
-                        <Route path="/study/post" element={<StudyPosting />} />
-                        <Route
-                          path="/notice/post"
-                          element={<NoticePosting />}
-                        />
-                      </Routes>
-                    </AttendCheckProvider>
-                  </YearlyScheduleProvider>
-                </NoticeProvider>
-              </EventInfoProvider>
+              <NoticeProvider>
+                <YearlyScheduleProvider>
+                  <AttendCheckProvider>
+                    <ScrollToTop />
+                    <Routes>
+                      <Route path="/" element={<Landing />} />
+                      <Route path="/login" element={<Login />} />
+                      <Route path="/attendance" element={<Attendance />} />
+                      <Route path="/calendar" element={<Calendar />} />
+                      <Route path="/:type/:id" element={<EventDetails />} />
+                      <Route path="/event/create" element={<EventAdmin />} />
+                      <Route path="/event/:id/edit" element={<EventAdmin />} />
+                      <Route path="/home" element={<Home />} />
+                      <Route path="/signup" element={<Signup />} />
+                      <Route path="/profile" element={<Profile />} />
+                      <Route path="/attendCheck" element={<AttendCheck />} />
+                      <Route path="/member" element={<Member />} />
+                      <Route path="/member/:id" element={<MemberDetail />} />
+                      <Route path="/mypage" element={<MyPage />} />
+                      <Route path="/edit" element={<Edit />} />
+                      <Route path="/dues" element={<Dues />} />
+                      <Route path="/receipt" element={<Receipt />} />
+                      <Route path="/board" element={<Board />} />
+                      <Route path="/study/:id" element={<StudyDetail />} />
+                      <Route path="/notice/:id" element={<NoticeDetail />} />
+                      <Route path="/study/post" element={<StudyPosting />} />
+                      <Route path="/notice/post" element={<NoticePosting />} />
+                    </Routes>
+                  </AttendCheckProvider>
+                </YearlyScheduleProvider>
+              </NoticeProvider>
             </DuesProvider>
           </BoardProvider>
         </MonthlyScheduleProvider>

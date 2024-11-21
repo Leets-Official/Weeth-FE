@@ -11,7 +11,7 @@ interface DateInputProps {
   margin: string;
   year?: number;
   month?: number;
-  inputType: 'year' | 'month' | 'day' | 'hour' | 'minute';
+  inputType: string;
 }
 
 const getMaxDaysInMonth = (year: number, month: number) => {
@@ -103,7 +103,7 @@ const DateInput: React.FC<DateInputProps> = ({
 
   return (
     <div>
-      <S.StyledInput
+      <S.Input
         type="number"
         value={date}
         onChange={onChangeValue}
