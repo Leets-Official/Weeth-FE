@@ -1,7 +1,7 @@
-import { useSearchParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import MemberName from '@/components/Member/MemberName';
-import { UserContext } from '@/api/UserContext';
-import { useContext } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import { getAllUsers } from '@/api/getAllUsers';
 
 import * as S from '@/styles/member/MemberList.styled';
 
@@ -15,15 +15,31 @@ interface User {
   role: 'USER' | 'ADMIN';
 }
 
+type AllUsersType = { [key: number]: User[] };
+
 const MemberList = () => {
   const [searchParams] = useSearchParams();
   const cardinal = searchParams.get('cardinal');
   const selectedCardinal = cardinal ? Number(cardinal) : 0;
 
-  const { allUserData, error } = useContext(UserContext);
+  const [allUsers, setAllUsers] = useState<AllUsersType>({});
+  const [error, setError] = useState<string | null>(null);
 
-  // 데이터가 없거나 오류가 있으면 빈 배열 반환
-  const filteredMember = error ? [] : allUserData?.[selectedCardinal] || [];
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await getAllUsers();
+        setAllUsers(response.data.data);
+        setError(null);
+      } catch (err: any) {
+        setError(err.data.message);
+      }
+    };
+
+    fetchUsers();
+  }, []);
+
+  const filteredMember = allUsers[selectedCardinal] || [];
 
   let errorMessage;
   if (filteredMember.length === 0) {
