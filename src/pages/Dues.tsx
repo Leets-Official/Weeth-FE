@@ -1,12 +1,12 @@
-import { useState, useContext } from 'react';
-import DuesHeader from '@/components/Dues/DuesHeader';
+import DuesAPI from '@/api/DuesAPI';
+import { DuesContext } from '@/api/DuesContext';
 import DueCategory from '@/components/Dues/DueCategory';
 import DuesInfo from '@/components/Dues/DuesInfo';
 import DuesTitle from '@/components/Dues/DuesTitle';
-import { DuesContext } from '@/api/DuesContext';
-import DuesAPI from '@/api/DuesAPI';
+import Header from '@/components/Header/Header';
 import useCustomBack from '@/hooks/useCustomBack';
 import * as S from '@/styles/dues/Dues.styled';
+import { useContext, useState } from 'react';
 
 interface DueProps {
   id: number;
@@ -48,7 +48,7 @@ const Dues: React.FC = () => {
   return (
     <S.StyledDues>
       <DuesAPI />
-      <DuesHeader />
+      <Header title="회비" RightButtonType="none" />
       <DuesTitle />
       <S.CategoryWrapper>
         <DueCategory setSelectedDues={setSelectedDues} />
@@ -93,3 +93,4 @@ const Dues: React.FC = () => {
 };
 
 export default Dues;
+

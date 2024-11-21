@@ -29,22 +29,22 @@ const None = styled.div`
 `;
 
 interface HeaderProps {
-  title: string;
+  title?: string;
   onClickRightButton?: () => void;
   RightButtonType: 'TextButton' | 'MenuButton' | 'none';
+  isComplete?: boolean;
   isAccessible?: boolean;
   isCalendar?: boolean;
 }
 
 const Header = ({
-  title,
+  title = '',
   onClickRightButton,
   RightButtonType,
+  isComplete = true,
   isAccessible = true,
   isCalendar = false,
 }: HeaderProps) => {
-  const isComplete = true;
-
   return (
     <StyledHeader>
       <ImgButton
