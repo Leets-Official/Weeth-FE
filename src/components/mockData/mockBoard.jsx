@@ -1,7 +1,7 @@
 const mockBoard = [
   {
     name: '사용자1',
-    time: '10/15 14:30',
+    time: '10/15',
     title: 'React 프로젝트 회의',
     content: '다음 회의는 화요일 오후 3시입니다. 참석 바랍니다.',
     onClick: () => console.log('게시글 1 클릭'),
@@ -9,7 +9,7 @@ const mockBoard = [
   },
   {
     name: '사용자2',
-    time: '10/16 09:10',
+    time: '10/16',
     title: '스터디 모집',
     content:
       'React 스터디 멤버를 모집합니다. 관심 있는 분들은 댓글 남겨주세요!',
@@ -18,7 +18,7 @@ const mockBoard = [
   },
   {
     name: '사용자3',
-    time: '10/17 11:45',
+    time: '10/17',
     title: '개발 자료 공유',
     content: '유용한 개발 자료를 공유합니다. 참고하시기 바랍니다.',
     onClick: () => console.log('게시글 3 클릭'),
@@ -26,7 +26,7 @@ const mockBoard = [
   },
   {
     name: '사용자4',
-    time: '10/18 13:20',
+    time: '10/18',
     title: '스터디 진행 안내',
     content: '오늘 스터디는 5시에 진행됩니다. 준비해주세요.',
     onClick: () => console.log('게시글 4 클릭'),
@@ -34,7 +34,7 @@ const mockBoard = [
   },
   {
     name: '사용자5',
-    time: '10/19 15:00',
+    time: '10/19',
     title: '질문 있습니다!',
     content: 'React 상태 관리에 대해 질문이 있습니다. 조언 부탁드립니다.',
     onClick: () => console.log('게시글 5 클릭'),
@@ -42,7 +42,7 @@ const mockBoard = [
   },
   {
     name: '사용자6',
-    time: '10/20 10:15',
+    time: '10/20',
     title: '코드 리뷰 요청',
     content: '제가 작성한 코드를 리뷰해주실 분 구합니다. 의견 부탁드려요!',
     onClick: () => console.log('게시글 6 클릭'),
@@ -50,7 +50,7 @@ const mockBoard = [
   },
   {
     name: '사용자7',
-    time: '10/21 08:45',
+    time: '10/21',
     title: '프로젝트 진행 상황 공유',
     content: '현재 프로젝트 진행 상황을 공유합니다. 참고해주세요.',
     onClick: () => console.log('게시글 7 클릭'),
@@ -58,7 +58,7 @@ const mockBoard = [
   },
   {
     name: '사용자8',
-    time: '10/22 12:00',
+    time: '10/22',
     title: '새로운 스터디 제안',
     content: '새로운 주제로 스터디를 시작하고자 합니다. 의견 부탁드립니다.',
     onClick: () => console.log('게시글 8 클릭'),
@@ -66,7 +66,7 @@ const mockBoard = [
   },
   {
     name: '사용자9',
-    time: '10/23 14:50',
+    time: '10/23',
     title: '프로젝트 피드백 요청',
     content: '프로젝트에 대한 피드백을 받고 싶습니다. 많은 의견 부탁드려요.',
     onClick: () => console.log('게시글 9 클릭'),
@@ -74,7 +74,7 @@ const mockBoard = [
   },
   {
     name: '사용자10',
-    time: '10/24 16:25',
+    time: '10/24',
     title: '스터디 장소 변경 안내',
     content:
       '스터디 장소가 변경되었습니다. 새로운 장소는 이메일로 확인해주세요.',

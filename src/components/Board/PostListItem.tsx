@@ -20,22 +20,33 @@ const Container = styled.div`
 
 const PostLeftSection = styled.div`
   display: flex;
+  flex-direction: column;
 `;
 
 const PostRightSection = styled.div`
   display: flex;
   justify-content: space-between;
+  flex-direction: column;
 `;
 
 const CommentContainer = styled.div`
   display: flex;
   flex-direction: row;
+  margin-left: auto;
 `;
 
-const BoldText = styled.div`
+const TitleText = styled.div`
   color: ${theme.color.grayScale.white};
   font-family: ${theme.font.family.pretendard_semiBold};
   font-size: 16px;
+  line-height: 19.09px;
+  margin: 5px 0;
+`;
+
+const ContentText = styled.div`
+  color: ${theme.color.grayScale.white};
+  font-family: ${theme.font.family.pretendard_regular};
+  font-size: 14px;
   line-height: 19.09px;
 `;
 
@@ -45,6 +56,26 @@ const LightText = styled.div`
   font-size: 12px;
   line-height: 14.32px;
 `;
+
+const CommentsText = styled(LightText)`
+  margin-left: 5px;
+`;
+const DateText = styled(LightText)`
+  margin-left: auto;
+`;
+const NameText = styled(LightText)`
+  margin-top: 5px;
+`;
+
+const ImgContainer = styled.img`
+  height: 12px;
+  width: 12px;
+`;
+
+// 문자열을 10글자로 제한하고, 넘어가면 "..." 추가
+const truncateText = (text: string, maxLength: number) => {
+  return text.length > maxLength ? `${text.substring(0, maxLength)}...` : text;
+};
 
 const PostListItem = ({
   name,
@@ -57,15 +88,15 @@ const PostListItem = ({
   return (
     <Container>
       <PostLeftSection>
-        <BoldText>{name}</BoldText>
-        <BoldText>{title}</BoldText>
-        <LightText>{content}</LightText>
+        <TitleText>{title}</TitleText>
+        <ContentText>{truncateText(content, 50)}</ContentText>
+        <NameText>{name}</NameText>
       </PostLeftSection>
       <PostRightSection>
-        <LightText>{time}</LightText>
+        <DateText>{time}</DateText>
         <CommentContainer>
-          <img src={Comment} alt="댓글 아이콘" />
-          <LightText>{totalComments}</LightText>
+          <ImgContainer src={Comment} alt="댓글 아이콘" />
+          <CommentsText>{totalComments}</CommentsText>
         </CommentContainer>
       </PostRightSection>
     </Container>

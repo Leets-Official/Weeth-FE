@@ -9,6 +9,7 @@ const Container = styled.div`
 const Line = styled.div`
   border: 1px solid;
   color: ${theme.color.grayScale.gray30};
+  margin-top: 10px;
 `;
 
 const PostList = () => {
