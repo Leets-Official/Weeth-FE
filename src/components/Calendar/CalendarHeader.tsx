@@ -1,15 +1,10 @@
+import { UserContext } from '@/api/UserContext';
+import ModalMonthContent from '@/components/Calendar/ModalMonthContent';
+import { monthModalStyles } from '@/styles/calendar/CalendarHeader.styled';
 import React, { useContext, useState } from 'react';
 import Modal from 'react-modal';
-import { useNavigate } from 'react-router-dom';
 
-import ModalMonthContent from '@/components/Calendar/ModalMonthContent';
-import LeftButton from '@/components/Header/LeftButton';
-import { UserContext } from '@/api/UserContext';
-import * as S from '@/styles/calendar/CalendarHeader.styled';
-import { monthModalStyles } from '@/styles/calendar/CalendarHeader.styled';
-
-import icPlus from '@/assets/images/ic_plus.svg';
-import under from '@/assets/images/ic_under.svg';
+import Header from '../Header/Header';
 
 Modal.setAppElement('#root');
 
@@ -29,8 +24,7 @@ const CalendarHeader: React.FC<CalendarHeaderProps> = ({
   editMonth,
 }) => {
   const [monthModalIsOpen, setMonthModalIsOpen] = useState(false);
-  const { userData, error } = useContext(UserContext);
-  const navi = useNavigate();
+  const { userData } = useContext(UserContext);
 
   const openMonthModal = () => {
     setMonthModalIsOpen(true);
@@ -43,40 +37,17 @@ const CalendarHeader: React.FC<CalendarHeaderProps> = ({
     closeMonthModal();
   };
 
-  let adminButton;
-
-  // userData를 받아오지 못한 경우 아무것도 렌더링하지 않음
-  if (!userData && !error) {
-    adminButton = null;
-  }
-  // 에러가 발생한 경우 아무것도 렌더링하지 않음
-  else if (error) {
-    adminButton = null;
-  }
-  // userData를 잘 받아왔고, 해당 user의 role이 ADMIN이라면 어드민 버튼 렌더링
-  else if (userData.role === 'ADMIN' && !monthModalIsOpen) {
-    adminButton = (
-      <S.PlusButton
-        src={icPlus}
-        alt="+"
-        onClick={() => {
-          navi('/event/create');
-        }}
-      />
-    );
-  }
-
   return (
-    <S.StyledHeader>
-      <LeftButton />
-      <S.TitleWrapper>
-        <S.TitleYear>{year}년</S.TitleYear>
-        <S.TitleMonth>{isMonth ? `${month}월` : null}</S.TitleMonth>
-        <S.ImgButton onClick={openMonthModal}>
-          <img src={under} alt="select" />
-        </S.ImgButton>
-      </S.TitleWrapper>
-      {adminButton}
+    <>
+      <Header
+        isCalendar
+        month={month}
+        year={year}
+        isMonth={isMonth}
+        openMonthModal={openMonthModal}
+        RightButtonType="ADMIN"
+        isAdmin={userData?.role === 'ADMIN' && !monthModalIsOpen}
+      />
       <Modal
         className="calendar-modal"
         isOpen={monthModalIsOpen}
@@ -92,7 +63,7 @@ const CalendarHeader: React.FC<CalendarHeaderProps> = ({
           editMonth={editMonth}
         />
       </Modal>
-    </S.StyledHeader>
+    </>
   );
 };
 

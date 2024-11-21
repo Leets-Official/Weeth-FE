@@ -1,10 +1,5 @@
 import icMenu from '@/assets/images/ic_menu.svg';
-import React from 'react';
 import styled from 'styled-components';
-
-interface MenuButtonProps {
-  onClick: () => void;
-}
 
 const ImgButton = styled.img`
   display: flex;
@@ -12,7 +7,7 @@ const ImgButton = styled.img`
   cursor: pointer;
 `;
 
-const MenuButton: React.FC<MenuButtonProps> = ({ onClick }) => {
+const MenuButton = ({ onClick }: { onClick: () => void }) => {
   return <ImgButton onClick={onClick} src={icMenu} alt="menu" />;
 };
 

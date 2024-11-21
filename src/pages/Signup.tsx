@@ -165,7 +165,7 @@ const Signup: React.FC = () => {
           !(password.length < 6 || password.length > 12)
         }
         onClickRightButton={handleNextClick}
-        RightButtonType="TextButton"
+        RightButtonType="TEXT"
       />
       <InputContainer>
         <SignupTextComponent
@@ -221,3 +221,4 @@ const Signup: React.FC = () => {
 };
 
 export default Signup;
+

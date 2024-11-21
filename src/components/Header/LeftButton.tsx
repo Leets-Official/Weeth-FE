@@ -1,7 +1,6 @@
+import prev from '@/assets/images/ic_left.svg';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-
-import prev from '@/assets/images/ic_left.svg';
 
 const ImgButton = styled.div`
   display: flex;
@@ -9,7 +8,7 @@ const ImgButton = styled.div`
   cursor: pointer;
 `;
 
-const LeftButton: React.FC = () => {
+const LeftButton = () => {
   const navi = useNavigate();
 
   return (

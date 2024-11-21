@@ -58,7 +58,7 @@ const EventTitle = ({
       <Header
         isAccessible={userData.role === 'ADMIN' && !isMeeting}
         onClickRightButton={openAdminModal}
-        RightButtonType="MenuButton"
+        RightButtonType="MENU"
       />
       <S.Title>{data.title}</S.Title>
       <S.WriteInfo>
@@ -88,3 +88,4 @@ const EventTitle = ({
 };
 
 export default EventTitle;
+

@@ -1,33 +1,23 @@
 /* eslint-disable react/require-default-props */
+import under from '@/assets/images/ic_under.svg';
 import TextButton from '@/components/Header/TextButton';
-import theme from '@/styles/theme';
-import styled from 'styled-components';
+import * as S from '@/styles/common/Header.styled';
 import LeftButton from './LeftButton';
 import MenuButton from './MenuButton';
-
-const HeaderWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 25px 25px 20px 25px;
-`;
-
-const Title = styled.div`
-  font-size: 18px;
-  font-family: ${theme.font.family.pretendard_semiBold};
-`;
-
-const None = styled.div`
-  width: 24px;
-`;
+import PlusButton from './PlusButton';
 
 interface HeaderProps {
   title?: string;
   onClickRightButton?: () => void;
-  RightButtonType: 'TextButton' | 'MenuButton' | 'none';
+  RightButtonType: 'TEXT' | 'MENU' | 'ADMIN' | 'none';
   isComplete?: boolean;
   isAccessible?: boolean;
   isCalendar?: boolean;
+  year?: number;
+  month?: number;
+  isMonth?: boolean;
+  isAdmin?: boolean;
+  openMonthModal?: () => void;
 }
 
 const Header = ({
@@ -37,14 +27,31 @@ const Header = ({
   isComplete = true,
   isAccessible = true,
   isCalendar = false,
+  // 아래의 props들은 캘린더에서만 사용됨
+  year,
+  month,
+  isMonth,
+  isAdmin,
+  openMonthModal,
+  // ---------------------------
 }: HeaderProps) => {
   return (
-    <HeaderWrapper>
+    <S.HeaderWrapper>
       <LeftButton />
 
-      {!isCalendar && <Title>{title}</Title>}
+      {isCalendar ? (
+        <S.DateWrapper>
+          <S.Year>{year}년</S.Year>
+          <S.Month>{isMonth ? `${month}월` : null}</S.Month>
+          <S.ImgButton onClick={openMonthModal}>
+            <img src={under} alt="select" />
+          </S.ImgButton>
+        </S.DateWrapper>
+      ) : (
+        <S.Title>{title}</S.Title>
+      )}
 
-      {RightButtonType === 'TextButton' && onClickRightButton && (
+      {RightButtonType === 'TEXT' && onClickRightButton && (
         <TextButton
           onClick={onClickRightButton}
           text="완료"
@@ -52,12 +59,14 @@ const Header = ({
         />
       )}
 
-      {RightButtonType === 'MenuButton' &&
-        onClickRightButton &&
-        isAccessible && <MenuButton onClick={onClickRightButton} />}
+      {RightButtonType === 'MENU' && onClickRightButton && isAccessible && (
+        <MenuButton onClick={onClickRightButton} />
+      )}
 
-      {RightButtonType === 'none' && <None />}
-    </HeaderWrapper>
+      {RightButtonType === 'ADMIN' && isAdmin && <PlusButton />}
+
+      {RightButtonType === 'none' && <S.None />}
+    </S.HeaderWrapper>
   );
 };
 

@@ -1,4 +1,3 @@
-import theme from '@/styles/theme';
 import styled from 'styled-components';
 
 export const StyledHeader = styled.div`
@@ -6,36 +5,6 @@ export const StyledHeader = styled.div`
   justify-content: space-between;
   align-items: center;
   margin: 25px 25px 20px 25px; //기본 헤더 마진
-`;
-
-export const TitleWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-`;
-
-export const TitleYear = styled.div`
-  font-size: 18px;
-  font-family: ${theme.font.family.pretendard_semiBold};
-  padding-right: 5px;
-`;
-
-export const TitleMonth = styled.div`
-  font-size: 18px;
-  font-family: ${theme.font.family.pretendard_semiBold};
-`;
-
-export const ImgButton = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  margin: 5px;
-  cursor: pointer;
-`;
-
-export const PlusButton = styled.img`
-  cursor: pointer;
 `;
 
 export const monthModalStyles = {

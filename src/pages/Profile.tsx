@@ -142,7 +142,7 @@ const Profile: React.FC = () => {
       <Header
         isComplete={isNextEnabled}
         onClickRightButton={handleNextClick}
-        RightButtonType="TextButton"
+        RightButtonType="TEXT"
       />
       <HeaderText>동아리원의 정보를 입력해주세요.</HeaderText>
       <InputContainer>
@@ -203,3 +203,4 @@ const Profile: React.FC = () => {
 };
 
 export default Profile;
+

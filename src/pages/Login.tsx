@@ -127,7 +127,7 @@ const Login: React.FC = () => {
       <Header
         isComplete={!!isAllValid && isPwdValid && isEmailValid}
         onClickRightButton={handleLogin}
-        RightButtonType="TextButton"
+        RightButtonType="TEXT"
       />
       <LoginHeaderMargin />
       <SignupTextComponent
