@@ -1,15 +1,15 @@
 /* eslint-disable no-alert */
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
+import React, { useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 
-import theme from '@/styles/theme';
-import SignupMemInput from '@/components/Signup/SignupMemInput';
-import SignupHeader from '@/components/Signup/SignupHeader';
-import PositionSector from '@/components/Signup/PositionSector';
-import useCustomBack from '@/hooks/useCustomBack';
 import DropdownMenu from '@/components/Button/DropdownMenu';
+import Header from '@/components/Header/Header';
+import PositionSector from '@/components/Signup/PositionSector';
+import SignupMemInput from '@/components/Signup/SignupMemInput';
+import useCustomBack from '@/hooks/useCustomBack';
+import theme from '@/styles/theme';
 
 // Styled components
 const ProfileContainer = styled.div`
@@ -139,9 +139,10 @@ const Profile: React.FC = () => {
 
   return (
     <ProfileContainer>
-      <SignupHeader
-        isRightButtonEnabled={isNextEnabled}
-        onClickTextButton={handleNextClick}
+      <Header
+        isComplete={isNextEnabled}
+        onClickRightButton={handleNextClick}
+        RightButtonType="TextButton"
       />
       <HeaderText>동아리원의 정보를 입력해주세요.</HeaderText>
       <InputContainer>

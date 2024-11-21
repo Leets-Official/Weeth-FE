@@ -1,5 +1,5 @@
-import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 
 import prev from '@/assets/images/ic_left.svg';
 

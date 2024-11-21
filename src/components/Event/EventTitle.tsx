@@ -5,8 +5,7 @@ import Modal from 'react-modal';
 import { deleteEvent } from '@/api/EventAdminAPI';
 import UserAPI from '@/api/UserAPI';
 import { UserContext } from '@/api/UserContext';
-import IndexButton from '@/components/Header/IndexButton';
-import LeftButton from '@/components/Header/LeftButton';
+import Header from '@/components/Header/Header';
 import EditDelModal from '@/components/Modal/EditDelModal';
 import { EventDetailData } from '@/pages/EventDetails';
 import * as S from '@/styles/calendar/EventDetailTitle.styled';
@@ -56,12 +55,11 @@ const EventTitle = ({
   return (
     <S.EventTitleWrapper>
       <UserAPI />
-      <S.Header>
-        <LeftButton />
-        {userData.role === 'ADMIN' && !isMeeting ? (
-          <IndexButton onClick={openAdminModal} />
-        ) : null}
-      </S.Header>
+      <Header
+        isAccessible={userData.role === 'ADMIN' && !isMeeting}
+        onClickRightButton={openAdminModal}
+        RightButtonType="MenuButton"
+      />
       <S.Title>{data.title}</S.Title>
       <S.WriteInfo>
         <S.Writer>{data.name}</S.Writer>

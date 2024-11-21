@@ -1,22 +1,15 @@
 /* eslint-disable react/require-default-props */
-import icLeft from '@/assets/images/ic_left.svg';
-import icMenu from '@/assets/images/ic_menu.svg';
 import TextButton from '@/components/Header/TextButton';
-import useCustomBack from '@/hooks/useCustomBack';
 import theme from '@/styles/theme';
 import styled from 'styled-components';
+import LeftButton from './LeftButton';
+import MenuButton from './MenuButton';
 
-const StyledHeader = styled.div`
+const HeaderWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin: 25px 25px 20px 25px;
-`;
-
-const ImgButton = styled.img`
-  display: flex;
-  justify-content: flex-end;
-  cursor: pointer;
 `;
 
 const Title = styled.div`
@@ -46,14 +39,8 @@ const Header = ({
   isCalendar = false,
 }: HeaderProps) => {
   return (
-    <StyledHeader>
-      <ImgButton
-        onClick={() => {
-          useCustomBack('/');
-        }}
-        src={icLeft}
-        alt="뒤로가기"
-      />
+    <HeaderWrapper>
+      <LeftButton />
 
       {!isCalendar && <Title>{title}</Title>}
 
@@ -65,12 +52,12 @@ const Header = ({
         />
       )}
 
-      {RightButtonType === 'MenuButton' && isAccessible && (
-        <ImgButton onClick={onClickRightButton} src={icMenu} alt="menu" />
-      )}
+      {RightButtonType === 'MenuButton' &&
+        onClickRightButton &&
+        isAccessible && <MenuButton onClick={onClickRightButton} />}
 
       {RightButtonType === 'none' && <None />}
-    </StyledHeader>
+    </HeaderWrapper>
   );
 };
 

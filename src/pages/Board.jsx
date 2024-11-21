@@ -1,12 +1,12 @@
 /* eslint-disable no-unused-vars */
-import React, { useState, useContext } from 'react';
-import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
-import EditDelModal from '@/components/Modal/EditDelModal';
 import { UserContext } from '@/api/UserContext';
+import EditDelModal from '@/components/Modal/EditDelModal';
+import { useContext, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 import NoticeHeader from '../components/Board/NoticeHeader';
-import NoticeMiddle from '../components/Board/NoticeMiddle';
 import NoticeList from '../components/Board/NoticeList';
+import NoticeMiddle from '../components/Board/NoticeMiddle';
 import StudyList from '../components/Board/StudyList';
 import theme from '../styles/theme';
 
@@ -65,7 +65,6 @@ const Board = () => {
   const navigate = useNavigate();
   const { userData } = useContext(UserContext);
 
-
   const handlePostingClick = () => {
     if (activeTab === 'study') {
       navigate('/study/post');
@@ -89,7 +88,7 @@ const Board = () => {
       <NoticeHeader
         showModal={false}
         ModalComponent={EditDelModal}
-        showIndexButton={false}
+        showMenuButton={false}
       />
       <NoticeMiddle
         title={activeTab === 'notice' ? '공지사항' : '스터디 게시판'}
