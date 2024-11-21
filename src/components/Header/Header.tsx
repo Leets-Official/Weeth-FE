@@ -1,3 +1,4 @@
+/* eslint-disable react/require-default-props */
 import icLeft from '@/assets/images/ic_left.svg';
 import icMenu from '@/assets/images/ic_menu.svg';
 import TextButton from '@/components/Header/TextButton';
@@ -23,13 +24,15 @@ const Title = styled.div`
   font-family: ${theme.font.family.pretendard_semiBold};
 `;
 
+const None = styled.div`
+  width: 24px;
+`;
+
 interface HeaderProps {
   title: string;
-  onClickRightButton: () => void;
-  RightButtonType: 'TextButton' | 'MenuButton';
-  // eslint-disable-next-line react/require-default-props
+  onClickRightButton?: () => void;
+  RightButtonType: 'TextButton' | 'MenuButton' | 'none';
   isAccessible?: boolean;
-  // eslint-disable-next-line react/require-default-props
   isCalendar?: boolean;
 }
 
@@ -54,7 +57,7 @@ const Header = ({
 
       {!isCalendar && <Title>{title}</Title>}
 
-      {RightButtonType === 'TextButton' && (
+      {RightButtonType === 'TextButton' && onClickRightButton && (
         <TextButton
           onClick={onClickRightButton}
           text="완료"
@@ -65,6 +68,8 @@ const Header = ({
       {RightButtonType === 'MenuButton' && isAccessible && (
         <ImgButton onClick={onClickRightButton} src={icMenu} alt="menu" />
       )}
+
+      {RightButtonType === 'none' && <None />}
     </StyledHeader>
   );
 };

@@ -1,12 +1,11 @@
-import styled, { ThemeProvider } from 'styled-components';
-import theme from '@/styles/theme';
-import AttendHeader from '@/components/Attendance/AttendHeader';
-import AttendCheckMain from '@/components/Attendance/AttendCheckMain';
-import { PenaltyProvider } from '@/api/PenaltyContext';
-import useCustomBack from '@/hooks/useCustomBack';
-import UserAPI from '@/api/UserAPI';
 import { AttendCheckAPI } from '@/api/AttendAPI';
+import { PenaltyProvider } from '@/api/PenaltyContext';
+import UserAPI from '@/api/UserAPI';
+import AttendCheckMain from '@/components/Attendance/AttendCheckMain';
+import useCustomBack from '@/hooks/useCustomBack';
+import styled from 'styled-components';
 
+import Header from '@/components/Header/Header';
 import React from 'react';
 
 const Container = styled.div`
@@ -17,31 +16,19 @@ const Container = styled.div`
   margin-bottom: 50px;
 `;
 
-const Main = styled.main`
-  width: 100%;
-`;
-
-const Footer = styled.footer`
-  width: 100%;
-`;
-
 const AttendCheck: React.FC = () => {
   useCustomBack('/attendance');
   return (
-    <ThemeProvider theme={theme}>
+    <>
       <UserAPI />
       <AttendCheckAPI />
       <PenaltyProvider>
         <Container>
-          <Main>
-            <AttendHeader text="출석 조회" />
-          </Main>
-          <Footer>
-            <AttendCheckMain />
-          </Footer>
+          <Header title="출석 조회" RightButtonType="none" />
+          <AttendCheckMain />
         </Container>
       </PenaltyProvider>
-    </ThemeProvider>
+    </>
   );
 };
 
