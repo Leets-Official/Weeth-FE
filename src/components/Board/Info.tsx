@@ -34,9 +34,11 @@ const InfoText = styled.div`
 const PostingButton = styled.button`
   width: calc(370px * 0.13);
   height: 28px;
+  margin-top: auto;
   background-color: ${theme.color.main.mainColor};
   color: ${theme.color.grayScale.white};
   border: none;
+  font-size: 12px;
   border-radius: 10px;
   cursor: pointer;
   font-family: ${theme.font.family.pretendard_semiBold};

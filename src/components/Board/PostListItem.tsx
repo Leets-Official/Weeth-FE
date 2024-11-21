@@ -7,7 +7,7 @@ type Itemprops = {
   time: string;
   title: string;
   content: string;
-  onClick: Node;
+  // onClick: Node;
   totalComments: number;
 };
 
@@ -25,6 +25,11 @@ const PostLeftSection = styled.div`
 const PostRightSection = styled.div`
   display: flex;
   justify-content: space-between;
+`;
+
+const CommentContainer = styled.div`
+  display: flex;
+  flex-direction: row;
 `;
 
 const BoldText = styled.div`
@@ -46,26 +51,18 @@ const PostListItem = ({
   time,
   title,
   content,
-  onClick,
+  // onClick,
   totalComments,
 }: Itemprops) => {
   return (
     <Container>
       <PostLeftSection>
-        <BoldText>
-          {name}
-        </BoldText>
-        <BoldText>
-          {title}
-        </BoldText>
-        <LightText>
-          {content}
-        </LightText>
+        <BoldText>{name}</BoldText>
+        <BoldText>{title}</BoldText>
+        <LightText>{content}</LightText>
       </PostLeftSection>
       <PostRightSection>
-        <LightText>
-          {time}
-        </LightText>
+        <LightText>{time}</LightText>
         <CommentContainer>
           <img src={Comment} alt="댓글 아이콘" />
           <LightText>{totalComments}</LightText>
