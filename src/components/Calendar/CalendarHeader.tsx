@@ -45,7 +45,7 @@ const CalendarHeader: React.FC<CalendarHeaderProps> = ({
         year={year}
         isMonth={isMonth}
         openMonthModal={openMonthModal}
-        RightButtonType="ADMIN"
+        RightButtonType="PLUS"
         isAdmin={userData?.role === 'ADMIN' && !monthModalIsOpen}
       />
       <Modal
