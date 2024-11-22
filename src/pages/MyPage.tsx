@@ -1,26 +1,26 @@
 import styled from 'styled-components';
 
+import axios from 'axios';
 import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 
-import MyPageHeader from '@/components/MyPage/MyPageHeader';
 import InfoComponent from '@/components/Member/InfoComponent';
 // import mockUser from '@/components/mockData//mockUser';
 
-import icName from '@/assets/images/ic_name.svg';
-import icId from '@/assets/images/ic_studentID.svg';
-import icDepartment from '@/assets/images/ic_department.svg';
+import UserAPI from '@/api/UserAPI';
+import { UserContext } from '@/api/UserContext';
 import icCardinal from '@/assets/images/ic_cardinal.svg';
-import icPhone from '@/assets/images/ic_phone.svg';
-import icPosition from '@/assets/images/ic_position.svg';
-import icEmail from '@/assets/images/ic_mail.svg';
+import icDepartment from '@/assets/images/ic_department.svg';
 import icEdit from '@/assets/images/ic_edit.svg';
 import icLogout from '@/assets/images/ic_logout_white.svg';
-import { UserContext } from '@/api/UserContext';
-import UserAPI from '@/api/UserAPI';
-import useLogout from '@/hooks/useLogout';
+import icEmail from '@/assets/images/ic_mail.svg';
+import icName from '@/assets/images/ic_name.svg';
+import icPhone from '@/assets/images/ic_phone.svg';
+import icPosition from '@/assets/images/ic_position.svg';
+import icId from '@/assets/images/ic_studentID.svg';
+import Header from '@/components/Header/Header';
 import useCustomBack from '@/hooks/useCustomBack';
+import useLogout from '@/hooks/useLogout';
 import theme from '@/styles/theme';
 
 /* eslint-disable no-alert */
@@ -104,6 +104,7 @@ const MyPage = () => {
         });
         alert('탈퇴가 완료되었습니다.');
         navi('/'); // 탈퇴 후 메인 페이지로 이동
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (err) {
         alert('탈퇴 중 오류가 발생했습니다.');
       }
@@ -113,7 +114,7 @@ const MyPage = () => {
   return (
     <StyledDetails>
       <UserAPI />
-      <MyPageHeader isEdit={false} />
+      <Header title="MY" RightButtonType="none" />
       {error || !userData ? (
         <Error>데이터를 불러오는 중 문제가 발생했습니다.</Error>
       ) : (

@@ -1,10 +1,10 @@
-import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 import LeftButton from '../Header/LeftButton';
-// import IndexButton from '../Header/IndexButton';
+// import MenuButton from '../Header/MenuButton';
+import theme from '../../styles/theme';
 import TextButton from '../Header/TextButton';
 import Title from '../Header/Title';
-import theme from '../../styles/theme';
 
 const StyledHeader = styled.div`
   display: flex;
@@ -26,7 +26,7 @@ const TitleWrapper = styled.div`
 /*
 LeftButton은 모든 페이지에서 동일하게 사용되어 props를 설정하지 않았음
 
-IndexButton(⋮)과 Text버튼(글자 입력 가능) 중 한가지만 선택하여 사용
+MenuButton(⋮)과 Text버튼(글자 입력 가능) 중 한가지만 선택하여 사용
 두개의 버튼 모두 onClick 함수를 props로 받습니다
 
 TextButton Props
@@ -41,7 +41,7 @@ onClick은 아래 함수에 각각의 함수를 작성
 @@@@안 하면 에러남@@@@
 */
 
-// const onClickIndexButton = () => {};
+// const onClickMenuButton = () => {};
 // const onClickTextButton = () => {};
 
 // 완료 버튼 클릭 핸들러 함수
