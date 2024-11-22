@@ -1,6 +1,5 @@
 /* eslint-disable no-console */
 import getMonthlySchedule from '@/api/getMonthSchedule';
-import UserAPI from '@/api/UserAPI';
 import * as S from '@/styles/calendar/MonthCalendar.styled';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import FullCalendar from '@fullcalendar/react';
@@ -94,7 +93,6 @@ const MonthCalendar = ({ year, month }: { year: number; month: number }) => {
 
   return (
     <S.Calendar>
-      <UserAPI />
       <FullCalendar
         ref={calendarRef}
         plugins={[dayGridPlugin]}
