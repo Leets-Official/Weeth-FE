@@ -1,9 +1,9 @@
-import Cardinal from '@/components/Member/Cardinal';
-import MemberHeader from '@/components/Member/MemberHeader';
-import useCustomBack from '@/hooks/useCustomBack';
 import UserAPI from '@/api/UserAPI';
+import Cardinal from '@/components/Member/Cardinal';
+import useCustomBack from '@/hooks/useCustomBack';
 import { useState } from 'react';
 
+import Header from '@/components/Header/Header';
 import MemberList from '@/components/Member/MemberList';
 import * as S from '@/styles/member/MemberList.styled';
 import { useSearchParams } from 'react-router-dom';
@@ -19,7 +19,7 @@ const Member = () => {
   return (
     <S.Wrapper>
       <UserAPI />
-      <MemberHeader />
+      <Header title="멤버" RightButtonType="none" />
       <S.CardinalWrapper>
         <Cardinal
           selectedCardinal={selectedCardinal}

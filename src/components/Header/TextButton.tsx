@@ -1,22 +1,27 @@
-import styled from 'styled-components';
 import theme from '@/styles/theme';
+import styled from 'styled-components';
 
-interface TextButtonProps {
-  text: string;
-  color: 'mainColor' | 'default';
-  onClick?: () => void;
-}
-
-const StyledText = styled.div<{ color: 'mainColor' | 'default' }>`
-  color: ${(props) => (props.color === 'mainColor' ? '#00dda8' : '#ffffff')};
+const StyledText = styled.div<{ isComplete: boolean }>`
+  color: ${(props) =>
+    props.isComplete
+      ? theme.color.main.mainColor
+      : theme.color.grayScale.white};
   cursor: pointer;
   font-size: 18px;
   font-family: ${theme.font.family.pretendard_semiBold};
 `;
 
-const TextButton: React.FC<TextButtonProps> = ({ text, color, onClick }) => {
+const TextButton = ({
+  text,
+  isComplete,
+  onClick,
+}: {
+  text: string;
+  isComplete: boolean;
+  onClick: () => void;
+}) => {
   return (
-    <StyledText color={color} onClick={onClick}>
+    <StyledText isComplete={isComplete} onClick={onClick}>
       {text}
     </StyledText>
   );

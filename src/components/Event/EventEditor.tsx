@@ -1,4 +1,8 @@
 /* eslint-disable no-alert */
+import { EventRequestType, createEvent, editEvent } from '@/api/EventAdminAPI';
+import getEventInfo from '@/api/getEventInfo';
+import UserAPI from '@/api/UserAPI';
+import { UserContext } from '@/api/UserContext';
 import DatePicker from '@/components/Event/DatePicker';
 import Header from '@/components/Header/Header';
 import InfoInput from '@/components/MyPage/InfoInput';
@@ -8,10 +12,6 @@ import {
   CURRENT_YEAR,
 } from '@/constants/dateConstants';
 import useCustomBack from '@/hooks/useCustomBack';
-import { EventRequestType, createEvent, editEvent } from '@/api/EventAdminAPI';
-import getEventInfo from '@/api/getEventInfo';
-import UserAPI from '@/api/UserAPI';
-import { UserContext } from '@/api/UserContext';
 import { replaceNewLines } from '@/hooks/Utils';
 import * as S from '@/styles/event/EventEditor.styled';
 import { useContext, useEffect, useState } from 'react';
@@ -158,9 +158,8 @@ const EventEditor = () => {
       <UserAPI />
       <Header
         title={isEditMode ? '일정 수정' : '일정 추가'}
-        text="완료"
-        color="mainColor"
-        onClick={onSave}
+        onClickRightButton={onSave}
+        RightButtonType="TextButton"
       />
       <InfoInput
         placeholder="제목"

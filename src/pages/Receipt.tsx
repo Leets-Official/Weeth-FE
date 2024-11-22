@@ -1,8 +1,8 @@
-import styled from 'styled-components';
-import AttendHeader from '@/components/Attendance/AttendHeader';
-import ReceiptMain from '@/components/Receipt/ReceiptMain';
 import { DuesProvider } from '@/api/DuesContext';
+import Header from '@/components/Header/Header';
+import ReceiptMain from '@/components/Receipt/ReceiptMain';
 import useCustomBack from '@/hooks/useCustomBack';
+import styled from 'styled-components';
 
 const Container = styled.div`
   display: flex;
@@ -18,7 +18,7 @@ const Receipt: React.FC = () => {
   return (
     <DuesProvider>
       <Container>
-        <AttendHeader text="영수증" />
+        <Header title="영수증" RightButtonType="none" />
         <ReceiptMain />
       </Container>
     </DuesProvider>

@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
 import axios from 'axios';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 
-import LoginHeader from '@/components/Login/LoginHeader';
-import SignupTextComponent from '@/components/Signup/SignupTextComponent';
-import toggleVisibleIcon from '@/assets/images/ic_toggleVisible.svg';
 import toggleInvisibleIcon from '@/assets/images/ic_toggleInvisible.svg';
+import toggleVisibleIcon from '@/assets/images/ic_toggleVisible.svg';
+import Header from '@/components/Header/Header';
+import SignupTextComponent from '@/components/Signup/SignupTextComponent';
 import useCustomBack from '@/hooks/useCustomBack';
 import theme from '@/styles/theme';
 
@@ -45,7 +45,9 @@ const Login: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   const validateEmail = (validEmail: string): boolean => {
-    return validEmail.toLowerCase().match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/) !== null;
+    return (
+      validEmail.toLowerCase().match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/) !== null
+    );
   };
 
   const validatePwd = (pw: string): boolean => {
@@ -109,9 +111,9 @@ const Login: React.FC = () => {
         localStorage.setItem('refreshToken', newRefreshToken);
         navigate('/home');
       }
-    } catch (err: unknown) { 
+    } catch (err: unknown) {
       if (axios.isAxiosError(err) && err.response) {
-        setError(err.response.data); 
+        setError(err.response.data);
       } else if (err instanceof Error) {
         setError(err.message);
       } else {
@@ -122,16 +124,17 @@ const Login: React.FC = () => {
 
   return (
     <Container>
-      <LoginHeader
-        isRightButtonEnabled={!!isAllValid && isPwdValid && isEmailValid}
-        onCompleteClick={handleLogin}
+      <Header
+        isComplete={!!isAllValid && isPwdValid && isEmailValid}
+        onClickRightButton={handleLogin}
+        RightButtonType="TEXT"
       />
       <LoginHeaderMargin />
       <SignupTextComponent
         text="email"
         value={email}
         onChange={handleEmailChange}
-        onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => { 
+        onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
           if (e.key === 'Enter') handleLogin();
         }}
         placeholder="ex) weeth@gmail.com"
@@ -143,7 +146,7 @@ const Login: React.FC = () => {
         text="password"
         value={password}
         onChange={handlePasswordChange}
-        onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => { 
+        onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
           if (e.key === 'Enter') handleLogin();
         }}
         placeholder="6~12자리 / 영문 대소문자, 숫자 조합"
