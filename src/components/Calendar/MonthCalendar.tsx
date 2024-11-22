@@ -1,24 +1,21 @@
 /* eslint-disable no-console */
-import MonthlyShceduleAPI from '@/api/MonthlyScheduleAPI';
-import { MonthlyScheduleContext } from '@/api/MonthlyScheduleContext';
+import getMonthlySchedule from '@/api/getMonthSchedule';
 import UserAPI from '@/api/UserAPI';
 import * as S from '@/styles/calendar/MonthCalendar.styled';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import FullCalendar from '@fullcalendar/react';
 import { format } from 'date-fns';
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-// TODO: any 타입 수정
 const MonthCalendar = ({ year, month }: { year: number; month: number }) => {
   const calendarRef = useRef<FullCalendar | null>(null);
   const navi = useNavigate();
 
-  const { monthScheduleData, error } = useContext(MonthlyScheduleContext);
-
   const prevMonth = month - 1;
   const nextMonth = month + 1;
 
+  const [monthlySchedule, setMontlySchedule] = useState();
   const [formattedStart, setFormattedStart] = useState(
     `${year}-${String(prevMonth).padStart(2, '0')}-23T00:00:00.000Z`,
   );
@@ -27,10 +24,25 @@ const MonthCalendar = ({ year, month }: { year: number; month: number }) => {
   );
 
   useEffect(() => {
-    if (error) {
-      // TODO: 에러처리 로직 추가
-    }
-  }, [error]);
+    const fetchData = async () => {
+      try {
+        if (formattedStart && formattedStart) {
+          const response = await getMonthlySchedule(
+            formattedStart,
+            formattedEnd,
+          );
+          if (response.data.code === 200) {
+            setMontlySchedule(response.data.data);
+          } else {
+            console.error(response.data.message);
+          }
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    fetchData();
+  }, [formattedStart]);
 
   // 데이터 전처리 함수
   // TODO: 백엔드 수정 후 삭제 예정
@@ -41,7 +53,7 @@ const MonthCalendar = ({ year, month }: { year: number; month: number }) => {
     }));
   };
 
-  const processedData = preprocessData(monthScheduleData || []);
+  const processedData = preprocessData(monthlySchedule || []);
 
   // 오늘 표시
   const renderDayCell = (arg: any) => {
@@ -83,7 +95,6 @@ const MonthCalendar = ({ year, month }: { year: number; month: number }) => {
   return (
     <S.Calendar>
       <UserAPI />
-      <MonthlyShceduleAPI start={formattedStart} end={formattedEnd} />
       <FullCalendar
         ref={calendarRef}
         plugins={[dayGridPlugin]}
