@@ -2,13 +2,12 @@
 /* eslint-disable no-alert */
 import Modal from 'react-modal';
 
-import EditDelModal from '@/components/Modal/EditDelModal';
-import IndexButton from '@/components/Header/IndexButton';
-import LeftButton from '@/components/Header/LeftButton';
-import { EventDetailData } from '@/pages/EventDetails';
 import { deleteEvent } from '@/api/EventAdminAPI';
 import UserAPI from '@/api/UserAPI';
 import { UserContext } from '@/api/UserContext';
+import Header from '@/components/Header/Header';
+import EditDelModal from '@/components/Modal/EditDelModal';
+import { EventDetailData } from '@/pages/EventDetails';
 import * as S from '@/styles/calendar/EventDetailTitle.styled';
 import { adminModalStyles } from '@/styles/calendar/EventDetailTitle.styled';
 import { useContext, useState } from 'react';
@@ -56,12 +55,11 @@ const EventTitle = ({
   return (
     <S.EventTitleWrapper>
       <UserAPI />
-      <S.Header>
-        <LeftButton />
-        {userData.role === 'ADMIN' && !isMeeting ? (
-          <IndexButton onClick={openAdminModal} />
-        ) : null}
-      </S.Header>
+      <Header
+        isAccessible={userData.role === 'ADMIN' && !isMeeting}
+        onClickRightButton={openAdminModal}
+        RightButtonType="MENU"
+      />
       <S.Title>{data.title}</S.Title>
       <S.WriteInfo>
         <S.Writer>{data.name}</S.Writer>
@@ -90,3 +88,4 @@ const EventTitle = ({
 };
 
 export default EventTitle;
+

@@ -1,11 +1,10 @@
-import styled, { ThemeProvider } from 'styled-components';
-import theme from '@/styles/theme';
-import AttendHeader from '@/components/Attendance/AttendHeader';
-import AttendMain from '@/components/Attendance/AttendMain';
-import { PenaltyProvider } from '@/api/PenaltyContext';
 import { AttendProvider } from '@/api/AttendContext';
-import useCustomBack from '@/hooks/useCustomBack';
+import { PenaltyProvider } from '@/api/PenaltyContext';
 import UserAPI from '@/api/UserAPI';
+import AttendMain from '@/components/Attendance/AttendMain';
+import Header from '@/components/Header/Header';
+import useCustomBack from '@/hooks/useCustomBack';
+import styled from 'styled-components';
 
 const Container = styled.div`
   display: flex;
@@ -15,33 +14,21 @@ const Container = styled.div`
   margin-bottom: 50px;
 `;
 
-const Main = styled.main`
-  width: 100%;
-`;
-
-const Footer = styled.footer`
-  width: 100%;
-`;
-
 const Attendance: React.FC = () => {
   useCustomBack('/home');
 
   return (
-    <ThemeProvider theme={theme}>
+    <>
       <UserAPI />
       <AttendProvider>
         <PenaltyProvider>
           <Container>
-            <Main>
-              <AttendHeader text="출석" />
-            </Main>
-            <Footer>
-              <AttendMain />
-            </Footer>
+            <Header title="출석" RightButtonType="none" />
+            <AttendMain />
           </Container>
         </PenaltyProvider>
       </AttendProvider>
-    </ThemeProvider>
+    </>
   );
 };
 

@@ -25,7 +25,7 @@ const MonthCalendar = ({ year, month }: { year: number; month: number }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        if (formattedStart && formattedStart) {
+        if (formattedStart && formattedEnd) {
           const response = await getMonthlySchedule(
             formattedStart,
             formattedEnd,
