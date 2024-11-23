@@ -1,12 +1,4 @@
-import styled from 'styled-components';
-
-import axios from 'axios';
-import { useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
-
-import InfoComponent from '@/components/Member/InfoComponent';
-// import mockUser from '@/components/mockData//mockUser';
-
+import deleteUser from '@/api/deleteUser';
 import UserAPI from '@/api/UserAPI';
 import { UserContext } from '@/api/UserContext';
 import icCardinal from '@/assets/images/ic_cardinal.svg';
@@ -19,9 +11,13 @@ import icPhone from '@/assets/images/ic_phone.svg';
 import icPosition from '@/assets/images/ic_position.svg';
 import icId from '@/assets/images/ic_studentID.svg';
 import Header from '@/components/Header/Header';
+import InfoComponent from '@/components/Member/InfoComponent';
 import useCustomBack from '@/hooks/useCustomBack';
 import useLogout from '@/hooks/useLogout';
 import theme from '@/styles/theme';
+import { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 
 /* eslint-disable no-alert */
 
@@ -87,21 +83,12 @@ const MyPage = () => {
   useCustomBack('/home');
   const { userData, error } = useContext(UserContext);
   const navi = useNavigate();
-  const accessToken = localStorage.getItem('accessToken');
-  const refreshToken = localStorage.getItem('refreshToken');
-
-  const BASE_URL = import.meta.env.VITE_API_URL;
 
   const confirmLogout = useLogout();
   const onClickLeave = async () => {
     if (window.confirm('탈퇴하시겠습니까?')) {
       try {
-        await axios.delete(`${BASE_URL}/users`, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-            Authorization_refresh: `Bearer ${refreshToken}`,
-          },
-        });
+        await deleteUser();
         alert('탈퇴가 완료되었습니다.');
         navi('/'); // 탈퇴 후 메인 페이지로 이동
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
