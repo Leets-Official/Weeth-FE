@@ -57,6 +57,12 @@ const MemberDetail = () => {
       index: '역할',
       value: position,
     },
+    {
+      src: icEmail,
+      alt: '메일',
+      index: '메일',
+      value: email,
+    },
   ];
   //-----------------------
   return (
@@ -71,7 +77,6 @@ const MemberDetail = () => {
             value={info.value}
           />
         ))}
-        <InfoComponent src={icEmail} alt="mail" index="메일" value={email} />
       </S.InfoWrapper>
     </S.Wrapper>
   );
