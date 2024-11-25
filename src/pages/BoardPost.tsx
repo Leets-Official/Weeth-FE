@@ -1,23 +1,18 @@
-import icClip from '@/assets/images/ic_clip.svg';
-import Line from '@/components/common/Line';
+import PostEditor from '@/components/Board/PostEditor';
 import Header from '@/components/Header/Header';
 import * as S from '@/styles/board/BoardPost.styled';
 
+// TODO: 글쓰기 타입에 따라 어드민 체크
 const BoardPost = () => {
   return (
-    <>
-      <S.PostWrapper>
-        <Header
-          title="글 쓰기"
-          onClickRightButton={() => {}}
-          RightButtonType="TEXT"
-        />
-        <S.TitleInput placeholder="제목" />
-        <Line />
-        <S.ContentInput placeholder="내용을 입력하세요." />
-      </S.PostWrapper>
-      <S.FileButton src={icClip} />
-    </>
+    <S.PostWrapper>
+      <Header
+        title="글 쓰기"
+        onClickRightButton={() => {}}
+        RightButtonType="TEXT"
+      />
+      <PostEditor />
+    </S.PostWrapper>
   );
 };
 

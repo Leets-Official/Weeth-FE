@@ -41,7 +41,3 @@ export const ContentInput = styled.textarea`
     font-family: ${theme.font.family.pretendard_regular};
   }
 `;
-
-export const FileButton = styled.img`
-  margin-left: 20px;
-`;
