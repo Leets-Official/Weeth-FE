@@ -6,38 +6,36 @@ import { Route, Routes } from 'react-router-dom';
 import './App.css';
 import './assets/fonts/fonts.css';
 
-import { ThemeProvider } from 'styled-components';
 import Attendance from '@/pages/Attendance';
+import AttendCheck from '@/pages/AttendCheck';
+import Board from '@/pages/Board';
 import Calendar from '@/pages/Calendar';
+import Dues from '@/pages/Dues';
+import Edit from '@/pages/Edit';
+import EventAdmin from '@/pages/EventAdmin';
+import EventDetails from '@/pages/EventDetails';
 import Home from '@/pages/Home';
 import Landing from '@/pages/Landing';
 import Login from '@/pages/Login';
-import Profile from '@/pages/Profile';
-import Signup from '@/pages/Signup';
-import EventDetails from '@/pages/EventDetails';
-import AttendCheck from '@/pages/AttendCheck';
 import Member from '@/pages/Member';
 import MemberDetail from '@/pages/MemberDetail';
 import MyPage from '@/pages/MyPage';
-import Edit from '@/pages/Edit';
-import Dues from '@/pages/Dues';
-import Board from '@/pages/Board';
-import StudyPosting from '@/pages/StudyPosting';
-import NoticePosting from '@/pages/NoticePosting';
-import EventAdmin from '@/pages/EventAdmin';
-import StudyDetail from '@/pages/StudyDetail';
 import NoticeDetail from '@/pages/NoticeDetail';
-
-import theme from '@/styles/theme';
+import Profile from '@/pages/Profile';
 import Receipt from '@/pages/Receipt';
+import Signup from '@/pages/Signup';
+import StudyDetail from '@/pages/StudyDetail';
+import theme from '@/styles/theme';
+import { ThemeProvider } from 'styled-components';
+import BoardPost from './pages/BoardPost';
 
-import { UserProvider } from '@/api/UserContext';
-import { MonthlyScheduleProvider } from '@/api/MonthlyScheduleContext';
+import { AttendCheckProvider } from '@/api/AttendCheckContext';
 import { BoardProvider } from '@/api/BoardContext';
 import { DuesProvider } from '@/api/DuesContext';
+import { MonthlyScheduleProvider } from '@/api/MonthlyScheduleContext';
 import { NoticeProvider } from '@/api/NoticeContext';
+import { UserProvider } from '@/api/UserContext';
 import { YearlyScheduleProvider } from '@/api/YearlyScheduleContext';
-import { AttendCheckProvider } from '@/api/AttendCheckContext';
 
 import ScrollToTop from '@/hooks/ScrollToTop';
 
@@ -73,8 +71,8 @@ const App = () => {
                       <Route path="/board" element={<Board />} />
                       <Route path="/study/:id" element={<StudyDetail />} />
                       <Route path="/notice/:id" element={<NoticeDetail />} />
-                      <Route path="/study/post" element={<StudyPosting />} />
-                      <Route path="/notice/post" element={<NoticePosting />} />
+                      <Route path="/study/post" element={<BoardPost />} />
+                      <Route path="/notice/post" element={<BoardPost />} />
                     </Routes>
                   </AttendCheckProvider>
                 </YearlyScheduleProvider>

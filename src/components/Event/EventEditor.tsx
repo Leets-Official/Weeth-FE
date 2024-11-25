@@ -159,7 +159,7 @@ const EventEditor = () => {
       <Header
         title={isEditMode ? '일정 수정' : '일정 추가'}
         onClickRightButton={onSave}
-        RightButtonType="TextButton"
+        RightButtonType="TEXT"
       />
       <InfoInput
         placeholder="제목"
