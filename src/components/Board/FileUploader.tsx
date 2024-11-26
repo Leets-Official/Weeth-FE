@@ -1,16 +1,22 @@
 import icClip from '@/assets/images/ic_clip.svg';
-import { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import styled from 'styled-components';
 
 export const FileButton = styled.img`
   margin-left: 20px;
-  margin-right: auto;
-  height: 24px;
+  cursor: pointer;
 `;
 
-const FileUploader = () => {
+const FileUploader = ({
+  hasFile,
+  files,
+  setFiles,
+}: {
+  hasFile: boolean;
+  files: File[];
+  setFiles: (value: File[]) => void;
+}) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [files, setFiles] = useState<File[]>([]);
 
   const handleClick = () => {
     if (fileInputRef.current) {
@@ -21,22 +27,23 @@ const FileUploader = () => {
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFiles = event.target.files;
     if (selectedFiles) {
-      setFiles((prevFiles) => [...prevFiles, ...Array.from(selectedFiles)]);
+      let isUnique = true;
+      Array.from(selectedFiles).forEach((newFile) => {
+        if (files.some((file) => file.name === newFile.name)) {
+          isUnique = false;
+        }
+      });
+      if (isUnique) setFiles([...files, ...Array.from(selectedFiles)]);
     }
   };
 
   return (
     <>
-      {files.length > 0 && (
-        <ul>
-          {files.map((file) => (
-            <li key={file.name}>
-              {file.name} ({file.size} bytes)
-            </li>
-          ))}
-        </ul>
-      )}
-      <FileButton src={icClip} onClick={handleClick} />
+      <FileButton
+        src={icClip}
+        onClick={handleClick}
+        alt={hasFile ? '파일 있음' : '파일 없음'}
+      />
       <input
         type="file"
         ref={fileInputRef}
