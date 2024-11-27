@@ -7,6 +7,7 @@ import UserAPI from '@/api/UserAPI';
 import { UserContext } from '@/api/UserContext';
 import Header from '@/components/Header/Header';
 import EditDelModal from '@/components/Modal/EditDelModal';
+import formatDateTime from '@/hooks/formatDateTime';
 import { EventDetailData } from '@/pages/EventDetails';
 import * as S from '@/styles/calendar/EventDetailTitle.styled';
 import { adminModalStyles } from '@/styles/calendar/EventDetailTitle.styled';
@@ -25,8 +26,7 @@ const EventTitle = ({
   const { userData } = useContext(UserContext);
   const [adminModalIsOpen, setAdminModalIsOpen] = useState(false);
   const navi = useNavigate();
-  const splittedDate = data.createdAt.split('T'); // YYYY-MM-DD,HH:MM:SS.SSSZ
-  const splittedTime = splittedDate[1].substr(0, 5);
+  const formattedDateTime = formatDateTime(data.createdAt);
 
   const openAdminModal = () => {
     setAdminModalIsOpen(true);
@@ -63,9 +63,7 @@ const EventTitle = ({
       <S.Title>{data.title}</S.Title>
       <S.WriteInfo>
         <S.Writer>{data.name}</S.Writer>
-        <S.WrittenTime>
-          {splittedDate[0].replace(/-/gi, '/')} {splittedTime}
-        </S.WrittenTime>
+        <S.WrittenTime>{formattedDateTime}</S.WrittenTime>
       </S.WriteInfo>
 
       <Modal
@@ -88,4 +86,3 @@ const EventTitle = ({
 };
 
 export default EventTitle;
-
