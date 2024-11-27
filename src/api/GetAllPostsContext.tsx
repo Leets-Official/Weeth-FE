@@ -5,7 +5,7 @@ import React, {
   SetStateAction,
 } from 'react';
 
-interface Notice {
+interface GetAllPosts {
   id: number;
   name: string;
   title: string;
@@ -14,26 +14,26 @@ interface Notice {
   commentCount: number;
 }
 
-interface NoticeContextProps {
-  notices: Notice[];
-  setNotices: Dispatch<SetStateAction<Notice[]>>;
+interface GetAllPostsContextProps {
+  posts: GetAllPosts[];
+  setPosts: Dispatch<SetStateAction<GetAllPosts[]>>;
 }
 
 // 기본값을 설정하여 undefined를 방지
-export const NoticeContext = createContext<NoticeContextProps>({
-  notices: [],
-  setNotices: () => {},
+export const GetAllPostsContext = createContext<GetAllPostsContextProps>({
+  posts: [],
+  setPosts: () => {},
 });
 
 export const NoticeProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [notices, setNotices] = useState<Notice[]>([]);
+  const [posts, setPosts] = useState<GetAllPosts[]>([]);
 
   return (
     // eslint-disable-next-line react/jsx-no-constructed-context-values
-    <NoticeContext.Provider value={{ notices, setNotices }}>
+    <GetAllPostsContext.Provider value={{ posts, setPosts }}>
       {children}
-    </NoticeContext.Provider>
+    </GetAllPostsContext.Provider>
   );
 };

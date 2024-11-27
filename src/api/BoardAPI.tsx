@@ -1,9 +1,13 @@
 import { useEffect, useContext } from 'react';
 import axios from 'axios';
-import { NoticeContext } from './NoticeContext';
+import { GetAllPostsContext } from '@/api/GetAllPostsContext';
 
-const NoticeAPI: React.FC = () => {
-  const { setNotices } = useContext(NoticeContext);
+interface GetAllPostsProps {
+  path: string;
+}
+
+const GetAllPosts: React.FC<GetAllPostsProps> = ({ path }) => {
+  const { setPosts } = useContext(GetAllPostsContext);
 
   const accessToken = localStorage.getItem('accessToken') || '';
 
@@ -15,8 +19,10 @@ const NoticeAPI: React.FC = () => {
           Authorization: `Bearer ${accessToken}`,
         };
 
+        console.log(`${BASE_URL}/api/v1/${path}`);
+
         // API 호출
-        const response = await axios.get(`${BASE_URL}/api/v1/notices`, {
+        const response = await axios.get(`${BASE_URL}/api/v1/${path}`, {
           headers,
           params: { count: 5 }, // 추가 posts 길이 5로 설정
         });
@@ -24,7 +30,7 @@ const NoticeAPI: React.FC = () => {
         const result = response.data;
 
         if (result.code === 200) {
-          setNotices(result.data);
+          setPosts(result.data);
         } else {
           console.error('Failed to fetch notices:', result.message);
         }
@@ -36,9 +42,9 @@ const NoticeAPI: React.FC = () => {
     };
 
     fetchNoticeData();
-  }, [accessToken, setNotices]);
+  }, [accessToken, path, setPosts]);
 
   return null;
 };
 
-export default NoticeAPI;
+export default GetAllPosts;

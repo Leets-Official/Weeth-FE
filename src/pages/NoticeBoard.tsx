@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import NoticeAPI from '@/api/BoardAPI';
+import GetAllPosts from '@/api/BoardAPI';
 import PostList from '@/components/Board/PostList';
 import Info from '@/components/Board/Info';
 import NoticeHeader from '@/components/Board/NoticeHeader';
@@ -18,7 +18,7 @@ const NoticeBoard = () => {
 
   return (
     <Container>
-      <NoticeAPI />
+      <GetAllPosts path="notices" />
       <NoticeHeader
         showModal={false}
         ModalComponent={EditDelModal}

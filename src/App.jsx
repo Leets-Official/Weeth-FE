@@ -32,7 +32,7 @@ import { UserProvider } from '@/api/UserContext';
 import { MonthlyScheduleProvider } from '@/api/MonthlyScheduleContext';
 import { DuesProvider } from '@/api/DuesContext';
 import { EventInfoProvider } from '@/api/EventInfoContext';
-import { NoticeProvider } from '@/api/NoticeContext';
+import { NoticeProvider } from '@/api/GetAllPostsContext';
 import { YearlyScheduleProvider } from '@/api/YearlyScheduleContext';
 import { AttendCheckProvider } from '@/api/AttendCheckContext';
 

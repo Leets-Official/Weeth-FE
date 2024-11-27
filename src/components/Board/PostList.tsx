@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { useContext } from 'react';
-import { NoticeContext } from '@/api/NoticeContext';
+import { GetAllPostsContext } from '@/api/GetAllPostsContext';
 import PostListItem from '@/components/Board/PostListItem';
 
 // 날짜 포매팅 함수
@@ -21,11 +21,11 @@ const Line = styled.div`
 `;
 
 const PostList = () => {
-  const { notices } = useContext(NoticeContext);
+  const { posts } = useContext(GetAllPostsContext);
 
   return (
     <Container>
-      {notices.map((post) => (
+      {posts.map((post) => (
         <div key={post.id}>
           <PostListItem
             name={post.name}

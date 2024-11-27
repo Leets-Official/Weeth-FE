@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import PostList from '@/components/Board/PostList';
 import NoticeHeader from '@/components/Board/NoticeHeader';
 import EditDelModal from '@/components/Modal/EditDelModal';
+import GetAllPosts from '@/api/BoardAPI';
 
 const Container = styled.div`
   display: flex;
@@ -18,6 +19,7 @@ const StudyBoard = () => {
 
   return (
     <Container>
+      <GetAllPosts path="posts" />
       <NoticeHeader
         showModal={false}
         ModalComponent={EditDelModal}
