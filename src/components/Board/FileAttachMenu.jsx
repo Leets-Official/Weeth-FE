@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Box, Grid, Card, Typography, Button, Modal } from '@mui/material';
+import { Box, Card, Grid, Modal, Typography } from '@mui/material';
+import { useState } from 'react';
 import styled from 'styled-components';
 import theme from '../../styles/theme';
 
@@ -92,10 +92,10 @@ const FileAttachMenu = ({ isOpen, onClose, onFilesChange = () => {} }) => {
     }));
 
     // 현재 첨부된 파일 개수와 새로 추가하려는 파일 개수를 합산하여 2개를 넘지 않도록 제한
-  if (attachments.length + newFiles.length > 2) {
-    alert('파일 첨부는 2개까지만 가능합니다.');
-    return;
-  }
+    if (attachments.length + newFiles.length > 2) {
+      alert('파일 첨부는 2개까지만 가능합니다.');
+      return;
+    }
 
     setAttachments((prevAttachments) => [...prevAttachments, ...newFiles]);
   };
@@ -107,7 +107,7 @@ const FileAttachMenu = ({ isOpen, onClose, onFilesChange = () => {} }) => {
 
   const handleRemoveFile = (index) => {
     setAttachments((prevAttachments) =>
-      prevAttachments.filter((_, i) => i !== index)
+      prevAttachments.filter((_, i) => i !== index),
     );
   };
 
@@ -137,11 +137,20 @@ const FileAttachMenu = ({ isOpen, onClose, onFilesChange = () => {} }) => {
       >
         <Grid container spacing={1} sx={{ mt: -1 }}>
           <Grid item xs={12}>
-            <Box display="flex" justifyContent="space-between" alignItems="center" sx={{ mt: 0, mb: 1 }}>
-              <StyledTypography variant="subtitle1" sx={{ ml: 2 }}>첨부파일</StyledTypography>
+            <Box
+              display="flex"
+              justifyContent="space-between"
+              alignItems="center"
+              sx={{ mt: 0, mb: 1 }}
+            >
+              <StyledTypography variant="subtitle1" sx={{ ml: 2 }}>
+                첨부파일
+              </StyledTypography>
               <Box display="flex" alignItems="center" sx={{ mr: 0.5 }}>
                 <StyledButton onClick={triggerFileInput}>첨부</StyledButton>
-                <StyledButton onClick={handleRightButtonClick}>완료</StyledButton>
+                <StyledButton onClick={handleRightButtonClick}>
+                  완료
+                </StyledButton>
               </Box>
             </Box>
             <Grid container justifyContent="center" spacing={1}>
@@ -152,7 +161,9 @@ const FileAttachMenu = ({ isOpen, onClose, onFilesChange = () => {} }) => {
                       <StyledImage src={file.url} alt={file.name} />
                       <RemoveButton onClick={() => handleRemoveFile(index)} />
                     </ImageContainer>
-                    <Typography variant="body2" sx={{ mt: 1 }}>{file.name}</Typography>
+                    <Typography variant="body2" sx={{ mt: 1 }}>
+                      {file.name}
+                    </Typography>
                   </Card>
                 </Grid>
               ))}

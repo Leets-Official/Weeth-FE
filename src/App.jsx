@@ -34,6 +34,7 @@ import theme from '@/styles/theme';
 import { AttendCheckProvider } from '@/api/AttendCheckContext';
 import { BoardProvider } from '@/api/BoardContext';
 import { DuesProvider } from '@/api/DuesContext';
+import { MonthlyScheduleProvider } from '@/api/MonthlyScheduleContext';
 import { NoticeProvider } from '@/api/NoticeContext';
 import { UserProvider } from '@/api/UserContext';
 
