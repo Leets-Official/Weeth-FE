@@ -12,9 +12,9 @@ const Container = styled.div`
   margin-bottom: 50px;
 `;
 
-const NoticeBoard = () => {
-  // UserAPI에서 어드민인지 가져와서 확인하는 로직 추가
-  const isAdmin = true;
+const StudyBoard = () => {
+  // 스터디 게시판은 항상 글쓰기 버튼이 보이도록
+  const isPostBtn = true;
 
   return (
     <Container>
@@ -23,10 +23,10 @@ const NoticeBoard = () => {
         ModalComponent={EditDelModal}
         showIndexButton={false}
       />
-      <Info title="공지 게시판" isbutton={isAdmin} />
+      <Info title="스터디 게시판" isbutton={isPostBtn} />
       <PostList />
     </Container>
   );
 };
 
-export default NoticeBoard;
+export default StudyBoard;

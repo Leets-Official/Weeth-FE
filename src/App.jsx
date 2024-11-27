@@ -21,7 +21,6 @@ import MemberDetail from '@/pages/MemberDetail';
 import MyPage from '@/pages/MyPage';
 import Edit from '@/pages/Edit';
 import Dues from '@/pages/Dues';
-import Board from '@/pages/Board';
 import StudyPosting from '@/pages/StudyPosting';
 import NoticePosting from '@/pages/NoticePosting';
 import EventAdmin from '@/pages/EventAdmin';
@@ -42,6 +41,7 @@ import { AttendCheckProvider } from '@/api/AttendCheckContext';
 
 import ScrollToTop from '@/hooks/ScrollToTop';
 import NoticeBoard from './pages/NoticeBoard';
+import StudyBoard from './pages/StudyBoard';
 
 const App = () => {
   return (
@@ -77,7 +77,7 @@ const App = () => {
                         <Route path="/dues" element={<Dues />} />
                         <Route path="/receipt" element={<Receipt />} />
                         <Route path="/notice" element={<NoticeBoard />} />
-                        <Route paht="/board2" element={<Board />} />
+                        <Route path="/study" element={<StudyBoard />} />
                         <Route path="/study/:id" element={<StudyDetail />} />
                         <Route path="/notice/:id" element={<NoticeDetail />} />
                         <Route path="/study/post" element={<StudyPosting />} />
