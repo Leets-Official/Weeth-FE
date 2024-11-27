@@ -1,6 +1,7 @@
-import Info from '@/components/Board/Info';
 import styled from 'styled-components';
+import NoticeAPI from '@/api/BoardAPI';
 import PostList from '@/components/Board/PostList';
+import Info from '@/components/Board/Info';
 import NoticeHeader from '@/components/Board/NoticeHeader';
 import EditDelModal from '@/components/Modal/EditDelModal';
 
@@ -13,11 +14,11 @@ const Container = styled.div`
 `;
 
 const NoticeBoard = () => {
-  // UserAPI에서 어드민인지 가져와서 확인하는 로직 추가
   const isAdmin = true;
 
   return (
     <Container>
+      <NoticeAPI />
       <NoticeHeader
         showModal={false}
         ModalComponent={EditDelModal}

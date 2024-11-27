@@ -3,7 +3,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 import { UserContext } from '@/api/UserContext';
-import { BoardContext } from '@/api/BoardContext';
+// import { BoardContext } from '@/api/BoardContext';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import BoardComment from './BoardComment';
