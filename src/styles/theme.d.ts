@@ -1,38 +1,27 @@
 declare module 'src/styles/theme' {
   interface Theme {
     color: {
-      main: {
-        mainColor: string;
-        positive: string;
-        negative: string;
-        pointPurple: string;
-        pointPink: string;
-        pointBlue: string;
-        selectedMain: string;
-      };
-      grayScale: {
-        black: string;
-        lightBlack: string;
-        darkGray: string;
-        gray: string;
-        lightGray: string;
-        brightGray: string;
-        brightLightGray: string;
-        mediumGray: string;
-        mediumBrightGray: string;
-        white: string;
-        gray12: string;
-        gray18: string;
-        gray20: string;
-        gray30: string;
-        gray65: string;
+      main: string;
+      mainMiddle: string;
+      mainDark: string;
+      positive: string;
+      positiveDark: string;
+      negative: string;
+      negativeDark: string;
+      pointPurple: string;
+      pointPink: string;
+      gray: {
+        100: string;
+        12: string;
+        18: string;
+        20: string;
+        30: string;
+        65: string;
       };
     };
     font: {
-      family: {
-        pretendard_regular: string;
-        pretendard_semiBold: string;
-      };
+      semiBold: string;
+      regular: string;
     };
   }
 
