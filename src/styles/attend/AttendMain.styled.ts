@@ -1,12 +1,12 @@
-import styled from 'styled-components';
 import theme from '@/styles/theme';
+import styled from 'styled-components';
 
 export const StyledAttend = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
-  font-family: ${theme.font.family.pretendard_regular};
+  font-family: ${theme.font.regular};
   include-font-padding: false;
 `;
 
@@ -14,7 +14,7 @@ export const Progress = styled.div<{ $isAttend: number }>`
   width: 86%;
   height: 19px;
   background-color: ${({ $isAttend }) =>
-    $isAttend === 0 ? theme.color.grayScale.gray20 : theme.color.main.negative};
+    $isAttend === 0 ? theme.color.gray[20] : theme.color.negative};
   border-radius: 10px;
   overflow: hidden;
   margin: 5% 10px 0px 10px;
@@ -24,11 +24,11 @@ export const Dealt = styled.div<{ $dealt: number }>`
   width: ${(props) => `${props.$dealt}%`};
   height: 100%;
   border-radius: 10px;
-  background-color: ${theme.color.main.mainColor};
+  background-color: ${theme.color.main};
 `;
 
 export const StyledBox = styled.div`
-  background-color: ${theme.color.grayScale.gray18};
+  background-color: ${theme.color.gray[18]};
   border-radius: 10px;
   padding: 4%;
   margin: 5.3% 10px 0px 10px;
@@ -39,7 +39,7 @@ export const StyledBox = styled.div`
 `;
 
 export const SemiBold = styled.div`
-  font-family: ${theme.font.family.pretendard_semiBold};
+  font-family: ${theme.font.semiBold};
   include-font-padding: false;
   display: flex;
   flex-direction: row;
@@ -59,7 +59,7 @@ export const RightButtonWrapper = styled.div`
 `;
 
 export const PenaltyInfo = styled.div`
-  color: ${theme.color.grayScale.gray65};
+  color: ${theme.color.gray[65]};
   margin-top: 20px;
   margin-bottom: 10px;
   font-size: 14px;

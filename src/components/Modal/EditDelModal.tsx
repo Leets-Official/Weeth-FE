@@ -25,7 +25,7 @@ const ContentWrapper = styled.div`
 
 const ModalContent = styled.div`
   width: 360px;
-  background: ${theme.color.grayScale.gray20};
+  background: ${theme.color.gray[20]};
   border-radius: 10px;
   text-align: center;
 `;
@@ -34,19 +34,19 @@ const Title = styled.div`
   padding: 19px 0px;
   border-bottom: 1px solid #444;
   font-size: 12px;
-  font-family: ${theme.font.family.pretendard_regular};
+  font-family: ${theme.font.regular};
 `;
 
 const Item = styled.div`
   padding: 19px 0px;
-  color: ${theme.color.main.pointBlue};
+  color: ${theme.color.positive};
   cursor: pointer;
   &:not(:last-child) {
     border-bottom: 1px solid #444;
   }
-  font-family: ${theme.font.family.pretendard_semiBold};
+  font-family: ${theme.font.semiBold};
   &:hover {
-    background: ${theme.color.grayScale.gray30};
+    background: ${theme.color.gray[30]};
     &:last-child {
       border-bottom-left-radius: 10px;
       border-bottom-right-radius: 10px;
@@ -58,11 +58,11 @@ const CancelButton = styled.div`
   width: 315px;
   height: 20px;
   padding: 15px 0;
-  background: ${theme.color.grayScale.gray30};
+  background: ${theme.color.gray[30]};
   border-radius: 10px;
   text-align: center;
   cursor: pointer;
-  font-family: ${theme.font.family.pretendard_semiBold};
+  font-family: ${theme.font.semiBold};
 `;
 
 const EditDelModal: React.FC<EditDelModalProps> = ({

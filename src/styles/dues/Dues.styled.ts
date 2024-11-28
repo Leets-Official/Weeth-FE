@@ -1,10 +1,10 @@
-import styled from 'styled-components';
 import theme from '@/styles/theme';
+import styled from 'styled-components';
 
 export const StyledDues = styled.div`
   width: 370px;
   height: calc(var(--vh, 1vh) * 100);
-  font-family: ${theme.font.family.pretendard_regular};
+  font-family: ${theme.font.regular};
 `;
 
 export const CategoryWrapper = styled.div`
@@ -20,7 +20,7 @@ export const DuesListBox = styled.div`
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
   margin: 0 4%;
-  background-color: ${theme.color.grayScale.gray18};
+  background-color: ${theme.color.gray[18]};
 `;
 
 export const DuesList = styled.div`
@@ -45,7 +45,7 @@ export const MoneyBoxContainer = styled.div`
 
 export const MoneyBox = styled.div`
   font-size: 25px;
-  font-family: ${theme.font.family.pretendard_semiBold};
+  font-family: ${theme.font.semiBold};
   margin-left: 15px;
   align-items: start;
 `;

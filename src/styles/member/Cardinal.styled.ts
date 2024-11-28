@@ -6,7 +6,7 @@ export const Cardinal = styled.div`
   padding-top: 20px;
   overflow-x: auto;
   white-space: nowrap;
-  font-family: ${theme.font.family.pretendard_regular};
+  font-family: ${theme.font.regular};
   font-size: 16px;
 `;
 
@@ -39,5 +39,5 @@ export const Button = styled.button<{ $isSelected: boolean }>`
   color: white;
   cursor: pointer;
   font-size: 16px;
-  font-family: ${theme.font.family.pretendard_semiBold};
+  font-family: ${theme.font.semiBold};
 `;

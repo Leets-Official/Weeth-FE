@@ -1,19 +1,19 @@
-import { useEffect, useContext, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import theme from '@/styles/theme';
+import { useContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-import RightButton from '@/components/Header/RightButton';
-import Button from '@/components/Button/Button';
 import ModalAttend from '@/components/Attendance/Modal/ModalAttend';
 import ModalPenalty from '@/components/Attendance/Modal/ModalPenalty';
+import Button from '@/components/Button/Button';
+import RightButton from '@/components/Header/RightButton';
 
 import check from '@/assets/images/ic_check.svg';
 import warning from '@/assets/images/ic_warning.svg';
 
-import { UserContext } from '@/api/UserContext';
-import { PenaltyContext } from '@/api/PenaltyContext';
-import { AttendContext } from '@/api/AttendContext';
 import { AttendAPI, PenaltyAPI } from '@/api/AttendAPI';
+import { AttendContext } from '@/api/AttendContext';
+import { PenaltyContext } from '@/api/PenaltyContext';
+import { UserContext } from '@/api/UserContext';
 
 import * as S from '@/styles/attend/AttendMain.styled';
 
@@ -147,7 +147,7 @@ const AttendMain: React.FC = () => {
             <S.SemiBold>
               <S.AttendProject>
                 오늘은{' '}
-                <span style={{ color: theme.color.main.mainColor }}>
+                <span style={{ color: theme.color.main }}>
                   &quot;{title}&quot;
                 </span>
                 이&#40;가&#41; 있는 날이에요
@@ -161,13 +161,13 @@ const AttendMain: React.FC = () => {
               <Button
                 color={
                   isWithinTimeRange
-                    ? theme.color.grayScale.gray30
-                    : theme.color.grayScale.gray30
+                    ? theme.color.gray[30]
+                    : theme.color.gray[30]
                 }
                 textcolor={
                   isWithinTimeRange
-                    ? theme.color.grayScale.white
-                    : theme.color.grayScale.gray20
+                    ? theme.color.gray[100]
+                    : theme.color.gray[20]
                 }
                 onClick={handleOpenModal}
                 disabled={!isWithinTimeRange}
@@ -184,8 +184,8 @@ const AttendMain: React.FC = () => {
             <S.AttendPlace>동아리원과 스터디를 하는건 어때요?</S.AttendPlace>
             <S.AttendButton>
               <Button
-                color={theme.color.grayScale.gray30}
-                textcolor={theme.color.grayScale.gray20}
+                color={theme.color.gray[30]}
+                textcolor={theme.color.gray[20]}
               >
                 출석하기
               </Button>
@@ -206,7 +206,7 @@ const AttendMain: React.FC = () => {
                 <S.ButtonContainer>
                   <S.SemiBold>
                     패널티&nbsp;
-                    <div style={{ color: theme.color.main.negative }}>
+                    <div style={{ color: theme.color.negative }}>
                       {myPenaltyCount}회
                     </div>
                   </S.SemiBold>

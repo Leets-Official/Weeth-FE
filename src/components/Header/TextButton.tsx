@@ -3,12 +3,10 @@ import styled from 'styled-components';
 
 const StyledText = styled.div<{ isComplete: boolean }>`
   color: ${(props) =>
-    props.isComplete
-      ? theme.color.main.mainColor
-      : theme.color.grayScale.white};
+    props.isComplete ? theme.color.main : theme.color.gray[100]};
   cursor: pointer;
   font-size: 18px;
-  font-family: ${theme.font.family.pretendard_semiBold};
+  font-family: ${theme.font.semiBold};
 `;
 
 const TextButton = ({

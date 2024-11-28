@@ -1,6 +1,6 @@
 import Caption from '@/components/Button/Caption';
-import theme from '@/styles/theme';
 import * as S from '@/styles/dues/DuesInfo.styled';
+import theme from '@/styles/theme';
 
 interface DuseInfoProps {
   dues: number;
@@ -15,9 +15,9 @@ const DuesInfo: React.FC<DuseInfoProps> = ({ dues, category, date, memo }) => {
       <S.StyledDuesBox>
         <S.StyledCaptionBox>
           {category === '회비' ? (
-            <Caption color={theme.color.main.positive}>회비</Caption>
+            <Caption color={theme.color.positive}>회비</Caption>
           ) : (
-            <Caption color={theme.color.main.negative}>지출</Caption>
+            <Caption color={theme.color.negative}>지출</Caption>
           )}
           <S.StyledTextBox>
             <S.Text>금액</S.Text>

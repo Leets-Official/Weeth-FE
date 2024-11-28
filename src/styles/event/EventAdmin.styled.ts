@@ -7,12 +7,12 @@ export const EventAdminWrapper = styled.div`
   justify-content: center;
   width: 370px;
   padding-bottom: 183px;
-  font-family: ${theme.font.family.pretendard_regular};
+  font-family: ${theme.font.regular};
 `;
 
 export const Error = styled.div`
   display: flex;
   justify-content: center;
   margin: 50px 0px;
-  font-family: ${theme.font.family.pretendard_semiBold};
+  font-family: ${theme.font.semiBold};
 `;
