@@ -1,6 +1,5 @@
-import React from 'react';
-import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 import boardChat from '../../assets/images/ic_board_chat.svg';
 import theme from '../../styles/theme';
 
@@ -8,7 +7,7 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: ${theme.font.family.pretendard_regular};
+  font-family: ${theme.font.regular};
 `;
 
 const BoardContainer = styled.div`
@@ -19,7 +18,7 @@ const BoardContainer = styled.div`
   margin: 0 7%;
   padding: 10px 0 0 0;
   position: relative;
-  border-bottom: 1px solid ${theme.color.grayScale.gray65};
+  border-bottom: 1px solid ${theme.color.gray[65]};
   overflow: hidden; /* 컨텐츠가 컨테이너를 넘어가지 않도록 설정 */
   height: auto; /* Let the height adjust automatically */
 `;
@@ -32,7 +31,7 @@ const TopRow = styled.div`
 `;
 
 const StyledContent = styled.div`
-  color: ${theme.color.grayScale.white};
+  color: ${theme.color.gray[100]};
   font-size: 15px;
   line-height: 19.09px;
 `;
@@ -45,8 +44,8 @@ const StyledName = styled.div`
 `;
 
 const StyledDate = styled.div`
-  color: ${theme.color.grayScale.gray65};
-  font-family: ${theme.font.family.pretendard_regular};
+  color: ${theme.color.gray[65]};
+  font-family: ${theme.font.regular};
   font-size: 12px;
   line-height: 14.32px;
   margin: 5px 0 0 0;
@@ -54,8 +53,8 @@ const StyledDate = styled.div`
 
 const StyledNotice = styled.div`
   width: 100%;
-  color: ${theme.color.grayScale.white};
-  font-family: ${theme.font.family.pretendard_semiBold};
+  color: ${theme.color.gray[100]};
+  font-family: ${theme.font.semiBold};
   font-size: 16px;
   line-height: 19.09px;
   margin: 5px 0 8px 0; // 5px 15% 10px 0;
@@ -71,8 +70,8 @@ const ContentRow = styled.div`
 
 const NoticeContent = styled.div`
   margin-right: 10%;
-  color: ${theme.color.grayScale.gray65};
-  font-family: ${theme.font.family.pretendard_regular};
+  color: ${theme.color.gray[65]};
+  font-family: ${theme.font.regular};
   font-size: 12px;
   line-height: 14.32px;
   cursor: pointer;
@@ -94,8 +93,8 @@ const BottomRow = styled.div`
 const CommentCount = styled.div`
   display: flex;
   align-items: center;
-  color: ${theme.color.grayScale.gray65};
-  font-family: ${theme.font.family.pretendard_regular};
+  color: ${theme.color.gray[65]};
+  font-family: ${theme.font.regular};
   font-size: 12px;
   line-height: 14.32px;
   margin-left: 4px;
@@ -129,7 +128,7 @@ const BoardComponent = ({
             <NoticeContent>{name}</NoticeContent>
           </StyledName>
           <BottomRow>
-            <img src={boardChat} />
+            <img src={boardChat} alt="댓글" />
             <CommentCount>
               {totalComments !== undefined ? totalComments : '0'}
             </CommentCount>

@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
 import axios from 'axios';
 import PropTypes from 'prop-types';
+import React, { useState } from 'react';
+import styled from 'styled-components';
 import registerComment from '../../assets/images/ic_send.svg';
 import { replaceNewLines } from '../../hooks/Utils';
 import theme from '../../styles/theme';
@@ -17,17 +17,17 @@ const InputWrapper = styled.div`
 const InputField = styled.input`
   width: 100%;
   height: 37px;
-  color: ${theme.color.grayScale.white};
-  background-color: ${theme.color.main.mainColor};
+  color: ${theme.color.gray[100]};
+  background-color: ${theme.color.main};
   border: none;
   border-radius: 15px;
   font-size: 16px; // 확대 방지를 위해 16px로 설정
-  font-family: ${theme.font.family.pretendard_semiBold};
+  font-family: ${theme.font.semiBold};
   outline: none;
   padding: 0 10% 0 5%;
 
   &::placeholder {
-    color: ${theme.color.grayScale.white};
+    color: ${theme.color.gray[100]};
   }
 `;
 
