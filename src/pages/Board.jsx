@@ -17,20 +17,18 @@ const Container = styled.div`
 const TabsContainer = styled.div`
   display: flex;
   width: 88%;
-  border-bottom: 1px solid ${theme.color.grayScale.gray65};
+  border-bottom: 1px solid ${theme.color.gray[65]};
   margin: 0 7%;
 `;
 
 const StyledTab = styled.div`
   padding: 10px 10px;
   cursor: pointer;
-  font-family: ${theme.font.family.pretendard_semiBold};
+  font-family: ${theme.font.semiBold};
   font-size: 16px;
   line-height: 19.09px;
   color: ${(props) =>
-    props.active === 'true'
-      ? theme.color.grayScale.white
-      : theme.color.grayScale.gray65};
+    props.active === 'true' ? theme.color.gray[100] : theme.color.gray[65]};
   position: relative;
 
   &:after {
@@ -41,19 +39,19 @@ const StyledTab = styled.div`
     right: 0;
     height: 2px;
     background-color: ${(props) =>
-      props.active === 'true' ? theme.color.grayScale.white : 'transparent'};
+      props.active === 'true' ? theme.color.gray[100] : 'transparent'};
   }
 `;
 
 const PostingButton = styled.button`
   width: calc(370 * 0.13);
   height: 28px;
-  background-color: ${theme.color.main.mainColor};
-  color: ${theme.color.grayScale.white};
+  background-color: ${theme.color.main};
+  color: ${theme.color.gray[100]};
   border: none;
   border-radius: 10px;
   cursor: pointer;
-  font-family: ${theme.font.family.pretendard_semiBold};
+  font-family: ${theme.font.semiBold};
   font-size: 12px;
   display: flex;
   justify-content: center;

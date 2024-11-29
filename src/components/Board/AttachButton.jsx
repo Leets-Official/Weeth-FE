@@ -1,8 +1,7 @@
-import React from 'react';
-import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import theme from '../../styles/theme';
+import styled from 'styled-components';
 import installIcon from '../../assets/images/ic_install.svg';
+import theme from '../../styles/theme';
 
 const Container = styled.div`
   width: 30%;
@@ -17,8 +16,8 @@ const StyledButton = styled.button`
   margin-right: 0;
   background-color: #0e9871;
   border-radius: 5px;
-  color: ${theme.color.grayScale.white};
-  font-family: ${theme.font.family.pretendard_regular};
+  color: ${theme.color.gray[100]};
+  font-family: ${theme.font.regular};
   font-size: 14px;
   cursor: pointer;
   border: none;

@@ -1,7 +1,6 @@
-import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 import theme from '../../styles/theme';
 
 const NoticeMiddleContainer = styled.div`
@@ -11,7 +10,7 @@ const NoticeMiddleContainer = styled.div`
   width: auto;
   padding: 0 7%;
   margin-bottom: 20px;
-  font-family: ${theme.font.family.pretendard_regular};
+  font-family: ${theme.font.regular};
 `;
 
 const NoticeTextContainer = styled.div`
@@ -23,16 +22,16 @@ const NoticeTextContainer = styled.div`
 
 const NoticeTitle = styled.div`
   margin-top: 20px;
-  color: ${theme.color.grayScale.white};
-  font-family: ${theme.font.family.pretendard_semiBold};
+  color: ${theme.color.gray[100]};
+  font-family: ${theme.font.semiBold};
   font-size: 16px;
   line-height: 19.09px;
 `;
 
 const NoticeIntroduce = styled.div`
   width: 100%;
-  color: ${theme.color.grayScale.gray65};
-  font-family: ${theme.font.family.pretendard_regular};
+  color: ${theme.color.gray[65]};
+  font-family: ${theme.font.regular};
   font-size: 12px;
   margin-top: 10px;
 `;
