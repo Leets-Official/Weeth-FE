@@ -4,7 +4,7 @@ import styled from 'styled-components';
 const LineStyle = styled.div`
   width: 325px;
   height: 1px;
-  background-color: ${theme.color.grayScale.gray30};
+  background-color: ${theme.color.gray[30]};
   margin: 0 auto;
 `;
 

@@ -1,6 +1,6 @@
-import styled from 'styled-components';
-import { useState } from 'react';
 import theme from '@/styles/theme';
+import { useState } from 'react';
+import styled from 'styled-components';
 
 interface DueCategoryProps {
   setSelectedDues: (dues: string | null) => void;
@@ -8,7 +8,7 @@ interface DueCategoryProps {
 
 const StyledCategory = styled.div`
   padding-top: 30px;
-  font-family: ${theme.font.family.pretendard_regular};
+  font-family: ${theme.font.regular};
   display: flex;
   justify-content: space-around;
 `;
@@ -24,7 +24,7 @@ const Button = styled.button<{ checked: boolean }>`
   color: white;
   cursor: pointer;
   font-size: 16px;
-  font-family: ${theme.font.family.pretendard_semiBold};
+  font-family: ${theme.font.semiBold};
   text-align: center;
 `;
 

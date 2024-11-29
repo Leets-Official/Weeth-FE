@@ -3,9 +3,9 @@ import styled from 'styled-components';
 
 export const Wrapper = styled.div`
   padding: 20px 10px 0px 10px;
-  font-family: ${theme.font.family.pretendard_regular};
+  font-family: ${theme.font.regular};
   font-size: 16px;
-  background-color: ${theme.color.grayScale.gray18};
+  background-color: ${theme.color.gray[18]};
 
   &:first-of-type {
     border-top-left-radius: 20px;
@@ -21,7 +21,7 @@ export const Content = styled.div`
 
 export const Line = styled.div`
   border: 1px solid;
-  color: ${theme.color.grayScale.gray30};
+  color: ${theme.color.gray[30]};
   width: 325px;
   margin: auto;
   margin-top: 10px;

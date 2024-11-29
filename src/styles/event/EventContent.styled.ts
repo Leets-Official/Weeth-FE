@@ -2,7 +2,7 @@ import theme from '@/styles/theme';
 import styled from 'styled-components';
 
 export const ContentBlock = styled.div`
-  background-color: ${theme.color.grayScale.gray18};
+  background-color: ${theme.color.gray[18]};
   padding: 15px;
   border-radius: 20px;
   margin: 10px;

@@ -10,7 +10,7 @@ export const HeaderWrapper = styled.div`
 
 export const Title = styled.div`
   font-size: 18px;
-  font-family: ${theme.font.family.pretendard_semiBold};
+  font-family: ${theme.font.semiBold};
 `;
 
 export const None = styled.div`
@@ -27,13 +27,13 @@ export const DateWrapper = styled.div`
 
 export const Year = styled.div`
   font-size: 18px;
-  font-family: ${theme.font.family.pretendard_semiBold};
+  font-family: ${theme.font.semiBold};
   padding-right: 5px;
 `;
 
 export const Month = styled.div`
   font-size: 18px;
-  font-family: ${theme.font.family.pretendard_semiBold};
+  font-family: ${theme.font.semiBold};
 `;
 
 export const ImgButton = styled.div`

@@ -28,7 +28,7 @@ const TextMargin = styled.div`
 
 const ErrorMessage = styled.div`
   right: 0;
-  color: ${theme.color.main.negative};
+  color: ${theme.color.negative};
   margin: 15px 0 0 -5%;
   font-size: 14px;
   text-align: right;
@@ -182,4 +182,3 @@ const Login: React.FC = () => {
 };
 
 export default Login;
-

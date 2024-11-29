@@ -7,13 +7,13 @@ export const EventEditorWrapper = styled.div`
   justify-content: center;
   width: 370px;
   padding-bottom: 183px;
-  font-family: ${theme.font.family.pretendard_regular};
+  font-family: ${theme.font.regular};
 `;
 
 export const TextAreaWrapper = styled.div`
   margin: 12px 10px;
   width: 344px;
-  background-color: ${theme.color.grayScale.gray18};
+  background-color: ${theme.color.gray[18]};
   border-radius: 4px;
 `;
 
@@ -25,9 +25,9 @@ export const TextArea = styled.textarea`
   resize: none;
   border: none;
   outline: none;
-  background-color: ${theme.color.grayScale.gray18};
+  background-color: ${theme.color.gray[18]};
   color: white;
-  font-family: ${theme.font.family.pretendard_regular};
+  font-family: ${theme.font.regular};
   font-size: 16px;
 
   &::-webkit-scrollbar {
@@ -49,5 +49,5 @@ export const Error = styled.div`
   display: flex;
   justify-content: center;
   margin: 50px 0px;
-  font-family: ${theme.font.family.pretendard_regular};
+  font-family: ${theme.font.regular};
 `;

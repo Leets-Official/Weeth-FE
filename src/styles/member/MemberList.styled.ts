@@ -1,9 +1,9 @@
-import styled from 'styled-components';
 import theme from '@/styles/theme';
+import styled from 'styled-components';
 
 export const Wrapper = styled.div`
   width: 370px;
-  font-family: ${theme.font.family.pretendard_regular};
+  font-family: ${theme.font.regular};
   margin-bottom: 50px;
 `;
 
@@ -30,8 +30,8 @@ export const Error = styled.div`
   padding-top: 20px;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
-  background-color: ${theme.color.grayScale.gray18};
-  font-family: ${theme.font.family.pretendard_semiBold};
+  background-color: ${theme.color.gray[18]};
+  font-family: ${theme.font.semiBold};
 `;
 
 export const Margin = styled.div`
@@ -39,5 +39,5 @@ export const Margin = styled.div`
   width: 350px;
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
-  background-color: ${theme.color.grayScale.gray18};
+  background-color: ${theme.color.gray[18]};
 `;

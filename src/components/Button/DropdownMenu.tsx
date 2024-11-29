@@ -1,7 +1,7 @@
-import { useState, useRef, useEffect } from 'react';
-import styled from 'styled-components';
-import theme from '@/styles/theme';
 import SignupWhite from '@/components/Signup/SignupWhite';
+import theme from '@/styles/theme';
+import { useEffect, useRef, useState } from 'react';
+import styled from 'styled-components';
 
 interface DropdownMenuProps {
   text: string;
@@ -14,7 +14,7 @@ const DropdownContainer = styled.div<{ buttonstyle: 'member' | 'signup' }>`
   position: relative;
   display: flex;
   align-items: center;
-  font-family: ${theme.font.family.pretendard_regular};
+  font-family: ${theme.font.regular};
   font-size: 16px;
   ${(props) =>
     props.buttonstyle === 'member' &&
@@ -32,7 +32,7 @@ const DropdownButton = styled.div`
   outline: none;
   border: none;
   border-radius: 4px;
-  background-color: ${theme.color.grayScale.gray18};
+  background-color: ${theme.color.gray[18]};
   color: white;
   cursor: pointer;
   display: flex;
@@ -45,10 +45,9 @@ const SignupDropDownButton = styled.div<{ $hasValue: boolean }>`
   height: 25px;
   font-size: 16px;
   outline: none;
-  border-bottom: 1px solid ${theme.color.grayScale.gray20};
-  background-color: ${theme.color.grayScale.gray12};
-  color: ${(props) =>
-    props.$hasValue ? 'white' : theme.color.grayScale.gray20};
+  border-bottom: 1px solid ${theme.color.gray[20]};
+  background-color: ${theme.color.gray[12]};
+  color: ${(props) => (props.$hasValue ? 'white' : theme.color.gray[20])};
   cursor: pointer;
   display: flex;
   align-items: flex-end;
@@ -84,7 +83,7 @@ const DropdownItem = styled.div`
   background-color: #2c2c2c;
 
   &:hover {
-    background-color: ${theme.color.main.selectedMain};
+    background-color: ${theme.color.mainMiddle};
   }
 `;
 
