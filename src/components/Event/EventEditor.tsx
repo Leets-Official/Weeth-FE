@@ -1,6 +1,5 @@
 /* eslint-disable no-alert */
 import { EventRequestType, createEvent, editEvent } from '@/api/EventAdminAPI';
-import getEventInfo from '@/api/getEventInfo';
 import UserAPI from '@/api/UserAPI';
 import { UserContext } from '@/api/UserContext';
 import DatePicker from '@/components/Event/DatePicker';
@@ -16,6 +15,7 @@ import { replaceNewLines } from '@/hooks/Utils';
 import * as S from '@/styles/event/EventEditor.styled';
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import useGetEventInfo from '@/api/getEventInfo';
 
 function checkEmpty(field: string | undefined, message: string): boolean {
   // TODO🚨important!!🚨: 배열 내에 빈 값이 있는 경우를 처리하는 로직 추가
@@ -26,19 +26,20 @@ function checkEmpty(field: string | undefined, message: string): boolean {
   return false;
 }
 
-function parseDate(dateString: string) {
-  const parts = [0, 4, 5, 7, 8, 10, 11, 13, 14, 16];
-  const result: number[] = [];
-  for (let i = 0; i < parts.length - 1; i += 2) {
-    result.push(Number(dateString.slice(parts[i], parts[i + 1])));
-  }
-  return result;
-}
+// function parseDate(dateString: string) {
+//   const parts = [0, 4, 5, 7, 8, 10, 11, 13, 14, 16];
+//   const result: number[] = [];
+//   for (let i = 0; i < parts.length - 1; i += 2) {
+//     result.push(Number(dateString.slice(parts[i], parts[i + 1])));
+//   }
+//   return result;
+// }
 
 const EventEditor = () => {
   useCustomBack('/calendar');
 
   const { id } = useParams();
+  const { data: eventDetailData, error } = useGetEventInfo('events', id);
   const { userData } = useContext(UserContext);
   const isEditMode = Boolean(id);
   const navigate = useNavigate();
@@ -68,33 +69,10 @@ const EventEditor = () => {
   ]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        if (id) {
-          const response = await getEventInfo('events', Number(id));
-          if (response.data.code === 200) {
-            const { data } = response.data;
-            setEventRequest({
-              title: data.title,
-              start: data.start,
-              end: data.end,
-              location: data.location,
-              requiredItem: data.requiredItem,
-              memberCount: data.memberCount,
-              content: data.content,
-            });
-            setStartArr(parseDate(data.start));
-            setEndArr(parseDate(data.end));
-          } else {
-            console.error(response.data.message);
-          }
-        }
-      } catch (err) {
-        console.error(err);
-      }
-    };
-    fetchData();
-  }, [id]);
+    if (eventDetailData) {
+      setEventRequest(eventDetailData);
+    }
+  }, [eventDetailData]);
 
   const editEventInfo = (key: keyof EventRequestType, value: any) => {
     setEventRequest((prevInfo) => ({
@@ -152,6 +130,8 @@ const EventEditor = () => {
   if (userData && userData.role !== 'ADMIN') {
     return <S.Error>일정 생성 및 수정은 운영진만 가능합니다</S.Error>;
   }
+
+  if (error) return <S.Error>{error}</S.Error>;
 
   return (
     <S.EventEditorWrapper>
