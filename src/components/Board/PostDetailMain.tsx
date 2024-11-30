@@ -5,6 +5,23 @@ const Container = styled.div`
   flex-direction: column;
   margin: 20px 23px 0 23px;
 `;
+
+const TitleText = styled.div`
+
+`;
+
+const SmallText = styled.div`
+
+`;
+
+const PostingContianer = styled.div`
+
+`;
+
+const FileContainer = styled.div`
+
+`;
+
 const PostDetailMain = () => {
   return (
     <Container>

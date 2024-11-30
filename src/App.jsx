@@ -21,11 +21,10 @@ import Member from '@/pages/Member';
 import MemberDetail from '@/pages/MemberDetail';
 import MyPage from '@/pages/MyPage';
 import NoticeDetail from '@/pages/NoticeDetail';
-import NoticePosting from '@/pages/NoticePosting';
+// import NoticePosting from '@/pages/NoticePosting';
+// import StudyPosting from '@/pages/StudyPosting';
 import Profile from '@/pages/Profile';
 import Signup from '@/pages/Signup';
-import StudyDetail from '@/pages/StudyDetail';
-import StudyPosting from '@/pages/StudyPosting';
 import { ThemeProvider } from 'styled-components';
 
 import Receipt from '@/pages/Receipt';
@@ -34,11 +33,11 @@ import theme from '@/styles/theme';
 import { AttendCheckProvider } from '@/api/AttendCheckContext';
 import { BoardProvider } from '@/api/BoardContext';
 import { DuesProvider } from '@/api/DuesContext';
-import { MonthlyScheduleProvider } from '@/api/MonthlyScheduleContext';
 import { NoticeProvider } from '@/api/NoticeContext';
 import { UserProvider } from '@/api/UserContext';
 
 import ScrollToTop from '@/hooks/ScrollToTop';
+import PostDetail from './pages/PostDetail';
 
 const App = () => {
   return (
@@ -68,10 +67,10 @@ const App = () => {
                   <Route path="/dues" element={<Dues />} />
                   <Route path="/receipt" element={<Receipt />} />
                   <Route path="/board" element={<Board />} />
-                  <Route path="/study/:id" element={<StudyDetail />} />
+                  <Route path="/study/detail" element={<PostDetail />} />
                   <Route path="/notice/:id" element={<NoticeDetail />} />
-                  <Route path="/study/post" element={<StudyPosting />} />
-                  <Route path="/notice/post" element={<NoticePosting />} />
+                  {/* <Route path="/study/post" element={<StudyPosting />} />
+                  <Route path="/notice/post" element={<NoticePosting />} /> */}
                 </Routes>
               </AttendCheckProvider>
             </NoticeProvider>

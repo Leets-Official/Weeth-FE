@@ -14,7 +14,8 @@ const Container = styled.div`
 const PostDetail = () => {
   return (
     <Container>
-      <Header title="게시판" RightButtonType="MENU" />
+      {/* RightButtonType을 MENU로 수정하기  */}
+      <Header title="게시판" RightButtonType="none" />
       <PostDetailMain />
       <PostCommentList />
     </Container>
