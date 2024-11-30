@@ -8,7 +8,7 @@ import './assets/fonts/fonts.css';
 
 import Attendance from '@/pages/Attendance';
 import AttendCheck from '@/pages/AttendCheck';
-import Board from '@/pages/Board';
+// import Board from '@/pages/Board';
 import Calendar from '@/pages/Calendar';
 import Dues from '@/pages/Dues';
 import Edit from '@/pages/Edit';
@@ -20,7 +20,7 @@ import Login from '@/pages/Login';
 import Member from '@/pages/Member';
 import MemberDetail from '@/pages/MemberDetail';
 import MyPage from '@/pages/MyPage';
-import NoticeDetail from '@/pages/NoticeDetail';
+// import NoticeDetail from '@/pages/NoticeDetail';
 // import NoticePosting from '@/pages/NoticePosting';
 // import StudyPosting from '@/pages/StudyPosting';
 import Profile from '@/pages/Profile';
@@ -37,7 +37,7 @@ import { NoticeProvider } from '@/api/NoticeContext';
 import { UserProvider } from '@/api/UserContext';
 
 import ScrollToTop from '@/hooks/ScrollToTop';
-import PostDetail from './pages/PostDetail';
+// import PostDetail from '@/pages/PostDetail';
 
 const App = () => {
   return (
@@ -66,9 +66,9 @@ const App = () => {
                   <Route path="/edit" element={<Edit />} />
                   <Route path="/dues" element={<Dues />} />
                   <Route path="/receipt" element={<Receipt />} />
-                  <Route path="/board" element={<Board />} />
-                  <Route path="/study/detail" element={<PostDetail />} />
-                  <Route path="/notice/:id" element={<NoticeDetail />} />
+                  {/* <Route path="/board" element={<Board />} /> */}
+                  {/* <Route path="/study/detail" element={<PostDetail />} /> */}
+                  {/* <Route path="/notice/:id" element={<NoticeDetail />} /> */}
                   {/* <Route path="/study/post" element={<StudyPosting />} />
                   <Route path="/notice/post" element={<NoticePosting />} /> */}
                 </Routes>

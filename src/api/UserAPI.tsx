@@ -33,9 +33,14 @@ const UserAPI = () => {
           setError(userResponse.data.message);
         }
       } catch (err: any) {
+        // 에러 객체에서 안전하게 response와 message 추출
+        const errorResponse = err.response;
+        const errorMessage =
+          errorResponse?.data?.message || 'An error occurred';
+
         // 무한 리다이렉션 방지
         if (window.location.pathname !== '/login') {
-          setError(err.data.message);
+          setError(errorMessage);
           localStorage.removeItem('accessToken');
           localStorage.removeItem('refreshToken');
           window.location.href = '/login';
