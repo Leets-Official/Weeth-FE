@@ -70,7 +70,7 @@ const MonthCalendar = ({ year, month }: { year: number; month: number }) => {
   }, [year, month]);
 
   if (error) {
-    return <div>에러 발생: {error}</div>;
+    return <div>{error}</div>;
   }
 
   return (
