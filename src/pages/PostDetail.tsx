@@ -12,10 +12,17 @@ const Container = styled.div`
 `;
 
 const PostDetail = () => {
+  const openModal = () => {
+    console.log('모달 열림');
+  };
   return (
     <Container>
-      {/* RightButtonType을 MENU로 수정하기  */}
-      <Header title="게시판" RightButtonType="none" />
+      <Header
+        title="게시판"
+        RightButtonType="MENU"
+        isAccessible
+        onClickRightButton={openModal}
+      />
       <PostDetailMain />
       <PostCommentList />
     </Container>

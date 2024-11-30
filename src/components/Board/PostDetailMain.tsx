@@ -2,6 +2,7 @@ import theme from '@/styles/theme';
 import styled from 'styled-components';
 import CommentImage from '@/assets/images/ic_comment_count.svg';
 import Line from '../common/Line';
+import PostFile from './PostFile';
 
 const Container = styled.div`
   display: flex;
@@ -19,6 +20,7 @@ const SmallText = styled.div`
   font-size: 12px;
   display: flex;
   flex-direction: row;
+  margin-top: 10px;
 `;
 
 const DateText = styled.div`
@@ -26,11 +28,11 @@ const DateText = styled.div`
 `;
 
 const PostingContianer = styled.div`
-  margin-top: 20px;
   font-family: ${theme.font.family.pretendard_regular};
   font-size: 16px;
   line-height: 19.09px;
   white-space: pre-wrap;
+  margin: 20px 0 20px 0;
 `;
 
 const CommentText = styled.div`
@@ -52,7 +54,10 @@ const PostDetailMain = () => {
         <DateText>2024/03/43</DateText>
       </SmallText>
       <PostingContianer> 본문 </PostingContianer>
-      <div> 파일 </div>
+      <PostFile
+        fileName="파일이름이 길어질 때, 사실 그렇게 보이면.pdf"
+        isDownload
+      />
       <CommentText>
         <img src={CommentImage} alt="댓글 이미지" />
         <div>3</div>
