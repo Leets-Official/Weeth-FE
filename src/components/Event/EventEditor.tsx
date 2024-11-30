@@ -11,13 +11,13 @@ import {
   CURRENT_YEAR,
 } from '@/constants/dateConstants';
 import useCustomBack from '@/hooks/useCustomBack';
-import { replaceNewLines } from '@/hooks/Utils';
 import * as S from '@/styles/event/EventEditor.styled';
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import useGetEventInfo from '@/api/getEventInfo';
 import ISOtoArray from '@/hooks/ISOtoArray';
 import ArrayToISO from '@/hooks/ArrayToISO';
+import replaceNewLines from '@/hooks/newLine';
 
 function checkEmpty(field: string | undefined, message: string): boolean {
   // TODO🚨important!!🚨: 배열 내에 빈 값이 있는 경우를 처리하는 로직 추가
