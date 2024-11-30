@@ -16,6 +16,8 @@ import * as S from '@/styles/event/EventEditor.styled';
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import useGetEventInfo from '@/api/getEventInfo';
+import ISOtoArray from '@/hooks/ISOtoArray';
+import ArrayToISO from '@/hooks/ArrayToISO';
 
 function checkEmpty(field: string | undefined, message: string): boolean {
   // TODO🚨important!!🚨: 배열 내에 빈 값이 있는 경우를 처리하는 로직 추가
@@ -25,15 +27,6 @@ function checkEmpty(field: string | undefined, message: string): boolean {
   }
   return false;
 }
-
-// function parseDate(dateString: string) {
-//   const parts = [0, 4, 5, 7, 8, 10, 11, 13, 14, 16];
-//   const result: number[] = [];
-//   for (let i = 0; i < parts.length - 1; i += 2) {
-//     result.push(Number(dateString.slice(parts[i], parts[i + 1])));
-//   }
-//   return result;
-// }
 
 const EventEditor = () => {
   useCustomBack('/calendar');
@@ -70,6 +63,8 @@ const EventEditor = () => {
 
   useEffect(() => {
     if (eventDetailData) {
+      setStartArr(ISOtoArray((eventDetailData as EventRequestType).start));
+      setEndArr(ISOtoArray((eventDetailData as EventRequestType).end));
       setEventRequest(eventDetailData);
     }
   }, [eventDetailData]);
@@ -89,7 +84,6 @@ const EventEditor = () => {
           ? replaceNewLines(eventRequest.content)
           : '',
     };
-    console.log('data', data);
 
     if (
       checkEmpty(data.title, '제목을 입력해 주세요.') ||
@@ -155,13 +149,15 @@ const EventEditor = () => {
           const updatedStartDate = [...startArr];
           updatedStartDate[index] = value;
           setStartArr(updatedStartDate);
-          editEventInfo('start', updatedStartDate.join('-')); // start는 문자열로 처리
+          const isoDate = ArrayToISO(updatedStartDate);
+          editEventInfo('start', isoDate);
         }}
         onEndDateChange={(index, value) => {
           const updatedEndDate = [...endArr];
           updatedEndDate[index] = value;
           setEndArr(updatedEndDate);
-          editEventInfo('end', updatedEndDate.join('-')); // end도 문자열로 처리
+          const isoDate = ArrayToISO(updatedEndDate);
+          editEventInfo('end', isoDate);
         }}
       />
       {['location', 'requiredItem', 'memberCount'].map((key) => (
