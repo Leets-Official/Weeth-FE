@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
-export const delteUser = async () => {
+export const deleteUser = async () => {
   const accessToken = localStorage.getItem('accessToken');
   const refreshToken = localStorage.getItem('refreshToken');
 
@@ -14,4 +14,4 @@ export const delteUser = async () => {
   });
 };
 
-export default delteUser;
+export default deleteUser;
