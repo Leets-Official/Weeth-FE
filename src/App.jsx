@@ -30,6 +30,11 @@ import Signup from '@/pages/Signup';
 import StudyDetail from '@/pages/StudyDetail';
 import theme from '@/styles/theme';
 
+import AdminAttendance from '@/pages/admin/AdminAttendance';
+import AdminMember from '@/pages/admin/AdminMember';
+import AdminDues from '@/pages/admin/AdminDues';
+import AdminPenatly from '@/pages/admin/AdminPenatly';
+
 import { Route, Routes } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 
@@ -65,6 +70,13 @@ const App = () => {
                   <Route path="/notice/:id" element={<NoticeDetail />} />
                   <Route path="/study/post" element={<BoardPost />} />
                   <Route path="/notice/post" element={<BoardPost />} />
+                  <Route
+                    path="/admin/attendance"
+                    element={<AdminAttendance />}
+                  />
+                  <Route path="/admin/member" element={<AdminMember />} />
+                  <Route path="/admin/dues" element={<AdminDues />} />
+                  <Route path="/admin/penalty" element={<AdminPenatly />} />
                 </Routes>
               </AttendCheckProvider>
             </NoticeProvider>
