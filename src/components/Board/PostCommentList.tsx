@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import Comment from '@/components/Board/Comment';
+import ReplyComment from './ReplyComment';
 
 const Container = styled.div`
   display: flex;
@@ -10,6 +11,7 @@ const PostCommentList = () => {
   return (
     <Container>
       <Comment />
+      <ReplyComment />
     </Container>
   );
 };
