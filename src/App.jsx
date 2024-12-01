@@ -71,12 +71,15 @@ const App = () => {
                   <Route path="/study/post" element={<BoardPost />} />
                   <Route path="/notice/post" element={<BoardPost />} />
                   <Route
-                    path="/adminAttendance"
+                    path="/admin/adminAttendance"
                     element={<AdminAttendance />}
                   />
-                  <Route path="/adminMember" element={<AdminMember />} />
-                  <Route path="/adminDues" element={<AdminDues />} />
-                  <Route path="/adminPenalty" element={<AdminPenatly />} />
+                  <Route path="/admin/adminMember" element={<AdminMember />} />
+                  <Route path="/admin/adminDues" element={<AdminDues />} />
+                  <Route
+                    path="/admin/adminPenalty"
+                    element={<AdminPenatly />}
+                  />
                 </Routes>
               </AttendCheckProvider>
             </NoticeProvider>
