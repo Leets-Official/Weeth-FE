@@ -2,8 +2,8 @@ import axios from 'axios';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import replaceNewLines from '@/hooks/newLine';
 import registerComment from '../../assets/images/ic_send.svg';
-import { replaceNewLines } from '../../hooks/Utils';
 import theme from '../../styles/theme';
 
 const InputWrapper = styled.div`
