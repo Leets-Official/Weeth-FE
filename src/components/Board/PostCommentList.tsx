@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import Comment from '@/components/Board/Comment';
 
 const Container = styled.div`
   display: flex;
@@ -8,9 +9,7 @@ const Container = styled.div`
 const PostCommentList = () => {
   return (
     <Container>
-      <div> 댓글</div>
-      <div> 댓글 </div>
-      <div> 댓글 </div>
+      <Comment />
     </Container>
   );
 };
