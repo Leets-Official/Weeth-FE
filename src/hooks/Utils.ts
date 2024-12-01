@@ -57,8 +57,3 @@ const Utils = async <T>(
 };
 
 export default Utils;
-
-// 줄바꿈 변환 함수
-export const replaceNewLines = (text: string): string => {
-  return text.replace(/\r?\n/g, '\n');
-};

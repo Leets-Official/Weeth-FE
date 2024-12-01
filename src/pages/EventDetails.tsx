@@ -1,13 +1,10 @@
-/* eslint-disable no-console */
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-
-import EventContent from '@/components/Event/EventContent';
-import EventTitle from '@/components/Event/EventTitle';
+import useGetEventInfo from '@/api/getEventInfo';
 import * as S from '@/styles/event/EventDetail.styled';
-import useCustomBack from '@/hooks/useCustomBack';
-import getEventInfo from '@/api/getEventInfo';
+import EventTitle from '@/components/Event/EventTitle';
+import EventContent from '@/components/Event/EventContent';
 import UserAPI from '@/api/UserAPI';
+import useCustomBack from '@/hooks/useCustomBack';
+import { useParams } from 'react-router-dom';
 
 export interface EventDetailData {
   id: number;
@@ -23,51 +20,23 @@ export interface EventDetailData {
   modifiedAt: string;
 }
 
-const EventDetails = () => {
+const EventDetail = () => {
   useCustomBack('/calendar');
 
-  const { id } = useParams();
-  const { type } = useParams();
-  const [eventDetailData, setEventDetailData] =
-    useState<EventDetailData | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const { id, type } = useParams();
+  const { data: eventDetailData, error } = useGetEventInfo(type, id);
   const isMeeting = type === 'meetings';
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        if (id && type) {
-          const response = await getEventInfo(type, Number(id));
-          if (response.data.code === 200) {
-            setEventDetailData(response.data.data);
-          } else {
-            setError(response.data.message);
-          }
-        }
-      } catch (err) {
-        console.error(err);
-      }
-    };
-
-    fetchData();
-  }, [id, type]);
-
-  if (error) {
-    return <S.Error>데이터를 불러올 수 없습니다.</S.Error>;
-  }
-
-  if (!eventDetailData) {
-    return null;
-  }
+  if (error || !eventDetailData) return <S.Error>{error}</S.Error>;
 
   return (
     <S.EventDetailWrapper>
       <UserAPI />
-      <EventTitle data={{ ...eventDetailData }} isMeeting={isMeeting} />
+      <EventTitle data={eventDetailData} isMeeting={isMeeting} />
       <S.Line />
-      <EventContent data={{ ...eventDetailData }} />
+      <EventContent data={eventDetailData} />
     </S.EventDetailWrapper>
   );
 };
 
-export default EventDetails;
+export default EventDetail;

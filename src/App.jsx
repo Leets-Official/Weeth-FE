@@ -48,8 +48,8 @@ const App = () => {
                   <Route path="/attendance" element={<Attendance />} />
                   <Route path="/calendar" element={<Calendar />} />
                   <Route path="/:type/:id" element={<EventDetails />} />
-                  <Route path="/event/create" element={<EventAdmin />} />
-                  <Route path="/event/:id/edit" element={<EventAdmin />} />
+                  <Route path="/events/create" element={<EventAdmin />} />
+                  <Route path="/events/:id/edit" element={<EventAdmin />} />
                   <Route path="/home" element={<Home />} />
                   <Route path="/signup" element={<Signup />} />
                   <Route path="/profile" element={<Profile />} />

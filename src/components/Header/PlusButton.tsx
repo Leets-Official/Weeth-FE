@@ -13,7 +13,7 @@ const PlusButton = () => {
       src={icPlus}
       alt="+"
       onClick={() => {
-        navi('/event/create');
+        navi('/events/create');
       }}
     />
   );
