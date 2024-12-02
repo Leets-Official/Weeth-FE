@@ -68,6 +68,7 @@ const App = () => {
                 <Route path="/admin/member" element={<AdminMember />} />
                 <Route path="/admin/dues" element={<AdminDues />} />
                 <Route path="/admin/penalty" element={<AdminPenatly />} />
+                <Route path="/study/detail" element={<PostDetail />} />
               </Routes>
             </AttendCheckProvider>
           </NoticeProvider>
