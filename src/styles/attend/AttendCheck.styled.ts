@@ -1,12 +1,12 @@
-import styled from 'styled-components';
 import theme from '@/styles/theme';
+import styled from 'styled-components';
 
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  font-family: ${theme.font.family.pretendard_regular};
-  color: ${theme.color.grayScale.white};
+  font-family: ${theme.font.regular};
+  color: ${theme.color.gray[100]};
 `;
 
 export const Header = styled.div`
@@ -26,14 +26,14 @@ export const Penalty = styled.div`
 `;
 
 export const SemiBold = styled.div`
-  font-family: ${theme.font.family.pretendard_semiBold};
+  font-family: ${theme.font.semiBold};
   include-font-padding: false;
   display: flex;
   flex-direction: row;
 `;
 
 export const StyledBox = styled.div`
-  background-color: ${theme.color.grayScale.gray18};
+  background-color: ${theme.color.gray[18]};
   border-radius: 10px;
   margin: 26px 4% 0 4%;
   display: flex;
@@ -50,7 +50,7 @@ export const SmallStyledBoxContainer = styled.div`
 `;
 
 export const SmallStyledBox = styled.div`
-  background-color: ${theme.color.grayScale.gray30};
+  background-color: ${theme.color.gray[30]};
   border-radius: 10px;
   display: flex;
   flex-direction: column;
@@ -68,18 +68,18 @@ export const SmallBoxTitle = styled.div`
 export const SmallBoxNum = styled.div`
   margin-top: 20px;
   font-size: 18px;
-  font-family: ${theme.font.family.pretendard_semiBold};
+  font-family: ${theme.font.semiBold};
 `;
 
 export const Line = styled.div`
   width: 94%;
   height: 1px;
-  background-color: ${theme.color.grayScale.gray30};
+  background-color: ${theme.color.gray[30]};
   margin: 30px 3% 0 3%;
 `;
 
 export const MeetingInfoBox = styled.div`
-  background-color: ${theme.color.grayScale.gray18};
+  background-color: ${theme.color.gray[18]};
   border-radius: 10px;
   margin: 20px 0;
   display: flex;
@@ -100,7 +100,7 @@ export const MeetingTitle = styled.div`
   flex-direction: row;
   margin-left: 2%;
   font-size: 16px;
-  font-family: ${theme.font.family.pretendard_semiBold};
+  font-family: ${theme.font.semiBold};
 `;
 
 export const MeetingInfo = styled.div`

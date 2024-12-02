@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useRef, useContext } from 'react';
-import styled from 'styled-components';
-import PropTypes from 'prop-types';
-import axios from 'axios';
 import { UserContext } from '@/api/UserContext';
+import axios from 'axios';
+import PropTypes from 'prop-types';
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import styled from 'styled-components';
 import commentButton from '../../assets/images/ic_comment.svg';
 import replyButton from '../../assets/images/ic_reply.svg';
 import theme from '../../styles/theme';
@@ -21,7 +21,7 @@ const BoardCommented = styled.div`
 
 const UserName = styled.div`
   width: 100%;
-  font-family: ${theme.font.family.pretendard_semiBold};
+  font-family: ${theme.font.semiBold};
   font-size: 14px;
   line-height: 16.71px;
 `;
@@ -29,7 +29,7 @@ const UserName = styled.div`
 const StyledComment = styled.div`
   width: 100%;
   margin-top: 10px;
-  font-family: ${theme.font.family.pretendard_regular};
+  font-family: ${theme.font.regular};
   font-size: 16px;
   line-height: 19.09px;
 `;
@@ -37,7 +37,7 @@ const StyledComment = styled.div`
 const CommentDate = styled.div`
   margin-top: 5px;
   margin-bottom: 10px;
-  font-family: ${theme.font.family.pretendard_regular};
+  font-family: ${theme.font.regular};
   color: #c1c1c1;
   font-size: 12px;
   line-height: 14.32px;
@@ -57,8 +57,8 @@ const ReplyRow = styled.div`
 `;
 
 const BoardReply = styled.div`
-  background-color: ${theme.color.grayScale.gray18};
-  color: ${theme.color.grayScale.white};
+  background-color: ${theme.color.gray[18]};
+  color: ${theme.color.gray[100]};
   padding: 0 0 0 10px;
   border-radius: 10px;
   width: calc(100% - 30px);

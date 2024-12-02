@@ -75,7 +75,7 @@ const EventTitle = ({
         <EditDelModal
           title="일정"
           onClickEdit={() => {
-            navi(`/event/${data.id}/edit`);
+            navi(`/events/${data.id}/edit`);
           }}
           onClickDel={onClickDel}
           onClickCancel={closeAdminModal}

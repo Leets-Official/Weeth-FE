@@ -1,8 +1,8 @@
-import { useContext } from 'react';
-import theme from '@/styles/theme';
-import Caption from '@/components/Button/Caption';
-import { UserContext } from '@/api/UserContext';
 import { AttendCheckContext } from '@/api/AttendCheckContext';
+import { UserContext } from '@/api/UserContext';
+import Caption from '@/components/Button/Caption';
+import theme from '@/styles/theme';
+import { useContext } from 'react';
 
 import * as S from '@/styles/attend/AttendCheck.styled';
 
@@ -44,14 +44,14 @@ const MeetingBox: React.FC<MeetingBoxProps> = ({
   place,
 }) => {
   let captionText = '미결';
-  let captionColor = theme.color.grayScale.mediumGray;
+  let captionColor = theme.color.gray[20];
 
   if (attend === 'ATTEND') {
     captionText = '출석';
-    captionColor = theme.color.main.mainColor;
+    captionColor = theme.color.main;
   } else if (attend === 'ABSENT') {
     captionText = '결석';
-    captionColor = theme.color.main.negative;
+    captionColor = theme.color.negative;
   }
 
   return (

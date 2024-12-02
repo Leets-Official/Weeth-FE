@@ -1,9 +1,7 @@
-import { useEffect, useState } from 'react';
+import useGetAllUsers from '@/api/useGetAllUsers';
 import MemberName from '@/components/Member/MemberName';
-import { useSearchParams } from 'react-router-dom';
-import { getAllUsers } from '@/api/getAllUsers';
-
 import * as S from '@/styles/member/MemberList.styled';
+import { useSearchParams } from 'react-router-dom';
 
 interface User {
   name: string;
@@ -15,31 +13,14 @@ interface User {
   role: 'USER' | 'ADMIN';
 }
 
-type AllUsersType = { [key: number]: User[] };
-
 const MemberList = () => {
   const [searchParams] = useSearchParams();
   const cardinal = searchParams.get('cardinal');
   const selectedCardinal = cardinal ? Number(cardinal) : 0;
 
-  const [allUsers, setAllUsers] = useState<AllUsersType>({});
-  const [error, setError] = useState<string | null>(null);
+  const { allUsers, error } = useGetAllUsers();
 
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await getAllUsers();
-        setAllUsers(response.data.data);
-        setError(null);
-      } catch (err: any) {
-        setError(err.data.message);
-      }
-    };
-
-    fetchUsers();
-  }, []);
-
-  const filteredMember = allUsers[selectedCardinal] || [];
+  const filteredMember = (allUsers[selectedCardinal] || []) as User[];
 
   let errorMessage;
   if (filteredMember.length === 0) {

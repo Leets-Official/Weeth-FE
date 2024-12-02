@@ -12,14 +12,14 @@ export const Input = styled.input<{
   outline: none;
   border: none;
   border-radius: 4px;
-  background-color: ${theme.color.grayScale.gray12};
+  background-color: ${theme.color.gray[12]};
   color: white;
   text-align: center;
   margin-left: ${(props) => props.$margin || '0px'};
   margin-right: ${(props) => props.$margin || '0px'};
   padding: 0px;
   font-size: 16px;
-  font-family: ${theme.font.family.pretendard_regular};
+  font-family: ${theme.font.regular};
 
   /* Custom CSS to remove arrows in number input */
   /* Chrome, Safari, Edge, Opera */

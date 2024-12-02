@@ -1,6 +1,6 @@
-import styled from 'styled-components';
 import SignupWhite from '@/components/Signup/SignupWhite';
 import theme from '@/styles/theme';
+import styled from 'styled-components';
 
 interface SignupTextComponentProps {
   text: string;
@@ -41,15 +41,15 @@ const StyledTextInput = styled.input`
   border: none;
   border-radius: 4px;
   font-size: 16px;
-  font-family: ${theme.font.family.pretendard_regular};
+  font-family: ${theme.font.regular};
   line-height: 19px;
-  color: ${theme.color.grayScale.white};
-  background-color: ${theme.color.grayScale.gray18};
+  color: ${theme.color.gray[100]};
+  background-color: ${theme.color.gray[18]};
   outline: none;
   box-sizing: border-box;
 
   &::placeholder {
-    color: ${theme.color.grayScale.gray65};
+    color: ${theme.color.gray[65]};
   }
 `;
 

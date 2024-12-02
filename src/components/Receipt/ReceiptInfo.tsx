@@ -1,7 +1,7 @@
 import Caption from '@/components/Button/Caption';
+import * as S from '@/styles/receipt/ReceiptInfo.styled';
 import theme from '@/styles/theme';
 import React from 'react';
-import * as S from '@/styles/receipt/ReceiptInfo.styled';
 
 interface ReceiptInfoProps {
   money: string;
@@ -14,7 +14,7 @@ const ReceiptInfo: React.FC<ReceiptInfoProps> = ({ money, date, memo }) => {
     <S.MemberWrapper>
       <S.StyledReceiptBox>
         <S.StyledCaptionBox>
-          <Caption color={theme.color.main.negative}>지출</Caption>
+          <Caption color={theme.color.negative}>지출</Caption>
           <S.StyledTextBox>
             <S.Text isLong={memo.length >= 10}>{memo}</S.Text>
             <S.SmallText>{date}</S.SmallText>

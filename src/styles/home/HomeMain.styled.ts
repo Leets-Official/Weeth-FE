@@ -1,5 +1,5 @@
-import styled from 'styled-components';
 import theme from '@/styles/theme';
+import styled from 'styled-components';
 
 export const StyledHomeMain = styled.div`
   display: flex;
@@ -26,8 +26,8 @@ export const GridContainer = styled.div`
 `;
 
 export const GridItem = styled.div`
-  background-color: ${theme.color.grayScale.gray18};
-  font-family: ${theme.font.family.pretendard_semiBold};
+  background-color: ${theme.color.gray[18]};
+  font-family: ${theme.font.semiBold};
   font-size: 18px;
   color: #fff;
   padding: 20px;
@@ -69,7 +69,7 @@ export const PlaceholderImage = styled.div`
   padding-right: 8%;
   align-items: center;
   justify-content: center;
-  background-color: ${theme.color.grayScale.gray18};
+  background-color: ${theme.color.gray[18]};
   width: 19%;
   border-radius: 5px;
   align-self: flex-end;
@@ -95,12 +95,14 @@ export const Name = styled.div`
   font-weight: bold;
   padding: 0px;
   align-self: flex-end;
+  //여기는 왜 이렇게 설정되어있나요??
   font-family: var(--font-family-pretendard_semiBold);
 `;
 
 export const NickName = styled.div`
   font-size: 14px;
-  font-family: var(--font-family-pretendard_regular);
+  font-family: var(--font-family-pretendard_regular)
+  //------------
   margin-left: 8px;
   align-self: flex-end;
   padding-bottom: 5px;

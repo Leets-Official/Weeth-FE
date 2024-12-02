@@ -23,7 +23,7 @@ const HeaderText = styled.div`
   display: flex;
   margin: 110px 0 0 7%;
   font-size: 18px;
-  font-family: ${theme.font.family.pretendard_semiBold};
+  font-family: ${theme.font.semiBold};
 `;
 
 const InputContainer = styled.div`
@@ -203,4 +203,3 @@ const Profile: React.FC = () => {
 };
 
 export default Profile;
-

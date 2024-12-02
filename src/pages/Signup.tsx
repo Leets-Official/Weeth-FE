@@ -43,8 +43,8 @@ const CheckButton = styled.button`
   margin: 10px 6% 30px 0;
   background: none;
   border: none;
-  color: ${theme.color.main.mainColor};
-  font-family: ${theme.font.family.pretendard_semiBold};
+  color: ${theme.color.main};
+  font-family: ${theme.font.semiBold};
   cursor: pointer;
   text-decoration: underline;
   font-size: 14px;
@@ -55,7 +55,7 @@ const CheckButton = styled.button`
 
 const MessageText = styled.span`
   margin: 10px 6% 30px 0;
-  font-family: ${theme.font.family.pretendard_semiBold};
+  font-family: ${theme.font.semiBold};
   font-size: 14px;
 `;
 
@@ -187,8 +187,8 @@ const Signup: React.FC = () => {
               style={{
                 color:
                   emailStatus === 'duplicate'
-                    ? theme.color.main.negative
-                    : theme.color.main.positive,
+                    ? theme.color.negative
+                    : theme.color.positive,
               }}
             >
               {emailStatus === 'duplicate'
@@ -221,4 +221,3 @@ const Signup: React.FC = () => {
 };
 
 export default Signup;
-

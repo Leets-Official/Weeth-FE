@@ -3,18 +3,19 @@
 import React, { useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 import { UserContext } from '@/api/UserContext';
-import { BoardContext } from '@/api/BoardContext';
+// import { BoardContext } from '@/api/BoardContext';
 import PropTypes from 'prop-types';
+import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
+import theme from '../../styles/theme';
 import BoardComment from './BoardComment';
 import Typing from './Typing';
-import theme from '../../styles/theme';
 
 const TypingContainer = styled.div`
   position: fixed;
   bottom: 0;
   width: 370px; /* 헤더와 동일한 너비 */
-  background-color: ${theme.color.grayScale.gray12};
+  background-color: ${theme.color.gray[12]};
   display: flex;
   justify-content: center;
   padding: 0;

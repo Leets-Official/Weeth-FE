@@ -1,5 +1,5 @@
-import styled from 'styled-components';
 import theme from '@/styles/theme';
+import styled from 'styled-components';
 
 export const StyledModal = styled.div<{ open: boolean }>`
   display: ${(props) => (props.open ? 'block' : 'none')};
@@ -22,11 +22,11 @@ export const Line = styled.div`
 `;
 
 export const Regular = styled.div`
-  font-family: ${theme.font.family.pretendard_regular};
+  font-family: ${theme.font.regular};
 `;
 
 export const SemiBold = styled.div`
-  font-family: ${theme.font.family.pretendard_semiBold};
+  font-family: ${theme.font.semiBold};
   include-font-padding: false;
   display: flex;
   flex-direction: row;
@@ -48,7 +48,7 @@ export const PenaltyDetail = styled.div`
 export const PenaltyIcon = styled.div`
   width: 28px;
   height: 43px;
-  background-color: ${theme.color.main.negative};
+  background-color: ${theme.color.negative};
   color: white;
   display: flex;
   align-items: center;

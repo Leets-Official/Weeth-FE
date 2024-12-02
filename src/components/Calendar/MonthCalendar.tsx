@@ -1,10 +1,9 @@
-/* eslint-disable no-console */
-import getMonthlySchedule from '@/api/getMonthSchedule';
+import useGetMonthlySchedule from '@/api/useGetMonthSchedule';
 import * as S from '@/styles/calendar/MonthCalendar.styled';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import FullCalendar from '@fullcalendar/react';
 import { format } from 'date-fns';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const MonthCalendar = ({ year, month }: { year: number; month: number }) => {
@@ -14,43 +13,29 @@ const MonthCalendar = ({ year, month }: { year: number; month: number }) => {
   const prevMonth = month - 1;
   const nextMonth = month + 1;
 
-  const [monthlySchedule, setMontlySchedule] = useState();
-  const [formattedStart, setFormattedStart] = useState(
-    `${year}-${String(prevMonth).padStart(2, '0')}-23T00:00:00.000Z`,
-  );
-  const [formattedEnd, setFormattedEnd] = useState(
-    new Date(year, nextMonth, 6, 23, 59, 59, 999).toISOString(),
-  );
+  const formattedStart = `${year}-${String(prevMonth).padStart(2, '0')}-23T00:00:00.000Z`;
+  const formattedEnd = new Date(
+    year,
+    nextMonth,
+    6,
+    23,
+    59,
+    59,
+    999,
+  ).toISOString();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        if (formattedStart && formattedEnd) {
-          const response = await getMonthlySchedule(
-            formattedStart,
-            formattedEnd,
-          );
-          if (response.data.code === 200) {
-            setMontlySchedule(response.data.data);
-          } else {
-            console.error(response.data.message);
-          }
-        }
-      } catch (err) {
-        console.error(err);
-      }
-    };
-    fetchData();
-  }, [formattedStart]);
+  const { data: monthlySchedule, error } = useGetMonthlySchedule(
+    formattedStart,
+    formattedEnd,
+  );
 
   // 데이터 전처리 함수
   // TODO: 백엔드 수정 후 삭제 예정
-  const preprocessData = (data: any) => {
-    return data.map((event: any) => ({
+  const preprocessData = (data: any[]) =>
+    data.map((event) => ({
       ...event,
       id: `${event.id}_${event.isMeeting}`,
     }));
-  };
 
   const processedData = preprocessData(monthlySchedule || []);
 
@@ -71,18 +56,11 @@ const MonthCalendar = ({ year, month }: { year: number; month: number }) => {
     const { isMeeting } = clickInfo.event.extendedProps;
 
     if (isMeeting) {
-      navi(`/meetings/${id}`, { state: { isMeeting } });
+      navi(`/meetings/${id}`);
     } else {
-      navi(`/events/${id}`, { state: { isMeeting } });
+      navi(`/events/${id}`);
     }
   };
-
-  useEffect(() => {
-    setFormattedStart(
-      `${year}-${String(prevMonth).padStart(2, '0')}-23T00:00:00.000Z`,
-    );
-    setFormattedEnd(new Date(year, month, 7, 8, 59, 59, 999).toISOString());
-  }, [year, month]);
 
   useEffect(() => {
     if (calendarRef.current) {
@@ -90,6 +68,10 @@ const MonthCalendar = ({ year, month }: { year: number; month: number }) => {
       calendarApi.gotoDate(new Date(year, month - 1));
     }
   }, [year, month]);
+
+  if (error) {
+    return <div>{error}</div>;
+  }
 
   return (
     <S.Calendar>

@@ -5,14 +5,14 @@ export const StyledYear = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  font-family: ${theme.font.family.pretendard_regular};
+  font-family: ${theme.font.regular};
   font-size: 16px;
 `;
 
 export const ContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  background-color: ${theme.color.grayScale.gray18};
+  background-color: ${theme.color.gray[18]};
   padding: 10px;
   margin-bottom: 15px;
   width: 143px; //사이즈 수정 필요
@@ -37,5 +37,5 @@ export const MonthName = styled.div<{ $isToday: boolean }>`
   padding-bottom: 7px;
   color: ${(props) => (props.$isToday === true ? '#00dda8' : '#ffffff')};
   font-size: 18px;
-  font-family: ${theme.font.family.pretendard_semiBold};
+  font-family: ${theme.font.semiBold};
 `;

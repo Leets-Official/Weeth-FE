@@ -25,7 +25,7 @@ export const Slider = styled.span<{ $isMonth: boolean }>`
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: ${theme.color.grayScale.gray18};
+  background-color: ${theme.color.gray[18]};
   transition: 0.4s;
   border-radius: 10px;
 
@@ -36,7 +36,7 @@ export const Slider = styled.span<{ $isMonth: boolean }>`
     width: 170px;
     left: 2px;
     bottom: 2px;
-    background-color: ${theme.color.grayScale.gray30};
+    background-color: ${theme.color.gray[30]};
     transition: 0.4s;
     border-radius: 9px;
     transform: ${(props) =>
@@ -48,10 +48,8 @@ export const TextMonth = styled.div<{ $isMonth: boolean }>`
   position: absolute;
   left: 18%;
   color: ${(props) =>
-    props.$isMonth
-      ? theme.color.grayScale.white
-      : theme.color.grayScale.gray65};
-  font-family: ${theme.font.family.pretendard_semiBold};
+    props.$isMonth ? theme.color.gray[100] : theme.color.gray[65]};
+  font-family: ${theme.font.semiBold};
   font-size: 12px;
   z-index: 1;
 `;
@@ -60,10 +58,8 @@ export const TextYear = styled.div<{ $isMonth: boolean }>`
   position: absolute;
   right: 22%;
   color: ${(props) =>
-    props.$isMonth
-      ? theme.color.grayScale.gray65
-      : theme.color.grayScale.white};
-  font-family: ${theme.font.family.pretendard_semiBold};
+    props.$isMonth ? theme.color.gray[65] : theme.color.gray[100]};
+  font-family: ${theme.font.semiBold};
   font-size: 12px;
   z-index: 1;
 `;

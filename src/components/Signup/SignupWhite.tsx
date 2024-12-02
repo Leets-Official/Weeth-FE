@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 
 import PropTypes from 'prop-types';
@@ -15,8 +14,8 @@ const SignupTexts = styled.div`
   display: flex;
   justify-content: flex-start;
   width: 100%;
-  font-family: ${theme.font.family.pretendard_semiBold};
-  color: ${theme.color.grayScale.white};
+  font-family: ${theme.font.semiBold};
+  color: ${theme.color.gray[100]};
   margin-bottom: 0;
   line-height: 1.2; /* Adjust line height to prevent text overlap */
   white-space: nowrap;

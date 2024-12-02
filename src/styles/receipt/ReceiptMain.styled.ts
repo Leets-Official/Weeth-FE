@@ -1,10 +1,10 @@
-import styled from 'styled-components';
 import theme from '@/styles/theme';
+import styled from 'styled-components';
 
 export const StyledReceipt = styled.div`
   width: 370px;
   height: calc(var(--vh, 1vh) * 100);
-  font-family: ${theme.font.family.pretendard_regular};
+  font-family: ${theme.font.regular};
 `;
 
 export const Line = styled.div`
@@ -16,7 +16,7 @@ export const Line = styled.div`
 `;
 
 export const StyledMonth = styled.div`
-  font-family: ${theme.font.family.pretendard_semiBold};
+  font-family: ${theme.font.semiBold};
   font-size: 18px;
   margin: 15px 0 0 6%;
 `;
@@ -39,7 +39,7 @@ export const GridItem = styled.div`
   flex: 0 0 auto;
   margin-right: 10px;
   padding: 0;
-  background-color: ${theme.color.grayScale.gray18};
+  background-color: ${theme.color.gray[18]};
   width: 56%;
   height: 124px;
   color: #fff;

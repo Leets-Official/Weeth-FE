@@ -27,10 +27,10 @@ export const TitleInput = styled.input`
   padding: 20px 0;
   color: white;
   font-size: 16px;
-  font-family: ${theme.font.family.pretendard_semiBold};
+  font-family: ${theme.font.semiBold};
   &::placeholder {
     font-size: 16px;
-    font-family: ${theme.font.family.pretendard_semiBold};
+    font-family: ${theme.font.semiBold};
   }
 `;
 
@@ -44,11 +44,11 @@ export const ContentInput = styled.textarea`
   padding-top: 20px;
   color: white;
   font-size: 16px;
-  font-family: ${theme.font.family.pretendard_regular};
+  font-family: ${theme.font.regular};
 
   &::placeholder {
     font-size: 16px;
-    font-family: ${theme.font.family.pretendard_regular};
+    font-family: ${theme.font.regular};
   }
 `;
 
