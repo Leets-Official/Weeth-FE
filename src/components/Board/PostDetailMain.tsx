@@ -4,6 +4,8 @@ import CommentImage from '@/assets/images/ic_comment_count.svg';
 import Line from '../common/Line';
 import PostFile from './PostFile';
 
+// TODO: 스타일 분리 및 색상 코드 적용
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -16,7 +18,7 @@ const TitleText = styled.div`
 `;
 
 const SmallText = styled.div`
-  color: #c1c1c1; // 그레이 스케일 설정해주기
+  color: #c1c1c1;
   font-size: 12px;
   display: flex;
   flex-direction: row;
@@ -46,6 +48,9 @@ const CommentText = styled.div`
 `;
 
 const PostDetailMain = () => {
+  const onClickDownload = () => {
+    console.log('파일 다운');
+  };
   return (
     <Container>
       <TitleText> 스터디 제못</TitleText>
@@ -57,6 +62,7 @@ const PostDetailMain = () => {
       <PostFile
         fileName="파일이름이 길어질 때, 사실 그렇게 보이면.pdf"
         isDownload
+        onClick={onClickDownload}
       />
       <CommentText>
         <img src={CommentImage} alt="댓글 이미지" />
