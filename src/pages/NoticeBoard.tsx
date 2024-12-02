@@ -19,12 +19,8 @@ const NoticeBoard = () => {
   return (
     <Container>
       <GetAllPosts path="notices" />
-      <NoticeHeader
-        showModal={false}
-        ModalComponent={EditDelModal}
-        showIndexButton={false}
-      />
-      <Info title="공지 게시판" isbutton={isAdmin} />
+      <NoticeHeader showModal={false} ModalComponent={EditDelModal} />
+      <Info title="공지 게시판" isEditButtonVisible={isAdmin} />
       <PostList />
     </Container>
   );

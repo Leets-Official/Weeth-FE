@@ -20,12 +20,8 @@ const StudyBoard = () => {
   return (
     <Container>
       <GetAllPosts path="posts" />
-      <NoticeHeader
-        showModal={false}
-        ModalComponent={EditDelModal}
-        showIndexButton={false}
-      />
-      <Info title="스터디 게시판" isbutton={isPostBtn} />
+      <NoticeHeader showModal={false} ModalComponent={EditDelModal} />
+      <Info title="스터디 게시판" isEditButtonVisible={isPostBtn} />
       <PostList />
     </Container>
   );

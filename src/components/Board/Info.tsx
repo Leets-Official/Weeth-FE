@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 type InfoProps = {
   title: string;
-  isbutton: boolean;
+  isEditButtonVisible: boolean;
 };
 
 const Container = styled.div`
@@ -47,14 +47,14 @@ const PostingButton = styled.button`
   align-items: center;
 `;
 
-const Info = ({ title, isbutton }: InfoProps) => {
+const Info = ({ title, isEditButtonVisible }: InfoProps) => {
   return (
     <Container>
       <TextContainer>
         <TitleText>{title}</TitleText>
         <InfoText>자세한 내용을 보려면 게시물을 클릭하세요.</InfoText>
       </TextContainer>
-      {isbutton && <PostingButton>글쓰기</PostingButton>}
+      {isEditButtonVisible && <PostingButton>글쓰기</PostingButton>}
     </Container>
   );
 };
