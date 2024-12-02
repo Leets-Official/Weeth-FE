@@ -66,7 +66,7 @@ const HomeMain: React.FC = () => {
         </S.PenaltyItem>
         <S.BoardItem
           onClick={() => {
-            navi(`/board`);
+            navi(`/notice`);
           }}
         >
           게시판
