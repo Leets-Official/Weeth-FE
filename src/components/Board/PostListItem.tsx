@@ -36,23 +36,23 @@ const CommentContainer = styled.div`
 `;
 
 const TitleText = styled.div`
-  color: ${theme.color.grayScale.white};
-  font-family: ${theme.font.family.pretendard_semiBold};
+  color: ${theme.color.gray[100]};
+  font-family: ${theme.font.semiBold};
   font-size: 16px;
   line-height: 19.09px;
   margin: 5px 0;
 `;
 
 const ContentText = styled.div`
-  color: ${theme.color.grayScale.white};
-  font-family: ${theme.font.family.pretendard_regular};
+  color: ${theme.color.gray[100]};
+  font-family: ${theme.font.regular};
   font-size: 14px;
   line-height: 19.09px;
 `;
 
 const LightText = styled.div`
-  color: ${theme.color.grayScale.gray65};
-  font-family: ${theme.font.family.pretendard_regular};
+  color: ${theme.color.gray[65]};
+  font-family: ${theme.font.regular};
   font-size: 12px;
   line-height: 14.32px;
 `;

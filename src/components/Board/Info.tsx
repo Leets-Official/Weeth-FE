@@ -22,7 +22,7 @@ const TextContainer = styled.div`
 const TitleText = styled.div`
   margin-top: 20px;
   font-size: 16px;
-  font-family: ${theme.font.family.pretendard_semiBold};
+  font-family: ${theme.font.semiBold};
   line-height: 19.09px;
 `;
 
@@ -35,13 +35,13 @@ const PostingButton = styled.button`
   width: calc(370px * 0.13);
   height: 28px;
   margin-top: auto;
-  background-color: ${theme.color.main.mainColor};
-  color: ${theme.color.grayScale.white};
+  background-color: ${theme.color.main};
+  color: ${theme.color.gray[100]};
   border: none;
   font-size: 12px;
   border-radius: 10px;
   cursor: pointer;
-  font-family: ${theme.font.family.pretendard_semiBold};
+  font-family: ${theme.font.semiBold};
   display: flex;
   justify-content: center;
   align-items: center;
