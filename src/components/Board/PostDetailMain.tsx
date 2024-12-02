@@ -5,7 +5,6 @@ import Line from '../common/Line';
 import PostFile from './PostFile';
 
 // TODO: 스타일 분리 및 색상 코드 적용
-
 const Container = styled.div`
   display: flex;
   flex-direction: column;

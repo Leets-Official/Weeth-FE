@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import ReplyImage from '@/assets/images/ic_reply_comment.svg';
 import MenuImage from '@/assets/images/ic_comment_delete.svg';
 
+// TODO: 스타일 분리 및 색상 코드 적용
 const Container = styled.div`
   width: 100%;
   display: flex;
@@ -36,7 +37,7 @@ const ContentText = styled.div`
 `;
 
 const DateText = styled.div`
-  color: #c1c1c1; // 그레이 스케일 설정해주기
+  color: #c1c1c1;
   font-size: 12px;
   margin-top: 5px;
 `;

@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import ReplyArrowImage from '@/assets/images/ic_reply.svg';
 import MenuImage from '@/assets/images/ic_comment_delete.svg';
 
+// TODO: 스타일 분리 및 색상 코드 적용
 const Container = styled.div`
   width: 100%;
   display: flex;
@@ -20,7 +21,7 @@ const ReplyArrow = styled.img`
 
 const ReplyContainer = styled.div`
   flex: 1;
-  background-color: #2f2f2f; // 추후 변경
+  background-color: #2f2f2f;
   border-radius: 8px;
   padding: 10px;
   display: flex;
