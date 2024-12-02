@@ -2,11 +2,7 @@ import { useEffect, useContext } from 'react';
 import axios from 'axios';
 import { GetAllPostsContext } from '@/api/GetAllPostsContext';
 
-interface GetAllPostsProps {
-  path: string;
-}
-
-const GetAllPosts: React.FC<GetAllPostsProps> = ({ path }) => {
+const GetAllPosts = ({ path }: { path: string }) => {
   const { setPosts } = useContext(GetAllPostsContext);
 
   const accessToken = localStorage.getItem('accessToken') || '';
