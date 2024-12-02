@@ -1,13 +1,13 @@
-import { useState, useEffect } from 'react';
-import styled from 'styled-components';
 import SignupWhite from '@/components/Signup/SignupWhite';
 import theme from '@/styles/theme';
+import { useEffect, useState } from 'react';
+import styled from 'styled-components';
 
 interface SignupMemInputProps {
   labelName: string;
   placeholderText: string;
-  origValue: string | string[]; 
-  inputType: 'text' | 'number'; 
+  origValue: string | string[];
+  inputType: 'text' | 'number';
   onChange: (value: string) => void;
 }
 
@@ -42,7 +42,7 @@ const InputLine = styled.input`
 
   &::placeholder {
     color: #333333;
-    font-family: ${theme.font.family.pretendard_regular};
+    font-family: ${theme.font.regular};
   }
 `;
 

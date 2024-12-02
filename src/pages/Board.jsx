@@ -1,12 +1,12 @@
 /* eslint-disable no-unused-vars */
-import React, { useState, useContext } from 'react';
-import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
-import EditDelModal from '@/components/Modal/EditDelModal';
 import { UserContext } from '@/api/UserContext';
+import EditDelModal from '@/components/Modal/EditDelModal';
+import { useContext, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 import NoticeHeader from '../components/Board/NoticeHeader';
-import NoticeMiddle from '../components/Board/NoticeMiddle';
 import NoticeList from '../components/Board/NoticeList';
+import NoticeMiddle from '../components/Board/NoticeMiddle';
 import StudyList from '../components/Board/StudyList';
 import theme from '../styles/theme';
 
@@ -17,20 +17,18 @@ const Container = styled.div`
 const TabsContainer = styled.div`
   display: flex;
   width: 88%;
-  border-bottom: 1px solid ${theme.color.grayScale.gray65};
+  border-bottom: 1px solid ${theme.color.gray[65]};
   margin: 0 7%;
 `;
 
 const StyledTab = styled.div`
   padding: 10px 10px;
   cursor: pointer;
-  font-family: ${theme.font.family.pretendard_semiBold};
+  font-family: ${theme.font.semiBold};
   font-size: 16px;
   line-height: 19.09px;
   color: ${(props) =>
-    props.active === 'true'
-      ? theme.color.grayScale.white
-      : theme.color.grayScale.gray65};
+    props.active === 'true' ? theme.color.gray[100] : theme.color.gray[65]};
   position: relative;
 
   &:after {
@@ -41,19 +39,19 @@ const StyledTab = styled.div`
     right: 0;
     height: 2px;
     background-color: ${(props) =>
-      props.active === 'true' ? theme.color.grayScale.white : 'transparent'};
+      props.active === 'true' ? theme.color.gray[100] : 'transparent'};
   }
 `;
 
 const PostingButton = styled.button`
   width: calc(370 * 0.13);
   height: 28px;
-  background-color: ${theme.color.main.mainColor};
-  color: ${theme.color.grayScale.white};
+  background-color: ${theme.color.main};
+  color: ${theme.color.gray[100]};
   border: none;
   border-radius: 10px;
   cursor: pointer;
-  font-family: ${theme.font.family.pretendard_semiBold};
+  font-family: ${theme.font.semiBold};
   font-size: 12px;
   display: flex;
   justify-content: center;
@@ -64,7 +62,6 @@ const Board = () => {
   const [activeTab, setActiveTab] = useState('notice');
   const navigate = useNavigate();
   const { userData } = useContext(UserContext);
-
 
   const handlePostingClick = () => {
     if (activeTab === 'study') {
@@ -89,7 +86,7 @@ const Board = () => {
       <NoticeHeader
         showModal={false}
         ModalComponent={EditDelModal}
-        showIndexButton={false}
+        showMenuButton={false}
       />
       <NoticeMiddle
         title={activeTab === 'notice' ? '공지사항' : '스터디 게시판'}

@@ -1,10 +1,10 @@
-import styled from 'styled-components';
 import theme from '@/styles/theme';
+import styled from 'styled-components';
 
 export const MemberWrapper = styled.div`
   width; 100%;
   padding: 20px 0px 0px 0px;
-  font-family: ${theme.font.family.pretendard_regular};
+  font-family: ${theme.font.regular};
 `;
 
 export const StyledDuesBox = styled.div`

@@ -1,14 +1,14 @@
 /* eslint-disable no-alert */
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import SignupHeader from '@/components/Signup/SignupHeader';
-import SignupTextComponent from '@/components/Signup/SignupTextComponent';
-import toggleVisibleIcon from '@/assets/images/ic_toggleVisible.svg';
 import toggleInvisibleIcon from '@/assets/images/ic_toggleInvisible.svg';
-import theme from '@/styles/theme';
+import toggleVisibleIcon from '@/assets/images/ic_toggleVisible.svg';
+import Header from '@/components/Header/Header';
+import SignupTextComponent from '@/components/Signup/SignupTextComponent';
 import useCustomBack from '@/hooks/useCustomBack';
+import theme from '@/styles/theme';
+import axios from 'axios';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 
 // Styled components
 const Container = styled.div`
@@ -43,8 +43,8 @@ const CheckButton = styled.button`
   margin: 10px 6% 30px 0;
   background: none;
   border: none;
-  color: ${theme.color.main.mainColor};
-  font-family: ${theme.font.family.pretendard_semiBold};
+  color: ${theme.color.main};
+  font-family: ${theme.font.semiBold};
   cursor: pointer;
   text-decoration: underline;
   font-size: 14px;
@@ -55,7 +55,7 @@ const CheckButton = styled.button`
 
 const MessageText = styled.span`
   margin: 10px 6% 30px 0;
-  font-family: ${theme.font.family.pretendard_semiBold};
+  font-family: ${theme.font.semiBold};
   font-size: 14px;
 `;
 
@@ -66,7 +66,9 @@ const Signup: React.FC = () => {
 
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const [emailStatus, setEmailStatus] = useState<'available' | 'duplicate' | null>(null);
+  const [emailStatus, setEmailStatus] = useState<
+    'available' | 'duplicate' | null
+  >(null);
   const [passwordVisible, setPasswordVisible] = useState<boolean>(false);
   const [isChecked, setIsChecked] = useState<boolean>(false);
 
@@ -75,26 +77,30 @@ const Signup: React.FC = () => {
     return emailRegex.test(validEmail);
   };
 
-  const checkDuplicate = async (DuplicatedEmail: string): Promise<boolean | null> => {
+  const checkDuplicate = async (
+    DuplicatedEmail: string,
+  ): Promise<boolean | null> => {
     try {
-        const BASE_URL = import.meta.env.VITE_API_URL;
-        const response = await axios.get(
-            `${BASE_URL}/api/v1/users/email?email=${DuplicatedEmail}`
-        );
+      const BASE_URL = import.meta.env.VITE_API_URL;
+      const response = await axios.get(
+        `${BASE_URL}/api/v1/users/email?email=${DuplicatedEmail}`,
+      );
 
-        if (response.data.code === 200) {
-            return response.data.data;
-        }
+      if (response.data.code === 200) {
+        return response.data.data;
+      }
     } catch (error: unknown) {
-        if (error instanceof axios.AxiosError && error.response?.data.code === 400) {
-            return false;
-        }
-        return null;
+      if (
+        error instanceof axios.AxiosError &&
+        error.response?.data.code === 400
+      ) {
+        return false;
+      }
+      return null;
     }
 
     return null;
-};
-
+  };
 
   const handleCheckEmail = async () => {
     if (!validateEmail(email)) {
@@ -150,15 +156,16 @@ const Signup: React.FC = () => {
 
   return (
     <Container>
-      <SignupHeader
-        isRightButtonEnabled={
+      <Header
+        isComplete={
           validateEmail(email) &&
           emailStatus !== 'duplicate' &&
           password.trim() !== '' &&
           isChecked &&
           !(password.length < 6 || password.length > 12)
         }
-        onClickTextButton={handleNextClick}
+        onClickRightButton={handleNextClick}
+        RightButtonType="TEXT"
       />
       <InputContainer>
         <SignupTextComponent
@@ -180,8 +187,8 @@ const Signup: React.FC = () => {
               style={{
                 color:
                   emailStatus === 'duplicate'
-                    ? theme.color.main.negative
-                    : theme.color.main.positive,
+                    ? theme.color.negative
+                    : theme.color.positive,
               }}
             >
               {emailStatus === 'duplicate'
@@ -201,7 +208,11 @@ const Signup: React.FC = () => {
           type={passwordVisible ? 'text' : 'password'}
         >
           <ToggleVisibilityButton onClick={togglePasswordVisibility}>
-            {passwordVisible ? <img src={toggleVisibleIcon} alt="Toggle to visible" /> : <img src={toggleInvisibleIcon} alt="Toggle to invisible" />}
+            {passwordVisible ? (
+              <img src={toggleVisibleIcon} alt="Toggle to visible" />
+            ) : (
+              <img src={toggleInvisibleIcon} alt="Toggle to invisible" />
+            )}
           </ToggleVisibilityButton>
         </SignupTextComponent>
       </InputContainer>

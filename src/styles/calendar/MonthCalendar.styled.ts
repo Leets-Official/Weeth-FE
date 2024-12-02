@@ -1,10 +1,10 @@
 import theme from '@/styles/theme';
 import styled from 'styled-components';
 
-export const CalendarContainer = styled.div`
+export const Calendar = styled.div`
   width: 100%;
   padding-bottom: 183px;
-  font-family: ${theme.font.family.pretendard_regular};
+  font-family: ${theme.font.regular};
   font-size: 16px;
   z-index: 2;
 
@@ -20,12 +20,12 @@ export const CalendarContainer = styled.div`
   .fc-scrollgrid,
   .fc-theme-standard td,
   .fc-theme-standard th {
-    border-color: ${theme.color.grayScale.gray12};
+    border-color: ${theme.color.gray[12]};
   }
 
   .fc-col-header-cell 
   {
-    background-color: ${theme.color.grayScale.gray12};
+    background-color: ${theme.color.gray[12]};
     padding-bottom: 15px;
     border: none;
   }
@@ -45,17 +45,17 @@ export const CalendarContainer = styled.div`
   }
 
   .fc-day-sun a {
-    color: ${theme.color.main.negative};
+    color: ${theme.color.negative};
   }
 
   .fc-day-sat a {
-    color: ${theme.color.main.pointBlue};
+    color: ${theme.color.positive};
   }
 
   .fc-event,
   .fc-event-dot {
     padding: 3px 10px;
-    background-color: ${theme.color.grayScale.gray18}; !important;
+    background-color: ${theme.color.gray[18]}; !important;
     border: none;
     border-radius: 20px;
     color: white !important;
@@ -64,7 +64,7 @@ export const CalendarContainer = styled.div`
 
   .fc-event:hover {
     padding: 3px 10px;
-    background-color: ${theme.color.main.pointBlue}; !important;
+    background-color: ${theme.color.positive}; !important;
     border: none;
     border-radius: 20px;
     color: white !important;
@@ -106,7 +106,7 @@ export const Today = styled.div`
   position: absolute;
   top: 1px;
   right: 7px;
-  background: ${theme.color.main.mainColor};
+  background: ${theme.color.main};
   border-radius: 10px;
   width: 38px;
   height: 22px;

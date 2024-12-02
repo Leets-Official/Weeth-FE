@@ -1,15 +1,15 @@
-import React, { useState, useEffect, useContext, ChangeEvent } from 'react';
+import '@/components/Attendance/Modal/ModalStyled.css';
 import * as S from '@/styles/attend/ModalAttend.styled';
 import axios from 'axios';
-import '@/components/Attendance/Modal/ModalStyled.css';
+import React, { ChangeEvent, useContext, useEffect, useState } from 'react';
 
+import { AttendContext } from '@/api/AttendContext';
+import check from '@/assets/images/ic_check.svg';
+import icClose from '@/assets/images/ic_close.svg';
+import correct from '@/assets/images/ic_correct.svg';
+import wrong from '@/assets/images/ic_wrong.svg';
 import Button from '@/components/Button/Button';
 import theme from '@/styles/theme';
-import icClose from '@/assets/images/ic_close.svg';
-import check from '@/assets/images/ic_check.svg';
-import wrong from '@/assets/images/ic_wrong.svg';
-import correct from '@/assets/images/ic_correct.svg';
-import { AttendContext } from '@/api/AttendContext';
 
 interface ModalAttendProps {
   open: boolean;
@@ -180,7 +180,7 @@ const ModalAttend: React.FC<ModalAttendProps> = ({ open, close }) => {
             <S.SemiBold className="modal-title">출석하기</S.SemiBold>
             <S.SemiBold className="modal-text">
               오늘은&nbsp;
-              <div style={{ color: theme.color.main.mainColor }}>{title}</div>
+              <div style={{ color: theme.color.main }}>{title}</div>
               &nbsp;이&#40;가&#41; 있는 날이에요
             </S.SemiBold>
             <div className="modal-date">

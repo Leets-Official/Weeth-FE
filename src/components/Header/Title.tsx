@@ -1,6 +1,7 @@
+// 게시판 리팩토링 후 삭제 예정
+import theme from '@/styles/theme';
 import React from 'react';
 import styled from 'styled-components';
-import theme from '@/styles/theme';
 
 interface TitleProps {
   text: string;
@@ -8,7 +9,7 @@ interface TitleProps {
 
 const StyledText = styled.div`
   font-size: 18px;
-  font-family: ${theme.font.family.pretendard_semiBold};
+  font-family: ${theme.font.semiBold};
 `;
 
 const Title: React.FC<TitleProps> = ({ text }) => {

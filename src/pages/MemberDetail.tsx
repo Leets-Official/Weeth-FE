@@ -1,15 +1,15 @@
-import { useLocation } from 'react-router-dom';
-import MemberHeader from '@/components/Member/MemberHeader';
 import InfoComponent from '@/components/Member/InfoComponent';
+import { useLocation } from 'react-router-dom';
 
-import icName from '@/assets/images/ic_name.svg';
-import icStudentId from '@/assets/images/ic_studentID.svg';
-import icDepartment from '@/assets/images/ic_department.svg';
 import icCardinal from '@/assets/images/ic_cardinal.svg';
-import icPosition from '@/assets/images/ic_position.svg';
+import icDepartment from '@/assets/images/ic_department.svg';
 import icEmail from '@/assets/images/ic_mail.svg';
+import icName from '@/assets/images/ic_name.svg';
+import icPosition from '@/assets/images/ic_position.svg';
+import icStudentId from '@/assets/images/ic_studentID.svg';
 import useCustomBack from '@/hooks/useCustomBack';
 
+import Header from '@/components/Header/Header';
 import * as S from '@/styles/member/MemberDetail.styled';
 
 const MemberDetail = () => {
@@ -57,11 +57,17 @@ const MemberDetail = () => {
       index: '역할',
       value: position,
     },
+    {
+      src: icEmail,
+      alt: '메일',
+      index: '메일',
+      value: email,
+    },
   ];
   //-----------------------
   return (
     <S.Wrapper>
-      <MemberHeader />
+      <Header title="멤버" RightButtonType="none" />
       <S.InfoWrapper>
         {infoData.map((info) => (
           <InfoComponent
@@ -71,7 +77,6 @@ const MemberDetail = () => {
             value={info.value}
           />
         ))}
-        <InfoComponent src={icEmail} alt="mail" index="메일" value={email} />
       </S.InfoWrapper>
     </S.Wrapper>
   );

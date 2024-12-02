@@ -1,15 +1,15 @@
 /* eslint-disable no-alert */
-import React, { useState, useEffect, useContext } from 'react';
-import styled from 'styled-components';
-import axios from 'axios';
-import { useNavigate, useParams } from 'react-router-dom';
 import UserAPI from '@/api/UserAPI';
 import { UserContext } from '@/api/UserContext';
-import NoticeHeader from '../components/Board/NoticeHeader';
+import axios from 'axios';
+import React, { useContext, useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import styled from 'styled-components';
+import boardChat from '../assets/images/ic_board_chat.svg';
 import AttachButton from '../components/Board/AttachButton';
 import CommentList from '../components/Board/CommentList';
+import NoticeHeader from '../components/Board/NoticeHeader';
 import EditDelModal from '../components/Modal/EditDelModal';
-import boardChat from '../assets/images/ic_board_chat.svg';
 import theme from '../styles/theme';
 
 const Container = styled.div`
@@ -17,15 +17,15 @@ const Container = styled.div`
   flex-direction: column;
   width: 370px;
   min-height: 810px;
-  color: ${theme.color.grayScale.white};
+  color: ${theme.color.gray[100]};
   margin-bottom: 50px;
-  font-family: ${theme.font.family.pretendard_regular};
+  font-family: ${theme.font.regular};
 `;
 
 const HeaderWrapper = styled.div`
   position: fixed;
   width: 370px;
-  background-color: ${theme.color.grayScale.gray12};
+  background-color: ${theme.color.gray[12]};
   top: 0;
   z-index: 1;
 `;
@@ -52,7 +52,7 @@ const StudyNamed = styled.div`
 const SubRow = styled.div`
   display: flex;
   margin-top: 10px;
-  font-family: ${theme.font.family.pretendard_regular};
+  font-family: ${theme.font.regular};
   color: #c1c1c1;
   font-size: 12px;
   line-height: 14.32px;
@@ -79,7 +79,7 @@ const StyledDate = styled.div`
 
 const StudyContents = styled.div`
   margin-top: 20px;
-  font-family: ${theme.font.family.pretendard_regular};
+  font-family: ${theme.font.regular};
   font-size: 16px;
   line-height: 19.09px;
   white-space: pre-wrap;
@@ -97,8 +97,8 @@ const CommentCountWrapper = styled.div`
 `;
 
 const CommentCount = styled.div`
-  color: ${theme.color.grayScale.gray65};
-  font-family: ${theme.font.family.pretendard_regular};
+  color: ${theme.color.gray[65]};
+  font-family: ${theme.font.regular};
   font-size: 12px;
   line-height: 14.32px;
   margin-left: 4px;
@@ -107,7 +107,7 @@ const CommentCount = styled.div`
 const CommentSection = styled.div`
   margin-top: 15px;
   padding-top: 10px;
-  border-top: 1px solid ${theme.color.grayScale.gray30};
+  border-top: 1px solid ${theme.color.gray[30]};
 `;
 
 const formatDateTime = (dateTimeString) => {

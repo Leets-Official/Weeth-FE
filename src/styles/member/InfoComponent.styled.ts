@@ -21,6 +21,6 @@ export const Text = styled.div`
   margin-left: 10px;
 `;
 
-export const MainColor = styled.div`
-  color: ${theme.color.main.mainColor};
+export const Main = styled.div`
+  color: ${theme.color.main};
 `;

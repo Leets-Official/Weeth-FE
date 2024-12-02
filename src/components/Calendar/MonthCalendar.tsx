@@ -1,59 +1,45 @@
-/* eslint-disable no-console */
-import MonthlyShceduleAPI from '@/api/MonthlyScheduleAPI';
-import { MonthlyScheduleContext } from '@/api/MonthlyScheduleContext';
-import UserAPI from '@/api/UserAPI';
+import useGetMonthlySchedule from '@/api/useGetMonthSchedule';
 import * as S from '@/styles/calendar/MonthCalendar.styled';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import FullCalendar from '@fullcalendar/react';
 import { format } from 'date-fns';
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-interface MonthCalendarProps {
-  year: number;
-  month: number;
-  editYear: (newYear: number) => void;
-  editMonth: (newMonth: number) => void;
-}
-
-const MonthCalendar: React.FC<MonthCalendarProps> = ({ year, month }) => {
+const MonthCalendar = ({ year, month }: { year: number; month: number }) => {
   const calendarRef = useRef<FullCalendar | null>(null);
   const navi = useNavigate();
-
-  const { monthScheduleData, error } = useContext(MonthlyScheduleContext);
 
   const prevMonth = month - 1;
   const nextMonth = month + 1;
 
-  const [formattedStart, setFormattedStart] = useState(
-    `${year}-${String(prevMonth).padStart(2, '0')}-23T00:00:00.000Z`,
-  );
-  const [formattedEnd, setFormattedEnd] = useState(
-    new Date(year, nextMonth, 6, 23, 59, 59, 999).toISOString(),
-  );
+  const formattedStart = `${year}-${String(prevMonth).padStart(2, '0')}-23T00:00:00.000Z`;
+  const formattedEnd = new Date(
+    year,
+    nextMonth,
+    6,
+    23,
+    59,
+    59,
+    999,
+  ).toISOString();
 
-  useEffect(() => {
-    if (error) {
-      // console.error('Error:', error);
-    }
-  }, [error]);
-
-  useEffect(() => {
-    if (!monthScheduleData) {
-      // console.log('Loading event data...');
-    }
-  }, [monthScheduleData]);
+  const { data: monthlySchedule, error } = useGetMonthlySchedule(
+    formattedStart,
+    formattedEnd,
+  );
 
   // 데이터 전처리 함수
-  const preprocessData = (data: any) => {
-    return data.map((event: any) => ({
+  // TODO: 백엔드 수정 후 삭제 예정
+  const preprocessData = (data: any[]) =>
+    data.map((event) => ({
       ...event,
-      id: `${event.id}_${event.isMeeting}`, // 고유 ID 생성
+      id: `${event.id}_${event.isMeeting}`,
     }));
-  };
 
-  const processedData = preprocessData(monthScheduleData || []);
+  const processedData = preprocessData(monthlySchedule || []);
 
+  // 오늘 표시
   const renderDayCell = (arg: any) => {
     const isToday =
       format(arg.date, 'yyyy-MM-dd') === format(new Date(), 'yyyy-MM-dd');
@@ -70,18 +56,11 @@ const MonthCalendar: React.FC<MonthCalendarProps> = ({ year, month }) => {
     const { isMeeting } = clickInfo.event.extendedProps;
 
     if (isMeeting) {
-      navi(`/meetings/${id}`, { state: { isMeeting } });
+      navi(`/meetings/${id}`);
     } else {
-      navi(`/events/${id}`, { state: { isMeeting } });
+      navi(`/events/${id}`);
     }
   };
-
-  useEffect(() => {
-    setFormattedStart(
-      `${year}-${String(prevMonth).padStart(2, '0')}-23T00:00:00.000Z`,
-    );
-    setFormattedEnd(new Date(year, month, 7, 8, 59, 59, 999).toISOString());
-  }, [year, month]);
 
   useEffect(() => {
     if (calendarRef.current) {
@@ -90,10 +69,12 @@ const MonthCalendar: React.FC<MonthCalendarProps> = ({ year, month }) => {
     }
   }, [year, month]);
 
+  if (error) {
+    return <div>{error}</div>;
+  }
+
   return (
-    <S.CalendarContainer>
-      <UserAPI />
-      <MonthlyShceduleAPI start={formattedStart} end={formattedEnd} />
+    <S.Calendar>
       <FullCalendar
         ref={calendarRef}
         plugins={[dayGridPlugin]}
@@ -105,7 +86,7 @@ const MonthCalendar: React.FC<MonthCalendarProps> = ({ year, month }) => {
         dayCellContent={renderDayCell}
         height="auto"
       />
-    </S.CalendarContainer>
+    </S.Calendar>
   );
 };
 

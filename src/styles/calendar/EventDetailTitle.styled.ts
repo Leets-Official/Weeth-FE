@@ -1,37 +1,29 @@
 import theme from '@/styles/theme';
 import styled from 'styled-components';
 
-export const StyledTitle = styled.div`
-  margin: 25px 25px 20px 25px; //기본 헤더 마진
-`;
-
-export const StyledHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
+export const EventTitleWrapper = styled.div``;
 
 export const Title = styled.div`
-  font-family: ${theme.font.family.pretendard_semiBold};
+  font-family: ${theme.font.semiBold};
   font-size: 24px;
-  padding: 10px 0px;
+  padding: 10px 25px;
 `;
 
 export const Writer = styled.div`
-  font-family: ${theme.font.family.pretendard_regular};
+  font-family: ${theme.font.regular};
   font-size: 12px;
   color: #a6a6a6;
 `;
 
 export const WrittenTime = styled.div`
-  font-family: ${theme.font.family.pretendard_regular};
+  font-family: ${theme.font.regular};
   font-size: 12px;
   color: #a6a6a6;
 `;
 
-export const Detail = styled.div`
+export const WriteInfo = styled.div`
   display: flex;
-
+  padding: 0 25px;
   div {
     margin-right: 10px;
   }

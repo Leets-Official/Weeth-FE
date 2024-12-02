@@ -1,9 +1,9 @@
-import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
-import { useContext } from 'react';
+import { DuesContext } from '@/api/DuesContext';
 import receipt from '@/assets/images/ic_receipt.svg';
 import theme from '@/styles/theme';
-import { DuesContext } from '@/api/DuesContext';
+import { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 
 const DuesBox = styled.div`
   display: flex;
@@ -12,7 +12,7 @@ const DuesBox = styled.div`
   justify-content: space-between;
   width: 92%;
   margin: 21px 4% 0 4%;
-  font-family: ${theme.font.family.pretendard_semiBold};
+  font-family: ${theme.font.semiBold};
 `;
 
 const DuesTextBox = styled.div`
@@ -23,8 +23,8 @@ const DuesTextBox = styled.div`
 `;
 
 const UpdateText = styled.div`
-  font-family: ${theme.font.family.pretendard_regular};
-  color: ${theme.color.grayScale.gray65};
+  font-family: ${theme.font.regular};
+  color: ${theme.color.gray[65]};
   font-size: 14px;
   margin-top: 14px;
 `;
@@ -32,7 +32,7 @@ const UpdateText = styled.div`
 const BasicCaption = styled.button`
   width: 56px;
   height: 34px;
-  background-color: ${theme.color.grayScale.gray30};
+  background-color: ${theme.color.gray[30]};
   border: none;
   border-radius: 10px;
   cursor: pointer;

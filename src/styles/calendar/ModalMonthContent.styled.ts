@@ -7,11 +7,11 @@ export const StyledContent = styled.div<{ $isMonth: boolean }>`
   justify-content: center;
   width: ${(props) => (props.$isMonth ? '275px' : '121px')};
   height: 38px;
-  background: ${theme.color.grayScale.gray18};
+  background: ${theme.color.gray[18]};
   border-radius: 14px;
   padding: 20px;
   margin: auto;
-  font-family: ${theme.font.family.pretendard_regular};
+  font-family: ${theme.font.regular};
   font-size: 16px;
 `;
 

@@ -1,8 +1,8 @@
-import styled from 'styled-components';
 import theme from '@/styles/theme';
+import styled from 'styled-components';
 
 export const StyledHomeFooter = styled.div`
-  font-family: ${theme.font.family.pretendard_semiBold};
+  font-family: ${theme.font.semiBold};
   font-size: 18px;
   width: 86.8%;
   margin: 8% 6.6% 0px 6.6%;
@@ -31,8 +31,8 @@ export const GridItem = styled.a`
   flex: 0 0 auto;
   margin-right: 10px;
   padding: 10px 15px 15px 0;
-  background-color: ${theme.color.grayScale.gray18};
-  font-family: ${theme.font.family.pretendard_semiBold};
+  background-color: ${theme.color.gray[18]};
+  font-family: ${theme.font.semiBold};
   width: 34%;
   height: 77px;
   color: #fff;

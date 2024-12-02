@@ -2,18 +2,18 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-alert */
 
-import { useState, useContext, useEffect } from 'react';
+import axios from 'axios';
+import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import axios from 'axios';
 
-import theme from '@/styles/theme';
-import MyPageHeader from '@/components/MyPage/MyPageHeader';
-import InfoInput from '@/components/MyPage/InfoInput';
-import DropdownMenu from '@/components/Button/DropdownMenu';
 import UserAPI from '@/api/UserAPI';
 import { UserContext } from '@/api/UserContext';
+import DropdownMenu from '@/components/Button/DropdownMenu';
+import Header from '@/components/Header/Header';
+import InfoInput from '@/components/MyPage/InfoInput';
 import useCustomBack from '@/hooks/useCustomBack';
+import theme from '@/styles/theme';
 
 const StyledEdit = styled.div`
   width: 370px;
@@ -34,7 +34,7 @@ const Error = styled.div`
   display: flex;
   justify-content: center;
   margin: 50px 0px;
-  font-family: ${theme.font.family.pretendard_semiBold};
+  font-family: ${theme.font.semiBold};
 `;
 
 const Edit = () => {
@@ -124,7 +124,7 @@ const Edit = () => {
   return (
     <StyledEdit>
       <UserAPI />
-      <MyPageHeader isEdit onSave={onSave} />
+      <Header title="MY" onClickRightButton={onSave} RightButtonType="TEXT" />
       {!error && userData ? (
         <InfoWrapper>
           <InfoInput

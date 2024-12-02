@@ -2,7 +2,6 @@ import React, { FC } from 'react';
 import styled from 'styled-components';
 import theme from '../../styles/theme';
 
-// 타입 정의
 interface ButtonProps {
   children: React.ReactNode;
   color?: string;
@@ -13,11 +12,10 @@ interface ButtonProps {
   disabled?: boolean;
 }
 
-
 const BasicButton = styled.button<ButtonProps>`
-  background-color: ${({ color }) => color || theme.color.grayScale.gray30};
-  font-family: ${theme.font.family.pretendard_semiBold};
-  color: ${({ textcolor }) => textcolor || theme.color.grayScale.white};
+  background-color: ${({ color }) => color || theme.color.gray[30]};
+  font-family: ${theme.font.semiBold};
+  color: ${({ textcolor }) => textcolor || theme.color.gray[100]};
   border: none;
   border-radius: 10px;
   cursor: pointer;
@@ -30,8 +28,23 @@ const BasicButton = styled.button<ButtonProps>`
 `;
 
 // function 컴포넌트
-const Button: FC<ButtonProps> = ({ children, color, textcolor, onClick, height, width, disabled}) => (
-  <BasicButton color={color} textcolor={textcolor} onClick={onClick} height={height} width={width}  disabled={disabled}>
+const Button: FC<ButtonProps> = ({
+  children,
+  color,
+  textcolor,
+  onClick,
+  height,
+  width,
+  disabled,
+}) => (
+  <BasicButton
+    color={color}
+    textcolor={textcolor}
+    onClick={onClick}
+    height={height}
+    width={width}
+    disabled={disabled}
+  >
     {children}
   </BasicButton>
 );

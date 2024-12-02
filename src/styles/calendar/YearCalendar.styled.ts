@@ -21,5 +21,5 @@ export const Error = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 20px;
-  font-family: ${theme.font.family.pretendard_semiBold};
+  font-family: ${theme.font.semiBold};
 `;

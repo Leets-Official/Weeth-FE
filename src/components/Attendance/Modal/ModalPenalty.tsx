@@ -1,11 +1,11 @@
 /* eslint-disable no-nested-ternary */
-import React, { useContext } from 'react';
-import theme from '@/styles/theme';
-import icClose from '@/assets/images/ic_close.svg';
-import check from '@/assets/images/ic_check.svg';
+import { PenaltyAPI } from '@/api/AttendAPI';
 import { PenaltyContext } from '@/api/PenaltyContext';
 import { UserContext } from '@/api/UserContext';
-import { PenaltyAPI } from '@/api/AttendAPI';
+import check from '@/assets/images/ic_check.svg';
+import icClose from '@/assets/images/ic_close.svg';
+import theme from '@/styles/theme';
+import React, { useContext } from 'react';
 
 import * as S from '@/styles/attend/ModalPenalty.styled';
 
@@ -80,7 +80,7 @@ const ModalPenalty: React.FC<ModalPenaltyProps> = ({ open, close }) => {
               <>
                 <S.SemiBold className="modal-title">
                   {userName} 님의&nbsp;
-                  <div style={{ color: theme.color.main.negative }}>패널티</div>
+                  <div style={{ color: theme.color.negative }}>패널티</div>
                   &nbsp;횟수
                 </S.SemiBold>
                 <S.SemiBold className="modal-penalty">

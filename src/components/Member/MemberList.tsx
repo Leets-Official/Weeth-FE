@@ -1,9 +1,7 @@
-import { useSearchParams } from 'react-router-dom';
+import useGetAllUsers from '@/api/useGetAllUsers';
 import MemberName from '@/components/Member/MemberName';
-import { UserContext } from '@/api/UserContext';
-import { useContext } from 'react';
-
 import * as S from '@/styles/member/MemberList.styled';
+import { useSearchParams } from 'react-router-dom';
 
 interface User {
   name: string;
@@ -20,10 +18,9 @@ const MemberList = () => {
   const cardinal = searchParams.get('cardinal');
   const selectedCardinal = cardinal ? Number(cardinal) : 0;
 
-  const { allUserData, error } = useContext(UserContext);
+  const { allUsers, error } = useGetAllUsers();
 
-  // 데이터가 없거나 오류가 있으면 빈 배열 반환
-  const filteredMember = error ? [] : allUserData?.[selectedCardinal] || [];
+  const filteredMember = (allUsers[selectedCardinal] || []) as User[];
 
   let errorMessage;
   if (filteredMember.length === 0) {

@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import leets from '@/assets/images/ic_name_logo.svg';
+import Button from '@/components/Button/Button';
+import useCustomBack from '@/hooks/useCustomBack';
+import theme from '@/styles/theme';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled, { ThemeProvider } from 'styled-components';
-import theme from '@/styles/theme';
-import Button from '@/components/Button/Button';
-import leets from '@/assets/images/ic_name_logo.svg';
-import useCustomBack from '@/hooks/useCustomBack';
 
 // Styled Components
 const Container = styled.div`
@@ -61,12 +61,10 @@ const Landing: React.FC = () => {
         </StyledTitle>
         <ButtonWrapper>
           <SignupButton
-            color={
-              signupClicked
-                ? theme.color.main.selectedMain
-                : theme.color.main.mainColor
+            color={signupClicked ? theme.color.mainMiddle : theme.color.main}
+            textcolor={
+              signupClicked ? theme.color.mainDark : theme.color.gray[100]
             }
-            textcolor={signupClicked ? '#097154' : theme.color.grayScale.white}
             onClick={() => {
               setSignupClicked(true);
               navigate('/signup');
@@ -75,15 +73,9 @@ const Landing: React.FC = () => {
             회원가입
           </SignupButton>
           <LoginButton
-            color={
-              loginClicked
-                ? theme.color.grayScale.gray20
-                : theme.color.grayScale.gray30
-            }
+            color={loginClicked ? theme.color.gray[20] : theme.color.gray[30]}
             textcolor={
-              loginClicked
-                ? theme.color.grayScale.gray12
-                : theme.color.grayScale.white
+              loginClicked ? theme.color.gray[12] : theme.color.gray[100]
             }
             onClick={() => {
               setLoginClicked(true);

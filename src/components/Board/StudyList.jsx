@@ -1,17 +1,17 @@
+import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import styled from 'styled-components';
+import more from '../../assets/images/ic_moreButton.svg';
 import theme from '../../styles/theme';
 import BoardComponent from './BoardComponent';
-import more from '../../assets/images/ic_moreButton.svg';
 
 const StyledText = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   margin-top: 30px;
-  font-family: ${theme.font.family.pretendard_regular};
+  font-family: ${theme.font.regular};
 `;
 
 const StudyList = () => {
