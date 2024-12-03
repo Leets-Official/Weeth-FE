@@ -12,7 +12,7 @@ const Container = styled.div`
 `;
 
 const TitleText = styled.div`
-  font-family: ${theme.font.family.pretendard_semiBold};
+  font-family: ${theme.font.semiBold};
   font-size: 24px;
 `;
 
@@ -29,7 +29,7 @@ const DateText = styled.div`
 `;
 
 const PostingContianer = styled.div`
-  font-family: ${theme.font.family.pretendard_regular};
+  font-family: ${theme.font.regular};
   font-size: 16px;
   line-height: 19.09px;
   white-space: pre-wrap;
@@ -42,7 +42,7 @@ const CommentText = styled.div`
   flex-direction: row;
   line-height: 14.32px;
   gap: 4px;
-  font-family: ${theme.font.family.pretendard_semiBold};
+  font-family: ${theme.font.semiBold};
   margin: 14px 0 10px 0;
 `;
 

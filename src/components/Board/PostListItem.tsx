@@ -1,6 +1,6 @@
 import theme from '@/styles/theme';
 import styled from 'styled-components';
-import Comment from '@/assets/images/ic_board_chat.svg';
+import Comment from '@/assets/images/ic_comment_count.svg';
 
 type Itemprops = {
   name: string;

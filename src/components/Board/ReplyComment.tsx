@@ -30,13 +30,13 @@ const ReplyContainer = styled.div`
 `;
 
 const NameText = styled.div`
-  font-family: ${theme.font.family.pretendard_semiBold};
+  font-family: ${theme.font.semiBold};
   font-size: 14px;
   color: #ffffff;
 `;
 
 const ContentText = styled.div`
-  font-family: ${theme.font.family.pretendard_regular};
+  font-family: ${theme.font.regular};
   font-size: 16px;
   line-height: 19.09px;
   color: #ffffff;

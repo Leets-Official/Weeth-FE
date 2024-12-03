@@ -25,12 +25,12 @@ const ButtonContainer = styled.div`
 `;
 
 const NameText = styled.div`
-  font-family: ${theme.font.family.pretendard_semiBold};
+  font-family: ${theme.font.semiBold};
   font-size: 14px;
 `;
 
 const ContentText = styled.div`
-  font-family: ${theme.font.family.pretendard_regular};
+  font-family: ${theme.font.regular};
   font-size: 16px;
   line-height: 19.09px;
   margin-top: 10px;
