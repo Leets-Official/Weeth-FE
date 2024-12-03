@@ -17,6 +17,7 @@ const theme = {
       30: '#4D4D4D',
       65: '#A6A6A6',
     },
+    lightGray: '#c1c1c1',
   },
 
   font: {

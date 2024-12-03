@@ -17,7 +17,7 @@ const TitleText = styled.div`
 `;
 
 const SmallText = styled.div`
-  color: #c1c1c1;
+  color: ${theme.color.lightGray};
   font-size: 12px;
   display: flex;
   flex-direction: row;

@@ -1,6 +1,5 @@
-import theme from '@/styles/theme';
-import styled from 'styled-components';
 import Comment from '@/assets/images/ic_comment_count.svg';
+import * as S from '@/styles/board/PostListItem.styled';
 
 type Itemprops = {
   name: string;
@@ -10,67 +9,6 @@ type Itemprops = {
   // onClick: Node;
   totalComments: number;
 };
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  padding-top: 10px;
-`;
-
-const PostLeftSection = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const PostRightSection = styled.div`
-  display: flex;
-  justify-content: space-between;
-  flex-direction: column;
-`;
-
-const CommentContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  margin-left: auto;
-`;
-
-const TitleText = styled.div`
-  color: ${theme.color.gray[100]};
-  font-family: ${theme.font.semiBold};
-  font-size: 16px;
-  line-height: 19.09px;
-  margin: 5px 0;
-`;
-
-const ContentText = styled.div`
-  color: ${theme.color.gray[100]};
-  font-family: ${theme.font.regular};
-  font-size: 14px;
-  line-height: 19.09px;
-`;
-
-const LightText = styled.div`
-  color: ${theme.color.gray[65]};
-  font-family: ${theme.font.regular};
-  font-size: 12px;
-  line-height: 14.32px;
-`;
-
-const CommentsText = styled(LightText)`
-  margin-left: 5px;
-`;
-const DateText = styled(LightText)`
-  margin-left: auto;
-`;
-const NameText = styled(LightText)`
-  margin-top: 5px;
-`;
-
-const ImgContainer = styled.img`
-  height: 12px;
-  width: 12px;
-`;
 
 // 문자열을 10글자로 제한하고, 넘어가면 "..." 추가
 const truncateText = (text: string, maxLength: number) => {
@@ -86,20 +24,20 @@ const PostListItem = ({
   totalComments,
 }: Itemprops) => {
   return (
-    <Container>
-      <PostLeftSection>
-        <TitleText>{title}</TitleText>
-        <ContentText>{truncateText(content, 50)}</ContentText>
-        <NameText>{name}</NameText>
-      </PostLeftSection>
-      <PostRightSection>
-        <DateText>{time}</DateText>
-        <CommentContainer>
-          <ImgContainer src={Comment} alt="댓글 아이콘" />
-          <CommentsText>{totalComments}</CommentsText>
-        </CommentContainer>
-      </PostRightSection>
-    </Container>
+    <S.Container>
+      <S.PostLeftSection>
+        <S.TitleText>{title}</S.TitleText>
+        <S.ContentText>{truncateText(content, 50)}</S.ContentText>
+        <S.NameText>{name}</S.NameText>
+      </S.PostLeftSection>
+      <S.PostRightSection>
+        <S.DateText>{time}</S.DateText>
+        <S.CommentContainer>
+          <S.ImgContainer src={Comment} alt="댓글 아이콘" />
+          <S.CommentsText>{totalComments}</S.CommentsText>
+        </S.CommentContainer>
+      </S.PostRightSection>
+    </S.Container>
   );
 };
 
