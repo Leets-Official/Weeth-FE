@@ -20,20 +20,18 @@ const GetAllPosts = ({ path }: { path: string }) => {
         // API 호출
         const response = await axios.get(`${BASE_URL}/api/v1/${path}`, {
           headers,
-          params: { count: 5 }, // 추가 posts 길이 5로 설정
+          params: { pageNumber: 0, pageSize: 5 }, // 추가 posts 길이 5로 설정
         });
 
         const result = response.data;
 
         if (result.code === 200) {
-          setPosts(result.data);
+          setPosts(result.data.content);
         } else {
           console.error('Failed to fetch notices:', result.message);
         }
       } catch (error) {
         console.error('An error occurred while fetching notices:', error);
-        localStorage.removeItem('accessToken');
-        window.location.href = '/login';
       }
     };
 
