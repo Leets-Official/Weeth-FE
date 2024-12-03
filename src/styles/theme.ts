@@ -9,6 +9,7 @@ const theme = {
     negativeDark: '#BF4242',
     pointPurple: '#6F50CB',
     pointPink: '#D968D3',
+    pintYellow: '#FFF600',
     gray: {
       100: '#FFFFFF',
       12: '#1F1F1F',

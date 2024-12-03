@@ -14,7 +14,7 @@ export const PostMainTitleText = styled.div`
 `;
 
 export const SmallText = styled.div`
-  color: ${theme.color.lightGray};
+  color: ${theme.color.gray[65]};
   font-size: 12px;
   display: flex;
   flex-direction: row;

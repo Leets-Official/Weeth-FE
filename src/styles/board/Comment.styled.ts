@@ -35,7 +35,7 @@ export const ContentText = styled.div`
 `;
 
 export const DateText = styled.div`
-  color: ${theme.color.lightGray};
+  color: ${theme.color.gray[65]};
   font-size: 12px;
   margin-top: 5px;
 `;
