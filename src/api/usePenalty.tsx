@@ -3,41 +3,55 @@ import axios from 'axios';
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
-// 출석 정보 받아오는 API
-const getPenalty = async () => {
+interface Penalty {
+  penaltyId: number;
+  penaltyDescription: string;
+  time: string;
+}
+
+interface UserPenaltyData {
+  userId: number;
+  penaltyCount: number;
+  name: string;
+  Penalties: Penalty[];
+}
+
+// API 호출 함수
+const getPenalty = async (): Promise<UserPenaltyData> => {
   const accessToken = localStorage.getItem('accessToken');
   const refreshToken = localStorage.getItem('refreshToken');
 
-  return axios.get(`${BASE_URL}/api/v1/penalties`, {
+  const response = await axios.get(`${BASE_URL}/api/v1/penalties`, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
       Authorization_refresh: `Bearer ${refreshToken}`,
     },
   });
+
+  return response.data.data; // 데이터 구조에 맞게 반환
 };
 
 export const useGetPenalty = () => {
-  const [PenaltyInfo, setPenaltyInfo] = useState<any[]>([]);
+  const [penaltyInfo, setPenaltyInfo] = useState<UserPenaltyData | null>(null);
   const [myPenalty, setMyPenalty] = useState<number>(0);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchPenalty = async () => {
       try {
-        const response = await getPenalty();
-        const { data } = response.data;
+        const data = await getPenalty();
         setPenaltyInfo(data);
         setMyPenalty(data.penaltyCount);
         setError(null);
       } catch (err: any) {
-        setError(err.response?.data?.message);
+        setError(err.response?.data?.message || '오류가 발생했습니다.');
       }
     };
 
     fetchPenalty();
   }, []);
 
-  return { PenaltyInfo, myPenalty, error };
+  return { penaltyInfo, myPenalty, error };
 };
 
 export default useGetPenalty;

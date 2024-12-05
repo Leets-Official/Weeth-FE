@@ -10,12 +10,11 @@ import RightButton from '@/components/Header/RightButton';
 import check from '@/assets/images/ic_check.svg';
 import warning from '@/assets/images/ic_warning.svg';
 
-import { AttendAPI, PenaltyAPI } from '@/api/AttendAPI';
-import { AttendContext } from '@/api/AttendContext';
-import { PenaltyContext } from '@/api/PenaltyContext';
 import { UserContext } from '@/api/UserContext';
 
 import * as S from '@/styles/attend/AttendMain.styled';
+import useGetAttend from '@/api/useGetAttend';
+import useGetPenalty from '@/api/usePenalty';
 
 // 출석률 게이지 임시 값
 let ATTEND_GAUGE = 0;
@@ -28,6 +27,9 @@ const AttendMain: React.FC = () => {
   const [shouldFetchData, setShouldFetchData] = useState<boolean>(false);
   const [hasPenalty, setHasPenalty] = useState<boolean>(false);
 
+  const { attendInfo, hasSchedule, error } = useGetAttend();
+  const { myPenalty } = useGetPenalty();
+
   const { userData } = useContext(UserContext);
 
   let userName: string;
@@ -36,32 +38,28 @@ const AttendMain: React.FC = () => {
   } else {
     userName = userData.name;
   }
-
-  const { attendanceData, attendFetchError, hasSchedule } =
-    useContext(AttendContext);
-
   let title: string;
   let location: string;
   let startDateTime: string;
   let endDateTime: string;
   let isWithinTimeRange = false;
 
-  if (attendFetchError) {
+  if (error) {
     title = 'error';
     location = 'error';
     startDateTime = 'error';
     endDateTime = 'error';
-  } else if (!attendanceData) {
+  } else if (!attendInfo) {
     title = '로딩중';
     location = '로딩중';
     startDateTime = '로딩중';
     endDateTime = '로딩중';
   } else {
-    title = attendanceData.title;
-    location = attendanceData.location;
+    title = attendInfo.title;
+    location = attendInfo.location;
 
-    const startDate = new Date(attendanceData.start);
-    const endDate = new Date(attendanceData.end);
+    const startDate = new Date(attendInfo.start);
+    const endDate = new Date(attendInfo.end);
 
     const dateOptions: Intl.DateTimeFormatOptions = {
       year: 'numeric',
@@ -86,14 +84,11 @@ const AttendMain: React.FC = () => {
       isWithinTimeRange = true;
     }
 
-    ATTEND_GAUGE = attendanceData.attendanceRate ?? 0;
+    ATTEND_GAUGE = attendInfo.attendanceRate ?? 0;
   }
-
-  const { myPenaltyCount } = useContext(PenaltyContext);
-
   useEffect(() => {
-    setHasPenalty(myPenaltyCount > 0);
-  }, [myPenaltyCount]);
+    setHasPenalty(myPenalty > 0);
+  }, [myPenalty]);
 
   const dealt = Math.floor((ATTEND_GAUGE / MAX_ATTEND_GUAGE) * 100);
 
@@ -119,8 +114,6 @@ const AttendMain: React.FC = () => {
 
   return (
     <S.StyledAttend>
-      <AttendAPI key={shouldFetchData.toString()} />
-      <PenaltyAPI />
       <S.NameContainer>
         <S.SemiBold>
           <S.AttendName>{userName}&nbsp;</S.AttendName>
@@ -182,20 +175,12 @@ const AttendMain: React.FC = () => {
               <S.AttendProject>오늘은 일정이 없어요</S.AttendProject>
             </S.SemiBold>
             <S.AttendPlace>동아리원과 스터디를 하는건 어때요?</S.AttendPlace>
-            <S.AttendButton>
-              <Button
-                color={theme.color.gray[30]}
-                textcolor={theme.color.gray[20]}
-              >
-                출석하기
-              </Button>
-            </S.AttendButton>
           </div>
         )}
       </S.StyledBox>
       <S.StyledBox>
         <img src={warning} alt="!" />
-        {myPenaltyCount === null ? (
+        {myPenalty === null ? (
           <S.SemiBold>
             <S.AttendProject>등록된 데이터가 없습니다.</S.AttendProject>
           </S.SemiBold>
@@ -207,13 +192,13 @@ const AttendMain: React.FC = () => {
                   <S.SemiBold>
                     패널티&nbsp;
                     <div style={{ color: theme.color.negative }}>
-                      {myPenaltyCount}회
+                      {myPenalty}회
                     </div>
                   </S.SemiBold>
                   <RightButton onClick={handleOpenPenaltyModal} />
                 </S.ButtonContainer>
                 <S.PenaltyCount>
-                  패널티가 {myPenaltyCount}회 적립이 되었어요.
+                  패널티가 {myPenalty}회 적립이 되었어요.
                   <br />
                   어떤 이유인지 알아볼까요?
                 </S.PenaltyCount>

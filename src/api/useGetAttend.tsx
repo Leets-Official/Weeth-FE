@@ -3,6 +3,14 @@ import axios from 'axios';
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
+interface AttendInfo {
+  title: string;
+  location: string;
+  start: string;
+  end: string;
+  attendanceRate: number;
+}
+
 // 출석 정보 받아오는 API
 const getAttend = async () => {
   const accessToken = localStorage.getItem('accessToken');
@@ -17,7 +25,7 @@ const getAttend = async () => {
 };
 
 export const useGetAttend = () => {
-  const [attendInfo, setAttendInfo] = useState<any[]>([]);
+  const [attendInfo, setAttendInfo] = useState<AttendInfo | null>(null);
   const [hasSchedule, setHasSchedule] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
