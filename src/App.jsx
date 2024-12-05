@@ -1,7 +1,6 @@
 import './App.css';
 import './assets/fonts/fonts.css';
 
-import { AttendCheckProvider } from '@/api/AttendCheckContext';
 import { DuesProvider } from '@/api/DuesContext';
 import { UserProvider } from '@/api/UserContext';
 
@@ -43,35 +42,33 @@ const App = () => {
       <UserProvider>
         <DuesProvider>
           <NoticeProvider>
-            <AttendCheckProvider>
-              <ScrollToTop />
-              <Routes>
-                <Route path="/" element={<Landing />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/attendance" element={<Attendance />} />
-                <Route path="/calendar" element={<Calendar />} />
-                <Route path="/:type/:id" element={<EventDetails />} />
-                <Route path="/events/create" element={<EventAdmin />} />
-                <Route path="/events/:id/edit" element={<EventAdmin />} />
-                <Route path="/home" element={<Home />} />
-                <Route path="/signup" element={<Signup />} />
-                <Route path="/profile" element={<Profile />} />
-                <Route path="/attendCheck" element={<AttendCheck />} />
-                <Route path="/member" element={<Member />} />
-                <Route path="/member/:id" element={<MemberDetail />} />
-                <Route path="/mypage" element={<MyPage />} />
-                <Route path="/edit" element={<Edit />} />
-                <Route path="/dues" element={<Dues />} />
-                <Route path="/receipt" element={<Receipt />} />
-                <Route path="/notice" element={<NoticeBoard />} />
-                <Route path="/study" element={<StudyBoard />} />
-                <Route path="/admin/attendance" element={<AdminAttendance />} />
-                <Route path="/admin/member" element={<AdminMember />} />
-                <Route path="/admin/dues" element={<AdminDues />} />
-                <Route path="/admin/penalty" element={<AdminPenatly />} />
-                <Route path="/study/detail" element={<PostDetail />} />
-              </Routes>
-            </AttendCheckProvider>
+            <ScrollToTop />
+            <Routes>
+              <Route path="/" element={<Landing />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/attendance" element={<Attendance />} />
+              <Route path="/calendar" element={<Calendar />} />
+              <Route path="/:type/:id" element={<EventDetails />} />
+              <Route path="/events/create" element={<EventAdmin />} />
+              <Route path="/events/:id/edit" element={<EventAdmin />} />
+              <Route path="/home" element={<Home />} />
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/attendCheck" element={<AttendCheck />} />
+              <Route path="/member" element={<Member />} />
+              <Route path="/member/:id" element={<MemberDetail />} />
+              <Route path="/mypage" element={<MyPage />} />
+              <Route path="/edit" element={<Edit />} />
+              <Route path="/dues" element={<Dues />} />
+              <Route path="/receipt" element={<Receipt />} />
+              <Route path="/notice" element={<NoticeBoard />} />
+              <Route path="/study" element={<StudyBoard />} />
+              <Route path="/admin/attendance" element={<AdminAttendance />} />
+              <Route path="/admin/member" element={<AdminMember />} />
+              <Route path="/admin/dues" element={<AdminDues />} />
+              <Route path="/admin/penalty" element={<AdminPenatly />} />
+              <Route path="/study/detail" element={<PostDetail />} />
+            </Routes>
           </NoticeProvider>
         </DuesProvider>
       </UserProvider>

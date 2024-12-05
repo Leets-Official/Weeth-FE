@@ -3,32 +3,61 @@ import axios from 'axios';
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
+interface Attendance {
+  id: number;
+  status: 'ATTEND' | 'PENDING' | 'ABSENT';
+  weekNumber: number;
+  title: string;
+  start: string;
+  end: string;
+  location: string;
+}
+
+interface AttendanceData {
+  attendanceCount: number;
+  total: number;
+  absenceCount: number;
+  attendances: Attendance[];
+}
+
+interface ApiResponse {
+  code: number;
+  message: string;
+  data: AttendanceData;
+}
+
 // 출석 정보 받아오는 API
-const getAttendCheck = async () => {
+const getAttendCheck = async (): Promise<AttendanceData> => {
   const accessToken = localStorage.getItem('accessToken');
   const refreshToken = localStorage.getItem('refreshToken');
 
-  return axios.get(`${BASE_URL}/api/v1/attendances/detail`, {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-      Authorization_refresh: `Bearer ${refreshToken}`,
+  const response = await axios.get<ApiResponse>(
+    `${BASE_URL}/api/v1/attendances/detail`,
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        Authorization_refresh: `Bearer ${refreshToken}`,
+      },
     },
-  });
+  );
+
+  return response.data.data; // AttendanceData 반환
 };
 
 export const useGetAttendCheck = () => {
-  const [attendCheckInfo, setAttendCheckInfo] = useState<any[]>([]);
+  const [attendCheckInfo, setAttendCheckInfo] = useState<AttendanceData | null>(
+    null,
+  );
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchAttendCheck = async () => {
       try {
-        const response = await getAttendCheck();
-        const { data } = response.data;
+        const data = await getAttendCheck();
         setAttendCheckInfo(data);
         setError(null);
       } catch (err: any) {
-        setError(err.response?.data?.message);
+        setError(err.response?.data?.message || '오류가 발생했습니다.');
       }
     };
 

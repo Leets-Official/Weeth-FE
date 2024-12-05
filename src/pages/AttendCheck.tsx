@@ -1,5 +1,3 @@
-import { AttendCheckAPI } from '@/api/AttendAPI';
-import { PenaltyProvider } from '@/api/PenaltyContext';
 import UserAPI from '@/api/UserAPI';
 import AttendCheckMain from '@/components/Attendance/AttendCheckMain';
 import useCustomBack from '@/hooks/useCustomBack';
@@ -21,13 +19,10 @@ const AttendCheck: React.FC = () => {
   return (
     <>
       <UserAPI />
-      <AttendCheckAPI />
-      <PenaltyProvider>
-        <Container>
-          <Header title="출석 조회" RightButtonType="none" />
-          <AttendCheckMain />
-        </Container>
-      </PenaltyProvider>
+      <Container>
+        <Header title="출석 조회" RightButtonType="none" />
+        <AttendCheckMain />
+      </Container>
     </>
   );
 };
