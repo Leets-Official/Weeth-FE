@@ -5,7 +5,7 @@ import HomeMain from '../components/home/HomeMain';
 import HomeFooter from '../components/home/HomeFooter';
 import LogoutButton from '../components/LogoutButton';
 import UserAPI from '../hooks/UserAPI';
-import logo from '../assets/images/ic_logo.svg';
+import logo from '../assets/images/Weeth_logo_Xmas.svg';
 import useCustomBack from '../router/useCustomBack';
 
 const Container = styled.div`
@@ -63,3 +63,4 @@ const Home = () => {
 };
 
 export default Home;
+

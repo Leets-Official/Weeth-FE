@@ -24,7 +24,7 @@ const UserAPI = () => {
         const userResponse = await Utils(
           await originalApiFuncUser(),
           originalApiFuncUser,
-          []
+          [],
         );
 
         if (userResponse.data.code === 200) {
@@ -51,7 +51,7 @@ const UserAPI = () => {
         const allUsersResponse = await Utils(
           await originalApiFuncAllUsers(),
           originalApiFuncAllUsers,
-          []
+          [],
         );
 
         if (allUsersResponse.data.code === 200) {
@@ -78,3 +78,4 @@ const UserAPI = () => {
 };
 
 export default UserAPI;
+
