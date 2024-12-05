@@ -1,6 +1,4 @@
 /* eslint-disable no-nested-ternary */
-import { PenaltyAPI } from '@/api/AttendAPI';
-import { PenaltyContext } from '@/api/PenaltyContext';
 import { UserContext } from '@/api/UserContext';
 import check from '@/assets/images/ic_check.svg';
 import icClose from '@/assets/images/ic_close.svg';
@@ -8,6 +6,7 @@ import theme from '@/styles/theme';
 import React, { useContext } from 'react';
 
 import * as S from '@/styles/attend/ModalPenalty.styled';
+import useGetPenalty from '@/api/usePenalty';
 
 interface CloseButtonProps {
   onClick: () => void;
@@ -21,7 +20,7 @@ interface ModalPenaltyProps {
   close: () => void;
 }
 interface PenaltyProps {
-  penaltyId: string;
+  penaltyId: number;
   penaltyDescription: string;
   time: string; // ISO 8601 형식의 날짜 문자열
 }
@@ -49,14 +48,11 @@ const PenaltyBox: React.FC<PenaltyBoxProps> = ({ date, reason }) => {
 
 // ModalPenalty Component
 const ModalPenalty: React.FC<ModalPenaltyProps> = ({ open, close }) => {
-  const { myPenaltyCount, penaltyData, penaltyFetchError } =
-    useContext(PenaltyContext);
-  const { userData, error } = useContext(UserContext);
+  const { penaltyInfo, myPenalty, error } = useGetPenalty();
+  const { userData } = useContext(UserContext);
 
   let userName: string;
-  if (error) {
-    userName = 'error';
-  } else if (!userData) {
+  if (!userData) {
     userName = 'loading';
   } else {
     userName = userData.name;
@@ -64,7 +60,6 @@ const ModalPenalty: React.FC<ModalPenaltyProps> = ({ open, close }) => {
 
   return (
     <S.StyledModal open={open}>
-      <PenaltyAPI />
       <S.Regular>
         <div className="modal-content" style={{ width: '320px' }}>
           <div className="modal-header">
@@ -72,9 +67,9 @@ const ModalPenalty: React.FC<ModalPenaltyProps> = ({ open, close }) => {
             <CloseButton onClick={close} />
           </div>
           <div className="modal-body">
-            {penaltyFetchError ? (
+            {error ? (
               <div>Error loading penalty data</div>
-            ) : !penaltyData || !penaltyData.length ? (
+            ) : !penaltyInfo || !penaltyInfo.Penalties.length ? (
               <div>저장된 패널티가 없습니다.</div>
             ) : (
               <>
@@ -83,11 +78,9 @@ const ModalPenalty: React.FC<ModalPenaltyProps> = ({ open, close }) => {
                   <div style={{ color: theme.color.negative }}>패널티</div>
                   &nbsp;횟수
                 </S.SemiBold>
-                <S.SemiBold className="modal-penalty">
-                  {myPenaltyCount}회
-                </S.SemiBold>
+                <S.SemiBold className="modal-penalty">{myPenalty}회</S.SemiBold>
                 <S.Line />
-                {penaltyData.map((penalty: PenaltyProps) => {
+                {penaltyInfo.Penalties.map((penalty: PenaltyProps) => {
                   const myDate = new Date(penalty.time);
                   const formattedDate = `${myDate.getFullYear()}년 ${
                     myDate.getMonth() + 1
@@ -95,7 +88,6 @@ const ModalPenalty: React.FC<ModalPenaltyProps> = ({ open, close }) => {
                     .getMinutes()
                     .toString()
                     .padStart(2, '0')}`;
-
                   return (
                     <PenaltyBox
                       key={penalty.penaltyId}
