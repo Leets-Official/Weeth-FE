@@ -1,5 +1,5 @@
 import theme from '@/styles/theme';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import ModalAttend from '@/components/Attendance/Modal/ModalAttend';
@@ -10,11 +10,10 @@ import RightButton from '@/components/Header/RightButton';
 import check from '@/assets/images/ic_check.svg';
 import warning from '@/assets/images/ic_warning.svg';
 
-import { UserContext } from '@/api/UserContext';
-
 import * as S from '@/styles/attend/AttendMain.styled';
 import useGetAttend from '@/api/useGetAttend';
 import useGetPenalty from '@/api/usePenalty';
+import useGetUserInfo from '@/api/getUserInfo';
 
 // 출석률 게이지 임시 값
 let ATTEND_GAUGE = 0;
@@ -28,15 +27,19 @@ const AttendMain: React.FC = () => {
   const [hasPenalty, setHasPenalty] = useState<boolean>(false);
 
   const { attendInfo, hasSchedule, error } = useGetAttend();
-  const { myPenalty } = useGetPenalty();
+  const { penaltyInfo } = useGetPenalty();
 
-  const { userData } = useContext(UserContext);
+  setHasPenalty(
+    penaltyInfo?.penaltyCount ? penaltyInfo.penaltyCount > 0 : false,
+  );
+
+  const { userInfo } = useGetUserInfo();
 
   let userName: string;
-  if (!userData) {
+  if (!userInfo) {
     userName = 'loading';
   } else {
-    userName = userData.name;
+    userName = userInfo.name;
   }
   let title: string;
   let location: string;
@@ -86,10 +89,6 @@ const AttendMain: React.FC = () => {
 
     ATTEND_GAUGE = attendInfo.attendanceRate ?? 0;
   }
-  useEffect(() => {
-    setHasPenalty(myPenalty > 0);
-  }, [myPenalty]);
-
   const dealt = Math.floor((ATTEND_GAUGE / MAX_ATTEND_GUAGE) * 100);
 
   const handleOpenModal = () => {
@@ -180,7 +179,7 @@ const AttendMain: React.FC = () => {
       </S.StyledBox>
       <S.StyledBox>
         <img src={warning} alt="!" />
-        {myPenalty === null ? (
+        {penaltyInfo?.penaltyCount === null ? (
           <S.SemiBold>
             <S.AttendProject>등록된 데이터가 없습니다.</S.AttendProject>
           </S.SemiBold>
@@ -192,13 +191,13 @@ const AttendMain: React.FC = () => {
                   <S.SemiBold>
                     패널티&nbsp;
                     <div style={{ color: theme.color.negative }}>
-                      {myPenalty}회
+                      {penaltyInfo?.penaltyCount}회
                     </div>
                   </S.SemiBold>
                   <RightButton onClick={handleOpenPenaltyModal} />
                 </S.ButtonContainer>
                 <S.PenaltyCount>
-                  패널티가 {myPenalty}회 적립이 되었어요.
+                  패널티가 {penaltyInfo?.penaltyCount}회 적립이 되었어요.
                   <br />
                   어떤 이유인지 알아볼까요?
                 </S.PenaltyCount>

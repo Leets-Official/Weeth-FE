@@ -32,7 +32,6 @@ const getPenalty = async (): Promise<UserPenaltyData> => {
 
 export const useGetPenalty = () => {
   const [penaltyInfo, setPenaltyInfo] = useState<UserPenaltyData | null>(null);
-  const [myPenalty, setMyPenalty] = useState<number>(0);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -40,7 +39,6 @@ export const useGetPenalty = () => {
       try {
         const data = await getPenalty();
         setPenaltyInfo(data);
-        setMyPenalty(data.penaltyCount);
         setError(null);
       } catch (err: any) {
         setError(err.response?.data?.message || '오류가 발생했습니다.');
@@ -50,7 +48,7 @@ export const useGetPenalty = () => {
     fetchPenalty();
   }, []);
 
-  return { penaltyInfo, myPenalty, error };
+  return { penaltyInfo, error };
 };
 
 export default useGetPenalty;

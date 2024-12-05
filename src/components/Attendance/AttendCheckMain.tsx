@@ -1,10 +1,9 @@
-import { UserContext } from '@/api/UserContext';
 import Caption from '@/components/Button/Caption';
 import theme from '@/styles/theme';
-import { useContext } from 'react';
 
 import * as S from '@/styles/attend/AttendCheck.styled';
 import useGetAttendCheck from '@/api/useAttendCheck';
+import useGetUserInfo from '@/api/getUserInfo';
 
 interface SmallBoxProps {
   title: string;
@@ -75,7 +74,7 @@ const MeetingBox: React.FC<MeetingBoxProps> = ({
 
 const AttendCheckMain: React.FC = () => {
   const { attendCheckInfo, error } = useGetAttendCheck();
-  const { userData } = useContext(UserContext);
+  const { userInfo } = useGetUserInfo();
 
   if (error) {
     return <S.SemiBold>error</S.SemiBold>;
@@ -86,8 +85,8 @@ const AttendCheckMain: React.FC = () => {
   }
 
   let userName = 'loading';
-  if (userData) {
-    userName = userData.name;
+  if (userInfo) {
+    userName = userInfo.name;
   }
 
   return (

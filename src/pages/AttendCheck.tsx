@@ -1,4 +1,3 @@
-import UserAPI from '@/api/UserAPI';
 import AttendCheckMain from '@/components/Attendance/AttendCheckMain';
 import useCustomBack from '@/hooks/useCustomBack';
 import styled from 'styled-components';
@@ -17,13 +16,10 @@ const Container = styled.div`
 const AttendCheck: React.FC = () => {
   useCustomBack('/attendance');
   return (
-    <>
-      <UserAPI />
-      <Container>
-        <Header title="출석 조회" RightButtonType="none" />
-        <AttendCheckMain />
-      </Container>
-    </>
+    <Container>
+      <Header title="출석 조회" RightButtonType="none" />
+      <AttendCheckMain />
+    </Container>
   );
 };
 

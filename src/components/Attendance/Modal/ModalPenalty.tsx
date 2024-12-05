@@ -1,12 +1,11 @@
 /* eslint-disable no-nested-ternary */
-import { UserContext } from '@/api/UserContext';
 import check from '@/assets/images/ic_check.svg';
 import icClose from '@/assets/images/ic_close.svg';
 import theme from '@/styles/theme';
-import React, { useContext } from 'react';
 
 import * as S from '@/styles/attend/ModalPenalty.styled';
 import useGetPenalty from '@/api/usePenalty';
+import useGetUserName from '@/hooks/useGetUserName';
 
 interface CloseButtonProps {
   onClick: () => void;
@@ -48,15 +47,9 @@ const PenaltyBox: React.FC<PenaltyBoxProps> = ({ date, reason }) => {
 
 // ModalPenalty Component
 const ModalPenalty: React.FC<ModalPenaltyProps> = ({ open, close }) => {
-  const { penaltyInfo, myPenalty, error } = useGetPenalty();
-  const { userData } = useContext(UserContext);
+  const { penaltyInfo, error } = useGetPenalty();
 
-  let userName: string;
-  if (!userData) {
-    userName = 'loading';
-  } else {
-    userName = userData.name;
-  }
+  const userName = useGetUserName();
 
   return (
     <S.StyledModal open={open}>
@@ -78,7 +71,9 @@ const ModalPenalty: React.FC<ModalPenaltyProps> = ({ open, close }) => {
                   <div style={{ color: theme.color.negative }}>패널티</div>
                   &nbsp;횟수
                 </S.SemiBold>
-                <S.SemiBold className="modal-penalty">{myPenalty}회</S.SemiBold>
+                <S.SemiBold className="modal-penalty">
+                  {penaltyInfo?.penaltyCount}회
+                </S.SemiBold>
                 <S.Line />
                 {penaltyInfo.Penalties.map((penalty: PenaltyProps) => {
                   const myDate = new Date(penalty.time);
