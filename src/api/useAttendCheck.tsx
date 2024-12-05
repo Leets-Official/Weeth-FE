@@ -26,7 +26,7 @@ interface ApiResponse {
   data: AttendanceData;
 }
 
-// 출석 정보 받아오는 API
+// 출석 조회 정보 받아오는 API
 const getAttendCheck = async (): Promise<AttendanceData> => {
   const accessToken = localStorage.getItem('accessToken');
   const refreshToken = localStorage.getItem('refreshToken');
@@ -41,7 +41,7 @@ const getAttendCheck = async (): Promise<AttendanceData> => {
     },
   );
 
-  return response.data.data; // AttendanceData 반환
+  return response.data.data;
 };
 
 export const useGetAttendCheck = () => {

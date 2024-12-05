@@ -16,7 +16,6 @@ interface UserPenaltyData {
   Penalties: Penalty[];
 }
 
-// API 호출 함수
 const getPenalty = async (): Promise<UserPenaltyData> => {
   const accessToken = localStorage.getItem('accessToken');
   const refreshToken = localStorage.getItem('refreshToken');
@@ -28,7 +27,7 @@ const getPenalty = async (): Promise<UserPenaltyData> => {
     },
   });
 
-  return response.data.data; // 데이터 구조에 맞게 반환
+  return response.data.data;
 };
 
 export const useGetPenalty = () => {
