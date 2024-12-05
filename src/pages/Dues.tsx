@@ -1,4 +1,3 @@
-import DuesAPI from '@/api/DuesAPI';
 import useGetDuesInfo from '@/api/useDuesInfo';
 import useGetUserInfo from '@/api/useGetUserInfo';
 import DueCategory from '@/components/Dues/DueCategory';
@@ -36,7 +35,6 @@ const Dues: React.FC = () => {
 
   return (
     <S.StyledDues>
-      <DuesAPI />
       <Header title="회비" RightButtonType="none" />
       <DuesTitle />
       <S.CategoryWrapper>

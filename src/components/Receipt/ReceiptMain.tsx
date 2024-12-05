@@ -1,9 +1,10 @@
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import ReactModal from 'react-modal';
 import ReceiptInfo from '@/components/Receipt/ReceiptInfo';
-import { DuesContext } from '@/api/DuesContext';
 import DuesAPI from '@/api/DuesAPI';
 import * as S from '@/styles/receipt/ReceiptMain.styled';
+import useGetDuesInfo from '@/api/useDuesInfo';
+import useGetUserInfo from '@/api/useGetUserInfo';
 
 interface ReceiptProps {
   id: number;
@@ -18,7 +19,10 @@ interface GroupedByMonth {
 }
 
 const ReceiptMain: React.FC = () => {
-  const { duesData } = useContext(DuesContext);
+  const { userInfo } = useGetUserInfo();
+  const cardinal = userInfo?.cardinals?.[userInfo.cardinals.length - 1] ?? 0;
+  const { duesInfo } = useGetDuesInfo(cardinal);
+
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
   const [selectedImage, setSelectedImage] = useState<string>('');
 
@@ -32,17 +36,15 @@ const ReceiptMain: React.FC = () => {
     setSelectedImage('');
   };
 
-  const groupedByMonth: GroupedByMonth = duesData.reduce(
-    (acc: GroupedByMonth, curr: ReceiptProps) => {
+  const groupedByMonth: GroupedByMonth =
+    duesInfo?.receipts?.reduce((acc: GroupedByMonth, curr: ReceiptProps) => {
       const month = new Date(curr.date).getMonth() + 1;
       if (!acc[month]) {
         acc[month] = [];
       }
       acc[month].push(curr);
       return acc;
-    },
-    {},
-  );
+    }, {} as GroupedByMonth) || {};
 
   const currentDate = new Date();
   const currentMonth = currentDate.getMonth() + 1;
