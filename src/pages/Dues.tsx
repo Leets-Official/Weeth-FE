@@ -1,46 +1,35 @@
 import DuesAPI from '@/api/DuesAPI';
-import { DuesContext } from '@/api/DuesContext';
+import useGetDuesInfo from '@/api/useDuesInfo';
+import useGetUserInfo from '@/api/useGetUserInfo';
 import DueCategory from '@/components/Dues/DueCategory';
 import DuesInfo from '@/components/Dues/DuesInfo';
 import DuesTitle from '@/components/Dues/DuesTitle';
 import Header from '@/components/Header/Header';
 import useCustomBack from '@/hooks/useCustomBack';
 import * as S from '@/styles/dues/Dues.styled';
-import { useContext, useState } from 'react';
-
-interface DueProps {
-  id: number;
-  amount: number;
-  date: string;
-  description: string;
-}
-
-interface DuesContextType {
-  duesData: DueProps[] | null;
-  description: string;
-  totalAmount: number;
-  currentAmount: string;
-  myCardinal: string;
-}
+import { useState } from 'react';
 
 const Dues: React.FC = () => {
   useCustomBack('/home');
 
-  const { duesData, description, totalAmount, currentAmount, myCardinal } =
-    useContext<DuesContextType>(DuesContext);
+  const { userInfo } = useGetUserInfo();
+
+  const cardinal = userInfo?.cardinals?.[userInfo.cardinals.length - 1] ?? 0;
+  const { duesInfo } = useGetDuesInfo(cardinal);
 
   const [selected, setSelectedDues] = useState<string | null>(null);
 
   const filteredDues =
-    selected === null && duesData
-      ? duesData
-      : duesData?.filter(
-          (dues) => dues.description !== `${myCardinal}기 회비 등록`,
+    selected === null
+      ? duesInfo?.receipts
+      : duesInfo?.receipts.filter(
+          (receipt) => receipt.description !== `${cardinal}기 회비 등록`,
         );
 
   if (
-    duesData &&
-    duesData.some((dues) => dues.description === `${myCardinal}기 회비 등록`)
+    duesInfo?.receipts.some(
+      (receipt) => receipt.description === `${cardinal}기 회비 등록`,
+    )
   ) {
     setSelectedDues('회비');
   }
@@ -53,34 +42,30 @@ const Dues: React.FC = () => {
       <S.CategoryWrapper>
         <DueCategory setSelectedDues={setSelectedDues} />
       </S.CategoryWrapper>
-      {duesData == null || duesData.length === 0 ? (
-        <S.MoneyBox>등록된 회비가 없습니다.</S.MoneyBox>
+      {duesInfo == null || duesInfo.receipts.length === 0 ? (
+        <S.NullText>등록된 회비가 없습니다.</S.NullText>
       ) : (
         <S.DuesListBox>
           <S.MoneyBoxContainer>
-            <S.MoneyBox>
-              {parseInt(currentAmount, 10).toLocaleString()}원
-            </S.MoneyBox>
+            <S.MoneyBox>{duesInfo.currentAmount.toLocaleString()}원</S.MoneyBox>
           </S.MoneyBoxContainer>
           <S.Line />
           <S.DuesList>
-            {/* 회비 항목 */}
             {(selected === null || selected === '회비') && (
               <DuesInfo
-                key={1}
-                dues={totalAmount}
-                category="회비" // 회비
+                key="dues"
+                dues={duesInfo.totalAmount}
+                category="회비"
                 date="2024-04-01"
-                memo={description}
+                memo={duesInfo.description}
               />
             )}
-            {/* 지출 항목들 */}
             {selected !== '회비' &&
               filteredDues?.map((receipt) => (
                 <DuesInfo
                   key={receipt.id}
                   dues={receipt.amount}
-                  category="지출" // 지출
+                  category="지출"
                   date={receipt.date}
                   memo={receipt.description}
                 />
@@ -93,4 +78,3 @@ const Dues: React.FC = () => {
 };
 
 export default Dues;
-
