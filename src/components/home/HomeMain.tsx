@@ -7,7 +7,7 @@ import calendar from '@/assets/images/ic_home_calendar.svg';
 import attend from '@/assets/images/ic_home_attend.svg';
 import board from '@/assets/images/ic_home_board.svg';
 import * as S from '@/styles/home/HomeMain.styled';
-import useGetUserInfo from '@/api/getUserInfo';
+import useGetUserInfo from '@/api/useGetUserInfo';
 
 const HomeMain: React.FC = () => {
   const navi = useNavigate();

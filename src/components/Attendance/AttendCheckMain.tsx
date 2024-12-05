@@ -3,7 +3,7 @@ import theme from '@/styles/theme';
 
 import * as S from '@/styles/attend/AttendCheck.styled';
 import useGetAttendCheck from '@/api/useAttendCheck';
-import useGetUserInfo from '@/api/getUserInfo';
+import useGetUserName from '@/hooks/useGetUserName';
 
 interface SmallBoxProps {
   title: string;
@@ -74,7 +74,7 @@ const MeetingBox: React.FC<MeetingBoxProps> = ({
 
 const AttendCheckMain: React.FC = () => {
   const { attendCheckInfo, error } = useGetAttendCheck();
-  const { userInfo } = useGetUserInfo();
+  const userName = useGetUserName();
 
   if (error) {
     return <S.SemiBold>error</S.SemiBold>;
@@ -82,11 +82,6 @@ const AttendCheckMain: React.FC = () => {
 
   if (!attendCheckInfo) {
     return <S.SemiBold>Loading...</S.SemiBold>;
-  }
-
-  let userName = 'loading';
-  if (userInfo) {
-    userName = userInfo.name;
   }
 
   return (
@@ -147,7 +142,7 @@ const AttendCheckMain: React.FC = () => {
             );
           })
         ) : (
-          <S.NullBox> </S.NullBox>
+          <S.NullBox>출석 정보가 없습니다.</S.NullBox>
         )}
       </S.StyledBox>
     </S.Container>

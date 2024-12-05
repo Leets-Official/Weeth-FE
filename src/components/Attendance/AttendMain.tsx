@@ -13,7 +13,7 @@ import warning from '@/assets/images/ic_warning.svg';
 import * as S from '@/styles/attend/AttendMain.styled';
 import useGetAttend from '@/api/useGetAttend';
 import useGetPenalty from '@/api/usePenalty';
-import useGetUserInfo from '@/api/getUserInfo';
+import useGetUserName from '@/hooks/useGetUserName';
 
 // 출석률 게이지 임시 값
 let ATTEND_GAUGE = 0;
@@ -23,24 +23,19 @@ const AttendMain: React.FC = () => {
   const navi = useNavigate();
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [penaltyModalOpen, setPenaltyModalOpen] = useState<boolean>(false);
-  const [shouldFetchData, setShouldFetchData] = useState<boolean>(false);
   const [hasPenalty, setHasPenalty] = useState<boolean>(false);
 
   const { attendInfo, hasSchedule, error } = useGetAttend();
   const { penaltyInfo } = useGetPenalty();
 
-  setHasPenalty(
-    penaltyInfo?.penaltyCount ? penaltyInfo.penaltyCount > 0 : false,
-  );
+  useEffect(() => {
+    setHasPenalty(
+      penaltyInfo?.penaltyCount ? penaltyInfo.penaltyCount > 0 : false,
+    );
+  }, [penaltyInfo]);
 
-  const { userInfo } = useGetUserInfo();
+  const userName = useGetUserName();
 
-  let userName: string;
-  if (!userInfo) {
-    userName = 'loading';
-  } else {
-    userName = userInfo.name;
-  }
   let title: string;
   let location: string;
   let startDateTime: string;
@@ -97,19 +92,13 @@ const AttendMain: React.FC = () => {
     }
   };
 
+  // TODO: 출석 모달이 닫힐 때 출석 정보 바로 반영 되도록 수정
   const handleCloseModal = () => {
     setModalOpen(false);
-    setShouldFetchData(true);
   };
 
   const handleOpenPenaltyModal = () => setPenaltyModalOpen(true);
   const handleClosePenaltyModal = () => setPenaltyModalOpen(false);
-
-  useEffect(() => {
-    if (shouldFetchData) {
-      setShouldFetchData(false);
-    }
-  }, [shouldFetchData]);
 
   return (
     <S.StyledAttend>

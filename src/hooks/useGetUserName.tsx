@@ -1,4 +1,4 @@
-import useGetUserInfo from '@/api/getUserInfo';
+import useGetUserInfo from '@/api/useGetUserInfo';
 
 const useGetUserName = () => {
   const { userInfo } = useGetUserInfo();
