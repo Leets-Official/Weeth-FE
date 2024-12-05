@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import styled, { ThemeProvider } from 'styled-components';
 import theme from '../styles/theme';
 import Button from '../components/Button/Button';
-import leets from '../assets/images/ic_name_logo.svg';
+// import leets from '../assets/images/ic_name_logo.svg';
+import logo from '../assets/images/logo_Xmas.svg';
 import useCustomBack from '../router/useCustomBack';
 
 const Container = styled.div`
@@ -56,7 +57,7 @@ const Landing = () => {
     <ThemeProvider theme={theme}>
       <Container>
         <StyledTitle>
-          <img src={leets} alt="leets로고" />
+          <img src={logo} alt="leets로고" />
         </StyledTitle>
         <ButtonWrapper>
           <SignupButton
