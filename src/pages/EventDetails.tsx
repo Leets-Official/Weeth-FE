@@ -2,7 +2,6 @@ import useGetEventInfo from '@/api/getEventInfo';
 import * as S from '@/styles/event/EventDetail.styled';
 import EventTitle from '@/components/Event/EventTitle';
 import EventContent from '@/components/Event/EventContent';
-import UserAPI from '@/api/UserAPI';
 import useCustomBack from '@/hooks/useCustomBack';
 import { useParams } from 'react-router-dom';
 
@@ -31,7 +30,6 @@ const EventDetail = () => {
 
   return (
     <S.EventDetailWrapper>
-      <UserAPI />
       <EventTitle data={eventDetailData} isMeeting={isMeeting} />
       <S.Line />
       <EventContent data={eventDetailData} />

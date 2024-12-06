@@ -6,7 +6,6 @@ import YearCalendar from '@/components/Calendar/YearCalendar';
 import { CURRENT_MONTH, CURRENT_YEAR } from '@/constants/dateConstants';
 import useCustomBack from '@/hooks/useCustomBack';
 import * as S from '@/styles/calendar/Calendar.styled';
-import UserAPI from '@/api/UserAPI';
 
 const Calendar = () => {
   useCustomBack('/home');
@@ -20,7 +19,6 @@ const Calendar = () => {
 
   return (
     <S.CalendarWrapper>
-      <UserAPI />
       <CalendarHeader
         month={month}
         year={year}

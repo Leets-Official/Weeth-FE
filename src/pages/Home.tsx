@@ -3,7 +3,6 @@ import theme from '@/styles/theme';
 import HomeMain from '@/components/home/HomeMain';
 import HomeFooter from '@/components/home/HomeFooter';
 import LogoutButton from '@/components/home/LogoutButton';
-import UserAPI from '@/api/UserAPI';
 import logo from '@/assets/images/ic_logo.svg';
 import useCustomBack from '@/hooks/useCustomBack';
 
@@ -39,7 +38,6 @@ const Home: React.FC = () => {
   useCustomBack('/home');
   return (
     <ThemeProvider theme={theme}>
-      <UserAPI />
       <Container>
         <HeaderContainer>
           <Header>

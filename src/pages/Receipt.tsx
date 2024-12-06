@@ -1,4 +1,3 @@
-import { DuesProvider } from '@/api/DuesContext';
 import Header from '@/components/Header/Header';
 import ReceiptMain from '@/components/Receipt/ReceiptMain';
 import useCustomBack from '@/hooks/useCustomBack';
@@ -16,12 +15,10 @@ const Receipt: React.FC = () => {
   useCustomBack('/dues');
 
   return (
-    <DuesProvider>
-      <Container>
-        <Header title="영수증" RightButtonType="none" />
-        <ReceiptMain />
-      </Container>
-    </DuesProvider>
+    <Container>
+      <Header title="영수증" RightButtonType="none" />
+      <ReceiptMain />
+    </Container>
   );
 };
 
