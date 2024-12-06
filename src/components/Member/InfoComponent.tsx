@@ -45,7 +45,7 @@ const InfoComponent: React.FC<InfoComponentProps> = ({
         <img src={src} alt={alt} />
         <S.Text>
           <div>{index}</div>
-          <S.MainColor>{renderValue()}</S.MainColor>
+          <div>{renderValue()}</div>
         </S.Text>
       </S.Info>
       <S.Line />
