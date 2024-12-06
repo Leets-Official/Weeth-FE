@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import ReactModal from 'react-modal';
 import ReceiptInfo from '@/components/Receipt/ReceiptInfo';
-import DuesAPI from '@/api/DuesAPI';
 import * as S from '@/styles/receipt/ReceiptMain.styled';
 import useGetDuesInfo from '@/api/useDuesInfo';
 import useGetUserInfo from '@/api/useGetUserInfo';
@@ -58,7 +57,6 @@ const ReceiptMain: React.FC = () => {
 
   return (
     <S.StyledReceipt>
-      <DuesAPI />
       {months.map((month) => (
         <div key={month}>
           <S.StyledMonth>{month}월</S.StyledMonth>
