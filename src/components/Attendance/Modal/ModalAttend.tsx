@@ -9,7 +9,7 @@ import correct from '@/assets/images/ic_correct.svg';
 import wrong from '@/assets/images/ic_wrong.svg';
 import Button from '@/components/Button/Button';
 import theme from '@/styles/theme';
-import useGetAttendCheck from '@/api/useAttendCheck';
+import useGetAttendCheck from '@/api/useGetAttendCheck';
 
 const RightContainer: React.FC = () => {
   return (

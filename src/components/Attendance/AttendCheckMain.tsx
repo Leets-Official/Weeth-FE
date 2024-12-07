@@ -2,7 +2,7 @@ import Caption from '@/components/Button/Caption';
 import theme from '@/styles/theme';
 
 import * as S from '@/styles/attend/AttendCheck.styled';
-import useGetAttendCheck from '@/api/useAttendCheck';
+import useGetAttendCheck from '@/api/useGetAttendCheck';
 import useGetUserName from '@/hooks/useGetUserName';
 
 interface SmallBoxProps {

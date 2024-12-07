@@ -1,4 +1,4 @@
-import useGetDuesInfo from '@/api/useDuesInfo';
+import useGetDuesInfo from '@/api/useGetDuesInfo';
 import useGetUserInfo from '@/api/useGetUserInfo';
 import receipt from '@/assets/images/ic_receipt.svg';
 import formatDateTime from '@/hooks/formatDateTime';

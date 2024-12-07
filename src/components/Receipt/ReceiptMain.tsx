@@ -2,7 +2,7 @@ import { useState } from 'react';
 import ReactModal from 'react-modal';
 import ReceiptInfo from '@/components/Receipt/ReceiptInfo';
 import * as S from '@/styles/receipt/ReceiptMain.styled';
-import useGetDuesInfo from '@/api/useDuesInfo';
+import useGetDuesInfo from '@/api/useGetDuesInfo';
 import useGetUserInfo from '@/api/useGetUserInfo';
 
 interface ReceiptProps {

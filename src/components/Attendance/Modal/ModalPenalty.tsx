@@ -4,7 +4,7 @@ import icClose from '@/assets/images/ic_close.svg';
 import theme from '@/styles/theme';
 
 import * as S from '@/styles/attend/ModalPenalty.styled';
-import useGetPenalty from '@/api/usePenalty';
+import useGetPenalty from '@/api/useGetPenalty';
 import useGetUserName from '@/hooks/useGetUserName';
 
 interface CloseButtonProps {

@@ -1,4 +1,4 @@
-import useGetDuesInfo from '@/api/useDuesInfo';
+import useGetDuesInfo from '@/api/useGetDuesInfo';
 import useGetUserInfo from '@/api/useGetUserInfo';
 import DueCategory from '@/components/Dues/DueCategory';
 import DuesInfo from '@/components/Dues/DuesInfo';

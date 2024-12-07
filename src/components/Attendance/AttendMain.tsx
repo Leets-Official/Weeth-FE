@@ -12,7 +12,7 @@ import warning from '@/assets/images/ic_warning.svg';
 
 import * as S from '@/styles/attend/AttendMain.styled';
 import useGetAttend from '@/api/useGetAttend';
-import useGetPenalty from '@/api/usePenalty';
+import useGetPenalty from '@/api/useGetPenalty';
 import useGetUserName from '@/hooks/useGetUserName';
 
 // 출석률 게이지 임시 값
