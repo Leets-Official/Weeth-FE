@@ -1,10 +1,10 @@
-import leets from '@/assets/images/ic_name_logo.svg';
 import Button from '@/components/Button/Button';
 import useCustomBack from '@/hooks/useCustomBack';
 import theme from '@/styles/theme';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import styled, { ThemeProvider } from 'styled-components';
+import styled from 'styled-components';
+import logo from '@/assets/images/logo/logo_full_Xmas.svg';
 
 // Styled Components
 const Container = styled.div`
@@ -54,39 +54,37 @@ const Landing: React.FC = () => {
   }, [navigate]);
 
   return (
-    <ThemeProvider theme={theme}>
-      <Container>
-        <StyledTitle>
-          <img src={leets} alt="leets로고" />
-        </StyledTitle>
-        <ButtonWrapper>
-          <SignupButton
-            color={signupClicked ? theme.color.mainMiddle : theme.color.main}
-            textcolor={
-              signupClicked ? theme.color.mainDark : theme.color.gray[100]
-            }
-            onClick={() => {
-              setSignupClicked(true);
-              navigate('/signup');
-            }}
-          >
-            회원가입
-          </SignupButton>
-          <LoginButton
-            color={loginClicked ? theme.color.gray[20] : theme.color.gray[30]}
-            textcolor={
-              loginClicked ? theme.color.gray[12] : theme.color.gray[100]
-            }
-            onClick={() => {
-              setLoginClicked(true);
-              navigate('/login');
-            }}
-          >
-            로그인
-          </LoginButton>
-        </ButtonWrapper>
-      </Container>
-    </ThemeProvider>
+    <Container>
+      <StyledTitle>
+        <img src={logo} alt="leets로고" />
+      </StyledTitle>
+      <ButtonWrapper>
+        <SignupButton
+          color={signupClicked ? theme.color.mainMiddle : theme.color.main}
+          textcolor={
+            signupClicked ? theme.color.mainDark : theme.color.gray[100]
+          }
+          onClick={() => {
+            setSignupClicked(true);
+            navigate('/signup');
+          }}
+        >
+          회원가입
+        </SignupButton>
+        <LoginButton
+          color={loginClicked ? theme.color.gray[20] : theme.color.gray[30]}
+          textcolor={
+            loginClicked ? theme.color.gray[12] : theme.color.gray[100]
+          }
+          onClick={() => {
+            setLoginClicked(true);
+            navigate('/login');
+          }}
+        >
+          로그인
+        </LoginButton>
+      </ButtonWrapper>
+    </Container>
   );
 };
 
