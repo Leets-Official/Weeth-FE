@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import GetAllPosts from '@/api/BoardAPI';
 import PostList from '@/components/Board/PostList';
 import Info from '@/components/Board/Info';
 import NoticeHeader from '@/components/Board/NoticeHeader';
@@ -18,7 +17,6 @@ const NoticeBoard = () => {
 
   return (
     <Container>
-      <GetAllPosts path="notices" />
       <NoticeHeader showModal={false} ModalComponent={EditDelModal} />
       <Info title="공지 게시판" isEditButtonVisible={isAdmin} />
       <PostList />
