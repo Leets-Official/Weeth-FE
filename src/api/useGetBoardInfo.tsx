@@ -16,7 +16,7 @@ interface BoardInfo {
   content: Content[];
 }
 
-const getBoardInfo = async (path: number) => {
+const getBoardInfo = async (path: string, page: number) => {
   const accessToken = localStorage.getItem('accessToken');
   const refreshToken = localStorage.getItem('refreshToken');
 
@@ -25,18 +25,18 @@ const getBoardInfo = async (path: number) => {
       Authorization: `Bearer ${accessToken}`,
       Authorization_refresh: `Bearer ${refreshToken}`,
     },
-    params: { pageNumber: 0, pageSize: 5 },
+    params: { pageNumber: page, pageSize: 5 },
   });
 };
 
-export const useGetBoardInfo = (paramsCardinal: number) => {
+export const useGetBoardInfo = (path: string, page: number) => {
   const [boardInfo, setBoardInfo] = useState<BoardInfo | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchBoardInfo = async () => {
       try {
-        const response = await getBoardInfo(paramsCardinal);
+        const response = await getBoardInfo(path, page);
         const { data } = response.data;
         setBoardInfo(data);
         setError(null);
@@ -46,7 +46,7 @@ export const useGetBoardInfo = (paramsCardinal: number) => {
     };
 
     fetchBoardInfo();
-  }, [paramsCardinal]);
+  }, [path]);
 
   return { boardInfo, error };
 };
