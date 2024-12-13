@@ -1,25 +1,23 @@
 import { useNavigate } from 'react-router-dom';
-import { useContext } from 'react';
 
 import Caption from '@/components/Button/Caption';
 import RightButton from '@/components/Header/RightButton';
-
-import { UserContext } from '@/api/UserContext';
 
 import calendar from '@/assets/images/ic_home_calendar.svg';
 import attend from '@/assets/images/ic_home_attend.svg';
 import board from '@/assets/images/ic_home_board.svg';
 import * as S from '@/styles/home/HomeMain.styled';
+import useGetUserInfo from '@/api/useGetUserInfo';
 
 const HomeMain: React.FC = () => {
   const navi = useNavigate();
-  const { userData } = useContext(UserContext);
+  const { userInfo } = useGetUserInfo();
 
-  const userName = userData?.name || 'Loading';
+  const userName = userInfo?.name || 'Loading';
   const cardinal =
-    userData?.cardinals.length >= 2
-      ? userData.cardinals[userData.cardinals.length - 1]
-      : userData?.cardinals[0] || 'Loading';
+    Array.isArray(userInfo?.cardinals) && userInfo?.cardinals.length >= 2
+      ? userInfo.cardinals[userInfo.cardinals.length - 1]
+      : userInfo?.cardinals?.[0] || 'Loading';
 
   return (
     <S.StyledHomeMain>

@@ -1,5 +1,5 @@
 import theme from '@/styles/theme';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import ModalAttend from '@/components/Attendance/Modal/ModalAttend';
@@ -10,12 +10,10 @@ import RightButton from '@/components/Header/RightButton';
 import check from '@/assets/images/ic_check.svg';
 import warning from '@/assets/images/ic_warning.svg';
 
-import { AttendAPI, PenaltyAPI } from '@/api/AttendAPI';
-import { AttendContext } from '@/api/AttendContext';
-import { PenaltyContext } from '@/api/PenaltyContext';
-import { UserContext } from '@/api/UserContext';
-
 import * as S from '@/styles/attend/AttendMain.styled';
+import useGetAttend from '@/api/useGetAttend';
+import useGetPenalty from '@/api/useGetPenalty';
+import useGetUserName from '@/hooks/useGetUserName';
 
 // 출석률 게이지 임시 값
 let ATTEND_GAUGE = 0;
@@ -25,20 +23,18 @@ const AttendMain: React.FC = () => {
   const navi = useNavigate();
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [penaltyModalOpen, setPenaltyModalOpen] = useState<boolean>(false);
-  const [shouldFetchData, setShouldFetchData] = useState<boolean>(false);
   const [hasPenalty, setHasPenalty] = useState<boolean>(false);
 
-  const { userData } = useContext(UserContext);
+  const { attendInfo, hasSchedule, error } = useGetAttend();
+  const { penaltyInfo } = useGetPenalty();
 
-  let userName: string;
-  if (!userData) {
-    userName = 'loading';
-  } else {
-    userName = userData.name;
-  }
+  useEffect(() => {
+    setHasPenalty(
+      penaltyInfo?.penaltyCount ? penaltyInfo.penaltyCount > 0 : false,
+    );
+  }, [penaltyInfo]);
 
-  const { attendanceData, attendFetchError, hasSchedule } =
-    useContext(AttendContext);
+  const userName = useGetUserName();
 
   let title: string;
   let location: string;
@@ -46,22 +42,22 @@ const AttendMain: React.FC = () => {
   let endDateTime: string;
   let isWithinTimeRange = false;
 
-  if (attendFetchError) {
+  if (error) {
     title = 'error';
     location = 'error';
     startDateTime = 'error';
     endDateTime = 'error';
-  } else if (!attendanceData) {
+  } else if (!attendInfo) {
     title = '로딩중';
     location = '로딩중';
     startDateTime = '로딩중';
     endDateTime = '로딩중';
   } else {
-    title = attendanceData.title;
-    location = attendanceData.location;
+    title = attendInfo.title;
+    location = attendInfo.location;
 
-    const startDate = new Date(attendanceData.start);
-    const endDate = new Date(attendanceData.end);
+    const startDate = new Date(attendInfo.start);
+    const endDate = new Date(attendInfo.end);
 
     const dateOptions: Intl.DateTimeFormatOptions = {
       year: 'numeric',
@@ -86,15 +82,8 @@ const AttendMain: React.FC = () => {
       isWithinTimeRange = true;
     }
 
-    ATTEND_GAUGE = attendanceData.attendanceRate ?? 0;
+    ATTEND_GAUGE = attendInfo.attendanceRate ?? 0;
   }
-
-  const { myPenaltyCount } = useContext(PenaltyContext);
-
-  useEffect(() => {
-    setHasPenalty(myPenaltyCount > 0);
-  }, [myPenaltyCount]);
-
   const dealt = Math.floor((ATTEND_GAUGE / MAX_ATTEND_GUAGE) * 100);
 
   const handleOpenModal = () => {
@@ -103,24 +92,16 @@ const AttendMain: React.FC = () => {
     }
   };
 
+  // TODO: 출석 모달이 닫힐 때 출석 정보 바로 반영 되도록 수정
   const handleCloseModal = () => {
     setModalOpen(false);
-    setShouldFetchData(true);
   };
 
   const handleOpenPenaltyModal = () => setPenaltyModalOpen(true);
   const handleClosePenaltyModal = () => setPenaltyModalOpen(false);
 
-  useEffect(() => {
-    if (shouldFetchData) {
-      setShouldFetchData(false);
-    }
-  }, [shouldFetchData]);
-
   return (
     <S.StyledAttend>
-      <AttendAPI key={shouldFetchData.toString()} />
-      <PenaltyAPI />
       <S.NameContainer>
         <S.SemiBold>
           <S.AttendName>{userName}&nbsp;</S.AttendName>
@@ -182,20 +163,12 @@ const AttendMain: React.FC = () => {
               <S.AttendProject>오늘은 일정이 없어요</S.AttendProject>
             </S.SemiBold>
             <S.AttendPlace>동아리원과 스터디를 하는건 어때요?</S.AttendPlace>
-            <S.AttendButton>
-              <Button
-                color={theme.color.gray[30]}
-                textcolor={theme.color.gray[20]}
-              >
-                출석하기
-              </Button>
-            </S.AttendButton>
           </div>
         )}
       </S.StyledBox>
       <S.StyledBox>
         <img src={warning} alt="!" />
-        {myPenaltyCount === null ? (
+        {penaltyInfo?.penaltyCount === null ? (
           <S.SemiBold>
             <S.AttendProject>등록된 데이터가 없습니다.</S.AttendProject>
           </S.SemiBold>
@@ -207,13 +180,13 @@ const AttendMain: React.FC = () => {
                   <S.SemiBold>
                     패널티&nbsp;
                     <div style={{ color: theme.color.negative }}>
-                      {myPenaltyCount}회
+                      {penaltyInfo?.penaltyCount}회
                     </div>
                   </S.SemiBold>
                   <RightButton onClick={handleOpenPenaltyModal} />
                 </S.ButtonContainer>
                 <S.PenaltyCount>
-                  패널티가 {myPenaltyCount}회 적립이 되었어요.
+                  패널티가 {penaltyInfo?.penaltyCount}회 적립이 되었어요.
                   <br />
                   어떤 이유인지 알아볼까요?
                 </S.PenaltyCount>

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import logout from '@/assets/images/ic_logout_gray.svg';
+import Logout from '@/assets/images/ic_logout_gray.svg';
 import useLogout from '@/hooks/useLogout';
 
 const ImgButton = styled.div`
@@ -13,13 +13,11 @@ const ImgButton = styled.div`
 `;
 
 const LogoutButton: React.FC = () => {
-  const confirmLogout = () => {
-    useLogout();
-  };
+  const logout = useLogout();
 
   return (
-    <ImgButton onClick={confirmLogout}>
-      <img src={logout} alt="logout" />
+    <ImgButton onClick={logout}>
+      <img src={Logout} alt="logout" />
     </ImgButton>
   );
 };

@@ -1,6 +1,3 @@
-import { AttendProvider } from '@/api/AttendContext';
-import { PenaltyProvider } from '@/api/PenaltyContext';
-import UserAPI from '@/api/UserAPI';
 import AttendMain from '@/components/Attendance/AttendMain';
 import Header from '@/components/Header/Header';
 import useCustomBack from '@/hooks/useCustomBack';
@@ -18,17 +15,10 @@ const Attendance: React.FC = () => {
   useCustomBack('/home');
 
   return (
-    <>
-      <UserAPI />
-      <AttendProvider>
-        <PenaltyProvider>
-          <Container>
-            <Header title="출석" RightButtonType="none" />
-            <AttendMain />
-          </Container>
-        </PenaltyProvider>
-      </AttendProvider>
-    </>
+    <Container>
+      <Header title="출석" RightButtonType="none" />
+      <AttendMain />
+    </Container>
   );
 };
 
