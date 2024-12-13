@@ -3,6 +3,7 @@ import axios from 'axios';
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
+// TODO: dto 변경시 수정
 interface UserInfo {
   id: number;
   name: string;
