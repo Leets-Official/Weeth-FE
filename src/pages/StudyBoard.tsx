@@ -20,7 +20,7 @@ const StudyBoard = () => {
     <Container>
       <NoticeHeader showModal={false} ModalComponent={EditDelModal} />
       <Info title="스터디 게시판" isEditButtonVisible={isPostBtn} />
-      <PostList />
+      <PostList board="posts" />
     </Container>
   );
 };

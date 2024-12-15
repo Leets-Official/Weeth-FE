@@ -8,6 +8,7 @@ interface Content {
   name: string;
   title: string;
   time: string;
+  content: string;
   commentCount: number;
 }
 

@@ -14,12 +14,11 @@ const Container = styled.div`
 
 const NoticeBoard = () => {
   const isAdmin = true;
-
   return (
     <Container>
       <NoticeHeader showModal={false} ModalComponent={EditDelModal} />
       <Info title="공지 게시판" isEditButtonVisible={isAdmin} />
-      <PostList />
+      <PostList board="notices" />
     </Container>
   );
 };

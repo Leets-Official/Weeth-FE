@@ -1,23 +1,34 @@
 import styled from 'styled-components';
-import { useContext } from 'react';
-import { GetAllPostsContext } from '@/api/GetAllPostsContext';
 import PostListItem from '@/components/Board/PostListItem';
 import formatDate from '@/hooks/formatDate';
+import useGetBoardInfo from '@/api/useGetBoardInfo';
 
 const Container = styled.div`
   margin: 5px 25px 0 25px;
 `;
+
 const Line = styled.div`
   border: 1px solid;
   color: ${(props) => props.theme.color.gray[30]};
   margin-top: 10px;
 `;
 
-const PostList = () => {
-  const { posts } = useContext(GetAllPostsContext);
+const PostList = ({ board }: { board: string }) => {
+  const { boardInfo, error } = useGetBoardInfo(board, 0);
+
+  if (error) {
+    return <div>{error}</div>;
+  }
+
+  if (!boardInfo) {
+    return <div>Loading</div>;
+  }
+
+  console.log(boardInfo);
+
   return (
     <Container>
-      {posts.map((post) => (
+      {boardInfo.content.map((post) => (
         <div key={post.id}>
           <PostListItem
             name={post.name}
