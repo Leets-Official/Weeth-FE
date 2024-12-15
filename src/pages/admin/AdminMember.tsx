@@ -1,4 +1,4 @@
-const AdminMemeber: React.FC = () => {
+const AdminMember: React.FC = () => {
   return <div>멤버</div>;
 };
-export default AdminMemeber;
+export default AdminMember;
