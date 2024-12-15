@@ -26,7 +26,7 @@ const getBoardInfo = async (path: string, page: number) => {
       Authorization: `Bearer ${accessToken}`,
       Authorization_refresh: `Bearer ${refreshToken}`,
     },
-    params: { pageNumber: page, pageSize: 5 },
+    params: { pageNumber: page, pageSize: 10 },
   });
 };
 
