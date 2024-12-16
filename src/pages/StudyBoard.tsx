@@ -1,12 +1,12 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Info from '@/components/Board/Info';
 import styled from 'styled-components';
 import PostListItem from '@/components/Board/PostListItem';
 import NoticeHeader from '@/components/Board/NoticeHeader';
 import EditDelModal from '@/components/Modal/EditDelModal';
 import formatDate from '@/hooks/formatDate';
-import axios from 'axios';
 import theme from '@/styles/theme';
+import useGetBoardInfo from '@/api/useGetBoardInfo';
 
 const Container = styled.div`
   display: flex;
@@ -41,18 +41,6 @@ interface Content {
   commentCount: number;
 }
 
-interface ApiResponse {
-  code: number;
-  message: string;
-  data: {
-    size: number;
-    content: Content[];
-    number: number;
-    first: boolean;
-    last: boolean;
-  };
-}
-
 const StudyBoard = () => {
   const isPostBtn = true;
 
@@ -66,49 +54,21 @@ const StudyBoard = () => {
 
   const observerRef = useRef<HTMLDivElement | null>(null);
 
-  // API 데이터 가져오기
-  const fetchMoreItems = async () => {
-    // 중복 호출 방지
-    if (isLoading || !hasMore) return;
-    setIsLoading(true);
-
-    try {
-      const accessToken = localStorage.getItem('accessToken');
-      const refreshToken = localStorage.getItem('refreshToken');
-
-      console.log('Fetching page:', pageNumber);
-      const response = await axios.get<ApiResponse>(
-        `${BASE_URL}/api/v1/${path}`,
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-            Authorization_refresh: `Bearer ${refreshToken}`,
-          },
-          params: { pageNumber, pageSize: 10 },
-        },
-      );
-
-      const { data } = response.data;
-
-      // 데이터 병합
-      setPosts((prevPosts) => [...prevPosts, ...data.content]);
-      // 마지막 페이지 여부 설정
-      setHasMore(!data.last);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    } finally {
-      setIsLoading(false);
-      setPageNumber((prevPage) => prevPage + 1);
-    }
-  };
-
   // Intersection Observer 설정
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         const firstEntry = entries[0];
         if (firstEntry.isIntersecting && hasMore && !isLoading) {
-          fetchMoreItems();
+          useGetBoardInfo(
+            BASE_URL,
+            path,
+            pageNumber,
+            setPosts,
+            setHasMore,
+            setIsLoading,
+          );
+          setPageNumber((prevPage) => prevPage + 1);
         }
       },
       { root: null, rootMargin: '0px', threshold: 0.1 },
@@ -119,7 +79,7 @@ const StudyBoard = () => {
     return () => {
       if (observerRef.current) observer.unobserve(observerRef.current);
     };
-  }, [hasMore, isLoading]);
+  }, [hasMore, isLoading, pageNumber]);
 
   return (
     <Container>

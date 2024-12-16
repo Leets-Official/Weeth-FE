@@ -1,55 +1,64 @@
-import { useEffect, useState } from 'react';
 import axios from 'axios';
-
-const BASE_URL = import.meta.env.VITE_API_URL;
 
 interface Content {
   id: number;
   name: string;
   title: string;
-  time: string;
   content: string;
+  time: string;
   commentCount: number;
 }
 
-interface BoardInfo {
-  last: boolean;
-  content: Content[];
+interface ApiResponse {
+  code: number;
+  message: string;
+  data: {
+    size: number;
+    content: Content[];
+    number: number;
+    first: boolean;
+    last: boolean;
+  };
 }
 
-const getBoardInfo = async (path: string, page: number) => {
-  const accessToken = localStorage.getItem('accessToken');
-  const refreshToken = localStorage.getItem('refreshToken');
+const useGetBoardInfo = async (
+  BASE_URL: string,
+  path: string,
+  pageNumber: number,
+  setPosts: React.Dispatch<React.SetStateAction<Content[]>>,
+  setHasMore: React.Dispatch<React.SetStateAction<boolean>>,
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
+) => {
+  // 중복 호출 방지
+  setIsLoading(true);
 
-  return axios.get(`${BASE_URL}/api/v1/${path}`, {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-      Authorization_refresh: `Bearer ${refreshToken}`,
-    },
-    params: { pageNumber: page, pageSize: 10 },
-  });
-};
+  try {
+    const accessToken = localStorage.getItem('accessToken');
+    const refreshToken = localStorage.getItem('refreshToken');
 
-export const useGetBoardInfo = (path: string, page: number) => {
-  const [boardInfo, setBoardInfo] = useState<BoardInfo | null>(null);
-  const [error, setError] = useState<string | null>(null);
+    console.log('Fetching page:', pageNumber);
+    const response = await axios.get<ApiResponse>(
+      `${BASE_URL}/api/v1/${path}`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          Authorization_refresh: `Bearer ${refreshToken}`,
+        },
+        params: { pageNumber, pageSize: 10 },
+      },
+    );
 
-  useEffect(() => {
-    const fetchBoardInfo = async () => {
-      try {
-        const response = await getBoardInfo(path, page);
-        const { data } = response.data;
-        setBoardInfo(data);
-        setError(null);
-      } catch (err: any) {
-        setError(err.response?.data?.message);
-      }
-    };
+    const { data } = response.data;
 
-    fetchBoardInfo();
-  }, [path]);
-
-  return { boardInfo, error };
+    // 데이터 병합
+    setPosts((prevPosts) => [...prevPosts, ...data.content]);
+    // 마지막 페이지 여부 설정
+    setHasMore(!data.last);
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  } finally {
+    setIsLoading(false);
+  }
 };
 
 export default useGetBoardInfo;
