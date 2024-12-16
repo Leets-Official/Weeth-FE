@@ -1,7 +1,5 @@
 /* eslint-disable no-alert */
 import { EventRequestType, createEvent, editEvent } from '@/api/EventAdminAPI';
-import UserAPI from '@/api/UserAPI';
-import { UserContext } from '@/api/UserContext';
 import DatePicker from '@/components/Event/DatePicker';
 import Header from '@/components/Header/Header';
 import InfoInput from '@/components/MyPage/InfoInput';
@@ -12,12 +10,13 @@ import {
 } from '@/constants/dateConstants';
 import useCustomBack from '@/hooks/useCustomBack';
 import * as S from '@/styles/event/EventEditor.styled';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import useGetEventInfo from '@/api/getEventInfo';
 import ISOtoArray from '@/hooks/ISOtoArray';
 import ArrayToISO from '@/hooks/ArrayToISO';
 import replaceNewLines from '@/hooks/newLine';
+import useGetUserInfo from '@/api/useGetUserInfo';
 
 function checkEmpty(field: string | undefined, message: string): boolean {
   // TODO🚨important!!🚨: 배열 내에 빈 값이 있는 경우를 처리하는 로직 추가
@@ -33,7 +32,7 @@ const EventEditor = () => {
 
   const { id } = useParams();
   const { data: eventDetailData, error } = useGetEventInfo('events', id);
-  const { userData } = useContext(UserContext);
+  const { userInfo } = useGetUserInfo();
   const isEditMode = Boolean(id);
   const navigate = useNavigate();
   const [eventRequest, setEventRequest] = useState<EventRequestType>({
@@ -121,7 +120,7 @@ const EventEditor = () => {
     }
   };
 
-  if (userData && userData.role !== 'ADMIN') {
+  if (userInfo && userInfo.role !== 'ADMIN') {
     return <S.Error>일정 생성 및 수정은 운영진만 가능합니다</S.Error>;
   }
 
@@ -129,7 +128,6 @@ const EventEditor = () => {
 
   return (
     <S.EventEditorWrapper>
-      <UserAPI />
       <Header
         title={isEditMode ? '일정 수정' : '일정 추가'}
         onClickRightButton={onSave}

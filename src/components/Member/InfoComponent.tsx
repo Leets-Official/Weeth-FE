@@ -39,6 +39,7 @@ const InfoComponent: React.FC<InfoComponentProps> = ({
     return value;
   };
 
+  // TODO: renderValue가 mainColor 스타일이었는데 해당 스타일이 존재하지 않아서,, 일단 그냥 div로 바꿨습니다.
   return (
     <div>
       <S.Info>

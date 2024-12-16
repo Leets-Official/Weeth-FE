@@ -1,8 +1,8 @@
-import { UserContext } from '@/api/UserContext';
 import ModalMonthContent from '@/components/Calendar/ModalMonthContent';
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import Modal from 'react-modal';
 
+import useGetUserInfo from '@/api/useGetUserInfo';
 import Header from '../Header/Header';
 
 Modal.setAppElement('#root');
@@ -42,7 +42,7 @@ const CalendarHeader: React.FC<CalendarHeaderProps> = ({
   editMonth,
 }) => {
   const [monthModalIsOpen, setMonthModalIsOpen] = useState(false);
-  const { userData } = useContext(UserContext);
+  const { userInfo } = useGetUserInfo();
 
   const openMonthModal = () => {
     setMonthModalIsOpen(true);
@@ -64,7 +64,7 @@ const CalendarHeader: React.FC<CalendarHeaderProps> = ({
         isMonth={isMonth}
         openMonthModal={openMonthModal}
         RightButtonType="PLUS"
-        isAdmin={userData?.role === 'ADMIN' && !monthModalIsOpen}
+        isAdmin={userInfo?.role === 'ADMIN' && !monthModalIsOpen}
       />
       <Modal
         className="calendar-modal"

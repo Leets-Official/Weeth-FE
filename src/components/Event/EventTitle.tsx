@@ -3,16 +3,15 @@
 import Modal from 'react-modal';
 
 import { deleteEvent } from '@/api/EventAdminAPI';
-import UserAPI from '@/api/UserAPI';
-import { UserContext } from '@/api/UserContext';
 import Header from '@/components/Header/Header';
 import EditDelModal from '@/components/Modal/EditDelModal';
 import formatDateTime from '@/hooks/formatDateTime';
 import { EventDetailData } from '@/pages/EventDetails';
 import * as S from '@/styles/calendar/EventDetailTitle.styled';
 import { adminModalStyles } from '@/styles/calendar/EventDetailTitle.styled';
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import useGetUserInfo from '@/api/useGetUserInfo';
 
 Modal.setAppElement('#root');
 
@@ -23,7 +22,7 @@ const EventTitle = ({
   data: EventDetailData;
   isMeeting: boolean;
 }) => {
-  const { userData } = useContext(UserContext);
+  const { userInfo } = useGetUserInfo();
   const [adminModalIsOpen, setAdminModalIsOpen] = useState(false);
   const navi = useNavigate();
   const formattedDateTime = formatDateTime(data.createdAt);
@@ -48,15 +47,14 @@ const EventTitle = ({
     }
   };
 
-  if (!userData) {
+  if (!userInfo) {
     return null;
   }
 
   return (
     <S.EventTitleWrapper>
-      <UserAPI />
       <Header
-        isAccessible={userData.role === 'ADMIN' && !isMeeting}
+        isAccessible={userInfo.role === 'ADMIN' && !isMeeting}
         onClickRightButton={openAdminModal}
         RightButtonType="MENU"
       />

@@ -1,28 +1,27 @@
-import { AttendCheckContext } from '@/api/AttendCheckContext';
-import { UserContext } from '@/api/UserContext';
 import Caption from '@/components/Button/Caption';
 import theme from '@/styles/theme';
-import { useContext } from 'react';
 
 import * as S from '@/styles/attend/AttendCheck.styled';
+import useGetAttendCheck from '@/api/useGetAttendCheck';
+import useGetUserName from '@/hooks/useGetUserName';
 
 interface SmallBoxProps {
   title: string;
   num: string;
 }
 interface MeetingBoxProps {
-  attend: 'ATTEND' | 'ABSENT' | 'NOT_ATTENDED';
+  attend: 'ATTEND' | 'ABSENT' | 'PENDING';
   title: string;
   week: string;
   date: string;
   place: string;
 }
 interface MeetingProps {
-  id: string;
+  id: number;
   title: string;
   start: string;
   end: string;
-  status: 'ATTEND' | 'ABSENT';
+  status: 'ATTEND' | 'PENDING' | 'ABSENT';
   weekNumber: number;
   location: string;
 }
@@ -44,7 +43,7 @@ const MeetingBox: React.FC<MeetingBoxProps> = ({
   place,
 }) => {
   let captionText = '미결';
-  let captionColor = theme.color.gray[20];
+  let captionColor = theme.color.gray[65];
 
   if (attend === 'ATTEND') {
     captionText = '출석';
@@ -74,20 +73,15 @@ const MeetingBox: React.FC<MeetingBoxProps> = ({
 };
 
 const AttendCheckMain: React.FC = () => {
-  const { attendanceData, attendFetchError } = useContext(AttendCheckContext);
-  const { userData } = useContext(UserContext);
+  const { attendCheckInfo, error } = useGetAttendCheck();
+  const userName = useGetUserName();
 
-  if (attendFetchError) {
-    return <div>error</div>;
+  if (error) {
+    return <S.SemiBold>error</S.SemiBold>;
   }
 
-  if (!attendanceData) {
-    return <div>Loading...</div>;
-  }
-
-  let userName = 'loading';
-  if (userData) {
-    userName = userData.name;
+  if (!attendCheckInfo) {
+    return <S.SemiBold>Loading...</S.SemiBold>;
   }
 
   return (
@@ -98,18 +92,18 @@ const AttendCheckMain: React.FC = () => {
           <S.StyledText>&nbsp;님의 출석횟수</S.StyledText>
         </S.SemiTitle>
         <S.Penalty>
-          <S.SemiBold>{attendanceData.attendanceCount}회</S.SemiBold>
+          <S.SemiBold>{attendCheckInfo.attendanceCount}회</S.SemiBold>
         </S.Penalty>
       </S.Header>
       <S.StyledBox>
         <S.SmallStyledBoxContainer>
-          <SmallBox title="정기 모임" num={`${attendanceData.total}회`} />
-          <SmallBox title="출석" num={`${attendanceData.attendanceCount}회`} />
-          <SmallBox title="결석" num={`${attendanceData.absenceCount}회`} />
+          <SmallBox title="정기 모임" num={`${attendCheckInfo.total}회`} />
+          <SmallBox title="출석" num={`${attendCheckInfo.attendanceCount}회`} />
+          <SmallBox title="결석" num={`${attendCheckInfo.absenceCount}회`} />
         </S.SmallStyledBoxContainer>
         <S.Line />
-        {attendanceData.attendances.length > 0 ? (
-          attendanceData.attendances.map((meeting: MeetingProps) => {
+        {attendCheckInfo.attendances.length > 0 ? (
+          attendCheckInfo.attendances.map((meeting: MeetingProps) => {
             const startDate = new Date(meeting.start);
             const endDate = new Date(meeting.end);
 
@@ -148,7 +142,7 @@ const AttendCheckMain: React.FC = () => {
             );
           })
         ) : (
-          <S.NullBox> </S.NullBox>
+          <S.NullBox>출석 정보가 없습니다.</S.NullBox>
         )}
       </S.StyledBox>
     </S.Container>

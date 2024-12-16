@@ -1,30 +1,17 @@
 import '@/components/Attendance/Modal/ModalStyled.css';
 import * as S from '@/styles/attend/ModalAttend.styled';
 import axios from 'axios';
-import React, { ChangeEvent, useContext, useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 
-import { AttendContext } from '@/api/AttendContext';
 import check from '@/assets/images/ic_check.svg';
 import icClose from '@/assets/images/ic_close.svg';
 import correct from '@/assets/images/ic_correct.svg';
 import wrong from '@/assets/images/ic_wrong.svg';
 import Button from '@/components/Button/Button';
 import theme from '@/styles/theme';
+import useGetAttendCheck from '@/api/useGetAttendCheck';
 
-interface ModalAttendProps {
-  open: boolean;
-  close: () => void;
-}
-
-interface WrongContainerProps {
-  message: string;
-}
-
-interface CloseButtonProps {
-  onClick: () => void;
-}
-
-const RightContainer = () => {
+const RightContainer: React.FC = () => {
   return (
     <>
       <S.ImgContainer>
@@ -35,7 +22,7 @@ const RightContainer = () => {
   );
 };
 
-const WrongContainer: React.FC<WrongContainerProps> = ({ message }) => {
+const WrongContainer: React.FC<{ message: string }> = ({ message }) => {
   return (
     <>
       <S.ImgContainer>
@@ -46,13 +33,16 @@ const WrongContainer: React.FC<WrongContainerProps> = ({ message }) => {
   );
 };
 
-const CloseButton: React.FC<CloseButtonProps> = ({ onClick }) => (
+const CloseButton: React.FC<{ onClick: () => void }> = ({ onClick }) => (
   <S.ImgButton onClick={onClick}>
     <img src={icClose} alt="닫기" />
   </S.ImgButton>
 );
 
-const ModalAttend: React.FC<ModalAttendProps> = ({ open, close }) => {
+const ModalAttend: React.FC<{ open: boolean; close: () => void }> = ({
+  open,
+  close,
+}) => {
   const [codeCheck, setCodeCheck] = useState(0);
   const [inputValue, setInputValue] = useState('');
   const [message, setMessage] = useState('');
@@ -61,7 +51,7 @@ const ModalAttend: React.FC<ModalAttendProps> = ({ open, close }) => {
   );
   const refreshToken = localStorage.getItem('refreshToken');
 
-  const { attendanceData, attendFetchError } = useContext(AttendContext);
+  const { attendCheckInfo, error } = useGetAttendCheck();
 
   useEffect(() => {
     if (!open) {
@@ -96,10 +86,10 @@ const ModalAttend: React.FC<ModalAttendProps> = ({ open, close }) => {
       } else {
         setCodeCheck(2); // Wrong
       }
-    } catch (error) {
+    } catch (Patcherror) {
       setCodeCheck(2); // Wrong
       setMessage('ERROR');
-      console.error(error);
+      console.error(Patcherror);
     }
   };
 
@@ -115,24 +105,23 @@ const ModalAttend: React.FC<ModalAttendProps> = ({ open, close }) => {
   let startDateTime: string;
   let endDateTime: string;
 
-  if (attendFetchError) {
+  if (error) {
     title = 'error';
     location = 'error';
     startDateTime = 'error';
     endDateTime = 'error';
-  } else if (!attendanceData) {
+  } else if (!attendCheckInfo) {
     title = '로딩중';
     location = '로딩중';
     startDateTime = '로딩중';
     endDateTime = '로딩중';
   } else {
-    title = attendanceData.title;
-    location = attendanceData.location;
-    // Date 객체로 변환
-    const startDate = new Date(attendanceData.start);
-    const endDate = new Date(attendanceData.end);
+    const attendance = attendCheckInfo.attendances[0]; // 첫 번째 출석 정보
+    title = attendance.title;
+    location = attendance.location;
+    const startDate = new Date(attendance.start);
+    const endDate = new Date(attendance.end);
 
-    // 날짜 형식으로 변환 (정확한 타입 설정)
     const dateOptions: Intl.DateTimeFormatOptions = {
       year: 'numeric',
       month: 'long',
@@ -140,7 +129,6 @@ const ModalAttend: React.FC<ModalAttendProps> = ({ open, close }) => {
     };
     startDateTime = startDate.toLocaleDateString('ko-KR', dateOptions);
 
-    // 시간 형식으로 변환 (24시간 형식)
     const timeOptions: Intl.DateTimeFormatOptions = {
       hour: '2-digit',
       minute: '2-digit',
@@ -149,7 +137,6 @@ const ModalAttend: React.FC<ModalAttendProps> = ({ open, close }) => {
     const startTime = startDate.toLocaleTimeString('ko-KR', timeOptions);
     const endTime = endDate.toLocaleTimeString('ko-KR', timeOptions);
 
-    // 피그마 형식대로 변환
     endDateTime = `(${startTime} ~ ${endTime})`;
   }
 
@@ -197,11 +184,7 @@ const ModalAttend: React.FC<ModalAttendProps> = ({ open, close }) => {
             />
           </div>
           <div className="modal-buttons">
-            <Button
-              onClick={handleCompleteBtn}
-              width="{370 * 0.76}"
-              height="45"
-            >
+            <Button onClick={handleCompleteBtn} width="280" height="45">
               입력완료
             </Button>
           </div>

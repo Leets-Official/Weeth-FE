@@ -49,3 +49,11 @@ export const MoneyBox = styled.div`
   margin-left: 15px;
   align-items: start;
 `;
+
+export const NullText = styled.div`
+  font-size: 25px;
+  font-family: ${theme.font.semiBold};
+  margin-top: 20px;
+  justify-content: center;
+  text-align: center;
+`;

@@ -39,7 +39,6 @@ const Home: React.FC = () => {
   useCustomBack('/home');
   return (
     <ThemeProvider theme={theme}>
-      <UserAPI />
       <Container>
         <HeaderContainer>
           <Header>
