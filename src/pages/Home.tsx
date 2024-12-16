@@ -3,7 +3,8 @@ import theme from '@/styles/theme';
 import HomeMain from '@/components/home/HomeMain';
 import HomeFooter from '@/components/home/HomeFooter';
 import LogoutButton from '@/components/home/LogoutButton';
-import logo from '@/assets/images/ic_logo.svg';
+import UserAPI from '@/api/UserAPI';
+import logo from '@/assets/images/logo/logo_initial_Xmas.svg';
 import useCustomBack from '@/hooks/useCustomBack';
 
 const Container = styled.div`
