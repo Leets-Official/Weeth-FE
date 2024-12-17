@@ -38,14 +38,14 @@ const getBoardDetail = async (path: string, id: number) => {
   });
 };
 
-export const useGetBoardDetail = (paramsCardinal: string, id: number) => {
+export const useGetBoardDetail = (path: string, id: number) => {
   const [boardDetailInfo, setBoardDetail] = useState<BoardDetail | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchBoardDetail = async () => {
       try {
-        const response = await getBoardDetail(paramsCardinal, id);
+        const response = await getBoardDetail(path, id);
         const { data } = response.data;
         setBoardDetail(data);
         setError(null);
@@ -55,7 +55,7 @@ export const useGetBoardDetail = (paramsCardinal: string, id: number) => {
     };
 
     fetchBoardDetail();
-  }, [paramsCardinal]);
+  }, [path]);
 
   return { boardDetailInfo, error };
 };

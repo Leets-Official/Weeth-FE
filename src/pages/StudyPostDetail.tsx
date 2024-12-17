@@ -1,3 +1,4 @@
+import useGetBoardDetail from '@/api/useGetBoardDetail';
 import PostCommentList from '@/components/Board/PostCommentList';
 import PostDetailMain from '@/components/Board/PostDetailMain';
 import Header from '@/components/Header/Header';
@@ -15,6 +16,12 @@ const PostDetail = () => {
   const openModal = () => {
     console.log('모달 열림');
   };
+
+  // useGetBoardDetail 훅 호출
+  const { boardDetailInfo, error } = useGetBoardDetail('posts', 47);
+
+  if (error) return <div>오류: {error}</div>; // 에러 처리
+
   return (
     <Container>
       <Header
@@ -23,7 +30,7 @@ const PostDetail = () => {
         isAccessible
         onClickRightButton={openModal}
       />
-      <PostDetailMain />
+      <PostDetailMain info={boardDetailInfo} /> {/* 데이터를 전달 */}
       <PostCommentList />
     </Container>
   );

@@ -4,7 +4,33 @@ import CommentImage from '@/assets/images/ic_comment_count.svg';
 import Line from '../common/Line';
 import PostFile from './PostFile';
 
-// TODO: 스타일 분리 및 색상 코드 적용
+interface Comment {
+  id: number;
+  name: string;
+  content: string;
+  time: string;
+}
+
+interface FileUrl {
+  fileId: number;
+  fileName: string;
+  fileUrl: string;
+}
+
+interface BoardDetail {
+  id: number;
+  name: string;
+  title: string;
+  time: string;
+  commentCount: number;
+  comments: Comment[];
+  fileUrls: FileUrl[];
+}
+
+interface PostDetailMainProps {
+  info: BoardDetail | null; // 데이터가 없을 때를 대비해 null 처리
+}
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -46,26 +72,32 @@ const CommentText = styled.div`
   margin: 14px 0 10px 0;
 `;
 
-const PostDetailMain = () => {
-  const onClickDownload = () => {
-    console.log('파일 다운');
+const PostDetailMain = ({ info }: PostDetailMainProps) => {
+  const onClickDownload = (fileName: string) => {
+    console.log(`${fileName} 파일 다운`);
   };
+
+  if (!info) return <div>Loading...</div>; // 데이터가 없을 때 로딩 표시
+
   return (
     <Container>
-      <TitleText> 스터디 제못</TitleText>
+      <TitleText>{info.title}</TitleText>
       <SmallText>
-        <div>김위드</div>
-        <DateText>2024/03/43</DateText>
+        <div>{info.name}</div>
+        <DateText>{info.time}</DateText>
       </SmallText>
-      <PostingContianer> 본문 </PostingContianer>
-      <PostFile
-        fileName="파일이름이 길어질 때, 사실 그렇게 보이면.pdf"
-        isDownload
-        onClick={onClickDownload}
-      />
+      <PostingContianer>{info.commentCount}개의 댓글</PostingContianer>
+      {info.fileUrls.map((file) => (
+        <PostFile
+          key={file.fileId}
+          fileName={file.fileName}
+          isDownload
+          onClick={() => onClickDownload(file.fileName)}
+        />
+      ))}
       <CommentText>
         <img src={CommentImage} alt="댓글 이미지" />
-        <div>3</div>
+        <div>{info.commentCount}</div>
       </CommentText>
       <Line />
     </Container>
