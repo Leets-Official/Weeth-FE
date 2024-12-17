@@ -18,9 +18,9 @@ const PostDetail = () => {
   };
 
   // useGetBoardDetail 훅 호출
-  const { boardDetailInfo, error } = useGetBoardDetail('posts', 47);
+  const { boardDetailInfo, error } = useGetBoardDetail('posts', 65);
 
-  if (error) return <div>오류: {error}</div>; // 에러 처리
+  if (error) return <div>오류: {error}</div>;
 
   return (
     <Container>
@@ -30,8 +30,12 @@ const PostDetail = () => {
         isAccessible
         onClickRightButton={openModal}
       />
-      <PostDetailMain info={boardDetailInfo} /> {/* 데이터를 전달 */}
-      <PostCommentList />
+      {boardDetailInfo && (
+        <>
+          <PostDetailMain info={boardDetailInfo} />
+          <PostCommentList comments={boardDetailInfo.comments} />
+        </>
+      )}
     </Container>
   );
 };

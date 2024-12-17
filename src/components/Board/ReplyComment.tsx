@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import ReplyArrowImage from '@/assets/images/ic_reply.svg';
 import MenuImage from '@/assets/images/ic_comment_delete.svg';
 
-// TODO: 스타일 분리 및 색상 코드 적용
 const Container = styled.div`
   width: 100%;
   display: flex;
@@ -59,7 +58,13 @@ const ImageButton = styled.button`
   right: 10px;
 `;
 
-const ReplyComment = () => {
+interface ReplyCommentProps {
+  name: string;
+  content: string;
+  time: string;
+}
+
+const ReplyComment = ({ name, content, time }: ReplyCommentProps) => {
   const onClickMenu = () => {
     console.log('삭제');
   };
@@ -68,9 +73,9 @@ const ReplyComment = () => {
     <Container>
       <ReplyArrow src={ReplyArrowImage} alt="답댓글 화살표" />
       <ReplyContainer>
-        <NameText>김위드</NameText>
-        <ContentText>ㅎㅎ 잘했죠</ContentText>
-        <DateText>00/00 00:00</DateText>
+        <NameText>{name}</NameText>
+        <ContentText>{content}</ContentText>
+        <DateText>{time}</DateText>
         <ImageButton onClick={onClickMenu}>
           <img src={MenuImage} alt="메뉴 버튼" />
         </ImageButton>

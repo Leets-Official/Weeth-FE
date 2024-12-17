@@ -3,12 +3,12 @@ import styled from 'styled-components';
 import ReplyImage from '@/assets/images/ic_reply_comment.svg';
 import MenuImage from '@/assets/images/ic_comment_delete.svg';
 
-// TODO: 스타일 분리 및 색상 코드 적용
 const Container = styled.div`
   width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
+  margin-top: 15px;
 `;
 
 const CommentContainer = styled.div`
@@ -49,7 +49,13 @@ const ImageButton = styled.button`
   cursor: pointer;
 `;
 
-const Comment = () => {
+interface CommentProps {
+  name: string;
+  content: string;
+  time: string;
+}
+
+const Comment = ({ name, content, time }: CommentProps) => {
   const onClickReply = () => {
     console.log('답댓');
   };
@@ -61,9 +67,9 @@ const Comment = () => {
   return (
     <Container>
       <CommentContainer>
-        <NameText>길동군</NameText>
-        <ContentText>우와 정말 잘햇다</ContentText>
-        <DateText>2024/12/22</DateText>
+        <NameText>{name}</NameText>
+        <ContentText>{content}</ContentText>
+        <DateText>{time}</DateText>
       </CommentContainer>
       <ButtonContainer>
         <ImageButton onClick={onClickReply}>

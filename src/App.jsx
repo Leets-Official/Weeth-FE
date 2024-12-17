@@ -37,7 +37,7 @@ import { NoticeProvider } from '@/api/NoticeContext';
 import { UserProvider } from '@/api/UserContext';
 
 import ScrollToTop from '@/hooks/ScrollToTop';
-import PostDetail from '@/pages/PostDetail';
+import StudyPostDetail from '@/pages/StudyPostDetail';
 
 const App = () => {
   return (
@@ -67,7 +67,7 @@ const App = () => {
                   <Route path="/dues" element={<Dues />} />
                   <Route path="/receipt" element={<Receipt />} />
                   {/* <Route path="/board" element={<Board />} /> */}
-                  <Route path="/study/detail" element={<PostDetail />} />
+                  <Route path="/study/detail" element={<StudyPostDetail />} />
                   {/* <Route path="/notice/:id" element={<NoticeDetail />} /> */}
                   {/* <Route path="/study/post" element={<StudyPosting />} />
                   <Route path="/notice/post" element={<NoticePosting />} /> */}

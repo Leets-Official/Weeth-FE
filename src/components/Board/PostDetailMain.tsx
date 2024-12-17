@@ -1,6 +1,7 @@
 import theme from '@/styles/theme';
 import styled from 'styled-components';
 import CommentImage from '@/assets/images/ic_comment_count.svg';
+import { formatDate } from 'fullcalendar';
 import Line from '../common/Line';
 import PostFile from './PostFile';
 
@@ -22,13 +23,14 @@ interface BoardDetail {
   name: string;
   title: string;
   time: string;
+  content: string;
   commentCount: number;
   comments: Comment[];
   fileUrls: FileUrl[];
 }
 
 interface PostDetailMainProps {
-  info: BoardDetail | null; // 데이터가 없을 때를 대비해 null 처리
+  info: BoardDetail | null;
 }
 
 const Container = styled.div`
@@ -77,16 +79,19 @@ const PostDetailMain = ({ info }: PostDetailMainProps) => {
     console.log(`${fileName} 파일 다운`);
   };
 
-  if (!info) return <div>Loading...</div>; // 데이터가 없을 때 로딩 표시
+  console.log(info);
+  const formattedDate = formatDate(info?.time ?? '');
+
+  if (!info) return <div>Loading...</div>;
 
   return (
     <Container>
       <TitleText>{info.title}</TitleText>
       <SmallText>
         <div>{info.name}</div>
-        <DateText>{info.time}</DateText>
+        <DateText>{formattedDate}</DateText>
       </SmallText>
-      <PostingContianer>{info.commentCount}개의 댓글</PostingContianer>
+      <PostingContianer>{info.content}</PostingContianer>
       {info.fileUrls.map((file) => (
         <PostFile
           key={file.fileId}

@@ -21,6 +21,7 @@ interface BoardDetail {
   name: string;
   title: string;
   time: string;
+  content: string;
   commentCount: number;
   comments: Comments[];
   fileUrls: FileUrls[];
@@ -47,7 +48,17 @@ export const useGetBoardDetail = (path: string, id: number) => {
       try {
         const response = await getBoardDetail(path, id);
         const { data } = response.data;
-        setBoardDetail(data);
+
+        // children이 undefined면 빈 배열로 변환
+        const formattedComments = data.comments.map((comment: any) => ({
+          ...comment,
+          children: comment.children ?? [],
+        }));
+
+        setBoardDetail({
+          ...data,
+          comments: formattedComments,
+        });
         setError(null);
       } catch (err: any) {
         setError(err.response?.data?.message);
@@ -55,7 +66,7 @@ export const useGetBoardDetail = (path: string, id: number) => {
     };
 
     fetchBoardDetail();
-  }, [path]);
+  }, [path, id]);
 
   return { boardDetailInfo, error };
 };
