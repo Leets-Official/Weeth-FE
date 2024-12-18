@@ -5,6 +5,7 @@ export const PageWrapper = styled.div`
   width: 100vw;
   min-height: 100vh;
   background-color: #f2f9f8;
+  color: #000000;
   display: flex;
   justify-content: center;
   align-items: flex-start;

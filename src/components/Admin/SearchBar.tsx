@@ -8,9 +8,9 @@ export const SearchBarWrapper = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
-  padding: 10px 20px;
+  padding: 15px 120px 15px 20px;
   border-radius: 4px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 3px 8px 0px #858d8a;
 `;
 
 export const StyledInput = styled.input`
