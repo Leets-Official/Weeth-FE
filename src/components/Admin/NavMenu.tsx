@@ -19,20 +19,13 @@ const ContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1;
-  height: 100%;
-`;
-
-const Topbar = styled.div`
-  height: 78px;
-  width: 100%;
-  background-color: #ffffff;
+  background-color: #f2f9f8;
   border: 1px solid #f2f2f2;
+  height: 100%;
 `;
 
 // const MainContent = styled.div`
 //   flex: 1;
-//   background-color: #f2f9f8;
-//   border: 1px solid #f2f2f2;
 // `;
 
 const NavMenu: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -41,10 +34,7 @@ const NavMenu: React.FC<{ children: React.ReactNode }> = ({ children }) => {
       <Sidebar>
         <h1>Weeth admin</h1>
       </Sidebar>
-      <ContentWrapper>
-        <Topbar>로그인</Topbar>
-        <div>{children}</div>
-      </ContentWrapper>
+      <ContentWrapper>{children}</ContentWrapper>
     </Container>
   );
 };
