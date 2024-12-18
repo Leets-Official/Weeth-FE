@@ -6,6 +6,8 @@ const Container = styled.div`
   height: 100vh;
   align-items: flex-start;
   color: black;
+  box-sizing: border-box;
+  flex-shrink: 0;
 `;
 
 const Sidebar = styled.div`
@@ -23,10 +25,6 @@ const ContentWrapper = styled.div`
   border: 1px solid #f2f2f2;
   height: 100%;
 `;
-
-// const MainContent = styled.div`
-//   flex: 1;
-// `;
 
 const NavMenu: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (

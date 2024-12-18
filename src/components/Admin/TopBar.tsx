@@ -4,7 +4,7 @@ import styled from 'styled-components';
 const TopBarWrapper = styled.div`
   width: 100%;
   background-color: #ffffff;
-  border-bottom: 1px solid #f2f2f2;
+  border-bottom: 1px solid #dedede;
   padding: 0 20px;
   box-sizing: border-box;
   display: flex;

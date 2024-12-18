@@ -6,19 +6,18 @@ import styled from 'styled-components';
 export const PageWrapper = styled.div`
   width: 100vw;
   min-height: 100vh;
-  background-color: #f2f9f8;
-  color: #000000;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
+  /* color: #000000; */
 `;
 
 export const Container = styled.div`
   width: 100%;
-  max-width: 1000px;
+  max-width: 1300px;
   margin: 0 auto;
   padding: 20px;
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const AdminMember: React.FC = () => {
