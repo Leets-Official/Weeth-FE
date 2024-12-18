@@ -1,10 +1,11 @@
 import Button from '@/components/Button/Button';
 import useCustomBack from '@/hooks/useCustomBack';
 import theme from '@/styles/theme';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import logo from '@/assets/images/logo/logo_full_Xmas.svg';
+import kakao from '@/assets/images/ic_KAKAO_symbol.svg';
 
 // Styled Components
 const Container = styled.div`
@@ -30,21 +31,24 @@ const ButtonWrapper = styled.div`
   gap: 15px;
 `;
 
-const SignupButton = styled(Button)`
+const KakaoLoginButton = styled(Button)`
   width: 100%;
 `;
 
-const LoginButton = styled(Button)`
-  width: 100%;
+const SignUpbutton = styled.button`
   margin-bottom: 198px;
+  all: unset;
+  text-color: ${theme.color.gray[100]};
+  border-bottom: 1px solid ${theme.color.gray[100]};
 `;
 
 const Landing: React.FC = () => {
   useCustomBack('/');
 
-  const [signupClicked, setSignupClicked] = useState<boolean>(false);
-  const [loginClicked, setLoginClicked] = useState<boolean>(false);
   const navigate = useNavigate();
+  const CLIENT_ID = import.meta.env.VITE_KAKAO_CLIENT_ID;
+  const REDIREC_URI = import.meta.env.VITE_KAKAO_REDIRECT_URI;
+  const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIREC_URI}&response_type=code`;
 
   useEffect(() => {
     const accessToken = localStorage.getItem('accessToken');
@@ -59,30 +63,29 @@ const Landing: React.FC = () => {
         <img src={logo} alt="leets로고" />
       </StyledTitle>
       <ButtonWrapper>
-        <SignupButton
-          color={signupClicked ? theme.color.mainMiddle : theme.color.main}
-          textcolor={
-            signupClicked ? theme.color.mainDark : theme.color.gray[100]
-          }
+        <KakaoLoginButton
+          color={theme.color.kakao}
+          textcolor="#000000"
           onClick={() => {
-            setSignupClicked(true);
-            navigate('/signup');
+            window.location.href = kakaoURL;
           }}
         >
-          회원가입
-        </SignupButton>
-        <LoginButton
-          color={loginClicked ? theme.color.gray[20] : theme.color.gray[30]}
-          textcolor={
-            loginClicked ? theme.color.gray[12] : theme.color.gray[100]
-          }
+          <img
+            src={kakao}
+            alt="카카오"
+            style={{
+              marginRight: '10px',
+            }}
+          />
+          카카오로 로그인
+        </KakaoLoginButton>
+        <SignUpbutton
           onClick={() => {
-            setLoginClicked(true);
-            navigate('/login');
+            window.location.href = kakaoURL;
           }}
         >
-          로그인
-        </LoginButton>
+          신규 회원가입
+        </SignUpbutton>
       </ButtonWrapper>
     </Container>
   );
