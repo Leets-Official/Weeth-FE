@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import logo from '@/assets/images/logo/logo_initial_Xmas.svg';
 
 const Container = styled.div`
   display: flex;
@@ -7,7 +8,6 @@ const Container = styled.div`
   align-items: flex-start;
   color: black;
   box-sizing: border-box;
-  flex-shrink: 0;
 `;
 
 const Sidebar = styled.div`
@@ -15,6 +15,9 @@ const Sidebar = styled.div`
   height: 100%;
   background-color: #ffffff;
   border: 1px solid #f2f2f2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const ContentWrapper = styled.div`
@@ -26,11 +29,15 @@ const ContentWrapper = styled.div`
   height: 100%;
 `;
 
+const StyledTitle = styled.div`
+  font-weight: 500;
+`;
 const NavMenu: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
     <Container>
       <Sidebar>
-        <h1>Weeth admin</h1>
+        <img src={logo} alt="weeth로고" />
+        <StyledTitle>WEETH ADMIN</StyledTitle>
       </Sidebar>
       <ContentWrapper>{children}</ContentWrapper>
     </Container>
