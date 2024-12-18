@@ -29,11 +29,11 @@ const Topbar = styled.div`
   border: 1px solid #f2f2f2;
 `;
 
-const MainContent = styled.div`
-  flex: 1;
-  background-color: #f2f9f8;
-  border: 1px solid #f2f2f2;
-`;
+// const MainContent = styled.div`
+//   flex: 1;
+//   background-color: #f2f9f8;
+//   border: 1px solid #f2f2f2;
+// `;
 
 const NavMenu: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
@@ -43,9 +43,10 @@ const NavMenu: React.FC<{ children: React.ReactNode }> = ({ children }) => {
       </Sidebar>
       <ContentWrapper>
         <Topbar>로그인</Topbar>
-        <MainContent>{children}</MainContent>
+        <div>{children}</div>
       </ContentWrapper>
     </Container>
   );
 };
 export default NavMenu;
+
