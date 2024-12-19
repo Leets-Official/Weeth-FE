@@ -31,7 +31,7 @@ import { Route, Routes } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 import StudyBoard from './pages/StudyBoard';
 import NoticeBoard from './pages/NoticeBoard';
-import PostDetail from './pages/PostDetail';
+import PostDetail from './pages/StudyPostDetail';
 
 const App = () => {
   return (
