@@ -4,7 +4,7 @@ interface InfoComponentProps {
   src: string;
   alt: string;
   index: string;
-  value: string | number | number[];
+  value: string | number | number[] | undefined;
 }
 
 const InfoComponent: React.FC<InfoComponentProps> = ({
@@ -26,7 +26,7 @@ const InfoComponent: React.FC<InfoComponentProps> = ({
       positionKo = '디자인';
       break;
     default:
-      positionKo = '없음';
+      positionKo = '';
   }
 
   const renderValue = () => {
@@ -39,14 +39,13 @@ const InfoComponent: React.FC<InfoComponentProps> = ({
     return value;
   };
 
-  // TODO: renderValue가 mainColor 스타일이었는데 해당 스타일이 존재하지 않아서,, 일단 그냥 div로 바꿨습니다.
   return (
     <div>
       <S.Info>
         <img src={src} alt={alt} />
         <S.Text>
           <div>{index}</div>
-          <S.MainColor>{renderValue()}</S.MainColor>
+          <S.Main>{renderValue()}</S.Main>
         </S.Text>
       </S.Info>
       <S.Line />

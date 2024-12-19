@@ -4,6 +4,7 @@ import * as S from '@/styles/member/MemberList.styled';
 import { useSearchParams } from 'react-router-dom';
 
 interface User {
+  id: number;
   name: string;
   cardinals: number[];
   studentId: number;
@@ -37,11 +38,9 @@ const MemberList = () => {
         filteredMember.map((user: User, index: number) => (
           <MemberName
             key={user.studentId}
+            userId={user.id}
             name={user.name}
             cardinal={user.cardinals}
-            studentId={user.studentId}
-            department={user.department}
-            email={user.email}
             position={user.position}
             role={user.role}
             isLast={index === filteredMember.length - 1} // 마지막 요소에만 isLast prop 전달
