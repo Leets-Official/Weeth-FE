@@ -12,13 +12,13 @@ const Container = styled.div`
   margin-bottom: 50px;
 `;
 
-const StudyPostDetail = () => {
+const NoticePostDetail = () => {
   const openModal = () => {
     console.log('모달 열림');
   };
 
   // useGetBoardDetail 훅 호출
-  const { boardDetailInfo, error } = useGetBoardDetail('posts', 65);
+  const { boardDetailInfo, error } = useGetBoardDetail('notices', 65);
 
   if (error) return <div>오류: {error}</div>;
 
@@ -40,4 +40,4 @@ const StudyPostDetail = () => {
   );
 };
 
-export default StudyPostDetail;
+export default NoticePostDetail;
