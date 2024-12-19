@@ -5,14 +5,12 @@ import icEmail from '@/assets/images/ic_mail.svg';
 import icName from '@/assets/images/ic_name.svg';
 import icPosition from '@/assets/images/ic_position.svg';
 import icStudentId from '@/assets/images/ic_studentID.svg';
-// import useCustomBack from '@/hooks/useCustomBack';
 import Header from '@/components/Header/Header';
 import * as S from '@/styles/member/MemberDetail.styled';
 import useGetUserDetail from '@/api/useGetUserDetail';
 
 const MemberDetail = () => {
   const { userDetail } = useGetUserDetail();
-  // useCustomBack(`/member?cardinal=${currentCardinal}`);
 
   const infoData = [
     {

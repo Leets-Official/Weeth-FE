@@ -27,8 +27,6 @@ const MemberName: React.FC<MemberNameProps> = ({
   let positionIcon;
   const navi = useNavigate();
 
-  console.log(userId);
-
   if (position === 'FE') {
     positionIcon = FE;
   } else if (position === 'BE') {
