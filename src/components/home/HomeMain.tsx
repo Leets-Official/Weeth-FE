@@ -74,7 +74,7 @@ const HomeMain: React.FC = () => {
         </S.BoardItem>
         <S.MemberItem
           onClick={() => {
-            navi(`/member`);
+            navi(`/member?cardinal=0`);
           }}
         >
           멤버
