@@ -29,9 +29,9 @@ import AdminPenatly from '@/pages/admin/AdminPenatly';
 
 import { Route, Routes } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
-import StudyBoard from './pages/StudyBoard';
-import NoticeBoard from './pages/NoticeBoard';
-import PostDetail from './pages/PostDetail';
+import NoticeBoard from '@/pages/NoticeBoard';
+import StudyPostDetail from '@/pages/StudyPostDetail';
+import StudyBoard from '@/pages/StudyBoard';
 
 const App = () => {
   return (
@@ -62,7 +62,7 @@ const App = () => {
           <Route path="/admin/member" element={<AdminMember />} />
           <Route path="/admin/dues" element={<AdminDues />} />
           <Route path="/admin/penalty" element={<AdminPenatly />} />
-          <Route path="/study/detail" element={<PostDetail />} />
+          <Route path="/study/detail" element={<StudyPostDetail />} />
         </Routes>
       </UserProvider>
     </ThemeProvider>
