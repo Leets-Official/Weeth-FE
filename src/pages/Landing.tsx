@@ -1,13 +1,21 @@
 import Button from '@/components/Button/Button';
 import useCustomBack from '@/hooks/useCustomBack';
 import theme from '@/styles/theme';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
+import styled, { keyframes, css } from 'styled-components';
 import logo from '@/assets/images/logo/logo_full_Xmas.svg';
 import kakao from '@/assets/images/ic_KAKAO_symbol.svg';
 
-// Styled Components
+const fadeIn = keyframes`
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+`;
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -22,13 +30,19 @@ const StyledTitle = styled.div`
   text-align: center;
 `;
 
-const ButtonWrapper = styled.div`
+const ButtonWrapper = styled.div<{ visible: boolean }>`
   margin-top: 112px;
-  display: flex;
+  display: ${({ visible }) => (visible ? 'flex' : 'none')};
   flex-direction: column;
   align-items: center;
   width: 100%;
   gap: 15px;
+
+  ${({ visible }) =>
+    visible &&
+    css`
+      animation: ${fadeIn} 2s ease-in-out forwards;
+    `}
 `;
 
 const KakaoLoginButton = styled(Button)`
@@ -46,6 +60,8 @@ const Landing: React.FC = () => {
   useCustomBack('/');
 
   const navigate = useNavigate();
+  const [showButtonWrapper, setShowButtonWrapper] = useState(false);
+
   const CLIENT_ID = import.meta.env.VITE_KAKAO_CLIENT_ID;
   const REDIRECT_URI = import.meta.env.VITE_KAKAO_REDIRECT_URI;
   const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code`;
@@ -57,12 +73,19 @@ const Landing: React.FC = () => {
     }
   }, [navigate]);
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowButtonWrapper(true);
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <Container>
       <StyledTitle>
         <img src={logo} alt="leets로고" />
       </StyledTitle>
-      <ButtonWrapper>
+      <ButtonWrapper visible={showButtonWrapper}>
         <KakaoLoginButton
           color={theme.color.kakao}
           textcolor="#000000"
