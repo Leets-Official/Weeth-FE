@@ -5,6 +5,7 @@ interface MenuItemsProps {
   icon: React.ReactNode;
   label: string;
   active?: boolean;
+  onClick?: () => void;
 }
 const MenuItemWrapper = styled.div<{ active: boolean }>`
   display: flex;
@@ -23,9 +24,10 @@ const NavMenuItem: React.FC<MenuItemsProps> = ({
   icon,
   label,
   active = false,
+  onClick,
 }) => {
   return (
-    <MenuItemWrapper active={active}>
+    <MenuItemWrapper active={active} onClick={onClick}>
       {icon}
       <div>{label}</div>
     </MenuItemWrapper>
