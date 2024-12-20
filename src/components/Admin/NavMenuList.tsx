@@ -9,14 +9,17 @@ import styled from 'styled-components';
 import NavMenuItem from './NavMenuItem';
 
 const MenuListWrapper = styled.div`
-  padding: 20px;
+  padding: 20px 0 20px 0;
 `;
 
 const SectionHeader = styled.div`
   font-size: 14px;
   font-weight: bold;
   color: #000;
-  margin-bottom: 10px;
+  padding: 0 20px;
+  margin: 20px 0 20px 0;
+  display: flex;
+  align-items: center;
 `;
 const NavMenuList: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState<number | null>(0);
@@ -62,7 +65,7 @@ const NavMenuList: React.FC = () => {
           onClick={() => setActiveIndex(index)}
         />
       ))}
-      <SectionHeader>서비스로 이동</SectionHeader>
+      <SectionHeader>이동</SectionHeader>
       {navigationItems.map((item, index) => (
         <NavMenuItem
           key={index + managementItems.length}

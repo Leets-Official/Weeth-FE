@@ -3,6 +3,9 @@ import NavHeader from './NavHeader';
 import NavMenuList from './NavMenuList';
 
 const Sidebar = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
   width: 248px;
   background-color: #ffffff;
   border: 1px solid #f2f2f2;
@@ -19,4 +22,12 @@ const NavMenu: React.FC = () => {
 };
 
 export default NavMenu;
+
+{
+  /* 수정해야될 것 
+  1. 클릭 시 svg - fill:white 
+  2. map 함수 - key로 index 말고 다른걸로
+  
+  */
+}
 
