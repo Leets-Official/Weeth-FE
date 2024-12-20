@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import UserIcon from '@/assets/images/ic_admin_user.svg';
-import CheckIcon from '@/assets/images/ic_admin_check.svg';
+import CheckIcon from '@/assets/images/ic_admin_attendance.svg';
 import PenaltyIcon from '@/assets/images/ic_admin_penalty.svg';
 import DueIcon from '@/assets/images/ic_admin_due.svg';
 import ArrowIcon from '@/assets/images/ic_admin_service_transfer.svg';
