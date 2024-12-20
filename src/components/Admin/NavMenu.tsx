@@ -3,12 +3,12 @@ import logo from '@/assets/images/logo/logo_initial_Xmas.svg';
 
 const Sidebar = styled.div`
   width: 248px;
-  height: 100vh;
+  display: flex;
   background-color: #ffffff;
   border: 1px solid #f2f2f2;
-  display: flex;
   justify-content: center;
   align-items: center;
+  box-shadow: 0px 3px 8px 0px rgba(133, 141, 138, 0.2);
 `;
 
 const StyledTitle = styled.div`
@@ -23,5 +23,6 @@ const NavMenu: React.FC = () => {
     </Sidebar>
   );
 };
+
 export default NavMenu;
 

@@ -47,5 +47,5 @@ const AdminMember: React.FC = () => {
     </PageWrapper>
   );
 };
-export default AdminMember;
 
+export default AdminMember;
