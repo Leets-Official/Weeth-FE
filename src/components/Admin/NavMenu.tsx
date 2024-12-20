@@ -2,10 +2,7 @@ import styled from 'styled-components';
 import NavHeader from './NavHeader';
 import NavMenuList from './NavMenuList';
 
-const Sidebar = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
+const NavMenuWrapper = styled.div`
   width: 248px;
   background-color: #ffffff;
   border: 1px solid #f2f2f2;
@@ -14,10 +11,10 @@ const Sidebar = styled.div`
 
 const NavMenu: React.FC = () => {
   return (
-    <Sidebar>
+    <NavMenuWrapper>
       <NavHeader />
       <NavMenuList />
-    </Sidebar>
+    </NavMenuWrapper>
   );
 };
 

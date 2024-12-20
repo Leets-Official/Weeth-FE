@@ -18,8 +18,6 @@ const SectionHeader = styled.div`
   color: #000;
   padding: 0 20px;
   margin: 20px 0 20px 0;
-  display: flex;
-  align-items: center;
 `;
 const NavMenuList: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState<number | null>(0);
