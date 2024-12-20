@@ -16,7 +16,7 @@ export const MenuItemWrapper = styled.div<{ active: boolean }>`
     active ? `${theme.color.main}` : 'transparent'};
   color: ${({ active }) => (active ? '#fff' : '#000')};
   cursor: pointer;
-
+  text-decoration: none;
   &:hover {
     ${({ active }) => (active ? `${theme.color.main}` : 'transparent')};
   }

@@ -25,18 +25,22 @@ const NavMenuList: React.FC = () => {
     {
       icon: <img src={UserIcon} alt="멤버 관리" />,
       label: '멤버 관리',
+      path: '/admin/member',
     },
     {
       icon: <img src={CheckIcon} alt="출석 관리" />,
       label: '출석 관리',
+      path: '/admin/attendance',
     },
     {
       icon: <img src={PenaltyIcon} alt="페널티 관리" />,
       label: '페널티 관리',
+      path: '/admin/penalty',
     },
     {
       icon: <img src={DueIcon} alt="회비 관리" />,
       label: '회비 관리',
+      path: '/admin/due',
     },
   ];
 
