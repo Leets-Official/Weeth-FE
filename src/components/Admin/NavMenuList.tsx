@@ -22,26 +22,32 @@ const NavMenuList: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState<number | null>(0);
   const managementItems = [
     {
-      icon: <UserIcon />,
+      icon: <img src={UserIcon} alt="멤버 관리" />,
       label: '멤버 관리',
     },
     {
-      icon: <CheckIcon />,
+      icon: <img src={CheckIcon} alt="출석 관리" />,
       label: '출석 관리',
     },
     {
-      icon: <PenaltyIcon />,
+      icon: <img src={PenaltyIcon} alt="페널티 관리" />,
       label: '페널티 관리',
     },
     {
-      icon: <DueIcon />,
+      icon: <img src={DueIcon} alt="회비 관리" />,
       label: '회비 관리',
     },
   ];
 
   const navigationItems = [
-    { icon: <ArrowIcon />, label: '서비스로 이동' },
-    { icon: <ManualIcon />, label: '관리자 메뉴얼' },
+    {
+      icon: <img src={ArrowIcon} alt="서비스로 이동" />,
+      label: '서비스로 이동',
+    },
+    {
+      icon: <img src={ManualIcon} alt="관리자 메뉴얼" />,
+      label: '관리자 메뉴얼',
+    },
   ];
 
   return (

@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import NavHeader from './NavHeader';
+import NavMenuList from './NavMenuList';
 
 const Sidebar = styled.div`
   width: 248px;
@@ -12,6 +13,7 @@ const NavMenu: React.FC = () => {
   return (
     <Sidebar>
       <NavHeader />
+      <NavMenuList />
     </Sidebar>
   );
 };
