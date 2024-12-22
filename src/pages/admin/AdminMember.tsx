@@ -1,3 +1,5 @@
+import CardinalInfo from '@/components/Admin/CardinalInfo';
+import MemberListTable from '@/components/Admin/MemberListTable';
 import NavMenu from '@/components/Admin/NavMenu';
 import SearchBar from '@/components/Admin/SearchBar';
 import TopBar from '@/components/Admin/TopBar';
@@ -41,7 +43,7 @@ const AdminMember: React.FC = () => {
         />
         <Container>
           <SearchBar />
-          <div>멤버</div>
+          <MemberListTable />
         </Container>
       </ContentWrapper>
     </PageWrapper>
@@ -49,3 +51,4 @@ const AdminMember: React.FC = () => {
 };
 
 export default AdminMember;
+
