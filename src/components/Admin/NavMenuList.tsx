@@ -25,21 +25,25 @@ const NavMenuList: React.FC = () => {
 
   const managementItems = [
     {
+      id: 'member',
       icon: <img src={UserIcon} alt="멤버 관리" />,
       label: '멤버 관리',
       path: '/admin/member',
     },
     {
+      id: 'attendance',
       icon: <img src={CheckIcon} alt="출석 관리" />,
       label: '출석 관리',
       path: '/admin/attendance',
     },
     {
+      id: 'penalty',
       icon: <img src={PenaltyIcon} alt="페널티 관리" />,
       label: '페널티 관리',
       path: '/admin/penalty',
     },
     {
+      id: 'dues',
       icon: <img src={DueIcon} alt="회비 관리" />,
       label: '회비 관리',
       path: '/admin/dues',
@@ -48,10 +52,12 @@ const NavMenuList: React.FC = () => {
 
   const navigationItems = [
     {
+      id: 'service',
       icon: <img src={ArrowIcon} alt="서비스로 이동" />,
       label: '서비스로 이동',
     },
     {
+      id: 'manual',
       icon: <img src={ManualIcon} alt="관리자 메뉴얼" />,
       label: '관리자 메뉴얼',
     },
@@ -62,9 +68,9 @@ const NavMenuList: React.FC = () => {
   return (
     <MenuListWrapper>
       <SectionHeader>관리 메뉴</SectionHeader>
-      {managementItems.map((item, index) => (
+      {managementItems.map((item) => (
         <NavMenuItem
-          key={index}
+          key={item.id}
           icon={item.icon}
           label={item.label}
           active={isActive(item.path)}
@@ -72,9 +78,9 @@ const NavMenuList: React.FC = () => {
         />
       ))}
       <SectionHeader>이동</SectionHeader>
-      {navigationItems.map((item, index) => (
+      {navigationItems.map((item) => (
         <NavMenuItem
-          key={index + managementItems.length}
+          key={item.id}
           icon={item.icon}
           label={item.label}
           // active={activeIndex === index + managementItems.length}
