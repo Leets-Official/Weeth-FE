@@ -20,11 +20,6 @@ const NavMenu: React.FC = () => {
 
 export default NavMenu;
 
-{
-  /* 수정해야될 것 
-  1. 클릭 시 svg - fill:white 
-  2. map 함수 - key로 index 말고 다른걸로
-  
-  */
-}
+// 수정해야 될 것
+// 클릭 시 svg 색깔 white로
 
