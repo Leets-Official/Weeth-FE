@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import theme from '@/styles/theme';
 import DropDown from '@/assets/images/ic_admin_cardinal.svg';
+import AttendDropdown from './AttendDropdown';
 
 interface AttendanceItem {
   id: number;
@@ -13,7 +14,7 @@ interface AttendanceItem {
 
 const AttendanceTable = styled.div`
   width: 815px;
-  height: 72px;
+  //height: 72px;
   background-color: #f2f9f8;
   border-radius: 10px 10px 0px 0px;
   display: flex;
@@ -48,8 +49,10 @@ const ContentText = styled.span`
   color: black;
 `;
 
+const Button = styled.div``;
+
 const Attendance: React.FC = () => {
-  const [data, setData] = useState<AttendanceItem[]>([
+  const [data] = useState<AttendanceItem[]>([
     {
       id: 1,
       title: '정기모임',
@@ -70,22 +73,33 @@ const Attendance: React.FC = () => {
     },
   ]);
 
+  const [openDropdownId, setOpenDropdownId] = useState<number | null>(null);
+
+  const toggleDropdown = (id: number) => {
+    setOpenDropdownId((prevId) => (prevId === id ? null : id));
+  };
+
   return (
     <>
       {data.map((item) => (
-        <AttendanceTable key={item.id}>
-          <Wrapper>
-            <div>
-              <DateInfoWrapper>
-                <DateText>{item.start}</DateText>
-                <ContentText>
-                  {item.content} {item.title}
-                </ContentText>
-              </DateInfoWrapper>
-            </div>
-            <img src={DropDown} alt="dropdown" />
-          </Wrapper>
-        </AttendanceTable>
+        <div key={item.id}>
+          <AttendanceTable>
+            <Wrapper>
+              <div>
+                <DateInfoWrapper>
+                  <DateText>{item.start}</DateText>
+                  <ContentText>
+                    {item.content} {item.title}
+                  </ContentText>
+                </DateInfoWrapper>
+              </div>
+              <Button onClick={() => toggleDropdown(item.id)}>
+                <img src={DropDown} alt="dropdown" />
+              </Button>
+            </Wrapper>
+          </AttendanceTable>
+          {openDropdownId === item.id && <AttendDropdown />}
+        </div>
       ))}
     </>
   );
