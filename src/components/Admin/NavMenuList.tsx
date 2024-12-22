@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import UserIcon from '@/assets/images/ic_admin_user.svg';
 import CheckIcon from '@/assets/images/ic_admin_attendance.svg';
 import PenaltyIcon from '@/assets/images/ic_admin_penalty.svg';
@@ -20,6 +21,7 @@ const SectionHeader = styled.div`
   margin: 20px 0 20px 0;
 `;
 const NavMenuList: React.FC = () => {
+  const nav = useNavigate();
   const [activeIndex, setActiveIndex] = useState<number | null>(0);
   const managementItems = [
     {
@@ -40,7 +42,7 @@ const NavMenuList: React.FC = () => {
     {
       icon: <img src={DueIcon} alt="회비 관리" />,
       label: '회비 관리',
-      path: '/admin/due',
+      path: '/admin/dues',
     },
   ];
 
@@ -64,7 +66,10 @@ const NavMenuList: React.FC = () => {
           icon={item.icon}
           label={item.label}
           active={activeIndex === index}
-          onClick={() => setActiveIndex(index)}
+          onClick={() => {
+            setActiveIndex(index);
+            nav(item.path);
+          }}
         />
       ))}
       <SectionHeader>이동</SectionHeader>
