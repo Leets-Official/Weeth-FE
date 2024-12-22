@@ -29,7 +29,7 @@ export const Label = styled.div`
 const NavMenuItem: React.FC<MenuItemsProps> = ({
   icon,
   label,
-  active = false,
+  active,
   onClick,
 }) => {
   return (

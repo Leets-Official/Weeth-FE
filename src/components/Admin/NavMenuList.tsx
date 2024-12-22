@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import UserIcon from '@/assets/images/ic_admin_user.svg';
 import CheckIcon from '@/assets/images/ic_admin_attendance.svg';
 import PenaltyIcon from '@/assets/images/ic_admin_penalty.svg';
@@ -22,7 +21,8 @@ const SectionHeader = styled.div`
 `;
 const NavMenuList: React.FC = () => {
   const nav = useNavigate();
-  const [activeIndex, setActiveIndex] = useState<number | null>(0);
+  const location = useLocation();
+
   const managementItems = [
     {
       icon: <img src={UserIcon} alt="멤버 관리" />,
@@ -57,6 +57,8 @@ const NavMenuList: React.FC = () => {
     },
   ];
 
+  const isActive = (path: string) => location.pathname === path;
+
   return (
     <MenuListWrapper>
       <SectionHeader>관리 메뉴</SectionHeader>
@@ -65,11 +67,8 @@ const NavMenuList: React.FC = () => {
           key={index}
           icon={item.icon}
           label={item.label}
-          active={activeIndex === index}
-          onClick={() => {
-            setActiveIndex(index);
-            nav(item.path);
-          }}
+          active={isActive(item.path)}
+          onClick={() => nav(item.path)}
         />
       ))}
       <SectionHeader>이동</SectionHeader>
@@ -78,8 +77,8 @@ const NavMenuList: React.FC = () => {
           key={index + managementItems.length}
           icon={item.icon}
           label={item.label}
-          active={activeIndex === index + managementItems.length}
-          onClick={() => setActiveIndex(index + managementItems.length)}
+          // active={activeIndex === index + managementItems.length}
+          // onClick={() => }
         />
       ))}
     </MenuListWrapper>
