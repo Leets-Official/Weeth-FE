@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import MemberListTableHeader from './MemberListTableHeader';
+import MemberListTableRow from './MemberListTableRow';
 
 export interface Column {
   key: string;
@@ -25,6 +26,11 @@ const MemberListTable: React.FC<MemberListTableProps> = ({ columns, data }) => {
     <TableWrapper>
       <table>
         <MemberListTableHeader columns={columns} />
+        <tbody>
+          {data.map((row, index) => (
+            <MemberListTableRow key={index} columns={columns} data={row} />
+          ))}
+        </tbody>
       </table>
     </TableWrapper>
   );
