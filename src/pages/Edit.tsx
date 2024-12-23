@@ -38,8 +38,6 @@ const Error = styled.div`
 const Edit = () => {
   useCustomBack('/mypage');
 
-  // TODO: useGetUserInfo에서 데이터 받아오도록 수정
-  // 현재 페이지에서 사용중인 userInfo와 변수명이 겹쳐서 일단 두겠습니당,,
   const { userInfo } = useGetUserInfo();
   const [userData, setUserData] = useState<{ key: string; value: any }[]>([]);
   const accessToken = localStorage.getItem('accessToken');
