@@ -14,7 +14,6 @@ interface AttendanceItem {
 
 const AttendanceTable = styled.div`
   width: 815px;
-  //height: 72px;
   background-color: #f2f9f8;
   border-radius: 10px 10px 0px 0px;
   display: flex;
@@ -22,6 +21,10 @@ const AttendanceTable = styled.div`
   align-items: center;
   margin-top: 15px;
   border-bottom: 1px solid #dedede;
+
+  &:last-child {
+    margin-bottom: 15px;
+  }
 `;
 
 const Wrapper = styled.div`
