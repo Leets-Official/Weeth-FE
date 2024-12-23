@@ -25,14 +25,6 @@ export const DateText = styled.div`
   margin-left: 10px;
 `;
 
-export const PostingContianer = styled.div`
-  font-family: ${theme.font.regular};
-  font-size: 16px;
-  line-height: 19.09px;
-  white-space: pre-wrap;
-  margin: 20px 0 20px 0;
-`;
-
 export const CommentText = styled.div`
   font-size: 12px;
   display: flex;
@@ -41,6 +33,14 @@ export const CommentText = styled.div`
   gap: 4px;
   font-family: ${theme.font.semiBold};
   margin: 14px 0 10px 0;
+`;
+
+export const PostingContianer = styled.div`
+  font-family: ${theme.font.regular};
+  font-size: 16px;
+  line-height: 19.09px;
+  white-space: pre-wrap;
+  margin: 20px 0 20px 0;
 `;
 
 // Info

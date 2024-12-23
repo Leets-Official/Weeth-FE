@@ -2,7 +2,13 @@ import ReplyImage from '@/assets/images/ic_reply_comment.svg';
 import MenuImage from '@/assets/images/ic_comment_delete.svg';
 import * as S from '@/styles/board/Comment.styled';
 
-const Comment = () => {
+interface CommentProps {
+  name: string;
+  content: string;
+  time: string;
+}
+
+const Comment = ({ name, content, time }: CommentProps) => {
   const onClickReply = () => {
     console.log('답댓');
   };
@@ -14,9 +20,9 @@ const Comment = () => {
   return (
     <S.CommentContainer>
       <S.CommentContentContainer>
-        <S.NameText>길동군</S.NameText>
-        <S.ContentText>우와 정말 잘햇다</S.ContentText>
-        <S.DateText>2024/12/22</S.DateText>
+        <S.NameText>{name}</S.NameText>
+        <S.ContentText>{content}</S.ContentText>
+        <S.DateText>{time}</S.DateText>
       </S.CommentContentContainer>
       <S.ButtonContainer>
         <S.ImageButton onClick={onClickReply}>
