@@ -4,6 +4,7 @@ import { useState } from 'react';
 import theme from '@/styles/theme';
 
 import CheckBox from '@/assets/images/ic_admin_check.svg';
+import RadioButton from './RadioButton';
 
 const Wrapper = styled.div`
   width: 815px;
@@ -13,6 +14,10 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
   border: 1px solid #dedede;
+
+  &:last-child {
+    margin-bottom: 15px;
+  }
 `;
 
 const SearchWrapper = styled.div`
@@ -38,7 +43,7 @@ const SearchBar = styled.div`
 
 const EditButton = styled.div<{ isEdit: boolean }>``;
 
-const Abc = styled.div`
+const Edit = styled.div`
   width: 64px;
   height: 48px;
   background-color: #2f2f2f;
@@ -253,7 +258,7 @@ const AttendDropdown: React.FC = () => {
               <SaveButton>저장</SaveButton>
             </ButtonWrapper>
           ) : (
-            <Abc>수정</Abc>
+            <Edit>수정</Edit>
           )}
         </EditButton>
       </SearchWrapper>
@@ -280,8 +285,28 @@ const AttendDropdown: React.FC = () => {
             <Check>
               {isEditMode ? (
                 <StatusWarpper>
-                  <StatusBox>출석</StatusBox>
-                  <StatusBox>결석</StatusBox>
+                  <StatusBox>
+                    <RadioButton
+                      id={`attend-${item.id}`}
+                      name={`status-${item.id}`}
+                      value="출석"
+                      label="출석"
+                      checked={item.status === '출석'}
+                      onChange={() => handleStatusChange(item.id, '출석')}
+                      color="#508FFF"
+                    />
+                  </StatusBox>
+                  <StatusBox>
+                    <RadioButton
+                      id={`absent-${item.id}`}
+                      name={`status-${item.id}`}
+                      value="결석"
+                      label="결석"
+                      checked={item.status === '결석'}
+                      onChange={() => handleStatusChange(item.id, '결석')}
+                      color="#FF5858"
+                    />
+                  </StatusBox>
                 </StatusWarpper>
               ) : (
                 <CheckGap>
