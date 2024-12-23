@@ -1,6 +1,17 @@
 import styled from 'styled-components';
+import MemberListTableHeader from './MemberListTableHeader';
 
-export const ListWrapper = styled.div`
+export interface Column {
+  key: string;
+  header: string;
+}
+
+export interface MemberListTableProps {
+  columns: Column[];
+  data: Record<string, any>[];
+}
+
+export const TableWrapper = styled.div`
   width: 100%;
   height: max-content;
   background-color: #fff;
@@ -9,8 +20,14 @@ export const ListWrapper = styled.div`
   border-radius: 4px;
 `;
 
-const MemberListTable: React.FC = () => {
-  return <ListWrapper>멤버리스트</ListWrapper>;
+const MemberListTable: React.FC<MemberListTableProps> = ({ columns, data }) => {
+  return (
+    <TableWrapper>
+      <table>
+        <MemberListTableHeader columns={columns} />
+      </table>
+    </TableWrapper>
+  );
 };
 
 export default MemberListTable;
