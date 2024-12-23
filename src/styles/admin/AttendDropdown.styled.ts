@@ -182,7 +182,7 @@ export const StatusWarpper = styled.div`
 
 export const StatusBox = styled.div`
   flex: 1;
-  heigth: 100%;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
