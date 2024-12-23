@@ -3,17 +3,15 @@
 /* eslint-disable no-alert */
 
 import axios from 'axios';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-
-import UserAPI from '@/api/UserAPI';
-import { UserContext } from '@/api/UserContext';
 import DropdownMenu from '@/components/Button/DropdownMenu';
-import Header from '@/components/Header/Header';
 import InfoInput from '@/components/MyPage/InfoInput';
 import useCustomBack from '@/hooks/useCustomBack';
 import theme from '@/styles/theme';
+import useGetUserInfo from '@/api/useGetUserInfo';
+import Header from '@/components/Header/Header';
 
 const StyledEdit = styled.div`
   width: 370px;
@@ -42,44 +40,46 @@ const Edit = () => {
 
   // TODO: useGetUserInfo에서 데이터 받아오도록 수정
   // 현재 페이지에서 사용중인 userInfo와 변수명이 겹쳐서 일단 두겠습니당,,
-  const { userData, error } = useContext(UserContext);
-  const [userInfo, setUserInfo] = useState<{ key: string; value: any }[]>([]);
+  const { userInfo } = useGetUserInfo();
+  const [userData, setUserData] = useState<{ key: string; value: any }[]>([]);
   const accessToken = localStorage.getItem('accessToken');
   const refreshToken = localStorage.getItem('refreshToken');
   const BASE_URL = import.meta.env.VITE_API_URL;
   const navi = useNavigate();
 
   useEffect(() => {
-    if (userData) {
-      setUserInfo([
-        { key: 'name', value: userData.name },
-        { key: 'studentId', value: userData.studentId },
-        { key: 'department', value: userData.department },
-        { key: 'tel', value: userData.tel },
-        { key: 'cardinals', value: userData.cardinals },
-        { key: 'position', value: userData.position },
-        { key: 'email', value: userData.email },
+    if (userInfo) {
+      setUserData([
+        { key: 'name', value: userInfo.name },
+        { key: 'studentId', value: userInfo.studentId },
+        { key: 'department', value: userInfo.department },
+        { key: 'tel', value: userInfo.tel },
+        { key: 'cardinals', value: userInfo.cardinals },
+        { key: 'position', value: userInfo.position },
+        { key: 'email', value: userInfo.email },
         { key: 'password', value: '' },
       ]);
     }
-  }, [userData]);
+  }, [userInfo]);
 
   const editValue = (key: string, value: string | number | number[]) => {
-    const newUserInfo = userInfo.map((item) =>
+    const newuserData = userData.map((item: any) =>
       item.key === key ? { ...item, value } : item,
     );
-    setUserInfo(newUserInfo);
+    setUserData(newuserData);
   };
 
   const onSave = async () => {
     let response;
     try {
-      const data = userInfo.reduce((acc: any, item) => {
+      const data = userData.reduce((acc: any, item: any) => {
         acc[item.key] = item.value;
         return acc;
       }, {});
 
-      const passwordItem = userInfo.find((item) => item.key === 'password');
+      const passwordItem = userData.find(
+        (item: any) => item.key === 'password',
+      );
       const password = passwordItem ? passwordItem.value : '';
 
       if (password.length < 6 || password.length > 12) {
@@ -87,13 +87,13 @@ const Edit = () => {
         return;
       }
 
-      if (userInfo.some((item) => !item.value)) {
+      if (userData.some((item: any) => !item.value)) {
         alert('모든 항목을 입력해 주세요.');
         return;
       }
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-      for (const item of userInfo) {
+      for (const item of userData) {
         if (item.key === 'email' && !emailRegex.test(item.value)) {
           alert('올바른 이메일 형식이 아닙니다.');
           return;
@@ -125,13 +125,12 @@ const Edit = () => {
 
   return (
     <StyledEdit>
-      <UserAPI />
       <Header title="MY" onClickRightButton={onSave} RightButtonType="TEXT" />
-      {!error && userData ? (
+      {userInfo ? (
         <InfoWrapper>
           <InfoInput
             text="이름"
-            origValue={userData.name}
+            origValue={userInfo.name}
             editValue={(value) => editValue('name', value)}
             width="224px"
             padding="25px"
@@ -142,7 +141,7 @@ const Edit = () => {
           />
           <InfoInput
             text="학번"
-            origValue={userData.studentId}
+            origValue={userInfo.studentId}
             editValue={(value) => editValue('studentId', value)}
             width="224px"
             padding="25px"
@@ -153,13 +152,13 @@ const Edit = () => {
           />
           <DropdownMenu
             text="학과"
-            origValue={userData.department}
+            origValue={userInfo.department}
             editValue={(value) => editValue('department', value)}
             buttonstyle="member"
           />
           <InfoInput
             text="핸드폰"
-            origValue={userData.tel}
+            origValue={userInfo.tel}
             editValue={(value) => editValue('tel', value)}
             width="224px"
             padding="25px"
@@ -171,7 +170,7 @@ const Edit = () => {
           <NoEdit>
             <InfoInput
               text="기수"
-              origValue={userData.cardinals}
+              origValue={userInfo.cardinals}
               editValue={(value) => editValue('cardinal', value)}
               width="224px"
               padding="25px"
@@ -183,7 +182,7 @@ const Edit = () => {
           <NoEdit>
             <InfoInput
               text="역할"
-              origValue={userData.position}
+              origValue={userInfo.position}
               editValue={(value) => editValue('position', value)}
               width="224px"
               padding="25px"
@@ -194,7 +193,7 @@ const Edit = () => {
           </NoEdit>
           <InfoInput
             text="메일"
-            origValue={userData.email}
+            origValue={userInfo.email}
             editValue={(value) => editValue('email', value)}
             width="224px"
             padding="25px"
