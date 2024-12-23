@@ -70,7 +70,7 @@ const NavMenuList: React.FC = () => {
       <SectionHeader>관리 메뉴</SectionHeader>
       {managementItems.map((item) => (
         <NavMenuItem
-          key={item.id}
+          key={`managementItems-${item.id}`}
           icon={item.icon}
           label={item.label}
           active={isActive(item.path)}
@@ -80,7 +80,7 @@ const NavMenuList: React.FC = () => {
       <SectionHeader>이동</SectionHeader>
       {navigationItems.map((item) => (
         <NavMenuItem
-          key={item.id}
+          key={`navigation-${item.id}`}
           icon={item.icon}
           label={item.label}
           // active={activeIndex === index + managementItems.length}
