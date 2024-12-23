@@ -22,7 +22,7 @@ import {
   Check,
   CheckGap,
   StatusBox,
-  StatusWarpper,
+  StatusWrapper,
 } from '@/styles/admin/AttendDropdown.styled';
 
 import CheckBox from '@/assets/images/ic_admin_check.svg';
@@ -115,7 +115,7 @@ const AttendDropdown: React.FC = () => {
             </Member>
             <Check>
               {isEditMode ? (
-                <StatusWarpper>
+                <StatusWrapper>
                   <StatusBox>
                     <RadioButton
                       id={`attend-${item.id}`}
@@ -138,7 +138,7 @@ const AttendDropdown: React.FC = () => {
                       color="#FF5858"
                     />
                   </StatusBox>
-                </StatusWarpper>
+                </StatusWrapper>
               ) : (
                 <CheckGap>
                   <img src={CheckBox} alt="checkbox" />
