@@ -1,15 +1,14 @@
 import styled from 'styled-components';
 
 const Row = styled.tr`
-  border-bottom: 1px solid #ddd;
-  &:hover {
-    background-color: #f4f4f4;
-  }
+  border-bottom: 1px solid #dedede;
 `;
 
 const Cell = styled.td`
-  padding: 10px;
+  padding: 15px;
+
   text-align: left;
+  border-bottom: 1px solid #dedede;
 `;
 interface TableRowProps {
   data: Record<string, any>;

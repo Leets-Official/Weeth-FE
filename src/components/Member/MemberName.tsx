@@ -1,4 +1,4 @@
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import BE from '@/assets/images/ic_BE.svg';
 import D from '@/assets/images/ic_DE.svg';
@@ -8,30 +8,24 @@ import MA from '@/assets/images/ic_MA.svg';
 import * as S from '@/styles/member/MemberName.styled';
 
 interface MemberNameProps {
+  userId: number;
   name: string;
   cardinal: number[];
-  studentId: number;
-  department: string;
-  email: string;
   position: string;
   role: 'USER' | 'ADMIN';
   isLast?: boolean;
 }
 
 const MemberName: React.FC<MemberNameProps> = ({
+  userId,
   name,
   cardinal,
-  studentId,
-  department,
-  email,
   position,
   role,
   isLast = false,
 }) => {
   let positionIcon;
   const navi = useNavigate();
-  const [searchParams] = useSearchParams();
-  const currentCardinal = searchParams.get('cardinal');
 
   if (position === 'FE') {
     positionIcon = FE;
@@ -42,17 +36,7 @@ const MemberName: React.FC<MemberNameProps> = ({
   }
 
   const onClickMember = () => {
-    navi(`/member/${name}`, {
-      state: {
-        name,
-        studentId,
-        department,
-        email,
-        cardinal,
-        position,
-        currentCardinal,
-      },
-    });
+    navi(`/member/${userId}`);
   };
 
   return (

@@ -3,25 +3,22 @@ import styled from 'styled-components';
 interface TableHeaderProps {
   columns: { key: string; header: string }[];
 }
-const HeaderRow = styled.tr`
-  background-color: #f9f9f9;
-`;
 
 const HeaderCell = styled.th`
   text-align: left;
   padding: 10px;
   font-weight: bold;
-  border-bottom: 2px solid #ddd;
+  border-bottom: 1px solid #dedede;
 `;
 
 const MemberListTableHeader: React.FC<TableHeaderProps> = ({ columns }) => {
   return (
     <thead>
-      <HeaderRow>
+      <tr>
         {columns.map((column) => (
           <HeaderCell key={column.key}>{column.header}</HeaderCell>
         ))}
-      </HeaderRow>
+      </tr>
     </thead>
   );
 };

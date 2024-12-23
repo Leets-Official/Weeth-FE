@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import theme from '@/styles/theme';
-import icSearch from '@/assets/images/ic_adminSearch.svg';
+import icSearch from '@/assets/images/ic_admin_search.svg';
 
 export const SearchBarWrapper = styled.div`
   position: relative;
