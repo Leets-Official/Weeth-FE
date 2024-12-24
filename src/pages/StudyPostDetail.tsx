@@ -32,8 +32,10 @@ const StudyPostDetail = () => {
     console.log('모달 열림');
   };
 
+  const path = 'posts';
+
   // useGetBoardDetail 훅 호출
-  const { boardDetailInfo, error } = useGetBoardDetail('posts', 65);
+  const { boardDetailInfo, error } = useGetBoardDetail(path, 65);
 
   if (error) return <div>오류: {error}</div>;
 
@@ -49,7 +51,11 @@ const StudyPostDetail = () => {
         {boardDetailInfo && (
           <>
             <PostDetailMain info={boardDetailInfo} />
-            <PostCommentList comments={boardDetailInfo.comments} />
+            <PostCommentList
+              comments={boardDetailInfo.comments}
+              postId={boardDetailInfo.id}
+              path={path}
+            />
           </>
         )}
       </Container>

@@ -1,22 +1,27 @@
 import ReplyArrowImage from '@/assets/images/ic_reply.svg';
 import MenuImage from '@/assets/images/ic_comment_delete.svg';
 import * as S from '@/styles/board/Comment.styled';
+import deleteComment from '@/api/deletComment';
 
 interface ReplyCommentProps {
   name: string;
   content: string;
   time: string;
   commentId: number;
+  postId: number;
+  path: string;
 }
 
 const ReplyComment = ({
   name,
   content,
   time,
+  postId,
   commentId,
+  path,
 }: ReplyCommentProps) => {
   const onClickMenu = () => {
-    console.log('삭제', commentId);
+    deleteComment(path, postId, commentId);
   };
   // TODO: 이름 비교해서 내 답글일 경우만 메뉴 버튼 보이도록
   return (

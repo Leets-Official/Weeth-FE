@@ -1,21 +1,32 @@
 import ReplyImage from '@/assets/images/ic_reply_comment.svg';
 import MenuImage from '@/assets/images/ic_comment_delete.svg';
 import * as S from '@/styles/board/Comment.styled';
+import deleteComment from '@/api/deletComment';
 
 interface CommentProps {
   name: string;
   content: string;
   time: string;
+  postId: number;
   commentId: number;
+  path: string;
 }
 
-const Comment = ({ name, content, time, commentId }: CommentProps) => {
+const Comment = ({
+  name,
+  content,
+  time,
+  postId,
+  commentId,
+  path,
+}: CommentProps) => {
   const onClickReply = () => {
     console.log('답댓', commentId);
   };
 
   const onClickMenu = () => {
     console.log('삭제', commentId);
+    deleteComment(path, postId, commentId);
   };
 
   // TODO: userName과 props로 받아오는 name이 같아야만 메뉴 버튼이 보이도록 수정

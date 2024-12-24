@@ -10,10 +10,6 @@ interface CommentType {
   children?: CommentType[];
 }
 
-interface PostCommentListProps {
-  comments: CommentType[];
-}
-
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -25,7 +21,15 @@ const ReplyWrapper = styled.div`
   flex-direction: column;
 `;
 
-const PostCommentList = ({ comments }: PostCommentListProps) => {
+const PostCommentList = ({
+  comments,
+  path,
+  postId,
+}: {
+  comments: CommentType[];
+  path: string;
+  postId: number;
+}) => {
   const renderComments = (commentList: CommentType[]) => {
     return commentList.map((comment) => (
       <div key={comment.id}>
@@ -34,7 +38,9 @@ const PostCommentList = ({ comments }: PostCommentListProps) => {
           name={comment.name}
           content={comment.content}
           time={comment.time}
+          postId={postId}
           commentId={comment.id}
+          path={path}
         />
 
         {/* 대댓글이 있는 경우 */}
@@ -43,10 +49,12 @@ const PostCommentList = ({ comments }: PostCommentListProps) => {
             {comment.children.map((child) => (
               <ReplyComment
                 key={child.id}
-                commentId={comment.id}
+                postId={postId}
+                commentId={child.id}
                 name={child.name}
                 content={child.content}
                 time={child.time}
+                path={path}
               />
             ))}
           </ReplyWrapper>
