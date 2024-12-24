@@ -6,13 +6,19 @@ interface ReplyCommentProps {
   name: string;
   content: string;
   time: string;
+  commentId: number;
 }
 
-const ReplyComment = ({ name, content, time }: ReplyCommentProps) => {
+const ReplyComment = ({
+  name,
+  content,
+  time,
+  commentId,
+}: ReplyCommentProps) => {
   const onClickMenu = () => {
-    console.log('삭제');
+    console.log('삭제', commentId);
   };
-
+  // TODO: 이름 비교해서 내 답글일 경우만 메뉴 버튼 보이도록
   return (
     <S.ReplyCommentContainer>
       <S.ReplyArrow src={ReplyArrowImage} alt="답댓글 화살표" />

@@ -6,17 +6,19 @@ interface CommentProps {
   name: string;
   content: string;
   time: string;
+  commentId: number;
 }
 
-const Comment = ({ name, content, time }: CommentProps) => {
+const Comment = ({ name, content, time, commentId }: CommentProps) => {
   const onClickReply = () => {
-    console.log('답댓');
+    console.log('답댓', commentId);
   };
 
   const onClickMenu = () => {
-    console.log('삭제');
+    console.log('삭제', commentId);
   };
 
+  // TODO: userName과 props로 받아오는 name이 같아야만 메뉴 버튼이 보이도록 수정
   return (
     <S.CommentContainer>
       <S.CommentContentContainer>

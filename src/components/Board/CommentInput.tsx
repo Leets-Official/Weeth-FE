@@ -24,6 +24,7 @@ const Input = styled.input`
 
   &::placeholder {
     color: white;
+    font-family: ${theme.font.semiBold};
   }
 `;
 
@@ -34,10 +35,17 @@ const SendButton = styled.img`
 `;
 
 const CommentInput = () => {
+  const onClickSend = () => {
+    console.log('댓글 입력');
+  };
   return (
     <Container>
       <Input placeholder="댓글을 입력하세요." />
-      <SendButton src={CommentSend} alt="댓글 입력 버튼" />
+      <SendButton
+        src={CommentSend}
+        alt="댓글 입력 버튼"
+        onClick={onClickSend}
+      />
     </Container>
   );
 };

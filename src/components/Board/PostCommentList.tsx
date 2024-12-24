@@ -34,6 +34,7 @@ const PostCommentList = ({ comments }: PostCommentListProps) => {
           name={comment.name}
           content={comment.content}
           time={comment.time}
+          commentId={comment.id}
         />
 
         {/* 대댓글이 있는 경우 */}
@@ -42,6 +43,7 @@ const PostCommentList = ({ comments }: PostCommentListProps) => {
             {comment.children.map((child) => (
               <ReplyComment
                 key={child.id}
+                commentId={comment.id}
                 name={child.name}
                 content={child.content}
                 time={child.time}

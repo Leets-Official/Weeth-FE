@@ -4,10 +4,11 @@ import axios from 'axios';
 const BASE_URL = import.meta.env.VITE_API_URL;
 
 // 댓글 작성 API 함수
+// 대댓글일 경우만 parentCommentId 보내주기
 const createComment = async (
   postId: number,
-  parentCommentId: number,
   content: string,
+  parentCommentId?: number,
 ) => {
   const accessToken = localStorage.getItem('accessToken');
   const refreshToken = localStorage.getItem('refreshToken');
@@ -27,8 +28,8 @@ const createComment = async (
 
 export const useCreateComment = (
   postId: number,
-  parentCommentId: number,
   content: string,
+  parentCommentId?: number,
 ) => {
   const [response, setResponse] = useState(null);
   const [error, setError] = useState<string | null>(null);
@@ -41,7 +42,7 @@ export const useCreateComment = (
       setLoading(true);
       setError(null);
       try {
-        const res = await createComment(postId, parentCommentId, content);
+        const res = await createComment(postId, content, parentCommentId);
         setResponse(res.data);
       } catch (err: any) {
         setError(err.response?.data?.message || 'Something went wrong');
