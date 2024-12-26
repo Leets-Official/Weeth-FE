@@ -1,3 +1,4 @@
+import createNotice from '@/api/usePostNotice';
 import createStudy, { PostRequestType } from '@/api/usePostStudy';
 import PostEditor from '@/components/Board/PostEditor';
 import Header from '@/components/Header/Header';
@@ -38,6 +39,9 @@ const BoardPost = () => {
       if (type === 'study') {
         await createStudy(postData);
         navi('/study');
+      } else if (type === 'notice') {
+        await createNotice(postData);
+        navi('/notice');
       }
     } catch (error) {
       console.error(error);
