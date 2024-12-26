@@ -2,7 +2,6 @@ import icDelte from '@/assets/images/ic_delete.svg';
 import Line from '@/components/common/Line';
 import * as S from '@/styles/board/BoardPost.styled';
 import { useState, useEffect } from 'react';
-import { CustomFiles } from '@/types/PostRequestType';
 import FileUploader from './FileUploader';
 
 // TODO: 글쓰기 타입에 따라 어드민 체크
@@ -11,7 +10,6 @@ const PostEditor = ({
   setTitle,
   content,
   setContent,
-  setFiles,
   fileNameList,
   setFileNameList,
 }: {
@@ -19,7 +17,6 @@ const PostEditor = ({
   setTitle: (value: string) => void;
   content: string;
   setContent: (value: string) => void;
-  setFiles: (value: CustomFiles[]) => void;
   fileNameList: string[];
   setFileNameList: (value: string[]) => void;
 }) => {
@@ -39,9 +36,8 @@ const PostEditor = ({
       fileUrl: '',
     }));
     const updatedFileNameList = updatedFiles.map((file) => file.fileName);
-    setFiles(updatedFiles);
     setFileNameList(updatedFileNameList);
-  }, [fileData, setFiles]);
+  }, [fileData]);
 
   console.log('file list', fileNameList);
 

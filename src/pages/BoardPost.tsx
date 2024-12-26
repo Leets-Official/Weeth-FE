@@ -15,7 +15,6 @@ const BoardPost = () => {
 
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  const [files, setFiles] = useState<CustomFiles[]>([]);
   const [fileNameList, setFileNameList] = useState<string[]>([]);
 
   const isTitleEmpty = title.trim() === '';
@@ -35,17 +34,17 @@ const BoardPost = () => {
 
     try {
       // Step 1: 파일 업로드 API 호출
+      let filesToUpload: CustomFiles[] = [];
+
       if (fileNameList.length > 0) {
         const response = await getFileUrl(fileNameList);
         console.log(response);
 
-        setFiles(
-          response.data.data.map(
-            (file: { fileName: string; putUrl: string }) => ({
-              fileName: file.fileName,
-              fileUrl: file.putUrl.split('?')[0],
-            }),
-          ),
+        filesToUpload = response.data.data.map(
+          (file: { fileName: string; putUrl: string }) => ({
+            fileName: file.fileName,
+            fileUrl: file.putUrl.split('?')[0],
+          }),
         );
       }
 
@@ -53,7 +52,7 @@ const BoardPost = () => {
       const postData: PostRequestType = {
         title,
         content,
-        files,
+        files: filesToUpload,
       };
 
       if (type === 'study') {
@@ -68,7 +67,6 @@ const BoardPost = () => {
       console.error(error);
     }
   };
-
   return (
     <S.PostWrapper>
       <Header
@@ -82,7 +80,6 @@ const BoardPost = () => {
         setTitle={setTitle}
         content={content}
         setContent={setContent}
-        setFiles={setFiles}
         fileNameList={fileNameList}
         setFileNameList={setFileNameList}
       />
