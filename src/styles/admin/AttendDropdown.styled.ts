@@ -3,7 +3,7 @@ import theme from '../theme';
 
 export const Wrapper = styled.div`
   width: 815px;
-  backgroun-color: #ffffff;
+  background-color: #ffffff;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -174,7 +174,7 @@ export const CheckGap = styled.div`
   gap: 8px;
 `;
 
-export const StatusWarpper = styled.div`
+export const StatusWrapper = styled.div`
   display: flex;
   width: 100%;
   height: 100%;
@@ -182,7 +182,7 @@ export const StatusWarpper = styled.div`
 
 export const StatusBox = styled.div`
   flex: 1;
-  heigth: 100%;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
