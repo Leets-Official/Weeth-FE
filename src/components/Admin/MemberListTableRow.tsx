@@ -27,7 +27,7 @@ const SvgWrapper = styled.td`
 `;
 
 interface TableRowProps {
-  data: Record<string, any>;
+  data: { status: '승인 완료' | '대기 중' | '추방'; [key: string]: any };
   columns: { key: string; header: string }[];
 }
 

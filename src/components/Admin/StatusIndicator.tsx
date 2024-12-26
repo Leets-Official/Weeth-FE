@@ -19,7 +19,7 @@ const StatusWrapper = styled.div`
   color: #333;
 `;
 
-export const statusColors = {
+export const statusColors: Record<'승인 완료' | '대기 중' | '추방', string> = {
   '승인 완료': `${theme.color.main}`,
   '대기 중': `${theme.color.pintYellow}`,
   추방: `${theme.color.negative}`,
