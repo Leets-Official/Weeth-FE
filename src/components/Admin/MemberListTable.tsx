@@ -8,9 +8,15 @@ export interface Column {
   header: string;
 }
 
+export interface MemberData {
+  studentId: string;
+  status: '승인 완료' | '대기 중' | '추방';
+  [key: string]: any;
+}
+
 export interface MemberListTableProps {
   columns: Column[];
-  data: Record<string, any>[];
+  data: MemberData[];
 }
 
 export const TableWrapper = styled.div`

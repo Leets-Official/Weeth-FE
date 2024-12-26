@@ -4,6 +4,7 @@ import CheckBox from '@/assets/images/ic_admin_checkbox.svg';
 import UnCheckBox from '@/assets/images/ic_admin_uncheckbox.svg';
 import MeatBallSvg from '@/assets/images/ic_admin_meatball.svg';
 import { statusColors } from './StatusIndicator';
+import { MemberData, Column } from './MemberListTable';
 
 const Row = styled.tr`
   border-bottom: 1px solid #dedede;
@@ -27,8 +28,8 @@ const SvgWrapper = styled.td`
 `;
 
 interface TableRowProps {
-  data: { status: '승인 완료' | '대기 중' | '추방'; [key: string]: any };
-  columns: { key: string; header: string }[];
+  data: MemberData;
+  columns: Column[];
 }
 
 const MemberListTableRow: React.FC<TableRowProps> = ({ data, columns }) => {
