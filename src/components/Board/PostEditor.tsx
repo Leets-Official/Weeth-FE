@@ -12,12 +12,16 @@ const PostEditor = ({
   content,
   setContent,
   setFiles,
+  fileNameList,
+  setFileNameList,
 }: {
   title: string;
   setTitle: (value: string) => void;
   content: string;
   setContent: (value: string) => void;
   setFiles: (value: CustomFiles[]) => void;
+  fileNameList: string[];
+  setFileNameList: (value: string[]) => void;
 }) => {
   const [fileData, setFileData] = useState<File[]>([]);
   const hasFile = fileData.length > 0;
@@ -34,10 +38,12 @@ const PostEditor = ({
       // TODO: file Url 데이터 추가
       fileUrl: '',
     }));
+    const updatedFileNameList = updatedFiles.map((file) => file.fileName);
     setFiles(updatedFiles);
+    setFileNameList(updatedFileNameList);
   }, [fileData, setFiles]);
 
-  // console.log('file list', fileData);
+  console.log('file list', fileNameList);
 
   return (
     <S.PostWrapper>
