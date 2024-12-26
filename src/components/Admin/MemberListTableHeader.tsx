@@ -20,8 +20,8 @@ const MemberListTableHeader: React.FC<TableHeaderProps> = ({ columns }) => {
   return (
     <thead>
       <tr>
-        <th />
-        <th />
+        <th aria-label="Row Status" />
+        <th aria-label="Selection Checkbox" />
 
         {columns.map((column) => (
           <HeaderCell key={column.key}>{column.header}</HeaderCell>
