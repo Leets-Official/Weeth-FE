@@ -1,8 +1,10 @@
+/* eslint-disable no-alert */
 import createNotice from '@/api/usePostNotice';
-import createStudy, { PostRequestType } from '@/api/usePostStudy';
+import createStudy from '@/api/usePostStudy';
 import PostEditor from '@/components/Board/PostEditor';
 import Header from '@/components/Header/Header';
 import * as S from '@/styles/board/BoardPost.styled';
+import { CustomFiles, PostRequestType } from '@/types/PostRequestType';
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -13,8 +15,7 @@ const BoardPost = () => {
 
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [files, setFiles] = useState([]);
+  const [files, setFiles] = useState<CustomFiles[]>([]);
 
   const isTitleEmpty = title.trim() === '';
   const isContentEmpty = content.trim() === '';
@@ -35,7 +36,6 @@ const BoardPost = () => {
         content,
         files,
       };
-
       if (type === 'study') {
         await createStudy(postData);
         navi('/study');
@@ -44,6 +44,7 @@ const BoardPost = () => {
         navi('/notice');
       }
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error(error);
     }
   };
@@ -61,6 +62,7 @@ const BoardPost = () => {
         setTitle={setTitle}
         content={content}
         setContent={setContent}
+        setFiles={setFiles}
       />
     </S.PostWrapper>
   );

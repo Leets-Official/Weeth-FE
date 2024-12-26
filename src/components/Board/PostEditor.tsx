@@ -1,7 +1,8 @@
 import icDelte from '@/assets/images/ic_delete.svg';
 import Line from '@/components/common/Line';
 import * as S from '@/styles/board/BoardPost.styled';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { CustomFiles } from '@/types/PostRequestType';
 import FileUploader from './FileUploader';
 
 // TODO: 글쓰기 타입에 따라 어드민 체크
@@ -10,20 +11,33 @@ const PostEditor = ({
   setTitle,
   content,
   setContent,
+  setFiles,
 }: {
   title: string;
   setTitle: (value: string) => void;
   content: string;
   setContent: (value: string) => void;
+  setFiles: (value: CustomFiles[]) => void;
 }) => {
-  const [files, setFiles] = useState<File[]>([]);
-  const hasFile = files.length > 0;
+  const [fileData, setFileData] = useState<File[]>([]);
+  const hasFile = fileData.length > 0;
 
   const handleDeleteFile = (fileName: string) => {
-    setFiles((prevFiles) => prevFiles.filter((file) => file.name !== fileName));
+    setFileData((prevFileData) =>
+      prevFileData.filter((file) => file.name !== fileName),
+    );
   };
 
-  console.log('file list', files);
+  useEffect(() => {
+    const updatedFiles = fileData.map((file) => ({
+      fileName: file.name,
+      // TODO: file Url 데이터 추가
+      fileUrl: '',
+    }));
+    setFiles(updatedFiles);
+  }, [fileData, setFiles]);
+
+  // console.log('file list', fileData);
 
   return (
     <S.PostWrapper>
@@ -39,10 +53,14 @@ const PostEditor = ({
         onChange={(e) => setContent(e.target.value)}
       />
       <S.FileUploaderWrapper>
-        <FileUploader hasFile={hasFile} files={files} setFiles={setFiles} />
+        <FileUploader
+          hasFile={hasFile}
+          files={fileData}
+          setFiles={setFileData}
+        />
         {hasFile && (
           <ul>
-            {files.map((file) => (
+            {fileData.map((file) => (
               <li key={file.name}>
                 <div>
                   {file.name}
