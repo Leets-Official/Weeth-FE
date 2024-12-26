@@ -119,4 +119,3 @@ const AdminMember: React.FC = () => {
 };
 
 export default AdminMember;
-

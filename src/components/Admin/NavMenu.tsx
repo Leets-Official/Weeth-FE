@@ -22,4 +22,3 @@ export default NavMenu;
 
 // 수정해야 될 것
 // 클릭 시 svg 색깔 white로
-
