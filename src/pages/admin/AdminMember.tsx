@@ -21,6 +21,7 @@ const columns = [
 
 const data = [
   {
+    status: '승인 완료',
     name: '김위드니',
     role: '프론트엔드',
     major: '소프트웨어전공',
@@ -34,6 +35,7 @@ const data = [
     joinDate: '2024.08.27',
   },
   {
+    status: '대기 중',
     name: '박위드니',
     role: '프론트엔드',
     major: '미디어커뮤니케이션학과',
@@ -47,6 +49,7 @@ const data = [
     joinDate: '2024.08.27',
   },
   {
+    status: '승인 완료',
     name: '최위드니',
     role: '백엔드',
     major: '컴퓨터공학과',
@@ -60,6 +63,7 @@ const data = [
     joinDate: '2024.08.27',
   },
   {
+    status: '추방',
     name: '최위드니',
     role: '백엔드',
     major: '컴퓨터공학과',

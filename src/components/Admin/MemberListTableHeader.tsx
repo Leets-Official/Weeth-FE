@@ -9,12 +9,20 @@ const HeaderCell = styled.th`
   padding: 10px;
   font-weight: bold;
   border-bottom: 1px solid #dedede;
+  white-space: nowrap;
 `;
+
+// const EmptyHeaderCell = styled.th`
+//   text-align: center;
+// `;
 
 const MemberListTableHeader: React.FC<TableHeaderProps> = ({ columns }) => {
   return (
     <thead>
       <tr>
+        <th />
+        <th />
+
         {columns.map((column) => (
           <HeaderCell key={column.key}>{column.header}</HeaderCell>
         ))}
