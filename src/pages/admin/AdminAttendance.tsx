@@ -3,7 +3,7 @@ import TopBar from '@/components/Admin/TopBar';
 import Cardinal from '@/components/Admin/Cardinal';
 import Attendance from '@/components/Admin/Attendance';
 import styled from 'styled-components';
-import { PageWrapper } from './AdminMember';
+import { PageWrapper, ContentWrapper } from '@/styles/admin/AdminLayout.styled';
 
 const AttendanceWrapper = styled.div`
   width: 887px;
@@ -13,14 +13,6 @@ const AttendanceWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-`;
-
-const ContentWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  border: 1px solid #f2f2f2;
-  height: 100%;
 `;
 
 const Container = styled.div`
