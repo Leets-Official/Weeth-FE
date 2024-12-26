@@ -92,7 +92,7 @@ export const Container = styled.div`
   align-items: center;
 `;
 
-const ContentWrapper = styled.div`
+export const ContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -111,6 +111,7 @@ const AdminMember: React.FC = () => {
         />
         <Container>
           <SearchBar />
+          <CardinalInfo />
           <MemberListTable columns={columns} data={data} />
         </Container>
       </ContentWrapper>
@@ -119,4 +120,3 @@ const AdminMember: React.FC = () => {
 };
 
 export default AdminMember;
-
