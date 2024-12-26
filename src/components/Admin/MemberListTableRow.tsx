@@ -1,9 +1,9 @@
+import { useState } from 'react';
 import styled from 'styled-components';
-import { statusColors } from './StatusIndicator';
 import CheckBox from '@/assets/images/ic_admin_checkbox.svg';
 import UnCheckBox from '@/assets/images/ic_admin_uncheckbox.svg';
 import MeatBallSvg from '@/assets/images/ic_admin_meatball.svg';
-import { useState } from 'react';
+import { statusColors } from './StatusIndicator';
 
 const Row = styled.tr`
   border-bottom: 1px solid #dedede;
@@ -12,6 +12,7 @@ const Row = styled.tr`
 const Cell = styled.td`
   padding: 15px;
   text-align: left;
+
   border-bottom: 1px solid #dedede;
 `;
 const StatusCell = styled.td<{ statusColor: string }>`
@@ -19,9 +20,10 @@ const StatusCell = styled.td<{ statusColor: string }>`
   background-color: ${({ statusColor }) => statusColor};
 `;
 
-const CheckBoxWrapper = styled.td`
+const SvgWrapper = styled.td`
   padding: 10px;
   text-align: center;
+  cursor: pointer;
 `;
 
 interface TableRowProps {
@@ -41,17 +43,20 @@ const MemberListTableRow: React.FC<TableRowProps> = ({ data, columns }) => {
     <Row>
       <StatusCell statusColor={statusColor} />
 
-      <CheckBoxWrapper onClick={onClickToCheckBox}>
+      <SvgWrapper onClick={onClickToCheckBox}>
         <img
           src={isChecked ? CheckBox : UnCheckBox}
           alt={isChecked ? 'checked' : 'unchecked'}
         />
-      </CheckBoxWrapper>
+      </SvgWrapper>
       {columns.map((column) => (
         <Cell key={column.key}>{data[column.key]}</Cell>
       ))}
 
-      <img src={MeatBallSvg} alt="미트볼 메뉴" />
+      {/* 추후 클릭 이벤트 추가 */}
+      <SvgWrapper>
+        <img src={MeatBallSvg} alt="미트볼 메뉴" />
+      </SvgWrapper>
     </Row>
   );
 };
