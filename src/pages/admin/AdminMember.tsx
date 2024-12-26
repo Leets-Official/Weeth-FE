@@ -3,7 +3,11 @@ import MemberListTable from '@/components/Admin/MemberListTable';
 import NavMenu from '@/components/Admin/NavMenu';
 import SearchBar from '@/components/Admin/SearchBar';
 import TopBar from '@/components/Admin/TopBar';
-import styled from 'styled-components';
+import {
+  PageWrapper,
+  ContentWrapper,
+  Container,
+} from '@/styles/admin/AdminLayout.styled';
 
 const columns = [
   { key: 'name', header: '이름' },
@@ -77,32 +81,6 @@ const data = [
     joinDate: '2024.08.27',
   },
 ];
-export const PageWrapper = styled.div`
-  width: 100vw;
-  min-height: 100vh;
-  color: #000000;
-  background-color: #f2f9f8;
-  display: flex;
-`;
-
-export const Container = styled.div`
-  width: 100%;
-  max-width: 1300px;
-  margin: 0 auto;
-  padding: 20px;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-export const ContentWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  border: 1px solid #f2f2f2;
-  height: 100%;
-`;
 
 const AdminMember: React.FC = () => {
   return (
