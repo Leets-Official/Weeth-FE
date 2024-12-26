@@ -12,9 +12,9 @@ const CardinalWrapper = styled.div`
   height: 80px;
   background-color: #ffffff;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  position: relative;
   border-radius: 5px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   margin-bottom: 30px;
@@ -31,8 +31,31 @@ const CardinalButton = styled.div`
   cursor: pointer;
   border-radius: 5px;
 `;
-const DropdownMenu = styled.div``;
-const DropdownItem = styled.div``;
+const DropdownMenu = styled.div`
+  width: 118px;
+  height: 48px;
+  background-color: #ffffff;
+  border: 1px solid #dedede;
+  border-radius: 5px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1;
+`;
+const DropdownItem = styled.div`
+  width: 100%;
+  height: 100%;
+  background-color: #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+`;
+
+const ArrowIcon = styled.img`
+  &.open {
+    transform: rotate(180deg);
+  }
+`;
 
 const CardinalDropdown: React.FC<CardinalProps> = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -43,11 +66,16 @@ const CardinalDropdown: React.FC<CardinalProps> = () => {
     setSelectedCardinal(value);
     setIsOpen(false);
   };
+
   return (
     <CardinalWrapper>
       <CardinalButton onClick={toggleDropdown}>
         <div>{selectedCardinal}</div>
-        <img src={CardinalSVG} alt="cardinal" />
+        <ArrowIcon
+          src={CardinalSVG}
+          alt="cardinal"
+          className={isOpen ? 'open' : ''}
+        />
       </CardinalButton>
       {isOpen && (
         <DropdownMenu>
