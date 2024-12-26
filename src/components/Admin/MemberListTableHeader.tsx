@@ -12,10 +12,6 @@ const HeaderCell = styled.th`
   white-space: nowrap;
 `;
 
-// const EmptyHeaderCell = styled.th`
-//   text-align: center;
-// `;
-
 const MemberListTableHeader: React.FC<TableHeaderProps> = ({ columns }) => {
   return (
     <thead>
