@@ -26,6 +26,7 @@ import {
 } from '@/styles/admin/AttendDropdown.styled';
 
 import CheckBox from '@/assets/images/ic_admin_check.svg';
+import Absence from '@/assets/images/ic_admin_absence.svg';
 import RadioButton from './RadioButton';
 
 interface AttendDropdownItem {
@@ -141,7 +142,10 @@ const AttendDropdown: React.FC = () => {
                 </StatusWrapper>
               ) : (
                 <CheckGap>
-                  <img src={CheckBox} alt="checkbox" />
+                  <img
+                    src={item.status === '출석' ? CheckBox : Absence} // 조건부로 이미지 변경
+                    alt={item.status === '출석' ? '출석 이미지' : '결석 이미지'}
+                  />
                   {item.status}
                 </CheckGap>
               )}
