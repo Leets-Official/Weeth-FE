@@ -33,7 +33,6 @@ const PostCommentList = ({
   const renderComments = (commentList: CommentType[]) => {
     return commentList.map((comment) => (
       <div key={comment.id}>
-        {/* 댓글 */}
         <Comment
           name={comment.name}
           content={comment.content}
@@ -43,7 +42,6 @@ const PostCommentList = ({
           path={path}
         />
 
-        {/* 대댓글이 있는 경우 */}
         {comment.children && comment.children.length > 0 && (
           <ReplyWrapper>
             {comment.children.map((child) => (

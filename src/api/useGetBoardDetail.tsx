@@ -40,6 +40,7 @@ const getBoardDetail = async (path: string, id: number) => {
 };
 
 export const useGetBoardDetail = (path: string, id: number) => {
+  console.log('호출');
   const [boardDetailInfo, setBoardDetail] = useState<BoardDetail | null>(null);
   const [error, setError] = useState<string | null>(null);
 

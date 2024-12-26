@@ -28,14 +28,14 @@ const CommentInputContainer = styled.div`
 `;
 
 const StudyPostDetail = () => {
+  const path = 'posts';
+
+  // useGetBoardDetail 훅 호출 (refreshKey를 의존성으로 사용)
+  const { boardDetailInfo, error } = useGetBoardDetail(path, 65);
+
   const openModal = () => {
     console.log('모달 열림');
   };
-
-  const path = 'posts';
-
-  // useGetBoardDetail 훅 호출
-  const { boardDetailInfo, error } = useGetBoardDetail(path, 65);
 
   if (error) return <div>오류: {error}</div>;
 
@@ -60,7 +60,7 @@ const StudyPostDetail = () => {
         )}
       </Container>
       <CommentInputContainer>
-        <CommentInput />
+        {boardDetailInfo && <CommentInput postId={boardDetailInfo.id} />}
       </CommentInputContainer>
     </>
   );
