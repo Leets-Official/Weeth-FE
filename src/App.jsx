@@ -30,6 +30,7 @@ import { ThemeProvider } from 'styled-components';
 import NoticeBoard from '@/pages/NoticeBoard';
 import StudyPostDetail from '@/pages/StudyPostDetail';
 import StudyBoard from '@/pages/StudyBoard';
+import BoardPost from './pages/BoardPost';
 
 const App = () => {
   return (
@@ -58,6 +59,7 @@ const App = () => {
         <Route path="/notice" element={<NoticeBoard />} />
         <Route path="/study" element={<StudyBoard />} />
         <Route path="/study/detail" element={<StudyPostDetail />} />
+        <Route path="/:type/post" element={<BoardPost />} />
 
         <Route path="/admin/attendance" element={<AdminAttendance />} />
         <Route path="/admin/member" element={<AdminMember />} />
