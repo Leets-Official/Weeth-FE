@@ -9,6 +9,21 @@ import {
   Container,
 } from '@/styles/admin/AdminLayout.styled';
 
+type MemberData = {
+  status: '승인 완료' | '대기 중' | '추방';
+  name: string;
+  role: string;
+  major: string;
+  cardinal: string;
+  phone: string;
+  studentId: string;
+  position: string;
+  attendance: number;
+  absence: number;
+  penalty: number;
+  joinDate: string;
+};
+
 const columns = [
   { key: 'name', header: '이름' },
   { key: 'role', header: '역할' },
@@ -23,7 +38,7 @@ const columns = [
   { key: 'joinDate', header: '가입일' },
 ];
 
-const data = [
+const data: MemberData[] = [
   {
     status: '승인 완료',
     name: '김위드니',
