@@ -2,7 +2,6 @@ import CardinalInfo from '@/components/Admin/CardinalInfo';
 import MemberListTable from '@/components/Admin/MemberListTable';
 import NavMenu from '@/components/Admin/NavMenu';
 import SearchBar from '@/components/Admin/SearchBar';
-import StatusIndicator from '@/components/Admin/StatusIndicator';
 import TopBar from '@/components/Admin/TopBar';
 import styled from 'styled-components';
 

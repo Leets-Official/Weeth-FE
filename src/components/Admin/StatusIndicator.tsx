@@ -6,10 +6,9 @@ interface StatusIndicatorProps {
 }
 
 const StatusDot = styled.span<{ color: string }>`
-  width: 12px;
-  height: 12px;
+  width: 4px;
+  height: 4px;
   background-color: ${({ color }) => color};
-  border-radius: 50%;
 `;
 
 const StatusWrapper = styled.div`

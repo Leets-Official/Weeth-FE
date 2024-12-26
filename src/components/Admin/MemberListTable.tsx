@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import MemberListTableHeader from './MemberListTableHeader';
 import MemberListTableRow from './MemberListTableRow';
+import StatusList from './StatusList';
 
 export interface Column {
   key: string;
@@ -37,6 +38,7 @@ export const TableContainer = styled.div`
 const MemberListTable: React.FC<MemberListTableProps> = ({ columns, data }) => {
   return (
     <TableContainer>
+      <StatusList />
       <TableWrapper>
         <table>
           <MemberListTableHeader columns={columns} />
