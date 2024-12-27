@@ -28,6 +28,7 @@ import AdminPenatly from '@/pages/admin/AdminPenatly';
 import { Route, Routes } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 import NoticeBoard from '@/pages/NoticeBoard';
+import NoticePostDetail from '@/pages/NoticePostDetail';
 import StudyPostDetail from '@/pages/StudyPostDetail';
 import StudyBoard from '@/pages/StudyBoard';
 
@@ -56,6 +57,7 @@ const App = () => {
         <Route path="/receipt" element={<Receipt />} />
 
         <Route path="/notice" element={<NoticeBoard />} />
+        <Route path="/notice/detail" element={<NoticePostDetail />} />
         <Route path="/study" element={<StudyBoard />} />
         <Route path="/study/detail" element={<StudyPostDetail />} />
 
