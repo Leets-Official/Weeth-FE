@@ -1,8 +1,9 @@
-import icDelte from '@/assets/images/ic_delete.svg';
+// import icDelte from '@/assets/images/ic_delete.svg';
 import Line from '@/components/common/Line';
 import * as S from '@/styles/board/BoardPost.styled';
 import { useState, useEffect } from 'react';
 import FileUploader from './FileUploader';
+import PostFile from './PostFile';
 
 // TODO: 글쓰기 타입에 따라 어드민 체크
 const PostEditor = ({
@@ -61,20 +62,18 @@ const PostEditor = ({
           setFiles={setFileData}
         />
         {hasFile && (
-          <ul>
+          <>
             {fileData.map((file) => (
-              <li key={file.name}>
-                <div>
-                  {file.name}
-                  <S.DeleteButton
-                    src={icDelte}
-                    alt="delete"
-                    onClick={() => handleDeleteFile(file.name)}
-                  />
-                </div>
-              </li>
+              <PostFile
+                key={file.name}
+                fileName={file.name}
+                isDownload={false}
+                onClick={() => {
+                  handleDeleteFile(file.name);
+                }}
+              />
             ))}
-          </ul>
+          </>
         )}
       </S.FileUploaderWrapper>
     </S.PostWrapper>
