@@ -3,8 +3,8 @@ import styled from 'styled-components';
 import CardinalSVG from '@/assets/images/ic_admin_cardinal.svg';
 
 interface CardinalProps {
-  selectedCardinal?: string;
-  setSelectedCardinal?: (cardinal: string) => void;
+  selectedCardinal: string;
+  setSelectedCardinal: (cardinal: string) => void;
 }
 
 const CardinalWrapper = styled.div`
@@ -57,9 +57,11 @@ const ArrowIcon = styled.img`
   }
 `;
 
-const CardinalDropdown: React.FC<CardinalProps> = () => {
+const CardinalDropdown: React.FC<CardinalProps> = ({
+  selectedCardinal,
+  setSelectedCardinal,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedCardinal, setSelectedCardinal] = useState('기수');
 
   const toggleDropdown = () => setIsOpen(!isOpen);
   const selectCardinal = (value: string) => {
