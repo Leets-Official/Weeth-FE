@@ -10,6 +10,7 @@ interface CommentProps {
   postId: number;
   commentId: number;
   path: string;
+  onDelete: () => void;
 }
 
 const Comment = ({
@@ -19,6 +20,7 @@ const Comment = ({
   postId,
   commentId,
   path,
+  onDelete,
 }: CommentProps) => {
   const onClickReply = () => {
     console.log('답댓', commentId);
@@ -27,6 +29,7 @@ const Comment = ({
   const onClickMenu = () => {
     console.log('삭제', commentId);
     deleteComment(path, postId, commentId);
+    onDelete();
   };
 
   // TODO: userName과 props로 받아오는 name이 같아야만 메뉴 버튼이 보이도록 수정

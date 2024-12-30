@@ -10,6 +10,7 @@ interface ReplyCommentProps {
   commentId: number;
   postId: number;
   path: string;
+  onDelete: () => void;
 }
 
 const ReplyComment = ({
@@ -19,9 +20,11 @@ const ReplyComment = ({
   postId,
   commentId,
   path,
+  onDelete,
 }: ReplyCommentProps) => {
   const onClickMenu = () => {
     deleteComment(path, postId, commentId);
+    onDelete();
   };
   // TODO: 이름 비교해서 내 답글일 경우만 메뉴 버튼 보이도록
   return (

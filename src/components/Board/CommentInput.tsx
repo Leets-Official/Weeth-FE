@@ -41,7 +41,7 @@ const CommentInput = ({
   onCommentSuccess,
 }: {
   postId: number;
-  onCommentSuccess?: () => void; // 댓글 작성 성공 시 호출될 콜백
+  onCommentSuccess?: () => void;
 }) => {
   const [inputValue, setInputValue] = useState('');
 
@@ -59,8 +59,10 @@ const CommentInput = ({
       // 댓글 작성 API 호출
       await createComment(postId, inputValue);
       console.log('댓글 작성 성공');
-      setInputValue(''); // 입력 필드 초기화
-      if (onCommentSuccess) onCommentSuccess(); // 부모 컴포넌트에 성공 알림
+      // 입력 필드 초기화
+      setInputValue('');
+      // 부모 컴포는트로 댓글 작성 알림
+      if (onCommentSuccess) onCommentSuccess();
     } catch (error: any) {
       console.error(
         '댓글 작성 중 에러:',

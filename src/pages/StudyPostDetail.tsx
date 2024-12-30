@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import useGetBoardDetail from '@/api/useGetBoardDetail';
 import CommentInput from '@/components/Board/CommentInput';
 import PostCommentList from '@/components/Board/PostCommentList';
@@ -30,11 +31,13 @@ const CommentInputContainer = styled.div`
 const StudyPostDetail = () => {
   const path = 'posts';
 
-  // useGetBoardDetail 훅 호출 (refreshKey를 의존성으로 사용)
-  const { boardDetailInfo, error } = useGetBoardDetail(path, 65);
+  const [refreshKey, setRefreshKey] = useState(0);
 
-  const openModal = () => {
-    console.log('모달 열림');
+  // refreshKey를 의존성으로 사용
+  const { boardDetailInfo, error } = useGetBoardDetail(path, 65, refreshKey);
+
+  const handleRefresh = () => {
+    setRefreshKey((prev) => prev + 1);
   };
 
   if (error) return <div>오류: {error}</div>;
@@ -46,7 +49,7 @@ const StudyPostDetail = () => {
           title="게시판"
           RightButtonType="MENU"
           isAccessible
-          onClickRightButton={openModal}
+          onClickRightButton={() => console.log('모달 열림')}
         />
         {boardDetailInfo && (
           <>
@@ -55,12 +58,18 @@ const StudyPostDetail = () => {
               comments={boardDetailInfo.comments}
               postId={boardDetailInfo.id}
               path={path}
+              onCommentDelete={handleRefresh}
             />
           </>
         )}
       </Container>
       <CommentInputContainer>
-        {boardDetailInfo && <CommentInput postId={boardDetailInfo.id} />}
+        {boardDetailInfo && (
+          <CommentInput
+            postId={boardDetailInfo.id}
+            onCommentSuccess={handleRefresh}
+          />
+        )}
       </CommentInputContainer>
     </>
   );

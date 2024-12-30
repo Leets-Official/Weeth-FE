@@ -25,10 +25,12 @@ const PostCommentList = ({
   comments,
   path,
   postId,
+  onCommentDelete, // 삭제 핸들러 전달받음
 }: {
   comments: CommentType[];
   path: string;
   postId: number;
+  onCommentDelete: () => void; // 삭제 후 갱신 핸들러 타입
 }) => {
   const renderComments = (commentList: CommentType[]) => {
     return commentList.map((comment) => (
@@ -40,6 +42,7 @@ const PostCommentList = ({
           postId={postId}
           commentId={comment.id}
           path={path}
+          onDelete={onCommentDelete} // 삭제 핸들러 전달
         />
 
         {comment.children && comment.children.length > 0 && (
@@ -53,6 +56,7 @@ const PostCommentList = ({
                 content={child.content}
                 time={child.time}
                 path={path}
+                onDelete={onCommentDelete} // 대댓글 삭제 핸들러 전달
               />
             ))}
           </ReplyWrapper>
