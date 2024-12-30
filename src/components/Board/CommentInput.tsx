@@ -61,7 +61,7 @@ const CommentInput = ({
       console.log('댓글 작성 성공');
       // 입력 필드 초기화
       setInputValue('');
-      // 부모 컴포는트로 댓글 작성 알림
+      // 부모 컴포넌트로 댓글 작성 알림
       if (onCommentSuccess) onCommentSuccess();
     } catch (error: any) {
       console.error(
@@ -72,12 +72,20 @@ const CommentInput = ({
     }
   };
 
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      onClickSend();
+    }
+  };
+
   return (
     <Container>
       <Input
         placeholder="댓글을 입력하세요."
         value={inputValue}
         onChange={handleInputChange}
+        onKeyPress={handleKeyPress}
       />
       <SendButton
         src={CommentSend}
