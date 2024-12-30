@@ -4,6 +4,7 @@ import Cardinal from '@/components/Admin/Cardinal';
 import Attendance from '@/components/Admin/Attendance';
 import styled from 'styled-components';
 import { PageWrapper, ContentWrapper } from '@/styles/admin/AdminLayout.styled';
+import { useState } from 'react';
 
 const AttendanceWrapper = styled.div`
   width: 887px;
@@ -24,6 +25,7 @@ const Container = styled.div`
 `;
 
 const AdminAttendance: React.FC = () => {
+  const [selectedCardinal, setSelectedCardinal] = useState('기수');
   return (
     <PageWrapper>
       <NavMenu />
@@ -33,7 +35,10 @@ const AdminAttendance: React.FC = () => {
           description="기수를 선택하고, 해당 모임에 대한 출석을 수정하는 페이지입니다."
         />
         <Container>
-          <Cardinal />
+          <Cardinal
+            selectedCardinal={selectedCardinal}
+            setSelectedCardinal={setSelectedCardinal}
+          />
           <AttendanceWrapper>
             <Attendance />
           </AttendanceWrapper>
