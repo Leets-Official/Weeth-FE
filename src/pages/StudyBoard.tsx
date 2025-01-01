@@ -2,11 +2,11 @@ import { useEffect, useRef, useState } from 'react';
 import Info from '@/components/Board/Info';
 import styled from 'styled-components';
 import PostListItem from '@/components/Board/PostListItem';
-import NoticeHeader from '@/components/Board/NoticeHeader';
-import EditDelModal from '@/components/Modal/EditDelModal';
+// import EditDelModal from '@/components/Modal/EditDelModal';
 import formatDate from '@/hooks/formatDate';
 import theme from '@/styles/theme';
 import useGetBoardInfo from '@/api/useGetBoardInfo';
+import Header from '@/components/Header/Header';
 
 const Container = styled.div`
   display: flex;
@@ -83,7 +83,7 @@ const StudyBoard = () => {
 
   return (
     <Container>
-      <NoticeHeader showModal={false} ModalComponent={EditDelModal} />
+      <Header title="스터디 게시판" RightButtonType="none" />
       <Info title="스터디 게시판" isEditButtonVisible={isPostBtn} />
       {posts.map((post) => (
         <PostList key={post.id}>
