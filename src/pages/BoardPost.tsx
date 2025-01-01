@@ -1,5 +1,5 @@
 /* eslint-disable no-alert */
-import getFileUrl from '@/api/useGetFileUrl';
+import { useGetFileUrl } from '@/api/useGetFileUrl';
 import createNotice from '@/api/usePostNotice';
 import createStudy from '@/api/usePostStudy';
 import PostEditor from '@/components/Board/PostEditor';
@@ -17,6 +17,8 @@ const BoardPost = () => {
   const [content, setContent] = useState('');
   const [fileNameList, setFileNameList] = useState<string[]>([]);
 
+  const { fileUrl, error } = useGetFileUrl(fileNameList);
+
   const isTitleEmpty = title.trim() === '';
   const isContentEmpty = content.trim() === '';
 
@@ -30,23 +32,20 @@ const BoardPost = () => {
       return;
     }
 
-    console.log(fileNameList);
+    if (error) {
+      alert('파일 업로드 중 문제가 발생했습니다. 다시 시도해주세요.');
+      return;
+    }
 
     try {
-      // Step 1: 파일 업로드 API 호출
-      let filesToUpload: CustomFiles[] = [];
+      console.log(fileUrl);
 
-      if (fileNameList.length > 0) {
-        const response = await getFileUrl(fileNameList);
-        console.log(response);
-
-        filesToUpload = response.data.data.map(
-          (file: { fileName: string; putUrl: string }) => ({
-            fileName: file.fileName,
-            fileUrl: file.putUrl.split('?')[0],
-          }),
-        );
-      }
+      // Step 1: 파일 데이터 변환
+      const filesToUpload: CustomFiles[] =
+        fileUrl?.map((file: { fileName: string; putUrl: string }) => ({
+          fileName: file.fileName,
+          fileUrl: file.putUrl.split('?')[0],
+        })) || [];
 
       // Step 2: 게시물 데이터 생성
       const postData: PostRequestType = {
@@ -62,11 +61,11 @@ const BoardPost = () => {
         await createNotice(postData);
         navi('/notice');
       }
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error(error);
+    } catch {
+      alert('게시물 저장 중 문제가 발생했습니다. 다시 시도해주세요.');
     }
   };
+
   return (
     <S.PostWrapper>
       <Header

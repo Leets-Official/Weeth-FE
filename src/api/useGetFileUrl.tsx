@@ -1,6 +1,7 @@
 // import { useEffect, useState } from 'react';
 import axios from 'axios';
 import qs from 'qs';
+import { useState, useEffect } from 'react';
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 const accessToken = localStorage.getItem('accessToken');
@@ -22,25 +23,25 @@ export const getFileUrl = async (fileNames: string[]) => {
   return response;
 };
 
-// export const useGetFileUrl = (fileNames: string[]) => {
-//   const [fileUrl, setFileUrl] = useState<any[]>([]);
-//   const [error, setError] = useState<string | null>(null);
+export const useGetFileUrl = (fileNames: string[]) => {
+  const [fileUrl, setFileUrl] = useState<any[]>([]);
+  const [error, setError] = useState<string | null>(null);
 
-//   useEffect(() => {
-//     const fetchUsers = async () => {
-//       try {
-//         const response = await getFileUrl(fileNames);
-//         setFileUrl(response.data.data);
-//         setError(null);
-//       } catch (err: any) {
-//         setError(err.response?.data?.message);
-//       }
-//     };
+  useEffect(() => {
+    const fetchFileUrls = async () => {
+      try {
+        const response = await getFileUrl(fileNames);
+        setFileUrl(response.data.data);
+        setError(null);
+      } catch (err: any) {
+        setError(err.response?.data?.message);
+      }
+    };
 
-//     fetchUsers();
-//   }, []);
+    fetchFileUrls();
+  }, [fileNames]);
 
-//   return { fileUrl, error };
-// };
+  return { fileUrl, error };
+};
 
 export default getFileUrl;
