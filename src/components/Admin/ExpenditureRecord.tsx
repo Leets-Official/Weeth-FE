@@ -88,8 +88,8 @@ const ExpenditureRecord: React.FC<ExpenditureRecordProps> = () => {
           <DateWrapper>
             <Date>{item.date}</Date>
             <ButtonWrapper>
-              <Button description="수정" color="#323232" />
-              <Button description="삭제" color="#ff5858" />
+              <Button description="수정" color="#323232" width="64px" />
+              <Button description="삭제" color="#ff5858" width="64px" />
             </ButtonWrapper>
           </DateWrapper>
           <ExpenditureWrapper>
