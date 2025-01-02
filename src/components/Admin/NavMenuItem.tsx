@@ -23,7 +23,9 @@ export const Label = styled.div`
 `;
 
 export const Icon = styled.div<{ active?: boolean }>`
-  color: ${({ active }) => (active ? '#fff' : '#000')};
+  svg {
+    fill: ${({ active }) => (active ? '#fff' : '#000')};
+  }
 `;
 
 const NavMenuItem: React.FC<MenuItemsProps> = ({
