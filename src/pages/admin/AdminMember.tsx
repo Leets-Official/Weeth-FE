@@ -117,6 +117,7 @@ const AdminMember: React.FC = () => {
             onClick={() => console.log('clicked')}
             height="48px"
             width="99px"
+            borderRadius="4px"
           >
             가입 승인
           </Button>
