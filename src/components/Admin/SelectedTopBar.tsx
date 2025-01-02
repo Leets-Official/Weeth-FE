@@ -19,17 +19,21 @@ const SelectedTopBarWrapper = styled.div`
   color: ${theme.color.gray[100]};
   display: flex;
   justify-content: space-between;
+  align-items: center;
 `;
 
 const TitleContainer = styled.div`
   display: flex;
-  justify-content: center;
+  align-items: center;
+  justify-content: flex-start;
   gap: 25px;
   padding-left: 55px;
 `;
 
 const BackArrow = styled.img`
   cursor: pointer;
+  width: 15px;
+  height: 15px;
 `;
 
 const SelectedTopBar: React.FC = () => {
@@ -99,7 +103,7 @@ const SelectedTopBar: React.FC = () => {
             key={label}
             color="#fff"
             textcolor="#000"
-            width="95px"
+            width="auto"
             height="43px"
             borderRadius="4px"
             onClick={onClick}
