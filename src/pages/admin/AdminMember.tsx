@@ -3,6 +3,7 @@ import MemberListTable from '@/components/Admin/MemberListTable';
 import NavMenu from '@/components/Admin/NavMenu';
 import SearchBar from '@/components/Admin/SearchBar';
 import TopBar from '@/components/Admin/TopBar';
+import Button from '@/components/Button/Button';
 import {
   PageWrapper,
   ContentWrapper,
@@ -110,6 +111,15 @@ const AdminMember: React.FC = () => {
           <SearchBar />
           <CardinalInfo />
           <MemberListTable columns={columns} data={data} />
+          <Button
+            color="#fff"
+            textcolor="#000"
+            onClick={() => console.log('clicked')}
+            height="48px"
+            width="99px"
+          >
+            가입 승인
+          </Button>
         </Container>
       </ContentWrapper>
     </PageWrapper>

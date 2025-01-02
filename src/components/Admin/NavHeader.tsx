@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import logo from '@/assets/images/logo/logo_initial_Xmas.svg';
+import logo from '../../../public/logo/original.svg';
 
 const StyledHeader = styled.div`
   display: flex;

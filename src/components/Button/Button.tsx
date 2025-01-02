@@ -9,6 +9,7 @@ interface ButtonProps {
   onClick?: () => void;
   height?: string;
   width?: string;
+  borderRadius?: string;
   disabled?: boolean;
 }
 
@@ -17,7 +18,7 @@ const BasicButton = styled.button<ButtonProps>`
   font-family: ${theme.font.semiBold};
   color: ${({ textcolor }) => textcolor || theme.color.gray[100]};
   border: none;
-  border-radius: 10px;
+  border-radius: ${({ borderRadius }) => borderRadius || '10px'};
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -35,6 +36,7 @@ const Button: FC<ButtonProps> = ({
   onClick,
   height,
   width,
+  borderRadius,
   disabled,
 }) => (
   <BasicButton
@@ -43,6 +45,7 @@ const Button: FC<ButtonProps> = ({
     onClick={onClick}
     height={height}
     width={width}
+    borderRadius={borderRadius}
     disabled={disabled}
   >
     {children}
