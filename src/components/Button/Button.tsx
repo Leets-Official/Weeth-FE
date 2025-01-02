@@ -26,6 +26,11 @@ const BasicButton = styled.button<ButtonProps>`
   font-size: 16px;
   width: ${({ width }) => width || 'calc(370px * 0.84)'};
   height: ${({ height }) => height || '50px'};
+
+  &:disabled {
+    color: ${theme.color.gray[65]};
+    cursor: not-allowed;
+  }
 `;
 
 // function 컴포넌트

@@ -31,12 +31,61 @@ const TitleContainer = styled.div`
 const BackArrow = styled.img`
   cursor: pointer;
 `;
+
 const SelectedTopBar: React.FC = () => {
   const { selectedMembers, setSelectedMembers } = useMemberContext();
 
   const handleBackClick = () => {
     setSelectedMembers([]);
   };
+  const buttons = [
+    {
+      label: '가입 승인',
+      onClick: () =>
+        alert(`${selectedMembers.length}명의 멤버 가입을 승인하시겠습니까?`),
+      disabled: false,
+    },
+    {
+      label: '관리자로 변경',
+      onClick: () =>
+        alert(
+          `${selectedMembers.length}명의 멤버를 관리자로 변경하시겠습니까?`,
+        ),
+      disabled: selectedMembers.length !== 1,
+    },
+    {
+      label: '사용자로 변경',
+      onClick: () =>
+        alert(
+          `${selectedMembers.length}명의 멤버를 사용자로 변경하시겠습니까?`,
+        ),
+      disabled: selectedMembers.length !== 1,
+    },
+    {
+      label: '비밀번호 초기화',
+      onClick: () =>
+        alert(
+          `${selectedMembers.length}명의 멤버 비밀번호를 초기화하시겠습니까?`,
+        ),
+      disabled: false,
+    },
+    {
+      label: '유저 추방',
+      onClick: () =>
+        alert(`${selectedMembers.length}명의 멤버를 추방하시겠습니까?`),
+      disabled: false,
+    },
+    {
+      label: '변경 기수',
+      onClick: () => alert('기수를 변경하시겠습니까?'),
+      disabled: false,
+    },
+    {
+      label: '직접 입력',
+      onClick: () => alert('직접 입력 기능을 실행합니다.'), // 나중에 수정
+      disabled: false,
+    },
+  ];
   return (
     <SelectedTopBarWrapper>
       <TitleContainer>
@@ -44,76 +93,20 @@ const SelectedTopBar: React.FC = () => {
         <Title>{`${selectedMembers.length}명 선택됨`}</Title>
       </TitleContainer>
       <ButtonGroup>
-        <Button
-          color="#fff"
-          textcolor="#000"
-          width="99px"
-          height="48px"
-          borderRadius="4px"
-          onClick={() => alert('가입 승인')}
-        >
-          가입 승인
-        </Button>
-        <Button
-          color="#fff"
-          textcolor="#000"
-          width="99px"
-          height="48px"
-          borderRadius="4px"
-          onClick={() => alert('가입 승인')}
-        >
-          관리자로 변경
-        </Button>
-        <Button
-          color="#fff"
-          textcolor="#000"
-          width="99px"
-          height="48px"
-          borderRadius="4px"
-          onClick={() => alert('가입 승인')}
-        >
-          사용자로 변경
-        </Button>
-        <Button
-          color="#fff"
-          textcolor="#000"
-          width="99px"
-          height="48px"
-          borderRadius="4px"
-          onClick={() => alert('가입 승인')}
-        >
-          비밀번호 초기화
-        </Button>
-        <Button
-          color="#fff"
-          textcolor="#000"
-          width="99px"
-          height="48px"
-          borderRadius="4px"
-          onClick={() => alert('가입 승인')}
-        >
-          유저 추방
-        </Button>
-        <Button
-          color="#fff"
-          textcolor="#000"
-          width="99px"
-          height="48px"
-          borderRadius="4px"
-          onClick={() => alert('가입 승인')}
-        >
-          변경 기수
-        </Button>
-        <Button
-          color="#fff"
-          textcolor="#000"
-          width="99px"
-          height="48px"
-          borderRadius="4px"
-          onClick={() => alert('가입 승인')}
-        >
-          직접 입력
-        </Button>
+        {buttons.map(({ label, onClick, disabled }) => (
+          <Button
+            key={label}
+            color="#fff"
+            textcolor="#000"
+            width="99px"
+            height="48px"
+            borderRadius="4px"
+            onClick={onClick}
+            disabled={disabled}
+          >
+            {label}
+          </Button>
+        ))}
       </ButtonGroup>
     </SelectedTopBarWrapper>
   );
