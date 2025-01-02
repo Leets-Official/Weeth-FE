@@ -1,7 +1,7 @@
 import Button from '@/components/Button/Button';
+import theme from '@/styles/theme';
 import styled from 'styled-components';
 import { useMemberContext } from './context/MemberContext';
-import theme from '@/styles/theme';
 
 const ButtonGroup = styled.div`
   display: flex;
@@ -18,10 +18,6 @@ const Container = styled.div`
 `;
 const SelectedTopBar: React.FC = () => {
   const { selectedMembers, setSelectedMembers } = useMemberContext();
-
-  const handleClearSelection = () => {
-    setSelectedMembers([]);
-  };
 
   return (
     <Container>
