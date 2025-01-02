@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useMemo, useState } from 'react';
 
 export type MemberData = {
   status: '승인 완료' | '대기 중' | '추방';
@@ -91,13 +91,18 @@ export const MemberProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const [selectedMembers, setSelectedMembers] = useState<string[]>([]);
 
+  const value = useMemo(
+    () => ({
+      members,
+      setMembers,
+      selectedMembers,
+      setSelectedMembers,
+    }),
+    [members, selectedMembers],
+  );
+
   return (
-    <MemberContext.Provider
-      // eslint-disable-next-line react/jsx-no-constructed-context-values
-      value={{ members, setMembers, selectedMembers, setSelectedMembers }}
-    >
-      {children}
-    </MemberContext.Provider>
+    <MemberContext.Provider value={value}>{children}</MemberContext.Provider>
   );
 };
 

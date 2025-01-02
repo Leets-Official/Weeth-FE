@@ -2,21 +2,15 @@ import styled from 'styled-components';
 import MemberListTableHeader from './MemberListTableHeader';
 import MemberListTableRow from './MemberListTableRow';
 import StatusList from './StatusList';
+import { useMemberContext } from './context/MemberContext';
 
 export interface Column {
   key: string;
   header: string;
 }
 
-export interface MemberData {
-  studentId: string;
-  status: '승인 완료' | '대기 중' | '추방';
-  [key: string]: any;
-}
-
 export interface MemberListTableProps {
   columns: Column[];
-  data: MemberData[];
 }
 
 export const TableWrapper = styled.div`
@@ -35,7 +29,8 @@ export const TableContainer = styled.div`
   box-sizing: border-box;
 `;
 
-const MemberListTable: React.FC<MemberListTableProps> = ({ columns, data }) => {
+const MemberListTable: React.FC<MemberListTableProps> = ({ columns }) => {
+  const { members } = useMemberContext(); // Cotext에서 멤버 데이터 가져오기
   return (
     <TableContainer>
       <StatusList />
