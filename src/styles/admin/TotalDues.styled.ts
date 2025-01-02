@@ -9,7 +9,7 @@ export const TotalDuesWrapper = styled.div`
 `;
 
 export const TopDues = styled.div`
-  width: 95%;
+  width: 100%;
   height: 72px;
   border-bottom: 1px solid #dedede;
   font-size: 24px;
