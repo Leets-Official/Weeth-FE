@@ -30,7 +30,7 @@ export const TableContainer = styled.div`
 `;
 
 const MemberListTable: React.FC<MemberListTableProps> = ({ columns }) => {
-  const { members } = useMemberContext(); // Cotext에서 멤버 데이터 가져오기
+  const { members } = useMemberContext(); // Context에서 멤버 데이터 가져오기
   return (
     <TableContainer>
       <StatusList />
@@ -38,7 +38,7 @@ const MemberListTable: React.FC<MemberListTableProps> = ({ columns }) => {
         <table>
           <MemberListTableHeader columns={columns} />
           <tbody>
-            {data.map((row) => (
+            {members.map((row) => (
               <MemberListTableRow
                 key={row.studentId}
                 columns={columns}

@@ -113,4 +113,5 @@ export const useMemberContext = () => {
       'useMemberContext는 MemberProvider 내에서만 사용할 수 있습니다',
     );
   }
+  return context;
 };
