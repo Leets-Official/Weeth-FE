@@ -1,65 +1,18 @@
-import styled from 'styled-components';
-import theme from '@/styles/theme';
+import {
+  Wrapper,
+  Title,
+  CardinalWrapper,
+  CardinalButtonWrapper,
+  DuesInputWrapper,
+  DescriptionWrapper,
+  ButtonWrapperWithDescription,
+  Description,
+  ButtonWrapper,
+} from '@/styles/admin/DuesReigsterDropDown.styled';
 import { useState } from 'react';
 import Cardinal from './Cardinal';
 import DuesInput from './DuesInput';
 import Button from './Button';
-
-const Wrapper = styled.div`
-  width: 90%;
-  background-color: white;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  padding: 30px;
-  box-sizing: border-box;
-`;
-
-const Title = styled.div`
-  font-family: ${theme.font.regular};
-  font-size: 16px;
-  margin-left: 10px;
-  margin-bottom: 10px;
-`;
-
-const CardinalWrapper = styled.div`
-  display: flex;
-  width: 100%;
-  gap: 20px;
-`;
-
-const CarinalButtonWrapper = styled.div`
-  flex;3
-`;
-
-const DuesInputWrapper = styled.div`
-  flex: 7;
-`;
-
-const DescriptionWrapper = styled.div`
-  margin-top: 30px;
-`;
-
-const Description = styled.div`
-  color: red;
-  font-family: ${theme.font.regular};
-  font-size: 18px;
-  margin-left: 100px;
-  margin-top: 15px;
-`;
-
-const ButtonWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 10px;
-`;
-
-const ButtonWrapperWithDescription = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 20px;
-  gap: 10px;
-`;
 
 const DuesReigsterDropDown: React.FC = () => {
   const [selectedCardinal, setSelectedCardinal] = useState('기수');
@@ -67,12 +20,12 @@ const DuesReigsterDropDown: React.FC = () => {
     <Wrapper>
       <Title>기수</Title>
       <CardinalWrapper>
-        <CarinalButtonWrapper>
+        <CardinalButtonWrapper>
           <Cardinal
             selectedCardinal={selectedCardinal}
             setSelectedCardinal={setSelectedCardinal}
           />
-        </CarinalButtonWrapper>
+        </CardinalButtonWrapper>
         <DuesInputWrapper>
           <DuesInput width="95%" placeholder="직접 입력" />
         </DuesInputWrapper>
