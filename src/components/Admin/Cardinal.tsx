@@ -7,19 +7,6 @@ interface CardinalProps {
   setSelectedCardinal: (cardinal: string) => void;
 }
 
-const CardinalWrapper = styled.div`
-  width: 166px;
-  height: 80px;
-  background-color: #ffffff;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  border-radius: 5px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  margin-bottom: 30px;
-`;
-
 const CardinalButton = styled.div`
   width: 118px;
   height: 48px;
@@ -38,8 +25,10 @@ const DropdownMenu = styled.div`
   border: 1px solid #dedede;
   border-radius: 5px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  z-index: 1;
+  z-index: 3;
+  position: absolute;
 `;
+
 const DropdownItem = styled.div`
   width: 100%;
   height: 100%;
@@ -70,7 +59,7 @@ const CardinalDropdown: React.FC<CardinalProps> = ({
   };
 
   return (
-    <CardinalWrapper>
+    <>
       <CardinalButton onClick={toggleDropdown}>
         <div>{selectedCardinal}</div>
         <ArrowIcon
@@ -88,7 +77,7 @@ const CardinalDropdown: React.FC<CardinalProps> = ({
           ))}
         </DropdownMenu>
       )}
-    </CardinalWrapper>
+    </>
   );
 };
 
