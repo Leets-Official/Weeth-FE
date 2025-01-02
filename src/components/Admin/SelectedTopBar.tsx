@@ -99,8 +99,8 @@ const SelectedTopBar: React.FC = () => {
             key={label}
             color="#fff"
             textcolor="#000"
-            width="99px"
-            height="48px"
+            width="95px"
+            height="43px"
             borderRadius="4px"
             onClick={onClick}
             disabled={disabled}
