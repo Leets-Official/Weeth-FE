@@ -1,4 +1,4 @@
-import { UserContext } from '@/api/UserContext';
+import useGetUserInfo from '@/api/useGetUserInfo';
 import icCardinal from '@/assets/images/ic_cardinal.svg';
 import icDepartment from '@/assets/images/ic_department.svg';
 import icEmail from '@/assets/images/ic_mail.svg';
@@ -8,7 +8,6 @@ import icPosition from '@/assets/images/ic_position.svg';
 import icStudentId from '@/assets/images/ic_studentID.svg';
 import InfoComponent from '@/components/Member/InfoComponent';
 import theme from '@/styles/theme';
-import { useContext } from 'react';
 import styled from 'styled-components';
 
 const InfoWrapper = styled.div`
@@ -23,9 +22,9 @@ const Error = styled.div`
 `;
 
 const MyInfo = () => {
-  const { userData, error } = useContext(UserContext);
+  const { userInfo } = useGetUserInfo();
 
-  if (!userData && !error) {
+  if (!userInfo) {
     return null;
   }
 
@@ -34,47 +33,47 @@ const MyInfo = () => {
       src: icName,
       alt: '이름',
       index: '이름',
-      value: userData.name,
+      value: userInfo.name,
     },
     {
       src: icStudentId,
       alt: '학번',
       index: '학번',
-      value: userData.studentId,
+      value: userInfo.studentId,
     },
     {
       src: icDepartment,
       alt: '학과',
       index: '학과',
-      value: userData.department,
+      value: userInfo.department,
     },
     {
       src: icPhone,
       alt: '핸드폰',
       index: '핸드폰',
-      value: userData.tel,
+      value: userInfo.tel,
     },
     {
       src: icCardinal,
       alt: '기수',
       index: '기수',
-      value: userData.cardinals,
+      value: userInfo.cardinals,
     },
     {
       src: icPosition,
       alt: '역할',
       index: '역할',
-      value: userData.position,
+      value: userInfo.position,
     },
     {
       src: icEmail,
       alt: '메일',
       index: '메일',
-      value: userData.email,
+      value: userInfo.email,
     },
   ];
 
-  return !error && userData ? (
+  return userInfo ? (
     <InfoWrapper>
       {myInfo.map((info) => (
         <InfoComponent

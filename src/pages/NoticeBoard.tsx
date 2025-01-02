@@ -1,12 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import PostListItem from '@/components/Board/PostListItem';
-import NoticeHeader from '@/components/Board/NoticeHeader';
-import EditDelModal from '@/components/Modal/EditDelModal';
 import formatDate from '@/hooks/formatDate';
 import theme from '@/styles/theme';
 import useGetBoardInfo from '@/api/useGetBoardInfo';
 import * as S from '@/styles/board/PostDetail.styled';
+import Header from '@/components/Header/Header';
 
 const Container = styled.div`
   display: flex;
@@ -84,7 +83,7 @@ const NoticeBoard = () => {
 
   return (
     <Container>
-      <NoticeHeader showModal={false} ModalComponent={EditDelModal} />
+      <Header title="공지사항" RightButtonType="none" />
       <S.InfoContainer>
         <S.TextContainer>
           <S.InfoTitleText>스터디 게시판</S.InfoTitleText>

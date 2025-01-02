@@ -1,5 +1,4 @@
 import deleteUser from '@/api/deleteUser';
-import UserAPI from '@/api/UserAPI';
 import icEdit from '@/assets/images/ic_edit.svg';
 import icLogout from '@/assets/images/ic_logout_white.svg';
 import Header from '@/components/Header/Header';
@@ -29,7 +28,6 @@ const MyPage = () => {
 
   return (
     <S.StyledDetails>
-      <UserAPI />
       <Header title="MY" RightButtonType="none" />
       <MyInfo />
       <S.ImgButton
