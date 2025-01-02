@@ -1,27 +1,48 @@
 import Button from '@/components/Button/Button';
 import theme from '@/styles/theme';
+import backarrow from '@/assets/images/ic_admin_backarrow.svg';
 import styled from 'styled-components';
 import { useMemberContext } from './context/MemberContext';
+import { Title } from './TopBar';
 
 const ButtonGroup = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 12px;
+  padding-right: 20px;
 `;
 
-const Container = styled.div`
-  display: flex;
-  justify-content: space-between;
+const SelectedTopBarWrapper = styled.div`
+  width: 100%;
   background-color: ${theme.color.main};
   color: ${theme.color.gray[100]};
+  display: flex;
+  justify-content: space-between;
+`;
+
+const TitleContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  padding-left: 55px;
+`;
+
+const BackArrow = styled.img`
+  cursor: pointer;
 `;
 const SelectedTopBar: React.FC = () => {
   const { selectedMembers, setSelectedMembers } = useMemberContext();
 
+  const handleBackClick = () => {
+    setSelectedMembers([]);
+  };
   return (
-    <Container>
-      <div>{`${selectedMembers.length}명 선택됨`}</div>
+    <SelectedTopBarWrapper>
+      <TitleContainer>
+        <BackArrow src={backarrow} alt="뒤로가기" onClick={handleBackClick} />
+        <Title>{`${selectedMembers.length}명 선택됨`}</Title>
+      </TitleContainer>
       <ButtonGroup>
         <Button
           color="#fff"
@@ -94,7 +115,7 @@ const SelectedTopBar: React.FC = () => {
           직접 입력
         </Button>
       </ButtonGroup>
-    </Container>
+    </SelectedTopBarWrapper>
   );
 };
 
