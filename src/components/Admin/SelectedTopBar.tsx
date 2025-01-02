@@ -86,6 +86,7 @@ const SelectedTopBar: React.FC = () => {
       disabled: false,
     },
   ];
+
   return (
     <SelectedTopBarWrapper>
       <TitleContainer>
