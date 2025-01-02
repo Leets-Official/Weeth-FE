@@ -26,19 +26,19 @@ const data: ExpenditureRecordProps[] = [
 ];
 
 const Container = styled.div`
+  width: 95%;
   display: flex;
   flex-direction: column;
   gap: 16px;
 `;
 
 const Wrapper = styled.div`
-  width: 734px;
   background-color: #fff;
   border: 1px solid #dedede;
 `;
 
 const DateWrapper = styled.div`
-  width: 734px;
+  width: 100%
   height: 48px;
   border-bottom: 1px solid #dedede;
   display: flex;
@@ -99,7 +99,6 @@ const ExpenditureRecord: React.FC<ExpenditureRecordProps> = () => {
             </div>
             <ExpenditureMaster>
               <Master>{item.master}</Master>
-
               <img src={Receipt} alt="Receipt" />
             </ExpenditureMaster>
           </ExpenditureWrapper>

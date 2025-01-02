@@ -15,6 +15,7 @@ const BoxWrapper = styled.div`
   display: flex;
   gap: 15px;
   justify-content: center;
+  padding: 10px;
 `;
 
 const CardinalWrapper = styled.div`
@@ -22,7 +23,7 @@ const CardinalWrapper = styled.div`
 `;
 
 const InsideDues = styled.div`
-  width: 766px;
+  width: 100%;
   height: 274px;
   font-size: 24px;
   font-family: ${theme.font.semiBold};
