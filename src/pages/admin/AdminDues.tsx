@@ -5,7 +5,7 @@ import Cardinal from '@/components/Admin/Cardinal';
 import { PageWrapper } from '@/styles/admin/AdminLayout.styled';
 import TotalDues from '@/components/Admin/TotalDues';
 import Expenditure from '@/components/Admin/Expenditure';
-
+import DuesReigsterAdd from '@/components/Admin/DuesReigsterAdd';
 import { useState } from 'react';
 import DuesReigster from '@/components/Admin/DuesReigster';
 
@@ -21,6 +21,7 @@ const Wrapper = styled.div`
   width: 100%;
   display: flex;
   flex-direction: row;
+  margin-bottom: 20px;
 `;
 
 const Container = styled.div`
@@ -30,6 +31,19 @@ const Container = styled.div`
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
+`;
+
+const CardinalWrapper = styled.div`
+  width: 166px;
+  height: 80px;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
 `;
 
 const DuesWrapper = styled.div`
@@ -77,10 +91,12 @@ const AdminDues: React.FC = () => {
         />
         <Wrapper>
           <Container>
-            <Cardinal
-              selectedCardinal={selectedCardinal}
-              setSelectedCardinal={setSelectedCardinal}
-            />
+            <CardinalWrapper>
+              <Cardinal
+                selectedCardinal={selectedCardinal}
+                setSelectedCardinal={setSelectedCardinal}
+              />
+            </CardinalWrapper>
             <DuesWrapper>
               <TotalDues getDuesText={getDuesText} />
               <Expenditure />
@@ -88,6 +104,7 @@ const AdminDues: React.FC = () => {
           </Container>
           <DuesReigsterWrapper>
             <DuesReigster />
+            <DuesReigsterAdd />
           </DuesReigsterWrapper>
         </Wrapper>
       </ContentWrapper>
