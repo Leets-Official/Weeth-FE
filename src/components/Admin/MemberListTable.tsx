@@ -2,10 +2,10 @@ import styled from 'styled-components';
 import MemberListTableHeader from './MemberListTableHeader';
 import MemberListTableRow from './MemberListTableRow';
 import StatusList from './StatusList';
-import { useMemberContext } from './context/MemberContext';
+import { MemberData, useMemberContext } from './context/MemberContext';
 
 export interface Column {
-  key: string;
+  key: keyof MemberData;
   header: string;
 }
 
@@ -30,7 +30,7 @@ export const TableContainer = styled.div`
 `;
 
 const MemberListTable: React.FC<MemberListTableProps> = ({ columns }) => {
-  const { members } = useMemberContext(); // Context에서 멤버 데이터 가져오기
+  const { members } = useMemberContext();
   return (
     <TableContainer>
       <StatusList />

@@ -1,10 +1,10 @@
-import { useState } from 'react';
 import styled from 'styled-components';
 import CheckBox from '@/assets/images/ic_admin_checkbox.svg';
 import UnCheckBox from '@/assets/images/ic_admin_uncheckbox.svg';
 import MeatBallSvg from '@/assets/images/ic_admin_meatball.svg';
 import { statusColors } from './StatusIndicator';
-import { MemberData, Column } from './MemberListTable';
+import { MemberData, useMemberContext } from './context/MemberContext';
+import { Column } from './MemberListTable';
 
 const Row = styled.tr`
   border-bottom: 1px solid #dedede;
@@ -33,16 +33,21 @@ interface TableRowProps {
 }
 
 const MemberListTableRow: React.FC<TableRowProps> = ({ data, columns }) => {
-  const statusColor = statusColors[data.status];
-  const [isChecked, setIsChecked] = useState(false);
+  const { selectedMembers, setSelectedMembers } = useMemberContext();
+
+  const isChecked = selectedMembers.includes(data.studentId);
 
   const onClickToCheckBox = () => {
-    setIsChecked((prevState) => !prevState);
+    setSelectedMembers((prevSelected) =>
+      isChecked
+        ? prevSelected.filter((id) => id !== data.studentId)
+        : [...prevSelected, data.studentId],
+    );
   };
 
   return (
     <Row>
-      <StatusCell statusColor={statusColor} />
+      <StatusCell statusColor={statusColors[data.status]} />
 
       <SvgWrapper onClick={onClickToCheckBox}>
         <img

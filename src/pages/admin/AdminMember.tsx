@@ -1,5 +1,5 @@
 import CardinalInfo from '@/components/Admin/CardinalInfo';
-import MemberListTable from '@/components/Admin/MemberListTable';
+import MemberListTable, { Column } from '@/components/Admin/MemberListTable';
 import NavMenu from '@/components/Admin/NavMenu';
 import SearchBar from '@/components/Admin/SearchBar';
 import TopBar from '@/components/Admin/TopBar';
@@ -10,7 +10,7 @@ import {
   Container,
 } from '@/styles/admin/AdminLayout.styled';
 
-const columns = [
+const columns: Column[] = [
   { key: 'name', header: '이름' },
   { key: 'role', header: '역할' },
   { key: 'major', header: '학과' },
@@ -37,7 +37,7 @@ const AdminMember: React.FC = () => {
           <Container>
             <SearchBar />
             <CardinalInfo />
-            <MemberListTable columns={columns} data={data} />
+            <MemberListTable columns={columns} />
           </Container>
         </ContentWrapper>
       </PageWrapper>
