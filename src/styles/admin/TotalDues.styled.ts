@@ -6,6 +6,11 @@ export const TotalDuesWrapper = styled.div`
   background-color: #fff;
   border-radius: 5px;
   border: 1px solid #dedede;
+  margin-top: 20px;
+
+  &:last-child {
+    margin-bottom: 20px;
+  }
 `;
 
 export const TopDues = styled.div`
