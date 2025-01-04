@@ -6,6 +6,7 @@ import theme from '@/styles/theme';
 import useGetBoardInfo from '@/api/useGetBoardInfo';
 import * as S from '@/styles/board/PostDetail.styled';
 import Header from '@/components/Header/Header';
+import { useNavigate } from 'react-router-dom';
 
 const Container = styled.div`
   display: flex;
@@ -41,6 +42,7 @@ interface Content {
 }
 
 const NoticeBoard = () => {
+  const navigate = useNavigate();
   // TODO: 어드민인지 확인해서 true false 변경해주기
   const isPostButtonVisible = true;
 
@@ -99,6 +101,7 @@ const NoticeBoard = () => {
             title={post.title}
             content={post.content}
             totalComments={post.commentCount}
+            onClick={() => navigate(`/notice/${post.id}`)}
           />
           <Line />
         </PostList>
