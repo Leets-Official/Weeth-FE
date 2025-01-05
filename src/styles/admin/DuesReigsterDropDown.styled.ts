@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import theme from '../theme';
+import { flexMixin } from './DuesReigsterAdd.styled';
 
 export const Wrapper = styled.div`
   width: 90%;
@@ -23,12 +24,10 @@ export const CardinalWrapper = styled.div`
   gap: 20px;
 `;
 
-export const CardinalButtonWrapper = styled.div`
-  flex;3
-`;
+export const CardinalButtonWrapper = styled.div``;
 
 export const DuesInputWrapper = styled.div`
-  flex: 7;
+  ${flexMixin(7)};
 `;
 
 export const DescriptionWrapper = styled.div`

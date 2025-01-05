@@ -1,5 +1,9 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import theme from '../theme';
+
+export const flexMixin = (flexValue: number) => css`
+  flex: ${flexValue};
+`;
 
 export const Wrapper = styled.div`
   width: 90%;
@@ -41,7 +45,7 @@ export const CardinalWrapper = styled.div`
 export const CardinalButtonWrapper = styled.div``;
 
 export const DuesInputWrapper = styled.div`
-  flex: 7;
+  ${flexMixin(7)};
 `;
 export const DescriptionWrapper = styled.div`
   margin-left: 30px;
@@ -53,10 +57,8 @@ export const FileWrapper = styled.div`
   gap: 5px;
 `;
 
-export const ButtonWrapper = styled.div`
-  flex;3
-`;
+export const ButtonWrapper = styled.div``;
 
 export const InputWrapper = styled.div`
-  flex: 7;
+  ${flexMixin(7)};
 `;
