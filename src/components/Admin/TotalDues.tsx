@@ -33,6 +33,30 @@ const InsideDues = styled.div`
 `;
 
 const TotalDues: React.FC<TotalDuesProps> = ({ getDuesText }) => {
+  const boxData = [
+    {
+      id: 'box1',
+      title: '원금',
+      description: '0원',
+      last: '0000.00.00. 00:00',
+      color: '#00DDA8',
+    },
+    {
+      id: 'box2',
+      title: '현재',
+      description: '0원',
+      last: '2024.10.24. 15:13',
+      color: '#2f2f2f',
+    },
+    {
+      id: 'box3',
+      title: '사용',
+      description: '0원',
+      last: '0000.00.00. 00:00',
+      color: '#2f2f2f',
+    },
+  ];
+
   return (
     <TotalDuesWrapper>
       <TopDues>
@@ -41,24 +65,15 @@ const TotalDues: React.FC<TotalDuesProps> = ({ getDuesText }) => {
       <InsideDues>
         <CardinalWrapper>{getDuesText()}</CardinalWrapper>
         <BoxWrapper>
-          <Box
-            title="원금"
-            description="0원"
-            last="0000.00.00. 00:00"
-            color="#00DDA8"
-          />
-          <Box
-            title="현재"
-            description="0원"
-            last="2024.10.24. 15:13"
-            color="#2f2f2f"
-          />
-          <Box
-            title="사용"
-            description="0원"
-            last="0000.00.00. 00:00"
-            color="#2f2f2f"
-          />
+          {boxData.map((box) => (
+            <Box
+              key={box.id}
+              title={box.title}
+              description={box.description}
+              last={box.last}
+              color={box.color}
+            />
+          ))}
         </BoxWrapper>
       </InsideDues>
     </TotalDuesWrapper>
