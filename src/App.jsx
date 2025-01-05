@@ -58,9 +58,9 @@ const App = () => {
         <Route path="/receipt" element={<Receipt />} />
 
         <Route path="/notice" element={<NoticeBoard />} />
-        <Route path="/notice/detail" element={<NoticePostDetail />} />
+        <Route path="/notice/:postId" element={<NoticePostDetail />} />
         <Route path="/study" element={<StudyBoard />} />
-        <Route path="/study/detail" element={<StudyPostDetail />} />
+        <Route path="/study/:postId" element={<StudyPostDetail />} />
         <Route path="/:type/post" element={<BoardPost />} />
 
         <Route path="/admin/attendance" element={<AdminAttendance />} />

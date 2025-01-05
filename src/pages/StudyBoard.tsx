@@ -6,6 +6,7 @@ import theme from '@/styles/theme';
 import useGetBoardInfo from '@/api/useGetBoardInfo';
 import * as S from '@/styles/board/PostDetail.styled';
 import Header from '@/components/Header/Header';
+import { useNavigate } from 'react-router-dom';
 
 const Container = styled.div`
   display: flex;
@@ -21,14 +22,14 @@ const Line = styled.div`
   margin-top: 10px;
 `;
 
-const PostList = styled.div`
-  margin: 5px 25px 0 25px;
-`;
-
 const Text = styled.div`
   text-align: center;
   margin: 10px;
   font-family: ${theme.font.semiBold};
+`;
+
+const PostListContainer = styled.div`
+  margin: 5px 25px 0 25px;
 `;
 
 interface Content {
@@ -41,6 +42,7 @@ interface Content {
 }
 
 const StudyBoard = () => {
+  const navigate = useNavigate();
   const isPostButtonVisible = true;
 
   const [posts, setPosts] = useState<Content[]>([]);
@@ -91,16 +93,17 @@ const StudyBoard = () => {
         {isPostButtonVisible && <S.PostingButton>글쓰기</S.PostingButton>}
       </S.InfoContainer>
       {posts.map((post) => (
-        <PostList key={post.id}>
+        <PostListContainer key={post.id}>
           <PostListItem
             name={post.name}
             time={formatDate(post.time)}
             title={post.title}
             content={post.content}
             totalComments={post.commentCount}
+            onClick={() => navigate(`/study/${post.id}`)}
           />
           <Line />
-        </PostList>
+        </PostListContainer>
       ))}
       {hasMore && (
         <div
