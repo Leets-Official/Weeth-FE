@@ -38,14 +38,11 @@ export const CardinalWrapper = styled.div`
   box-sizing: border-box;
 `;
 
-export const CardinalButtonWrapper = styled.div`
-  flex;3
-`;
+export const CardinalButtonWrapper = styled.div``;
 
 export const DuesInputWrapper = styled.div`
   flex: 7;
 `;
-
 export const DescriptionWrapper = styled.div`
   margin-left: 30px;
 `;

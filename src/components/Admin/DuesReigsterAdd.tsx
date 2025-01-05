@@ -18,6 +18,28 @@ import Button from './Button';
 const DuesReigsterAdd: React.FC = () => {
   const [selectedCardinal, setSelectedCardinal] = useState('기수');
 
+  const inputFields = [
+    {
+      id: 'date',
+      title: '일자',
+      placeholder: '- 없이 숫자만 입력',
+      width: '91%',
+    },
+    {
+      id: 'content',
+      title: '사용 내용',
+      placeholder: 'ex)강의 구매',
+      width: '91%',
+    },
+    {
+      id: 'amount',
+      title: '사용 금액',
+      placeholder: '사용 금액 입력',
+      width: '91%',
+    },
+    { id: 'location', title: '사용처', placeholder: 'ex)인프런', width: '91%' },
+  ];
+
   return (
     <Wrapper>
       <Title>회비 사용 내역 추가</Title>
@@ -33,22 +55,14 @@ const DuesReigsterAdd: React.FC = () => {
           <DuesInput width="95%" placeholder="직접 입력" />
         </DuesInputWrapper>
       </CardinalWrapper>
-      <SubTitle>일자</SubTitle>
-      <DescriptionWrapper>
-        <DuesInput width="91%" placeholder="- 없이 숫자만 입력" />
-      </DescriptionWrapper>
-      <SubTitle>사용 내용</SubTitle>
-      <DescriptionWrapper>
-        <DuesInput width="91%" placeholder="ex)강의 구매" />
-      </DescriptionWrapper>
-      <SubTitle>사용 금액</SubTitle>
-      <DescriptionWrapper>
-        <DuesInput width="91%" placeholder="사용 금액 입력" />
-      </DescriptionWrapper>
-      <SubTitle>사용처</SubTitle>
-      <DescriptionWrapper>
-        <DuesInput width="91%" placeholder="ex)인프런" />
-      </DescriptionWrapper>
+      {inputFields.map((field) => (
+        <div key={field.id}>
+          <SubTitle>{field.title}</SubTitle>
+          <DescriptionWrapper>
+            <DuesInput width={field.width} placeholder={field.placeholder} />
+          </DescriptionWrapper>
+        </div>
+      ))}
       <SubTitle>영수증 첨부</SubTitle>
       <DescriptionWrapper>
         <FileWrapper>
