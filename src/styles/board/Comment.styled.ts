@@ -7,6 +7,7 @@ export const CommentContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
+  margin-top: 10px;
 `;
 
 export const CommentContentContainer = styled.div`

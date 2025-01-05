@@ -1,12 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
-import Info from '@/components/Board/Info';
 import styled from 'styled-components';
 import PostListItem from '@/components/Board/PostListItem';
-import NoticeHeader from '@/components/Board/NoticeHeader';
-import EditDelModal from '@/components/Modal/EditDelModal';
 import formatDate from '@/hooks/formatDate';
 import theme from '@/styles/theme';
 import useGetBoardInfo from '@/api/useGetBoardInfo';
+import * as S from '@/styles/board/PostDetail.styled';
+import Header from '@/components/Header/Header';
 
 const Container = styled.div`
   display: flex;
@@ -42,7 +41,7 @@ interface Content {
 }
 
 const StudyBoard = () => {
-  const isPostBtn = true;
+  const isPostButtonVisible = true;
 
   const [posts, setPosts] = useState<Content[]>([]);
   const [hasMore, setHasMore] = useState(true);
@@ -83,8 +82,14 @@ const StudyBoard = () => {
 
   return (
     <Container>
-      <NoticeHeader showModal={false} ModalComponent={EditDelModal} />
-      <Info title="스터디 게시판" isEditButtonVisible={isPostBtn} />
+      <Header title="스터디 게시판" RightButtonType="none" />
+      <S.InfoContainer>
+        <S.TextContainer>
+          <S.InfoTitleText>스터디 게시판</S.InfoTitleText>
+          <S.InfoText>자세한 내용을 보려면 게시물을 클릭하세요.</S.InfoText>
+        </S.TextContainer>
+        {isPostButtonVisible && <S.PostingButton>글쓰기</S.PostingButton>}
+      </S.InfoContainer>
       {posts.map((post) => (
         <PostList key={post.id}>
           <PostListItem

@@ -3,7 +3,7 @@ import theme from '../theme';
 
 export const Wrapper = styled.div`
   width: 815px;
-  backgroun-color: #ffffff;
+  background-color: #ffffff;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -42,7 +42,7 @@ export const Edit = styled.div`
   width: 64px;
   height: 48px;
   background-color: #2f2f2f;
-  color: white;
+  color: ${theme.color.gray[100]};
   border-radius: 5px;
   display: flex;
   justify-content: center;
@@ -59,7 +59,7 @@ export const CancelButton = styled.div`
   width: 64px;
   height: 48px;
   background-color: #a6a6a6;
-  color: white;
+  color: ${theme.color.gray[100]};
   border-radius: 5px;
   display: flex;
   justify-content: center;
@@ -71,7 +71,7 @@ export const SaveButton = styled.div`
   width: 64px;
   height: 48px;
   background-color: #2f2f2f;
-  color: white;
+  color: ${theme.color.gray[100]};
   border-radius: 5px;
   display: flex;
   justify-content: center;
@@ -174,7 +174,7 @@ export const CheckGap = styled.div`
   gap: 8px;
 `;
 
-export const StatusWarpper = styled.div`
+export const StatusWrapper = styled.div`
   display: flex;
   width: 100%;
   height: 100%;
@@ -182,7 +182,7 @@ export const StatusWarpper = styled.div`
 
 export const StatusBox = styled.div`
   flex: 1;
-  heigth: 100%;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
