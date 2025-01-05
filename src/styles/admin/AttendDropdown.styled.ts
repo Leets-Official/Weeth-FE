@@ -42,7 +42,7 @@ export const Edit = styled.div`
   width: 64px;
   height: 48px;
   background-color: #2f2f2f;
-  color: white;
+  color: ${theme.color.gray[100]};
   border-radius: 5px;
   display: flex;
   justify-content: center;
@@ -59,7 +59,7 @@ export const CancelButton = styled.div`
   width: 64px;
   height: 48px;
   background-color: #a6a6a6;
-  color: white;
+  color: ${theme.color.gray[100]};
   border-radius: 5px;
   display: flex;
   justify-content: center;
@@ -71,7 +71,7 @@ export const SaveButton = styled.div`
   width: 64px;
   height: 48px;
   background-color: #2f2f2f;
-  color: white;
+  color: ${theme.color.gray[100]};
   border-radius: 5px;
   display: flex;
   justify-content: center;
