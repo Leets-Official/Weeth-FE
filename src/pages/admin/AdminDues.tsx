@@ -5,9 +5,9 @@ import Cardinal from '@/components/Admin/Cardinal';
 import { PageWrapper } from '@/styles/admin/AdminLayout.styled';
 import TotalDues from '@/components/Admin/TotalDues';
 import Expenditure from '@/components/Admin/Expenditure';
-import DuesReigsterAdd from '@/components/Admin/DuesRegisterAdd';
+import DuesRegisterAdd from '@/components/Admin/DuesRegisterAdd';
 import { useState } from 'react';
-import DuesReigster from '@/components/Admin/DuesRegister';
+import DuesRegister from '@/components/Admin/DuesRegister';
 
 const ContentWrapper = styled.div`
   display: flex;
@@ -57,7 +57,7 @@ const DuesWrapper = styled.div`
   gap: 20px;
 `;
 
-const DuesReigsterWrapper = styled.div`
+const DuesRegisterWrapper = styled.div`
   width: 50%;
 `;
 
@@ -102,10 +102,10 @@ const AdminDues: React.FC = () => {
               <Expenditure />
             </DuesWrapper>
           </Container>
-          <DuesReigsterWrapper>
-            <DuesReigster />
-            <DuesReigsterAdd />
-          </DuesReigsterWrapper>
+          <DuesRegisterWrapper>
+            <DuesRegister />
+            <DuesRegisterAdd />
+          </DuesRegisterWrapper>
         </Wrapper>
       </ContentWrapper>
     </PageWrapper>

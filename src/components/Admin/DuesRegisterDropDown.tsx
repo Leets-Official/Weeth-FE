@@ -8,13 +8,13 @@ import {
   ButtonWrapperWithDescription,
   Description,
   ButtonWrapper,
-} from '@/styles/admin/DuesReigsterDropDown.styled';
+} from '@/styles/admin/DuesRegisterDropDown.styled';
 import { useState } from 'react';
 import Cardinal from './Cardinal';
 import DuesInput from './DuesInput';
 import Button from './Button';
 
-const DuesReigsterDropDown: React.FC = () => {
+const DuesRegisterDropDown: React.FC = () => {
   const [selectedCardinal, setSelectedCardinal] = useState('기수');
   return (
     <Wrapper>
@@ -52,4 +52,4 @@ const DuesReigsterDropDown: React.FC = () => {
   );
 };
 
-export default DuesReigsterDropDown;
+export default DuesRegisterDropDown;

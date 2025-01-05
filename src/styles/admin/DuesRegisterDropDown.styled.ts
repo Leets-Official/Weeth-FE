@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import theme from '../theme';
-import { flexMixin } from './DuesReigsterAdd.styled';
+import { flexMixin } from './DuesRegisterAdd.styled';
 
 export const Wrapper = styled.div`
   width: 90%;

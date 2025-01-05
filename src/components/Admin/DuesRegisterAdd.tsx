@@ -9,13 +9,13 @@ import {
   FileWrapper,
   ButtonWrapper,
   InputWrapper,
-} from '@/styles/admin/DuesReigsterAdd.styled';
+} from '@/styles/admin/DuesRegisterAdd.styled';
 import { useState } from 'react';
 import Cardinal from './Cardinal';
 import DuesInput from './DuesInput';
 import Button from './Button';
 
-const DuesReigsterAdd: React.FC = () => {
+const DuesRegisterAdd: React.FC = () => {
   const [selectedCardinal, setSelectedCardinal] = useState('기수');
 
   const inputFields = [
@@ -78,4 +78,4 @@ const DuesReigsterAdd: React.FC = () => {
   );
 };
 
-export default DuesReigsterAdd;
+export default DuesRegisterAdd;

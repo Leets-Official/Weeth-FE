@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import theme from '@/styles/theme';
 import { useState } from 'react';
 import DownButton from '@/assets/images/ic_admin_cardinal.svg';
-import DuesReigsterDropDown from './DuesRegisterDropDown';
+import DuesRegisterDropDown from './DuesRegisterDropDown';
 
 const Wrapper = styled.div`
   width: 90%;
@@ -25,7 +25,7 @@ const Title = styled.div`
   font-family: ${theme.font.regular};
 `;
 
-const DuesReigster: React.FC = () => {
+const DuesRegister: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleForm = () => {
@@ -40,9 +40,9 @@ const DuesReigster: React.FC = () => {
           <img src={DownButton} alt="DownButton" />
         </Title>
       </Wrapper>
-      {isOpen && <DuesReigsterDropDown />}
+      {isOpen && <DuesRegisterDropDown />}
     </>
   );
 };
 
-export default DuesReigster;
+export default DuesRegister;
