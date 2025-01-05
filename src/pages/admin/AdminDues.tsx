@@ -5,9 +5,9 @@ import Cardinal from '@/components/Admin/Cardinal';
 import { PageWrapper } from '@/styles/admin/AdminLayout.styled';
 import TotalDues from '@/components/Admin/TotalDues';
 import Expenditure from '@/components/Admin/Expenditure';
-import DuesReigsterAdd from '@/components/Admin/DuesReigsterAdd';
+import DuesReigsterAdd from '@/components/Admin/DuesRegisterAdd';
 import { useState } from 'react';
-import DuesReigster from '@/components/Admin/DuesReigster';
+import DuesReigster from '@/components/Admin/DuesRegister';
 
 const ContentWrapper = styled.div`
   display: flex;
