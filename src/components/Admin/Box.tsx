@@ -22,13 +22,13 @@ const Wrapper = styled.div<{ color: string }>`
 const Title = styled.div`
   font-size: 18px;
   font-family: ${theme.font.regular};
-  color: white;
+  color: ${theme.color.gray[100]};
 `;
 
 const Description = styled.div`
   font-size: 24px;
   font-family: ${theme.font.semiBold};
-  color: white;
+  color: ${theme.color.gray[100]};
   margin-top: 20px;
 `;
 

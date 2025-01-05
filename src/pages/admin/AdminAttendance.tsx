@@ -9,8 +9,7 @@ import { useState } from 'react';
 const AttendanceWrapper = styled.div`
   width: 887px;
   background-color: #ffffff;
-  border-radius: 5px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  b
   display: flex;
   flex-direction: column;
   align-items: center;
