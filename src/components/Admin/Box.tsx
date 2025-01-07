@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import theme from '@/styles/theme';
 
 interface BoxProps {
-  title: string;
+  title?: string;
   description: string;
   last: string;
   color: string;
@@ -41,7 +41,7 @@ const Last = styled.div`
 const Box: React.FC<BoxProps> = ({ title, description, last, color }) => {
   return (
     <Wrapper color={color}>
-      <Title>{title}</Title>
+      {title && <Title>{title}</Title>}
       <Description>{description}</Description>
       <Last>{last}</Last>
     </Wrapper>

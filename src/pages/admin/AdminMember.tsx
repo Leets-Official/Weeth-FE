@@ -1,9 +1,10 @@
-import CardinalInfo from '@/components/Admin/CardinalInfo';
+import Box from '@/components/Admin/Box';
 import MemberListTable, { Column } from '@/components/Admin/MemberListTable';
 import NavMenu from '@/components/Admin/NavMenu';
 import SearchBar from '@/components/Admin/SearchBar';
 import SelectedTopBar from '@/components/Admin/SelectedTopBar';
 import TopBar from '@/components/Admin/TopBar';
+import { BoxWrapper } from '@/components/Admin/TotalDues';
 import {
   MemberProvider,
   useMemberContext,
@@ -13,7 +14,9 @@ import {
   ContentWrapper,
   Container,
 } from '@/styles/admin/AdminLayout.styled';
+import theme from '@/styles/theme';
 
+// const CardinalBoxWrapper = styled(BoxWrapper)``;
 const columns: Column[] = [
   { key: 'name', header: '이름' },
   { key: 'role', header: '역할' },
@@ -42,6 +45,42 @@ const DynamicTopBar: React.FC = () => {
 };
 
 const AdminMember: React.FC = () => {
+  const boxData = [
+    {
+      id: 'cardinal-1',
+      title: '23년 1학기',
+      description: '1기',
+      last: '동장 김성민 외 25명',
+      color: `${theme.color.gray[65]}`,
+    },
+    {
+      id: 'cardinal-2',
+      title: '23년 2학기',
+      description: '2기',
+      last: '동장 김성민 외 25명',
+      color: `${theme.color.gray[65]}`,
+    },
+    {
+      id: 'cardinal-3',
+      title: '24년 1학기',
+      description: '3기',
+      last: '동장 김성민 외 25명',
+      color: `${theme.color.gray[65]}`,
+    },
+    {
+      id: 'cardinal-4',
+      title: '24년 2학기(현재)',
+      description: '4기',
+      last: '동장 노정완 외 25명',
+      color: `${theme.color.gray[65]}`,
+    },
+    {
+      id: 'cardinal-total',
+      description: '전체',
+      last: '총 100명',
+      color: `${theme.color.gray[18]}`,
+    },
+  ];
   return (
     <MemberProvider>
       <PageWrapper>
@@ -50,7 +89,17 @@ const AdminMember: React.FC = () => {
           <DynamicTopBar />
           <Container>
             <SearchBar />
-            <CardinalInfo />
+            <BoxWrapper>
+              {boxData.map((cardinalBox) => (
+                <Box
+                  key={cardinalBox.id}
+                  title={cardinalBox.title}
+                  description={cardinalBox.description}
+                  last={cardinalBox.last}
+                  color={cardinalBox.color}
+                />
+              ))}
+            </BoxWrapper>
             <MemberListTable columns={columns} />
           </Container>
         </ContentWrapper>
