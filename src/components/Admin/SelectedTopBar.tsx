@@ -1,6 +1,8 @@
 import Button from '@/components/Button/Button';
 import theme from '@/styles/theme';
 import backarrow from '@/assets/images/ic_admin_backarrow.svg';
+import checkIcon from '@/assets/images/ic_admin_circle_check.svg';
+import dropdownIcon from '@/assets/images/ic_admin_column_meatball.svg';
 import styled from 'styled-components';
 import { useMemberContext } from './context/MemberContext';
 import { Title } from './TopBar';
@@ -30,10 +32,17 @@ const TitleContainer = styled.div`
   padding-left: 55px;
 `;
 
-const BackArrow = styled.img`
+const SvgIcon = styled.img<{ width?: string; height?: string }>`
   cursor: pointer;
-  width: 15px;
-  height: 15px;
+  width: ${({ width }) => width || '15px'};
+  height: ${({ height }) => height || '15px'};
+`;
+
+const ButtonContent = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  gap: 25px;
 `;
 
 const SelectedTopBar: React.FC = () => {
@@ -94,7 +103,7 @@ const SelectedTopBar: React.FC = () => {
   return (
     <SelectedTopBarWrapper>
       <TitleContainer>
-        <BackArrow src={backarrow} alt="뒤로가기" onClick={handleBackClick} />
+        <SvgIcon src={backarrow} alt="뒤로가기" onClick={handleBackClick} />
         <Title>{`${selectedMembers.length}명 선택됨`}</Title>
       </TitleContainer>
       <ButtonGroup>
@@ -109,7 +118,25 @@ const SelectedTopBar: React.FC = () => {
             onClick={onClick}
             disabled={disabled}
           >
-            {label}
+            <ButtonContent>
+              {label}
+              {label === '변경 기수' && (
+                <SvgIcon
+                  src={checkIcon}
+                  alt="check"
+                  width="24px"
+                  height="24px"
+                />
+              )}
+              {label === '직접 입력' && (
+                <SvgIcon
+                  src={dropdownIcon}
+                  alt="dropdown"
+                  width="24px"
+                  height="24px"
+                />
+              )}
+            </ButtonContent>
           </Button>
         ))}
       </ButtonGroup>

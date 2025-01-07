@@ -10,11 +10,15 @@ export const AddCardinalWrapper = styled.div`
   justify-content: center;
   text-align: center;
   align-items: center;
+  cursor: pointer;
 `;
+
+// 기수 추가 모달
+const onClickToAddModal = () => {};
 
 const AddCardinal: React.FC = () => {
   return (
-    <AddCardinalWrapper>
+    <AddCardinalWrapper onClick={onClickToAddModal}>
       <img src={plusIcon} alt="plus" />
     </AddCardinalWrapper>
   );
