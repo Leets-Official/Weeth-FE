@@ -28,8 +28,10 @@ import AdminPenatly from '@/pages/admin/AdminPenatly';
 import { Route, Routes } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 import NoticeBoard from '@/pages/NoticeBoard';
+import NoticePostDetail from '@/pages/NoticePostDetail';
 import StudyPostDetail from '@/pages/StudyPostDetail';
 import StudyBoard from '@/pages/StudyBoard';
+import BoardPost from './pages/BoardPost';
 
 const App = () => {
   return (
@@ -56,8 +58,10 @@ const App = () => {
         <Route path="/receipt" element={<Receipt />} />
 
         <Route path="/notice" element={<NoticeBoard />} />
+        <Route path="/notice/:postId" element={<NoticePostDetail />} />
         <Route path="/study" element={<StudyBoard />} />
-        <Route path="/study/detail" element={<StudyPostDetail />} />
+        <Route path="/study/:postId" element={<StudyPostDetail />} />
+        <Route path="/:type/post" element={<BoardPost />} />
 
         <Route path="/admin/attendance" element={<AdminAttendance />} />
         <Route path="/admin/member" element={<AdminMember />} />

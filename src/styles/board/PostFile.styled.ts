@@ -11,6 +11,7 @@ export const Container = styled.div`
   background-color: ${theme.color.gray[18]};
   border-radius: 5px;
   padding: 0 8px;
+  margin-bottom: 10px;
 `;
 
 export const FolderIcon = styled.img`

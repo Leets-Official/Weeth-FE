@@ -15,7 +15,7 @@ const PostFile = ({
   onClick: () => void;
 }) => {
   const cuttedFileName =
-    fileName.length > 22 ? `${fileName.slice(0, 21)}...` : fileName;
+    fileName.length > 40 ? `${fileName.slice(0, 39)}...` : fileName;
 
   return (
     <S.Container>

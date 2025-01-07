@@ -13,8 +13,9 @@ export const PostWrapper = styled.div`
 `;
 
 export const FileUploaderWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
+  // display: flex;
+  // flex-direction: row;
+  margin-left: 20px;
   align-items: flex-start;
   top: calc(var(--vh, 1vh) * 40 + 120px);
 `;

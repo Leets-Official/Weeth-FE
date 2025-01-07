@@ -3,8 +3,8 @@ import React, { useRef } from 'react';
 import styled from 'styled-components';
 
 export const FileButton = styled.img`
-  margin-left: 20px;
   cursor: pointer;
+  margin-bottom: 20px;
 `;
 
 const FileUploader = ({
