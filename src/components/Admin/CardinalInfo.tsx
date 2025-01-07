@@ -2,6 +2,7 @@ import theme from '@/styles/theme';
 import styled from 'styled-components';
 import { BoxWrapper } from './TotalDues';
 import Box from './Box';
+import AddCardinal from './AddCardinal';
 
 const CardinalBoxWrapper = styled(BoxWrapper)`
   padding: 30px 0 30px 0;
@@ -42,9 +43,11 @@ const boxData = [
     color: `${theme.color.gray[65]}`,
   },
 ];
+
 const CardinalInfo: React.FC = () => {
   return (
     <CardinalBoxWrapper>
+      <AddCardinal />
       {boxData.map((cardinalBox) => (
         <Box
           key={cardinalBox.id}
