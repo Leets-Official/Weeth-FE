@@ -15,8 +15,48 @@ import {
   Container,
 } from '@/styles/admin/AdminLayout.styled';
 import theme from '@/styles/theme';
+import { styled } from 'styled-components';
 
-// const CardinalBoxWrapper = styled(BoxWrapper)``;
+const CardinalBoxWrapper = styled(BoxWrapper)`
+  padding: 30px 0 30px 0;
+`;
+const boxData = [
+  {
+    id: 'cardinal-total',
+    description: '전체',
+    last: '총 100명',
+    color: `${theme.color.gray[18]}`,
+  },
+  {
+    id: 'cardinal-4',
+    title: '24년 2학기(현재)',
+    description: '4기',
+    last: '동장 노정완 외 25명',
+    color: `${theme.color.gray[65]}`,
+  },
+  {
+    id: 'cardinal-3',
+    title: '24년 1학기',
+    description: '3기',
+    last: '동장 김성민 외 25명',
+    color: `${theme.color.gray[65]}`,
+  },
+  {
+    id: 'cardinal-2',
+    title: '23년 2학기',
+    description: '2기',
+    last: '동장 김성민 외 25명',
+    color: `${theme.color.gray[65]}`,
+  },
+  {
+    id: 'cardinal-1',
+    title: '23년 1학기',
+    description: '1기',
+    last: '동장 김성민 외 25명',
+    color: `${theme.color.gray[65]}`,
+  },
+];
+
 const columns: Column[] = [
   { key: 'name', header: '이름' },
   { key: 'role', header: '역할' },
@@ -45,42 +85,6 @@ const DynamicTopBar: React.FC = () => {
 };
 
 const AdminMember: React.FC = () => {
-  const boxData = [
-    {
-      id: 'cardinal-1',
-      title: '23년 1학기',
-      description: '1기',
-      last: '동장 김성민 외 25명',
-      color: `${theme.color.gray[65]}`,
-    },
-    {
-      id: 'cardinal-2',
-      title: '23년 2학기',
-      description: '2기',
-      last: '동장 김성민 외 25명',
-      color: `${theme.color.gray[65]}`,
-    },
-    {
-      id: 'cardinal-3',
-      title: '24년 1학기',
-      description: '3기',
-      last: '동장 김성민 외 25명',
-      color: `${theme.color.gray[65]}`,
-    },
-    {
-      id: 'cardinal-4',
-      title: '24년 2학기(현재)',
-      description: '4기',
-      last: '동장 노정완 외 25명',
-      color: `${theme.color.gray[65]}`,
-    },
-    {
-      id: 'cardinal-total',
-      description: '전체',
-      last: '총 100명',
-      color: `${theme.color.gray[18]}`,
-    },
-  ];
   return (
     <MemberProvider>
       <PageWrapper>
@@ -89,7 +93,7 @@ const AdminMember: React.FC = () => {
           <DynamicTopBar />
           <Container>
             <SearchBar />
-            <BoxWrapper>
+            <CardinalBoxWrapper>
               {boxData.map((cardinalBox) => (
                 <Box
                   key={cardinalBox.id}
@@ -97,9 +101,10 @@ const AdminMember: React.FC = () => {
                   description={cardinalBox.description}
                   last={cardinalBox.last}
                   color={cardinalBox.color}
+                  lastColor="#D3D3D3"
                 />
               ))}
-            </BoxWrapper>
+            </CardinalBoxWrapper>
             <MemberListTable columns={columns} />
           </Container>
         </ContentWrapper>

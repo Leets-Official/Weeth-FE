@@ -24,7 +24,6 @@ export const TableContainer = styled.div`
   border: 1px solid #f2f2f2;
   border-radius: 8px;
   box-shadow: 0px 3px 8px rgba(133, 141, 138, 0.2);
-  margin-top: 20px;
   padding: 20px;
   box-sizing: border-box;
 `;
