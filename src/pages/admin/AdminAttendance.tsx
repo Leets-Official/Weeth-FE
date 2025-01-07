@@ -9,7 +9,6 @@ import { useState } from 'react';
 const AttendanceWrapper = styled.div`
   width: 887px;
   background-color: #ffffff;
-  b
   display: flex;
   flex-direction: column;
   align-items: center;

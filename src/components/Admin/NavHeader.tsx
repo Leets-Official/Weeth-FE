@@ -5,6 +5,7 @@ const StyledHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-start;
+
   padding: 20px 15px;
   gap: 10px;
 `;
