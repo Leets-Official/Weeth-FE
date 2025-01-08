@@ -27,12 +27,6 @@ const ButtonContent = styled.div<{ hasIcon?: boolean }>`
   gap: ${({ hasIcon }) => (hasIcon ? '25px' : '0')};
 `;
 
-const SvgIcon = styled.img<{ width?: string; height?: string }>`
-  cursor: pointer;
-  width: ${({ width }) => width || '15px'};
-  height: ${({ height }) => height || '15px'};
-`;
-
 const ButtonGroup: React.FC<ButtonGroupProps> = ({ buttons }) => {
   return (
     <ButtonGroupContainer>
@@ -49,7 +43,14 @@ const ButtonGroup: React.FC<ButtonGroupProps> = ({ buttons }) => {
         >
           <ButtonContent hasIcon={!!icon}>
             {label}
-            {icon && <SvgIcon src={icon} alt={`${label}-icon`} />}
+            {icon && (
+              <img
+                src={icon}
+                alt={`${label}-icon`}
+                width="24px"
+                height="24px"
+              />
+            )}
           </ButtonContent>
         </Button>
       ))}
