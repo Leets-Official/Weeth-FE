@@ -35,6 +35,12 @@ const ModalContentWrapper = styled.div`
   gap: 20px;
   padding: 20px;
 `;
+
+const ModalFooter = styled.div`
+  background-color: ${theme.color.main};
+  width: 100%;
+  height: 96px;
+`;
 const MemberDetailModal: React.FC<MemberDetailModalProps> = ({
   data,
   onClose,
@@ -66,6 +72,7 @@ const MemberDetailModal: React.FC<MemberDetailModalProps> = ({
         <ModalContent>회원정보</ModalContent>
         <ModalContent>활동정보</ModalContent>
       </ModalContentWrapper>
+      <ModalFooter>버튼그룹컴포넌트</ModalFooter>
     </Modal>
   );
 };
