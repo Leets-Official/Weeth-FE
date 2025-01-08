@@ -46,6 +46,8 @@ export const MemberProvider: React.FC<{ children: React.ReactNode }> = ({
       absence: 0,
       penalty: 12,
       joinDate: '2024.08.27',
+      email: 'weeth123@gmail.com',
+      membershipType: '알럼나이',
     },
     {
       status: '대기 중',
@@ -60,6 +62,8 @@ export const MemberProvider: React.FC<{ children: React.ReactNode }> = ({
       absence: 0,
       penalty: 12,
       joinDate: '2024.08.27',
+      email: 'weeth123@gmail.com',
+      membershipType: '활동중',
     },
     {
       status: '승인 완료',
@@ -74,6 +78,8 @@ export const MemberProvider: React.FC<{ children: React.ReactNode }> = ({
       absence: 0,
       penalty: 12,
       joinDate: '2024.08.27',
+      email: 'weeth123@gmail.com',
+      membershipType: '활동중',
     },
     {
       status: '추방',

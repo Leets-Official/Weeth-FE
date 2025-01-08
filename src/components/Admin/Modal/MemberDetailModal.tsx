@@ -10,12 +10,22 @@ interface MemberDetailModalProps {
   onClose: () => void;
 }
 
+interface FontStyleProps {
+  fontSize?: string;
+  fontWeight?: string | number;
+  color?: string;
+}
+
 const ModalContent = styled.div`
   background-color: white;
   border-radius: 4px;
   width: 400px;
   box-shadow: 0px 3px 8px 0px rgba(133, 141, 138, 0.2);
   color: #000;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 15px;
 `;
 
 const Title = styled.div`
@@ -30,7 +40,13 @@ const Title = styled.div`
   align-items: center;
   padding-left: 20px;
 `;
+const FontStyle = styled.div<FontStyleProps>`
+  font-size: ${({ fontSize }) => fontSize || '18px'};
+  font-weight: ${({ fontWeight }) => fontWeight || '500'};
+  color: ${({ color }) => color || '#000'};
+`;
 const ModalContentWrapper = styled.div`
+  font-family: ${theme.font.regular};
   display: flex;
   justify-content: center;
   align-items: center;
@@ -46,6 +62,14 @@ const ModalFooter = styled.div`
   align-items: center;
   padding-left: 20px;
 `;
+
+const Flex = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 50px;
+`;
+
 const MemberDetailModal: React.FC<MemberDetailModalProps> = ({
   data,
   onClose,
@@ -102,8 +126,65 @@ const MemberDetailModal: React.FC<MemberDetailModalProps> = ({
     >
       <Title>멤버 관리 버튼 </Title>
       <ModalContentWrapper>
-        <ModalContent>회원정보</ModalContent>
-        <ModalContent>활동정보</ModalContent>
+        <ModalContent>
+          <FontStyle fontSize="12px">회원정보</FontStyle>
+          <Flex>
+            <FontStyle fontSize="24px" fontWeight="700">
+              {data.name}
+            </FontStyle>
+          </Flex>
+          <Flex>
+            <FontStyle color="#a6a6a6">직급</FontStyle>
+            <FontStyle>{data.position}</FontStyle>
+          </Flex>
+          <Flex>
+            <FontStyle color="#a6a6a6">역할</FontStyle>
+            <FontStyle>{data.role}</FontStyle>
+          </Flex>
+          <Flex>
+            <FontStyle color="#a6a6a6">학과</FontStyle>
+            <FontStyle>{data.major}</FontStyle>
+          </Flex>
+          <Flex>
+            <FontStyle color="#a6a6a6">전화번호</FontStyle>
+            <FontStyle>{data.phone}</FontStyle>
+          </Flex>
+          <Flex>
+            <FontStyle color="#a6a6a6">학번</FontStyle>
+            <FontStyle>{data.studentId}</FontStyle>
+          </Flex>
+          <Flex>
+            <FontStyle color="#a6a6a6">이메일</FontStyle>
+            <FontStyle>{data.email}</FontStyle>
+          </Flex>
+        </ModalContent>
+        <ModalContent>
+          <FontStyle fontSize="12px">활동정보</FontStyle>
+          <Flex>
+            <FontStyle color="#a6a6a6">활동기수</FontStyle>
+            <FontStyle>{data.cardinal}</FontStyle>
+          </Flex>
+          <Flex>
+            <FontStyle color="#a6a6a6">상태</FontStyle>
+            <FontStyle>{data.membershipType}</FontStyle>
+          </Flex>
+          <Flex>
+            <FontStyle color="#a6a6a6">가입일</FontStyle>
+            <FontStyle>{data.joinDate}</FontStyle>
+          </Flex>
+          <Flex>
+            <FontStyle color="#a6a6a6">출석</FontStyle>
+            <FontStyle>{data.attendance}</FontStyle>
+          </Flex>
+          <Flex>
+            <FontStyle color="#a6a6a6">결석</FontStyle>
+            <FontStyle>{data.absence}</FontStyle>
+          </Flex>
+          <Flex>
+            <FontStyle color="#a6a6a6">패널티</FontStyle>
+            <FontStyle color="#ff5858">{data.penalty}</FontStyle>
+          </Flex>
+        </ModalContent>
       </ModalContentWrapper>
       <ModalFooter>
         <ButtonGroup buttons={buttons} hasEndGap />
