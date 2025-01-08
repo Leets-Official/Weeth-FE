@@ -16,9 +16,6 @@ export const MenuItemWrapper = styled.div<{ active?: boolean }>`
     active ? `${theme.color.main}` : 'transparent'};
   color: ${({ active }) => (active ? '#fff' : '#000')};
   cursor: pointer;
-  /* &:hover {
-    ${({ active }) => (active ? `${theme.color.main}` : 'transparent')};
-  } */
 `;
 
 export const Label = styled.div`
@@ -26,7 +23,9 @@ export const Label = styled.div`
 `;
 
 export const Icon = styled.div<{ active?: boolean }>`
-  color: ${({ active }) => (active ? '#fff' : '#000')};
+  svg {
+    fill: ${({ active }) => (active ? '#fff' : '#000')};
+  }
 `;
 
 const NavMenuItem: React.FC<MenuItemsProps> = ({

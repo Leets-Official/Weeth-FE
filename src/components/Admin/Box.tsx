@@ -2,10 +2,11 @@ import styled from 'styled-components';
 import theme from '@/styles/theme';
 
 interface BoxProps {
-  title: string;
+  title?: string;
   description: string;
   last: string;
   color: string;
+  lastColor?: string;
 }
 
 const Wrapper = styled.div<{ color: string }>`
@@ -32,18 +33,24 @@ const Description = styled.div`
   margin-top: 20px;
 `;
 
-const Last = styled.div`
+const Last = styled.div<{ lastColor?: string }>`
   font-size: 18px;
   font-family: ${theme.font.regular};
-  color: #979797;
+  color: ${({ lastColor }) => lastColor || '#979797'};
 `;
 
-const Box: React.FC<BoxProps> = ({ title, description, last, color }) => {
+const Box: React.FC<BoxProps> = ({
+  title,
+  description,
+  last,
+  color,
+  lastColor,
+}) => {
   return (
     <Wrapper color={color}>
-      <Title>{title}</Title>
+      {title && <Title>{title}</Title>}
       <Description>{description}</Description>
-      <Last>{last}</Last>
+      <Last lastColor={lastColor}>{last}</Last>
     </Wrapper>
   );
 };

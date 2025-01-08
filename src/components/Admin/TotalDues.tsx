@@ -11,7 +11,7 @@ interface TotalDuesProps {
   getDuesText: () => string;
 }
 
-const BoxWrapper = styled.div`
+export const BoxWrapper = styled.div`
   display: flex;
   gap: 15px;
   justify-content: center;
