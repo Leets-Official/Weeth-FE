@@ -13,6 +13,8 @@ export type MemberData = {
   absence: number;
   penalty: number;
   joinDate: string;
+  email?: string;
+  membershipType?: string;
 };
 
 interface MemberContextProps {
