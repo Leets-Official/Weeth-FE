@@ -2,6 +2,8 @@ import { MemberData } from '@/components/Admin/context/MemberContext';
 import theme from '@/styles/theme';
 import Modal from 'react-modal';
 import { styled } from 'styled-components';
+import dropdownIcon from '@/assets/images/ic_admin_column_meatball.svg';
+import ButtonGroup from '../ButtonGroup';
 
 interface MemberDetailModalProps {
   data: MemberData;
@@ -40,11 +42,42 @@ const ModalFooter = styled.div`
   background-color: ${theme.color.main};
   width: 100%;
   height: 96px;
+  display: flex;
+  align-items: center;
+  padding-left: 20px;
 `;
 const MemberDetailModal: React.FC<MemberDetailModalProps> = ({
   data,
   onClose,
 }) => {
+  const buttons = [
+    {
+      label: '가입 승인',
+      onClick: () => alert('1명의 멤버 가입을 승인하시겠습니까?'),
+    },
+    {
+      label: '관리자로 변경',
+      onClick: () => alert('1명의 멤버 가입을 승인하시겠습니까?'),
+    },
+    {
+      label: '비밀번호 초기화',
+      onClick: () => alert('1명의 멤버 비밀번호를 초기화하시겠습니까?'),
+    },
+    {
+      label: '유저 추방',
+      onClick: () => alert('1명의 멤버를 추방하시겠습니까?'),
+    },
+    {
+      label: '직접 입력',
+      onClick: () => alert('직접 입력 기능을 실행합니다.'), // 나중에 수정
+      disabled: false,
+      icon: dropdownIcon,
+    },
+    {
+      label: '완료',
+      onClick: () => alert('완료'),
+    },
+  ];
   return (
     <Modal
       isOpen={true}
@@ -72,7 +105,9 @@ const MemberDetailModal: React.FC<MemberDetailModalProps> = ({
         <ModalContent>회원정보</ModalContent>
         <ModalContent>활동정보</ModalContent>
       </ModalContentWrapper>
-      <ModalFooter>버튼그룹컴포넌트</ModalFooter>
+      <ModalFooter>
+        <ButtonGroup buttons={buttons} hasEndGap />
+      </ModalFooter>
     </Modal>
   );
 };

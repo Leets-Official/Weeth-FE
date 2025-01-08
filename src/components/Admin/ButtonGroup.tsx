@@ -12,12 +12,21 @@ interface ButtonGroupProps {
   buttons: ButtonItem[];
 }
 
-const ButtonGroupContainer = styled.div`
+const ButtonGroupContainer = styled.div<{ hasEndGap?: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 12px;
   padding-right: 20px;
+
+  // 상세관리모달에서 완료 버튼 앞에만 추가 간격
+  ${({ hasEndGap }) =>
+    hasEndGap &&
+    `
+    & > :last-child {
+    margin-left:150px
+    }
+  `}
 `;
 
 const ButtonContent = styled.div<{ hasIcon?: boolean }>`
@@ -27,9 +36,12 @@ const ButtonContent = styled.div<{ hasIcon?: boolean }>`
   gap: ${({ hasIcon }) => (hasIcon ? '25px' : '0')};
 `;
 
-const ButtonGroup: React.FC<ButtonGroupProps> = ({ buttons }) => {
+const ButtonGroup: React.FC<ButtonGroupProps & { hasEndGap?: boolean }> = ({
+  buttons,
+  hasEndGap,
+}) => {
   return (
-    <ButtonGroupContainer>
+    <ButtonGroupContainer hasEndGap={hasEndGap}>
       {buttons.map(({ label, onClick, disabled, icon }) => (
         <Button
           key={label}
