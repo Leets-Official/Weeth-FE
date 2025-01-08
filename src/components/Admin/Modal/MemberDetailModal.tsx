@@ -5,6 +5,7 @@ import { styled } from 'styled-components';
 import dropdownIcon from '@/assets/images/ic_admin_column_meatball.svg';
 import closeIcon from '@/assets/images/ic_admin_close.svg';
 import ButtonGroup from '../ButtonGroup';
+import StatusIndicator from '../StatusIndicator';
 
 interface MemberDetailModalProps {
   data: MemberData;
@@ -28,7 +29,6 @@ const ModalContent = styled.div`
   gap: 20px;
   padding: 15px;
 `;
-
 const Title = styled.div`
   font-family: ${theme.font.regular};
   color: #000;
@@ -36,7 +36,6 @@ const Title = styled.div`
   font-size: 24px;
   padding-left: 20px;
 `;
-
 const TitleContainer = styled.div`
   background-color: #f2f9f8;
   width: 100%;
@@ -74,12 +73,18 @@ const Flex = styled.div`
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  gap: 50px;
+  gap: 30px;
 `;
 const CloseIcon = styled.img`
   cursor: pointer;
   margin-right: 20px;
 `;
+
+const getHighestCardinal = (cardinal: string): string => {
+  const highestCardinal = cardinal.split('.')[0];
+  return `${highestCardinal}기`;
+};
+
 const MemberDetailModal: React.FC<MemberDetailModalProps> = ({
   data,
   onClose,
@@ -143,8 +148,10 @@ const MemberDetailModal: React.FC<MemberDetailModalProps> = ({
           <FontStyle fontSize="12px">회원정보</FontStyle>
           <Flex>
             <FontStyle fontSize="24px" fontWeight="700">
-              {data.name}
+              {data.name} &nbsp;
+              {getHighestCardinal(data.cardinal)}
             </FontStyle>
+            <StatusIndicator status={data.status} />
           </Flex>
           <Flex>
             <FontStyle color="#a6a6a6">직급</FontStyle>
