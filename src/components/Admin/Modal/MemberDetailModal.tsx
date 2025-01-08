@@ -3,6 +3,7 @@ import theme from '@/styles/theme';
 import Modal from 'react-modal';
 import { styled } from 'styled-components';
 import dropdownIcon from '@/assets/images/ic_admin_column_meatball.svg';
+import closeIcon from '@/assets/images/ic_admin_close.svg';
 import ButtonGroup from '../ButtonGroup';
 
 interface MemberDetailModalProps {
@@ -29,22 +30,28 @@ const ModalContent = styled.div`
 `;
 
 const Title = styled.div`
-  background-color: #f2f9f8;
   font-family: ${theme.font.regular};
-  width: 100%;
-  height: 96px;
   color: #000;
   font-weight: 700;
   font-size: 24px;
-  display: flex;
-  align-items: center;
   padding-left: 20px;
 `;
+
+const TitleContainer = styled.div`
+  background-color: #f2f9f8;
+  width: 100%;
+  height: 96px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
 const FontStyle = styled.div<FontStyleProps>`
   font-size: ${({ fontSize }) => fontSize || '18px'};
   font-weight: ${({ fontWeight }) => fontWeight || '500'};
   color: ${({ color }) => color || '#000'};
 `;
+
 const ModalContentWrapper = styled.div`
   font-family: ${theme.font.regular};
   display: flex;
@@ -69,7 +76,10 @@ const Flex = styled.div`
   align-items: center;
   gap: 50px;
 `;
-
+const CloseIcon = styled.img`
+  cursor: pointer;
+  margin-right: 20px;
+`;
 const MemberDetailModal: React.FC<MemberDetailModalProps> = ({
   data,
   onClose,
@@ -99,12 +109,12 @@ const MemberDetailModal: React.FC<MemberDetailModalProps> = ({
     },
     {
       label: '완료',
-      onClick: () => alert('완료'),
+      onClick: onClose,
     },
   ];
   return (
     <Modal
-      isOpen={true}
+      isOpen
       onRequestClose={onClose}
       style={{
         overlay: {
@@ -124,7 +134,10 @@ const MemberDetailModal: React.FC<MemberDetailModalProps> = ({
         },
       }}
     >
-      <Title>멤버 관리 버튼 </Title>
+      <TitleContainer>
+        <Title>멤버 관리 버튼 </Title>
+        <CloseIcon src={closeIcon} alt="close" onClick={onClose} />
+      </TitleContainer>
       <ModalContentWrapper>
         <ModalContent>
           <FontStyle fontSize="12px">회원정보</FontStyle>
