@@ -2,9 +2,11 @@ import styled from 'styled-components';
 import CheckBox from '@/assets/images/ic_admin_checkbox.svg';
 import UnCheckBox from '@/assets/images/ic_admin_uncheckbox.svg';
 import MeatBallSvg from '@/assets/images/ic_admin_meatball.svg';
+import { useState } from 'react';
 import { statusColors } from './StatusIndicator';
 import { MemberData, useMemberContext } from './context/MemberContext';
 import { Column } from './MemberListTable';
+import MemberDetailModal from './Modal/MemberDetailModal';
 
 const Row = styled.tr`
   border-bottom: 1px solid #dedede;
@@ -34,7 +36,7 @@ interface TableRowProps {
 
 const MemberListTableRow: React.FC<TableRowProps> = ({ data, columns }) => {
   const { selectedMembers, setSelectedMembers } = useMemberContext();
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const isChecked = selectedMembers.includes(data.studentId);
 
   const onClickToCheckBox = () => {
@@ -45,25 +47,32 @@ const MemberListTableRow: React.FC<TableRowProps> = ({ data, columns }) => {
     );
   };
 
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
+
   return (
-    <Row>
-      <StatusCell statusColor={statusColors[data.status]} />
+    <>
+      <Row>
+        <StatusCell statusColor={statusColors[data.status]} />
 
-      <SvgWrapper onClick={onClickToCheckBox}>
-        <img
-          src={isChecked ? CheckBox : UnCheckBox}
-          alt={isChecked ? 'checked' : 'unchecked'}
-        />
-      </SvgWrapper>
-      {columns.map((column) => (
-        <Cell key={column.key}>{data[column.key]}</Cell>
-      ))}
+        <SvgWrapper onClick={onClickToCheckBox}>
+          <img
+            src={isChecked ? CheckBox : UnCheckBox}
+            alt={isChecked ? 'checked' : 'unchecked'}
+          />
+        </SvgWrapper>
+        {columns.map((column) => (
+          <Cell key={column.key}>{data[column.key]}</Cell>
+        ))}
 
-      {/* 추후 클릭 이벤트 추가 */}
-      <SvgWrapper>
-        <img src={MeatBallSvg} alt="미트볼 메뉴" />
-      </SvgWrapper>
-    </Row>
+        {/* 추후 클릭 이벤트 추가 */}
+        <SvgWrapper onClick={openModal}>
+          <img src={MeatBallSvg} alt="미트볼 메뉴" />
+        </SvgWrapper>
+      </Row>
+
+      {isModalOpen && <MemberDetailModal data={data} onClose={closeModal} />}
+    </>
   );
 };
 
