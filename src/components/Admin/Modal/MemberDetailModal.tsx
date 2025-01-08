@@ -7,7 +7,6 @@ import closeIcon from '@/assets/images/ic_admin_close.svg';
 import ButtonGroup from '../ButtonGroup';
 import StatusIndicator from '../StatusIndicator';
 
-// pr: react-modal 사용
 interface MemberDetailModalProps {
   data: MemberData;
   onClose: () => void;
@@ -29,7 +28,7 @@ const ModalContent = styled.div`
   flex: 1.5;
   flex-direction: column;
   gap: 20px;
-  padding: 15px 15px 50px 15px;
+  padding: 15px 15px 30px 15px;
 `;
 const Title = styled.div`
   font-family: ${theme.font.regular};
@@ -93,7 +92,7 @@ const LabelFlex = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 10px;
+  gap: 15px;
   color: #a6a6a6;
 `;
 
@@ -101,7 +100,7 @@ const DataFlex = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 10px;
+  gap: 15px;
   color: #000;
 `;
 
