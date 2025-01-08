@@ -1,7 +1,5 @@
 import styled from 'styled-components';
 import Button from '@/components/Button/Button';
-import checkIcon from '@/assets/images/ic_admin_circle_check.svg';
-import dropdownIcon from '@/assets/images/ic_admin_column_meatball.svg';
 
 interface ButtonItem {
   label: string;
@@ -38,7 +36,7 @@ const SvgIcon = styled.img<{ width?: string; height?: string }>`
 const ButtonGroup: React.FC<ButtonGroupProps> = ({ buttons }) => {
   return (
     <ButtonGroupContainer>
-      {buttons.map(({ label, onClick, disabled }) => (
+      {buttons.map(({ label, onClick, disabled, icon }) => (
         <Button
           key={label}
           color="#fff"
@@ -49,21 +47,9 @@ const ButtonGroup: React.FC<ButtonGroupProps> = ({ buttons }) => {
           onClick={onClick}
           disabled={disabled}
         >
-          <ButtonContent
-            hasIcon={label === '변경 기수' || label === '직접 입력'}
-          >
+          <ButtonContent hasIcon={!!icon}>
             {label}
-            {label === '변경 기수' && (
-              <SvgIcon src={checkIcon} alt="check" width="24px" height="24px" />
-            )}
-            {label === '직접 입력' && (
-              <SvgIcon
-                src={dropdownIcon}
-                alt="dropdown"
-                width="24px"
-                height="24px"
-              />
-            )}
+            {icon && <SvgIcon src={icon} alt={`${label}-icon`} />}
           </ButtonContent>
         </Button>
       ))}
