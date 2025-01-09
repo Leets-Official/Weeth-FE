@@ -65,7 +65,6 @@ const MemberListTableRow: React.FC<TableRowProps> = ({ data, columns }) => {
           <Cell key={column.key}>{data[column.key]}</Cell>
         ))}
 
-        {/* 추후 클릭 이벤트 추가 */}
         <SvgWrapper onClick={openModal}>
           <img src={MeatBallSvg} alt="미트볼 메뉴" />
         </SvgWrapper>
