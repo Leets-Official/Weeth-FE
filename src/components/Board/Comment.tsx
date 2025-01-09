@@ -2,6 +2,7 @@ import ReplyImage from '@/assets/images/ic_reply_comment.svg';
 import MenuImage from '@/assets/images/ic_comment_delete.svg';
 import * as S from '@/styles/board/Comment.styled';
 import deleteComment from '@/api/deletComment';
+import { useState } from 'react';
 
 interface CommentProps {
   name: string;
@@ -22,8 +23,11 @@ const Comment = ({
   path,
   onDelete,
 }: CommentProps) => {
+  const [isHighlighted, setIsHighlighted] = useState(false);
+
   const onClickReply = () => {
     console.log('답댓', commentId);
+    setIsHighlighted((prev) => !prev); // 선택 상태를 토글
   };
 
   const onClickMenu = () => {
@@ -32,9 +36,8 @@ const Comment = ({
     onDelete();
   };
 
-  // TODO: userName과 props로 받아오는 name이 같아야만 메뉴 버튼이 보이도록 수정
   return (
-    <S.CommentContainer>
+    <S.CommentContainer isHighlighted={isHighlighted}>
       <S.CommentContentContainer>
         <S.NameText>{name}</S.NameText>
         <S.ContentText>{content}</S.ContentText>
