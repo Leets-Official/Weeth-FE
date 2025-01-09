@@ -46,7 +46,7 @@ const StudyPostDetail = () => {
   // refreshKey를 의존성으로 사용
   const { boardDetailInfo, error } = useGetBoardDetail(
     path,
-    numericPostId, // 변환된 숫자 ID 사용
+    numericPostId,
     refreshKey,
   );
 

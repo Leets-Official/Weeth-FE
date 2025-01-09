@@ -58,7 +58,6 @@ const CommentInput = ({
     try {
       // 댓글 작성 API 호출
       await createComment(postId, inputValue);
-      console.log('댓글 작성 성공');
       // 입력 필드 초기화
       setInputValue('');
       // 부모 컴포넌트로 댓글 작성 알림

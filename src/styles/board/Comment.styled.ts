@@ -8,6 +8,7 @@ export const CommentContainer = styled.div`
   flex-direction: row;
   justify-content: flex-start;
   margin-top: 10px;
+  background-color: #508fff1a;
 `;
 
 export const CommentContentContainer = styled.div`
