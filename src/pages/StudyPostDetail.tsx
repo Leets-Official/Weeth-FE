@@ -43,6 +43,9 @@ const StudyPostDetail = () => {
 
   const [refreshKey, setRefreshKey] = useState(0);
 
+  // 대댓글 작성시 부모 댓글 ID 상태
+  const [parentCommentId, setParentCommentId] = useState<number | null>(null);
+
   // refreshKey를 의존성으로 사용
   const { boardDetailInfo, error } = useGetBoardDetail(
     path,
@@ -73,6 +76,7 @@ const StudyPostDetail = () => {
               postId={boardDetailInfo.id}
               path={path}
               onCommentDelete={handleRefresh}
+              onReply={(commentId) => setParentCommentId(commentId)}
             />
           </>
         )}
@@ -81,6 +85,7 @@ const StudyPostDetail = () => {
         {boardDetailInfo && (
           <CommentInput
             postId={boardDetailInfo.id}
+            parentCommentId={parentCommentId}
             onCommentSuccess={handleRefresh}
           />
         )}

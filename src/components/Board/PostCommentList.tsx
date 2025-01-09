@@ -26,13 +26,13 @@ const PostCommentList = ({
   path,
   postId,
   onCommentDelete,
-  onReply, // 대댓글 클릭 핸들러
+  onReply,
 }: {
   comments: CommentType[];
   path: string;
   postId: number;
   onCommentDelete: () => void;
-  onReply: (commentId: number) => void; // 부모 댓글 ID를 받는 함수
+  onReply: (commentId: number) => void;
 }) => {
   const renderComments = (commentList: CommentType[]) => {
     return commentList.map((comment) => (
@@ -45,7 +45,7 @@ const PostCommentList = ({
           commentId={comment.id}
           path={path}
           onDelete={onCommentDelete}
-          onReply={() => onReply(comment.id)} // 부모 댓글 ID 전달
+          onReply={() => onReply(comment.id)}
         />
 
         {comment.children && comment.children.length > 0 && (

@@ -38,11 +38,11 @@ const SendButton = styled.img`
 
 const CommentInput = ({
   postId,
-  parentCommentId = null, // 기본값 설정
+  parentCommentId = null,
   onCommentSuccess,
 }: {
   postId: number;
-  parentCommentId?: number | null; // 선택적 속성으로 설정
+  parentCommentId?: number | null;
   onCommentSuccess?: () => void;
 }) => {
   const [inputValue, setInputValue] = useState('');
@@ -59,7 +59,7 @@ const CommentInput = ({
 
     try {
       // 댓글 작성 API 호출
-      await createComment(postId, inputValue, parentCommentId ?? undefined); // null을 undefined로 변환
+      await createComment(postId, inputValue, parentCommentId ?? undefined);
       setInputValue('');
       if (onCommentSuccess) onCommentSuccess();
     } catch (error: any) {

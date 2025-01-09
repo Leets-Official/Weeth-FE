@@ -29,7 +29,7 @@ const Comment = ({
 
   const onClickReply = () => {
     console.log('답댓', commentId);
-    onReply(commentId); // 대댓글 클릭 이벤트 전달
+    onReply(commentId);
     setIsHighlighted((prev) => !prev);
   };
 
