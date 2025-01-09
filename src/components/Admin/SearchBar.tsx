@@ -34,13 +34,18 @@ export const SearchBarIcon = styled.img`
   transform: translateY(-50%);
 `;
 
-const SearchBar: React.FC = () => {
-  return (
-    <SearchBarWrapper>
+interface SearchBarProps {
+  isWrapped?: boolean; // Wrapper css 사용 여부
+}
+
+const SearchBar: React.FC<SearchBarProps> = ({ isWrapped = true }) => {
+  const content = (
+    <>
       <SearchBarIcon src={icSearch} alt="search" />
       <StyledInput placeholder="Search for name" />
-    </SearchBarWrapper>
+    </>
   );
-};
 
+  return isWrapped ? <SearchBarWrapper>{content}</SearchBarWrapper> : content;
+};
 export default SearchBar;
