@@ -4,6 +4,7 @@ import * as S from '@/styles/board/Comment.styled';
 import deleteComment from '@/api/deletComment';
 import { useState } from 'react';
 import formatDateTime from '@/hooks/formatDateTime';
+import useGetUserName from '@/hooks/useGetUserName';
 
 interface CommentProps {
   name: string;
@@ -42,6 +43,8 @@ const Comment = ({
 
   const formattedTime = formatDateTime(time);
 
+  const isMyComment = name === useGetUserName();
+
   return (
     <S.CommentContainer isHighlighted={isHighlighted}>
       <S.CommentContentContainer>
@@ -53,9 +56,11 @@ const Comment = ({
         <S.ImageButton onClick={onClickReply}>
           <img src={ReplyImage} alt="답댓글 버튼" />
         </S.ImageButton>
-        <S.ImageButton onClick={onClickMenu}>
-          <img src={MenuImage} alt="메뉴 버튼" />
-        </S.ImageButton>
+        {isMyComment && (
+          <S.ImageButton onClick={onClickMenu}>
+            <img src={MenuImage} alt="메뉴 버튼" />
+          </S.ImageButton>
+        )}
       </S.ButtonContainer>
     </S.CommentContainer>
   );

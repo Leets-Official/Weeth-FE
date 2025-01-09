@@ -35,11 +35,23 @@ interface PostDetailMainProps {
 const onClickDownload = (fileName: string, fileUrl: string) => {
   // 동적으로 a 태그 생성
   const link = document.createElement('a');
+
+  console.log(fileUrl);
+
   // 파일 URL 설정
-  link.href = fileUrl;
+  link.href =
+    'https://weeth-develop-2.s3.ap-northeast-2.amazonaws.com/076c2ade-5530-45b4-a8cd-5ce75b22c37a_Untitled.png';
+
   // 다운로드될 파일 이름 설정
   link.download = fileName;
-  link.click(); // 다운로드 트리거
+
+  // DOM에 추가
+  document.body.appendChild(link);
+
+  // 다운로드 트리거
+  link.click();
+
+  link.remove();
 };
 
 const PostDetailMain = ({ info }: PostDetailMainProps) => {
