@@ -32,30 +32,46 @@ interface PostDetailMainProps {
   info: BoardDetail | null;
 }
 
-const onClickDownload = (fileName: string, fileUrl: string) => {
-  // 동적으로 a 태그 생성
-  const link = document.createElement('a');
+const onClickDownload = async (fileName: string, fileUrl: string) => {
+  try {
+    // Fetch API로 파일 가져오기
+    const response = await fetch(fileUrl);
 
-  console.log(fileUrl);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch file: ${response.statusText}`);
+    }
 
-  // 파일 URL 설정
-  link.href =
-    'https://weeth-develop-2.s3.ap-northeast-2.amazonaws.com/076c2ade-5530-45b4-a8cd-5ce75b22c37a_Untitled.png';
+    // Blob 데이터 생성
+    const blob = await response.blob();
 
-  // 다운로드될 파일 이름 설정
-  link.download = fileName;
+    // Blob URL 생성
+    const url = window.URL.createObjectURL(blob);
 
-  // DOM에 추가
-  document.body.appendChild(link);
+    // 동적으로 a 태그 생성
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = fileName;
 
-  // 다운로드 트리거
-  link.click();
+    // 다운로드 트리거
+    document.body.appendChild(link);
+    link.click();
 
-  link.remove();
+    // DOM에서 태그 제거 및 Blob URL 해제
+    link.remove();
+    window.URL.revokeObjectURL(url);
+  } catch (error) {
+    console.error('Download failed:', error);
+  }
 };
 
 const PostDetailMain = ({ info }: PostDetailMainProps) => {
-  const formattedDate = formatDate(info?.time ?? '');
+  const formattedDate = info?.time
+    ? formatDate(new Date(info.time), {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+      })
+    : 'Invalid Date';
 
   if (!info) return <div>Loading...</div>;
 
