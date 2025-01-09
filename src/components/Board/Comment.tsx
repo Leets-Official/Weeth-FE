@@ -3,6 +3,7 @@ import MenuImage from '@/assets/images/ic_comment_delete.svg';
 import * as S from '@/styles/board/Comment.styled';
 import deleteComment from '@/api/deletComment';
 import { useState } from 'react';
+import formatDateTime from '@/hooks/formatDateTime';
 
 interface CommentProps {
   name: string;
@@ -39,12 +40,14 @@ const Comment = ({
     onDelete();
   };
 
+  const formattedTime = formatDateTime(time);
+
   return (
     <S.CommentContainer isHighlighted={isHighlighted}>
       <S.CommentContentContainer>
         <S.NameText>{name}</S.NameText>
         <S.ContentText>{content}</S.ContentText>
-        <S.DateText>{time}</S.DateText>
+        <S.DateText>{formattedTime}</S.DateText>
       </S.CommentContentContainer>
       <S.ButtonContainer>
         <S.ImageButton onClick={onClickReply}>

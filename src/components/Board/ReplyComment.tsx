@@ -2,6 +2,7 @@ import ReplyArrowImage from '@/assets/images/ic_reply.svg';
 import MenuImage from '@/assets/images/ic_comment_delete.svg';
 import * as S from '@/styles/board/Comment.styled';
 import deleteComment from '@/api/deletComment';
+import formatDateTime from '@/hooks/formatDateTime';
 
 interface ReplyCommentProps {
   name: string;
@@ -26,6 +27,7 @@ const ReplyComment = ({
     deleteComment(path, postId, commentId);
     onDelete();
   };
+  const formattedTime = formatDateTime(time);
   // TODO: 이름 비교해서 내 답글일 경우만 메뉴 버튼 보이도록
   return (
     <S.ReplyCommentContainer>
@@ -33,7 +35,7 @@ const ReplyComment = ({
       <S.ReplyContentContainer>
         <S.NameText>{name}</S.NameText>
         <S.ContentText>{content}</S.ContentText>
-        <S.DateText>{time}</S.DateText>
+        <S.DateText>{formattedTime}</S.DateText>
         <S.ReplyImageButton onClick={onClickMenu}>
           <img src={MenuImage} alt="메뉴 버튼" />
         </S.ReplyImageButton>
