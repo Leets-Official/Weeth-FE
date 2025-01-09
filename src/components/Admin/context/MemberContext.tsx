@@ -12,6 +12,7 @@ export type MemberData = {
   attendance: number;
   absence: number;
   penalty: number;
+  LatestPenalty?: string;
   joinDate: string;
   email?: string;
   membershipType?: string;
@@ -48,6 +49,7 @@ export const MemberProvider: React.FC<{ children: React.ReactNode }> = ({
       joinDate: '2024.08.27',
       email: 'weeth123@gmail.com',
       membershipType: '알럼나이',
+      LatestPenalty: '2024.08.27',
     },
     {
       status: '대기 중',
@@ -64,6 +66,7 @@ export const MemberProvider: React.FC<{ children: React.ReactNode }> = ({
       joinDate: '2024.08.27',
       email: 'weeth123@gmail.com',
       membershipType: '활동중',
+      LatestPenalty: '2024.08.27',
     },
     {
       status: '승인 완료',
@@ -80,6 +83,24 @@ export const MemberProvider: React.FC<{ children: React.ReactNode }> = ({
       joinDate: '2024.08.27',
       email: 'weeth123@gmail.com',
       membershipType: '활동중',
+      LatestPenalty: '2024.08.27',
+    },
+    {
+      status: '승인 완료',
+      name: '홍위드니',
+      role: '백엔드',
+      major: '컴퓨터공학과',
+      cardinal: '4.3',
+      phone: '01000009999',
+      studentId: '202336123',
+      position: '사용자',
+      attendance: 12,
+      absence: 0,
+      penalty: 12,
+      joinDate: '2024.08.27',
+      email: 'weeth123@gmail.com',
+      membershipType: '활동중',
+      LatestPenalty: '2024.08.27',
     },
     {
       status: '추방',
