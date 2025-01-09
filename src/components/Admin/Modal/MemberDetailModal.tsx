@@ -105,6 +105,24 @@ const MemberDetailModal: React.FC<MemberDetailModalProps> = ({
     { label: '완료', onClick: onClose },
   ];
 
+  const memberInfo = [
+    { label: '직급', value: data.position },
+    { label: '역할', value: data.role },
+    { label: '학과', value: data.major },
+    { label: '전화번호', value: data.phone },
+    { label: '학번', value: data.studentId },
+    { label: '이메일', value: data.email },
+  ];
+
+  const activityInfo = [
+    { label: '활동기수', value: data.cardinal },
+    { label: '상태', value: data.membershipType },
+    { label: '가입일', value: data.joinDate },
+    { label: '출석', value: data.attendance },
+    { label: '결석', value: data.absence },
+    { label: '패널티', value: data.penalty },
+  ];
+
   return (
     <CommonModal
       isOpen
@@ -126,20 +144,19 @@ const MemberDetailModal: React.FC<MemberDetailModalProps> = ({
           </FlexWrapper>
           <FlexWrapper>
             <LabelFlex>
-              <FontStyle>직급</FontStyle>
-              <FontStyle>역할</FontStyle>
-              <FontStyle>학과</FontStyle>
-              <FontStyle>전화번호</FontStyle>
-              <FontStyle>학번</FontStyle>
-              <FontStyle>이메일</FontStyle>
+              {memberInfo.map((info) => (
+                <FontStyle key={info.label}>{info.label}</FontStyle>
+              ))}
             </LabelFlex>
             <DataFlex>
-              <FontStyle>{data.position}</FontStyle>
-              <FontStyle>{data.role}</FontStyle>
-              <FontStyle>{data.major}</FontStyle>
-              <FontStyle>{data.phone}</FontStyle>
-              <FontStyle>{data.studentId}</FontStyle>
-              <FontStyle>{data.email}</FontStyle>
+              {memberInfo.map((info) => (
+                <FontStyle
+                  key={info.label}
+                  color={info.label === '패널티' ? '#ff5858' : undefined}
+                >
+                  {info.value}
+                </FontStyle>
+              ))}
             </DataFlex>
           </FlexWrapper>
         </ModalContent>
@@ -149,20 +166,19 @@ const MemberDetailModal: React.FC<MemberDetailModalProps> = ({
           </FontStyle>
           <FlexWrapper>
             <LabelFlex>
-              <FontStyle>활동기수</FontStyle>
-              <FontStyle>상태</FontStyle>
-              <FontStyle>가입일</FontStyle>
-              <FontStyle>출석</FontStyle>
-              <FontStyle>결석</FontStyle>
-              <FontStyle>패널티</FontStyle>
+              {activityInfo.map((info) => (
+                <FontStyle key={info.label}>{info.label}</FontStyle>
+              ))}
             </LabelFlex>
             <DataFlex>
-              <FontStyle>{data.cardinal}</FontStyle>
-              <FontStyle>{data.membershipType}</FontStyle>
-              <FontStyle>{data.joinDate}</FontStyle>
-              <FontStyle>{data.attendance}</FontStyle>
-              <FontStyle>{data.absence}</FontStyle>
-              <FontStyle color="#ff5858">{data.penalty}</FontStyle>
+              {activityInfo.map((info) => (
+                <FontStyle
+                  key={info.label}
+                  color={info.label === '패널티' ? '#ff5858' : undefined}
+                >
+                  {info.value}
+                </FontStyle>
+              ))}
             </DataFlex>
           </FlexWrapper>
         </ActivityContent>
