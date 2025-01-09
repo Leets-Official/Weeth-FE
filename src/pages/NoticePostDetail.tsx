@@ -33,17 +33,15 @@ const NoticePostDetail = () => {
   const path = 'notices';
   const { postId } = useParams();
 
-  // postId를 숫자로 변환
   const numericPostId = postId ? parseInt(postId, 10) : null;
 
-  // postId가 유효하지 않으면 에러 처리
   if (!numericPostId) {
     return <div>잘못된 게시물 ID입니다.</div>;
   }
 
   const [refreshKey, setRefreshKey] = useState(0);
+  const [parentCommentId, setParentCommentId] = useState<number | null>(null); // 부모 댓글 ID 상태
 
-  // refreshKey를 의존성으로 사용
   const { boardDetailInfo, error } = useGetBoardDetail(
     path,
     numericPostId,
@@ -52,6 +50,7 @@ const NoticePostDetail = () => {
 
   const handleRefresh = () => {
     setRefreshKey((prev) => prev + 1);
+    setParentCommentId(null); // 입력 완료 후 대댓글 상태 초기화
   };
 
   if (error) return <div>오류: {error}</div>;
@@ -73,6 +72,7 @@ const NoticePostDetail = () => {
               postId={boardDetailInfo.id}
               path={path}
               onCommentDelete={handleRefresh}
+              onReply={(commentId) => setParentCommentId(commentId)} // 대댓글 버튼 클릭 시 부모 ID 설정
             />
           </>
         )}
@@ -81,6 +81,7 @@ const NoticePostDetail = () => {
         {boardDetailInfo && (
           <CommentInput
             postId={boardDetailInfo.id}
+            parentCommentId={parentCommentId} // 부모 댓글 ID 전달
             onCommentSuccess={handleRefresh}
           />
         )}

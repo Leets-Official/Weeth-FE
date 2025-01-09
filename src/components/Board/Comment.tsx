@@ -12,6 +12,7 @@ interface CommentProps {
   commentId: number;
   path: string;
   onDelete: () => void;
+  onReply: (commentId: number) => void;
 }
 
 const Comment = ({
@@ -22,12 +23,14 @@ const Comment = ({
   commentId,
   path,
   onDelete,
+  onReply,
 }: CommentProps) => {
   const [isHighlighted, setIsHighlighted] = useState(false);
 
   const onClickReply = () => {
     console.log('답댓', commentId);
-    setIsHighlighted((prev) => !prev); // 선택 상태를 토글
+    onReply(commentId); // 대댓글 클릭 이벤트 전달
+    setIsHighlighted((prev) => !prev);
   };
 
   const onClickMenu = () => {
