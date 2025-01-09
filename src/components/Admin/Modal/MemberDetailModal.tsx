@@ -1,9 +1,9 @@
 import { MemberData } from '@/components/Admin/context/MemberContext';
 import { styled } from 'styled-components';
 import dropdownIcon from '@/assets/images/ic_admin_column_meatball.svg';
-import ButtonGroup from '../ButtonGroup';
-import StatusIndicator from '../StatusIndicator';
-import CommonModal from './CommonModal';
+import ButtonGroup from '@/components/Admin/ButtonGroup';
+import StatusIndicator from '@/components/Admin/StatusIndicator';
+import CommonModal from '@/components/Admin/Modal/CommonModal';
 
 interface MemberDetailModalProps {
   data: MemberData;
