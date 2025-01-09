@@ -71,10 +71,8 @@ const DataFlex = styled.div`
   color: #000;
 `;
 
-const getHighestCardinal = (cardinal: string): string => {
-  const highestCardinal = cardinal.split('.')[0];
-  return `${highestCardinal}기`;
-};
+const getHighestCardinal = (cardinal: string): string =>
+  `${cardinal.split('.')[0]}기`;
 
 const MemberDetailModal: React.FC<MemberDetailModalProps> = ({
   data,
