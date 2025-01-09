@@ -32,12 +32,17 @@ interface PostDetailMainProps {
   info: BoardDetail | null;
 }
 
-const PostDetailMain = ({ info }: PostDetailMainProps) => {
-  const onClickDownload = (fileName: string) => {
-    console.log(`${fileName} 파일 다운`);
-  };
+const onClickDownload = (fileName: string, fileUrl: string) => {
+  // 동적으로 a 태그 생성
+  const link = document.createElement('a');
+  // 파일 URL 설정
+  link.href = fileUrl;
+  // 다운로드될 파일 이름 설정
+  link.download = fileName;
+  link.click(); // 다운로드 트리거
+};
 
-  console.log(info);
+const PostDetailMain = ({ info }: PostDetailMainProps) => {
   const formattedDate = formatDate(info?.time ?? '');
 
   if (!info) return <div>Loading...</div>;
@@ -55,7 +60,7 @@ const PostDetailMain = ({ info }: PostDetailMainProps) => {
           key={file.fileId}
           fileName={file.fileName}
           isDownload
-          onClick={() => onClickDownload(file.fileName)}
+          onClick={() => onClickDownload(file.fileName, file.fileUrl)}
         />
       ))}
       <S.CommentText>
