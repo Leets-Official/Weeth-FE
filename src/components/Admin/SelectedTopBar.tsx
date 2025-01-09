@@ -1,4 +1,3 @@
-import Button from '@/components/Button/Button';
 import theme from '@/styles/theme';
 import backarrow from '@/assets/images/ic_admin_backarrow.svg';
 import checkIcon from '@/assets/images/ic_admin_circle_check.svg';
@@ -6,14 +5,7 @@ import dropdownIcon from '@/assets/images/ic_admin_column_meatball.svg';
 import styled from 'styled-components';
 import { useMemberContext } from './context/MemberContext';
 import { Title } from './TopBar';
-
-const ButtonGroup = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 12px;
-  padding-right: 20px;
-`;
+import ButtonGroup from './ButtonGroup';
 
 const SelectedTopBarWrapper = styled.div`
   width: 100%;
@@ -32,17 +24,10 @@ const TitleContainer = styled.div`
   padding-left: 55px;
 `;
 
-const SvgIcon = styled.img<{ width?: string; height?: string }>`
+const SvgIcon = styled.img`
   cursor: pointer;
-  width: ${({ width }) => width || '15px'};
-  height: ${({ height }) => height || '15px'};
-`;
-
-const ButtonContent = styled.div`
-  display: flex;
-  align-items: center;
-  padding: 5px;
-  gap: 25px;
+  width: 15px;
+  height: 15px;
 `;
 
 const SelectedTopBar: React.FC = () => {
@@ -92,11 +77,13 @@ const SelectedTopBar: React.FC = () => {
       label: '변경 기수',
       onClick: () => alert('기수를 변경하시겠습니까?'),
       disabled: false,
+      icon: checkIcon,
     },
     {
       label: '직접 입력',
       onClick: () => alert('직접 입력 기능을 실행합니다.'), // 나중에 수정
       disabled: false,
+      icon: dropdownIcon,
     },
   ];
 
@@ -106,40 +93,7 @@ const SelectedTopBar: React.FC = () => {
         <SvgIcon src={backarrow} alt="뒤로가기" onClick={handleBackClick} />
         <Title>{`${selectedMembers.length}명 선택됨`}</Title>
       </TitleContainer>
-      <ButtonGroup>
-        {buttons.map(({ label, onClick, disabled }) => (
-          <Button
-            key={label}
-            color="#fff"
-            textcolor="#000"
-            width="auto"
-            height="43px"
-            borderRadius="4px"
-            onClick={onClick}
-            disabled={disabled}
-          >
-            <ButtonContent>
-              {label}
-              {label === '변경 기수' && (
-                <SvgIcon
-                  src={checkIcon}
-                  alt="check"
-                  width="24px"
-                  height="24px"
-                />
-              )}
-              {label === '직접 입력' && (
-                <SvgIcon
-                  src={dropdownIcon}
-                  alt="dropdown"
-                  width="24px"
-                  height="24px"
-                />
-              )}
-            </ButtonContent>
-          </Button>
-        ))}
-      </ButtonGroup>
+      <ButtonGroup buttons={buttons} />
     </SelectedTopBarWrapper>
   );
 };
