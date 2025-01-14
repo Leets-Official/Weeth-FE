@@ -2,7 +2,8 @@ import styled from 'styled-components';
 import theme from '../theme';
 
 export const Wrapper = styled.div`
-  width: 815px;
+  width: 95%;
+  margin-left: 2.5%;
   background-color: #ffffff;
   display: flex;
   flex-direction: column;
@@ -16,15 +17,17 @@ export const Wrapper = styled.div`
 `;
 
 export const SearchWrapper = styled.div`
-  width: 784px;
+  width: 98%;
   height: 48px;
   display: flex;
   justify-content: space-between;
-  margin-top: 15px;
+  margin-bottom: 15px;
+  box-sizing: border-box;
+  padding: 15px 15px;
 `;
 
 export const SearchBar = styled.div`
-  width: 492px;
+  width: 70%;
   height: 48px;
   border: 1px solid #dedede;
   border-radius: 5px;
@@ -80,7 +83,7 @@ export const SaveButton = styled.div`
 `;
 
 export const UserWrapper = styled.div`
-  width: 784px;
+  width: 95%;
   background-color: #ffffff;
   border: 1px solid #dedede;
   margin-top: 15px;
