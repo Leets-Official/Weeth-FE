@@ -42,8 +42,6 @@ export const CardinalWrapper = styled.div`
   box-sizing: border-box;
 `;
 
-export const CardinalButtonWrapper = styled.div``;
-
 export const DuesInputWrapper = styled.div`
   ${flexMixin(7)};
 `;

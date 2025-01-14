@@ -2,7 +2,6 @@ import {
   Wrapper,
   Title,
   CardinalWrapper,
-  CardinalButtonWrapper,
   DuesInputWrapper,
   DescriptionWrapper,
   ButtonWrapperWithDescription,
@@ -20,12 +19,12 @@ const DuesRegisterDropDown: React.FC = () => {
     <Wrapper>
       <Title>기수</Title>
       <CardinalWrapper>
-        <CardinalButtonWrapper>
+        <div>
           <Cardinal
             selectedCardinal={selectedCardinal}
             setSelectedCardinal={setSelectedCardinal}
           />
-        </CardinalButtonWrapper>
+        </div>
         <DuesInputWrapper>
           <DuesInput width="95%" placeholder="직접 입력" />
         </DuesInputWrapper>

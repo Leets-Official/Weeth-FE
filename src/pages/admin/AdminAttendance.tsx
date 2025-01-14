@@ -44,10 +44,12 @@ const AdminAttendance: React.FC = () => {
         <Wrapper>
           <Container>
             <CardinalWrapper>
-              <Cardinal
-                selectedCardinal={selectedCardinal}
-                setSelectedCardinal={setSelectedCardinal}
-              />
+              <div>
+                <Cardinal
+                  selectedCardinal={selectedCardinal}
+                  setSelectedCardinal={setSelectedCardinal}
+                />
+              </div>
             </CardinalWrapper>
             <AttendanceWrapper>
               <Attendance />

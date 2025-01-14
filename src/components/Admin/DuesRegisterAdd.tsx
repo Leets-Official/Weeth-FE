@@ -3,7 +3,6 @@ import {
   Title,
   SubTitle,
   CardinalWrapper,
-  CardinalButtonWrapper,
   DuesInputWrapper,
   DescriptionWrapper,
   FileWrapper,
@@ -45,12 +44,12 @@ const DuesRegisterAdd: React.FC = () => {
       <Title>회비 사용 내역 추가</Title>
       <SubTitle>기수</SubTitle>
       <CardinalWrapper>
-        <CardinalButtonWrapper>
+        <div>
           <Cardinal
             selectedCardinal={selectedCardinal}
             setSelectedCardinal={setSelectedCardinal}
           />
-        </CardinalButtonWrapper>
+        </div>
         <DuesInputWrapper>
           <DuesInput width="95%" placeholder="직접 입력" />
         </DuesInputWrapper>

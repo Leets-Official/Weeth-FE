@@ -84,10 +84,12 @@ const AdminDues: React.FC = () => {
         <Wrapper>
           <Container>
             <CardinalWrapper>
-              <Cardinal
-                selectedCardinal={selectedCardinal}
-                setSelectedCardinal={setSelectedCardinal}
-              />
+              <div>
+                <Cardinal
+                  selectedCardinal={selectedCardinal}
+                  setSelectedCardinal={setSelectedCardinal}
+                />
+              </div>
             </CardinalWrapper>
             <DuesWrapper>
               <TotalDues getDuesText={getDuesText} />
