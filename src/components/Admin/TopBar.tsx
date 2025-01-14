@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const TopBarWrapper = styled.div`
+export const TopBarWrapper = styled.div`
   width: 100%;
   background-color: #ffffff;
   border-bottom: 1px solid #dedede;
@@ -10,11 +10,11 @@ const TopBarWrapper = styled.div`
   display: flex;
   align-items: center;
 `;
-const Title = styled.p`
+export const Title = styled.p`
   font-weight: 700;
   font-size: 24px;
 `;
-const Description = styled.p`
+export const Description = styled.p`
   padding-left: 20px;
   font-size: 18px;
   font-weight: 400;
