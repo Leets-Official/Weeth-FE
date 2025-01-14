@@ -92,7 +92,7 @@ export const MemberProvider: React.FC<{ children: React.ReactNode }> = ({
       major: '컴퓨터공학과',
       cardinal: '4.3',
       phone: '01000009999',
-      studentId: '202336123',
+      studentId: '202334423',
       position: '사용자',
       attendance: 12,
       absence: 0,
