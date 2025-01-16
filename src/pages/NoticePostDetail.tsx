@@ -1,12 +1,16 @@
 import { useState } from 'react';
+import Modal from 'react-modal';
 import useGetBoardDetail from '@/api/useGetBoardDetail';
 import CommentInput from '@/components/Board/CommentInput';
 import PostCommentList from '@/components/Board/PostCommentList';
 import PostDetailMain from '@/components/Board/PostDetailMain';
 import Header from '@/components/Header/Header';
 import styled from 'styled-components';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import useGetUserName from '@/hooks/useGetUserName';
+import EditDelModal from '@/components/Modal/EditDelModal';
+
+Modal.setAppElement('#root');
 
 const Container = styled.div`
   display: flex;
@@ -41,7 +45,6 @@ const NoticePostDetail = () => {
   }
 
   const [refreshKey, setRefreshKey] = useState(0);
-  // 대댓글 작성시 부모 댓글 ID 상태
   const [parentCommentId, setParentCommentId] = useState<number | null>(null);
 
   const { boardDetailInfo, error } = useGetBoardDetail(
@@ -50,9 +53,38 @@ const NoticePostDetail = () => {
     refreshKey,
   );
 
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const navi = useNavigate();
+
+  const openModal = () => {
+    setModalIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalIsOpen(false);
+  };
+
+  const onClickEdit = () => {
+    console.log('수정 페이지로 이동');
+    navi('/notices/edit'); // 수정 페이지로 이동
+  };
+
+  const onClickDel = async () => {
+    if (window.confirm('삭제하시겠습니까?')) {
+      try {
+        console.log('삭제 API 호출');
+        // API 호출 예시
+        // await deleteNotice(postId);
+        alert('삭제가 완료되었습니다.');
+        navi('/notice'); // 공지사항 목록 페이지로 이동
+      } catch (err) {
+        alert('삭제 중 오류가 발생했습니다.');
+        console.error(err);
+      }
+    }
+  };
   const handleRefresh = () => {
     setRefreshKey((prev) => prev + 1);
-    // 입력 완료 후 대댓글 상태 초기화
     setParentCommentId(null);
   };
 
@@ -67,7 +99,7 @@ const NoticePostDetail = () => {
           title="📢 공지사항"
           RightButtonType="MENU"
           isAccessible={isMyPost}
-          onClickRightButton={() => console.log('모달 열림')}
+          onClickRightButton={openModal}
         />
 
         {boardDetailInfo && (
@@ -92,6 +124,33 @@ const NoticePostDetail = () => {
           />
         )}
       </CommentInputContainer>
+
+      {/* 모달 컴포넌트 */}
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        style={{
+          overlay: {
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            zIndex: 1000,
+          },
+          content: {
+            background: 'transparent',
+            maxWidth: '400px',
+            margin: 'auto',
+            padding: '20px',
+            borderRadius: '8px',
+            border: 'none',
+          },
+        }}
+      >
+        <EditDelModal
+          title="공지사항"
+          onClickEdit={onClickEdit}
+          onClickDel={onClickDel}
+          onClickCancel={closeModal}
+        />
+      </Modal>
     </>
   );
 };
