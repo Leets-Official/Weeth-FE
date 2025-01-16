@@ -1,26 +1,30 @@
+import theme from '@/styles/theme';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import Button from './Button';
 import { MemberData } from './context/MemberContext';
 
-const AddRow = styled.tr`
-  background-color: #f0f9f6;
-`;
-
-const AddCell = styled.td`
+const AddContainer = styled.div`
+  background-color: ${theme.color.gray[100]};
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  box-sizing: border-box;
   padding: 10px;
-  white-space: nowrap;
-  text-align: left;
+  gap: 10px;
 `;
 
 const Input = styled.input`
-  width: 100%;
+  flex: 1;
   padding: 8px;
   background-color: transparent;
   border: none;
   font-size: 16px;
+  outline: none;
 `;
-
+const ButtonWrapper = styled.div`
+  display: flex;
+`;
 interface PenaltyAddProps {
   member: MemberData;
   onCancel: () => void;
@@ -37,31 +41,24 @@ const PenaltyAdd: React.FC<PenaltyAddProps> = ({ member, onCancel }) => {
   };
 
   return (
-    <AddRow>
-      <AddCell>
-        <Input
-          type="text"
-          placeholder="사유를 입력해주세요"
-          value={reason}
-          onChange={(e) => setReason(e.target.value)}
-        />
-      </AddCell>
-      <AddCell>
-        <Input
-          type="text"
-          placeholder="패널티를 입력해주세요"
-          value={penalty}
-          onChange={(e) => setPenalty(e.target.value)}
-        />
-      </AddCell>
-      <AddCell>
-        <Input
-          type="date"
-          value={penaltyDate}
-          onChange={(e) => setPenaltyDate(e.target.value)}
-        />
-      </AddCell>
-      <AddCell>
+    <AddContainer>
+      <Input
+        type="text"
+        placeholder="추가할 패널티의 사유를 작성해주세요"
+        value={reason}
+        onChange={(e) => setReason(e.target.value)}
+      />
+      <Input
+        type="text"
+        value={penalty}
+        onChange={(e) => setPenalty(e.target.value)}
+      />
+      <Input
+        type="text"
+        value={penaltyDate}
+        onChange={(e) => setPenaltyDate(e.target.value)}
+      />
+      <ButtonWrapper>
         <Button
           color="#4d4d4d"
           description="취소"
@@ -74,8 +71,8 @@ const PenaltyAdd: React.FC<PenaltyAddProps> = ({ member, onCancel }) => {
           width="64px"
           //   onClick={handleSave}
         />
-      </AddCell>
-    </AddRow>
+      </ButtonWrapper>
+    </AddContainer>
   );
 };
 

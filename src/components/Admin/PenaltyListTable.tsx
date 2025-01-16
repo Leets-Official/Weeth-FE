@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import plusIcon from '@/assets/images/ic_admin_plus.svg';
-import { useMemberContext, MemberData } from './context/MemberContext';
+import { useMemberContext } from './context/MemberContext';
 import PenaltyDetail from './PenaltyDetail';
+import PenaltyAdd from './PenaltyAdd';
 import { statusColors } from './StatusIndicator';
 import { StatusCell } from './MemberListTableRow';
 
@@ -23,10 +24,18 @@ const TableContainer = styled.div`
 
 const Row = styled.tr`
   border-bottom: 1px solid #dedede;
+  cursor: pointer;
 `;
 
 const ExpandedRow = styled.tr`
-  background-color: #eaf8f6;
+  background-color: #f9f9f9;
+`;
+
+const SubHeaderRow = styled.div`
+  display: flex;
+  background-color: #e6fcf7;
+  font-weight: bold;
+  padding: 10px;
 `;
 
 const Cell = styled.td`
@@ -49,9 +58,8 @@ const HeaderCell = styled.th`
 `;
 
 const SubHeaderCell = styled.td`
-  padding: 10px;
+  flex: 1;
   font-weight: bold;
-  background-color: #f0f9f6;
   text-align: left;
   white-space: nowrap;
 `;
@@ -62,7 +70,7 @@ const columns = [
   { key: 'major', header: '학과' },
   { key: 'studentId', header: '학번' },
   { key: 'penalty', header: '패널티' },
-  { key: 'LatestPenalty', header: '최근 패널티' },
+  { key: 'latestPenalty', header: '최근 패널티' },
 ];
 
 const PenaltyListTable: React.FC = () => {
@@ -72,13 +80,20 @@ const PenaltyListTable: React.FC = () => {
   );
 
   const [expandedRow, setExpandedRow] = useState<string | null>(null);
+  const [isAdding, setIsAdding] = useState<boolean>(false);
 
   const handleRowClick = (studentId: string) => {
-    if (expandedRow === studentId) {
-      setExpandedRow(null);
-    } else {
-      setExpandedRow(studentId);
-    }
+    if (isAdding) return; // 추가 중에는 클릭 비활성화
+    setExpandedRow((prev) => (prev === studentId ? null : studentId));
+  };
+
+  const handleAddPenalty = (studentId: string) => {
+    setIsAdding(true);
+    setExpandedRow(studentId); // 추가 시 해당 행 확장
+  };
+
+  const handleCancelAdd = () => {
+    setIsAdding(false);
   };
 
   return (
@@ -97,10 +112,15 @@ const PenaltyListTable: React.FC = () => {
           <tbody>
             {filteredMembers.map((member) => (
               <React.Fragment key={member.studentId}>
-                {/* 메인 Row */}
+                {/* 기본 테이블 row */}
                 <Row onClick={() => handleRowClick(member.studentId)}>
                   <StatusCell statusColor={statusColors[member.status]} />
-                  <PlusButtonCell>
+                  <PlusButtonCell
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleAddPenalty(member.studentId);
+                    }}
+                  >
                     <img src={plusIcon} alt="plus-icon" />
                   </PlusButtonCell>
                   {columns.map((column) => (
@@ -108,17 +128,26 @@ const PenaltyListTable: React.FC = () => {
                   ))}
                 </Row>
 
-                {/* 확장 Row */}
+                {/* 클릭 시 나오는 확장 row */}
                 {expandedRow === member.studentId && (
-                  <>
-                    <ExpandedRow>
-                      <SubHeaderCell>사유</SubHeaderCell>
-                      <SubHeaderCell>패널티</SubHeaderCell>
-                      <SubHeaderCell>패널티 일자</SubHeaderCell>
-                      <SubHeaderCell />
-                    </ExpandedRow>
-                    <PenaltyDetail member={member} />
-                  </>
+                  <ExpandedRow>
+                    <td colSpan={columns.length + 2}>
+                      <SubHeaderRow>
+                        <SubHeaderCell>사유</SubHeaderCell>
+                        <SubHeaderCell>패널티</SubHeaderCell>
+                        <SubHeaderCell>패널티 일자</SubHeaderCell>
+                        <SubHeaderCell />
+                      </SubHeaderRow>
+                      {isAdding ? (
+                        <PenaltyAdd
+                          member={member}
+                          onCancel={handleCancelAdd}
+                        />
+                      ) : (
+                        <PenaltyDetail member={member} />
+                      )}
+                    </td>
+                  </ExpandedRow>
                 )}
               </React.Fragment>
             ))}
