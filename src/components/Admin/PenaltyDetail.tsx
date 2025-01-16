@@ -3,51 +3,70 @@ import styled from 'styled-components';
 import Button from './Button';
 import { MemberData } from './context/MemberContext';
 
-const DetailRow = styled.tr`
+const DetailContainer = styled.div`
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 70px 1fr;
+  grid-template-areas: 'reason empty penalty penaltyDate actions';
+  gap: 10px;
+  padding-left: 70px;
   background-color: #ffffff;
+  align-items: center;
+  box-sizing: border-box;
 `;
 
-const DetailCell = styled.td`
-  padding: 10px;
-  text-align: left;
-  white-space: nowrap;
+const DetailText = styled.div`
+  grid-area: ${(props) => props['data-area']};
+  font-size: 16px;
 `;
 
+const ButtonWrapper = styled.div`
+  grid-area: actions;
+  display: flex;
+  justify-content: flex-end;
+`;
 interface PenaltyDetailProps {
   member: MemberData;
+  penaltyData: {
+    reason: string;
+    penalty: string;
+    penaltyDate: string;
+  };
+  onEdit: () => void;
+  onDelete: () => void;
 }
 
-const PenaltyDetail: React.FC<PenaltyDetailProps> = ({ member }) => {
-  // const handleEdit = () => {
-  //   console.log('Edit penalty for:', member.studentId);
-  // };
-
-  // const handleDelete = () => {
-  //   if (window.confirm('삭제하시겠습니까?')) {
-  //     console.log('Deleted penalty for:', member.studentId);
-  //   }
-  // };
+const PenaltyDetail: React.FC<PenaltyDetailProps> = ({
+  member,
+  penaltyData,
+  onDelete,
+  onEdit,
+}) => {
+  const handleDelete = () => {
+    if (window.confirm('삭제하시겠습니까?')) {
+      onDelete();
+    }
+  };
 
   return (
-    <DetailRow>
-      <DetailCell>미션 과제 미제출</DetailCell>
-      <DetailCell>1</DetailCell>
-      <DetailCell>2025.07.27</DetailCell>
-      <DetailCell>
+    <DetailContainer>
+      <DetailText>미션 과제 미제출</DetailText>
+      <DetailText>1</DetailText>
+      <DetailText>2025.07.27</DetailText>
+      <ButtonWrapper>
         <Button
           color="#2f2f2f"
           description="수정"
           width="64px"
-          //   onClick={handleEdit}
+          onClick={onEdit}
         />
         <Button
           color="#ff5858"
           description="삭제"
           width="64px"
-          //   onClick={handleDelete}
+          onClick={handleDelete}
         />
-      </DetailCell>
-    </DetailRow>
+      </ButtonWrapper>
+    </DetailContainer>
   );
 };
 

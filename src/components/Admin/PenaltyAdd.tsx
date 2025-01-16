@@ -31,14 +31,30 @@ const ButtonWrapper = styled.div`
   justify-content: flex-end;
 `;
 
-const PenaltyAdd: React.FC<PenaltyAddProps> = ({ member, onCancel }) => {
+interface PenaltyAddProps {
+  onCancel: () => void;
+  onSave: (data: {
+    reason: string;
+    penalty: string;
+    penaltyDate: string;
+  }) => void;
+}
+
+const PenaltyAdd: React.FC<PenaltyAddProps> = ({
+  // member,
+  onCancel,
+  onSave,
+}) => {
   const [reason, setReason] = useState('');
   const [penalty, setPenalty] = useState('');
   const [penaltyDate, setPenaltyDate] = useState('');
 
   const handleSave = () => {
-    console.log('Saved:', { reason, penalty, penaltyDate });
-    onCancel();
+    if (!reason || !penalty || !penaltyDate) {
+      alert('모든 필드를 작성해주세요.');
+      return;
+    }
+    onSave({ reason, penalty, penaltyDate });
   };
 
   return (
@@ -68,13 +84,13 @@ const PenaltyAdd: React.FC<PenaltyAddProps> = ({ member, onCancel }) => {
           color="#4d4d4d"
           description="취소"
           width="64px"
-          // onClick={onCancel}
+          onClick={onCancel}
         />
         <Button
           color="#508fff"
           description="저장"
           width="64px"
-          // onClick={handleSave}
+          onClick={handleSave}
         />
       </ButtonWrapper>
     </AddContainer>

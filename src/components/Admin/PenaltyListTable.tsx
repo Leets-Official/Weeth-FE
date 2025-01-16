@@ -97,6 +97,13 @@ const PenaltyListTable: React.FC = () => {
   const [expandedRow, setExpandedRow] = useState<string | null>(null);
   const [isAdding, setIsAdding] = useState<boolean>(false);
 
+  const [penaltyData, setPenaltyData] = useState<
+    Record<
+      string,
+      { reason: string; penalty: string; penaltyDate: string } | null
+    >
+  >({});
+
   const handleRowClick = (studentId: string) => {
     if (isAdding) return;
     setExpandedRow((prev) => (prev === studentId ? null : studentId));
@@ -108,6 +115,17 @@ const PenaltyListTable: React.FC = () => {
   };
 
   const handleCancelAdd = () => {
+    setIsAdding(false);
+  };
+
+  const handleSavePenalty = (
+    studentId: string,
+    data: { reason: string; penalty: string; penaltyDate: string },
+  ) => {
+    setPenaltyData((prev) => ({
+      ...prev,
+      [studentId]: data,
+    }));
     setIsAdding(false);
   };
 
@@ -166,11 +184,24 @@ const PenaltyListTable: React.FC = () => {
                       <td colSpan={columns.length + 2}>
                         {isAdding ? (
                           <PenaltyAdd
-                            member={member}
+                            // member={member}
                             onCancel={handleCancelAdd}
+                            onSave={(data) =>
+                              handleSavePenalty(member.studentId, data)
+                            }
                           />
                         ) : (
-                          <PenaltyDetail member={member} />
+                          <PenaltyDetail
+                            member={member}
+                            penaltyData={penaltyData[member.studentId]!}
+                            onEdit={() => handleAddPenalty(member.studentId)}
+                            onDelete={() =>
+                              setPenaltyData((prev) => ({
+                                ...prev,
+                                [member.studentId]: null,
+                              }))
+                            }
+                          />
                         )}
                       </td>
                     </ExpandedRow>
