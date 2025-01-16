@@ -74,7 +74,7 @@ const NoticePostDetail = () => {
       try {
         console.log('삭제 API 호출');
         // API 호출 예시
-        // await deleteNotice(postId);
+        // await deletePost(postId);
         alert('삭제가 완료되었습니다.');
         navi('/notice'); // 공지사항 목록 페이지로 이동
       } catch (err) {
