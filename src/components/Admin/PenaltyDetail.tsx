@@ -15,7 +15,6 @@ const DetailContainer = styled.div`
 `;
 
 const DetailText = styled.div`
-  grid-area: ${(props) => props['data-area']};
   font-size: 16px;
 `;
 

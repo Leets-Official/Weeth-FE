@@ -9,6 +9,7 @@ import { StatusCell } from './MemberListTableRow';
 
 const TableWrapper = styled.div`
   width: 100%;
+  margin-top: 30px;
   font-size: 18px;
   border-collapse: collapse;
 `;
