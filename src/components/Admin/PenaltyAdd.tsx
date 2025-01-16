@@ -10,13 +10,14 @@ const AddContainer = styled.div`
   flex-direction: row;
   align-items: center;
   box-sizing: border-box;
-  padding: 10px;
   gap: 10px;
 `;
 
 const Input = styled.input`
   flex: 1;
   padding: 8px;
+  width: 100%;
+  max-width: 300px;
   background-color: transparent;
   border: none;
   font-size: 16px;

@@ -12,7 +12,6 @@ const TableWrapper = styled.div`
   font-size: 18px;
   border-collapse: collapse;
 `;
-
 const TableContainer = styled.div`
   background-color: #fff;
   border: 1px solid #f2f2f2;
@@ -26,18 +25,6 @@ const Row = styled.tr`
   border-bottom: 1px solid #dedede;
   cursor: pointer;
 `;
-
-const ExpandedRow = styled.tr`
-  background-color: #f9f9f9;
-`;
-
-const SubHeaderRow = styled.div`
-  display: flex;
-  background-color: #e6fcf7;
-  font-weight: bold;
-  padding: 10px;
-`;
-
 const Cell = styled.td`
   padding: 15px;
   text-align: left;
@@ -56,12 +43,35 @@ const HeaderCell = styled.th`
   border-bottom: 1px solid #dedede;
   font-weight: bold;
 `;
-
-const SubHeaderCell = styled.td`
-  flex: 1;
+const SubHeaderRow = styled.div`
+  display: grid;
+  grid-template-columns: 2fr 85px 85px;
+  grid-template-areas: 'reason penalty penaltyDate actions';
+  gap: 10px;
+  padding: 5px;
+  padding-left: 60px;
+  background-color: #e6fcf7;
   font-weight: bold;
+`;
+
+const ContentRow = styled.div`
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  grid-template-areas: 'reasonContent penaltyContent penaltyDateContent actions'; /* 그리드 이름 설정 */
+  padding: 10px;
+`;
+
+const GridCell = styled.div<{ area: string }>`
+  grid-area: ${(props) => props.area};
+  padding: 5px;
   text-align: left;
   white-space: nowrap;
+`;
+const ExpandedRow = styled.tr`
+  td {
+    padding: 5px;
+    grid-column: 1 / -1;
+  }
 `;
 
 const columns = [
@@ -83,13 +93,13 @@ const PenaltyListTable: React.FC = () => {
   const [isAdding, setIsAdding] = useState<boolean>(false);
 
   const handleRowClick = (studentId: string) => {
-    if (isAdding) return; // 추가 중에는 클릭 비활성화
+    if (isAdding) return;
     setExpandedRow((prev) => (prev === studentId ? null : studentId));
   };
 
   const handleAddPenalty = (studentId: string) => {
     setIsAdding(true);
-    setExpandedRow(studentId); // 추가 시 해당 행 확장
+    setExpandedRow(studentId);
   };
 
   const handleCancelAdd = () => {
@@ -130,24 +140,32 @@ const PenaltyListTable: React.FC = () => {
 
                 {/* 클릭 시 나오는 확장 row */}
                 {expandedRow === member.studentId && (
-                  <ExpandedRow>
-                    <td colSpan={columns.length + 2}>
-                      <SubHeaderRow>
-                        <SubHeaderCell>사유</SubHeaderCell>
-                        <SubHeaderCell>패널티</SubHeaderCell>
-                        <SubHeaderCell>패널티 일자</SubHeaderCell>
-                        <SubHeaderCell />
-                      </SubHeaderRow>
-                      {isAdding ? (
-                        <PenaltyAdd
-                          member={member}
-                          onCancel={handleCancelAdd}
-                        />
-                      ) : (
-                        <PenaltyDetail member={member} />
-                      )}
-                    </td>
-                  </ExpandedRow>
+                  <>
+                    {/* SubHeaderRow */}
+                    <ExpandedRow>
+                      <td colSpan={columns.length + 2}>
+                        <SubHeaderRow>
+                          <GridCell area="reason">사유</GridCell>
+                          <GridCell area="penalty">패널티</GridCell>
+                          <GridCell area="penaltyDate">패널티 일자</GridCell>
+                        </SubHeaderRow>
+                      </td>
+                    </ExpandedRow>
+
+                    {/* 추가 컴포넌트 Row */}
+                    <ExpandedRow>
+                      <td colSpan={columns.length + 2}>
+                        {isAdding ? (
+                          <PenaltyAdd
+                            member={member}
+                            onCancel={handleCancelAdd}
+                          />
+                        ) : (
+                          <PenaltyDetail member={member} />
+                        )}
+                      </td>
+                    </ExpandedRow>
+                  </>
                 )}
               </React.Fragment>
             ))}
