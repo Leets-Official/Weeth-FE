@@ -5,29 +5,30 @@ import Button from './Button';
 
 const AddContainer = styled.div`
   display: grid;
-  grid-template-columns: 2fr 85px 85px 85px 100px;
-  grid-template-areas: 'reason penalty penaltyDate empty actions';
+  grid-template-columns: 2fr 1fr 1fr 70px 1fr;
+  grid-template-areas: 'reason empty empty penalty penaltyDate actions';
   gap: 10px;
+  padding-left: 70px;
   background-color: ${theme.color.gray[100]};
   align-items: center;
   box-sizing: border-box;
 `;
 
 const Input = styled.input`
-  grid-area: ${(props) => props['data-area']};
   font-weight: 500;
   padding: 8px;
   width: 100%;
   max-width: 300px;
   background-color: transparent;
   border: none;
-  font-size: 16px;
+  font-size: 18px;
   outline: none;
 `;
 
 const ButtonWrapper = styled.div`
   grid-area: actions;
   display: flex;
+  justify-content: flex-end;
 `;
 
 const PenaltyAdd: React.FC<PenaltyAddProps> = ({ member, onCancel }) => {

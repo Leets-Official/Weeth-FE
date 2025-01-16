@@ -45,21 +45,21 @@ const HeaderCell = styled.th`
 `;
 const SubHeaderRow = styled.div`
   display: grid;
-  grid-template-columns: 2fr 85px 85px 85px 100px;
-  grid-template-areas: 'reason empty empty empty penalty penaltyDate actions';
+  grid-template-columns: 2fr 80px 95px 190px 120px;
+  grid-template-areas: 'reason empty penalty penaltyDate actions';
   gap: 10px;
   padding: 5px;
-  padding-left: 60px;
+  padding-left: 70px;
   background-color: #e6fcf7;
   font-weight: bold;
 `;
 
-const ContentRow = styled.div`
-  display: grid;
-  grid-template-columns: 2fr 85px 85px 85px 100px;
-  grid-template-areas: 'reasonContent penaltyContent penaltyDateContent emptyContent actions'; /* 그리드 이름 설정 */
-  padding: 10px;
-`;
+// const ContentRow = styled.div`
+//   display: grid;
+//   grid-template-columns: 2fr 85px 80px 90px 150px;
+//   grid-template-areas: 'reasonContent penaltyContent penaltyDateContent emptyContent actions'; /* 그리드 이름 설정 */
+//   padding: 10px;
+// `;
 
 const GridCell = styled.div<{ area: string }>`
   grid-area: ${(props) => props.area};
@@ -74,8 +74,8 @@ const ExpandedRow = styled.tr`
 `;
 
 const EmptyCell = styled.td`
-  background-color: #f9f9f9; /* 테이블 배경색과 일치 */
-  width: 100px; /* 너비 설정 */
+  background-color: #f9f9f9;
+  width: 150px;
 `;
 
 const columns = [
@@ -139,12 +139,10 @@ const PenaltyListTable: React.FC = () => {
                     <img src={plusIcon} alt="plus-icon" />
                   </PlusButtonCell>
                   {columns.map((column) =>
-                    column.key === 'empty' ? ( // 빈 column 처리
+                    column.key === 'empty' ? (
                       <EmptyCell key={column.key} />
                     ) : (
-                      <Cell key={column.key}>
-                        {member[column.key]} {/* 기존 데이터 렌더링 */}
-                      </Cell>
+                      <Cell key={column.key}>{member[column.key]}</Cell>
                     ),
                   )}
                 </Row>
