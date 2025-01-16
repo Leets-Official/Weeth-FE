@@ -1,10 +1,35 @@
 import useGetMonthlySchedule from '@/api/useGetMonthSchedule';
 import * as S from '@/styles/calendar/MonthCalendar.styled';
+import theme from '@/styles/theme';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import FullCalendar from '@fullcalendar/react';
 import { format } from 'date-fns';
 import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+
+const mockData = [
+  {
+    id: 3,
+    title: '2주차 정기모임',
+    start: '2025-01-17T19:00:00',
+    end: '2025-01-17T21:00:00',
+    isMeeting: true,
+  },
+  {
+    id: 4,
+    title: '3주차 정기모임',
+    start: '2025-01-14T19:00:00',
+    end: '2025-01-18T21:00:00',
+    isMeeting: true,
+  },
+  {
+    id: 5,
+    title: '12주 중간고사 기간',
+    start: '2025-01-07T00:00:00',
+    end: '2025-01-11T23:59:00',
+    isMeeting: false,
+  },
+];
 
 const MonthCalendar = ({ year, month }: { year: number; month: number }) => {
   const calendarRef = useRef<FullCalendar | null>(null);
@@ -24,22 +49,12 @@ const MonthCalendar = ({ year, month }: { year: number; month: number }) => {
     999,
   ).toISOString();
 
-  const { data: monthlySchedule, error } = useGetMonthlySchedule(
-    formattedStart,
-    formattedEnd,
-  );
-
-  // 데이터 전처리 함수
-  // TODO: 백엔드 수정 후 삭제 예정
   const preprocessData = (data: any[]) =>
     data.map((event) => ({
       ...event,
       id: `${event.id}_${event.isMeeting}`,
     }));
 
-  const processedData = preprocessData(monthlySchedule || []);
-
-  // 오늘 표시
   const renderDayCell = (arg: any) => {
     const isToday =
       format(arg.date, 'yyyy-MM-dd') === format(new Date(), 'yyyy-MM-dd');
@@ -51,8 +66,30 @@ const MonthCalendar = ({ year, month }: { year: number; month: number }) => {
     );
   };
 
+  const renderEventContent = (eventInfo: any) => {
+    const isToday = format(new Date(), 'yyyy-MM-dd');
+    const eventStart = format(new Date(eventInfo.event.start), 'yyyy-MM-dd');
+    const eventEnd = format(new Date(eventInfo.event.end), 'yyyy-MM-dd');
+
+    const isTodayIncluded =
+      new Date(isToday) >= new Date(eventStart) &&
+      new Date(isToday) <= new Date(eventEnd);
+
+    return (
+      <div
+        style={{
+          color: isTodayIncluded ? theme.color.main : '#fff',
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+        }}
+      >
+        {eventInfo.event.title}
+      </div>
+    );
+  };
+
   const onClickEvent = (clickInfo: any) => {
-    const [id] = clickInfo.event.id.split('_'); // 원래 ID 추출
+    const [id] = clickInfo.event.id.split('_');
     const { isMeeting } = clickInfo.event.extendedProps;
 
     if (isMeeting) {
@@ -69,16 +106,13 @@ const MonthCalendar = ({ year, month }: { year: number; month: number }) => {
     }
   }, [year, month]);
 
-  if (error) {
-    return <div>{error}</div>;
-  }
-
   return (
     <S.Calendar>
       <FullCalendar
         ref={calendarRef}
         plugins={[dayGridPlugin]}
-        events={processedData}
+        events={mockData}
+        eventContent={renderEventContent}
         eventClick={onClickEvent}
         locale="ko"
         headerToolbar={false}
