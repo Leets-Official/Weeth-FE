@@ -1,13 +1,14 @@
 import theme from '@/styles/theme';
 import styled from 'styled-components';
 
-export const Calendar = styled.div`
+export const Container = styled.div`
   width: 100%;
-  padding-bottom: 183px;
   font-family: ${theme.font.regular};
   font-size: 16px;
   z-index: 2;
+`;
 
+export const Calendar = styled.div`
   .fc {
     font-size: 12px;
     border: none;
@@ -128,4 +129,17 @@ export const Today = styled.div`
   width: 52px;
   height: 94px;
   z-index: 0;
+`;
+
+export const ScheduleList = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+`;
+
+export const TodayDate = styled.div`
+  font-weight: 600;
+  font-size: 18px;
+  margin: 20px 0 15px 25px;
 `;
