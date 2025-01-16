@@ -9,6 +9,7 @@ import styled from 'styled-components';
 import { useNavigate, useParams } from 'react-router-dom';
 import useGetUserName from '@/hooks/useGetUserName';
 import EditDelModal from '@/components/Modal/EditDelModal';
+import deletePost from '@/api/deletePost';
 
 Modal.setAppElement('#root');
 
@@ -70,7 +71,7 @@ const StudyPostDetail = () => {
 
   const onClickEdit = () => {
     console.log('수정 페이지로 이동');
-    navi('/notices/edit'); // 수정 페이지로 이동
+    navi(`/${numericPostId}/post`); // 수정 페이지로 이동
   };
 
   const onClickDel = async () => {
@@ -78,9 +79,9 @@ const StudyPostDetail = () => {
       try {
         console.log('삭제 API 호출');
         // API 호출 예시
-        // await deletePost(postId);
+        await deletePost(numericPostId);
         alert('삭제가 완료되었습니다.');
-        navi('/notice'); // 공지사항 목록 페이지로 이동
+        navi('/study'); // 게시판 목록 페이지로 이동
       } catch (err) {
         alert('삭제 중 오류가 발생했습니다.');
         console.error(err);

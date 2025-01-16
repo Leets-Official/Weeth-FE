@@ -6,7 +6,7 @@ const deletePost = async (postId: number) => {
   const accessToken = localStorage.getItem('accessToken');
   const refreshToken = localStorage.getItem('refreshToken');
 
-  return axios.delete(`${BASE_URL}/api/v1/post/${postId}`, {
+  return axios.delete(`${BASE_URL}/api/v1/posts/${postId}`, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
       Authorization_refresh: `Bearer ${refreshToken}`,
