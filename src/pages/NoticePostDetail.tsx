@@ -6,6 +6,7 @@ import PostDetailMain from '@/components/Board/PostDetailMain';
 import Header from '@/components/Header/Header';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
+import useGetUserName from '@/hooks/useGetUserName';
 
 const Container = styled.div`
   display: flex;
@@ -55,17 +56,20 @@ const NoticePostDetail = () => {
     setParentCommentId(null);
   };
 
+  const isMyPost = boardDetailInfo?.name === useGetUserName();
+
   if (error) return <div>오류: {error}</div>;
 
   return (
     <>
       <Container>
         <Header
-          title="게시판"
+          title="📢 공지사항"
           RightButtonType="MENU"
-          isAccessible
+          isAccessible={isMyPost}
           onClickRightButton={() => console.log('모달 열림')}
         />
+
         {boardDetailInfo && (
           <>
             <PostDetailMain info={boardDetailInfo} />
