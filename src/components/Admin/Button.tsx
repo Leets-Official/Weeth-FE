@@ -31,7 +31,7 @@ const Button: React.FC<ButtonProps> = ({
   onClick,
 }) => {
   return (
-    <Wrapper color={color} width={width}>
+    <Wrapper color={color} width={width} onClick={onClick}>
       <Description>{description}</Description>
     </Wrapper>
   );
