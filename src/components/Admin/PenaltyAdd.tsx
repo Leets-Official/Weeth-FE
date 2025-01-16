@@ -1,20 +1,21 @@
+import { useState } from 'react';
 import theme from '@/styles/theme';
-import React, { useState } from 'react';
-import styled from 'styled-components';
+import { styled } from 'styled-components';
 import Button from './Button';
-import { MemberData } from './context/MemberContext';
 
 const AddContainer = styled.div`
+  display: grid;
+  grid-template-columns: 2fr 85px 85px 85px 100px;
+  grid-template-areas: 'reason penalty penaltyDate empty actions';
+  gap: 10px;
   background-color: ${theme.color.gray[100]};
-  display: flex;
-  flex-direction: row;
   align-items: center;
   box-sizing: border-box;
-  gap: 10px;
 `;
 
 const Input = styled.input`
-  flex: 1;
+  grid-area: ${(props) => props['data-area']};
+  font-weight: 500;
   padding: 8px;
   width: 100%;
   max-width: 300px;
@@ -23,13 +24,11 @@ const Input = styled.input`
   font-size: 16px;
   outline: none;
 `;
+
 const ButtonWrapper = styled.div`
+  grid-area: actions;
   display: flex;
 `;
-interface PenaltyAddProps {
-  member: MemberData;
-  onCancel: () => void;
-}
 
 const PenaltyAdd: React.FC<PenaltyAddProps> = ({ member, onCancel }) => {
   const [reason, setReason] = useState('');
@@ -45,32 +44,36 @@ const PenaltyAdd: React.FC<PenaltyAddProps> = ({ member, onCancel }) => {
     <AddContainer>
       <Input
         type="text"
+        data-area="reason"
         placeholder="추가할 패널티의 사유를 작성해주세요"
         value={reason}
         onChange={(e) => setReason(e.target.value)}
       />
       <Input
         type="text"
+        data-area="penalty"
         value={penalty}
         onChange={(e) => setPenalty(e.target.value)}
       />
       <Input
         type="text"
+        data-area="penaltyDate"
         value={penaltyDate}
         onChange={(e) => setPenaltyDate(e.target.value)}
       />
+      <div style={{ gridArea: 'empty' }} />
       <ButtonWrapper>
         <Button
           color="#4d4d4d"
           description="취소"
           width="64px"
-          //   onClick={onCancel}
+          // onClick={onCancel}
         />
         <Button
           color="#508fff"
           description="저장"
           width="64px"
-          //   onClick={handleSave}
+          // onClick={handleSave}
         />
       </ButtonWrapper>
     </AddContainer>

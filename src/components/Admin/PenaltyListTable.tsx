@@ -45,8 +45,8 @@ const HeaderCell = styled.th`
 `;
 const SubHeaderRow = styled.div`
   display: grid;
-  grid-template-columns: 2fr 85px 85px;
-  grid-template-areas: 'reason penalty penaltyDate actions';
+  grid-template-columns: 2fr 85px 85px 85px 100px;
+  grid-template-areas: 'reason empty empty empty penalty penaltyDate actions';
   gap: 10px;
   padding: 5px;
   padding-left: 60px;
@@ -56,8 +56,8 @@ const SubHeaderRow = styled.div`
 
 const ContentRow = styled.div`
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr;
-  grid-template-areas: 'reasonContent penaltyContent penaltyDateContent actions'; /* 그리드 이름 설정 */
+  grid-template-columns: 2fr 85px 85px 85px 100px;
+  grid-template-areas: 'reasonContent penaltyContent penaltyDateContent emptyContent actions'; /* 그리드 이름 설정 */
   padding: 10px;
 `;
 
@@ -69,9 +69,13 @@ const GridCell = styled.div<{ area: string }>`
 `;
 const ExpandedRow = styled.tr`
   td {
-    padding: 5px;
     grid-column: 1 / -1;
   }
+`;
+
+const EmptyCell = styled.td`
+  background-color: #f9f9f9; /* 테이블 배경색과 일치 */
+  width: 100px; /* 너비 설정 */
 `;
 
 const columns = [
@@ -80,7 +84,8 @@ const columns = [
   { key: 'major', header: '학과' },
   { key: 'studentId', header: '학번' },
   { key: 'penalty', header: '패널티' },
-  { key: 'latestPenalty', header: '최근 패널티' },
+  { key: 'LatestPenalty', header: '최근 패널티' },
+  { key: 'empty', header: '' },
 ];
 
 const PenaltyListTable: React.FC = () => {
@@ -133,9 +138,15 @@ const PenaltyListTable: React.FC = () => {
                   >
                     <img src={plusIcon} alt="plus-icon" />
                   </PlusButtonCell>
-                  {columns.map((column) => (
-                    <Cell key={column.key}>{member[column.key]}</Cell>
-                  ))}
+                  {columns.map((column) =>
+                    column.key === 'empty' ? ( // 빈 column 처리
+                      <EmptyCell key={column.key} />
+                    ) : (
+                      <Cell key={column.key}>
+                        {member[column.key]} {/* 기존 데이터 렌더링 */}
+                      </Cell>
+                    ),
+                  )}
                 </Row>
 
                 {/* 클릭 시 나오는 확장 row */}
