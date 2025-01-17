@@ -14,6 +14,12 @@ const Calendar = () => {
   const [isMonth, setIsMonth] = useState(true);
   const [year, setYear] = useState(CURRENT_YEAR);
   const [month, setMonth] = useState(CURRENT_MONTH);
+  const [term, setTerm] = useState(() => {
+    if (CURRENT_MONTH >= 3 && CURRENT_MONTH <= 9) {
+      return 1;
+    }
+    return 2;
+  });
 
   const onToggle = () => {
     setIsMonth(!isMonth);
@@ -28,27 +34,57 @@ const Calendar = () => {
             alt="left"
             onClick={() => {
               if (isMonth) {
-                if (month === 1) {
-                  setYear(year - 1);
-                  setMonth(12);
-                } else {
-                  setMonth(month - 1);
+                switch (month) {
+                  case 1:
+                    setYear(year - 1);
+                    setMonth(12);
+                    break;
+                  default:
+                    setMonth(month - 1);
+                    break;
+                }
+              }
+              if (!isMonth) {
+                switch (term) {
+                  case 1:
+                    setYear(year - 1);
+                    setTerm(2);
+                    break;
+                  default:
+                    setTerm(term - 1);
+                    break;
                 }
               }
             }}
           />
           <S.Title>
-            {year - 2000}년 {isMonth ? `${month}월` : null}
+            {year - 2000}년 {isMonth ? `${month}월` : `${term}학기`}
           </S.Title>
           <S.ImgButton
             src={icRightArrow}
             alt="right"
             onClick={() => {
               if (isMonth) {
-                if (month === 12) {
-                  setYear(year + 1);
-                  setMonth(1);
-                } else setMonth(month + 1);
+                switch (month) {
+                  case 12:
+                    setYear(year + 1);
+                    setMonth(1);
+                    break;
+                  default:
+                    setMonth(month + 1);
+                    break;
+                }
+              }
+              if (!isMonth) {
+                switch (term) {
+                  case 2:
+                    setYear(year + 1);
+                    setTerm(1);
+                    break;
+                  default:
+                    setTerm(term + 1);
+                    break;
+                }
               }
             }}
           />
@@ -59,7 +95,7 @@ const Calendar = () => {
         {isMonth ? (
           <MonthCalendar month={month} year={year} />
         ) : (
-          <YearCalendar year={year.toString()} />
+          <YearCalendar year={year.toString()} term={term} />
         )}
       </S.Content>
     </S.CalendarWrapper>
