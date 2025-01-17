@@ -8,8 +8,9 @@ left    title     right
 그 외 props는 필요에 따라 전달하여 사용하시면 됩니다.
 
 헤더 컴포넌트의 부모컴포넌트에 width: 370px 설정이 있어야 정렬이 됩니다.
+헤더에 작성될 내용은 children으로 전달해주시면 됩니다
+ex) <Header>공지사항</Header>
 
-title: 헤더 중앙에 사용될 텍스트
 onClickRightButton: right 버튼이 클릭되었을 때 사용할 함수
                     🚨right버튼이 있는 경우에는 필수로 전달해야하는 값입니다.
                       해당 값이 없을 경우 버튼이 렌더링되지 않습니다.
@@ -22,8 +23,6 @@ isComplete: right 버튼이 페이지 내의 입력 여부에 대한 boolean 타
 isAccessible: 접근 가능 여부에 대한 값을 전달해주시면 됩니다. ex) 어드민, 게시글/댓글 작성자
 isCalendar: 캘린더에서 사용되는 헤더이면 true, 그 외의 페이지에서는 모두 false
             default값이 false이므로, false인 경우엔 값을 전달하지 않아도 됩니다.
-
-그 외의 props는 CalendarHeader.tsx에서만 사용되므로, 해당 파일을 확인해주시길 바랍니다.
 
 RightButton이 사용되지 않을 경우, 'none'으로 지정해주시면 됩니다.
 
@@ -47,7 +46,6 @@ interface HeaderProps {
   RightButtonType: 'TEXT' | 'MENU' | 'PLUS' | 'none';
   isComplete?: boolean;
   isAccessible?: boolean;
-  isAdmin?: boolean;
 }
 
 const HeaderWrapper = styled.div`
@@ -71,10 +69,7 @@ const Header = ({
   onClickRightButton,
   RightButtonType,
   isComplete = true,
-  isAccessible = true,
-  // 아래의 props들은 캘린더에서만 사용됨
-  isAdmin,
-  // ---------------------------
+  isAccessible = false,
 }: HeaderProps) => {
   return (
     <HeaderWrapper>
@@ -91,7 +86,8 @@ const Header = ({
       {RightButtonType === 'MENU' && onClickRightButton && isAccessible && (
         <MenuButton onClick={onClickRightButton} />
       )}
-      {RightButtonType === 'PLUS' && isAdmin && <PlusButton />}
+      {RightButtonType === 'PLUS' && isAccessible && <PlusButton />}
+      {RightButtonType !== 'none' && !isAccessible && <None />}
       {RightButtonType === 'none' && <None />}
     </HeaderWrapper>
   );

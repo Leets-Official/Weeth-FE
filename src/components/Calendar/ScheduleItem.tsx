@@ -22,11 +22,11 @@ const Container = styled.div`
   }
 `;
 
-const Line = styled.div<{ isTodayIncluded: boolean }>`
+const Line = styled.div<{ $isTodayIncluded: boolean }>`
   width: 5px;
   height: 53px;
   background-color: ${(props) =>
-    props.isTodayIncluded ? theme.color.main : '#fff'};
+    props.$isTodayIncluded ? theme.color.main : '#fff'};
   border-radius: 11px;
 `;
 
@@ -58,7 +58,7 @@ const ScheduleItem = ({
 
   return (
     <Container>
-      <Line isTodayIncluded={isTodayIncluded} />
+      <Line $isTodayIncluded={isTodayIncluded} />
       <Text>
         <Title>{title}</Title>
         <Date>

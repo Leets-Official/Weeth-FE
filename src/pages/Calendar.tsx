@@ -27,7 +27,8 @@ const Calendar = () => {
 
   return (
     <S.CalendarWrapper>
-      <Header RightButtonType="MENU" onClickRightButton={() => {}}>
+      {/* TODO: 어드민 체크 추가 */}
+      <Header RightButtonType="PLUS" onClickRightButton={() => {}}>
         <S.DateWrapper>
           <S.ImgButton
             src={icLeftArrow}
@@ -58,7 +59,8 @@ const Calendar = () => {
             }}
           />
           <S.Title>
-            {year - 2000}년 {isMonth ? `${month}월` : `${term}학기`}
+            {!isMonth && month <= 2 ? year - 2001 : year - 2000}년{' '}
+            {isMonth ? `${month}월` : `${term}학기`}
           </S.Title>
           <S.ImgButton
             src={icRightArrow}
