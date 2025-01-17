@@ -21,18 +21,37 @@ const Calendar = () => {
 
   return (
     <S.CalendarWrapper>
-      <Header
-        RightButtonType="MENU"
-        onClickRightButton={() => {}}
-        // editYear={(newYear: number) => setYear(newYear)}
-        // editMonth={(newMonth: number) => setMonth(newMonth)}
-      >
+      <Header RightButtonType="MENU" onClickRightButton={() => {}}>
         <S.DateWrapper>
-          <S.ImgButton src={icLeftArrow} alt="left" />
+          <S.ImgButton
+            src={icLeftArrow}
+            alt="left"
+            onClick={() => {
+              if (isMonth) {
+                if (month === 1) {
+                  setYear(year - 1);
+                  setMonth(12);
+                } else {
+                  setMonth(month - 1);
+                }
+              }
+            }}
+          />
           <S.Title>
             {year - 2000}년 {isMonth ? `${month}월` : null}
           </S.Title>
-          <S.ImgButton src={icRightArrow} alt="right" />
+          <S.ImgButton
+            src={icRightArrow}
+            alt="right"
+            onClick={() => {
+              if (isMonth) {
+                if (month === 12) {
+                  setYear(year + 1);
+                  setMonth(1);
+                } else setMonth(month + 1);
+              }
+            }}
+          />
         </S.DateWrapper>
       </Header>
       <S.Content>

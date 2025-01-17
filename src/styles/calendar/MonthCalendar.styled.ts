@@ -77,8 +77,7 @@ export const Calendar = styled.div`
     height: 20px;
     align-items: center;
     margin-left: 2px;
-    border-top-left-radius: 20px;
-    border-bottom-left-radius: 20px;
+    border-radius: 20px;
   }
 
   .fc-event-main {
