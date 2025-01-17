@@ -2,19 +2,24 @@ import styled from 'styled-components';
 import theme from '@/styles/theme';
 import { formatDateTime } from '@/hooks/formatDate';
 import TodayIncluded from '@/hooks/TodayIncluded';
-import TodayPassed from '@/hooks/TodayPassed';
+// import TodayPassed from '@/hooks/TodayPassed';
 
-const Container = styled.div<{ isTodayPassed: boolean }>`
+const Container = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
   width: 345px;
   height: 53px;
-  background-color: ${(props) =>
-    props.isTodayPassed ? theme.color.gray[9] : theme.color.gray[18]};
-  color: ${(props) => (props.isTodayPassed ? theme.color.gray[65] : '#fff')};
+  background-color: ${theme.color.gray[18]};
+  color: #fff;
   border-radius: 5px;
   padding: 5px;
+
+  &:hover {
+    cursor: pointer;
+    background-color: ${theme.color.gray[9]};
+    color: ${theme.color.gray[65]};
+  }
 `;
 
 const Line = styled.div<{ isTodayIncluded: boolean }>`
@@ -50,10 +55,9 @@ const ScheduleItem = ({
   end: string;
 }) => {
   const isTodayIncluded = TodayIncluded(start, end);
-  const isTodayPassed = TodayPassed(end);
 
   return (
-    <Container isTodayPassed={isTodayPassed}>
+    <Container>
       <Line isTodayIncluded={isTodayIncluded} />
       <Text>
         <Title>{title}</Title>
