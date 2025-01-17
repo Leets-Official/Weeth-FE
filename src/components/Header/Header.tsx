@@ -34,57 +34,52 @@ PLUS : 캘린더에서 사용되는 +버튼입니다.
 
 */
 
-import under from '@/assets/images/ic_under.svg';
+import theme from '@/styles/theme';
+import styled from 'styled-components';
 import TextButton from '@/components/Header/TextButton';
-import * as S from '@/styles/common/Header.styled';
 import LeftButton from './LeftButton';
 import MenuButton from './MenuButton';
 import PlusButton from './PlusButton';
 
 interface HeaderProps {
-  title?: string;
+  children: React.ReactNode;
   onClickRightButton?: () => void;
   RightButtonType: 'TEXT' | 'MENU' | 'PLUS' | 'none';
   isComplete?: boolean;
   isAccessible?: boolean;
-  isCalendar?: boolean;
-  year?: number;
-  month?: number;
-  isMonth?: boolean;
   isAdmin?: boolean;
-  openMonthModal?: () => void;
 }
 
+const HeaderWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 25px 25px 20px 25px;
+`;
+
+const Title = styled.div`
+  font-size: 18px;
+  font-family: ${theme.font.semiBold};
+`;
+
+const None = styled.div`
+  width: 24px;
+`;
+
 const Header = ({
-  title = '',
+  children,
   onClickRightButton,
   RightButtonType,
   isComplete = true,
   isAccessible = true,
-  isCalendar = false,
   // 아래의 props들은 캘린더에서만 사용됨
-  year,
-  month,
-  isMonth,
   isAdmin,
-  openMonthModal,
   // ---------------------------
 }: HeaderProps) => {
   return (
-    <S.HeaderWrapper>
+    <HeaderWrapper>
       <LeftButton />
-
-      {isCalendar ? (
-        <S.DateWrapper>
-          <S.Year>{year}년</S.Year>
-          <S.Month>{isMonth ? `${month}월` : null}</S.Month>
-          <S.ImgButton onClick={openMonthModal}>
-            <img src={under} alt="select" />
-          </S.ImgButton>
-        </S.DateWrapper>
-      ) : (
-        <S.Title>{title}</S.Title>
-      )}
+      <Title>{children}</Title>
 
       {RightButtonType === 'TEXT' && onClickRightButton && (
         <TextButton
@@ -93,15 +88,12 @@ const Header = ({
           isComplete={isComplete}
         />
       )}
-
       {RightButtonType === 'MENU' && onClickRightButton && isAccessible && (
         <MenuButton onClick={onClickRightButton} />
       )}
-
       {RightButtonType === 'PLUS' && isAdmin && <PlusButton />}
-
-      {RightButtonType === 'none' && <S.None />}
-    </S.HeaderWrapper>
+      {RightButtonType === 'none' && <None />}
+    </HeaderWrapper>
   );
 };
 
