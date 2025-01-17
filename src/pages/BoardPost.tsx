@@ -69,11 +69,12 @@ const BoardPost = () => {
   return (
     <S.PostWrapper>
       <Header
-        title="글 쓰기"
         onClickRightButton={onSave}
         RightButtonType="TEXT"
         isComplete={!isTitleEmpty && !isContentEmpty}
-      />
+      >
+        글 쓰기
+      </Header>
       <PostEditor
         title={title}
         setTitle={setTitle}

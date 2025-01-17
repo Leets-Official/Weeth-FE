@@ -53,7 +53,7 @@ const MemberDetail = () => {
   //-----------------------
   return (
     <S.Wrapper>
-      <Header title="멤버" RightButtonType="none" />
+      <Header RightButtonType="none">멤버</Header>
       <S.InfoWrapper>
         {infoData.map((info) => (
           <InfoComponent

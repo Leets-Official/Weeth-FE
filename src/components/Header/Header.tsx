@@ -42,7 +42,7 @@ import MenuButton from './MenuButton';
 import PlusButton from './PlusButton';
 
 interface HeaderProps {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   onClickRightButton?: () => void;
   RightButtonType: 'TEXT' | 'MENU' | 'PLUS' | 'none';
   isComplete?: boolean;

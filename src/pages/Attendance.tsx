@@ -16,7 +16,7 @@ const Attendance: React.FC = () => {
 
   return (
     <Container>
-      <Header title="출석" RightButtonType="none" />
+      <Header RightButtonType="none">출석</Header>
       <AttendMain />
     </Container>
   );

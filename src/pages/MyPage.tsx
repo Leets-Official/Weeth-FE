@@ -28,7 +28,7 @@ const MyPage = () => {
 
   return (
     <S.StyledDetails>
-      <Header title="MY" RightButtonType="none" />
+      <Header RightButtonType="none">MY</Header>
       <MyInfo />
       <S.ImgButton
         onClick={() => {

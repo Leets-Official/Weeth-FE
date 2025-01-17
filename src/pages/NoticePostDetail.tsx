@@ -60,11 +60,12 @@ const NoticePostDetail = () => {
     <>
       <Container>
         <Header
-          title="게시판"
           RightButtonType="MENU"
           isAccessible
           onClickRightButton={() => console.log('모달 열림')}
-        />
+        >
+          게시판
+        </Header>
         {boardDetailInfo && (
           <>
             <PostDetailMain info={boardDetailInfo} />

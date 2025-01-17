@@ -123,7 +123,9 @@ const Edit = () => {
 
   return (
     <StyledEdit>
-      <Header title="MY" onClickRightButton={onSave} RightButtonType="TEXT" />
+      <Header onClickRightButton={onSave} RightButtonType="TEXT">
+        MY
+      </Header>
       {userInfo ? (
         <InfoWrapper>
           <InfoInput
