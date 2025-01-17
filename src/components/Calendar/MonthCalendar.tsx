@@ -11,60 +11,20 @@ import TodayIncluded from '@/hooks/TodayIncluded';
 import ScheduleItem from './ScheduleItem';
 import Line from '../common/Line';
 
-const mockData = [
-  {
-    id: 3,
-    title: '12주 중간고사 기간',
-    start: '2025-01-07T00:00:00',
-    end: '2025-01-11T23:59:00',
-    isMeeting: false,
-  },
-  {
-    id: 4,
-    title: '2주차 정기모임',
-    start: '2025-01-17T19:00:00',
-    end: '2025-01-17T21:00:00',
-    isMeeting: true,
-  },
-  {
-    id: 5,
-    title: '3주차 정기모임',
-    start: '2025-01-14T19:00:00',
-    end: '2025-01-18T21:00:00',
-    isMeeting: true,
-  },
-  {
-    id: 6,
-    title: '4주차 정기모임',
-    start: '2025-01-24T19:00:00',
-    end: '2025-01-28T21:00:00',
-    isMeeting: true,
-  },
-];
-
 const MonthCalendar = ({ year, month }: { year: number; month: number }) => {
   const calendarRef = useRef<FullCalendar | null>(null);
   const navi = useNavigate();
 
-  const prevMonth = month - 1;
-  const nextMonth = month + 1;
+  let formattedEnd;
+  if (month === 12)
+    formattedEnd = new Date(year + 1, 1, 1, 23, 59, 59, 999).toISOString();
+  else
+    formattedEnd = new Date(year, month + 1, 1, 23, 59, 59, 999).toISOString();
 
-  const formattedStart = `${year}-${String(prevMonth).padStart(2, '0')}-23T00:00:00.000Z`;
-  const formattedEnd = new Date(
-    year,
-    nextMonth,
-    6,
-    23,
-    59,
-    59,
-    999,
-  ).toISOString();
-
-  const preprocessData = (data: any[]) =>
-    data.map((event) => ({
-      ...event,
-      id: `${event.id}_${event.isMeeting}`,
-    }));
+  const { data: monthlySchedule } = useGetMonthlySchedule(
+    `${year}-${String(month).padStart(2, '0')}-01T00:00:00.000Z`,
+    formattedEnd,
+  );
 
   const renderDayCell = (arg: any) => {
     const isToday =
@@ -120,7 +80,7 @@ const MonthCalendar = ({ year, month }: { year: number; month: number }) => {
         <FullCalendar
           ref={calendarRef}
           plugins={[dayGridPlugin]}
-          events={mockData}
+          events={monthlySchedule}
           eventContent={renderEventContent}
           eventClick={onClickEvent}
           locale="ko"
@@ -138,7 +98,7 @@ const MonthCalendar = ({ year, month }: { year: number; month: number }) => {
         <span>({WEEK_DAYS[new Date().getDay()]})</span>
       </S.TodayDate>
       <S.ScheduleList>
-        {mockData.map((item) => (
+        {monthlySchedule.map((item) => (
           <ScheduleItem
             key={item.id}
             title={item.title}

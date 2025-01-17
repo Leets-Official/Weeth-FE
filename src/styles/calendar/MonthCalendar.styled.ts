@@ -81,6 +81,11 @@ export const Calendar = styled.div`
     border-bottom-left-radius: 20px;
   }
 
+  .fc-event-main {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
   // 일정 호버 
   .fc-event:hover {
     padding: 3px 10px;
