@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useReducer, useState } from 'react';
 import * as S from '@/styles/admin/penalty/Penalty.styled';
 import plusIcon from '@/assets/images/ic_admin_plus.svg';
 import { useMemberContext } from './context/MemberContext';
@@ -6,6 +6,23 @@ import PenaltyDetail from './PenaltyDetail';
 import PenaltyAdd from './PenaltyAdd';
 import { statusColors } from './StatusIndicator';
 import { StatusCell } from './MemberListTableRow';
+
+interface Penalty {
+  reason: string;
+  penalty: string;
+  penaltyDate: string;
+}
+
+interface PenaltyState {
+  [studentId: string]: Penalty[];
+}
+
+interface PenaltyAction {
+  type: 'ADD_PENALTY' | 'EDIT_PENALTY' | 'DELETE_PENALTY';
+  studentId: string;
+  payload?: Penalty;
+  index?: number;
+}
 
 const columns = [
   { key: 'name', header: '이름' },
@@ -17,6 +34,38 @@ const columns = [
   { key: 'empty', header: '' },
 ];
 
+const penaltyReducer = (
+  state: PenaltyState,
+  action: PenaltyAction,
+): PenaltyState => {
+  switch (action.type) {
+    case 'ADD_PENALTY':
+      return {
+        ...state,
+        [action.studentId]: [
+          ...(state[action.studentId] || []),
+          action.payload!,
+        ],
+      };
+    case 'EDIT_PENALTY':
+      return {
+        ...state,
+        [action.studentId]: state[action.studentId].map((item, idx) =>
+          idx === action.index ? action.payload! : item,
+        ),
+      };
+    case 'DELETE_PENALTY':
+      return {
+        ...state,
+        [action.studentId]: state[action.studentId].filter(
+          (_, idx) => idx !== action.index,
+        ),
+      };
+    default:
+      return state;
+  }
+};
+
 const PenaltyListTable: React.FC = () => {
   const { members } = useMemberContext();
   const filteredMembers = members.filter(
@@ -27,9 +76,10 @@ const PenaltyListTable: React.FC = () => {
   const [isAdding, setIsAdding] = useState<boolean>(false);
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
 
-  const [penaltyData, setPenaltyData] = useState<
-    Record<string, { reason: string; penalty: string; penaltyDate: string }[]>
-  >({});
+  const [penaltyData, dispatch] = useReducer(
+    penaltyReducer,
+    {} as PenaltyState,
+  );
 
   const handleRowClick = (studentId: string) => {
     setExpandedRow((prev) => (prev === studentId ? null : studentId));
@@ -53,21 +103,23 @@ const PenaltyListTable: React.FC = () => {
     setEditingIndex(null);
   };
 
-  const handleSavePenalty = (
-    studentId: string,
-    data: { reason: string; penalty: string; penaltyDate: string },
-  ) => {
-    setPenaltyData((prev) => {
-      const updatedData = prev[studentId] ? [...prev[studentId]] : [];
-      if (editingIndex !== null) {
-        updatedData[editingIndex] = data;
-      } else {
-        updatedData.push(data);
-      }
-      return { ...prev, [studentId]: updatedData };
-    });
+  const handleSavePenalty = (studentId: string, data: Penalty) => {
+    if (editingIndex !== null) {
+      dispatch({
+        type: 'EDIT_PENALTY',
+        studentId,
+        index: editingIndex,
+        payload: data,
+      });
+    } else {
+      dispatch({ type: 'ADD_PENALTY', studentId, payload: data });
+    }
     setIsAdding(false);
     setEditingIndex(null);
+  };
+
+  const handleDeletePenalty = (studentId: string, index: number) => {
+    dispatch({ type: 'DELETE_PENALTY', studentId, index });
   };
 
   return (
@@ -100,7 +152,9 @@ const PenaltyListTable: React.FC = () => {
                     column.key === 'empty' ? (
                       <S.EmptyCell key={column.key} />
                     ) : (
-                      <S.Cell key={column.key}>{member[column.key]}</S.Cell>
+                      <S.Cell key={column.key}>
+                        {(member as any)[column.key]}
+                      </S.Cell>
                     ),
                   )}
                 </S.Row>
@@ -120,23 +174,18 @@ const PenaltyListTable: React.FC = () => {
                     </S.ExpandedRow>
 
                     {penaltyData[member.studentId]?.map((penalty, index) => (
-                      <S.ExpandedRow key={index}>
+                      <S.ExpandedRow
+                        key={`${member.studentId}-${penalty.penaltyDate}`}
+                      >
                         <td colSpan={columns.length + 2}>
                           <PenaltyDetail
-                            member={member}
                             penaltyData={penalty}
                             onEdit={() =>
                               handleEditPenalty(member.studentId, index)
                             }
-                            onDelete={() => {
-                              setPenaltyData((prev) => ({
-                                ...prev,
-                                [member.studentId]:
-                                  prev[member.studentId]?.filter(
-                                    (_, i) => i !== index,
-                                  ) || [],
-                              }));
-                            }}
+                            onDelete={() =>
+                              handleDeletePenalty(member.studentId, index)
+                            }
                           />
                         </td>
                       </S.ExpandedRow>
