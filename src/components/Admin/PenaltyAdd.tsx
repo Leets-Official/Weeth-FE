@@ -17,50 +17,50 @@ const PenaltyAdd: React.FC<PenaltyAddProps> = ({
   onSave,
   existingData,
 }) => {
-  const [reason, setReason] = useState('');
-  const [penalty, setPenalty] = useState('');
-  const [penaltyDate, setPenaltyDate] = useState('');
+  const [formData, setFormData] = useState({
+    reason: '',
+    penalty: '',
+    penaltyDate: '',
+  });
 
   useEffect(() => {
     if (existingData) {
-      setReason(existingData.reason);
-      setPenalty(existingData.penalty);
-      setPenaltyDate(existingData.penaltyDate);
+      setFormData(existingData);
     }
   }, [existingData]);
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
   const handleSave = () => {
-    if (!reason || !penalty || !penaltyDate) {
+    if (!formData.reason || !formData.penalty || !formData.penaltyDate) {
       alert('모든 필드를 작성해주세요.');
       return;
     }
-    onSave({ reason, penalty, penaltyDate });
-    setReason('');
-    setPenalty('');
-    setPenaltyDate('');
+    onSave(formData);
+    setFormData({ reason: '', penalty: '', penaltyDate: '' });
   };
+
+  const fields = [
+    { name: 'reason', placeholder: '추가할 패널티의 사유를 작성해주세요' },
+    { name: 'penalty', placeholder: '' },
+    { name: 'penaltyDate', placeholder: '' },
+  ];
 
   return (
     <S.AddContainer>
-      <S.Input
-        type="text"
-        data-area="reason"
-        placeholder="추가할 패널티의 사유를 작성해주세요"
-        value={reason}
-        onChange={(e) => setReason(e.target.value)}
-      />
-      <S.Input
-        type="text"
-        data-area="penalty"
-        value={penalty}
-        onChange={(e) => setPenalty(e.target.value)}
-      />
-      <S.Input
-        type="text"
-        data-area="penaltyDate"
-        value={penaltyDate}
-        onChange={(e) => setPenaltyDate(e.target.value)}
-      />
+      {fields.map((field) => (
+        <S.Input
+          key={field.name}
+          type="text"
+          name={field.name}
+          placeholder={field.placeholder || undefined}
+          value={formData[field.name as keyof typeof formData]}
+          onChange={handleChange}
+        />
+      ))}
       <div style={{ gridArea: 'empty' }} />
       <S.ButtonWrapper>
         <Button
