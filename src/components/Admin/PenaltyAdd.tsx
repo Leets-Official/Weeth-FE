@@ -1,35 +1,6 @@
 import { useState, useEffect } from 'react';
-import theme from '@/styles/theme';
-import { styled } from 'styled-components';
+import * as S from '@/styles/admin/penalty/Penalty.styled';
 import Button from './Button';
-
-const AddContainer = styled.div`
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr 70px 1fr;
-  grid-template-areas: 'reason empty empty penalty penaltyDate actions';
-  gap: 10px;
-  padding-left: 70px;
-  background-color: ${theme.color.gray[100]};
-  align-items: center;
-  box-sizing: border-box;
-`;
-
-const Input = styled.input`
-  font-weight: 500;
-  padding: 8px;
-  width: 100%;
-  max-width: 300px;
-  background-color: transparent;
-  border: none;
-  font-size: 18px;
-  outline: none;
-`;
-
-const ButtonWrapper = styled.div`
-  grid-area: actions;
-  display: flex;
-  justify-content: flex-end;
-`;
 
 interface PenaltyAddProps {
   onCancel: () => void;
@@ -70,28 +41,28 @@ const PenaltyAdd: React.FC<PenaltyAddProps> = ({
   };
 
   return (
-    <AddContainer>
-      <Input
+    <S.AddContainer>
+      <S.Input
         type="text"
         data-area="reason"
         placeholder="추가할 패널티의 사유를 작성해주세요"
         value={reason}
         onChange={(e) => setReason(e.target.value)}
       />
-      <Input
+      <S.Input
         type="text"
         data-area="penalty"
         value={penalty}
         onChange={(e) => setPenalty(e.target.value)}
       />
-      <Input
+      <S.Input
         type="text"
         data-area="penaltyDate"
         value={penaltyDate}
         onChange={(e) => setPenaltyDate(e.target.value)}
       />
       <div style={{ gridArea: 'empty' }} />
-      <ButtonWrapper>
+      <S.ButtonWrapper>
         <Button
           color="#4d4d4d"
           description="취소"
@@ -104,8 +75,8 @@ const PenaltyAdd: React.FC<PenaltyAddProps> = ({
           width="64px"
           onClick={handleSave}
         />
-      </ButtonWrapper>
-    </AddContainer>
+      </S.ButtonWrapper>
+    </S.AddContainer>
   );
 };
 

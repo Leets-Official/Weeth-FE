@@ -1,27 +1,6 @@
 import React from 'react';
-import styled from 'styled-components';
+import * as S from '@/styles/admin/penalty/Penalty.styled';
 import Button from './Button';
-
-const DetailContainer = styled.div`
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr 70px 1fr;
-  grid-template-areas: 'reason empty penalty penaltyDate actions';
-  gap: 10px;
-  padding-left: 70px;
-  background-color: #ffffff;
-  align-items: center;
-  box-sizing: border-box;
-`;
-
-const DetailText = styled.div`
-  font-size: 16px;
-`;
-
-const ButtonWrapper = styled.div`
-  grid-area: actions;
-  display: flex;
-  justify-content: flex-end;
-`;
 
 interface PenaltyDetailProps {
   penaltyData: {
@@ -45,11 +24,11 @@ const PenaltyDetail: React.FC<PenaltyDetailProps> = ({
   };
 
   return (
-    <DetailContainer>
-      <DetailText>{penaltyData.reason}</DetailText>
-      <DetailText>{penaltyData.penalty}</DetailText>
-      <DetailText>{penaltyData.penaltyDate}</DetailText>
-      <ButtonWrapper>
+    <S.DetailContainer>
+      <S.DetailText>{penaltyData.reason}</S.DetailText>
+      <S.DetailText>{penaltyData.penalty}</S.DetailText>
+      <S.DetailText>{penaltyData.penaltyDate}</S.DetailText>
+      <S.ButtonWrapper>
         <Button
           color="#2f2f2f"
           description="수정"
@@ -62,8 +41,8 @@ const PenaltyDetail: React.FC<PenaltyDetailProps> = ({
           width="64px"
           onClick={handleDelete}
         />
-      </ButtonWrapper>
-    </DetailContainer>
+      </S.ButtonWrapper>
+    </S.DetailContainer>
   );
 };
 
