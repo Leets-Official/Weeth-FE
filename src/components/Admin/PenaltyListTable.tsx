@@ -55,13 +55,6 @@ const SubHeaderRow = styled.div`
   font-weight: bold;
 `;
 
-// const ContentRow = styled.div`
-//   display: grid;
-//   grid-template-columns: 2fr 85px 80px 90px 150px;
-//   grid-template-areas: 'reasonContent penaltyContent penaltyDateContent emptyContent actions'; /* 그리드 이름 설정 */
-//   padding: 10px;
-// `;
-
 const GridCell = styled.div<{ area: string }>`
   grid-area: ${(props) => props.area};
   padding: 5px;
@@ -111,6 +104,11 @@ const PenaltyListTable: React.FC = () => {
   };
 
   const handleAddPenalty = (studentId: string) => {
+    setIsAdding(true);
+    setExpandedRow(studentId);
+  };
+
+  const handleEditPenalty = (studentId: string) => {
     setIsAdding(true);
     setExpandedRow(studentId);
   };
@@ -198,12 +196,19 @@ const PenaltyListTable: React.FC = () => {
                             onSave={(data) =>
                               handleSavePenalty(member.studentId, data)
                             }
+                            existingData={
+                              penaltyData[member.studentId] || {
+                                reason: '',
+                                penalty: '',
+                                penaltyDate: '',
+                              }
+                            }
                           />
                         ) : (
                           <PenaltyDetail
                             member={member}
                             penaltyData={penaltyData[member.studentId]!}
-                            onEdit={() => handleAddPenalty(member.studentId)}
+                            onEdit={() => handleEditPenalty(member.studentId)}
                             onDelete={() =>
                               setPenaltyData((prev) => ({
                                 ...prev,

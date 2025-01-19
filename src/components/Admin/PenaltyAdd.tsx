@@ -38,16 +38,19 @@ interface PenaltyAddProps {
     penalty: string;
     penaltyDate: string;
   }) => void;
+  existingData?: { reason: string; penalty: string; penaltyDate: string };
 }
 
 const PenaltyAdd: React.FC<PenaltyAddProps> = ({
-  // member,
   onCancel,
   onSave,
+  existingData,
 }) => {
-  const [reason, setReason] = useState('');
-  const [penalty, setPenalty] = useState('');
-  const [penaltyDate, setPenaltyDate] = useState('');
+  const [reason, setReason] = useState(existingData?.reason || '');
+  const [penalty, setPenalty] = useState(existingData?.penalty || '');
+  const [penaltyDate, setPenaltyDate] = useState(
+    existingData?.penaltyDate || '',
+  );
 
   const handleSave = () => {
     if (!reason || !penalty || !penaltyDate) {
@@ -55,9 +58,7 @@ const PenaltyAdd: React.FC<PenaltyAddProps> = ({
       return;
     }
     onSave({ reason, penalty, penaltyDate });
-    setReason('');
-    setPenalty('');
-    setPenaltyDate('');
+    onCancel();
   };
 
   return (
