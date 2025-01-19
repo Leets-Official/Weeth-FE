@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import theme from '@/styles/theme';
 import { styled } from 'styled-components';
 import Button from './Button';
@@ -46,11 +46,17 @@ const PenaltyAdd: React.FC<PenaltyAddProps> = ({
   onSave,
   existingData,
 }) => {
-  const [reason, setReason] = useState(existingData?.reason || '');
-  const [penalty, setPenalty] = useState(existingData?.penalty || '');
-  const [penaltyDate, setPenaltyDate] = useState(
-    existingData?.penaltyDate || '',
-  );
+  const [reason, setReason] = useState('');
+  const [penalty, setPenalty] = useState('');
+  const [penaltyDate, setPenaltyDate] = useState('');
+
+  useEffect(() => {
+    if (existingData) {
+      setReason(existingData.reason);
+      setPenalty(existingData.penalty);
+      setPenaltyDate(existingData.penaltyDate);
+    }
+  }, [existingData]);
 
   const handleSave = () => {
     if (!reason || !penalty || !penaltyDate) {
@@ -58,7 +64,9 @@ const PenaltyAdd: React.FC<PenaltyAddProps> = ({
       return;
     }
     onSave({ reason, penalty, penaltyDate });
-    onCancel();
+    setReason('');
+    setPenalty('');
+    setPenaltyDate('');
   };
 
   return (

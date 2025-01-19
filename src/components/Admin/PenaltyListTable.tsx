@@ -90,50 +90,49 @@ const PenaltyListTable: React.FC = () => {
 
   const [expandedRow, setExpandedRow] = useState<string | null>(null);
   const [isAdding, setIsAdding] = useState<boolean>(false);
+  const [editingIndex, setEditingIndex] = useState<number | null>(null);
 
   const [penaltyData, setPenaltyData] = useState<
-    Record<
-      string,
-      { reason: string; penalty: string; penaltyDate: string } | null
-    >
+    Record<string, { reason: string; penalty: string; penaltyDate: string }[]>
   >({});
 
   const handleRowClick = (studentId: string) => {
-    setIsAdding(false);
     setExpandedRow((prev) => (prev === studentId ? null : studentId));
+    setIsAdding(false);
   };
 
   const handleAddPenalty = (studentId: string) => {
     setIsAdding(true);
     setExpandedRow(studentId);
+    setEditingIndex(null);
   };
 
-  const handleEditPenalty = (studentId: string) => {
+  const handleEditPenalty = (studentId: string, index: number) => {
     setIsAdding(true);
     setExpandedRow(studentId);
+    setEditingIndex(index);
   };
 
-  const handleCancelAdd = (studentId: string) => {
+  const handleCancelAdd = () => {
     setIsAdding(false);
-    setPenaltyData((prev) => {
-      if (!prev[studentId]) {
-        const newData = { ...prev };
-        delete newData[studentId];
-        return newData;
-      }
-      return prev;
-    });
+    setEditingIndex(null);
   };
 
   const handleSavePenalty = (
     studentId: string,
     data: { reason: string; penalty: string; penaltyDate: string },
   ) => {
-    setPenaltyData((prev) => ({
-      ...prev,
-      [studentId]: data,
-    }));
+    setPenaltyData((prev) => {
+      const updatedData = prev[studentId] ? [...prev[studentId]] : [];
+      if (editingIndex !== null) {
+        updatedData[editingIndex] = data;
+      } else {
+        updatedData.push(data);
+      }
+      return { ...prev, [studentId]: updatedData };
+    });
     setIsAdding(false);
+    setEditingIndex(null);
   };
 
   return (
@@ -152,7 +151,6 @@ const PenaltyListTable: React.FC = () => {
           <tbody>
             {filteredMembers.map((member) => (
               <React.Fragment key={member.studentId}>
-                {/* 기본 테이블 row */}
                 <Row onClick={() => handleRowClick(member.studentId)}>
                   <StatusCell statusColor={statusColors[member.status]} />
                   <PlusButtonCell
@@ -172,10 +170,8 @@ const PenaltyListTable: React.FC = () => {
                   )}
                 </Row>
 
-                {/* 클릭 시 나오는 확장 row */}
                 {expandedRow === member.studentId && (
                   <>
-                    {/* SubHeaderRow */}
                     <ExpandedRow>
                       <td colSpan={columns.length + 2}>
                         <SubHeaderRow>
@@ -186,39 +182,46 @@ const PenaltyListTable: React.FC = () => {
                       </td>
                     </ExpandedRow>
 
-                    {/* 추가 컴포넌트 Row */}
-                    <ExpandedRow>
-                      <td colSpan={columns.length + 2}>
-                        {isAdding ? (
+                    {penaltyData[member.studentId]?.map((penalty, index) => (
+                      <ExpandedRow key={index}>
+                        <td colSpan={columns.length + 2}>
+                          <PenaltyDetail
+                            member={member}
+                            penaltyData={penalty}
+                            onEdit={() =>
+                              handleEditPenalty(member.studentId, index)
+                            }
+                            onDelete={() => {
+                              setPenaltyData((prev) => ({
+                                ...prev,
+                                [member.studentId]:
+                                  prev[member.studentId]?.filter(
+                                    (_, i) => i !== index,
+                                  ) || [],
+                              }));
+                            }}
+                          />
+                        </td>
+                      </ExpandedRow>
+                    ))}
+
+                    {isAdding && (
+                      <ExpandedRow>
+                        <td colSpan={columns.length + 2}>
                           <PenaltyAdd
-                            // member={member}
                             onCancel={handleCancelAdd}
                             onSave={(data) =>
                               handleSavePenalty(member.studentId, data)
                             }
                             existingData={
-                              penaltyData[member.studentId] || {
-                                reason: '',
-                                penalty: '',
-                                penaltyDate: '',
-                              }
+                              editingIndex !== null
+                                ? penaltyData[member.studentId]?.[editingIndex]
+                                : undefined
                             }
                           />
-                        ) : (
-                          <PenaltyDetail
-                            member={member}
-                            penaltyData={penaltyData[member.studentId]!}
-                            onEdit={() => handleEditPenalty(member.studentId)}
-                            onDelete={() =>
-                              setPenaltyData((prev) => ({
-                                ...prev,
-                                [member.studentId]: null,
-                              }))
-                            }
-                          />
-                        )}
-                      </td>
-                    </ExpandedRow>
+                        </td>
+                      </ExpandedRow>
+                    )}
                   </>
                 )}
               </React.Fragment>

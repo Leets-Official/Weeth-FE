@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import Button from './Button';
-import { MemberData } from './context/MemberContext';
 
 const DetailContainer = styled.div`
   display: grid;
@@ -23,8 +22,8 @@ const ButtonWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
 `;
+
 interface PenaltyDetailProps {
-  member: MemberData;
   penaltyData: {
     reason: string;
     penalty: string;
@@ -44,10 +43,6 @@ const PenaltyDetail: React.FC<PenaltyDetailProps> = ({
       onDelete();
     }
   };
-
-  if (!penaltyData) {
-    return <DetailContainer>패널티를 받은 이력이 없습니다.</DetailContainer>;
-  }
 
   return (
     <DetailContainer>
