@@ -115,8 +115,16 @@ const PenaltyListTable: React.FC = () => {
     setExpandedRow(studentId);
   };
 
-  const handleCancelAdd = () => {
+  const handleCancelAdd = (studentId: string) => {
     setIsAdding(false);
+    setPenaltyData((prev) => {
+      if (!prev[studentId]) {
+        const newData = { ...prev };
+        delete newData[studentId];
+        return newData;
+      }
+      return prev;
+    });
   };
 
   const handleSavePenalty = (

@@ -55,6 +55,9 @@ const PenaltyAdd: React.FC<PenaltyAddProps> = ({
       return;
     }
     onSave({ reason, penalty, penaltyDate });
+    setReason('');
+    setPenalty('');
+    setPenaltyDate('');
   };
 
   return (

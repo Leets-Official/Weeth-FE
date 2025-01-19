@@ -35,7 +35,6 @@ interface PenaltyDetailProps {
 }
 
 const PenaltyDetail: React.FC<PenaltyDetailProps> = ({
-  member,
   penaltyData,
   onDelete,
   onEdit,
@@ -46,11 +45,15 @@ const PenaltyDetail: React.FC<PenaltyDetailProps> = ({
     }
   };
 
+  if (!penaltyData) {
+    return <DetailContainer>패널티를 받은 이력이 없습니다.</DetailContainer>;
+  }
+
   return (
     <DetailContainer>
-      <DetailText>미션 과제 미제출</DetailText>
-      <DetailText>1</DetailText>
-      <DetailText>2025.07.27</DetailText>
+      <DetailText>{penaltyData.reason}</DetailText>
+      <DetailText>{penaltyData.penalty}</DetailText>
+      <DetailText>{penaltyData.penaltyDate}</DetailText>
       <ButtonWrapper>
         <Button
           color="#2f2f2f"
