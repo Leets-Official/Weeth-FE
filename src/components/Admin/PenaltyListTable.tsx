@@ -106,7 +106,7 @@ const PenaltyListTable: React.FC = () => {
   >({});
 
   const handleRowClick = (studentId: string) => {
-    if (isAdding) return;
+    setIsAdding(false);
     setExpandedRow((prev) => (prev === studentId ? null : studentId));
   };
 
