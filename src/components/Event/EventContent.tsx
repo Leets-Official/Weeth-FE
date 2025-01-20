@@ -3,8 +3,16 @@ import { WEEK_DAYS } from '@/constants/dateConstants';
 import { EventDetailData } from '@/pages/EventDetail';
 import useCustomBack from '@/hooks/useCustomBack';
 import * as S from '@/styles/event/EventContent.styled';
+import Button from '@/components/Button/Button';
+import theme from '@/styles/theme';
 
-const EventContent = ({ data }: { data: EventDetailData }) => {
+const EventContent = ({
+  data,
+  isAdmin,
+}: {
+  data: EventDetailData;
+  isAdmin: boolean;
+}) => {
   useCustomBack('/calendar');
 
   const origStartDate = data.start;
@@ -28,6 +36,16 @@ const EventContent = ({ data }: { data: EventDetailData }) => {
 
   return (
     <S.Container>
+      {isAdmin && (
+        <Button
+          color={theme.color.mainMiddle}
+          onClick={() => {
+            // TODO: 모달 열기
+          }}
+        >
+          출석코드 확인
+        </Button>
+      )}
       <S.ContentBlock>
         {isOneday ? (
           <S.Time>

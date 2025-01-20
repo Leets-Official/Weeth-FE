@@ -6,7 +6,7 @@ export const EventTitleWrapper = styled.div``;
 export const Title = styled.div`
   font-family: ${theme.font.semiBold};
   font-size: 24px;
-  padding: 10px 25px;
+  padding: 10px 15px;
 `;
 
 export const Writer = styled.div`
@@ -23,7 +23,7 @@ export const WrittenTime = styled.div`
 
 export const WriteInfo = styled.div`
   display: flex;
-  padding: 0 25px;
+  padding: 0 15px;
   div {
     margin-right: 10px;
   }

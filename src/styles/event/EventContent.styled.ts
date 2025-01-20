@@ -4,10 +4,12 @@ import styled from 'styled-components';
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 15px;
 `;
 
 export const ContentBlock = styled.div`
+  width: 88%;
   background-color: ${theme.color.gray[18]};
   padding: 15px;
   border-radius: 10px;

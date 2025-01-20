@@ -4,6 +4,7 @@ import EventTitle from '@/components/Event/EventTitle';
 import EventContent from '@/components/Event/EventContent';
 import useCustomBack from '@/hooks/useCustomBack';
 import { useParams } from 'react-router-dom';
+import useGetUserInfo from '@/api/useGetUserInfo';
 
 export interface EventDetailData {
   id: number;
@@ -23,16 +24,20 @@ const EventDetail = () => {
   useCustomBack('/calendar');
 
   const { id, type } = useParams();
+  // TODO: 어드민 로직 수정
+  const { userInfo } = useGetUserInfo();
   const { data: eventDetailData, error } = useGetEventInfo(type, id);
-  const isMeeting = type === 'meetings';
 
   if (error || !eventDetailData) return <S.Error>{error}</S.Error>;
 
   return (
     <S.EventDetailWrapper>
-      <EventTitle data={eventDetailData} isMeeting={isMeeting} />
+      <EventTitle data={eventDetailData} isAdmin={userInfo?.role === 'ADMIN'} />
       <S.Line />
-      <EventContent data={eventDetailData} />
+      <EventContent
+        data={eventDetailData}
+        isAdmin={userInfo?.role === 'ADMIN'}
+      />
     </S.EventDetailWrapper>
   );
 };

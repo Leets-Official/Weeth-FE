@@ -11,18 +11,16 @@ import * as S from '@/styles/calendar/EventDetailTitle.styled';
 import { adminModalStyles } from '@/styles/calendar/EventDetailTitle.styled';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import useGetUserInfo from '@/api/useGetUserInfo';
 
 Modal.setAppElement('#root');
 
 const EventTitle = ({
   data,
-  isMeeting,
+  isAdmin,
 }: {
   data: EventDetailData;
-  isMeeting: boolean;
+  isAdmin: boolean;
 }) => {
-  const { userInfo } = useGetUserInfo();
   const [adminModalIsOpen, setAdminModalIsOpen] = useState(false);
   const navi = useNavigate();
   const formattedDateTime = formatDateTime(data.createdAt);
@@ -47,14 +45,14 @@ const EventTitle = ({
     }
   };
 
-  if (!userInfo) {
+  if (!isAdmin) {
     return null;
   }
 
   return (
     <S.EventTitleWrapper>
       <Header
-        isAccessible={userInfo.role === 'ADMIN' && !isMeeting}
+        isAccessible={isAdmin}
         onClickRightButton={openAdminModal}
         RightButtonType="MENU"
       />
