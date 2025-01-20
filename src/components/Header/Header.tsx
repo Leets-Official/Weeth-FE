@@ -21,6 +21,7 @@ onClickRightButton: right 버튼이 클릭되었을 때 사용할 함수
 isComplete: right 버튼이 페이지 내의 입력 여부에 대한 boolean 타입의 state값으로 전달해주시면 됩니다.
             모든 값이 입력되었을 때 텍스트 색상을 mainColor를 바꾸기 위한 값입니다.
 isAccessible: 접근 가능 여부에 대한 값을 전달해주시면 됩니다. ex) 어드민, 게시글/댓글 작성자
+              🚨 특별한 권한 확인이 필요 없는 상황에도 true값을 전달해주시길 바랍니다.
 isCalendar: 캘린더에서 사용되는 헤더이면 true, 그 외의 페이지에서는 모두 false
             default값이 false이므로, false인 경우엔 값을 전달하지 않아도 됩니다.
 
@@ -45,7 +46,7 @@ interface HeaderProps {
   onClickRightButton?: () => void;
   RightButtonType: 'TEXT' | 'MENU' | 'PLUS' | 'none';
   isComplete?: boolean;
-  isAccessible?: boolean;
+  isAccessible: boolean;
 }
 
 const HeaderWrapper = styled.div`

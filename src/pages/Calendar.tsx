@@ -28,7 +28,7 @@ const Calendar = () => {
   return (
     <S.CalendarWrapper>
       {/* TODO: 어드민 체크 추가 */}
-      <Header RightButtonType="PLUS" onClickRightButton={() => {}}>
+      <Header RightButtonType="PLUS" isAccessible onClickRightButton={() => {}}>
         <S.DateWrapper>
           <S.ImgButton
             src={icLeftArrow}

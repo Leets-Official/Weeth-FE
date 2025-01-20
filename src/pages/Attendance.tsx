@@ -16,7 +16,9 @@ const Attendance: React.FC = () => {
 
   return (
     <Container>
-      <Header RightButtonType="none">출석</Header>
+      <Header RightButtonType="none" isAccessible>
+        출석
+      </Header>
       <AttendMain />
     </Container>
   );

@@ -96,11 +96,12 @@ const NoticePostDetail = () => {
     <>
       <Container>
         <Header
-          title="📢 공지사항"
           RightButtonType="MENU"
           isAccessible={isMyPost}
           onClickRightButton={openModal}
-        />
+        >
+          📢 공지사항
+        </Header>
 
         {boardDetailInfo && (
           <>
