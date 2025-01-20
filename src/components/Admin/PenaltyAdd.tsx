@@ -18,16 +18,10 @@ const PenaltyAdd: React.FC<PenaltyAddProps> = ({
   existingData,
 }) => {
   const [formData, setFormData] = useState({
-    reason: '',
-    penalty: '',
-    penaltyDate: '',
+    reason: existingData?.reason || '',
+    penalty: existingData?.penalty || '',
+    penaltyDate: existingData?.penaltyDate || '',
   });
-
-  useEffect(() => {
-    if (existingData) {
-      setFormData(existingData);
-    }
-  }, [existingData]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
