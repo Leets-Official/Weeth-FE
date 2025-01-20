@@ -38,9 +38,11 @@ const SendButton = styled.img`
 
 const CommentInput = ({
   postId,
+  parentCommentId = null,
   onCommentSuccess,
 }: {
   postId: number;
+  parentCommentId?: number | null;
   onCommentSuccess?: () => void;
 }) => {
   const [inputValue, setInputValue] = useState('');
@@ -57,11 +59,8 @@ const CommentInput = ({
 
     try {
       // 댓글 작성 API 호출
-      await createComment(postId, inputValue);
-      console.log('댓글 작성 성공');
-      // 입력 필드 초기화
+      await createComment(postId, inputValue, parentCommentId ?? undefined);
       setInputValue('');
-      // 부모 컴포넌트로 댓글 작성 알림
       if (onCommentSuccess) onCommentSuccess();
     } catch (error: any) {
       console.error(
@@ -82,7 +81,9 @@ const CommentInput = ({
   return (
     <Container>
       <Input
-        placeholder="댓글을 입력하세요."
+        placeholder={
+          parentCommentId ? '대댓글을 입력하세요.' : '댓글을 입력하세요.'
+        }
         value={inputValue}
         onChange={handleInputChange}
         onKeyPress={handleKeyPress}

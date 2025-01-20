@@ -32,13 +32,46 @@ interface PostDetailMainProps {
   info: BoardDetail | null;
 }
 
-const PostDetailMain = ({ info }: PostDetailMainProps) => {
-  const onClickDownload = (fileName: string) => {
-    console.log(`${fileName} 파일 다운`);
-  };
+const onClickDownload = async (fileName: string, fileUrl: string) => {
+  try {
+    // Fetch API로 파일 가져오기
+    const response = await fetch(fileUrl);
 
-  console.log(info);
-  const formattedDate = formatDate(info?.time ?? '');
+    if (!response.ok) {
+      throw new Error(`Failed to fetch file: ${response.statusText}`);
+    }
+
+    // Blob 데이터 생성
+    const blob = await response.blob();
+
+    // Blob URL 생성
+    const url = window.URL.createObjectURL(blob);
+
+    // 동적으로 a 태그 생성
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = fileName;
+
+    // 다운로드 트리거
+    document.body.appendChild(link);
+    link.click();
+
+    // DOM에서 태그 제거 및 Blob URL 해제
+    link.remove();
+    window.URL.revokeObjectURL(url);
+  } catch (error) {
+    console.error('Download failed:', error);
+  }
+};
+
+const PostDetailMain = ({ info }: PostDetailMainProps) => {
+  const formattedDate = info?.time
+    ? formatDate(new Date(info.time), {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+      })
+    : 'Invalid Date';
 
   if (!info) return <div>Loading...</div>;
 
@@ -55,7 +88,7 @@ const PostDetailMain = ({ info }: PostDetailMainProps) => {
           key={file.fileId}
           fileName={file.fileName}
           isDownload
-          onClick={() => onClickDownload(file.fileName)}
+          onClick={() => onClickDownload(file.fileName, file.fileUrl)}
         />
       ))}
       <S.CommentText>
