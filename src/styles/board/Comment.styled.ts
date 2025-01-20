@@ -2,12 +2,15 @@ import theme from '@/styles/theme';
 import styled from 'styled-components';
 
 // Comment.tsx
-export const CommentContainer = styled.div`
-  width: 100%;
+export const CommentContainer = styled.div<{ isHighlighted: boolean }>`
+  width: calc(100% - 10px);
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
-  margin-top: 10px;
+  padding: 10px;
+  background-color: ${(props) =>
+    props.isHighlighted ? '#508FFF1A' : 'transparent'};
+  transition: background-color 0.3s ease;
 `;
 
 export const CommentContentContainer = styled.div`
