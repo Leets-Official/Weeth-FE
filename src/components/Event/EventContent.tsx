@@ -1,9 +1,6 @@
-/* eslint-disable no-console */
-
-import icClock from '@/assets/images/ic_clock.svg';
 import icCalendar from '@/assets/images/ic_date.svg';
 import { WEEK_DAYS } from '@/constants/dateConstants';
-import { EventDetailData } from '@/pages/EventDetails';
+import { EventDetailData } from '@/pages/EventDetail';
 import useCustomBack from '@/hooks/useCustomBack';
 import * as S from '@/styles/event/EventContent.styled';
 
@@ -30,56 +27,48 @@ const EventContent = ({ data }: { data: EventDetailData }) => {
   }
 
   return (
-    <>
+    <S.Container>
       <S.ContentBlock>
         {isOneday ? (
-          <>
-            <S.TimeInfo>
-              <S.Icon src={icCalendar} alt="calendar" />
-              <div>
-                {startDate[0]}년 {parseInt(startDate[1], 10)}월{' '}
-                {parseInt(startDate[2], 10)}일{' '}
-                {WEEK_DAYS[new Date(origStartDate).getDay()]}요일
-              </div>
-            </S.TimeInfo>
-            <S.TimeInfo>
-              <S.Icon src={icClock} alt="clock" />
-              <div>
-                {startTime[0]}:{startTime[1]} ~ {endTime[0]}:{endTime[1]}
-              </div>
-            </S.TimeInfo>
-          </>
+          <S.Time>
+            <img src={icCalendar} alt="calendar" style={{ marginRight: 5 }} />
+            <div>
+              {startDate[0]}년 {parseInt(startDate[1], 10)}월{' '}
+              {parseInt(startDate[2], 10)}일 (
+              {WEEK_DAYS[new Date(origStartDate).getDay()]}) {startTime[0]}:
+              {startTime[1]} ~ {endTime[0]}:{endTime[1]}
+            </div>
+          </S.Time>
         ) : (
           <>
-            <S.TimeInfo>
-              <S.Icon src={icCalendar} alt="calendar" />
+            <S.Time>
+              <img src={icCalendar} alt="calendar" style={{ marginRight: 5 }} />
               <div>
                 {startDate[0]}년 {parseInt(startDate[1], 10)}월{' '}
-                {parseInt(startDate[2], 10)}일 &#40;
-                {WEEK_DAYS[new Date(origStartDate).getDay()]}&#41;{' '}
-                {startTime[0]}:{startTime[1]}에서
+                {parseInt(startDate[2], 10)}일 (
+                {WEEK_DAYS[new Date(origStartDate).getDay()]}) {startTime[0]}:
+                {startTime[1]}
               </div>
-            </S.TimeInfo>
-            <S.TimeInfo>
+            </S.Time>
+            <S.Time>
               <S.EndTime>
-                {endDate[0]}년 {parseInt(endDate[1], 10)}월{' '}
-                {parseInt(endDate[2], 10)}일 &#40;
-                {WEEK_DAYS[new Date(origEndDate).getDay()]}&#41; {endTime[0]}:
-                {endTime[1]}까지
+                ~ {endDate[0]}년 {parseInt(endDate[1], 10)}월{' '}
+                {parseInt(endDate[2], 10)}일 (
+                {WEEK_DAYS[new Date(origEndDate).getDay()]}) {endTime[0]}:
+                {endTime[1]}
               </S.EndTime>
-            </S.TimeInfo>
+            </S.Time>
           </>
         )}
       </S.ContentBlock>
       <S.ContentBlock>
         <div>장소 : {data.location} </div>
-        <div>준비물 : {data.requiredItem} </div>
         <div>총 인원 : {data.memberCount}</div>
       </S.ContentBlock>
       <S.ContentBlock>
         <div>{data.content}</div>
       </S.ContentBlock>
-    </>
+    </S.Container>
   );
 };
 

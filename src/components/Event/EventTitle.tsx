@@ -6,7 +6,7 @@ import { deleteEvent } from '@/api/EventAdminAPI';
 import Header from '@/components/Header/Header';
 import EditDelModal from '@/components/Modal/EditDelModal';
 import formatDateTime from '@/hooks/formatDateTime';
-import { EventDetailData } from '@/pages/EventDetails';
+import { EventDetailData } from '@/pages/EventDetail';
 import * as S from '@/styles/calendar/EventDetailTitle.styled';
 import { adminModalStyles } from '@/styles/calendar/EventDetailTitle.styled';
 import { useState } from 'react';
