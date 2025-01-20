@@ -1,28 +1,16 @@
 import React, { useReducer, useState } from 'react';
 import * as S from '@/styles/admin/penalty/Penalty.styled';
 import plusIcon from '@/assets/images/ic_admin_plus.svg';
+import {
+  penaltyReducer,
+  PenaltyState,
+  Penalty,
+} from '@/components/Admin/context/PenaltyReducer';
 import { useMemberContext } from './context/MemberContext';
 import PenaltyDetail from './PenaltyDetail';
 import PenaltyAdd from './PenaltyAdd';
 import { statusColors } from './StatusIndicator';
 import { StatusCell } from './MemberListTableRow';
-
-interface Penalty {
-  reason: string;
-  penalty: string;
-  penaltyDate: string;
-}
-
-interface PenaltyState {
-  [studentId: string]: Penalty[];
-}
-
-interface PenaltyAction {
-  type: 'ADD_PENALTY' | 'EDIT_PENALTY' | 'DELETE_PENALTY';
-  studentId: string;
-  payload?: Penalty;
-  index?: number;
-}
 
 const columns = [
   { key: 'name', header: '이름' },
@@ -33,38 +21,6 @@ const columns = [
   { key: 'LatestPenalty', header: '최근 패널티' },
   { key: 'empty', header: '' },
 ];
-
-const penaltyReducer = (
-  state: PenaltyState,
-  action: PenaltyAction,
-): PenaltyState => {
-  switch (action.type) {
-    case 'ADD_PENALTY':
-      return {
-        ...state,
-        [action.studentId]: [
-          ...(state[action.studentId] || []),
-          action.payload!,
-        ],
-      };
-    case 'EDIT_PENALTY':
-      return {
-        ...state,
-        [action.studentId]: state[action.studentId].map((item, idx) =>
-          idx === action.index ? action.payload! : item,
-        ),
-      };
-    case 'DELETE_PENALTY':
-      return {
-        ...state,
-        [action.studentId]: state[action.studentId].filter(
-          (_, idx) => idx !== action.index,
-        ),
-      };
-    default:
-      return state;
-  }
-};
 
 const PenaltyListTable: React.FC = () => {
   const { members } = useMemberContext();

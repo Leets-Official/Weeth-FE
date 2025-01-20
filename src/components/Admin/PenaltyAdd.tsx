@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import * as S from '@/styles/admin/penalty/Penalty.styled';
 import Button from './Button';
 
