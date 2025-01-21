@@ -4,9 +4,10 @@ import PostListItem from '@/components/Board/PostListItem';
 import formatDate from '@/hooks/formatDate';
 import theme from '@/styles/theme';
 import useGetBoardInfo from '@/api/useGetBoardInfo';
-import * as S from '@/styles/board/PostDetail.styled';
+import * as S from '@/styles/board/BoardPost.styled';
 import Header from '@/components/Header/Header';
 import { useNavigate } from 'react-router-dom';
+import { useDraggable } from '@/hooks/useDraggable';
 
 const Container = styled.div`
   display: flex;
@@ -43,17 +44,21 @@ interface Content {
 
 const Board = () => {
   const navigate = useNavigate();
-  const isPostButtonVisible = true;
+  // const isPostButtonVisible = true;
 
   const [posts, setPosts] = useState<Content[]>([]);
   const [hasMore, setHasMore] = useState(true);
   const [pageNumber, setPageNumber] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
 
-  const BASE_URL = import.meta.env.VITE_API_URL;
   const path = 'posts';
 
   const observerRef = useRef<HTMLDivElement | null>(null);
+
+  const scrollerRef1 = useRef<HTMLDivElement | null>(null);
+
+  const { onMouseDown, onMouseMove, onMouseUp, onMouseLeave } =
+    useDraggable(scrollerRef1);
 
   // Intersection Observer 설정
   useEffect(() => {
@@ -61,14 +66,7 @@ const Board = () => {
       (entries) => {
         const firstEntry = entries[0];
         if (firstEntry.isIntersecting && hasMore && !isLoading) {
-          useGetBoardInfo(
-            BASE_URL,
-            path,
-            pageNumber,
-            setPosts,
-            setHasMore,
-            setIsLoading,
-          );
+          useGetBoardInfo(path, pageNumber, setPosts, setHasMore, setIsLoading);
           setPageNumber((prevPage) => prevPage + 1);
         }
       },
@@ -84,14 +82,18 @@ const Board = () => {
 
   return (
     <Container>
-      <Header title="스터디 게시판" RightButtonType="none" />
-      <S.InfoContainer>
-        <S.TextContainer>
-          <S.InfoTitleText>스터디 게시판</S.InfoTitleText>
-          <S.InfoText>자세한 내용을 보려면 게시물을 클릭하세요.</S.InfoText>
-        </S.TextContainer>
-        {isPostButtonVisible && <S.PostingButton>글쓰기</S.PostingButton>}
-      </S.InfoContainer>
+      <Header title="게시판" RightButtonType="none" />
+      <S.ScrollContainer
+        ref={scrollerRef1}
+        onMouseDown={onMouseDown}
+        onMouseMove={onMouseMove}
+        onMouseUp={onMouseUp}
+        onMouseLeave={onMouseLeave}
+      >
+        <S.GridItem href="https://www.leets.land/" target="_blank">
+          홈페이지
+        </S.GridItem>
+      </S.ScrollContainer>
       {posts.map((post) => (
         <PostListContainer key={post.id}>
           <PostListItem

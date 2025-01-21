@@ -43,33 +43,6 @@ export const PostingContianer = styled.div`
   margin: 20px 0 20px 0;
 `;
 
-// Info
-
-export const InfoContainer = styled.div`
-  margin: 0 25px 0 24px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-`;
-
-export const TextContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-`;
-
-export const InfoTitleText = styled.div`
-  margin-top: 20px;
-  font-size: 16px;
-  font-family: ${theme.font.semiBold};
-  line-height: 19.09px;
-`;
-
-export const InfoText = styled.div`
-  margin-top: 10px;
-  font-size: 12px;
-`;
-
 export const PostingButton = styled.button`
   width: calc(370px * 0.13);
   height: 28px;

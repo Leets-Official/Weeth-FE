@@ -4,7 +4,6 @@ import PostListItem from '@/components/Board/PostListItem';
 import formatDate from '@/hooks/formatDate';
 import theme from '@/styles/theme';
 import useGetBoardInfo from '@/api/useGetBoardInfo';
-import * as S from '@/styles/board/PostDetail.styled';
 import Header from '@/components/Header/Header';
 import { useNavigate } from 'react-router-dom';
 
@@ -44,14 +43,13 @@ interface Content {
 const Notice = () => {
   const navigate = useNavigate();
   // TODO: 어드민인지 확인해서 true false 변경해주기
-  const isPostButtonVisible = true;
+  // const isPostButtonVisible = true;
 
   const [posts, setPosts] = useState<Content[]>([]);
   const [hasMore, setHasMore] = useState(true);
   const [pageNumber, setPageNumber] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
 
-  const BASE_URL = import.meta.env.VITE_API_URL;
   const path = 'notices';
 
   const observerRef = useRef<HTMLDivElement | null>(null);
@@ -62,14 +60,7 @@ const Notice = () => {
       (entries) => {
         const firstEntry = entries[0];
         if (firstEntry.isIntersecting && hasMore && !isLoading) {
-          useGetBoardInfo(
-            BASE_URL,
-            path,
-            pageNumber,
-            setPosts,
-            setHasMore,
-            setIsLoading,
-          );
+          useGetBoardInfo(path, pageNumber, setPosts, setHasMore, setIsLoading);
           setPageNumber((prevPage) => prevPage + 1);
         }
       },
