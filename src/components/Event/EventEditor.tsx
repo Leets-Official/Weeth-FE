@@ -1,22 +1,20 @@
 /* eslint-disable no-alert */
 import { EventRequestType, createEvent, editEvent } from '@/api/EventAdminAPI';
-import DatePicker from '@/components/Event/DatePicker';
 import Header from '@/components/Header/Header';
-import InfoInput from '@/components/MyPage/InfoInput';
-import {
-  CURRENT_DAY,
-  CURRENT_MONTH,
-  CURRENT_YEAR,
-} from '@/constants/dateConstants';
+// import {
+//   CURRENT_DAY,
+//   CURRENT_MONTH,
+//   CURRENT_YEAR,
+// } from '@/constants/dateConstants';
 import useCustomBack from '@/hooks/useCustomBack';
 import * as S from '@/styles/event/EventEditor.styled';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import useGetEventInfo from '@/api/getEventInfo';
-import ISOtoArray from '@/hooks/ISOtoArray';
-import ArrayToISO from '@/hooks/ArrayToISO';
 import replaceNewLines from '@/hooks/newLine';
 import useGetUserInfo from '@/api/useGetUserInfo';
+import EventInput, { EventInputBlock } from './EventInput';
+import ToggleButton from '../common/ToggleButton';
 
 function checkEmpty(field: string | undefined, message: string): boolean {
   // TODO🚨important!!🚨: 배열 내에 빈 값이 있는 경우를 처리하는 로직 추가
@@ -45,25 +43,25 @@ const EventEditor = () => {
     content: '',
   });
 
-  const [startArr, setStartArr] = useState([
-    CURRENT_YEAR,
-    CURRENT_MONTH,
-    CURRENT_DAY,
-    0,
-    0,
-  ]);
-  const [endArr, setEndArr] = useState([
-    CURRENT_YEAR,
-    CURRENT_MONTH,
-    CURRENT_DAY,
-    23,
-    59,
-  ]);
+  // const [startArr, setStartArr] = useState([
+  //   CURRENT_YEAR,
+  //   CURRENT_MONTH,
+  //   CURRENT_DAY,
+  //   0,
+  //   0,
+  // ]);
+  // const [endArr, setEndArr] = useState([
+  //   CURRENT_YEAR,
+  //   CURRENT_MONTH,
+  //   CURRENT_DAY,
+  //   23,
+  //   59,
+  // ]);
 
   useEffect(() => {
     if (eventDetailData) {
-      setStartArr(ISOtoArray((eventDetailData as EventRequestType).start));
-      setEndArr(ISOtoArray((eventDetailData as EventRequestType).end));
+      // setStartArr(ISOtoArray((eventDetailData as EventRequestType).start));
+      // setEndArr(ISOtoArray((eventDetailData as EventRequestType).end));
       setEventRequest(eventDetailData);
     }
   }, [eventDetailData]);
@@ -131,51 +129,52 @@ const EventEditor = () => {
       <Header onClickRightButton={onSave} RightButtonType="TEXT">
         {isEditMode ? '일정 수정' : '일정 추가'}
       </Header>
-      <InfoInput
-        placeholder="제목"
-        origValue={eventRequest.title}
-        padding="15px"
-        align="left"
-        editValue={(value) => editEventInfo('title', value)}
-      />
-      <DatePicker
-        startDate={startArr}
-        endDate={endArr}
-        onStartDateChange={(index, value) => {
-          const updatedStartDate = [...startArr];
-          updatedStartDate[index] = value;
-          setStartArr(updatedStartDate);
-          const isoDate = ArrayToISO(updatedStartDate);
-          editEventInfo('start', isoDate);
-        }}
-        onEndDateChange={(index, value) => {
-          const updatedEndDate = [...endArr];
-          updatedEndDate[index] = value;
-          setEndArr(updatedEndDate);
-          const isoDate = ArrayToISO(updatedEndDate);
-          editEventInfo('end', isoDate);
-        }}
-      />
-      {['location', 'requiredItem', 'memberCount'].map((key) => (
-        <InfoInput
-          key={key}
-          text={
-            // eslint-disable-next-line no-nested-ternary
-            key === 'location'
-              ? '장소'
-              : key === 'requiredItem'
-                ? '준비물'
-                : '총인원'
-          }
-          origValue={eventRequest[key as keyof EventRequestType]}
-          width="75%"
-          padding="15px"
-          align="left"
-          editValue={(value) =>
-            editEventInfo(key as keyof EventRequestType, value)
-          }
+
+      <EventInputBlock>
+        <EventInput
+          origValue={eventRequest.title}
+          placeholder="제목"
+          editValue={(value) => editEventInfo('title', value)}
         />
-      ))}
+      </EventInputBlock>
+
+      <EventInputBlock>
+        <S.Meeting>
+          <div>정기모임</div>
+          <ToggleButton />
+        </S.Meeting>
+        <S.Line />
+        <S.StartDate>
+          <div>시작</div>
+          <S.Time>
+            <S.TimeBlock>아무튼 달력</S.TimeBlock>
+            <S.TimeBlock>시간</S.TimeBlock>
+          </S.Time>
+        </S.StartDate>
+        <S.Line />
+        <S.StartDate>
+          <div>끝</div>
+          <S.Time>
+            <S.TimeBlock>아무튼 달력</S.TimeBlock>
+            <S.TimeBlock>시간</S.TimeBlock>
+          </S.Time>
+        </S.StartDate>
+      </EventInputBlock>
+
+      <EventInputBlock>
+        <EventInput
+          origValue={eventRequest.title}
+          placeholder="장소"
+          editValue={(value) => editEventInfo('title', value)}
+        />
+        <S.Line />
+        <EventInput
+          origValue={eventRequest.title}
+          placeholder="준비물"
+          editValue={(value) => editEventInfo('title', value)}
+        />
+      </EventInputBlock>
+
       <S.TextAreaWrapper>
         <S.TextArea
           placeholder="내용"

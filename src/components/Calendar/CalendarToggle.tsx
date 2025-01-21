@@ -1,6 +1,6 @@
 import * as S from '@/styles/calendar/ToggleButton.styled';
 
-const ToggleButton = ({
+const CalendarToggle = ({
   onToggle,
   isMonth,
 }: {
@@ -18,4 +18,4 @@ const ToggleButton = ({
   );
 };
 
-export default ToggleButton;
+export default CalendarToggle;
