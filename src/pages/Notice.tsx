@@ -23,7 +23,7 @@ const Line = styled.div`
 `;
 
 const PostList = styled.div`
-  margin: 5px 25px 0 25px;
+  margin: 20px 25px 0 25px;
 `;
 
 const Text = styled.div`
@@ -85,14 +85,7 @@ const Notice = () => {
 
   return (
     <Container>
-      <Header title="공지사항" RightButtonType="none" />
-      <S.InfoContainer>
-        <S.TextContainer>
-          <S.InfoTitleText>스터디 게시판</S.InfoTitleText>
-          <S.InfoText>자세한 내용을 보려면 게시물을 클릭하세요.</S.InfoText>
-        </S.TextContainer>
-        {isPostButtonVisible && <S.PostingButton>글쓰기</S.PostingButton>}
-      </S.InfoContainer>
+      <Header title="📢  공지사항" RightButtonType="none" />
       {posts.map((post) => (
         <PostList key={post.id}>
           <PostListItem

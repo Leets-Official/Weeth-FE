@@ -31,7 +31,7 @@ import Notice from '@/pages/Notice';
 import NoticePostDetail from '@/pages/NoticePostDetail';
 import BoardPostDetail from '@/pages/BoardPostDetail';
 import Board from '@/pages/Board';
-import BoardPost from './pages/BoardPost';
+import BoardPost from '@/pages/BoardPost';
 
 const App = () => {
   return (
