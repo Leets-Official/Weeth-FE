@@ -33,6 +33,8 @@ const EventEditor = () => {
   const { userInfo } = useGetUserInfo();
   const isEditMode = Boolean(id);
   const navigate = useNavigate();
+
+  const [isMeeting, setIsMeeting] = useState(false);
   const [eventRequest, setEventRequest] = useState<EventRequestType>({
     title: '',
     start: '',
@@ -141,7 +143,12 @@ const EventEditor = () => {
       <EventInputBlock>
         <S.Meeting>
           <div>정기모임</div>
-          <ToggleButton />
+          <ToggleButton
+            isMeeting={isMeeting}
+            onToggle={() => {
+              setIsMeeting(!isMeeting);
+            }}
+          />
         </S.Meeting>
         <S.Line />
         <S.StartDate>
