@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import PostListItem from '@/components/Board/PostListItem';
 import formatDate from '@/hooks/formatDate';
 import theme from '@/styles/theme';
-import useGetBoardInfo from '@/api/useGetBoardInfo';
+import useGetBoardInfo, { useGetRecentNotice } from '@/api/useGetBoardInfo';
 import * as S from '@/styles/board/BoardPost.styled';
 import Header from '@/components/Header/Header';
 import { useNavigate } from 'react-router-dom';
@@ -51,6 +51,9 @@ const Board = () => {
   const [pageNumber, setPageNumber] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
 
+  const { noticeInfo, recentNoticeInfo, error } = useGetRecentNotice();
+
+  console.log(noticeInfo, 'dfs', recentNoticeInfo);
   const path = 'posts';
 
   const observerRef = useRef<HTMLDivElement | null>(null);
@@ -83,17 +86,35 @@ const Board = () => {
   return (
     <Container>
       <Header title="게시판" RightButtonType="none" />
-      <S.ScrollContainer
-        ref={scrollerRef1}
-        onMouseDown={onMouseDown}
-        onMouseMove={onMouseMove}
-        onMouseUp={onMouseUp}
-        onMouseLeave={onMouseLeave}
-      >
-        <S.GridItem href="https://www.leets.land/" target="_blank">
-          홈페이지
-        </S.GridItem>
-      </S.ScrollContainer>
+      <S.NoticeTextContainer>
+        <S.NoticeTitleText>📢 공지사항</S.NoticeTitleText>
+        <S.AllText>전체보기 &gt;</S.AllText>
+      </S.NoticeTextContainer>
+      {error ? (
+        <div>에러</div>
+      ) : (
+        <S.ScrollContainer
+          ref={scrollerRef1}
+          onMouseDown={onMouseDown}
+          onMouseMove={onMouseMove}
+          onMouseUp={onMouseUp}
+          onMouseLeave={onMouseLeave}
+        >
+          <S.NoticeCard href="#">
+            <S.NoticeTitle>미션 제출 마지막 날입니다.</S.NoticeTitle>
+            <S.NoticeContent>
+              여러분 안녕하세요! 기말고사 시즌이 다가오고 있습니다.
+            </S.NoticeContent>
+          </S.NoticeCard>
+
+          <S.NoticeCard href="#">
+            <S.NoticeTitle>미션 제출 마지막 날입니다.</S.NoticeTitle>
+            <S.NoticeContent>
+              여러분 안녕하세요! 기말고사 시즌이 다가오고 있습니다.
+            </S.NoticeContent>
+          </S.NoticeCard>
+        </S.ScrollContainer>
+      )}
       {posts.map((post) => (
         <PostListContainer key={post.id}>
           <PostListItem

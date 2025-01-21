@@ -59,12 +59,12 @@ export const DeleteButton = styled.img`
 `;
 
 export const NoticeTextContainer = styled.div`
-  margin: 10px 25px 0 15px;
+  margin: 10px 25px 10px 15px;
   display: flex;
   flex-direction: row;
+  text-align: center;
   justify-content: space-between;
 `;
-
 export const NoticeTitleText = styled.div`
   font-size: 16px;
   font-family: ${theme.font.semiBold};
@@ -72,48 +72,63 @@ export const NoticeTitleText = styled.div`
 `;
 
 export const AllText = styled.div`
-  font-size: 10px;
+  font-size: 12px;
+  font-family: ${theme.font.regular};
   color: ${theme.color.gray[65]};
+  cursor: pointer;
 `;
 
 export const ScrollContainer = styled.div`
   display: flex;
-  width: 94%;
-  margin: 4% 3% 0px 3%;
+  width: calc(100% - 60px);
+  padding: 0 20px;
   overflow-x: auto;
+  gap: 10px;
   cursor: grab;
+  overflow-x: hidden;
   &::-webkit-scrollbar {
-    height: 8px;
+    display: none;
   }
 
   &::-webkit-scrollbar-thumb {
     border-radius: 4px;
+    background: ${theme.color.gray[65]};
   }
 `;
 
-export const ImgContainer = styled.div`
-  margin-bottom: 5px;
-`;
-
-export const GridItem = styled.a`
+export const NoticeCard = styled.a`
   flex: 0 0 auto;
-  margin-right: 10px;
-  padding: 10px 15px 15px 0;
-  background-color: ${theme.color.gray[18]};
+  background-color: ${theme.color.mainMiddle};
+  color: white;
   font-family: ${theme.font.semiBold};
-  width: 34%;
-  height: 77px;
-  color: #fff;
   border-radius: 10px;
+  width: 212px;
+  height: 60px;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
-  align-items: flex-end;
-  font-size: 16px;
-  white-space: nowrap;
+  justify-content: center;
   text-decoration: none;
+  font-size: 14px;
+  line-height: 1.4;
 
-  &:last-child {
-    margin-right: 0;
+  &:nth-child(2) {
+    background-color: ${theme.color.gray[30]};
+    color: white;
   }
+`;
+export const NoticeTitle = styled.div`
+  font-size: 12px;
+  font-family: ${theme.font.semiBold};
+  line-height: 14.4px;
+  margin: 15px 21px 0 15px;
+`;
+
+export const NoticeContent = styled.p`
+  font-size: 10px;
+  font-family: ${theme.font.regular};
+  color: ${theme.color.gray[65]};
+  margin: 5px 25px 13px 15px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
