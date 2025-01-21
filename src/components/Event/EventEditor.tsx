@@ -1,11 +1,11 @@
 /* eslint-disable no-alert */
 import { EventRequestType, createEvent, editEvent } from '@/api/EventAdminAPI';
 import Header from '@/components/Header/Header';
-// import {
-//   CURRENT_DAY,
-//   CURRENT_MONTH,
-//   CURRENT_YEAR,
-// } from '@/constants/dateConstants';
+import {
+  CURRENT_DAY,
+  CURRENT_MONTH,
+  CURRENT_YEAR,
+} from '@/constants/dateConstants';
 import useCustomBack from '@/hooks/useCustomBack';
 import * as S from '@/styles/event/EventEditor.styled';
 import { useEffect, useState } from 'react';
@@ -13,8 +13,10 @@ import { useNavigate, useParams } from 'react-router-dom';
 import useGetEventInfo from '@/api/getEventInfo';
 import replaceNewLines from '@/hooks/newLine';
 import useGetUserInfo from '@/api/useGetUserInfo';
-import EventInput, { EventInputBlock } from './EventInput';
+import ISOtoArray from '@/hooks/ISOtoArray';
+import toTwoDigits from '@/hooks/toTwoDigits';
 import ToggleButton from '../common/ToggleButton';
+import EventInput, { EventInputBlock } from './EventInput';
 
 function checkEmpty(field: string | undefined, message: string): boolean {
   // TODO🚨important!!🚨: 배열 내에 빈 값이 있는 경우를 처리하는 로직 추가
@@ -45,25 +47,25 @@ const EventEditor = () => {
     content: '',
   });
 
-  // const [startArr, setStartArr] = useState([
-  //   CURRENT_YEAR,
-  //   CURRENT_MONTH,
-  //   CURRENT_DAY,
-  //   0,
-  //   0,
-  // ]);
-  // const [endArr, setEndArr] = useState([
-  //   CURRENT_YEAR,
-  //   CURRENT_MONTH,
-  //   CURRENT_DAY,
-  //   23,
-  //   59,
-  // ]);
+  const [startArr, setStartArr] = useState([
+    CURRENT_YEAR,
+    CURRENT_MONTH,
+    CURRENT_DAY,
+    0,
+    0,
+  ]);
+  const [endArr, setEndArr] = useState([
+    CURRENT_YEAR,
+    CURRENT_MONTH,
+    CURRENT_DAY,
+    23,
+    59,
+  ]);
 
   useEffect(() => {
     if (eventDetailData) {
-      // setStartArr(ISOtoArray((eventDetailData as EventRequestType).start));
-      // setEndArr(ISOtoArray((eventDetailData as EventRequestType).end));
+      setStartArr(ISOtoArray((eventDetailData as EventRequestType).start));
+      setEndArr(ISOtoArray((eventDetailData as EventRequestType).end));
       setEventRequest(eventDetailData);
     }
   }, [eventDetailData]);
@@ -154,16 +156,24 @@ const EventEditor = () => {
         <S.StartDate>
           <div>시작</div>
           <S.Time>
-            <S.TimeBlock>아무튼 달력</S.TimeBlock>
-            <S.TimeBlock>시간</S.TimeBlock>
+            <S.TimeBlock>
+              {startArr.slice(0, 3).map(toTwoDigits).join('. ')}
+            </S.TimeBlock>
+            <S.TimeBlock>
+              {startArr.slice(3, 5).map(toTwoDigits).join(':')}
+            </S.TimeBlock>
           </S.Time>
         </S.StartDate>
         <S.Line />
         <S.StartDate>
           <div>끝</div>
           <S.Time>
-            <S.TimeBlock>아무튼 달력</S.TimeBlock>
-            <S.TimeBlock>시간</S.TimeBlock>
+            <S.TimeBlock>
+              {endArr.slice(0, 3).map(toTwoDigits).join('. ')}
+            </S.TimeBlock>
+            <S.TimeBlock>
+              {endArr.slice(3, 5).map(toTwoDigits).join(':')}
+            </S.TimeBlock>
           </S.Time>
         </S.StartDate>
       </EventInputBlock>
