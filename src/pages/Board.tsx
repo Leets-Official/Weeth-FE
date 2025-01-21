@@ -22,14 +22,14 @@ const Line = styled.div`
   margin-top: 10px;
 `;
 
-const PostList = styled.div`
-  margin: 5px 25px 0 25px;
-`;
-
 const Text = styled.div`
   text-align: center;
   margin: 10px;
   font-family: ${theme.font.semiBold};
+`;
+
+const PostListContainer = styled.div`
+  margin: 5px 25px 0 25px;
 `;
 
 interface Content {
@@ -41,9 +41,8 @@ interface Content {
   commentCount: number;
 }
 
-const NoticeBoard = () => {
+const Board = () => {
   const navigate = useNavigate();
-  // TODO: 어드민인지 확인해서 true false 변경해주기
   const isPostButtonVisible = true;
 
   const [posts, setPosts] = useState<Content[]>([]);
@@ -52,7 +51,7 @@ const NoticeBoard = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const BASE_URL = import.meta.env.VITE_API_URL;
-  const path = 'notices';
+  const path = 'posts';
 
   const observerRef = useRef<HTMLDivElement | null>(null);
 
@@ -85,7 +84,7 @@ const NoticeBoard = () => {
 
   return (
     <Container>
-      <Header title="공지사항" RightButtonType="none" />
+      <Header title="스터디 게시판" RightButtonType="none" />
       <S.InfoContainer>
         <S.TextContainer>
           <S.InfoTitleText>스터디 게시판</S.InfoTitleText>
@@ -94,17 +93,17 @@ const NoticeBoard = () => {
         {isPostButtonVisible && <S.PostingButton>글쓰기</S.PostingButton>}
       </S.InfoContainer>
       {posts.map((post) => (
-        <PostList key={post.id}>
+        <PostListContainer key={post.id}>
           <PostListItem
             name={post.name}
             time={formatDate(post.time)}
             title={post.title}
             content={post.content}
             totalComments={post.commentCount}
-            onClick={() => navigate(`/notice/${post.id}`)}
+            onClick={() => navigate(`/study/${post.id}`)}
           />
           <Line />
-        </PostList>
+        </PostListContainer>
       ))}
       {hasMore && (
         <div
@@ -118,4 +117,4 @@ const NoticeBoard = () => {
   );
 };
 
-export default NoticeBoard;
+export default Board;
