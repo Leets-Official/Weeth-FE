@@ -18,11 +18,11 @@ const Container = styled.div`
 const Line = styled.div`
   border: 1px solid;
   color: ${(props) => props.theme.color.gray[30]};
-  margin-top: 10px;
+  margin-top: 2px;
 `;
 
 const PostList = styled.div`
-  margin: 20px 25px 0 25px;
+  margin: 0 25px 0 25px;
 `;
 
 const Text = styled.div`
@@ -38,6 +38,8 @@ interface Content {
   content: string;
   time: string;
   commentCount: number;
+  hasFile: boolean;
+  position: string;
 }
 
 const Notice = () => {
@@ -85,7 +87,9 @@ const Notice = () => {
             title={post.title}
             content={post.content}
             totalComments={post.commentCount}
-            onClick={() => navigate(`/notice/${post.id}`)}
+            hasFile={post.hasFile}
+            position={post.position}
+            onClick={() => navigate(`/study/${post.id}`)}
           />
           <Line />
         </PostList>
