@@ -85,7 +85,6 @@ export const ScrollContainer = styled.div`
   overflow-x: auto;
   gap: 10px;
   cursor: grab;
-  overflow-x: hidden;
   &::-webkit-scrollbar {
     display: none;
   }
