@@ -7,6 +7,7 @@ interface CommentType {
   name: string;
   content: string;
   time: string;
+  position: string;
   children?: CommentType[];
 }
 
@@ -44,6 +45,7 @@ const PostCommentList = ({
           postId={postId}
           commentId={comment.id}
           path={path}
+          position={comment.position}
           onDelete={onCommentDelete}
           onReply={() => onReply(comment.id)}
         />

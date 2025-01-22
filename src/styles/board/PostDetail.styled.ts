@@ -6,6 +6,7 @@ export const PostMainContainer = styled.div`
   display: flex;
   flex-direction: column;
   margin: 5px 23px 0 23px;
+  font-family: ${theme.font.regular};
 `;
 
 export const PostMainTitleText = styled.div`
@@ -19,6 +20,7 @@ export const SmallText = styled.div`
   display: flex;
   flex-direction: row;
   margin-top: 10px;
+  align-items: center;
 `;
 
 export const DateText = styled.div`
