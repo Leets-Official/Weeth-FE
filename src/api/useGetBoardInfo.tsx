@@ -8,6 +8,8 @@ interface Content {
   content: string;
   time: string;
   commentCount: number;
+  hasFile: boolean;
+  position: string;
 }
 
 interface ApiResponse {

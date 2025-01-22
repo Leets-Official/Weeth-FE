@@ -40,6 +40,8 @@ interface Content {
   content: string;
   time: string;
   commentCount: number;
+  hasFile: boolean;
+  position: string;
 }
 
 const Board = () => {
@@ -53,7 +55,6 @@ const Board = () => {
 
   const { recentNotices, error } = useGetRecentNotice();
 
-  console.log(recentNotices, 'dfs');
   const path = 'posts';
 
   const observerRef = useRef<HTMLDivElement | null>(null);
@@ -90,6 +91,8 @@ const Board = () => {
       if (observerRef.current) observer.unobserve(observerRef.current);
     };
   }, [hasMore, isLoading, pageNumber]);
+
+  console.log(posts);
 
   return (
     <Container>
@@ -128,6 +131,8 @@ const Board = () => {
             title={post.title}
             content={post.content}
             totalComments={post.commentCount}
+            hasFile={post.hasFile}
+            position={post.position}
             onClick={() => navigate(`/study/${post.id}`)}
           />
           <Line />
