@@ -18,6 +18,7 @@ const CardinalButton = styled.div`
   cursor: pointer;
   border-radius: 5px;
 `;
+
 export const DropdownMenu = styled.div`
   width: 118px;
   height: 48px;
