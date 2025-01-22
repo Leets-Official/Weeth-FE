@@ -78,6 +78,15 @@ const PenaltyListTable: React.FC = () => {
     dispatch({ type: 'DELETE_PENALTY', studentId, index });
   };
 
+  const renderColumns = (member: Record<string, any>) =>
+    columns.map((column) =>
+      column.key === 'empty' ? (
+        <S.EmptyCell key={column.key} />
+      ) : (
+        <S.Cell key={column.key}>{member[column.key]}</S.Cell>
+      ),
+    );
+
   return (
     <S.TableContainer>
       <S.TableWrapper>
@@ -104,15 +113,7 @@ const PenaltyListTable: React.FC = () => {
                   >
                     <img src={plusIcon} alt="plus-icon" />
                   </S.PlusButtonCell>
-                  {columns.map((column) =>
-                    column.key === 'empty' ? (
-                      <S.EmptyCell key={column.key} />
-                    ) : (
-                      <S.Cell key={column.key}>
-                        {(member as any)[column.key]}
-                      </S.Cell>
-                    ),
-                  )}
+                  {renderColumns(member)}
                 </S.Row>
 
                 {expandedRow === member.studentId && (
