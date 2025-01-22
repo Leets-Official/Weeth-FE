@@ -119,6 +119,7 @@ const Board = () => {
         <S.NoticeTitleText>📢 공지사항</S.NoticeTitleText>
         <S.AllText onClick={handleAllNotice}>전체보기 &gt;</S.AllText>
       </S.NoticeTextContainer>
+
       {error ? (
         <div>에러</div>
       ) : (
@@ -140,6 +141,12 @@ const Board = () => {
           ))}
         </S.ScrollContainer>
       )}
+      <S.TabContainerWrapper>
+        <S.TabContainer>
+          <S.TabText>자유게시판</S.TabText>
+          <S.Underline />
+        </S.TabContainer>
+      </S.TabContainerWrapper>
 
       {posts.map((post) => (
         <PostListContainer key={post.id}>

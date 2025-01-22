@@ -132,24 +132,28 @@ export const NoticeContent = styled.p`
   text-overflow: ellipsis;
 `;
 
-export const TitleContainer = styled.div`
+export const TabContainerWrapper = styled.div`
+  display: flex;
+  align-items: start;
+  margin: 30px 25px 10px 18px;
+`;
+
+export const TabContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  text-align: center;
 `;
 
-export const TitleText = styled.h2`
+export const TabText = styled.div`
   font-size: 16px;
-  font-weight: bold;
   color: white;
-  position: relative;
-  padding-bottom: 5px;
+  font-family: ${theme.font.semiBold};
 `;
 
 export const Underline = styled.div`
-  width: 80%;
-  height: 3px;
+  width: 90px;
+  height: 2px;
   background-color: ${theme.color.main};
-  border-radius: 2px;
-  margin-top: 2px;
+  margin-top: 5px;
 `;
