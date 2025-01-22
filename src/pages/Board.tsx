@@ -8,7 +8,7 @@ import * as S from '@/styles/board/BoardPost.styled';
 import Header from '@/components/Header/Header';
 import { useNavigate } from 'react-router-dom';
 import { useDraggable } from '@/hooks/useDraggable';
-import { PostingButton } from '@/styles/board/PostDetail.styled';
+import PostingButton from '@/components/Board/PostingButton';
 
 const Container = styled.div`
   display: flex;
@@ -39,8 +39,6 @@ const PostingButtonContainer = styled.div`
   bottom: 15px;
   left: 50%;
   transform: translateX(-50%);
-  width: 100%;
-  max-width: 370px;
   z-index: 10;
   display: flex;
   justify-content: center;
@@ -59,7 +57,6 @@ interface Content {
 
 const Board = () => {
   const navigate = useNavigate();
-  // const isPostButtonVisible = true;
 
   const [posts, setPosts] = useState<Content[]>([]);
   const [hasMore, setHasMore] = useState(true);
@@ -87,6 +84,10 @@ const Board = () => {
 
   const handleAllNotice = () => {
     navigate('/notice');
+  };
+
+  const handlePosting = () => {
+    navigate('/study/post');
   };
 
   // Intersection Observer 설정
@@ -164,7 +165,7 @@ const Board = () => {
       {isLoading && <Text>로딩 중...</Text>}
       {!hasMore && <Text>마지막 게시물입니다.</Text>}
       <PostingButtonContainer>
-        <PostingButton />
+        <PostingButton onClick={handlePosting} />
       </PostingButtonContainer>
     </Container>
   );

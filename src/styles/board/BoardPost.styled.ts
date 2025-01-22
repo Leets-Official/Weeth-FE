@@ -131,3 +131,25 @@ export const NoticeContent = styled.p`
   overflow: hidden;
   text-overflow: ellipsis;
 `;
+
+export const TitleContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+export const TitleText = styled.h2`
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+  position: relative;
+  padding-bottom: 5px;
+`;
+
+export const Underline = styled.div`
+  width: 80%;
+  height: 3px;
+  background-color: ${theme.color.main};
+  border-radius: 2px;
+  margin-top: 2px;
+`;
