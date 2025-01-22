@@ -72,6 +72,10 @@ const Board = () => {
     navigate(`/notice/${id}`);
   };
 
+  const handleAllNotice = () => {
+    navigate('/notice');
+  };
+
   // Intersection Observer 설정
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -99,7 +103,7 @@ const Board = () => {
       <Header title="게시판" RightButtonType="none" />
       <S.NoticeTextContainer>
         <S.NoticeTitleText>📢 공지사항</S.NoticeTitleText>
-        <S.AllText>전체보기 &gt;</S.AllText>
+        <S.AllText onClick={handleAllNotice}>전체보기 &gt;</S.AllText>
       </S.NoticeTextContainer>
       {error ? (
         <div>에러</div>
