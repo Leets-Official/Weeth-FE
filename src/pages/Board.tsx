@@ -1,48 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
-import styled from 'styled-components';
 import PostListItem from '@/components/Board/PostListItem';
 import formatDate from '@/hooks/formatDate';
-import theme from '@/styles/theme';
 import useGetBoardInfo, { useGetRecentNotice } from '@/api/useGetBoardInfo';
 import * as S from '@/styles/board/BoardPost.styled';
 import Header from '@/components/Header/Header';
 import { useNavigate } from 'react-router-dom';
 import { useDraggable } from '@/hooks/useDraggable';
 import PostingButton from '@/components/Board/PostingButton';
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 370px;
-  max-width: 370px;
-  margin-bottom: 50px;
-`;
-
-const Line = styled.div`
-  border: 1px solid;
-  color: ${(props) => props.theme.color.gray[30]};
-  margin-top: 2px;
-`;
-
-const Text = styled.div`
-  text-align: center;
-  margin: 10px;
-  font-family: ${theme.font.semiBold};
-`;
-
-const PostListContainer = styled.div`
-  margin: 0px 25px 0 25px;
-`;
-
-const PostingButtonContainer = styled.div`
-  position: fixed;
-  bottom: 15px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 10;
-  display: flex;
-  justify-content: center;
-`;
 
 interface Content {
   id: number;
@@ -113,7 +77,7 @@ const Board = () => {
   console.log(posts);
 
   return (
-    <Container>
+    <S.Container>
       <Header title="게시판" RightButtonType="none" />
       <S.NoticeTextContainer>
         <S.NoticeTitleText>📢 공지사항</S.NoticeTitleText>
@@ -149,7 +113,7 @@ const Board = () => {
       </S.TabContainerWrapper>
 
       {posts.map((post) => (
-        <PostListContainer key={post.id}>
+        <S.PostListContainer key={post.id}>
           <PostListItem
             name={post.name}
             time={formatDate(post.time)}
@@ -160,8 +124,8 @@ const Board = () => {
             position={post.position}
             onClick={() => navigate(`/board/${post.id}`)}
           />
-          <Line />
-        </PostListContainer>
+          <S.Line />
+        </S.PostListContainer>
       ))}
       {hasMore && (
         <div
@@ -169,12 +133,12 @@ const Board = () => {
           style={{ height: '20px', backgroundColor: 'transparent' }}
         />
       )}
-      {isLoading && <Text>로딩 중...</Text>}
-      {!hasMore && <Text>마지막 게시물입니다.</Text>}
-      <PostingButtonContainer>
+      {isLoading && <S.Text>로딩 중...</S.Text>}
+      {!hasMore && <S.Text>마지막 게시물입니다.</S.Text>}
+      <S.PostingButtonContainer>
         <PostingButton onClick={handlePosting} />
-      </PostingButtonContainer>
-    </Container>
+      </S.PostingButtonContainer>
+    </S.Container>
   );
 };
 

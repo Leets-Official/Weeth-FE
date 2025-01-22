@@ -1,6 +1,39 @@
 import theme from '@/styles/theme';
 import styled from 'styled-components';
 
+export const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 370px;
+  max-width: 370px;
+  margin-bottom: 50px;
+`;
+
+export const Line = styled.div`
+  border: 1px solid;
+  color: ${(props) => props.theme.color.gray[30]};
+  margin-top: 2px;
+`;
+
+export const Text = styled.div`
+  text-align: center;
+  margin: 10px;
+  font-family: ${theme.font.semiBold};
+`;
+
+export const PostListContainer = styled.div`
+  margin: 0px 25px 0 25px;
+`;
+
+export const PostingButtonContainer = styled.div`
+  position: fixed;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+`;
 export const PostWrapper = styled.div`
   display: flex;
   flex-direction: column;
