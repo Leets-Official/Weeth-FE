@@ -59,12 +59,9 @@ const useGetBoardInfo = async (
   }
 };
 
-// 가장 최신 공지사항 10개를 가져오는 함수
+// 최신 공지사항 10개를 가져오는 훅
 export const useGetRecentNotice = () => {
-  const [noticeInfo, setNoticeInfo] = useState<Content[]>([]);
-  const [recentNoticeInfo, setRecentNoticeInfo] = useState<Content | null>(
-    null,
-  );
+  const [recentNotices, setRecentNotices] = useState<Content[]>([]);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -83,15 +80,9 @@ export const useGetRecentNotice = () => {
             params: { pageNumber: 0, pageSize: 10 },
           },
         );
-        const { content } = response.data.data;
 
-        if (content.length > 0) {
-          setRecentNoticeInfo(content[0]); // 가장 최신 공지 저장
-          setNoticeInfo(content.slice(1)); // 나머지 공지 저장
-        } else {
-          setRecentNoticeInfo(null);
-          setNoticeInfo([]);
-        }
+        const { content } = response.data.data;
+        setRecentNotices(content);
       } catch (err: any) {
         setError(
           err.response?.data?.message ||
@@ -103,7 +94,7 @@ export const useGetRecentNotice = () => {
     fetchRecentNotice();
   }, []);
 
-  return { noticeInfo, recentNoticeInfo, error };
+  return { recentNotices, error };
 };
 
 export default useGetBoardInfo;

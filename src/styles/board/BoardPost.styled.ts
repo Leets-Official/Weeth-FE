@@ -96,7 +96,7 @@ export const ScrollContainer = styled.div`
   }
 `;
 
-export const NoticeCard = styled.a`
+export const NoticeCard = styled.div`
   flex: 0 0 auto;
   background-color: ${theme.color.mainMiddle};
   color: white;

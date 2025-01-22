@@ -51,9 +51,9 @@ const Board = () => {
   const [pageNumber, setPageNumber] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
 
-  const { noticeInfo, recentNoticeInfo, error } = useGetRecentNotice();
+  const { recentNotices, error } = useGetRecentNotice();
 
-  console.log(noticeInfo, 'dfs', recentNoticeInfo);
+  console.log(recentNotices, 'dfs');
   const path = 'posts';
 
   const observerRef = useRef<HTMLDivElement | null>(null);
@@ -62,6 +62,14 @@ const Board = () => {
 
   const { onMouseDown, onMouseMove, onMouseUp, onMouseLeave } =
     useDraggable(scrollerRef1);
+
+  const handleNoticeCard = (
+    e: React.MouseEvent<HTMLDivElement>,
+    id: number,
+  ) => {
+    e.preventDefault();
+    navigate(`/notice/${id}`);
+  };
 
   // Intersection Observer 설정
   useEffect(() => {
@@ -100,21 +108,18 @@ const Board = () => {
           onMouseUp={onMouseUp}
           onMouseLeave={onMouseLeave}
         >
-          <S.NoticeCard href="#">
-            <S.NoticeTitle>미션 제출 마지막 날입니다.</S.NoticeTitle>
-            <S.NoticeContent>
-              여러분 안녕하세요! 기말고사 시즌이 다가오고 있습니다.
-            </S.NoticeContent>
-          </S.NoticeCard>
-
-          <S.NoticeCard href="#">
-            <S.NoticeTitle>미션 제출 마지막 날입니다.</S.NoticeTitle>
-            <S.NoticeContent>
-              여러분 안녕하세요! 기말고사 시즌이 다가오고 있습니다.
-            </S.NoticeContent>
-          </S.NoticeCard>
+          {recentNotices.map((notice) => (
+            <S.NoticeCard
+              key={notice.id}
+              onClick={(e) => handleNoticeCard(e, notice.id)}
+            >
+              <S.NoticeTitle>{notice.title}</S.NoticeTitle>
+              <S.NoticeContent>{notice.content}</S.NoticeContent>
+            </S.NoticeCard>
+          ))}
         </S.ScrollContainer>
       )}
+
       {posts.map((post) => (
         <PostListContainer key={post.id}>
           <PostListItem
