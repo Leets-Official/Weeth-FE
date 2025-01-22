@@ -59,6 +59,7 @@ const PostCommentList = ({
                 commentId={child.id}
                 name={child.name}
                 content={child.content}
+                position={child.position}
                 time={child.time}
                 path={path}
                 onDelete={onCommentDelete}
