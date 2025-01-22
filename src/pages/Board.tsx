@@ -8,6 +8,7 @@ import * as S from '@/styles/board/BoardPost.styled';
 import Header from '@/components/Header/Header';
 import { useNavigate } from 'react-router-dom';
 import { useDraggable } from '@/hooks/useDraggable';
+import { PostingButton } from '@/styles/board/PostDetail.styled';
 
 const Container = styled.div`
   display: flex;
@@ -31,6 +32,18 @@ const Text = styled.div`
 
 const PostListContainer = styled.div`
   margin: 0px 25px 0 25px;
+`;
+
+const PostingButtonContainer = styled.div`
+  position: fixed;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 370px;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
 `;
 
 interface Content {
@@ -150,6 +163,9 @@ const Board = () => {
       )}
       {isLoading && <Text>로딩 중...</Text>}
       {!hasMore && <Text>마지막 게시물입니다.</Text>}
+      <PostingButtonContainer>
+        <PostingButton />
+      </PostingButtonContainer>
     </Container>
   );
 };
