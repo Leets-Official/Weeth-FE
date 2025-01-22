@@ -1,8 +1,11 @@
 import CommentImage from '@/assets/images/ic_comment_count.svg';
-import { formatDate } from 'fullcalendar';
 import * as S from '@/styles/board/PostDetail.styled';
-import Line from '../common/Line';
-import PostFile from './PostFile';
+import Line from '@/components/common/Line';
+import PostFile from '@/components/Board/PostFile';
+import FEIcon from '@/assets/images/ic_FE_color.svg';
+import BEIcon from '@/assets/images/ic_BE_color.svg';
+import DEIcon from '@/assets/images/ic_DE_color.svg';
+import formatDateTime from '@/hooks/formatDateTime';
 
 interface Comment {
   id: number;
@@ -23,6 +26,7 @@ interface BoardDetail {
   title: string;
   time: string;
   content: string;
+  position: string;
   commentCount: number;
   comments: Comment[];
   fileUrls: FileUrl[];
@@ -65,20 +69,25 @@ const onClickDownload = async (fileName: string, fileUrl: string) => {
 };
 
 const PostDetailMain = ({ info }: PostDetailMainProps) => {
-  const formattedDate = info?.time
-    ? formatDate(new Date(info.time), {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric',
-      })
-    : 'Invalid Date';
+  const formattedDate = formatDateTime(info?.time ?? '');
 
   if (!info) return <div>Loading...</div>;
+
+  // 포지션별 아이콘 매핑
+  const positionIcons: Record<string, string> = {
+    FE: FEIcon,
+    BE: BEIcon,
+    DE: DEIcon,
+  };
 
   return (
     <S.PostMainContainer>
       <S.PostMainTitleText>{info.title}</S.PostMainTitleText>
       <S.SmallText>
+        <S.PositionIcon
+          src={positionIcons[info.position] || FEIcon}
+          alt="포지션 아이콘"
+        />
         <div>{info.name}</div>
         <S.DateText>{formattedDate}</S.DateText>
       </S.SmallText>

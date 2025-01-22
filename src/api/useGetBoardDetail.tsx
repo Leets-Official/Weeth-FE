@@ -22,6 +22,7 @@ interface BoardDetail {
   title: string;
   time: string;
   content: string;
+  position: string;
   commentCount: number;
   comments: Comments[];
   fileUrls: FileUrls[];

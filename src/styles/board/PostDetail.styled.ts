@@ -5,7 +5,7 @@ import styled from 'styled-components';
 export const PostMainContainer = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 20px 23px 0 23px;
+  margin: 5px 23px 0 23px;
 `;
 
 export const PostMainTitleText = styled.div`
@@ -33,6 +33,11 @@ export const CommentText = styled.div`
   gap: 4px;
   font-family: ${theme.font.semiBold};
   margin: 14px 0 10px 0;
+`;
+export const PositionIcon = styled.img`
+  height: 16px;
+  width: 16px;
+  margin-right: 5px;
 `;
 
 export const PostingContianer = styled.div`

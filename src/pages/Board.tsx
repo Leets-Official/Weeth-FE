@@ -137,7 +137,7 @@ const Board = () => {
             totalComments={post.commentCount}
             hasFile={post.hasFile}
             position={post.position}
-            onClick={() => navigate(`/study/${post.id}`)}
+            onClick={() => navigate(`/board/${post.id}`)}
           />
           <Line />
         </PostListContainer>
