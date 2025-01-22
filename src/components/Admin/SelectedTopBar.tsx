@@ -1,7 +1,5 @@
 import theme from '@/styles/theme';
 import backarrow from '@/assets/images/ic_admin_backarrow.svg';
-import checkIcon from '@/assets/images/ic_admin_circle_check.svg';
-import dropdownIcon from '@/assets/images/ic_admin_column_meatball.svg';
 import styled from 'styled-components';
 import { useMemberContext } from './context/MemberContext';
 import { Title } from './TopBar';
@@ -74,16 +72,9 @@ const SelectedTopBar: React.FC = () => {
       disabled: false,
     },
     {
-      label: '변경 기수',
+      label: '기수 변경',
       onClick: () => alert('기수를 변경하시겠습니까?'),
       disabled: false,
-      icon: checkIcon,
-    },
-    {
-      label: '직접 입력',
-      onClick: () => alert('직접 입력 기능을 실행합니다.'), // 나중에 수정
-      disabled: false,
-      icon: dropdownIcon,
     },
   ];
 
