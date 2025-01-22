@@ -20,7 +20,7 @@ const Container = styled.div`
 const Line = styled.div`
   border: 1px solid;
   color: ${(props) => props.theme.color.gray[30]};
-  margin-top: 10px;
+  margin-top: 2px;
 `;
 
 const Text = styled.div`
@@ -30,7 +30,7 @@ const Text = styled.div`
 `;
 
 const PostListContainer = styled.div`
-  margin: 5px 25px 0 25px;
+  margin: 0px 25px 0 25px;
 `;
 
 interface Content {

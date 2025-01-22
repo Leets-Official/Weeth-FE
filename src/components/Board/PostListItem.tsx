@@ -51,7 +51,7 @@ const PostListItem = ({
             />
             <S.NameText>{name}</S.NameText>
             <S.Divider>|</S.Divider>
-            <S.LightText>{time}</S.LightText>
+            <S.DateText>{time}</S.DateText>
             {hasFile && (
               <>
                 <S.Divider>|</S.Divider>
