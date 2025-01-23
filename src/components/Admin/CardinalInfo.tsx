@@ -1,6 +1,6 @@
 import theme from '@/styles/theme';
 import styled from 'styled-components';
-import AddCardinal from '@/components/Admin/Modal/AddCardinal';
+import AddCardinal from '@/components/Admin/AddCardinal';
 import { BoxWrapper } from './TotalDues';
 import Box from './Box';
 

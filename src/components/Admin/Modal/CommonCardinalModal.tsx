@@ -1,20 +1,21 @@
 import Modal from 'react-modal';
-import { styled } from 'styled-components';
 import theme from '@/styles/theme';
+import { styled } from 'styled-components';
+import closeIcon from '@/assets/images/ic_admin_close.svg';
 import { CloseIcon } from './CommonModal';
 
 interface CommonCardinalModalProps {
   isOpen: boolean;
   onClose: () => void;
-  title: string;
+  title?: string;
   children: React.ReactNode;
-  footer: React.ReactNode;
+  footer?: React.ReactNode;
   width?: string;
   height?: string;
   top?: string;
   left?: string;
   overlayColor?: string;
-  showCloseButton?: string;
+  showCloseButton?: boolean;
   position: 'center' | 'absolute' | 'fixed';
 }
 
@@ -28,6 +29,8 @@ const StyledModalOverlay = styled.div<{ overlayColor?: string }>`
   display: flex;
   align-items: center;
   justify-content: center;
+  font-family: ${theme.font.semiBold};
+  color: #000;
 `;
 
 const StyledModalContent = styled.div<{
@@ -39,11 +42,11 @@ const StyledModalContent = styled.div<{
 }>`
   width: ${(props) => props.width || '500px'};
   height: ${(props) => props.height || 'auto'};
-  position: ${(props) => props.position || 'center'};
+  position: fixed;
   top: ${(props) => props.top || '50%'};
   left: ${(props) => props.left || '50%'};
   transform: ${(props) =>
-    props.position === 'center' ? 'translate(-50%, -50%)' : 'none'};
+    props.top && props.left ? 'none' : 'translate(-50%, -50%)'};
   border-radius: 8px;
   background-color: ${theme.color.gray[100]};
   padding: 0;
@@ -54,39 +57,31 @@ const StyledModalContent = styled.div<{
 const ModalContainer = styled.div`
   display: flex;
   flex-direction: column;
-  height: 100%;
+  align-items: center;
 `;
 
 const TitleContainer = styled.div`
   background-color: ${theme.color.gray[100]};
   width: 100%;
-  height: 96px;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
-  padding: 0 20px;
+  padding: 15px 20px;
 `;
-
-const Title = styled.div`
-  font-weight: 700;
-  font-size: 24px;
-  color: #000;
-`;
-
 const MainContent = styled.div`
-  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   padding: 20px;
   overflow-y: auto;
 `;
 
 const Footer = styled.div`
   background-color: ${theme.color.gray[100]};
-  width: 100%;
-  height: 96px;
+  width: 350px;
   display: flex;
-  align-items: center;
-  padding-left: 20px;
-  position: absolute;
+  justify-content: flex-end;
+  padding: 20px;
   bottom: 0;
 `;
 
@@ -123,12 +118,14 @@ const CommonCardinalModal: React.FC<CommonCardinalModalProps> = ({
         >
           <ModalContainer>
             <TitleContainer>
-              <Title>{title}</Title>
               {showCloseButton && (
-                <CloseIcon src={CloseIcon} alt="close" onClick={onClose} />
+                <CloseIcon src={closeIcon} alt="close" onClick={onClose} />
               )}
             </TitleContainer>
-            <MainContent>{children}</MainContent>
+            <MainContent>
+              {title}
+              {children}
+            </MainContent>
             <Footer>{footer}</Footer>
           </ModalContainer>
         </StyledModalContent>
