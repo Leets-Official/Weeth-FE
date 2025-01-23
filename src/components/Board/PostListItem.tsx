@@ -1,9 +1,6 @@
 import Comment from '@/assets/images/ic_comment_count.svg';
 import FileIcon from '@/assets/images/ic_file.svg';
-import FEIcon from '@/assets/images/ic_FE_color.svg';
-import BEIcon from '@/assets/images/ic_BE_color.svg';
-import DEIcon from '@/assets/images/ic_DE_color.svg';
-import ADIcon from '@/assets/images/ic_MA_color.svg';
+import setPositionIcon from '@/hooks/setPositionIcon';
 import * as S from '@/styles/board/PostListItem.styled';
 
 type ItemProps = {
@@ -23,14 +20,6 @@ const truncateText = (text: string, maxLength: number) => {
   return text.length > maxLength ? `${text.substring(0, maxLength)}...` : text;
 };
 
-// 포지션별 아이콘 매핑
-const positionIcons: Record<string, string> = {
-  FE: FEIcon,
-  BE: BEIcon,
-  DE: DEIcon,
-  AD: ADIcon,
-};
-
 const PostListItem = ({
   name,
   time,
@@ -42,10 +31,6 @@ const PostListItem = ({
   position,
   role,
 }: ItemProps) => {
-  // role이 ADMIN이면 ADIcon, 아니면 포지션별 아이콘 사용
-  const getPositionIcon = () => {
-    return role === 'ADMIN' ? ADIcon : positionIcons[position] || FEIcon;
-  };
   return (
     <S.Container onClick={onClick} style={{ cursor: 'pointer' }}>
       <S.PostLeftSection>
@@ -54,10 +39,10 @@ const PostListItem = ({
         <S.BottomInfoContainer>
           <S.InfoContainer>
             <S.PositionIcon
-              src={positionIcons[position] || FEIcon}
+              src={setPositionIcon(role, position)}
               alt="포지션 아이콘"
             />
-            <S.NameText>{name}</S.NameText>
+            ;<S.NameText>{name}</S.NameText>
             <S.Divider>|</S.Divider>
             <S.DateText>{time}</S.DateText>
             {hasFile && (

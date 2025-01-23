@@ -10,6 +10,7 @@ interface Content {
   commentCount: number;
   hasFile: boolean;
   position: string;
+  role: string;
 }
 
 interface ApiResponse {
