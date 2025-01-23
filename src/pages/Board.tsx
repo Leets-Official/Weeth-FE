@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import PostListItem from '@/components/Board/PostListItem';
 import formatDate from '@/hooks/formatDate';
 import useGetBoardInfo, { useGetRecentNotice } from '@/api/useGetBoardInfo';
-import * as S from '@/styles/board/BoardPost.styled';
+import * as S from '@/styles/board/Board.styled';
 import Header from '@/components/Header/Header';
 import { useNavigate } from 'react-router-dom';
 import { useDraggable } from '@/hooks/useDraggable';
