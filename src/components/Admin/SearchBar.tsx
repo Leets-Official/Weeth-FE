@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 import theme from '@/styles/theme';
+import { useState } from 'react';
 import icSearch from '@/assets/images/ic_admin_search.svg';
 import { useMemberContext } from './context/MemberContext';
-import { useState } from 'react';
 
 export const SearchBarWrapper = styled.div`
   position: relative;
@@ -48,14 +48,18 @@ const SearchBar: React.FC<SearchBarProps> = ({ isWrapped = true }) => {
   const [searchName, setSearchName] = useState('');
 
   const handleSearchName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
+    const value = e.target.value.trim().toLowerCase();
     setSearchName(value);
 
-    const filtered = members.filter((member) =>
-      member.name.toLowerCase().includes(value.toLowerCase()),
-    );
-
-    setFilteredMembers(filtered);
+    if (value === '') {
+      setFilteredMembers([...members]);
+    } else {
+      const filtered = members.filter((member) =>
+        member.name.toLowerCase().includes(value),
+      );
+      setFilteredMembers(filtered);
+      console.log('검색 이름 : ', filtered);
+    }
   };
 
   const content = (

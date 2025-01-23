@@ -24,6 +24,7 @@ interface MemberContextProps {
   selectedMembers: string[]; // 선택된 멤버 ID 리스트
   filteredMembers: MemberData[];
   setSelectedMembers: React.Dispatch<React.SetStateAction<string[]>>;
+  setFilteredMembers: React.Dispatch<React.SetStateAction<MemberData[]>>;
 }
 
 // context 생성
