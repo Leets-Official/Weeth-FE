@@ -30,6 +30,7 @@ export const PostRightSection = styled.div`
 export const CommentContainer = styled.div`
   display: flex;
   align-items: center;
+  margin-top: 5px;
 `;
 
 export const TitleText = styled.div`
