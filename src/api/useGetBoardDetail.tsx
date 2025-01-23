@@ -8,6 +8,8 @@ interface Comments {
   name: string;
   content: string;
   time: string;
+  position: string;
+  role: string;
 }
 
 interface FileUrls {
@@ -23,6 +25,7 @@ interface BoardDetail {
   time: string;
   content: string;
   position: string;
+  role: string;
   commentCount: number;
   comments: Comments[];
   fileUrls: FileUrls[];
