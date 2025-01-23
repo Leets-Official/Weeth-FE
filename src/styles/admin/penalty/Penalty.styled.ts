@@ -3,8 +3,7 @@ import { styled } from 'styled-components';
 
 // penaltyListTable.tsx
 export const TableWrapper = styled.div`
-  width: 100%;
-  margin-top: 20px;
+  width: fit-content;
   font-size: 18px;
   border-collapse: collapse;
 `;
@@ -67,7 +66,6 @@ export const ExpandedRow = styled.tr`
 `;
 
 export const EmptyCell = styled.td`
-  background-color: #f9f9f9;
   width: 150px;
 `;
 

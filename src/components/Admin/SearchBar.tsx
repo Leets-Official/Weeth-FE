@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import theme from '@/styles/theme';
 import icSearch from '@/assets/images/ic_admin_search.svg';
+import { useMemberContext } from './context/MemberContext';
+import { useState } from 'react';
 
 export const SearchBarWrapper = styled.div`
   position: relative;
@@ -42,10 +44,28 @@ interface SearchBarProps {
 }
 
 const SearchBar: React.FC<SearchBarProps> = ({ isWrapped = true }) => {
+  const { members, setFilteredMembers } = useMemberContext();
+  const [searchName, setSearchName] = useState('');
+
+  const handleSearchName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setSearchName(value);
+
+    const filtered = members.filter((member) =>
+      member.name.toLowerCase().includes(value.toLowerCase()),
+    );
+
+    setFilteredMembers(filtered);
+  };
+
   const content = (
     <>
       <SearchBarIcon src={icSearch} alt="search" isWrapped={isWrapped} />
-      <StyledInput placeholder="Search for name" />
+      <StyledInput
+        placeholder="Search for name"
+        value={searchName}
+        onChange={handleSearchName}
+      />
     </>
   );
 

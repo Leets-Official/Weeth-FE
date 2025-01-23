@@ -22,6 +22,7 @@ interface MemberContextProps {
   members: MemberData[]; // 전체 멤버 데이터
   setMembers: React.Dispatch<React.SetStateAction<MemberData[]>>;
   selectedMembers: string[]; // 선택된 멤버 ID 리스트
+  filteredMembers: MemberData[];
   setSelectedMembers: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
@@ -120,14 +121,18 @@ export const MemberProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const [selectedMembers, setSelectedMembers] = useState<string[]>([]);
 
+  const [filteredMembers, setFilteredMembers] = useState<MemberData[]>(members);
+
   const value = useMemo(
     () => ({
       members,
       setMembers,
       selectedMembers,
       setSelectedMembers,
+      filteredMembers,
+      setFilteredMembers,
     }),
-    [members, selectedMembers],
+    [members, selectedMembers, filteredMembers],
   );
 
   return (
