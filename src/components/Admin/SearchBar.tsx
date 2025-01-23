@@ -11,7 +11,7 @@ export const SearchBarWrapper = styled.div`
   width: 100%;
   padding: 15px 20px;
   border-radius: 4px;
-  margin-top: 30px;
+  margin: 30px 0;
   box-shadow: 0px 3px 8px 0px rgba(133, 141, 138, 0.2);
   gap: 15px;
 `;
@@ -21,16 +21,16 @@ export const StyledInput = styled.input`
   height: 48px;
   box-sizing: border-box;
   padding: 12px 12px 12px 40px;
-  border: 1px solid ${theme.color.gray[65]};
+  border: 1px solid #dedede;
   border-radius: 4px;
   &::placeholder {
     color: ${theme.color.gray[20]};
   }
 `;
 
-export const SearchBarIcon = styled.img`
+export const SearchBarIcon = styled.img<{ isWrapped?: boolean }>`
   position: absolute;
-  left: 32px;
+  left: ${({ isWrapped }) => (isWrapped ? '32px' : '157px')};
   top: 50%;
   width: 20px;
   height: 20px;
@@ -44,7 +44,7 @@ interface SearchBarProps {
 const SearchBar: React.FC<SearchBarProps> = ({ isWrapped = true }) => {
   const content = (
     <>
-      <SearchBarIcon src={icSearch} alt="search" />
+      <SearchBarIcon src={icSearch} alt="search" isWrapped={isWrapped} />
       <StyledInput placeholder="Search for name" />
     </>
   );

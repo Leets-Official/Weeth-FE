@@ -4,6 +4,7 @@ import { styled } from 'styled-components';
 // penaltyListTable.tsx
 export const TableWrapper = styled.div`
   width: 100%;
+  margin-top: 20px;
   font-size: 18px;
   border-collapse: collapse;
 `;
