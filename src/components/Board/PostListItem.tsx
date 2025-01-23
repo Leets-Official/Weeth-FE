@@ -42,7 +42,7 @@ const PostListItem = ({
               src={setPositionIcon(role, position)}
               alt="포지션 아이콘"
             />
-            ;<S.NameText>{name}</S.NameText>
+            <S.NameText>{name}</S.NameText>
             <S.Divider>|</S.Divider>
             <S.DateText>{time}</S.DateText>
             {hasFile && (
