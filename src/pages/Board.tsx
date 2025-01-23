@@ -17,6 +17,7 @@ interface Content {
   commentCount: number;
   hasFile: boolean;
   position: string;
+  role: string;
 }
 
 const Board = () => {
@@ -122,6 +123,7 @@ const Board = () => {
             totalComments={post.commentCount}
             hasFile={post.hasFile}
             position={post.position}
+            role={post.role}
             onClick={() => navigate(`/board/${post.id}`)}
           />
           <S.Line />

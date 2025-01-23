@@ -3,6 +3,7 @@ import FileIcon from '@/assets/images/ic_file.svg';
 import FEIcon from '@/assets/images/ic_FE_color.svg';
 import BEIcon from '@/assets/images/ic_BE_color.svg';
 import DEIcon from '@/assets/images/ic_DE_color.svg';
+import ADIcon from '@/assets/images/ic_MA_color.svg';
 import * as S from '@/styles/board/PostListItem.styled';
 
 type ItemProps = {
@@ -14,6 +15,7 @@ type ItemProps = {
   totalComments: number;
   hasFile: boolean;
   position: string;
+  role: string;
 };
 
 // 문자열을 50글자로 제한하고, 넘어가면 "..." 추가
@@ -26,6 +28,7 @@ const positionIcons: Record<string, string> = {
   FE: FEIcon,
   BE: BEIcon,
   DE: DEIcon,
+  AD: ADIcon,
 };
 
 const PostListItem = ({
@@ -37,7 +40,12 @@ const PostListItem = ({
   totalComments,
   hasFile,
   position,
+  role,
 }: ItemProps) => {
+  // role이 ADMIN이면 ADIcon, 아니면 포지션별 아이콘 사용
+  const getPositionIcon = () => {
+    return role === 'ADMIN' ? ADIcon : positionIcons[position] || FEIcon;
+  };
   return (
     <S.Container onClick={onClick} style={{ cursor: 'pointer' }}>
       <S.PostLeftSection>
