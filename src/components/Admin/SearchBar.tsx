@@ -5,6 +5,7 @@ import icSearch from '@/assets/images/ic_admin_search.svg';
 export const SearchBarWrapper = styled.div`
   position: relative;
   background-color: #ffffff;
+  box-sizing: border-box;
   display: flex;
   align-items: center;
   width: 100%;

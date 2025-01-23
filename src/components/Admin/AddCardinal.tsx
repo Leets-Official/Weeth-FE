@@ -7,6 +7,7 @@ import CardinalModal from '@/components/Admin/Modal/CardinalModal';
 export const AddCardinalWrapper = styled.div`
   width: 80px;
   height: 164px;
+  box-sizing: border-box;
   background-color: ${theme.color.gray[100]};
   display: flex;
   justify-content: center;

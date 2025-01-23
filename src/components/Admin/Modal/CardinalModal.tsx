@@ -19,7 +19,7 @@ const ModalContentWrapper = styled.div`
   gap: 20px;
 `;
 
-const Input = styled.input`
+export const Input = styled.input`
   width: 100%;
   max-width: 100%;
   padding: 15px;
@@ -35,7 +35,7 @@ const Input = styled.input`
   }
 `;
 
-const Title = styled.div`
+export const Title = styled.div`
   font-weight: 500;
   font-size: 16px;
   color: #000;

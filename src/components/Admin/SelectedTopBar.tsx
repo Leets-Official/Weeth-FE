@@ -1,9 +1,11 @@
 import theme from '@/styles/theme';
 import backarrow from '@/assets/images/ic_admin_backarrow.svg';
+import { useState } from 'react';
 import styled from 'styled-components';
 import { useMemberContext } from './context/MemberContext';
 import { Title } from './TopBar';
 import ButtonGroup from './ButtonGroup';
+import CardinalChangeModal from './Modal/CardinalChangeModal';
 
 const SelectedTopBarWrapper = styled.div`
   width: 100%;
@@ -30,9 +32,18 @@ const SvgIcon = styled.img`
 
 const SelectedTopBar: React.FC = () => {
   const { selectedMembers, setSelectedMembers } = useMemberContext();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleBackClick = () => {
     setSelectedMembers([]);
+  };
+
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
   };
   const buttons = [
     {
@@ -73,19 +84,32 @@ const SelectedTopBar: React.FC = () => {
     },
     {
       label: '기수 변경',
-      onClick: () => alert('기수를 변경하시겠습니까?'),
+      onClick: handleOpenModal,
       disabled: false,
     },
   ];
 
   return (
-    <SelectedTopBarWrapper>
-      <TitleContainer>
-        <SvgIcon src={backarrow} alt="뒤로가기" onClick={handleBackClick} />
-        <Title>{`${selectedMembers.length}명 선택됨`}</Title>
-      </TitleContainer>
-      <ButtonGroup buttons={buttons} />
-    </SelectedTopBarWrapper>
+    <>
+      <SelectedTopBarWrapper>
+        <TitleContainer>
+          <SvgIcon src={backarrow} alt="뒤로가기" onClick={handleBackClick} />
+          <Title>{`${selectedMembers.length}명 선택됨`}</Title>
+        </TitleContainer>
+        <ButtonGroup buttons={buttons} />
+      </SelectedTopBarWrapper>
+
+      {isModalOpen && (
+        <CardinalChangeModal
+          isOpen={isModalOpen}
+          onClose={handleCloseModal}
+          top="70px"
+          left="75%"
+          position="absolute"
+          overlayColor="transparent"
+        />
+      )}
+    </>
   );
 };
 

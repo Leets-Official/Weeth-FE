@@ -6,7 +6,9 @@ import Box from './Box';
 
 const CardinalBoxWrapper = styled(BoxWrapper)`
   padding: 30px 0 30px 0;
+  box-sizing: border-box;
 `;
+
 const boxData = [
   {
     id: 'cardinal-total',

@@ -17,6 +17,7 @@ interface CommonCardinalModalProps {
   overlayColor?: string;
   showCloseButton?: boolean;
   position: 'center' | 'absolute' | 'fixed';
+  borderBottom?: boolean;
 }
 
 const StyledModalOverlay = styled.div<{ overlayColor?: string }>`
@@ -60,28 +61,41 @@ const ModalContainer = styled.div`
   align-items: center;
 `;
 
-const TitleContainer = styled.div`
-  background-color: ${theme.color.gray[100]};
+const TitleContainer = styled.div<{ borderBottom?: boolean }>`
   width: 100%;
+  box-sizing: border-box;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
-  padding: 15px 20px;
+  padding: 20px;
+  border-bottom: ${(props) =>
+    props.borderBottom ? '1px solid #dedede' : 'none'};
 `;
-const MainContent = styled.div`
+
+const TitleText = styled.div`
+  font-size: 20px;
+  font-weight: 600;
+  text-align: left;
+`;
+
+const MainContent = styled.div<{ borderBottom?: boolean }>`
   display: flex;
+  box-sizing: border-box;
   flex-direction: column;
   justify-content: center;
-  padding: 20px;
-  overflow-y: auto;
+  padding: 15px;
+  overflow: hidden;
+  border-bottom: ${(props) =>
+    props.borderBottom ? '1px solid #dedede' : 'none'};
 `;
 
 const Footer = styled.div`
   background-color: ${theme.color.gray[100]};
-  width: 350px;
+  box-sizing: border-box;
+  width: 100%;
   display: flex;
   justify-content: flex-end;
-  padding: 20px;
+  padding: 10px;
   bottom: 0;
 `;
 
@@ -98,6 +112,7 @@ const CommonCardinalModal: React.FC<CommonCardinalModalProps> = ({
   overlayColor = 'rgba(0,0,0,0.5)',
   showCloseButton = true,
   position = 'center',
+  borderBottom = false,
 }) => {
   return (
     <Modal
@@ -117,15 +132,13 @@ const CommonCardinalModal: React.FC<CommonCardinalModalProps> = ({
           position={position}
         >
           <ModalContainer>
-            <TitleContainer>
+            <TitleContainer borderBottom={borderBottom}>
+              <TitleText>{title}</TitleText>
               {showCloseButton && (
                 <CloseIcon src={closeIcon} alt="close" onClick={onClose} />
               )}
             </TitleContainer>
-            <MainContent>
-              {title}
-              {children}
-            </MainContent>
+            <MainContent borderBottom={borderBottom}>{children}</MainContent>
             <Footer>{footer}</Footer>
           </ModalContainer>
         </StyledModalContent>
