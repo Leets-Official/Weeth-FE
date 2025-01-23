@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import Comment from '@/components/Board/Comment';
-import ReplyComment from './ReplyComment';
+import ReplyComment from '@/components/Board/ReplyComment';
 
 interface CommentType {
   id: number;
@@ -8,6 +8,7 @@ interface CommentType {
   content: string;
   time: string;
   position: string;
+  role: string;
   children?: CommentType[];
 }
 
@@ -46,6 +47,7 @@ const PostCommentList = ({
           commentId={comment.id}
           path={path}
           position={comment.position}
+          role={comment.role}
           onDelete={onCommentDelete}
           onReply={() => onReply(comment.id)}
         />
@@ -60,6 +62,7 @@ const PostCommentList = ({
                 name={child.name}
                 content={child.content}
                 position={child.position}
+                role={child.role}
                 time={child.time}
                 path={path}
                 onDelete={onCommentDelete}
