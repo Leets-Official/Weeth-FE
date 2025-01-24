@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Button from '@/components/Button/Button';
 import CheckBox from '@/assets/images/ic_admin_checkbox.svg';
 import UnCheckBox from '@/assets/images/ic_admin_uncheckbox.svg';
-import theme from '@/styles/theme';
+import * as S from '@/styles/admin/cardinal/AdminCardinal.styled';
 import CommonCardinalModal from './CommonCardinalModal';
 
 interface CardinalModalProps {
@@ -11,46 +11,12 @@ interface CardinalModalProps {
   onClose: () => void;
 }
 
-const ModalContentWrapper = styled.div`
+export const ModalContentWrapper = styled.div`
   padding: 20px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 20px;
-`;
-
-export const Input = styled.input`
-  width: 100%;
-  max-width: 100%;
-  padding: 15px;
-  box-sizing: border-box;
-  border: 1px solid #ddd;
-  font-size: 16px;
-  font-family: ${theme.font.semiBold};
-  outline: none;
-  text-align: right;
-
-  :focus::placeholder {
-    color: transparent;
-  }
-`;
-
-export const Title = styled.div`
-  font-weight: 500;
-  font-size: 16px;
-  color: #000;
-`;
-
-const FlexRow = styled.div`
-  display: flex;
-  gap: 20px;
-`;
-
-const SvgText = styled.div`
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 10px;
 `;
 
 const CardinalModal: React.FC<CardinalModalProps> = ({ isOpen, onClose }) => {
@@ -78,20 +44,20 @@ const CardinalModal: React.FC<CardinalModalProps> = ({ isOpen, onClose }) => {
       }
     >
       <ModalContentWrapper>
-        <Title>추가할 새로운 기수를 작성해주세요</Title>
-        <Input type="text" placeholder="기" />
+        <S.Title>추가할 새로운 기수를 작성해주세요</S.Title>
+        <S.Input type="text" placeholder="기" />
         <div>활동 시기</div>
-        <FlexRow>
-          <Input type="text" placeholder="년" />
-          <Input type="text" placeholder="학기" />
-        </FlexRow>
-        <SvgText onClick={handleCheckBoxClick}>
+        <S.FlexRow>
+          <S.Input type="text" placeholder="년" />
+          <S.Input type="text" placeholder="학기" />
+        </S.FlexRow>
+        <S.SvgText onClick={handleCheckBoxClick}>
           <img
             src={isChecked ? CheckBox : UnCheckBox}
             alt={isChecked ? 'checked' : 'unchecked'}
           />
           <div> 현재 진행 중 </div>
-        </SvgText>
+        </S.SvgText>
       </ModalContentWrapper>
     </CommonCardinalModal>
   );

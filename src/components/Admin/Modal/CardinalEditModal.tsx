@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import Button from '@/components/Button/Button';
-import * as S from '@/styles/admin/cardinal/Admincardinal.styled';
+import * as S from '@/styles/admin/cardinal/AdminCardinal.styled';
 import CommonCardinalModal from './CommonCardinalModal';
 
 interface CardinalChangeModalProps {
