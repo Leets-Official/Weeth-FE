@@ -5,7 +5,7 @@ import { BoxWrapper } from './TotalDues';
 import Box from './Box';
 
 const CardinalBoxWrapper = styled(BoxWrapper)`
-  padding: 30px 0;
+  padding-bottom: 30px;
   box-sizing: border-box;
 `;
 

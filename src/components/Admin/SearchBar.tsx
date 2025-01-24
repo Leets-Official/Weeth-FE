@@ -13,7 +13,7 @@ export const SearchBarWrapper = styled.div`
   width: 100%;
   padding: 15px 20px;
   border-radius: 4px;
-  margin: 30px 0;
+  margin: 30px 0 20px 0;
   box-shadow: 0px 3px 8px 0px rgba(133, 141, 138, 0.2);
   gap: 15px;
 `;

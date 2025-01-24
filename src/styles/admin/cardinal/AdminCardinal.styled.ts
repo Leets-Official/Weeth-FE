@@ -91,6 +91,7 @@ export const ModalContentWrapper = styled.div`
   box-sizing: border-box;
   width: calc(100% - 40px);
   max-width: 360px;
+  z-index: 1000;
 `;
 
 export const InputGroup = styled.div`
