@@ -129,77 +129,78 @@ const EventEditor = () => {
   if (error) return <S.Error>{error}</S.Error>;
 
   return (
-    <S.EventEditorWrapper>
-      <Header onClickRightButton={onSave} RightButtonType="TEXT">
+    <>
+      <Header onClickRightButton={onSave} RightButtonType="TEXT" isAccessible>
         {isEditMode ? '일정 수정' : '일정 추가'}
       </Header>
-
-      <EventInputBlock>
-        <EventInput
-          origValue={eventRequest.title}
-          placeholder="제목"
-          editValue={(value) => editEventInfo('title', value)}
-        />
-      </EventInputBlock>
-
-      <EventInputBlock>
-        <S.Meeting>
-          <div>정기모임</div>
-          <ToggleButton
-            isMeeting={isMeeting}
-            onToggle={() => {
-              setIsMeeting(!isMeeting);
-            }}
+      <S.EventEditorWrapper>
+        <EventInputBlock>
+          <EventInput
+            origValue={eventRequest.title}
+            placeholder="제목"
+            editValue={(value) => editEventInfo('title', value)}
           />
-        </S.Meeting>
-        <S.Line />
-        <S.StartDate>
-          <div>시작</div>
-          <S.Time>
-            <S.TimeBlock>
-              {startArr.slice(0, 3).map(toTwoDigits).join('. ')}
-            </S.TimeBlock>
-            <S.TimeBlock>
-              {startArr.slice(3, 5).map(toTwoDigits).join(':')}
-            </S.TimeBlock>
-          </S.Time>
-        </S.StartDate>
-        <S.Line />
-        <S.StartDate>
-          <div>끝</div>
-          <S.Time>
-            <S.TimeBlock>
-              {endArr.slice(0, 3).map(toTwoDigits).join('. ')}
-            </S.TimeBlock>
-            <S.TimeBlock>
-              {endArr.slice(3, 5).map(toTwoDigits).join(':')}
-            </S.TimeBlock>
-          </S.Time>
-        </S.StartDate>
-      </EventInputBlock>
+        </EventInputBlock>
 
-      <EventInputBlock>
-        <EventInput
-          origValue={eventRequest.title}
-          placeholder="장소"
-          editValue={(value) => editEventInfo('title', value)}
-        />
-        <S.Line />
-        <EventInput
-          origValue={eventRequest.title}
-          placeholder="준비물"
-          editValue={(value) => editEventInfo('title', value)}
-        />
-      </EventInputBlock>
+        <EventInputBlock>
+          <S.Meeting>
+            <div>정기모임</div>
+            <ToggleButton
+              isMeeting={isMeeting}
+              onToggle={() => {
+                setIsMeeting(!isMeeting);
+              }}
+            />
+          </S.Meeting>
+          <S.Line />
+          <S.StartDate>
+            <div>시작</div>
+            <S.Time>
+              <S.TimeBlock>
+                {startArr.slice(0, 3).map(toTwoDigits).join('. ')}
+              </S.TimeBlock>
+              <S.TimeBlock>
+                {startArr.slice(3, 5).map(toTwoDigits).join(':')}
+              </S.TimeBlock>
+            </S.Time>
+          </S.StartDate>
+          <S.Line />
+          <S.StartDate>
+            <div>끝</div>
+            <S.Time>
+              <S.TimeBlock>
+                {endArr.slice(0, 3).map(toTwoDigits).join('. ')}
+              </S.TimeBlock>
+              <S.TimeBlock>
+                {endArr.slice(3, 5).map(toTwoDigits).join(':')}
+              </S.TimeBlock>
+            </S.Time>
+          </S.StartDate>
+        </EventInputBlock>
 
-      <S.TextAreaWrapper>
-        <S.TextArea
-          placeholder="내용"
-          value={eventRequest.content}
-          onChange={(e) => editEventInfo('content', e.target.value)}
-        />
-      </S.TextAreaWrapper>
-    </S.EventEditorWrapper>
+        <EventInputBlock>
+          <EventInput
+            origValue={eventRequest.location}
+            placeholder="장소"
+            editValue={(value) => editEventInfo('location', value)}
+          />
+          <S.Line />
+          <EventInput
+            origValue={eventRequest.requiredItem}
+            placeholder="준비물"
+            editValue={(value) => editEventInfo('requiredItem', value)}
+          />
+        </EventInputBlock>
+
+        <S.TextAreaWrapper>
+          <S.TextArea
+            placeholder="내용"
+            value={eventRequest.content}
+            onChange={(e) => editEventInfo('content', e.target.value)}
+          />
+        </S.TextAreaWrapper>
+      </S.EventEditorWrapper>
+    </>
   );
 };
 
