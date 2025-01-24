@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
+
 import Button from '@/components/Button/Button';
-import theme from '@/styles/theme';
+import * as S from '@/styles/admin/cardinal/Admincardinal.styled';
 import CommonCardinalModal from './CommonCardinalModal';
 
 interface CardinalChangeModalProps {
@@ -13,64 +13,7 @@ interface CardinalChangeModalProps {
   overlayColor?: string;
 }
 
-const ModalContentWrapper = styled.div`
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 20px;
-  box-sizing: border-box;
-  width: calc(100% - 40px);
-  max-width: 360px;
-`;
-
-const InputGroup = styled.div`
-  display: flex;
-  gap: 10px;
-  width: 100%;
-  max-width: 100%;
-  box-sizing: border-box;
-`;
-
-const FooterWrapper = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-  width: 100%;
-`;
-
-const ErrorMessage = styled.div`
-  color: ${theme.color.negative};
-  font-size: 14px;
-`;
-
-const NumInput = styled.input`
-  flex: 2;
-  max-width: 65%;
-  font-family: ${theme.font.semiBold};
-  border: 1px solid #dedede;
-  border-radius: 4px;
-  font-size: 16px;
-  padding: 12px;
-
-  &::placeholder {
-    color: ${theme.color.gray[65]};
-  }
-`;
-
-const CustomInput = styled.input`
-  flex: 1;
-  max-width: 35%;
-  font-family: ${theme.font.semiBold};
-  border: 1px solid #dedede;
-  border-radius: 4px;
-  font-size: 16px;
-  padding: 12px;
-  &::placeholder {
-    color: ${theme.color.gray[65]};
-  }
-`;
-const CardinalChangeModal: React.FC<CardinalChangeModalProps> = ({
+const CardinalEditModal: React.FC<CardinalChangeModalProps> = ({
   isOpen,
   onClose,
   top = '100px',
@@ -83,12 +26,13 @@ const CardinalChangeModal: React.FC<CardinalChangeModalProps> = ({
   const [error, setError] = useState('');
 
   const handleSave = () => {
-    if (!cardinalNumber && !customInput) {
+    const inputValue = customInput || cardinalNumber;
+    if (!inputValue.trim()) {
       setError('기수를 입력해주세요.');
       return;
     }
     setError('');
-    alert(`새로운 기수: ${customInput || cardinalNumber}`);
+    alert(`새로운 기수: ${inputValue}`);
     onClose();
   };
 
@@ -106,7 +50,7 @@ const CardinalChangeModal: React.FC<CardinalChangeModalProps> = ({
       showCloseButton={false}
       borderBottom
       footer={
-        <FooterWrapper>
+        <S.FooterWrapper>
           <Button
             width="80px"
             height="45px"
@@ -125,30 +69,34 @@ const CardinalChangeModal: React.FC<CardinalChangeModalProps> = ({
           >
             저장
           </Button>
-        </FooterWrapper>
+        </S.FooterWrapper>
       }
     >
-      <ModalContentWrapper>
-        <InputGroup>
-          <NumInput
+      <S.ModalContentWrapper>
+        <S.InputGroup>
+          <S.StyledInput
             type="text"
             placeholder="숫자만 입력"
             value={cardinalNumber}
             onChange={(e) => setCardinalNumber(e.target.value)}
+            flex={2}
+            maxWidth="65%"
           />
-          <CustomInput
+          <S.StyledInput
             type="text"
             placeholder="직접 입력"
             value={customInput}
             onChange={(e) => setCustomInput(e.target.value)}
+            flex={1}
+            maxWidth="35%"
           />
-        </InputGroup>
-        <ErrorMessage>
+        </S.InputGroup>
+        <S.ErrorMessage>
           *저장되지 않은 숫자는 새로운 기수로 추가됩니다.
-        </ErrorMessage>
-      </ModalContentWrapper>
+        </S.ErrorMessage>
+      </S.ModalContentWrapper>
     </CommonCardinalModal>
   );
 };
 
-export default CardinalChangeModal;
+export default CardinalEditModal;

@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { useMemberContext } from './context/MemberContext';
 import { Title } from './TopBar';
 import ButtonGroup from './ButtonGroup';
-import CardinalChangeModal from './Modal/CardinalChangeModal';
+import CardinalEditModal from './Modal/CardinalEditModal';
 
 const SelectedTopBarWrapper = styled.div`
   width: 100%;
@@ -100,7 +100,7 @@ const SelectedTopBar: React.FC = () => {
       </SelectedTopBarWrapper>
 
       {isModalOpen && (
-        <CardinalChangeModal
+        <CardinalEditModal
           isOpen={isModalOpen}
           onClose={handleCloseModal}
           top="70px"
