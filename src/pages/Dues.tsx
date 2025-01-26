@@ -35,7 +35,9 @@ const Dues: React.FC = () => {
 
   return (
     <S.StyledDues>
-      <Header RightButtonType="none">회비 </Header>
+      <Header RightButtonType="none" isAccessible>
+        회비{' '}
+      </Header>
       <DuesTitle />
       <S.CategoryWrapper>
         <DueCategory setSelectedDues={setSelectedDues} />

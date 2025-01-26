@@ -143,6 +143,7 @@ const Profile: React.FC = () => {
         isComplete={isNextEnabled}
         onClickRightButton={handleNextClick}
         RightButtonType="TEXT"
+        isAccessible
       />
       <HeaderText>동아리원의 정보를 입력해주세요.</HeaderText>
       <InputContainer>

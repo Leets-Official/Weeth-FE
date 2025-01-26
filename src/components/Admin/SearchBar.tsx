@@ -12,10 +12,12 @@ export const SearchBarWrapper = styled.div`
   border-radius: 4px;
   margin-top: 30px;
   box-shadow: 0px 3px 8px 0px rgba(133, 141, 138, 0.2);
+  gap: 15px;
 `;
 
 export const StyledInput = styled.input`
   width: 100%;
+  height: 48px;
   box-sizing: border-box;
   padding: 12px 12px 12px 40px;
   border: 1px solid ${theme.color.gray[65]};
@@ -34,13 +36,19 @@ export const SearchBarIcon = styled.img`
   transform: translateY(-50%);
 `;
 
-const SearchBar: React.FC = () => {
-  return (
-    <SearchBarWrapper>
+interface SearchBarProps {
+  isWrapped?: boolean; // Wrapper css 사용 여부
+}
+
+const SearchBar: React.FC<SearchBarProps> = ({ isWrapped = true }) => {
+  const content = (
+    <>
       <SearchBarIcon src={icSearch} alt="search" />
       <StyledInput placeholder="Search for name" />
-    </SearchBarWrapper>
+    </>
   );
+
+  return isWrapped ? <SearchBarWrapper>{content}</SearchBarWrapper> : content;
 };
 
 export default SearchBar;

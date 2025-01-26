@@ -5,6 +5,7 @@ interface ButtonProps {
   color: string;
   description: string;
   width: string;
+  onClick: () => void;
 }
 
 const Wrapper = styled.div<{ color: string; width: string }>`
@@ -23,9 +24,14 @@ const Description = styled.div`
   color: ${theme.color.gray[100]};
 `;
 
-const Button: React.FC<ButtonProps> = ({ color, description, width }) => {
+const Button: React.FC<ButtonProps> = ({
+  color,
+  description,
+  width,
+  onClick,
+}) => {
   return (
-    <Wrapper color={color} width={width}>
+    <Wrapper color={color} width={width} onClick={onClick}>
       <Description>{description}</Description>
     </Wrapper>
   );

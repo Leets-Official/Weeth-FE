@@ -5,7 +5,7 @@ interface StatusIndicatorProps {
   status: '승인 완료' | '대기 중' | '추방';
 }
 
-const StatusDot = styled.span<{ color: string }>`
+export const StatusDot = styled.span<{ color: string }>`
   width: 4px;
   height: 4px;
   background-color: ${({ color }) => color};

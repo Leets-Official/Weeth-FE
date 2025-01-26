@@ -71,6 +71,7 @@ const BoardPost = () => {
       <Header
         onClickRightButton={onSave}
         RightButtonType="TEXT"
+        isAccessible
         isComplete={!isTitleEmpty && !isContentEmpty}
       >
         글 쓰기

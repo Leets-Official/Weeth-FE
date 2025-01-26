@@ -23,7 +23,7 @@ import theme from '@/styles/theme';
 import AdminAttendance from '@/pages/admin/AdminAttendance';
 import AdminMember from '@/pages/admin/AdminMember';
 import AdminDues from '@/pages/admin/AdminDues';
-import AdminPenatly from '@/pages/admin/AdminPenatly';
+import AdminPenalty from '@/pages/admin/AdminPenalty';
 
 import { Route, Routes } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
@@ -66,7 +66,7 @@ const App = () => {
         <Route path="/admin/attendance" element={<AdminAttendance />} />
         <Route path="/admin/member" element={<AdminMember />} />
         <Route path="/admin/dues" element={<AdminDues />} />
-        <Route path="/admin/penalty" element={<AdminPenatly />} />
+        <Route path="/admin/penalty" element={<AdminPenalty />} />
       </Routes>
     </ThemeProvider>
   );

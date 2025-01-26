@@ -85,7 +85,9 @@ const NoticeBoard = () => {
 
   return (
     <Container>
-      <Header RightButtonType="none">공지사항</Header>
+      <Header RightButtonType="none" isAccessible>
+        공지사항
+      </Header>
       <S.InfoContainer>
         <S.TextContainer>
           <S.InfoTitleText>스터디 게시판</S.InfoTitleText>

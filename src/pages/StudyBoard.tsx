@@ -84,7 +84,9 @@ const StudyBoard = () => {
 
   return (
     <Container>
-      <Header RightButtonType="none">스터디 게시판</Header>
+      <Header RightButtonType="none" isAccessible>
+        스터디 게시판
+      </Header>
       <S.InfoContainer>
         <S.TextContainer>
           <S.InfoTitleText>스터디 게시판</S.InfoTitleText>

@@ -53,7 +53,9 @@ const MemberDetail = () => {
   //-----------------------
   return (
     <S.Wrapper>
-      <Header RightButtonType="none">멤버</Header>
+      <Header RightButtonType="none" isAccessible>
+        멤버
+      </Header>
       <S.InfoWrapper>
         {infoData.map((info) => (
           <InfoComponent

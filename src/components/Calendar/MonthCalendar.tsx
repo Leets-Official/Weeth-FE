@@ -8,8 +8,8 @@ import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { WEEK_DAYS } from '@/constants/dateConstants';
 import TodayIncluded from '@/hooks/TodayIncluded';
-import ScheduleItem from './ScheduleItem';
-import Line from '../common/Line';
+import ScheduleItem from '@/components/Calendar/ScheduleItem';
+import Line from '@/components/common/Line';
 
 const MonthCalendar = ({ year, month }: { year: number; month: number }) => {
   const calendarRef = useRef<FullCalendar | null>(null);
