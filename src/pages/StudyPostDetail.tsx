@@ -101,11 +101,12 @@ const StudyPostDetail = () => {
     <>
       <Container>
         <Header
-          title="게시판"
           RightButtonType="MENU"
           isAccessible={isMyPost}
           onClickRightButton={openModal}
-        />
+        >
+          게시판
+        </Header>
 
         {boardDetailInfo && (
           <>

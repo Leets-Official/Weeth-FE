@@ -12,6 +12,7 @@ const theme = {
     pintYellow: '#FFF600',
     gray: {
       100: '#FFFFFF',
+      9: '#171717',
       12: '#1F1F1F',
       18: '#2F2F2F',
       20: '#333333',

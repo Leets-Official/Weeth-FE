@@ -1,8 +1,44 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-console */
 import icDot from '@/assets/images/ic_dot.svg';
 import { CURRENT_MONTH, CURRENT_YEAR } from '@/constants/dateConstants';
-import * as S from '@/styles/calendar/MonthlyEvent.styled';
+import theme from '@/styles/theme';
+import styled from 'styled-components';
+
+export const StyledYear = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-family: ${theme.font.regular};
+  font-size: 16px;
+`;
+
+export const ContentWrapper = styled.div`
+  background-color: ${theme.color.gray[18]};
+  padding: 10px;
+  margin-bottom: 15px;
+  width: 324px;
+  border-radius: 10px;
+  font-size: 14px;
+`;
+
+export const Content = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 5px 0px;
+`;
+
+export const Dot = styled.img`
+  padding-left: 8px;
+  padding-right: 10px;
+`;
+
+export const MonthName = styled.div<{ $isToday: boolean }>`
+  padding-left: 10px;
+  padding-bottom: 7px;
+  color: ${(props) => (props.$isToday === true ? '#00dda8' : '#ffffff')};
+  font-size: 18px;
+  font-family: ${theme.font.semiBold};
+`;
 
 interface Event {
   id: number;
@@ -14,10 +50,10 @@ interface Event {
 
 const EventComponent = ({ title }: { title: string }) => {
   return (
-    <S.Content>
-      <S.Dot src={icDot} alt="dot" />
+    <Content>
+      <Dot src={icDot} alt="dot" />
       <div>{title}</div>
-    </S.Content>
+    </Content>
   );
 };
 
@@ -33,9 +69,9 @@ const YearlyCard = ({
   const isToday = CURRENT_MONTH === thisMonth && CURRENT_YEAR === year;
 
   return (
-    <S.StyledYear>
-      <S.MonthName $isToday={isToday}>{thisMonth}월</S.MonthName>
-      <S.ContentWrapper>
+    <StyledYear>
+      <MonthName $isToday={isToday}>{thisMonth}월</MonthName>
+      <ContentWrapper>
         {events.length > 0 ? (
           events.map((event) => (
             <EventComponent key={event.id} title={event.title} />
@@ -43,8 +79,8 @@ const YearlyCard = ({
         ) : (
           <EventComponent title="일정이 없습니다!" />
         )}
-      </S.ContentWrapper>
-    </S.StyledYear>
+      </ContentWrapper>
+    </StyledYear>
   );
 };
 
