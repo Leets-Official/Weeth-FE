@@ -40,6 +40,21 @@ export const Time = styled.div`
   gap: 5px;
 `;
 
+export const Cardinal = styled.div`
+  display: flex;
+  gap: 10px;
+  padding: 13px 10px;
+`;
+
+export const CardinalList = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  width: 238px;
+  max-width: 238px;
+  gap: 5px;
+  box-sizing: border-box;
+`;
+
 export const TimeBlock = styled.div`
   background-color: ${theme.color.gray[12]};
   height: 40px;
@@ -51,8 +66,8 @@ export const TimeBlock = styled.div`
 `;
 
 export const Line = styled.div`
-  width: 100%;
-  border: 1px solid ${theme.color.gray[12]};
+  width: 360px;
+  border: 1px solid ${theme.color.gray[30]};
 `;
 
 export const TextAreaWrapper = styled.div`
@@ -62,7 +77,7 @@ export const TextAreaWrapper = styled.div`
 `;
 
 export const TextArea = styled.textarea`
-  height: 504px;
+  height: 200px;
   width: 310px;
   margin: 15px 10px;
   padding-right: 10px;

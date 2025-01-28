@@ -15,10 +15,15 @@ import replaceNewLines from '@/hooks/newLine';
 import useGetUserInfo from '@/api/useGetUserInfo';
 import ISOtoArray from '@/hooks/ISOtoArray';
 import toTwoDigits from '@/hooks/toTwoDigits';
+import CardinalDropdown from '@/components/common/CardinalDropdown';
 import ToggleButton from '../common/ToggleButton';
 import EventInput, { EventInputBlock } from './EventInput';
+import CardinalLabel from './CardinalLabel';
 
-function checkEmpty(field: string | undefined, message: string): boolean {
+function checkEmpty(
+  field: string | number[] | undefined,
+  message: string,
+): boolean {
   // TODO🚨important!!🚨: 배열 내에 빈 값이 있는 경우를 처리하는 로직 추가
   if (Array.isArray(field) && field.length === 0) {
     alert(message);
@@ -39,13 +44,15 @@ const EventEditor = () => {
   const [isMeeting, setIsMeeting] = useState(false);
   const [eventRequest, setEventRequest] = useState<EventRequestType>({
     title: '',
+    cardinal: [],
     start: '',
     end: '',
     location: '',
     requiredItem: '',
-    memberCount: '',
     content: '',
   });
+
+  console.log(eventRequest);
 
   const [startArr, setStartArr] = useState([
     CURRENT_YEAR,
@@ -70,6 +77,13 @@ const EventEditor = () => {
     }
   }, [eventDetailData]);
 
+  const handleDeleteCardinal = (cardinal: number) => {
+    setEventRequest((prev) => ({
+      ...prev,
+      cardinal: prev.cardinal.filter((item) => item !== cardinal), // 해당 기수 삭제
+    }));
+  };
+
   const editEventInfo = (key: keyof EventRequestType, value: any) => {
     setEventRequest((prevInfo) => ({
       ...prevInfo,
@@ -88,11 +102,11 @@ const EventEditor = () => {
 
     if (
       checkEmpty(data.title, '제목을 입력해 주세요.') ||
+      checkEmpty(data.cardinal, '기수를 입력해 주세요.') ||
       checkEmpty(data.start, '시작 시간을 입력해 주세요.') ||
       checkEmpty(data.end, '종료 시간을 입력해 주세요.') ||
       checkEmpty(data.location, '장소를 입력해 주세요.') ||
       checkEmpty(data.requiredItem, '준비물을 입력해 주세요.') ||
-      checkEmpty(data.memberCount, '총인원을 입력해 주세요.') ||
       checkEmpty(data.content, '내용을 입력해 주세요.')
     ) {
       return;
@@ -152,6 +166,22 @@ const EventEditor = () => {
               }}
             />
           </S.Meeting>
+          <S.Line />
+          <S.Cardinal>
+            <CardinalDropdown
+              origValue={eventRequest.cardinal}
+              editValue={(value) => editEventInfo('cardinal', value)}
+            />
+            <S.CardinalList>
+              {eventRequest.cardinal.map((cardinal) => (
+                <CardinalLabel
+                  key={cardinal}
+                  cardinal={cardinal}
+                  onDelete={handleDeleteCardinal}
+                />
+              ))}
+            </S.CardinalList>
+          </S.Cardinal>
           <S.Line />
           <S.StartDate>
             <div>시작</div>
