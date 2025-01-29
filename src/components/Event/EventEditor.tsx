@@ -16,6 +16,8 @@ import useGetUserInfo from '@/api/useGetUserInfo';
 import ISOtoArray from '@/hooks/ISOtoArray';
 import toTwoDigits from '@/hooks/toTwoDigits';
 import CardinalDropdown from '@/components/common/CardinalDropdown';
+import Modal from '@/components/common/Modal';
+import Button from '@/components/Button/Button';
 import ToggleButton from '../common/ToggleButton';
 import EventInput, { EventInputBlock } from './EventInput';
 import CardinalLabel from './CardinalLabel';
@@ -41,6 +43,8 @@ const EventEditor = () => {
   const isEditMode = Boolean(id);
   const navigate = useNavigate();
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const [isMeeting, setIsMeeting] = useState(false);
   const [eventRequest, setEventRequest] = useState<EventRequestType>({
     title: '',
@@ -51,8 +55,6 @@ const EventEditor = () => {
     requiredItem: '',
     content: '',
   });
-
-  console.log(eventRequest);
 
   const [startArr, setStartArr] = useState([
     CURRENT_YEAR,
@@ -144,6 +146,22 @@ const EventEditor = () => {
 
   return (
     <>
+      {isModalOpen && (
+        <Modal hasCloseButton onClose={() => setIsModalOpen(false)}>
+          <S.Bold>정기모임</S.Bold>
+          <S.Description>
+            선택한 기수에 해당하는 날짜로 출석 요청을 진행 합니다. 출석 코드는
+            일정 상세 페이지에서 운영진만 확인 가능합니다.
+            <br />
+            <br />
+            만약 원하는 기수가 목록에 없다면, 관리자 서비스 에서 새로운 기수를
+            추가해 주세요.
+          </S.Description>
+          <Button width="305px" onClick={() => navigate('/admin/member')}>
+            관리자 서비스 바로가기
+          </Button>
+        </Modal>
+      )}
       <Header onClickRightButton={onSave} RightButtonType="TEXT" isAccessible>
         {isEditMode ? '일정 수정' : '일정 추가'}
       </Header>
@@ -158,7 +176,11 @@ const EventEditor = () => {
 
         <EventInputBlock>
           <S.Meeting>
-            <div>정기모임</div>
+            <S.Align>
+              <div>정기모임</div>
+              <S.Help onClick={() => setIsModalOpen(true)}>?</S.Help>
+            </S.Align>
+
             <ToggleButton
               isMeeting={isMeeting}
               onToggle={() => {

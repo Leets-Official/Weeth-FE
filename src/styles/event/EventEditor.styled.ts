@@ -12,6 +12,33 @@ export const EventEditorWrapper = styled.div`
   font-family: ${theme.font.regular};
 `;
 
+export const Bold = styled.div`
+  display: flex;
+  margin-right: auto;
+  font-family: ${theme.font.semiBold};
+  font-size: 16px;
+`;
+
+export const Description = styled.div`
+  color: ${theme.color.gray[65]};
+`;
+
+export const Align = styled.div`
+  display: flex;
+  gap: 12px;
+`;
+
+export const Help = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: ${theme.color.gray[30]};
+  cursor: pointer;
+`;
+
 export const Meeting = styled.div`
   width: 360px;
   height: 50px;
@@ -78,7 +105,7 @@ export const TextAreaWrapper = styled.div`
 
 export const TextArea = styled.textarea`
   height: 200px;
-  width: 310px;
+  width: 325px;
   margin: 15px 10px;
   padding-right: 10px;
   resize: none;
