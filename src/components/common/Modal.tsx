@@ -33,7 +33,7 @@ const Content = styled.div`
   font-size: 14px;
 
   gap: 20px;
-  padding: 30px 15px 10px 15px;
+  padding: 15px;
 `;
 
 const Img = styled.img`
@@ -53,8 +53,8 @@ const Modal = ({
   onClose?: () => void;
 }) => {
   return (
-    <Container>
-      <Content>
+    <Container onClick={onClose}>
+      <Content onClick={(e) => e.stopPropagation()}>
         {hasCloseButton ? (
           <Img
             src={close}

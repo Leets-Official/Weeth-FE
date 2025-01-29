@@ -5,6 +5,8 @@ import useCustomBack from '@/hooks/useCustomBack';
 import * as S from '@/styles/event/EventContent.styled';
 import Button from '@/components/Button/Button';
 import theme from '@/styles/theme';
+import Modal from '@/components/common/Modal';
+import { useState } from 'react';
 
 const EventContent = ({
   data,
@@ -14,6 +16,8 @@ const EventContent = ({
   isAdmin: boolean;
 }) => {
   useCustomBack('/calendar');
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const origStartDate = data.start;
   const origEndDate = data.end;
@@ -36,11 +40,17 @@ const EventContent = ({
 
   return (
     <S.Container>
+      {isModalOpen && (
+        <Modal hasCloseButton={false} onClose={() => setIsModalOpen(false)}>
+          <S.Title>출석코드</S.Title>
+          <S.AttendanceCode>1234</S.AttendanceCode>
+        </Modal>
+      )}
       {isAdmin && (
         <Button
           color={theme.color.mainMiddle}
           onClick={() => {
-            // TODO: 모달 열기
+            setIsModalOpen(true);
           }}
         >
           출석코드 확인

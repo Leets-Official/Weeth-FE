@@ -8,6 +8,18 @@ export const Container = styled.div`
   gap: 15px;
 `;
 
+export const Title = styled.div`
+  padding-top: 15px;
+  font-family: ${theme.font.semiBold};
+`;
+
+export const AttendanceCode = styled.div`
+  padding-bottom: 20px;
+  color: ${theme.color.main};
+  font-size: 48px;
+  font-family: ${theme.font.semiBold};
+`;
+
 export const ContentBlock = styled.div`
   width: 88%;
   background-color: ${theme.color.gray[18]};

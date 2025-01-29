@@ -15,6 +15,7 @@ export const EventEditorWrapper = styled.div`
 export const Bold = styled.div`
   display: flex;
   margin-right: auto;
+  padding-top: 15px;
   font-family: ${theme.font.semiBold};
   font-size: 16px;
 `;
