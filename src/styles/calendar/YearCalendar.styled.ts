@@ -3,18 +3,8 @@ import styled from 'styled-components';
 
 export const MonthlyBox = styled.div`
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  width: 370px;
+  flex-direction: column;
   padding-bottom: 183px;
-`;
-
-export const FirstHalfMonth = styled.div`
-  padding-left: 15px;
-`;
-
-export const SecondHalfMonth = styled.div`
-  padding-right: 15px;
 `;
 
 export const Error = styled.div`

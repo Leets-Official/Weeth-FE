@@ -166,6 +166,7 @@ const Signup: React.FC = () => {
         }
         onClickRightButton={handleNextClick}
         RightButtonType="TEXT"
+        isAccessible
       />
       <InputContainer>
         <SignupTextComponent

@@ -61,7 +61,7 @@ const Footer = styled.div`
   flex-shrink: 0;
 `;
 
-const CloseIcon = styled.img`
+export const CloseIcon = styled.img`
   cursor: pointer;
   margin-right: 20px;
 `;

@@ -1,10 +1,13 @@
 import theme from '@/styles/theme';
 import styled from 'styled-components';
 import plusIcon from '@/assets/images/ic_admin_plus.svg';
+import { useState } from 'react';
+import CardinalModal from '@/components/Admin/Modal/CardinalModal';
 
 export const AddCardinalWrapper = styled.div`
   width: 80px;
   height: 164px;
+  box-sizing: border-box;
   background-color: ${theme.color.gray[100]};
   display: flex;
   justify-content: center;
@@ -13,14 +16,25 @@ export const AddCardinalWrapper = styled.div`
   cursor: pointer;
 `;
 
-// 기수 추가 모달
-const onClickToAddModal = () => {};
-
 const AddCardinal: React.FC = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
   return (
-    <AddCardinalWrapper onClick={onClickToAddModal}>
-      <img src={plusIcon} alt="plus" />
-    </AddCardinalWrapper>
+    <>
+      <AddCardinalWrapper onClick={handleOpenModal}>
+        <img src={plusIcon} alt="plus" />
+      </AddCardinalWrapper>
+
+      <CardinalModal isOpen={isModalOpen} onClose={handleCloseModal} />
+    </>
   );
 };
 
