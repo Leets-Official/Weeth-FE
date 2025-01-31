@@ -89,6 +89,8 @@ const DuesModifyModal: React.FC<DuesModifyModalProps> = ({ onClose }) => {
           <DuesModalButton description="저장" onClick={onClose} />
         </ModalButtonWrapper>
       }
+      height="880px"
+      top="50%"
     >
       <ModalContentWrapper>
         <CardinalTotalWrapper>

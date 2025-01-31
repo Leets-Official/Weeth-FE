@@ -9,6 +9,8 @@ interface CommonModalProps {
   title: string;
   children: React.ReactNode;
   footer: React.ReactNode;
+  height?: string;
+  top?: string;
 }
 
 const ModalContainer = styled.div`
@@ -70,6 +72,8 @@ const CommonModal: React.FC<CommonModalProps> = ({
   title,
   children,
   footer,
+  height = 'auto',
+  top = '35%',
 }) => {
   return (
     <Modal
@@ -80,14 +84,15 @@ const CommonModal: React.FC<CommonModalProps> = ({
           backgroundColor: 'rgba(0,0,0,0.5)',
         },
         content: {
-          top: '35%',
+          top,
           left: '50%',
           transform: 'translate(-50%,-50%)',
           borderRadius: '8px',
           width: '50%',
-          height: 'auto',
+          height,
+          // height: 'auto',
           maxWidth: '830px',
-          maxHeight: '90vh',
+          // maxHeight: '90vh',
           padding: 0,
           overflow: 'hidden',
         },
