@@ -1,13 +1,21 @@
 import NavMenu from '@/components/Admin/NavMenu';
 import styled from 'styled-components';
 import TopBar from '@/components/Admin/TopBar';
-import Cardinal from '@/components/Admin/Cardinal';
-import { PageWrapper, ContentWrapper } from '@/styles/admin/AdminLayout.styled';
+import { PageWrapper } from '@/styles/admin/AdminLayout.styled';
 import TotalDues from '@/components/Admin/TotalDues';
 import Expenditure from '@/components/Admin/Expenditure';
 import DuesRegisterAdd from '@/components/Admin/DuesRegisterAdd';
 import { useState } from 'react';
 import DuesRegister from '@/components/Admin/DuesRegister';
+import TotalCardinal from '@/components/Admin/CardinalWrapper';
+
+const ContentWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  border: 1px solid #f2f2f2;
+  height: 100%;
+`;
 
 const Wrapper = styled.div`
   width: 100%;
@@ -23,19 +31,6 @@ const Container = styled.div`
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-`;
-
-export const CardinalWrapper = styled.div`
-  width: 166px;
-  height: 80px;
-  background-color: #ffffff;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  border-radius: 5px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  margin-bottom: 30px;
 `;
 
 const DuesWrapper = styled.div`
@@ -73,6 +68,8 @@ const AdminDues: React.FC = () => {
     }
   };
 
+  const cardinal = 1;
+
   return (
     <PageWrapper>
       <NavMenu />
@@ -83,16 +80,12 @@ const AdminDues: React.FC = () => {
         />
         <Wrapper>
           <Container>
-            <CardinalWrapper>
-              <div>
-                <Cardinal
-                  selectedCardinal={selectedCardinal}
-                  setSelectedCardinal={setSelectedCardinal}
-                />
-              </div>
-            </CardinalWrapper>
+            <TotalCardinal
+              selectedCardinal={selectedCardinal}
+              setSelectedCardinal={setSelectedCardinal}
+            />
             <DuesWrapper>
-              <TotalDues getDuesText={getDuesText} />
+              <TotalDues getDuesText={getDuesText} cardinal={cardinal} />
               <Expenditure />
             </DuesWrapper>
           </Container>

@@ -17,7 +17,9 @@ const AttendCheck: React.FC = () => {
   useCustomBack('/attendance');
   return (
     <Container>
-      <Header title="출석 조회" RightButtonType="none" />
+      <Header RightButtonType="none" isAccessible>
+        출석 조회
+      </Header>
       <AttendCheckMain />
     </Container>
   );

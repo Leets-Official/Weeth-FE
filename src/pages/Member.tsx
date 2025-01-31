@@ -16,7 +16,9 @@ const Member = () => {
 
   return (
     <S.Wrapper>
-      <Header title="멤버" RightButtonType="none" />
+      <Header RightButtonType="none" isAccessible>
+        멤버
+      </Header>
       <S.CardinalWrapper>
         <Cardinal
           selectedCardinal={selectedCardinal}

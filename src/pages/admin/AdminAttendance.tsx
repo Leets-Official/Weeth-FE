@@ -1,11 +1,10 @@
 import NavMenu from '@/components/Admin/NavMenu';
 import TopBar from '@/components/Admin/TopBar';
-import Cardinal from '@/components/Admin/Cardinal';
 import Attendance from '@/components/Admin/Attendance';
 import styled from 'styled-components';
 import { PageWrapper, ContentWrapper } from '@/styles/admin/AdminLayout.styled';
 import { useState } from 'react';
-import { CardinalWrapper } from './AdminDues';
+import TotalCardinal from '@/components/Admin/CardinalWrapper';
 
 const AttendanceWrapper = styled.div`
   width: 100%;
@@ -43,14 +42,10 @@ const AdminAttendance: React.FC = () => {
         />
         <Wrapper>
           <Container>
-            <CardinalWrapper>
-              <div>
-                <Cardinal
-                  selectedCardinal={selectedCardinal}
-                  setSelectedCardinal={setSelectedCardinal}
-                />
-              </div>
-            </CardinalWrapper>
+            <TotalCardinal
+              selectedCardinal={selectedCardinal}
+              setSelectedCardinal={setSelectedCardinal}
+            />
             <AttendanceWrapper>
               <Attendance />
             </AttendanceWrapper>

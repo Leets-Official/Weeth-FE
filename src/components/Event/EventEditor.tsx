@@ -128,11 +128,9 @@ const EventEditor = () => {
 
   return (
     <S.EventEditorWrapper>
-      <Header
-        title={isEditMode ? '일정 수정' : '일정 추가'}
-        onClickRightButton={onSave}
-        RightButtonType="TEXT"
-      />
+      <Header onClickRightButton={onSave} RightButtonType="TEXT" isAccessible>
+        {isEditMode ? '일정 수정' : '일정 추가'}
+      </Header>
       <InfoInput
         placeholder="제목"
         origValue={eventRequest.title}

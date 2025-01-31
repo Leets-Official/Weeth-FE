@@ -8,8 +8,9 @@ left    title     right
 그 외 props는 필요에 따라 전달하여 사용하시면 됩니다.
 
 헤더 컴포넌트의 부모컴포넌트에 width: 370px 설정이 있어야 정렬이 됩니다.
+헤더에 작성될 내용은 children으로 전달해주시면 됩니다
+ex) <Header>공지사항</Header>
 
-title: 헤더 중앙에 사용될 텍스트
 onClickRightButton: right 버튼이 클릭되었을 때 사용할 함수
                     🚨right버튼이 있는 경우에는 필수로 전달해야하는 값입니다.
                       해당 값이 없을 경우 버튼이 렌더링되지 않습니다.
@@ -20,10 +21,9 @@ onClickRightButton: right 버튼이 클릭되었을 때 사용할 함수
 isComplete: right 버튼이 페이지 내의 입력 여부에 대한 boolean 타입의 state값으로 전달해주시면 됩니다.
             모든 값이 입력되었을 때 텍스트 색상을 mainColor를 바꾸기 위한 값입니다.
 isAccessible: 접근 가능 여부에 대한 값을 전달해주시면 됩니다. ex) 어드민, 게시글/댓글 작성자
+              🚨 특별한 권한 확인이 필요 없는 상황에도 true값을 전달해주시길 바랍니다.
 isCalendar: 캘린더에서 사용되는 헤더이면 true, 그 외의 페이지에서는 모두 false
             default값이 false이므로, false인 경우엔 값을 전달하지 않아도 됩니다.
-
-그 외의 props는 CalendarHeader.tsx에서만 사용되므로, 해당 파일을 확인해주시길 바랍니다.
 
 RightButton이 사용되지 않을 경우, 'none'으로 지정해주시면 됩니다.
 
@@ -34,57 +34,48 @@ PLUS : 캘린더에서 사용되는 +버튼입니다.
 
 */
 
-import under from '@/assets/images/ic_under.svg';
+import theme from '@/styles/theme';
+import styled from 'styled-components';
 import TextButton from '@/components/Header/TextButton';
-import * as S from '@/styles/common/Header.styled';
 import LeftButton from './LeftButton';
 import MenuButton from './MenuButton';
 import PlusButton from './PlusButton';
 
 interface HeaderProps {
-  title?: string;
+  children?: React.ReactNode;
   onClickRightButton?: () => void;
   RightButtonType: 'TEXT' | 'MENU' | 'PLUS' | 'none';
   isComplete?: boolean;
-  isAccessible?: boolean;
-  isCalendar?: boolean;
-  year?: number;
-  month?: number;
-  isMonth?: boolean;
-  isAdmin?: boolean;
-  openMonthModal?: () => void;
+  isAccessible: boolean;
 }
 
+const HeaderWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 25px 25px 20px 25px;
+`;
+
+const Title = styled.div`
+  font-size: 18px;
+  font-family: ${theme.font.semiBold};
+`;
+
+const None = styled.div`
+  width: 24px;
+`;
+
 const Header = ({
-  title = '',
+  children,
   onClickRightButton,
   RightButtonType,
   isComplete = true,
-  isAccessible = true,
-  isCalendar = false,
-  // 아래의 props들은 캘린더에서만 사용됨
-  year,
-  month,
-  isMonth,
-  isAdmin,
-  openMonthModal,
-  // ---------------------------
+  isAccessible = false,
 }: HeaderProps) => {
   return (
-    <S.HeaderWrapper>
+    <HeaderWrapper>
       <LeftButton />
-
-      {isCalendar ? (
-        <S.DateWrapper>
-          <S.Year>{year}년</S.Year>
-          <S.Month>{isMonth ? `${month}월` : null}</S.Month>
-          <S.ImgButton onClick={openMonthModal}>
-            <img src={under} alt="select" />
-          </S.ImgButton>
-        </S.DateWrapper>
-      ) : (
-        <S.Title>{title}</S.Title>
-      )}
+      <Title>{children}</Title>
 
       {RightButtonType === 'TEXT' && onClickRightButton && (
         <TextButton
@@ -93,15 +84,13 @@ const Header = ({
           isComplete={isComplete}
         />
       )}
-
       {RightButtonType === 'MENU' && onClickRightButton && isAccessible && (
         <MenuButton onClick={onClickRightButton} />
       )}
-
-      {RightButtonType === 'PLUS' && isAdmin && <PlusButton />}
-
-      {RightButtonType === 'none' && <S.None />}
-    </S.HeaderWrapper>
+      {RightButtonType === 'PLUS' && isAccessible && <PlusButton />}
+      {RightButtonType !== 'none' && !isAccessible && <None />}
+      {RightButtonType === 'none' && <None />}
+    </HeaderWrapper>
   );
 };
 

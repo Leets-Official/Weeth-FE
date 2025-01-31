@@ -28,7 +28,9 @@ const MyPage = () => {
 
   return (
     <S.StyledDetails>
-      <Header title="MY" RightButtonType="none" />
+      <Header RightButtonType="none" isAccessible>
+        MY
+      </Header>
       <MyInfo />
       <S.ImgButton
         onClick={() => {
