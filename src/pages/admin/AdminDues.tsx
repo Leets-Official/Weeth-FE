@@ -1,13 +1,13 @@
 import NavMenu from '@/components/Admin/NavMenu';
 import styled from 'styled-components';
 import TopBar from '@/components/Admin/TopBar';
-import Cardinal from '@/components/Admin/Cardinal';
 import { PageWrapper } from '@/styles/admin/AdminLayout.styled';
 import TotalDues from '@/components/Admin/TotalDues';
 import Expenditure from '@/components/Admin/Expenditure';
 import DuesRegisterAdd from '@/components/Admin/DuesRegisterAdd';
 import { useState } from 'react';
 import DuesRegister from '@/components/Admin/DuesRegister';
+import TotalCardinal from '@/components/Admin/CardinalWrapper';
 
 const ContentWrapper = styled.div`
   display: flex;
@@ -33,7 +33,7 @@ const Container = styled.div`
   flex-direction: column;
 `;
 
-const CardinalWrapper = styled.div`
+export const CardinalWrapper = styled.div`
   width: 166px;
   height: 80px;
   background-color: #ffffff;
@@ -60,8 +60,6 @@ const DuesWrapper = styled.div`
 const DuesRegisterWrapper = styled.div`
   width: 50%;
 `;
-
-const CardinalButtonWrapper = styled.div``;
 
 const AdminDues: React.FC = () => {
   const [selectedCardinal, setSelectedCardinal] = useState('기수');
@@ -95,14 +93,11 @@ const AdminDues: React.FC = () => {
         />
         <Wrapper>
           <Container>
-            <CardinalWrapper>
-              <CardinalButtonWrapper>
-                <Cardinal
-                  selectedCardinal={selectedCardinal}
-                  setSelectedCardinal={setSelectedCardinal}
-                />
-              </CardinalButtonWrapper>
-            </CardinalWrapper>
+            <TotalCardinal
+              selectedCardinal={selectedCardinal}
+              setSelectedCardinal={setSelectedCardinal}
+            />
+
             <DuesWrapper>
               <TotalDues getDuesText={getDuesText} cardinal={cardinal} />
               <Expenditure />
