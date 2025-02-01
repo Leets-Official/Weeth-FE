@@ -19,7 +19,6 @@ import MemberDetail from '@/pages/MemberDetail';
 import MyPage from '@/pages/MyPage';
 import Profile from '@/pages/Profile';
 import Receipt from '@/pages/Receipt';
-import Signup from '@/pages/Signup';
 import theme from '@/styles/theme';
 import Redirect from '@/pages/Redirect';
 import AccountCheck from '@/pages/AccountCheck';
@@ -49,7 +48,6 @@ const App = () => {
           <Route path="/events/create" element={<EventAdmin />} />
           <Route path="/events/:id/edit" element={<EventAdmin />} />
           <Route path="/home" element={<Home />} />
-          <Route path="/signup" element={<Signup />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/attendCheck" element={<AttendCheck />} />
           <Route path="/member" element={<Member />} />

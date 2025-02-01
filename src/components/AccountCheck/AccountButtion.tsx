@@ -55,14 +55,14 @@ const ButtonDescription = styled.div`
 const AccountButton: React.FC = () => {
   return (
     <Container>
-      <Button onClick={() => window.location.replace('/existing-account')}>
+      <Button onClick={() => window.location.replace('/login')}>
         <ButtonTitle>이전에 가입한 계정이 있다면</ButtonTitle>
         <ButtonDescriptionWrapper>
           <ButtonDescription>계정 연동하러 가기</ButtonDescription>
           <img src={arrow} alt="화살표" />
         </ButtonDescriptionWrapper>
       </Button>
-      <Button onClick={() => window.location.replace('/new-account')}>
+      <Button onClick={() => window.location.replace('/profile')}>
         <ButtonTitle>새로 가입한 회원이라면</ButtonTitle>
         <ButtonDescriptionWrapper>
           <ButtonDescription>회원 정보 입력하러 가기</ButtonDescription>
