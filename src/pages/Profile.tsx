@@ -56,7 +56,7 @@ interface MemberInfo {
 type MemberInfoKeys = keyof MemberInfo;
 
 const Profile: React.FC = () => {
-  useCustomBack('/signup');
+  useCustomBack('/accountcheck');
 
   const location = useLocation();
   const navigate = useNavigate();

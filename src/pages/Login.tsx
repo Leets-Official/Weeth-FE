@@ -36,7 +36,7 @@ const ErrorMessage = styled.div`
 `;
 
 const Login: React.FC = () => {
-  useCustomBack('/');
+  useCustomBack('/accountcheck');
 
   const navigate = useNavigate();
   const [email, setEmail] = useState<string>('');
