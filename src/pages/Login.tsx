@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { redirect, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import toggleInvisibleIcon from '@/assets/images/ic_toggleInvisible.svg';
@@ -18,8 +18,26 @@ const Container = styled.div`
   padding-top: 0;
 `;
 
+const LoginTitle = styled.div`
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 40px;
+  margin-left: 7%;
+`;
+
+const LoginSubTitle = styled.div`
+  font-size: 14px;
+  font-weight: 400;
+  margin-bottom: 30px;
+  line-height: 20px;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  margin-left: 7%;
+`;
+
 const LoginHeaderMargin = styled.div`
-  margin-bottom: 119px;
+  margin-bottom: 30px;
 `;
 
 const TextMargin = styled.div`
@@ -33,6 +51,31 @@ const ErrorMessage = styled.div`
   font-size: 14px;
   text-align: right;
   width: 100%;
+`;
+
+const LoginButtonContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+`;
+
+const LoginButton = styled.button`
+  width: 315px;
+  height: 50px;
+  border-radius: 10px;
+  background-color: #00dda8;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 19px;
+  margin-top: 100px;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const Login: React.FC = () => {
@@ -97,27 +140,32 @@ const Login: React.FC = () => {
     const params = {
       email,
       password,
+      kakaoId: Number(localStorage.getItem('kakaoId')),
     };
 
     try {
       const BASE_URL = import.meta.env.VITE_API_URL as string;
-      const response = await axios.post(`${BASE_URL}/api/v1/login`, params);
+      console.log('params', params);
+      const response = await axios.patch(
+        `${BASE_URL}/api/v1/users/kakao/link`,
+        params,
+      );
 
       if (response.status === 200) {
         setError(null);
-        const newToken = response.headers.authorization;
-        const newRefreshToken = response.headers.authorization_refresh;
-        localStorage.setItem('accessToken', newToken);
-        localStorage.setItem('refreshToken', newRefreshToken);
+        console.log('응답', response.data);
         navigate('/home');
       }
     } catch (err: unknown) {
       if (axios.isAxiosError(err) && err.response) {
         setError(err.response.data);
+        redirect('/');
       } else if (err instanceof Error) {
         setError(err.message);
+        redirect('/');
       } else {
         setError('서버로부터 응답을 받지 못했습니다.');
+        redirect('/login');
       }
     }
   };
@@ -126,12 +174,23 @@ const Login: React.FC = () => {
     <Container>
       <Header
         isComplete={!!isAllValid && isPwdValid && isEmailValid}
-        onClickRightButton={handleLogin}
-        RightButtonType="TEXT"
+        RightButtonType="none"
       />
       <LoginHeaderMargin />
+      <LoginTitle>계정 연동하기</LoginTitle>
+      <LoginSubTitle>
+        연동이 완료되면 &nbsp;
+        <p
+          style={{
+            color: '#508FFF',
+          }}
+        >
+          홈
+        </p>
+        으로 이동합니다.
+      </LoginSubTitle>
       <SignupTextComponent
-        text="email"
+        text="E-mail"
         value={email}
         onChange={handleEmailChange}
         onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -139,11 +198,12 @@ const Login: React.FC = () => {
         }}
         placeholder="ex) weeth@gmail.com"
         type="text"
+        // eslint-disable-next-line react/no-children-prop
         children=""
       />
       <TextMargin />
       <SignupTextComponent
-        text="password"
+        text="PW"
         value={password}
         onChange={handlePasswordChange}
         onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -153,6 +213,7 @@ const Login: React.FC = () => {
         type={passwordVisible ? 'text' : 'password'}
       >
         {passwordVisible ? (
+          // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions, jsx-a11y/click-events-have-key-events
           <img
             src={toggleVisibleIcon}
             alt=""
@@ -164,6 +225,7 @@ const Login: React.FC = () => {
             }}
           />
         ) : (
+          // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions
           <img
             src={toggleInvisibleIcon}
             alt=""
@@ -177,6 +239,9 @@ const Login: React.FC = () => {
         )}
       </SignupTextComponent>
       <ErrorMessage>{error}</ErrorMessage>
+      <LoginButtonContainer>
+        <LoginButton onClick={handleLogin}>연동하기</LoginButton>
+      </LoginButtonContainer>
     </Container>
   );
 };

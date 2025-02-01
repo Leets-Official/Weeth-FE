@@ -14,7 +14,7 @@ const Redirect: React.FC = () => {
     if (code) {
       axios
         .post(
-          `${BASE_URL}/api/v1/users/social-login`,
+          `${BASE_URL}/api/v1/users/kakao/login`,
           { authCode: code },
           {
             headers: {
@@ -23,13 +23,17 @@ const Redirect: React.FC = () => {
           },
         )
         .then((res) => {
-          const { accessToken, refreshToken } = res.data.data;
+          const { id, kakaoId, status, accessToken, refreshToken } =
+            res.data.data;
+          localStorage.setItem('id', id);
           localStorage.setItem('accessToken', accessToken);
           localStorage.setItem('refreshToken', refreshToken);
-          if (res.data.message === '소셜 로그인에 성공했습니다.') {
-            navigate('/home');
+          localStorage.setItem('status', status);
+          localStorage.setItem('kakaoId', kakaoId);
+          if (status === 'LOGIN') {
+            navigate('/login');
           } else {
-            navigate('/signup');
+            navigate('/profile');
           }
         });
     }
