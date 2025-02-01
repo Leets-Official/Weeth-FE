@@ -22,6 +22,8 @@ import Receipt from '@/pages/Receipt';
 import theme from '@/styles/theme';
 import Redirect from '@/pages/Redirect';
 import AccountCheck from '@/pages/AccountCheck';
+import RegistrationSuccess from '@/pages/RegistrationSuccess';
+import WaitingApproval from '@/pages/WaitingApproval';
 
 import AdminAttendance from '@/pages/admin/AdminAttendance';
 import AdminMember from '@/pages/admin/AdminMember';
@@ -65,6 +67,8 @@ const App = () => {
           <Route path="/study/detail" element={<PostDetail />} />
           <Route path="/kakao/oauth" element={<Redirect />} />
           <Route path="/accountcheck" element={<AccountCheck />} />
+          <Route path="/register-success" element={<RegistrationSuccess />} />
+          <Route path="/waiting-approval" element={<WaitingApproval />} />
         </Routes>
       </UserProvider>
     </ThemeProvider>
