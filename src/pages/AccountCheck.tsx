@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Header from '@/components/Header/Header';
 import Title from '@/components/AccountCheck/Title';
-import AccountButton from '@/components/AccountCheck/AccountButtion';
+import AccountButton from '@/components/AccountCheck/AccountButton';
 
 const Container = styled.div`
   display: flex;
@@ -15,7 +15,7 @@ const Container = styled.div`
 const AccountCheck: React.FC = () => {
   return (
     <Container>
-      <Header RightButtonType="none" />
+      <Header isAccessible RightButtonType="none" />
       <Title />
       <AccountButton />
     </Container>
