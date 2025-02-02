@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useState } from 'react';
-import { redirect, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import toggleInvisibleIcon from '@/assets/images/ic_toggleInvisible.svg';
@@ -139,33 +139,27 @@ const Login: React.FC = () => {
     }
     const params = {
       email,
-      password,
+      passWord: password,
       kakaoId: Number(localStorage.getItem('kakaoId')),
     };
 
     try {
       const BASE_URL = import.meta.env.VITE_API_URL as string;
-      console.log('params', params);
       const response = await axios.patch(
         `${BASE_URL}/api/v1/users/kakao/link`,
         params,
       );
-
       if (response.status === 200) {
         setError(null);
-        console.log('응답', response.data);
+        localStorage.setItem('accessToken', response.data.data.accessToken);
+        localStorage.setItem('refreshToken', response.data.data.refreshToken);
         navigate('/home');
       }
     } catch (err: unknown) {
       if (axios.isAxiosError(err) && err.response) {
-        setError(err.response.data);
-        redirect('/');
-      } else if (err instanceof Error) {
-        setError(err.message);
-        redirect('/');
+        setError(err.response.data.message);
       } else {
         setError('서버로부터 응답을 받지 못했습니다.');
-        redirect('/login');
       }
     }
   };

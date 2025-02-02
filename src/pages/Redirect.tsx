@@ -23,17 +23,31 @@ const Redirect: React.FC = () => {
           },
         )
         .then((res) => {
-          const { id, kakaoId, status, accessToken, refreshToken } =
-            res.data.data;
-          localStorage.setItem('id', id);
-          localStorage.setItem('accessToken', accessToken);
-          localStorage.setItem('refreshToken', refreshToken);
-          localStorage.setItem('status', status);
+          console.log('res in redirect', res);
+          const { kakaoId, status, accessToken, refreshToken } = res.data.data;
           localStorage.setItem('kakaoId', kakaoId);
-          if (status === 'LOGIN') {
-            navigate('/login');
+          if (res.data.code === 200) {
+            console.log('code', res.data.code);
+            if (status === 'LOGIN') {
+              localStorage.setItem('accessToken', accessToken);
+              localStorage.setItem('refreshToken', refreshToken);
+              navigate('/home');
+            } else {
+              navigate('/accountcheck');
+            }
+          } else if (res.data.code === 403) {
+            navigate('/waiting-approval');
+          }
+        })
+        .catch((err: unknown) => {
+          if (axios.isAxiosError(err) && err.response) {
+            if ((err.response.data as { code: number }).code === 403) {
+              navigate('/waiting-approval');
+            } else {
+              navigate('/');
+            }
           } else {
-            navigate('/profile');
+            alert('서버로부터 응답을 받지 못했습니다.');
           }
         });
     }
