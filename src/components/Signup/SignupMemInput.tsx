@@ -7,7 +7,7 @@ interface SignupMemInputProps {
   labelName: string;
   placeholderText: string;
   origValue: string | string[];
-  inputType: 'text' | 'number';
+  inputType: 'text' | 'number' | 'email';
   onChange: (value: string) => void;
 }
 
@@ -83,6 +83,8 @@ const SignupMemInput: React.FC<SignupMemInputProps> = ({
           return /^[1-4]*$/.test(val) && val.length <= 1; // 1~4 사이 한자리 숫자
         }
         return numberRegex.test(val);
+      case 'email':
+        return true;
       default:
         return true;
     }
