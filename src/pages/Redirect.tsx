@@ -23,11 +23,9 @@ const Redirect: React.FC = () => {
           },
         )
         .then((res) => {
-          console.log('res in redirect', res);
           const { kakaoId, status, accessToken, refreshToken } = res.data.data;
           localStorage.setItem('kakaoId', kakaoId);
           if (res.data.code === 200) {
-            console.log('code', res.data.code);
             if (status === 'LOGIN') {
               localStorage.setItem('accessToken', accessToken);
               localStorage.setItem('refreshToken', refreshToken);
@@ -48,6 +46,7 @@ const Redirect: React.FC = () => {
             }
           } else {
             alert('서버로부터 응답을 받지 못했습니다.');
+            navigate('/');
           }
         });
     }
