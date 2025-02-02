@@ -159,6 +159,7 @@ const Login: React.FC = () => {
   return (
     <Container>
       <Header
+        isAccessible
         isComplete={!!isAllValid && isPwdValid && isEmailValid}
         RightButtonType="none"
       />
