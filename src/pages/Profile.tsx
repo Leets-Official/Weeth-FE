@@ -1,5 +1,4 @@
 /* eslint-disable no-alert */
-import axios from 'axios';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
@@ -9,6 +8,7 @@ import Header from '@/components/Header/Header';
 import PositionSector from '@/components/Signup/PositionSector';
 import SignupMemInput from '@/components/Signup/SignupMemInput';
 import useCustomBack from '@/hooks/useCustomBack';
+import api from '@/api/api';
 
 // Styled components
 const ProfileContainer = styled.div`
@@ -178,9 +178,8 @@ const Profile: React.FC = () => {
     };
 
     try {
-      const BASE_URL = import.meta.env.VITE_API_URL;
-      const response = await axios.post(
-        `${BASE_URL}/api/v1/users/kakao/register`,
+      const response = await api.post(
+        `/api/v1/users/kakao/register`,
         mappedMemberInfo,
       );
       if (response.data.code === 200) {

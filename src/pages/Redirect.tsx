@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-
-const BASE_URL = import.meta.env.VITE_API_URL;
+import api from '@/api/api';
 
 const Redirect: React.FC = () => {
   const navigate = useNavigate();
@@ -12,16 +10,8 @@ const Redirect: React.FC = () => {
     const code = queryParams.get('code');
 
     if (code) {
-      axios
-        .post(
-          `${BASE_URL}/api/v1/users/kakao/login`,
-          { authCode: code },
-          {
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          },
-        )
+      api
+        .post(`/api/v1/users/kakao/login`, { authCode: code })
         .then((res) => {
           const { kakaoId, status, accessToken, refreshToken } = res.data.data;
           localStorage.setItem('kakaoId', kakaoId);
@@ -37,15 +27,10 @@ const Redirect: React.FC = () => {
             navigate('/waiting-approval');
           }
         })
-        .catch((err: unknown) => {
-          if (axios.isAxiosError(err) && err.response) {
-            if ((err.response.data as { code: number }).code === 403) {
-              navigate('/waiting-approval');
-            } else {
-              navigate('/');
-            }
+        .catch((err: any) => {
+          if ((err.response.data as { code: number }).code === 403) {
+            navigate('/waiting-approval');
           } else {
-            alert('서버로부터 응답을 받지 못했습니다.');
             navigate('/');
           }
         });

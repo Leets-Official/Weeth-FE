@@ -1,17 +1,8 @@
-import axios from 'axios';
 import { useEffect, useState } from 'react';
-
-const BASE_URL = import.meta.env.VITE_API_URL;
+import api from './api';
 
 const getMonthlySchedule = async (start: string, end: string) => {
-  const accessToken = localStorage.getItem('accessToken');
-  const refreshToken = localStorage.getItem('refreshToken');
-
-  return axios.get(`${BASE_URL}/api/v1/schedules/monthly`, {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-      Authorization_refresh: `Bearer ${refreshToken}`,
-    },
+  return api.get(`/api/v1/schedules/monthly`, {
     params: {
       start,
       end,

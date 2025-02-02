@@ -1,4 +1,4 @@
-import axios from 'axios';
+import api from './api';
 
 interface Content {
   id: number;
@@ -33,20 +33,10 @@ const useGetBoardInfo = async (
   setIsLoading(true);
 
   try {
-    const accessToken = localStorage.getItem('accessToken');
-    const refreshToken = localStorage.getItem('refreshToken');
-
     console.log('Fetching page:', pageNumber);
-    const response = await axios.get<ApiResponse>(
-      `${BASE_URL}/api/v1/${path}`,
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          Authorization_refresh: `Bearer ${refreshToken}`,
-        },
-        params: { pageNumber, pageSize: 10 },
-      },
-    );
+    const response = await api.get<ApiResponse>(`/api/v1/${path}`, {
+      params: { pageNumber, pageSize: 10 },
+    });
 
     const { data } = response.data;
 

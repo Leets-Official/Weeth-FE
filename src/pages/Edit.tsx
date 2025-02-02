@@ -2,8 +2,8 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-alert */
 
-import axios from 'axios';
 import { useEffect, useState } from 'react';
+import api from '@/api/api';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import DropdownMenu from '@/components/Button/DropdownMenu';
@@ -40,9 +40,6 @@ const Edit = () => {
 
   const { userInfo } = useGetUserInfo();
   const [userData, setUserData] = useState<{ key: string; value: any }[]>([]);
-  const accessToken = localStorage.getItem('accessToken');
-  const refreshToken = localStorage.getItem('refreshToken');
-  const BASE_URL = import.meta.env.VITE_API_URL;
   const navi = useNavigate();
 
   useEffect(() => {
@@ -98,12 +95,7 @@ const Edit = () => {
         }
       }
 
-      response = await axios.patch(`${BASE_URL}/api/v1/users`, data, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          Authorization_refresh: `Bearer ${refreshToken}`,
-        },
-      });
+      response = await api.patch(`/api/v1/users`, data);
     } catch (err) {
       alert('저장 중 오류가 발생했습니다.');
       console.error(err);
