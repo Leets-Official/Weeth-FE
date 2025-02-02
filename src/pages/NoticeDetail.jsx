@@ -1,7 +1,7 @@
 import UserAPI from '@/api/UserAPI';
 import { UserContext } from '@/api/UserContext';
-import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react';
+import api from '@/api/api';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import boardChat from '../assets/images/ic_board_chat.svg';
@@ -143,12 +143,8 @@ const NoticeDetail = () => {
 
     if (window.confirm('삭제하시겠습니까?')) {
       try {
-        const url = `${BASE_URL}/api/v1/admin/notices/${noticeId}`;
-        const response = await axios.delete(url, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
+        const url = `/api/v1/admin/notices/${noticeId}`;
+        const response = await api.delete(url, {});
         if (response.data.code === 200) {
           alert('삭제가 완료되었습니다.');
           navigate('/board');
@@ -166,14 +162,7 @@ const NoticeDetail = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          `${BASE_URL}/api/v1/notices/${noticeId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          },
-        );
+        const response = await api.get(`/api/v1/notices/${noticeId}`, {});
 
         if (response.data.code === 200) {
           setContent(response.data.data);

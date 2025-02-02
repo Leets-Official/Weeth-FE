@@ -1,11 +1,10 @@
 /* eslint-disable no-console */
 /* eslint-disable no-alert */
 import React, { useState, useContext, useEffect } from 'react';
-import axios from 'axios';
+import api from '@/api/api';
 import { UserContext } from '@/api/UserContext';
 // import { BoardContext } from '@/api/BoardContext';
 import PropTypes from 'prop-types';
-import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import theme from '../../styles/theme';
 import BoardComment from './BoardComment';
@@ -31,25 +30,18 @@ const CommentList = ({ noticeId, postId }) => {
   const { boardData, setBoardData } = useContext(BoardContext);
   const { userData } = useContext(UserContext);
 
-  const accessToken = localStorage.getItem('accessToken');
-  const BASE_URL = import.meta.env.VITE_API_URL;
-
   // API 호출 함수
   const fetchComments = async () => {
     try {
       let url;
       if (postId) {
-        url = `${BASE_URL}/api/v1/posts/${postId}`;
+        url = `/api/v1/posts/${postId}`;
       } else if (noticeId) {
-        url = `${BASE_URL}/api/v1/notices/${noticeId}`;
+        url = `/api/v1/notices/${noticeId}`;
       } else {
         return;
       }
-      const response = await axios.get(url, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
+      const response = await api.get(url);
 
       if (response.status === 200 && response.data.code === 200) {
         setBoardData(response.data.data);
@@ -64,7 +56,7 @@ const CommentList = ({ noticeId, postId }) => {
 
   useEffect(() => {
     fetchComments(); // 컴포넌트가 처음 마운트될 때 최신 데이터를 가져옴
-  }, [accessToken, noticeId, postId]);
+  }, [noticeId, postId]);
 
   const handleReply = (parentCommentId, isDeleted) => {
     if (isDeleted) {
@@ -105,19 +97,15 @@ const CommentList = ({ noticeId, postId }) => {
       try {
         let url;
         if (postId) {
-          url = `${BASE_URL}/api/v1/posts/${postId}/comments/${commentId}`;
+          url = `/api/v1/posts/${postId}/comments/${commentId}`;
         } else if (noticeId) {
-          url = `${BASE_URL}/api/v1/notices/${noticeId}/comments/${commentId}`;
+          url = `/api/v1/notices/${noticeId}/comments/${commentId}`;
         } else {
           // console.error('Neither postId nor noticeId is provided.');
           return;
         }
 
-        const response = await axios.delete(url, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
+        const response = await api.delete(url);
 
         if (response.status === 200 && response.data.code === 200) {
           alert('댓글이 삭제되었습니다.');

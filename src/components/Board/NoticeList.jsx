@@ -1,5 +1,5 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import api from '@/api/api';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import more from '../../assets/images/ic_moreButton.svg';
@@ -19,9 +19,6 @@ const NoticeList = () => {
   const [notices, setNotices] = useState([]);
   const [hasMore, setHasMore] = useState(true); // 더 불러올 공지가 있는지 여부를 확인하는 상태 변수
 
-  const accessToken = localStorage.getItem('accessToken');
-  const BASE_URL = import.meta.env.VITE_API_URL;
-
   // API 호출 함수
   const fetchNotices = async (noticeId = null, count = 15) => {
     try {
@@ -30,10 +27,7 @@ const NoticeList = () => {
         params.noticeId = noticeId;
       }
 
-      const response = await axios.get(`${BASE_URL}/api/v1/notices`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
+      const response = await api.get(`/api/v1/notices`, {
         params,
       });
 
@@ -76,7 +70,7 @@ const NoticeList = () => {
   // 컴포넌트 마운트 시 서버로부터 최신 데이터를 로드
   useEffect(() => {
     fetchNotices(null, 15); // 컴포넌트가 처음 마운트될 때 최신 데이터를 가져옴
-  }, [accessToken]);
+  }, []);
 
   // 더 많은 데이터를 로드하는 함수
   const loadMoreNotices = () => {

@@ -1,8 +1,8 @@
 /* eslint-disable no-alert */
 import UserAPI from '@/api/UserAPI';
 import { UserContext } from '@/api/UserContext';
-import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react';
+import api from '@/api/api';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import boardChat from '../assets/images/ic_board_chat.svg';
@@ -129,9 +129,6 @@ const StudyDetail = () => {
   const [content, setContent] = useState(null);
   const navigate = useNavigate();
 
-  const accessToken = localStorage.getItem('accessToken');
-  const BASE_URL = import.meta.env.VITE_API_URL;
-
   // 글 작성자인지 확인하는 로직
   const isWriter = content?.name === userData?.name;
 
@@ -139,12 +136,8 @@ const StudyDetail = () => {
   const handleDeleteClick = async () => {
     if (window.confirm('삭제하시겠습니까?')) {
       try {
-        const url = `${BASE_URL}/api/v1/posts/${postId}`;
-        const response = await axios.delete(url, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
+        const url = `/api/v1/posts/${postId}`;
+        const response = await api.delete(url);
 
         if (response.data.code === 200) {
           alert('삭제가 완료되었습니다.');
@@ -163,11 +156,7 @@ const StudyDetail = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${BASE_URL}/api/v1/posts/${postId}`, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
+        const response = await api.get(`/api/v1/posts/${postId}`);
         if (response.data.code === 200) {
           setContent(response.data.data);
         } else {
@@ -186,7 +175,7 @@ const StudyDetail = () => {
     };
 
     fetchData(); // 항상 서버에서 데이터를 가져오도록 함
-  }, [postId, accessToken, BASE_URL]);
+  }, [postId]);
 
   // AttachButton에 전달할 파일 변경 핸들러 (기능이 필요 없으면 빈 함수라도 전달)
   const handleFileChange = () => {

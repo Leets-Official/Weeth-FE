@@ -1,7 +1,7 @@
-import axios from 'axios';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import api from '@/api/api';
 
 import toggleInvisibleIcon from '@/assets/images/ic_toggleInvisible.svg';
 import toggleVisibleIcon from '@/assets/images/ic_toggleVisible.svg';
@@ -144,23 +144,15 @@ const Login: React.FC = () => {
     };
 
     try {
-      const BASE_URL = import.meta.env.VITE_API_URL as string;
-      const response = await axios.patch(
-        `${BASE_URL}/api/v1/users/kakao/link`,
-        params,
-      );
+      const response = await api.patch('/api/v1/users/kakao/link', params);
       if (response.status === 200) {
         setError(null);
         localStorage.setItem('accessToken', response.data.data.accessToken);
         localStorage.setItem('refreshToken', response.data.data.refreshToken);
         navigate('/home');
       }
-    } catch (err: unknown) {
-      if (axios.isAxiosError(err) && err.response) {
-        setError(err.response.data.message);
-      } else {
-        setError('서버로부터 응답을 받지 못했습니다.');
-      }
+    } catch (err: any) {
+      setError(err.response?.data.message);
     }
   };
 

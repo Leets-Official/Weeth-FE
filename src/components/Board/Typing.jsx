@@ -1,6 +1,6 @@
-import axios from 'axios';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
+import api from '@/api/api';
 import styled from 'styled-components';
 import replaceNewLines from '@/hooks/newLine';
 import registerComment from '../../assets/images/ic_send.svg';
@@ -42,9 +42,6 @@ const Typing = ({
   // const location = useLocation();
   // const { parentCommentId = null } = location.state || {};
 
-  const accessToken = localStorage.getItem('accessToken');
-  const BASE_URL = import.meta.env.VITE_API_URL;
-
   const handleCommentChange = (e) => {
     setComment(e.target.value);
   };
@@ -62,27 +59,18 @@ const Typing = ({
     try {
       let url;
       if (noticeId) {
-        url = `${BASE_URL}/api/v1/notices/${noticeId}/comments`; // 공지사항 댓글 경로
+        url = `/api/v1/notices/${noticeId}/comments`; // 공지사항 댓글 경로
       } else if (postId) {
-        url = `${BASE_URL}/api/v1/posts/${postId}/comments`; // 일반 게시물 댓글 경로
+        url = `/api/v1/posts/${postId}/comments`; // 일반 게시물 댓글 경로
       } else {
         // console.error('Neither postId nor noticeId is provided.');
         return;
       }
 
-      const response = await axios.post(
-        url,
-        {
-          content: processedComment,
-          parentCommentId,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-            'Content-Type': 'application/json',
-          },
-        },
-      );
+      const response = await api.post(url, {
+        content: processedComment,
+        parentCommentId,
+      });
 
       if (response.data.code === 200) {
         setComment(''); // 입력 필드 초기화

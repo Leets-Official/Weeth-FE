@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
-
-const BASE_URL = import.meta.env.VITE_API_URL;
+import api from './api';
 
 interface Receipt {
   id: number;
@@ -23,15 +21,7 @@ interface DuesInfo {
 
 // 유저 정보 받아오는 API
 const getDuesInfo = async (paramsCardinal: number) => {
-  const accessToken = localStorage.getItem('accessToken');
-  const refreshToken = localStorage.getItem('refreshToken');
-
-  return axios.get(`${BASE_URL}/api/v1/account/${paramsCardinal}`, {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-      Authorization_refresh: `Bearer ${refreshToken}`,
-    },
-  });
+  return api.get(`/api/v1/account/${paramsCardinal}`);
 };
 
 export const useGetDuesInfo = (paramsCardinal: number) => {

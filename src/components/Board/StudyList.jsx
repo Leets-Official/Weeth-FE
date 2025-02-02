@@ -1,5 +1,5 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import api from '@/api/api';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import more from '../../assets/images/ic_moreButton.svg';
@@ -19,9 +19,6 @@ const StudyList = () => {
   const [studies, setStudies] = useState([]);
   const [hasMore, setHasMore] = useState(true);
 
-  const accessToken = localStorage.getItem('accessToken');
-  const BASE_URL = import.meta.env.VITE_API_URL;
-
   // API 호출 함수
   const fetchStudies = async (postId = null, count = 15) => {
     try {
@@ -29,10 +26,7 @@ const StudyList = () => {
       if (postId) {
         params.postId = postId;
       }
-      const response = await axios.get(`${BASE_URL}/api/v1/posts`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
+      const response = await api.get(`/api/v1/posts`, {
         params,
       });
 
@@ -75,7 +69,7 @@ const StudyList = () => {
   // 컴포넌트 마운트 시 서버로부터 최신 데이터를 로드
   useEffect(() => {
     fetchStudies(); // 컴포넌트가 처음 마운트될 때 최신 데이터를 가져옴
-  }, [accessToken]);
+  }, []);
 
   // 더 많은 데이터를 로드하는 함수
   const loadMoreStudies = () => {

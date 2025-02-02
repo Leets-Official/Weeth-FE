@@ -1,7 +1,7 @@
 import { UserContext } from '@/api/UserContext';
-import axios from 'axios';
 import PropTypes from 'prop-types';
 import React, { useContext, useEffect, useRef, useState } from 'react';
+import api from '@/api/api';
 import styled from 'styled-components';
 import commentButton from '../../assets/images/ic_comment.svg';
 import replyButton from '../../assets/images/ic_reply.svg';
@@ -88,9 +88,6 @@ const BoardComment = ({
   const [showReplies, setShowReplies] = useState(recomments.length > 0);
   const inputRef = useRef(null); // ref 생성
 
-  const accessToken = localStorage.getItem('accessToken');
-  const BASE_URL = import.meta.env.VITE_API_URL;
-
   const { userData } = useContext(UserContext);
 
   useEffect(() => {
@@ -127,18 +124,14 @@ const BoardComment = ({
       try {
         let url;
         if (postId) {
-          url = `${BASE_URL}/api/v1/posts/${postId}/comments/${recommentId}`;
+          url = `/api/v1/posts/${postId}/comments/${recommentId}`;
         } else if (noticeId) {
-          url = `${BASE_URL}/api/v1/notices/${noticeId}/comments/${recommentId}`;
+          url = `/api/v1/notices/${noticeId}/comments/${recommentId}`;
         } else {
           return;
         }
 
-        const response = await axios.delete(url, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
+        const response = await api.delete(url);
 
         if (response.status === 200) {
           // 서버 응답이 성공적일 경우 상태 업데이트

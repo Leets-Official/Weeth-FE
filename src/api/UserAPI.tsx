@@ -1,25 +1,15 @@
-import Utils from '@/hooks/Utils';
-import axios from 'axios';
 import { useContext, useEffect } from 'react';
+import Utils from '@/hooks/Utils';
+import api from './api';
 import { UserContext } from './UserContext';
 
 const UserAPI = () => {
   const { setUserData, setError } = useContext(UserContext);
 
-  const accessToken = localStorage.getItem('accessToken');
-  const refreshToken = localStorage.getItem('refreshToken');
-  const BASE_URL = import.meta.env.VITE_API_URL;
-
   useEffect(() => {
-    const headers = {
-      Authorization: `Bearer ${accessToken}`,
-      Authorization_refresh: `Bearer ${refreshToken}`,
-    };
-
     const fetchUserData = async () => {
       try {
-        const originalApiFuncUser = () =>
-          axios.get(`${BASE_URL}/api/v1/users`, { headers });
+        const originalApiFuncUser = () => api.get(`/api/v1/users`);
 
         const userResponse = await Utils(
           await originalApiFuncUser(),
@@ -49,7 +39,7 @@ const UserAPI = () => {
     };
 
     fetchUserData();
-  }, [accessToken, setUserData, setError, BASE_URL]);
+  }, [setUserData, setError]);
 
   return null;
 };
