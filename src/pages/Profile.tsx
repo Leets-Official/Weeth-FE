@@ -85,6 +85,7 @@ interface MemberInfo {
   tel?: string;
   cardinal?: string;
   position?: string;
+  email?: string;
 }
 
 // Define a type for the valid keys of MemberInfo
@@ -102,8 +103,39 @@ const Profile: React.FC = () => {
     tel: '',
     cardinal: '',
     position: '',
+    email: '',
   });
   const [isNextEnabled, setIsNextEnabled] = useState<boolean>(false);
+
+  const validateEmail = (validEmail: string): boolean => {
+    // 이메일 형식을 검사하는 정규식 (기본적인 이메일 형식)
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/;
+
+    // 허용되는 도메인 확장자 목록
+    const allowedExtensions = [
+      'com',
+      'net',
+      'org',
+      'edu',
+      'ac.kr', // 학교 이메일 도메인 추가
+      'co.kr',
+      'go.kr',
+      'or.kr',
+      'kakao.com', // 추가적으로 원하는 도메인도 여기에 넣을 수 있음
+    ];
+
+    // 이메일 형식이 유효한지 먼저 체크
+    if (!emailRegex.test(validEmail)) {
+      return false;
+    }
+
+    // 이메일 주소에서 도메인 추출 (확장자 부분만 추출)
+    const emailDomain = validEmail.split('@')[1];
+    const domainExtension = emailDomain.split('.').pop(); // 마지막 확장자 부분을 추출
+
+    // 허용된 확장자 목록에 포함되는지 확인
+    return allowedExtensions.includes(domainExtension || '');
+  };
 
   const handleNextClick = async () => {
     const allFieldsFilled = [
@@ -113,6 +145,7 @@ const Profile: React.FC = () => {
       'tel',
       'cardinal',
       'position',
+      'email',
     ].every(
       (field) =>
         typeof memberInfo[field as keyof MemberInfo] === 'string' &&
@@ -125,6 +158,10 @@ const Profile: React.FC = () => {
     }
     if (memberInfo.tel && memberInfo.tel.trim().length < 11) {
       alert('올바른 휴대폰 번호를 입력해 주세요.');
+      return;
+    }
+    if ((memberInfo.email && validateEmail(memberInfo.email)) === false) {
+      alert('올바른 이메일을 입력해 주세요.');
       return;
     }
 
@@ -142,12 +179,10 @@ const Profile: React.FC = () => {
 
     try {
       const BASE_URL = import.meta.env.VITE_API_URL;
-      console.log('전송', mappedMemberInfo);
       const response = await axios.post(
         `${BASE_URL}/api/v1/users/kakao/register`,
         mappedMemberInfo,
       );
-      console.log('응답', response);
       if (response.data.code === 200) {
         alert(`가입 신청이 완료되었습니다.
         운영진의 승인 후 서비스 이용이 가능합니다.`);
@@ -171,6 +206,7 @@ const Profile: React.FC = () => {
       'tel',
       'cardinal',
       'position',
+      'email',
     ].every(
       (field) =>
         typeof newMemberInfo[field as keyof MemberInfo] === 'string' &&
@@ -231,6 +267,15 @@ const Profile: React.FC = () => {
             origValue={memberInfo.tel || ''}
             inputType="number"
             onChange={(value) => handleChange('tel', value)}
+          />
+        </InputWrapper>
+        <InputWrapper>
+          <SignupMemInput
+            labelName="이메일"
+            placeholderText="aaa123@example.com"
+            origValue={memberInfo.email || ''}
+            inputType="email"
+            onChange={(value) => handleChange('email', value)}
           />
         </InputWrapper>
         <InputWrapper>
