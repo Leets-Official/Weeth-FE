@@ -1,4 +1,3 @@
-// utils/iconUtils.ts
 import FEIcon from '@/assets/images/ic_FE_color.svg';
 import BEIcon from '@/assets/images/ic_BE_color.svg';
 import DEIcon from '@/assets/images/ic_DE_color.svg';
