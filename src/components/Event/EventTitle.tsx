@@ -11,7 +11,7 @@ import * as S from '@/styles/calendar/EventDetailTitle.styled';
 import { adminModalStyles } from '@/styles/calendar/EventDetailTitle.styled';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Tag from './Tag';
+import Tag from '@/components/Event/Tag';
 
 Modal.setAppElement('#root');
 
