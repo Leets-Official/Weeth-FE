@@ -16,7 +16,9 @@ const Receipt: React.FC = () => {
 
   return (
     <Container>
-      <Header title="영수증" RightButtonType="none" />
+      <Header RightButtonType="none" isAccessible>
+        영수증
+      </Header>
       <ReceiptMain />
     </Container>
   );

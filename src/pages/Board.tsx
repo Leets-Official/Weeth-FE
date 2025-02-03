@@ -79,7 +79,9 @@ const Board = () => {
 
   return (
     <S.Container>
-      <Header title="게시판" RightButtonType="none" />
+      <Header isAccessible RightButtonType="none">
+        게시판
+      </Header>
       <S.NoticeTextContainer>
         <S.NoticeTitleText>📢 공지사항</S.NoticeTitleText>
         <S.AllText onClick={handleAllNotice}>전체보기 &gt;</S.AllText>

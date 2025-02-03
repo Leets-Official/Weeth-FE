@@ -18,12 +18,12 @@ const Cell = styled.td`
 
   border-bottom: 1px solid #dedede;
 `;
-const StatusCell = styled.td<{ statusColor: string }>`
+export const StatusCell = styled.td<{ statusColor: string }>`
   width: 2px;
   background-color: ${({ statusColor }) => statusColor};
 `;
 
-const SvgWrapper = styled.td`
+export const SvgWrapper = styled.td`
   padding: 10px;
   text-align: center;
   cursor: pointer;
@@ -65,7 +65,6 @@ const MemberListTableRow: React.FC<TableRowProps> = ({ data, columns }) => {
           <Cell key={column.key}>{data[column.key]}</Cell>
         ))}
 
-        {/* 추후 클릭 이벤트 추가 */}
         <SvgWrapper onClick={openModal}>
           <img src={MeatBallSvg} alt="미트볼 메뉴" />
         </SvgWrapper>
