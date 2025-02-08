@@ -71,8 +71,8 @@ const DataFlex = styled.div`
   color: #000;
 `;
 
-const getHighestCardinal = (cardinal: string): string =>
-  `${cardinal.split('.')[0]}기`;
+const getHighestCardinal = (cardinals: string): string =>
+  `${cardinals.split('.')[0]}기`;
 
 const MemberDetailModal: React.FC<MemberDetailModalProps> = ({
   data,
@@ -106,19 +106,19 @@ const MemberDetailModal: React.FC<MemberDetailModalProps> = ({
   const memberInfo = [
     { label: '직급', value: data.position },
     { label: '역할', value: data.role },
-    { label: '학과', value: data.major },
-    { label: '전화번호', value: data.phone },
+    { label: '학과', value: data.department },
+    { label: '전화번호', value: data.tel },
     { label: '학번', value: data.studentId },
     { label: '이메일', value: data.email },
   ];
 
   const activityInfo = [
-    { label: '활동기수', value: data.cardinal },
+    { label: '활동기수', value: data.cardinals },
     { label: '상태', value: data.membershipType },
-    { label: '가입일', value: data.joinDate },
-    { label: '출석', value: data.attendance },
-    { label: '결석', value: data.absence },
-    { label: '패널티', value: data.penalty },
+    { label: '가입일', value: data.createdAt },
+    { label: '출석', value: data.attendanceCount },
+    { label: '결석', value: data.absenceCount },
+    { label: '패널티', value: data.penaltyCount },
   ];
 
   return (
@@ -136,7 +136,7 @@ const MemberDetailModal: React.FC<MemberDetailModalProps> = ({
           <FlexWrapper>
             <FontStyle fontSize="24px" fontWeight="700" color="#000">
               {data.name} &nbsp;
-              {getHighestCardinal(data.cardinal)}
+              {getHighestCardinal(data.cardinals)}
             </FontStyle>
             <StatusIndicator status={data.status} />
           </FlexWrapper>

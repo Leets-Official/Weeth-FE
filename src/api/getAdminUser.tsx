@@ -7,11 +7,12 @@ export const getAllUsers = async (orderBy = 'NAME_ASCENDING') => {
   const accessToken = localStorage.getItem('accessToken');
   const refreshToken = localStorage.getItem('refreshToken');
 
-  return axios.get(`${BASE_URL}/api/v1/admin/users/all?orderBy=${orderBy}`, {
+  return axios.get(`${BASE_URL}/api/v1/admin/users/all`, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
       Authorization_refresh: `Bearer ${refreshToken}`,
     },
+    params: { orderBy },
   });
 };
 

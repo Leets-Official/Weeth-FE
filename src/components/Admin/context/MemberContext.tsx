@@ -15,9 +15,9 @@ export type MemberData = {
   absenceCount: number;
   penaltyCount: number;
   LatestPenalty?: string;
-  createAt: string;
+  createdAt: string;
   email?: string;
-  membershipType?: string;
+  membershipType?: '활동 중' | '알럼나이';
 };
 
 interface MemberContextProps {
@@ -57,8 +57,22 @@ export const MemberProvider: React.FC<{ children: React.ReactNode }> = ({
         const response = await getAllUsers(sortingOrder);
         const fetchedMembers = response.data.data || [];
         console.log('API응답: ', response.data);
-        setMembers(fetchedMembers);
-        setFilteredMembers(fetchedMembers);
+        const mappedMembers = fetchedMembers.map((user: any) => ({
+          ...user,
+          cardinals: user.cardinals.length > 0 ? user.cardinals.join('.') : '',
+          status:
+            user.status === 'ACTIVE'
+              ? '승인 완료'
+              : user.status === 'WAITING'
+                ? '대기 중'
+                : '추방',
+          createdAt: new Date(user.createdAt)
+            .toISOString()
+            .split('T')[0]
+            .replace(/-/g, '.'),
+        }));
+        setMembers(mappedMembers);
+        setFilteredMembers(mappedMembers);
         setError(null);
       } catch (err: any) {
         setError(err.response?.data?.message || '데이터 불러오기 실패');
@@ -75,6 +89,8 @@ export const MemberProvider: React.FC<{ children: React.ReactNode }> = ({
       setSelectedMembers,
       filteredMembers,
       setFilteredMembers,
+      sortingOrder,
+      setSortingOrder,
     }),
     [members, selectedMembers, filteredMembers, error],
   );
