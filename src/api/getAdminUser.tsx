@@ -3,11 +3,11 @@ import axios from 'axios';
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
-export const getAllUsers = async () => {
+export const getAllUsers = async (orderBy = 'NAME_ASCENDING') => {
   const accessToken = localStorage.getItem('accessToken');
   const refreshToken = localStorage.getItem('refreshToken');
 
-  return axios.get(`${BASE_URL}/api/v1/admin/users/all`, {
+  return axios.get(`${BASE_URL}/api/v1/admin/users/all?orderBy=${orderBy}`, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
       Authorization_refresh: `Bearer ${refreshToken}`,

@@ -1,19 +1,21 @@
-import { createContext, useContext, useMemo, useState } from 'react';
+import { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import { getAllUsers } from '@/api/getAdminUser';
 
 export type MemberData = {
+  id: number;
   status: '승인 완료' | '대기 중' | '추방';
   name: string;
   role: string;
-  major: string;
-  cardinal: string;
-  phone: string;
+  department: string;
+  cardinals: string;
+  tel: string;
   studentId: string;
   position: string;
-  attendance: number;
-  absence: number;
-  penalty: number;
+  attendanceCount: number;
+  absenceCount: number;
+  penaltyCount: number;
   LatestPenalty?: string;
-  joinDate: string;
+  createAt: string;
   email?: string;
   membershipType?: string;
 };
@@ -25,6 +27,10 @@ interface MemberContextProps {
   filteredMembers: MemberData[];
   setSelectedMembers: React.Dispatch<React.SetStateAction<string[]>>;
   setFilteredMembers: React.Dispatch<React.SetStateAction<MemberData[]>>;
+  sortingOrder: 'NAME_ASCENDING' | 'CARDINAL_DESCENDING';
+  setSortingOrder: React.Dispatch<
+    React.SetStateAction<'NAME_ASCENDING' | 'CARDINAL_DESCENDING'>
+  >;
 }
 
 // context 생성
@@ -34,96 +40,33 @@ const MemberContext = createContext<MemberContextProps | undefined>(undefined);
 export const MemberProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [members, setMembers] = useState<MemberData[]>([
-    // mock data
-    {
-      status: '승인 완료',
-      name: '김위드니',
-      role: '프론트엔드',
-      major: '소프트웨어전공',
-      cardinal: '4.3.2.1',
-      phone: '01000009999',
-      studentId: '202236123',
-      position: '사용자',
-      attendance: 12,
-      absence: 0,
-      penalty: 12,
-      joinDate: '2024.08.27',
-      email: 'weeth123@gmail.com',
-      membershipType: '알럼나이',
-      LatestPenalty: '2024.08.27',
-    },
-    {
-      status: '대기 중',
-      name: '박위드니',
-      role: '프론트엔드',
-      major: '미디어커뮤니케이션학과',
-      cardinal: '4',
-      phone: '01000009999',
-      studentId: '202136123',
-      position: '사용자',
-      attendance: 12,
-      absence: 0,
-      penalty: 12,
-      joinDate: '2024.08.27',
-      email: 'weeth123@gmail.com',
-      membershipType: '활동중',
-      LatestPenalty: '2024.08.27',
-    },
-    {
-      status: '승인 완료',
-      name: '송위드니',
-      role: '백엔드',
-      major: '컴퓨터공학과',
-      cardinal: '4.3',
-      phone: '01000009999',
-      studentId: '202334423',
-      position: '사용자',
-      attendance: 12,
-      absence: 0,
-      penalty: 12,
-      joinDate: '2024.08.27',
-      email: 'weeth123@gmail.com',
-      membershipType: '활동중',
-      LatestPenalty: '2024.08.27',
-    },
-    {
-      status: '승인 완료',
-      name: '홍위드니',
-      role: '백엔드',
-      major: '컴퓨터공학과',
-      cardinal: '3.2',
-      phone: '01000009999',
-      studentId: '202331423',
-      position: '사용자',
-      attendance: 12,
-      absence: 0,
-      penalty: 12,
-      joinDate: '2024.08.27',
-      email: 'weeth123@gmail.com',
-      membershipType: '활동중',
-      LatestPenalty: '2024.08.27',
-    },
-    {
-      status: '추방',
-      name: '최위드니',
-      role: '백엔드',
-      major: '컴퓨터공학과',
-      cardinal: '2.1',
-      phone: '01000009999',
-      studentId: '202436123',
-      position: '사용자',
-      attendance: 12,
-      absence: 0,
-      penalty: 12,
-      joinDate: '2024.08.27',
-    },
-  ]);
+  const [error, setError] = useState<string | null>(null);
+
+  const [members, setMembers] = useState<MemberData[]>([]);
 
   const [selectedMembers, setSelectedMembers] = useState<string[]>([]);
 
   const [filteredMembers, setFilteredMembers] = useState<MemberData[]>(members);
+  const [sortingOrder, setSortingOrder] = useState<
+    'NAME_ASCENDING' | 'CARDINAL_DESCENDING'
+  >('NAME_ASCENDING');
 
+  useEffect(() => {
+    const fetchMembers = async () => {
+      try {
+        const response = await getAllUsers(sortingOrder);
+        const fetchedMembers = response.data.data || [];
+        console.log('API응답: ', response.data);
+        setMembers(fetchedMembers);
+        setFilteredMembers(fetchedMembers);
+        setError(null);
+      } catch (err: any) {
+        setError(err.response?.data?.message || '데이터 불러오기 실패');
+      }
+    };
+
+    fetchMembers();
+  }, [sortingOrder]);
   const value = useMemo(
     () => ({
       members,
@@ -133,7 +76,7 @@ export const MemberProvider: React.FC<{ children: React.ReactNode }> = ({
       filteredMembers,
       setFilteredMembers,
     }),
-    [members, selectedMembers, filteredMembers],
+    [members, selectedMembers, filteredMembers, error],
   );
 
   return (

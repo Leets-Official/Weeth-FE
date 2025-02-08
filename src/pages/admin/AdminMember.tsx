@@ -16,16 +16,16 @@ import {
 
 const columns: Column[] = [
   { key: 'name', header: '이름' },
-  { key: 'role', header: '역할' },
-  { key: 'major', header: '학과' },
-  { key: 'cardinal', header: '기수' },
-  { key: 'phone', header: '전화번호' },
+  { key: 'position', header: '역할' },
+  { key: 'department', header: '학과' },
+  { key: 'cardinals', header: '기수' },
+  { key: 'tel', header: '전화번호' },
   { key: 'studentId', header: '학번' },
-  { key: 'position', header: '직급' },
-  { key: 'attendance', header: '출석' },
-  { key: 'absence', header: '결석' },
-  { key: 'penalty', header: '페널티' },
-  { key: 'joinDate', header: '가입일' },
+  { key: 'role', header: '직급' },
+  { key: 'attendanceCount', header: '출석' },
+  { key: 'absenceCount', header: '결석' },
+  { key: 'penaltyCount', header: '페널티' },
+  { key: 'createdAt', header: '가입일' },
 ];
 
 const DynamicTopBar: React.FC = () => {
