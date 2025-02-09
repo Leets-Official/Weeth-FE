@@ -25,30 +25,32 @@ const FontStyle = styled.div<FontStyleProps>`
 
 const ModalContentWrapper = styled.div`
   display: flex;
-  flex: 0;
+  flex-wrap: wrap;
   height: calc(100% - 96px - 96px);
   justify-content: center;
   align-items: center;
   gap: 20px;
-  padding: 20px;
+  padding: 5px;
 `;
 
 const ModalContent = styled.div`
   background-color: white;
   border-radius: 4px;
   width: 100%;
+  /* max-width: 600px; */
   box-shadow: 0px 3px 8px 0px rgba(133, 141, 138, 0.2);
   display: flex;
   flex-direction: column;
   gap: 20px;
-  padding: 15px;
+  padding: 10px;
   flex: 1.5;
-  margin-top: 20%;
+  /* margin-top: 20%; */
 `;
 
 const ActivityContent = styled(ModalContent)`
   flex: 1;
   margin-bottom: 6%;
+  /* max-width: 400px; */
 `;
 
 const FlexWrapper = styled.div`
@@ -88,10 +90,12 @@ const MemberDetailModal: React.FC<MemberDetailModalProps> = ({
 
     try {
       console.log(`${action} API 요청 시작...`);
-      if (action === '비밀번호 초기화') await resetPwdApi(data.id);
-      console.log(` 비밀번호 초기화 요청 대상 ID: ${data.id}`);
-
-      alert('비밀번호 초기화가 완료되었습니다.');
+      if (action === '비밀번호 초기화') {
+        console.log(` 비밀번호 초기화 요청 대상 ID: ${data.id}`);
+        const response = await resetPwdApi(data.id);
+        console.log('비밀번호 초기화 API 응답:', response);
+        alert('비밀번호 초기화가 완료되었습니다.');
+      }
     } catch (error: any) {
       console.error('오류 발생 : ', error.message);
     }
