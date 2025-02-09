@@ -48,15 +48,15 @@ const DropdownItem = styled.div`
   }
 `;
 
-const DropdownMenu = ({
+const CardinalDropdown = ({
   origValue,
   editValue,
 }: {
-  origValue: number[];
-  editValue: (value: number[]) => void;
+  origValue: number; // 단일 숫자로 변경
+  editValue: (value: number) => void; // 단일 숫자로 변경
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedValue, setSelectedValue] = useState<number[]>(origValue);
+  const [selectedValue, setSelectedValue] = useState<number>(origValue); // 단일 숫자로 변경
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const options = [
@@ -72,13 +72,11 @@ const DropdownMenu = ({
   };
 
   const handleSelect = (value: number) => {
-    const updatedSelected = selectedValue.includes(value)
-      ? selectedValue.filter((item) => item !== value) // 값이 이미 선택된 경우 제거
-      : [...selectedValue, value]; // 값이 선택되지 않은 경우 추가
-    setSelectedValue(updatedSelected);
-    editValue(updatedSelected); // 부모 컴포넌트에 업데이트된 배열 전달
+    setSelectedValue(value); // 단일 숫자로 설정
+    editValue(value); // 부모 컴포넌트에 업데이트된 값 전달
     setIsOpen(false);
   };
+
   const handleClickOutside = (event: any) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
       setIsOpen(false);
@@ -93,13 +91,13 @@ const DropdownMenu = ({
   }, []);
 
   useEffect(() => {
-    setSelectedValue(origValue);
+    setSelectedValue(origValue); // 부모 컴포넌트에서 전달된 값으로 초기화
   }, [origValue]);
 
   return (
     <DropdownContainer ref={dropdownRef}>
       <DropdownButton onClick={handleToggle} $hasValue={!!selectedValue}>
-        기수
+        {selectedValue ? `${selectedValue}기` : '기수'} {/* 선택된 값 표시 */}
         {isOpen ? (
           <img src={open} alt="open" />
         ) : (
@@ -123,4 +121,4 @@ const DropdownMenu = ({
   );
 };
 
-export default DropdownMenu;
+export default CardinalDropdown;
