@@ -44,8 +44,8 @@ const Member = () => {
   useCustomBack('/home');
   const [searchParams] = useSearchParams();
   const cardinal = searchParams.get('cardinal');
-  const [selectedCardinal, setSelectedCardinal] = useState<number>(
-    Number(cardinal) || 0,
+  const [selectedCardinal, setSelectedCardinal] = useState<number | null>(
+    Number(cardinal) || null,
   );
   const navigate = useNavigate();
 

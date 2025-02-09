@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import theme from '@/styles/theme';
 import open from '@/assets/images/ic_opened_dropdown.svg';
 import close from '@/assets/images/ic_default_dropdown.svg';
+import useGetAllCardinals from '@/api/useGetCardinals';
 
 const DropdownContainer = styled.div`
   position: relative;
@@ -52,28 +53,29 @@ const CardinalDropdown = ({
   origValue,
   editValue,
 }: {
-  origValue: number; // 단일 숫자로 변경
-  editValue: (value: number) => void; // 단일 숫자로 변경
+  origValue: number | null;
+  editValue: (value: number | null) => void;
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedValue, setSelectedValue] = useState<number>(origValue); // 단일 숫자로 변경
+  const [selectedValue, setSelectedValue] = useState<number | null>(origValue);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const { allCardinals } = useGetAllCardinals();
 
-  const options = [
-    { value: 1, label: '1기' },
-    { value: 2, label: '2기' },
-    { value: 3, label: '3기' },
-    { value: 4, label: '4기' },
-    { value: 5, label: '5기' },
-  ];
+  const options: { value: number | null; label: string }[] =
+    allCardinals?.map(({ id }) => ({
+      value: id,
+      label: `${id}기`,
+    })) || [];
+
+  options.unshift({ value: null, label: '전체' });
 
   const handleToggle = () => {
     setIsOpen(!isOpen);
   };
 
-  const handleSelect = (value: number) => {
-    setSelectedValue(value); // 단일 숫자로 설정
-    editValue(value); // 부모 컴포넌트에 업데이트된 값 전달
+  const handleSelect = (value: number | null) => {
+    setSelectedValue(value);
+    editValue(value);
     setIsOpen(false);
   };
 
@@ -91,13 +93,13 @@ const CardinalDropdown = ({
   }, []);
 
   useEffect(() => {
-    setSelectedValue(origValue); // 부모 컴포넌트에서 전달된 값으로 초기화
+    setSelectedValue(origValue);
   }, [origValue]);
 
   return (
     <DropdownContainer ref={dropdownRef}>
       <DropdownButton onClick={handleToggle} $hasValue={!!selectedValue}>
-        {selectedValue ? `${selectedValue}기` : '기수'} {/* 선택된 값 표시 */}
+        {selectedValue ? `${selectedValue}기` : '전체'}
         {isOpen ? (
           <img src={open} alt="open" />
         ) : (
