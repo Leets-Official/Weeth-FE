@@ -6,6 +6,11 @@ export const TableWrapper = styled.div`
   width: fit-content;
   font-size: 18px;
   border-collapse: collapse;
+
+  table {
+    border-collapse: collapse;
+    table-layout: fixed;
+  }
 `;
 
 export const TableContainer = styled.div`

@@ -43,11 +43,7 @@ const MemberListTable: React.FC<MemberListTableProps> = ({ columns }) => {
           <MemberListTableHeader columns={columns} />
           <tbody>
             {filteredMembers.map((row) => (
-              <MemberListTableRow
-                key={row.studentId}
-                columns={columns}
-                data={row}
-              />
+              <MemberListTableRow key={row.id} columns={columns} data={row} />
             ))}
           </tbody>
         </table>

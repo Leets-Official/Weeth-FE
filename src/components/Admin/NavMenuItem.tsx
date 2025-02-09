@@ -23,11 +23,11 @@ export const Label = styled.div`
   font-weight: 400;
 `;
 
-export const Icon = styled.div<{ active?: boolean }>`
-  svg {
-    fill: ${({ active }) => (active ? '#fff' : '#000')};
-  }
-`;
+// export const Icon = styled.div<{ active?: boolean }>`
+//   svg {
+//     fill: ${({ active }) => (active ? '#fff' : '#000')};
+//   }
+// `;
 
 const NavMenuItem: React.FC<MenuItemsProps> = ({
   icon,
@@ -37,7 +37,7 @@ const NavMenuItem: React.FC<MenuItemsProps> = ({
 }) => {
   return (
     <MenuItemWrapper active={active} onClick={onClick}>
-      <Icon>{icon}</Icon>
+      <div style={{ fill: active ? '#fff' : '#000' }}>{icon}</div>
       <Label>{label}</Label>
     </MenuItemWrapper>
   );

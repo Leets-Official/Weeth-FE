@@ -39,13 +39,13 @@ interface TableRowProps {
 const MemberListTableRow: React.FC<TableRowProps> = ({ data, columns }) => {
   const { selectedMembers, setSelectedMembers } = useMemberContext();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const isChecked = selectedMembers.includes(data.studentId);
+  const isChecked = selectedMembers.includes(data.id.toString());
 
   const onClickToCheckBox = () => {
     setSelectedMembers((prevSelected) =>
       isChecked
-        ? prevSelected.filter((id) => id !== data.studentId)
-        : [...prevSelected, data.studentId],
+        ? prevSelected.filter((id) => id !== String(data.id))
+        : [...prevSelected, String(data.id)],
     );
   };
 
