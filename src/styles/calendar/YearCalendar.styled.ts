@@ -4,7 +4,7 @@ import styled from 'styled-components';
 export const MonthlyBox = styled.div`
   display: flex;
   flex-direction: column;
-  padding-bottom: 183px;
+  padding-bottom: 40px;
 `;
 
 export const Error = styled.div`

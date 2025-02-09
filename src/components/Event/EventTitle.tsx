@@ -6,26 +6,27 @@ import { deleteEvent } from '@/api/EventAdminAPI';
 import Header from '@/components/Header/Header';
 import EditDelModal from '@/components/Modal/EditDelModal';
 import formatDateTime from '@/hooks/formatDateTime';
-import { EventDetailData } from '@/pages/EventDetails';
+import { EventDetailData } from '@/pages/EventDetail';
 import * as S from '@/styles/calendar/EventDetailTitle.styled';
 import { adminModalStyles } from '@/styles/calendar/EventDetailTitle.styled';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import useGetUserInfo from '@/api/useGetUserInfo';
+import Tag from '@/components/Event/Tag';
 
 Modal.setAppElement('#root');
 
 const EventTitle = ({
   data,
-  isMeeting,
+  isAdmin,
 }: {
   data: EventDetailData;
-  isMeeting: boolean;
+  isAdmin: boolean;
 }) => {
-  const { userInfo } = useGetUserInfo();
   const [adminModalIsOpen, setAdminModalIsOpen] = useState(false);
   const navi = useNavigate();
   const formattedDateTime = formatDateTime(data.createdAt);
+
+  const cardinal = [3, 4]; // 임시 데이터
 
   const openAdminModal = () => {
     setAdminModalIsOpen(true);
@@ -47,39 +48,50 @@ const EventTitle = ({
     }
   };
 
-  if (!userInfo) {
+  if (!isAdmin) {
     return null;
   }
 
   return (
-    <S.EventTitleWrapper>
+    <>
       <Header
-        isAccessible={userInfo.role === 'ADMIN' && !isMeeting}
+        isAccessible={isAdmin}
         onClickRightButton={openAdminModal}
         RightButtonType="MENU"
       />
-      <S.Title>{data.title}</S.Title>
-      <S.WriteInfo>
-        <S.Writer>{data.name}</S.Writer>
-        <S.WrittenTime>{formattedDateTime}</S.WrittenTime>
-      </S.WriteInfo>
+      <S.EventTitleWrapper>
+        <S.SpaceBetween>
+          <S.Title>{data.title}</S.Title>
+          <Tag type="meeting" />
+        </S.SpaceBetween>
 
-      <Modal
-        className="calendar-modal"
-        isOpen={adminModalIsOpen}
-        onRequestClose={closeAdminModal}
-        style={adminModalStyles}
-      >
-        <EditDelModal
-          title="일정"
-          onClickEdit={() => {
-            navi(`/events/${data.id}/edit`);
-          }}
-          onClickDel={onClickDel}
-          onClickCancel={closeAdminModal}
-        />
-      </Modal>
-    </S.EventTitleWrapper>
+        <S.SpaceBetween>
+          <S.WriteInfo>
+            <S.Writer>{data.name}</S.Writer>
+            <S.WrittenTime>{formattedDateTime}</S.WrittenTime>
+          </S.WriteInfo>
+          <S.Cardinal>
+            {cardinal.map((num) => `${num}기`).join(' · ')}
+          </S.Cardinal>
+        </S.SpaceBetween>
+
+        <Modal
+          className="calendar-modal"
+          isOpen={adminModalIsOpen}
+          onRequestClose={closeAdminModal}
+          style={adminModalStyles}
+        >
+          <EditDelModal
+            title="일정"
+            onClickEdit={() => {
+              navi(`/events/${data.id}/edit`);
+            }}
+            onClickDel={onClickDel}
+            onClickCancel={closeAdminModal}
+          />
+        </Modal>
+      </S.EventTitleWrapper>
+    </>
   );
 };
 

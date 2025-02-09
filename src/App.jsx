@@ -7,8 +7,8 @@ import AttendCheck from '@/pages/AttendCheck';
 import Calendar from '@/pages/Calendar';
 import Dues from '@/pages/Dues';
 import Edit from '@/pages/Edit';
-import EventAdmin from '@/pages/EventAdmin';
-import EventDetails from '@/pages/EventDetails';
+import EventPost from '@/pages/EventPost';
+import EventDetail from '@/pages/EventDetail';
 import Home from '@/pages/Home';
 import Landing from '@/pages/Landing';
 import Login from '@/pages/Login';
@@ -45,9 +45,9 @@ const App = () => {
 
         <Route path="/attendance" element={<Attendance />} />
         <Route path="/calendar" element={<Calendar />} />
-        <Route path="/:type/:id" element={<EventDetails />} />
-        <Route path="/events/create" element={<EventAdmin />} />
-        <Route path="/events/:id/edit" element={<EventAdmin />} />
+        <Route path="/:type/:id" element={<EventDetail />} />
+        <Route path="/events/create" element={<EventPost />} />
+        <Route path="/events/:id/edit" element={<EventPost />} />
         <Route path="/home" element={<Home />} />
         <Route path="/attendCheck" element={<AttendCheck />} />
         <Route path="/member" element={<Member />} />
