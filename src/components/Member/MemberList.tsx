@@ -1,7 +1,20 @@
 import useGetAllUsers from '@/api/useGetAllUsers';
-import MemberName from '@/components/Member/MemberName';
-import * as S from '@/styles/member/MemberList.styled';
+import MemberItem from '@/components/Member/MemberItem';
 import { useSearchParams } from 'react-router-dom';
+import theme from '@/styles/theme';
+import styled from 'styled-components';
+
+const List = styled.div``;
+
+const Error = styled.div`
+  display: flex;
+  justify-content: center;
+  padding-top: 20px;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  background-color: ${theme.color.gray[18]};
+  font-family: ${theme.font.semiBold};
+`;
 
 interface User {
   id: number;
@@ -19,31 +32,28 @@ const MemberList = () => {
   const cardinal = searchParams.get('cardinal');
   const selectedCardinal = cardinal ? Number(cardinal) : 0;
 
-  const { allUsers, error, loading } = useGetAllUsers(null, 0);
+  const { allUsers, error } = useGetAllUsers(null, 0);
 
   let content;
 
-  if (loading) {
-    content = <S.Error>로딩 중...</S.Error>;
-  } else if (error) {
-    content = <S.Error>멤버 정보를 불러올 수 없습니다.</S.Error>;
+  if (error) {
+    content = <Error>멤버 정보를 불러올 수 없습니다.</Error>;
   } else if (allUsers.length === 0) {
-    content = <S.Error>{selectedCardinal}기 멤버가 존재하지 않습니다.</S.Error>;
+    content = <Error>{selectedCardinal}기 멤버가 존재하지 않습니다.</Error>;
   } else {
-    content = allUsers.map((user: User, index: number) => (
-      <MemberName
+    content = allUsers.map((user: User) => (
+      <MemberItem
         key={user.studentId}
         userId={user.id}
         name={user.name}
         cardinal={user.cardinals}
         position={user.position}
         role={user.role}
-        isLast={index === allUsers.length - 1} // 마지막 요소에만 isLast prop 전달
       />
     ));
   }
 
-  return <S.List>{content}</S.List>;
+  return <List>{content}</List>;
 };
 
 export default MemberList;

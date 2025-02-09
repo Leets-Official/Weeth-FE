@@ -1,35 +1,32 @@
 import Header from '@/components/Header/Header';
-import Cardinal from '@/components/Member/Cardinal';
 import MemberList from '@/components/Member/MemberList';
 import useCustomBack from '@/hooks/useCustomBack';
-import * as S from '@/styles/member/MemberList.styled';
+import theme from '@/styles/theme';
 import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import styled from 'styled-components';
+
+export const Wrapper = styled.div`
+  width: 370px;
+  font-family: ${theme.font.regular};
+  margin-bottom: 50px;
+`;
 
 const Member = () => {
   useCustomBack('/home');
   const [searchParams] = useSearchParams();
   const cardinal = searchParams.get('cardinal');
-  const [selectedCardinal, setSelectedCardinal] = useState<number>(
-    Number(cardinal) || 0,
+  const [selectedCardinal, setSelectedCardinal] = useState<number | null>(
+    Number(cardinal) || null,
   );
 
   return (
-    <S.Wrapper>
+    <Wrapper>
       <Header RightButtonType="none" isAccessible>
         멤버
       </Header>
-      <S.CardinalWrapper>
-        <Cardinal
-          selectedCardinal={selectedCardinal}
-          setSelectedCardinal={setSelectedCardinal}
-        />
-      </S.CardinalWrapper>
-      <S.ListWrapper>
-        <MemberList />
-        <S.Margin />
-      </S.ListWrapper>
-    </S.Wrapper>
+      <MemberList />
+    </Wrapper>
   );
 };
 

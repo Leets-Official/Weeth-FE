@@ -26,14 +26,10 @@ export const getAllUsers = async (
 export const useGetAllUsers = (cardinal: number | null, pageNumber: number) => {
   const [allUsers, setAllUsers] = useState<any[]>([]);
   const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-
-  console.log(allUsers);
 
   useEffect(() => {
     const fetchUsers = async () => {
-      setLoading(true); // ✅ API 호출 시작 전에 로딩 true
-      setError(null); // ✅ 새로운 요청 시작 시 error 초기화
+      setError(null);
 
       try {
         const response = await getAllUsers(cardinal, pageNumber);
@@ -43,15 +39,13 @@ export const useGetAllUsers = (cardinal: number | null, pageNumber: number) => {
           err.response?.data?.message ||
             '데이터를 불러오는 중 오류가 발생했습니다.',
         );
-      } finally {
-        setLoading(false); // ✅ 요청 끝나면 로딩 false
       }
     };
 
     fetchUsers();
-  }, [cardinal, pageNumber]); // ✅ 의존성 배열 추가
+  }, [cardinal, pageNumber]);
 
-  return { allUsers, error, loading };
+  return { allUsers, error };
 };
 
 export default useGetAllUsers;
