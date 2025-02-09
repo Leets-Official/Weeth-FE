@@ -10,8 +10,9 @@ export const EventDetailWrapper = styled.div`
 export const Line = styled.div`
   border: 1px solid;
   color: ${theme.color.gray[30]};
-  margin: 10px;
+  margin: 15px;
   transform: scaleY(0.2);
+  width: 88%;
 `;
 
 export const Error = styled.div`

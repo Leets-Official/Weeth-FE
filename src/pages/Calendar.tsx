@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import MonthCalendar from '@/components/Calendar/MonthCalendar';
-import ToggleButton from '@/components/Calendar/ToggleButton';
+import CalendarToggle from '@/components/Calendar/CalendarToggle';
 import YearCalendar from '@/components/Calendar/YearCalendar';
 import { CURRENT_MONTH, CURRENT_YEAR } from '@/constants/dateConstants';
 import useCustomBack from '@/hooks/useCustomBack';
@@ -93,7 +93,7 @@ const Calendar = () => {
         </S.DateWrapper>
       </Header>
       <S.Content>
-        <ToggleButton isMonth={isMonth} onToggle={onToggle} />
+        <CalendarToggle isMonth={isMonth} onToggle={onToggle} />
         {isMonth ? (
           <MonthCalendar month={month} year={year} />
         ) : (
