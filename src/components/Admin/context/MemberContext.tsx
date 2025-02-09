@@ -51,21 +51,23 @@ export const MemberProvider: React.FC<{ children: React.ReactNode }> = ({
     'NAME_ASCENDING' | 'CARDINAL_DESCENDING'
   >('NAME_ASCENDING');
 
+  const statusMapping: Record<string, string> = {
+    ACTIVE: '승인 완료',
+    WAITING: '대기 중',
+    BANNED: '추방',
+  };
+
   useEffect(() => {
     const fetchMembers = async () => {
       try {
+        console.log(`API 요청: orderBy=${sortingOrder}`);
         const response = await getAllUsers(sortingOrder);
         const fetchedMembers = response.data.data || [];
         console.log('API응답: ', response.data);
         const mappedMembers = fetchedMembers.map((user: any) => ({
           ...user,
           cardinals: user.cardinals.length > 0 ? user.cardinals.join('.') : '',
-          status:
-            user.status === 'ACTIVE'
-              ? '승인 완료'
-              : user.status === 'WAITING'
-                ? '대기 중'
-                : '추방',
+          status: statusMapping[user.status] || '추방',
           createdAt: new Date(user.createdAt)
             .toISOString()
             .split('T')[0]

@@ -26,6 +26,11 @@ export const TableContainer = styled.div`
   box-shadow: 0px 3px 8px rgba(133, 141, 138, 0.2);
   padding: 20px;
   box-sizing: border-box;
+
+  table {
+    border-collapse: collapse;
+    table-layout: fixed;
+  }
 `;
 
 const MemberListTable: React.FC<MemberListTableProps> = ({ columns }) => {
