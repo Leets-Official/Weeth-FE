@@ -79,7 +79,9 @@ const Notice = () => {
 
   return (
     <Container>
-      <Header title="📢  공지사항" RightButtonType="none" />
+      <Header isAccessible RightButtonType="none">
+        📢 공지사항
+      </Header>
       {posts.map((post) => (
         <PostList key={post.id}>
           <PostListItem
