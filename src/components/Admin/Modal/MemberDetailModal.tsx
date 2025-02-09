@@ -4,6 +4,7 @@ import dropdownIcon from '@/assets/images/ic_admin_column_meatball.svg';
 import ButtonGroup from '@/components/Admin/ButtonGroup';
 import StatusIndicator from '@/components/Admin/StatusIndicator';
 import CommonModal from '@/components/Admin/Modal/CommonModal';
+import resetPwdApi from '@/api/patchUserManagement';
 
 interface MemberDetailModalProps {
   data: MemberData;
@@ -78,22 +79,38 @@ const MemberDetailModal: React.FC<MemberDetailModalProps> = ({
   data,
   onClose,
 }) => {
+  const handleAction = async (action: string) => {
+    if (
+      !window.confirm(`"${data.name}" 멤버의 ${action}을(를) 진행하시겠습니까?`)
+    )
+      return;
+
+    try {
+      console.log(`${action} API 요청 시작...`);
+      if (action === '비밀번호 초기화') await resetPwdApi(data.id);
+      console.log(` 비밀번호 초기화 요청 대상 ID: ${data.id}`);
+
+      alert('비밀번호 초기화가 완료되었습니다.');
+    } catch (error: any) {
+      console.error('오류 발생 : ', error.message);
+    }
+  };
   const buttons = [
     {
       label: '가입 승인',
-      onClick: () => alert('1명의 멤버 가입을 승인하시겠습니까?'),
+      onClick: () => handleAction('가입 승인'),
     },
     {
       label: '관리자로 변경',
-      onClick: () => alert('1명의 멤버 역할을 관리자로 변경하시겠습니까?'),
+      onClick: () => handleAction('관리자로 변경'),
     },
     {
       label: '비밀번호 초기화',
-      onClick: () => alert('1명의 멤버 비밀번호를 초기화 시키시겠습니까?'),
+      onClick: () => handleAction('비밀번호 초기화'),
     },
     {
       label: '유저 추방',
-      onClick: () => alert('1명의 멤버를 추방하시겠습니까?'),
+      onClick: () => handleAction('유저 추방'),
     },
     {
       label: '직접 입력',
@@ -104,8 +121,8 @@ const MemberDetailModal: React.FC<MemberDetailModalProps> = ({
   ];
 
   const memberInfo = [
-    { label: '직급', value: data.position },
-    { label: '역할', value: data.role },
+    { label: '직급', value: data.role },
+    { label: '역할', value: data.position },
     { label: '학과', value: data.department },
     { label: '전화번호', value: data.tel },
     { label: '학번', value: data.studentId },

@@ -42,11 +42,14 @@ const MemberListTableRow: React.FC<TableRowProps> = ({ data, columns }) => {
   const isChecked = selectedMembers.includes(data.id.toString());
 
   const onClickToCheckBox = () => {
-    setSelectedMembers((prevSelected) =>
-      isChecked
+    setSelectedMembers((prevSelected) => {
+      const updatedSelected = isChecked
         ? prevSelected.filter((id) => id !== String(data.id))
-        : [...prevSelected, String(data.id)],
-    );
+        : [...prevSelected, String(data.id)];
+
+      console.log('선택된 멤버 id :', updatedSelected);
+      return updatedSelected;
+    });
   };
 
   const openModal = () => setIsModalOpen(true);
