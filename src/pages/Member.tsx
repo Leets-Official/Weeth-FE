@@ -3,8 +3,8 @@ import Header from '@/components/Header/Header';
 import MemberList from '@/components/Member/MemberList';
 import useCustomBack from '@/hooks/useCustomBack';
 import theme from '@/styles/theme';
-import { useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
 import search from '@/assets/images/ic_search.svg';
 
@@ -47,6 +47,11 @@ const Member = () => {
   const [selectedCardinal, setSelectedCardinal] = useState<number>(
     Number(cardinal) || 0,
   );
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    navigate(`/member?cardinal=${selectedCardinal}`);
+  }, [selectedCardinal]);
 
   return (
     <Wrapper>

@@ -23,7 +23,13 @@ export const getAllUsers = async (
   });
 };
 
-export const useGetAllUsers = (cardinal: number | null, pageNumber: number) => {
+export const useGetAllUsers = ({
+  cardinal,
+  pageNumber,
+}: {
+  cardinal: number | null;
+  pageNumber: number;
+}) => {
   const [allUsers, setAllUsers] = useState<any[]>([]);
   const [error, setError] = useState<string | null>(null);
 

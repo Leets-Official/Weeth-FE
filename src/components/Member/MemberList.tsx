@@ -9,10 +9,6 @@ const List = styled.div``;
 const Error = styled.div`
   display: flex;
   justify-content: center;
-  padding-top: 20px;
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
-  background-color: ${theme.color.gray[18]};
   font-family: ${theme.font.semiBold};
 `;
 
@@ -32,7 +28,10 @@ const MemberList = () => {
   const cardinal = searchParams.get('cardinal');
   const selectedCardinal = cardinal ? Number(cardinal) : 0;
 
-  const { allUsers, error } = useGetAllUsers(null, 0);
+  const { allUsers, error } = useGetAllUsers({
+    cardinal: selectedCardinal,
+    pageNumber: 0, // TODO: 무한스크롤 적용 후 수정
+  });
 
   let content;
 
