@@ -1,72 +1,122 @@
-import InfoComponent from '@/components/Member/InfoComponent';
-import icCardinal from '@/assets/images/ic_cardinal.svg';
-import icDepartment from '@/assets/images/ic_department.svg';
-import icEmail from '@/assets/images/ic_mail.svg';
-import icName from '@/assets/images/ic_name.svg';
-import icPosition from '@/assets/images/ic_position.svg';
-import icStudentId from '@/assets/images/ic_studentID.svg';
 import Header from '@/components/Header/Header';
-import * as S from '@/styles/member/MemberDetail.styled';
-import useGetUserDetail from '@/api/useGetUserDetail';
+// import useGetUserDetail from '@/api/useGetUserDetail';
+import FE from '@/assets/images/ic_char_FE.svg';
+import BE from '@/assets/images/ic_char_BE.svg';
+import D from '@/assets/images/ic_char_DE.svg';
+import theme from '@/styles/theme';
+import styled from 'styled-components';
+import CardinalTag from '@/components/common/CardinalTag';
+
+const Wrapper = styled.div`
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 370px;
+  font-family: ${theme.font.regular};
+`;
+
+const PostionCharicter = styled.img`
+  width: 203px;
+  margin-top: 52px;
+`;
+
+const Content = styled.div<{ color: string }>`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  height: 100vh;
+  margin-top: 35px;
+  background-color: ${(props) => props.color};
+  padding-left: 42px;
+`;
+
+const CardinalList = styled.div`
+  display: flex;
+  gap: 3px;
+`;
+
+const MoreInfo = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+`;
+
+const Title = styled.div`
+  font-size: 32px;
+  font-family: ${theme.font.semiBold};
+  padding-top: 42px;
+`;
+
+const Department = styled.div`
+  display: flex;
+  gap: 16px;
+`;
+
+const Gray = styled.div`
+  color: rgba(255, 255, 255, 0.6);
+`;
 
 const MemberDetail = () => {
-  const { userDetail } = useGetUserDetail();
+  // const { userDetail } = useGetUserDetail();
 
-  const infoData = [
-    {
-      src: icName,
-      alt: '이름',
-      index: '이름',
-      value: userDetail?.name,
+  const userDetail = {
+    id: 7,
+    name: '조혜원',
+    email: 'test1@test.com',
+    studentId: '202235131',
+    department: '인공지능전공',
+    cardinals: [1, 2, 3],
+    position: 'D',
+  };
+
+  const positionMap = {
+    FE: {
+      char: FE,
+      name: '프론트엔드 파트',
+      color: theme.color.negative,
     },
-    {
-      src: icStudentId,
-      alt: '학번',
-      index: '학번',
-      value: userDetail?.studentId,
+    BE: {
+      char: BE,
+      name: '백엔드 파트',
+      color: theme.color.positive,
     },
-    {
-      src: icDepartment,
-      alt: '학과',
-      index: '학과',
-      value: userDetail?.department,
+    D: {
+      char: D,
+      name: '디자인 파트',
+      color: theme.color.pointPink,
     },
-    {
-      src: icCardinal,
-      alt: '기수',
-      index: '기수',
-      value: userDetail?.cardinals,
-    },
-    {
-      src: icPosition,
-      alt: '역할',
-      index: '역할',
-      value: userDetail?.position,
-    },
-    {
-      src: icEmail,
-      alt: '메일',
-      index: '메일',
-      value: userDetail?.email,
-    },
-  ];
-  //-----------------------
+  };
+
+  const position = userDetail?.position || 'FE';
+  const positionData =
+    positionMap[position as keyof typeof positionMap] || positionMap.FE;
+
   return (
-    <S.Wrapper>
+    <Wrapper>
       <Header RightButtonType="none" isAccessible>
         멤버
       </Header>
-      <S.InfoWrapper>
-        {infoData.map((info) => (
-          <InfoComponent
-            src={info.src}
-            alt={info.alt}
-            index={info.index}
-            value={info.value}
-          />
-        ))}
-      </S.InfoWrapper>
-    </S.Wrapper>
+      <PostionCharicter src={positionData.char} alt={position} />
+      <Content color={positionData.color}>
+        <Title>{userDetail?.name}</Title>
+        <CardinalList>
+          {userDetail?.cardinals?.map((cardinal) => (
+            <CardinalTag cardinal={cardinal} />
+          ))}
+        </CardinalList>
+
+        <MoreInfo>
+          <b>{positionData.name}</b>
+          <Department>
+            <div>{userDetail?.department}</div>
+            <Gray>|</Gray>
+            <Gray>{userDetail?.studentId}</Gray>
+          </Department>
+          <div>{userDetail?.email}</div>
+        </MoreInfo>
+      </Content>
+    </Wrapper>
   );
 };
 

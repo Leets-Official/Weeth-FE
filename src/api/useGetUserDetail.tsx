@@ -11,7 +11,7 @@ export interface UserDetail {
   studentId: string;
   department: string;
   cardinals: number[];
-  position: 'USER' | 'ADMIN';
+  position: 'D' | 'FE' | 'BE';
 }
 
 export const getUserDetail = async (userId: number) => {
