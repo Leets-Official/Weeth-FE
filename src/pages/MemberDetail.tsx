@@ -1,5 +1,5 @@
 import Header from '@/components/Header/Header';
-// import useGetUserDetail from '@/api/useGetUserDetail';
+import useGetUserDetail from '@/api/useGetUserDetail';
 import FE from '@/assets/images/ic_char_FE.svg';
 import BE from '@/assets/images/ic_char_BE.svg';
 import D from '@/assets/images/ic_char_DE.svg';
@@ -58,17 +58,7 @@ const Gray = styled.div`
 `;
 
 const MemberDetail = () => {
-  // const { userDetail } = useGetUserDetail();
-
-  const userDetail = {
-    id: 7,
-    name: '조혜원',
-    email: 'test1@test.com',
-    studentId: '202235131',
-    department: '인공지능전공',
-    cardinals: [1, 2, 3],
-    position: 'D',
-  };
+  const { userDetail } = useGetUserDetail();
 
   const positionMap = {
     FE: {
