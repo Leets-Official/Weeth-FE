@@ -63,3 +63,23 @@ export const TextYear = styled.div<{ $isMonth: boolean }>`
   font-size: 12px;
   z-index: 1;
 `;
+
+const CalendarToggle = ({
+  onToggle,
+  isMonth,
+}: {
+  onToggle: () => void;
+  isMonth: boolean;
+}) => {
+  return (
+    <Switch>
+      <Checkbox type="checkbox" onChange={onToggle} />
+      <Slider $isMonth={isMonth}>
+        <TextMonth $isMonth={isMonth}>Month</TextMonth>
+        <TextYear $isMonth={isMonth}>Year</TextYear>
+      </Slider>
+    </Switch>
+  );
+};
+
+export default CalendarToggle;

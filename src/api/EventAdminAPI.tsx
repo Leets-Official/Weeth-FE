@@ -6,11 +6,11 @@ const BASE_URL = import.meta.env.VITE_API_URL;
 
 export interface EventRequestType {
   title: string;
+  cardinal: Array<number>;
   start: string;
   end: string;
   location: string;
   requiredItem: string;
-  memberCount: string;
   content: string;
 }
 

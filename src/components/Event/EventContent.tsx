@@ -1,14 +1,23 @@
-/* eslint-disable no-console */
-
-import icClock from '@/assets/images/ic_clock.svg';
 import icCalendar from '@/assets/images/ic_date.svg';
 import { WEEK_DAYS } from '@/constants/dateConstants';
-import { EventDetailData } from '@/pages/EventDetails';
+import { EventDetailData } from '@/pages/EventDetail';
 import useCustomBack from '@/hooks/useCustomBack';
 import * as S from '@/styles/event/EventContent.styled';
+import Button from '@/components/Button/Button';
+import theme from '@/styles/theme';
+import Modal from '@/components/common/Modal';
+import { useState } from 'react';
 
-const EventContent = ({ data }: { data: EventDetailData }) => {
+const EventContent = ({
+  data,
+  isAdmin,
+}: {
+  data: EventDetailData;
+  isAdmin: boolean;
+}) => {
   useCustomBack('/calendar');
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const origStartDate = data.start;
   const origEndDate = data.end;
@@ -30,56 +39,64 @@ const EventContent = ({ data }: { data: EventDetailData }) => {
   }
 
   return (
-    <>
+    <S.Container>
+      {isModalOpen && (
+        <Modal hasCloseButton={false} onClose={() => setIsModalOpen(false)}>
+          <S.Title>출석코드</S.Title>
+          <S.AttendanceCode>1234</S.AttendanceCode>
+        </Modal>
+      )}
+      {isAdmin && (
+        <Button
+          color={theme.color.mainMiddle}
+          onClick={() => {
+            setIsModalOpen(true);
+          }}
+        >
+          출석코드 확인
+        </Button>
+      )}
       <S.ContentBlock>
         {isOneday ? (
-          <>
-            <S.TimeInfo>
-              <S.Icon src={icCalendar} alt="calendar" />
-              <div>
-                {startDate[0]}년 {parseInt(startDate[1], 10)}월{' '}
-                {parseInt(startDate[2], 10)}일{' '}
-                {WEEK_DAYS[new Date(origStartDate).getDay()]}요일
-              </div>
-            </S.TimeInfo>
-            <S.TimeInfo>
-              <S.Icon src={icClock} alt="clock" />
-              <div>
-                {startTime[0]}:{startTime[1]} ~ {endTime[0]}:{endTime[1]}
-              </div>
-            </S.TimeInfo>
-          </>
+          <S.Time>
+            <img src={icCalendar} alt="calendar" style={{ marginRight: 5 }} />
+            <div>
+              {startDate[0]}년 {parseInt(startDate[1], 10)}월{' '}
+              {parseInt(startDate[2], 10)}일 (
+              {WEEK_DAYS[new Date(origStartDate).getDay()]}) {startTime[0]}:
+              {startTime[1]} ~ {endTime[0]}:{endTime[1]}
+            </div>
+          </S.Time>
         ) : (
           <>
-            <S.TimeInfo>
-              <S.Icon src={icCalendar} alt="calendar" />
+            <S.Time>
+              <img src={icCalendar} alt="calendar" style={{ marginRight: 5 }} />
               <div>
                 {startDate[0]}년 {parseInt(startDate[1], 10)}월{' '}
-                {parseInt(startDate[2], 10)}일 &#40;
-                {WEEK_DAYS[new Date(origStartDate).getDay()]}&#41;{' '}
-                {startTime[0]}:{startTime[1]}에서
+                {parseInt(startDate[2], 10)}일 (
+                {WEEK_DAYS[new Date(origStartDate).getDay()]}) {startTime[0]}:
+                {startTime[1]}
               </div>
-            </S.TimeInfo>
-            <S.TimeInfo>
+            </S.Time>
+            <S.Time>
               <S.EndTime>
-                {endDate[0]}년 {parseInt(endDate[1], 10)}월{' '}
-                {parseInt(endDate[2], 10)}일 &#40;
-                {WEEK_DAYS[new Date(origEndDate).getDay()]}&#41; {endTime[0]}:
-                {endTime[1]}까지
+                ~ {endDate[0]}년 {parseInt(endDate[1], 10)}월{' '}
+                {parseInt(endDate[2], 10)}일 (
+                {WEEK_DAYS[new Date(origEndDate).getDay()]}) {endTime[0]}:
+                {endTime[1]}
               </S.EndTime>
-            </S.TimeInfo>
+            </S.Time>
           </>
         )}
       </S.ContentBlock>
       <S.ContentBlock>
         <div>장소 : {data.location} </div>
-        <div>준비물 : {data.requiredItem} </div>
         <div>총 인원 : {data.memberCount}</div>
       </S.ContentBlock>
       <S.ContentBlock>
         <div>{data.content}</div>
       </S.ContentBlock>
-    </>
+    </S.Container>
   );
 };
 
