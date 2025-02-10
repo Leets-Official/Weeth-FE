@@ -1,11 +1,7 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import CardinalSVG from '@/assets/images/ic_admin_cardinal.svg';
-
-interface CardinalProps {
-  selectedCardinal: string;
-  setSelectedCardinal: (cardinal: string) => void;
-}
+import { CardinalProps } from '@/types/adminCardinal';
 
 const CardinalButton = styled.div`
   width: 118px;
@@ -54,15 +50,21 @@ const CardinalDropdown: React.FC<CardinalProps> = ({
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleDropdown = () => setIsOpen(!isOpen);
+
   const selectCardinal = (value: string) => {
-    setSelectedCardinal(value);
+    const numberValue = parseInt(value.replace('기', ''), 10);
+    setSelectedCardinal(Number.isNaN(numberValue) ? null : numberValue);
     setIsOpen(false);
   };
 
   return (
     <>
       <CardinalButton onClick={toggleDropdown}>
-        <div>{selectedCardinal}</div>
+        <div>
+          {selectedCardinal === 0 || selectedCardinal === null
+            ? '기수'
+            : `${selectedCardinal}기`}
+        </div>
         <ArrowIcon
           src={CardinalSVG}
           alt="cardinal"

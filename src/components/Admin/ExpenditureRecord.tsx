@@ -1,7 +1,9 @@
 import styled from 'styled-components';
 import theme from '@/styles/theme';
 import Receipt from '@/assets/images/ic_admin_receipt.svg';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import fetchAccountData from '@/api/admin/dues/account';
+import { AccountResponse, RECEIPT } from '@/types/account';
 import Button from './Button';
 import DuesModifyModal from './Modal/DuesModifyModal';
 
@@ -10,22 +12,8 @@ interface ExpenditureRecordProps {
   title?: string;
   money?: number;
   master?: string;
+  cardinal: number | null;
 }
-
-const data: ExpenditureRecordProps[] = [
-  {
-    date: '2024.10.24.토요일',
-    title: '파티룸 대여',
-    money: 19302,
-    master: '파티룸 주인',
-  },
-  {
-    date: '2024.10.25.일요일',
-    title: '음식 주문',
-    money: 35000,
-    master: '음식점 주인',
-  },
-];
 
 const Container = styled.div`
   width: 95%;
@@ -84,15 +72,46 @@ const ExpenditureMaster = styled.div`
 
 const ModifyButton = styled.div``;
 
-const ExpenditureRecord: React.FC<ExpenditureRecordProps> = () => {
+const ExpenditureRecord: React.FC<{ cardinal: number | null }> = ({
+  cardinal,
+}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [records, setRecords] = useState<ExpenditureRecordProps[]>([]);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
+  useEffect(() => {
+    if (cardinal === null) return;
+
+    const getData = async () => {
+      try {
+        const response: AccountResponse = await fetchAccountData(cardinal);
+        if (response.code === 200) {
+          const { description, receipts } = response.data;
+
+          const formattedRecords: ExpenditureRecordProps[] = receipts.map(
+            (receipt: RECEIPT) => ({
+              date: receipt.date,
+              title: description,
+              money: receipt.amount,
+              master: receipt.description,
+              cardinal,
+            }),
+          );
+          setRecords(formattedRecords);
+        }
+      } catch (error) {
+        console.error('지출 내역을 불러오는 중 오류 발생:', error);
+      }
+    };
+
+    getData();
+  }, [cardinal]);
+
   return (
     <Container>
-      {data.map((item) => (
+      {records.map((item) => (
         <Wrapper>
           <DateWrapper>
             <Date>{item.date}</Date>
