@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import icCalendar from '@/assets/images/ic_date.svg';
 import { WEEK_DAYS } from '@/constants/dateConstants';
 import { EventDetailData } from '@/pages/EventDetail';
@@ -23,24 +24,10 @@ const EventContent = ({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isFullScreen, setIsFullScreen] = useState(false);
 
-  const origStartDate = data.start;
-  const origEndDate = data.end;
+  const start = dayjs(data.start);
+  const end = dayjs(data.end);
 
-  const splittedStartDate = origStartDate.split('T'); // YYYY-MM-DD,HH:MM:SS.SSSZ
-  const startDate = splittedStartDate[0].split('-'); // [YYYY, MM, DD]
-  const startTime = splittedStartDate[1].split(':'); // [HH, MM]
-
-  const splittedEndDate = origEndDate.split('T'); // YYYY-MM-DD,HH:MM:SS.SSSZ
-  const endDate = splittedEndDate[0].split('-'); // [YYYY, MM, DD]
-  const endTime = splittedEndDate[1].split(':'); // [HH, MM]
-
-  let isOneday = true;
-  // eslint-disable-next-line no-plusplus
-  for (let i = 0; i < startDate.length; i++) {
-    if (startDate[i] !== endDate[i]) {
-      isOneday = false;
-    }
-  }
+  const isOneday = start.isSame(end, 'day');
 
   return (
     <S.Container>
@@ -79,7 +66,7 @@ const EventContent = ({
               />
             )}
           </S.ModalSetting>
-          {isFullScreen && <S.Date>오늘날짜</S.Date>}
+          {isFullScreen && <S.Date>{dayjs().format('YYYY년 M월 D일')}</S.Date>}
           <S.Title isFullScreen={isFullScreen}>출석코드</S.Title>
           <S.AttendanceCode isFullScreen={isFullScreen}>1234</S.AttendanceCode>
         </Modal>
@@ -100,10 +87,10 @@ const EventContent = ({
           <S.Time>
             <img src={icCalendar} alt="calendar" style={{ marginRight: 5 }} />
             <div>
-              {startDate[0]}년 {parseInt(startDate[1], 10)}월{' '}
-              {parseInt(startDate[2], 10)}일 (
-              {WEEK_DAYS[new Date(origStartDate).getDay()]}) {startTime[0]}:
-              {startTime[1]} ~ {endTime[0]}:{endTime[1]}
+              {dayjs(data.start).format('YYYY년 M월 D일')} (
+              {WEEK_DAYS[new Date(data.start).getDay()]}){' '}
+              {dayjs(data.start).format('HH:mm')} ~{' '}
+              {dayjs(data.end).format('HH:mm')}
             </div>
           </S.Time>
         ) : (
@@ -111,18 +98,16 @@ const EventContent = ({
             <S.Time>
               <img src={icCalendar} alt="calendar" style={{ marginRight: 5 }} />
               <div>
-                {startDate[0]}년 {parseInt(startDate[1], 10)}월{' '}
-                {parseInt(startDate[2], 10)}일 (
-                {WEEK_DAYS[new Date(origStartDate).getDay()]}) {startTime[0]}:
-                {startTime[1]}
+                {dayjs(data.start).format('YYYY년 M월 D일')} (
+                {WEEK_DAYS[new Date(data.start).getDay()]}){' '}
+                {dayjs(data.start).format('HH:mm')}
               </div>
             </S.Time>
             <S.Time>
               <S.EndTime>
-                ~ {endDate[0]}년 {parseInt(endDate[1], 10)}월{' '}
-                {parseInt(endDate[2], 10)}일 (
-                {WEEK_DAYS[new Date(origEndDate).getDay()]}) {endTime[0]}:
-                {endTime[1]}
+                ~ {dayjs(data.end).format('YYYY년 M월 D일')} (
+                {WEEK_DAYS[new Date(data.start).getDay()]}){' '}
+                {dayjs(data.end).format('HH:mm')}
               </S.EndTime>
             </S.Time>
           </>
