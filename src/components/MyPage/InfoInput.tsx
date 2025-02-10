@@ -1,33 +1,55 @@
-import icInvisible from '@/assets/images/ic_toggleInvisible.svg';
-import icVisible from '@/assets/images/ic_toggleVisible.svg';
-import * as S from '@/styles/mypage/InfoInput.styled';
 import { useEffect, useState } from 'react';
+import theme from '@/styles/theme';
+import styled from 'styled-components';
+
+const Container = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 26px;
+  font-family: ${theme.font.regular};
+  font-size: 16px;
+`;
+
+const Label = styled.div`
+  width: 42px;
+  text-align: left;
+  color: ${theme.color.gray[65]};
+`;
+
+const Input = styled.input`
+  width: 257px;
+  height: 45px;
+  box-sizing: border-box;
+  padding-right: 10px;
+
+  outline: none;
+  border: none;
+  border-radius: 4px;
+  background-color: ${theme.color.gray[18]};
+  color: #fff;
+
+  font-family: ${theme.font.regular};
+  font-size: 16px;
+  text-align: right;
+
+  &::placeholder {
+    font-family: ${theme.font.regular};
+  }
+`;
 
 interface InfoInputProps {
   text?: string;
   origValue: string | number[];
-  editValue: (val: string) => void;
-  placeholder?: string;
-  width?: string;
-  padding: string;
-  align: string;
-  edit?: boolean;
-  inputType?: 'text' | 'number' | 'no-korean' | 'eng-num';
+  editValue?: (val: string) => void;
 }
 
 const InfoInput: React.FC<InfoInputProps> = ({
   text,
   origValue,
-  editValue,
-  placeholder,
-  width,
-  padding,
-  align,
-  edit,
-  inputType,
+  editValue = () => {},
 }) => {
   const [value, setValue] = useState(origValue);
-  const [passwordVisible, setPasswordVisible] = useState(false);
 
   const validateValue = (val: string): boolean => {
     if (val === '') return true;
@@ -63,55 +85,19 @@ const InfoInput: React.FC<InfoInputProps> = ({
     }
   };
 
-  const togglePasswordVisibility = () => {
-    setPasswordVisible((prevState) => !prevState);
-  };
-
   useEffect(() => {
     setValue(origValue);
   }, [origValue]);
 
-  if (text === '비밀번호') {
-    return (
-      <S.StyledInfoInput $padding={padding}>
-        <div>{text}</div>
-        <S.PwInput
-          placeholder={placeholder}
-          value={value as string}
-          onChange={onChangeValue}
-          width={width}
-          align={align}
-          type={passwordVisible ? 'text' : 'password'}
-        />
-        {passwordVisible ? (
-          <S.Visible
-            onClick={togglePasswordVisibility}
-            src={icVisible}
-            alt="숨김"
-          />
-        ) : (
-          <S.Visible
-            onClick={togglePasswordVisibility}
-            src={icInvisible}
-            alt="보임"
-          />
-        )}
-      </S.StyledInfoInput>
-    );
-  }
   return (
-    <S.StyledInfoInput $padding={padding}>
-      <div>{text}</div>
-      <S.Input
-        placeholder={placeholder}
+    <Container>
+      <Label>{text}</Label>
+      <Input
         value={value as string}
         onChange={onChangeValue}
-        width={width}
-        align={align}
-        $edit={edit}
-        type={inputType === 'number' ? 'text' : inputType}
+        // type={inputType === 'number' ? 'text' : inputType}
       />
-    </S.StyledInfoInput>
+    </Container>
   );
 };
 

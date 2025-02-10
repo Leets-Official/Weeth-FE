@@ -1,7 +1,3 @@
-/* eslint-disable no-console */
-/* eslint-disable no-restricted-syntax */
-/* eslint-disable no-alert */
-
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -12,6 +8,7 @@ import useCustomBack from '@/hooks/useCustomBack';
 import theme from '@/styles/theme';
 import useGetUserInfo from '@/api/useGetUserInfo';
 import Header from '@/components/Header/Header';
+import Line from '@/components/common/Line';
 
 const StyledEdit = styled.div`
   width: 370px;
@@ -19,13 +16,19 @@ const StyledEdit = styled.div`
 `;
 
 const InfoWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
   padding-top: 20px;
-  text-align: right;
+  gap: 24px;
 `;
 
-const NoEdit = styled.div`
-  pointer-events: none;
-  touch-action: none;
+const Title = styled.div``;
+
+const Text = styled.div`
+  font-size: 20px;
+  font-family: ${theme.font.semiBold};
+  margin-left: 25px;
+  margin-bottom: 10px;
 `;
 
 const Error = styled.div`
@@ -124,32 +127,41 @@ const Edit = () => {
   return (
     <StyledEdit>
       <Header onClickRightButton={onSave} RightButtonType="TEXT" isAccessible>
-        MY
+        MY 수정
       </Header>
       {userInfo ? (
         <InfoWrapper>
+          <Title>
+            <Text>개인정보</Text>
+            <Line />
+          </Title>
           <InfoInput
             text="이름"
             origValue={userInfo.name}
             editValue={(value) => editValue('name', value)}
-            width="224px"
-            padding="25px"
-            placeholder="이름을 입력하세요"
-            align="right"
-            edit={false}
-            inputType="text"
           />
           <InfoInput
-            text="학번"
-            origValue={userInfo.studentId}
-            editValue={(value) => editValue('studentId', value)}
-            width="224px"
-            padding="25px"
-            placeholder="학번을 입력하세요"
-            align="right"
-            edit={false}
-            inputType="number"
+            text="핸드폰"
+            origValue={userInfo.tel}
+            editValue={(value) => editValue('tel', value)}
           />
+          <InfoInput
+            text="메일"
+            origValue={userInfo.email}
+            editValue={(value) => editValue('email', value)}
+          />
+          <InfoInput
+            text="로그인"
+            // TODO: 서버 수정 후 데이터 수정 필요
+            origValue="카카오 로그인 완료"
+            editValue={() => {}}
+          />
+
+          <Title>
+            <Text>활동정보</Text>
+            <Line />
+          </Title>
+
           <DropdownMenu
             text="학과"
             origValue={userInfo.department}
@@ -157,62 +169,12 @@ const Edit = () => {
             buttonstyle="member"
           />
           <InfoInput
-            text="핸드폰"
-            origValue={userInfo.tel}
-            editValue={(value) => editValue('tel', value)}
-            width="224px"
-            padding="25px"
-            placeholder="핸드폰 번호를 입력하세요"
-            align="right"
-            edit={false}
-            inputType="number"
+            text="학번"
+            origValue={userInfo.studentId}
+            editValue={(value) => editValue('studentId', value)}
           />
-          <NoEdit>
-            <InfoInput
-              text="기수"
-              origValue={userInfo.cardinals}
-              editValue={(value) => editValue('cardinal', value)}
-              width="224px"
-              padding="25px"
-              placeholder=""
-              align="right"
-              edit
-            />
-          </NoEdit>
-          <NoEdit>
-            <InfoInput
-              text="역할"
-              origValue={userInfo.position}
-              editValue={(value) => editValue('position', value)}
-              width="224px"
-              padding="25px"
-              placeholder=""
-              align="right"
-              edit
-            />
-          </NoEdit>
-          <InfoInput
-            text="메일"
-            origValue={userInfo.email}
-            editValue={(value) => editValue('email', value)}
-            width="224px"
-            padding="25px"
-            placeholder="메일을 입력하세요"
-            align="right"
-            edit={false}
-            inputType="no-korean"
-          />
-          <InfoInput
-            text="비밀번호"
-            origValue=""
-            editValue={(value) => editValue('password', value)}
-            width="191px"
-            padding="25px"
-            placeholder="6~12자리/영문, 숫자 조합"
-            align="right"
-            edit={false}
-            inputType="eng-num"
-          />
+          <InfoInput text="기수" origValue={userInfo.cardinals} />
+          <InfoInput text="역할" origValue={userInfo.position} />
         </InfoWrapper>
       ) : (
         <Error>데이터를 불러오는 중 문제가 발생했습니다.</Error>

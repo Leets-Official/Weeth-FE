@@ -10,6 +10,7 @@ const MyPage = () => {
   useCustomBack('/home');
   const navi = useNavigate();
 
+  // TODO: 디자인 수정 완료 후 재사용 예정
   // const confirmLogout = useLogout();
   // const onClickLeave = async () => {
   //   if (window.confirm('탈퇴하시겠습니까?')) {
