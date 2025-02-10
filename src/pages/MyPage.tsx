@@ -32,20 +32,21 @@ const MyPage = () => {
         MY
       </Header>
       <MyInfo />
-      <S.ImgButton
+      {/* <S.ImgButton
         onClick={() => {
           navi(`/edit`);
         }}
       >
         <img src={icEdit} alt="Edit" />
       </S.ImgButton>
+
       <S.Account>
         <S.LeaveButton onClick={onClickLeave}>탈퇴하기</S.LeaveButton>
         <S.LogoutButton onClick={confirmLogout}>
           <img src={icLogout} alt="로그아웃" />
           <div>로그아웃</div>
         </S.LogoutButton>
-      </S.Account>
+      </S.Account> */}
     </S.StyledDetails>
   );
 };

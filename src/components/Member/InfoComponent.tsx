@@ -1,18 +1,12 @@
 import * as S from '@/styles/member/InfoComponent.styled';
 
 interface InfoComponentProps {
-  src: string;
   alt: string;
   index: string;
   value: string | number | number[] | undefined;
 }
 
-const InfoComponent: React.FC<InfoComponentProps> = ({
-  src,
-  alt,
-  index,
-  value,
-}) => {
+const InfoComponent: React.FC<InfoComponentProps> = ({ alt, index, value }) => {
   let positionKo = 'none';
 
   switch (value) {
@@ -42,7 +36,6 @@ const InfoComponent: React.FC<InfoComponentProps> = ({
   return (
     <div>
       <S.Info>
-        <img src={src} alt={alt} />
         <S.Text>
           <div>{index}</div>
           <S.Main>{renderValue()}</S.Main>
