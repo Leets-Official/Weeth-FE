@@ -31,7 +31,8 @@ const Container = styled.div`
 `;
 
 const AdminAttendance: React.FC = () => {
-  const [selectedCardinal, setSelectedCardinal] = useState('기수');
+  const [selectedCardinal, setSelectedCardinal] = useState<null | number>(null);
+
   return (
     <PageWrapper>
       <NavMenu />
