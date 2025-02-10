@@ -2,8 +2,8 @@ import styled from 'styled-components';
 import Cardinal from './Cardinal';
 
 interface TotalCardinalProps {
-  selectedCardinal: string;
-  setSelectedCardinal: (cardinal: string) => void;
+  selectedCardinal: number | null;
+  setSelectedCardinal: React.Dispatch<React.SetStateAction<number | null>>;
 }
 
 const CardinalWrapper = styled.div`

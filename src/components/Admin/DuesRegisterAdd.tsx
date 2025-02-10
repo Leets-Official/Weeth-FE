@@ -15,7 +15,7 @@ import DuesInput from './DuesInput';
 import Button from './Button';
 
 const DuesRegisterAdd: React.FC = () => {
-  const [selectedCardinal, setSelectedCardinal] = useState('기수');
+  const [selectedCardinal, setSelectedCardinal] = useState<null | number>(null);
 
   const inputFields = [
     {
