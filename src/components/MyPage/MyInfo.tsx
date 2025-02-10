@@ -2,9 +2,23 @@ import useGetUserInfo from '@/api/useGetUserInfo';
 import theme from '@/styles/theme';
 import styled from 'styled-components';
 import InfoItem from './InfoItem';
+import CardinalTag from '../common/CardinalTag';
 
-const InfoWrapper = styled.div`
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+const ContentWrapper = styled.div`
   padding-top: 20px;
+`;
+
+const Title = styled.div`
+  font-family: ${theme.font.semiBold};
+  font-size: 20px;
+  margin: 0 0 10px 10px;
 `;
 
 const Content = styled.div`
@@ -28,32 +42,45 @@ const MyInfo = () => {
     return null;
   }
 
+  const positionMap: Record<string, string> = {
+    FE: '프론트엔드',
+    BE: '백엔드',
+    D: '디자인',
+  };
+
+  const position = positionMap[userInfo.position] || '';
+
   return userInfo ? (
-    <>
-      <InfoWrapper>
-        <div>개인정보</div>
+    <Container>
+      <ContentWrapper>
+        <Title>개인정보</Title>
         <Content>
           <InfoItem label="이름">{userInfo.name}</InfoItem>
           <InfoItem label="핸드폰">{userInfo.tel}</InfoItem>
           <InfoItem label="이메일">{userInfo.email}</InfoItem>
-          <InfoItem label="로그인">카카오 로그인 완료</InfoItem>
+          {/* TODO: 서버 수정 후 값 수정 필요 */}
+          <InfoItem label="로그인" isLast readOnly>
+            카카오 로그인 완료
+          </InfoItem>
         </Content>
-      </InfoWrapper>
+      </ContentWrapper>
 
-      <InfoWrapper>
-        <div>활동정보</div>
+      <ContentWrapper>
+        <Title>활동정보</Title>
         <Content>
           <InfoItem label="학과">{userInfo.department}</InfoItem>
           <InfoItem label="학번">{userInfo.studentId}</InfoItem>
           <InfoItem label="기수">
-            {/* {userInfo.cardinals.map((cardinal) => (
-              <CardinalTag />
-            ))} */}
+            {userInfo.cardinals.map((cardinal) => (
+              <CardinalTag cardinal={cardinal} />
+            ))}
           </InfoItem>
-          <InfoItem label="역할">{userInfo.position}</InfoItem>
+          <InfoItem label="역할" isLast readOnly>
+            {position}
+          </InfoItem>
         </Content>
-      </InfoWrapper>
-    </>
+      </ContentWrapper>
+    </Container>
   ) : (
     <Error>데이터를 불러오는 중 문제가 발생했습니다.</Error>
   );
