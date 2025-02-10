@@ -34,12 +34,14 @@ const FlowText = styled.div`
   height: 100%;
   white-space: nowrap;
   font-family: ${theme.font.semiBold};
-  font-size: 12px;
+  font-size: 13px;
+  line-height: 14.32px;
   padding-left: 25px;
 `;
 
 const Title = styled.span`
   font-family: ${theme.font.semiBold};
+  line-height: 14.32px;
 `;
 
 export const Text = styled.div`
@@ -51,6 +53,9 @@ export const Text = styled.div`
 const HomeNotice = () => {
   const { recentNotices, isLoading } = useGetRecentNotice();
 
+  const formatContent = (content: string) => {
+    return content.length > 25 ? `${content.substring(0, 25)}...` : content;
+  };
   console.log(recentNotices);
   return (
     <AnimationLayout>
@@ -62,7 +67,7 @@ const HomeNotice = () => {
           ) : (
             <Text>
               <Title>{recentNotices[0].title}</Title>
-              &nbsp;{recentNotices[0].content}
+              &nbsp;{formatContent(recentNotices[0].content)}
             </Text>
           )}
         </FlowText>
