@@ -53,7 +53,9 @@ const HeaderWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 25px 25px 20px 25px;
+  width: 370px;
+  padding: 25px 25px 20px 25px;
+  box-sizing: border-box;
 `;
 
 const Title = styled.div`

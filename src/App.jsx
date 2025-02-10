@@ -7,8 +7,8 @@ import AttendCheck from '@/pages/AttendCheck';
 import Calendar from '@/pages/Calendar';
 import Dues from '@/pages/Dues';
 import Edit from '@/pages/Edit';
-import EventAdmin from '@/pages/EventAdmin';
-import EventDetails from '@/pages/EventDetails';
+import EventPost from '@/pages/EventPost';
+import EventDetail from '@/pages/EventDetail';
 import Home from '@/pages/Home';
 import Landing from '@/pages/Landing';
 import Login from '@/pages/Login';
@@ -27,11 +27,11 @@ import AdminPenalty from '@/pages/admin/AdminPenalty';
 
 import { Route, Routes } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
-import NoticeBoard from '@/pages/NoticeBoard';
+import Notice from '@/pages/Notice';
 import NoticePostDetail from '@/pages/NoticePostDetail';
-import StudyPostDetail from '@/pages/StudyPostDetail';
-import StudyBoard from '@/pages/StudyBoard';
-import BoardPost from './pages/BoardPost';
+import BoardPostDetail from '@/pages/BoardPostDetail';
+import Board from '@/pages/Board';
+import BoardPost from '@/pages/BoardPost';
 
 const App = () => {
   return (
@@ -45,9 +45,9 @@ const App = () => {
 
         <Route path="/attendance" element={<Attendance />} />
         <Route path="/calendar" element={<Calendar />} />
-        <Route path="/:type/:id" element={<EventDetails />} />
-        <Route path="/events/create" element={<EventAdmin />} />
-        <Route path="/events/:id/edit" element={<EventAdmin />} />
+        <Route path="/:type/:id" element={<EventDetail />} />
+        <Route path="/events/create" element={<EventPost />} />
+        <Route path="/events/:id/edit" element={<EventPost />} />
         <Route path="/home" element={<Home />} />
         <Route path="/attendCheck" element={<AttendCheck />} />
         <Route path="/member" element={<Member />} />
@@ -57,10 +57,10 @@ const App = () => {
         <Route path="/dues" element={<Dues />} />
         <Route path="/receipt" element={<Receipt />} />
 
-        <Route path="/notice" element={<NoticeBoard />} />
+        <Route path="/notice" element={<Notice />} />
         <Route path="/notice/:postId" element={<NoticePostDetail />} />
-        <Route path="/study" element={<StudyBoard />} />
-        <Route path="/study/:postId" element={<StudyPostDetail />} />
+        <Route path="/board" element={<Board />} />
+        <Route path="/board/:postId" element={<BoardPostDetail />} />
         <Route path="/:type/post" element={<BoardPost />} />
 
         <Route path="/admin/attendance" element={<AdminAttendance />} />
