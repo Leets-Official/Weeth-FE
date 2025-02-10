@@ -1,4 +1,4 @@
-import axios from 'axios';
+/* eslint-disable no-alert */
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
@@ -9,6 +9,7 @@ import theme from '@/styles/theme';
 import useGetUserInfo from '@/api/useGetUserInfo';
 import Header from '@/components/Header/Header';
 import Line from '@/components/common/Line';
+import useUpdateUserInfo from '@/api/usePatchMyInfo';
 
 const Container = styled.div`
   width: 370px;
@@ -50,9 +51,6 @@ const Edit = () => {
 
   const { userInfo } = useGetUserInfo();
   const [userData, setUserData] = useState<{ key: string; value: any }[]>([]);
-  const accessToken = localStorage.getItem('accessToken');
-  const refreshToken = localStorage.getItem('refreshToken');
-  const BASE_URL = import.meta.env.VITE_API_URL;
   const navi = useNavigate();
 
   useEffect(() => {
@@ -65,7 +63,8 @@ const Edit = () => {
         { key: 'cardinals', value: userInfo.cardinals },
         { key: 'position', value: userInfo.position },
         { key: 'email', value: userInfo.email },
-        { key: 'password', value: '' },
+        // TODO: 서버 수정 후 삭제 필요
+        { key: 'password', value: 'password' },
       ]);
     }
   }, [userInfo]);
@@ -77,30 +76,25 @@ const Edit = () => {
     setUserData(newuserData);
   };
 
+  const { updateInfo } = useUpdateUserInfo();
+
   const onSave = async () => {
-    let response;
+    if (!window.confirm('저장하시겠습니까?')) {
+      return;
+    }
     try {
       const data = userData.reduce((acc: any, item: any) => {
         acc[item.key] = item.value;
         return acc;
       }, {});
 
-      const passwordItem = userData.find(
-        (item: any) => item.key === 'password',
-      );
-      const password = passwordItem ? passwordItem.value : '';
-
-      if (password.length < 6 || password.length > 12) {
-        alert('비밀번호를 6~12자리로 입력해 주세요.');
-        return;
-      }
-
       if (userData.some((item: any) => !item.value)) {
         alert('모든 항목을 입력해 주세요.');
         return;
       }
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      // eslint-disable-next-line no-restricted-syntax
       for (const item of userData) {
         if (item.key === 'email' && !emailRegex.test(item.value)) {
           alert('올바른 이메일 형식이 아닙니다.');
@@ -108,26 +102,21 @@ const Edit = () => {
         }
       }
 
-      response = await axios.patch(`${BASE_URL}/api/v1/users`, data, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          Authorization_refresh: `Bearer ${refreshToken}`,
-        },
-      });
-    } catch (err) {
-      alert('저장 중 오류가 발생했습니다.');
-      console.error(err);
-    }
+      const response = await updateInfo(data);
 
-    if (response?.data?.code === 400) {
-      alert(response?.data?.message);
-    } else if (window.confirm('저장하시겠습니까?')) {
+      if (response?.data?.code === 400) {
+        alert(response?.data?.message);
+        return;
+      }
+
       if (response?.data?.code === 200) {
         alert('저장이 완료되었습니다.');
         navi('/mypage');
       } else {
         alert('저장 중 오류가 발생했습니다.');
       }
+    } catch (err) {
+      alert(err);
     }
   };
 
