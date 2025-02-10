@@ -5,13 +5,14 @@ import {
   TopDues,
   Title,
 } from '@/styles/admin/TotalDues.styled';
-import { fetchAccountData, AccountResponse } from '@/api/admin/dues/account';
+import fetchAccountData from '@/api/admin/dues/account';
+import { AccountResponse } from '@/types/account';
 import { useEffect, useState } from 'react';
 import Box from './Box';
 
 interface TotalDuesProps {
   getDuesText: () => string;
-  cardinal: number;
+  cardinal: number | null;
 }
 
 export const BoxWrapper = styled.div`
@@ -35,6 +36,27 @@ const InsideDues = styled.div`
   justify-content: space-evenly;
 `;
 
+const formatDate = (time: unknown): string => {
+  if (typeof time === 'string' && time.trim() !== '') {
+    const date = new Date(time);
+
+    if (Number.isNaN(date.getTime())) return '날짜 없음';
+
+    return new Intl.DateTimeFormat('ko-KR', {
+      year: 'numeric',
+      month: 'numeric',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false,
+    })
+      .format(date)
+      .replace(/(\d+)\.\s(\d+)/, '$1.$2');
+  }
+
+  return '날짜 없음';
+};
+
 const TotalDues: React.FC<TotalDuesProps> = ({ getDuesText, cardinal }) => {
   const [boxData, setBoxData] = useState([
     {
@@ -48,7 +70,7 @@ const TotalDues: React.FC<TotalDuesProps> = ({ getDuesText, cardinal }) => {
       id: 'box2',
       title: '현재',
       description: '0원',
-      last: '2024.10.24. 15:13',
+      last: '0000.00.00. 00:00',
       color: '#2f2f2f',
     },
     {
@@ -62,6 +84,7 @@ const TotalDues: React.FC<TotalDuesProps> = ({ getDuesText, cardinal }) => {
 
   useEffect(() => {
     const getData = async () => {
+      if (cardinal === null) return;
       try {
         const response: AccountResponse = await fetchAccountData(cardinal);
 
@@ -73,32 +96,29 @@ const TotalDues: React.FC<TotalDuesProps> = ({ getDuesText, cardinal }) => {
               id: 'box1',
               title: '원금',
               description: `${totalAmount}원`,
-              last: new Date(time).toLocaleString(),
+              last: formatDate(time),
               color: '#00DDA8',
             },
             {
               id: 'box2',
               title: '현재',
               description: `${currentAmount}원`,
-              last: new Date(time).toLocaleString(),
+              last: formatDate(time),
               color: '#2f2f2f',
             },
             {
               id: 'box3',
               title: '사용',
               description: `${totalAmount - currentAmount}원`,
-              last: new Date(time).toLocaleString(),
+              last: formatDate(time),
               color: '#2f2f2f',
             },
           ]);
-        } else {
-          console.error('API 요청 실패:', response.message);
         }
-      } catch (error) {
-        console.error('데이터 가져오기 에러:', error);
+      } catch (error: any) {
+        throw new Error(error);
       }
     };
-
     getData();
   }, [cardinal]);
 
