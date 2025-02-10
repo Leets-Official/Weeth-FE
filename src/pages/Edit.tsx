@@ -10,7 +10,7 @@ import useGetUserInfo from '@/api/useGetUserInfo';
 import Header from '@/components/Header/Header';
 import Line from '@/components/common/Line';
 
-const StyledEdit = styled.div`
+const Container = styled.div`
   width: 370px;
   padding-bottom: 183px;
 `;
@@ -18,17 +18,15 @@ const StyledEdit = styled.div`
 const InfoWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  padding-top: 20px;
   gap: 24px;
 `;
 
-const Title = styled.div``;
+const Content = styled.div``;
 
 const Text = styled.div`
   font-size: 20px;
   font-family: ${theme.font.semiBold};
-  margin-left: 25px;
-  margin-bottom: 10px;
+  margin: 24px 0 10px 25px;
 `;
 
 const Error = styled.div`
@@ -37,6 +35,15 @@ const Error = styled.div`
   margin: 50px 0px;
   font-family: ${theme.font.semiBold};
 `;
+
+const Title = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <Content>
+      <Text>{children}</Text>
+      <Line />
+    </Content>
+  );
+};
 
 const Edit = () => {
   useCustomBack('/mypage');
@@ -125,16 +132,13 @@ const Edit = () => {
   };
 
   return (
-    <StyledEdit>
+    <Container>
       <Header onClickRightButton={onSave} RightButtonType="TEXT" isAccessible>
         MY 수정
       </Header>
       {userInfo ? (
         <InfoWrapper>
-          <Title>
-            <Text>개인정보</Text>
-            <Line />
-          </Title>
+          <Title>개인정보</Title>
           <InfoInput
             text="이름"
             origValue={userInfo.name}
@@ -157,11 +161,7 @@ const Edit = () => {
             editValue={() => {}}
           />
 
-          <Title>
-            <Text>활동정보</Text>
-            <Line />
-          </Title>
-
+          <Title>활동정보</Title>
           <DropdownMenu
             text="학과"
             origValue={userInfo.department}
@@ -179,7 +179,7 @@ const Edit = () => {
       ) : (
         <Error>데이터를 불러오는 중 문제가 발생했습니다.</Error>
       )}
-    </StyledEdit>
+    </Container>
   );
 };
 

@@ -33,29 +33,49 @@ const Input = styled.input`
   font-size: 16px;
   text-align: right;
 
+  &::-webkit-inner-spin-button,
+  &::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
   &::placeholder {
     font-family: ${theme.font.regular};
   }
 `;
 
-interface InfoInputProps {
-  text?: string;
-  origValue: string | number[];
-  editValue?: (val: string) => void;
-}
+const NoEdit = styled(Input).attrs({ readOnly: true })`
+  color: ${theme.color.gray[65]};
+`;
 
-const InfoInput: React.FC<InfoInputProps> = ({
+const InfoInput = ({
   text,
   origValue,
   editValue = () => {},
+}: {
+  text: string;
+  origValue: string | number[];
+  editValue?: (val: string | number) => void;
 }) => {
   const [value, setValue] = useState(origValue);
+
+  let inputType;
+  switch (text) {
+    case '핸드폰':
+    case '학번':
+      inputType = 'number';
+      break;
+    case '메일':
+      inputType = 'no-korean';
+      break;
+    default:
+      inputType = 'text';
+  }
 
   const validateValue = (val: string): boolean => {
     if (val === '') return true;
     const numberRegex = /^[0-9]*$/;
     const koreanRegex = /^[ㄱ-ㅎ가-힣]*$/;
-    const engNumRegex = /^[a-zA-Z0-9]*$/;
 
     switch (inputType) {
       case 'text':
@@ -70,8 +90,6 @@ const InfoInput: React.FC<InfoInputProps> = ({
         return numberRegex.test(val);
       case 'no-korean':
         return !koreanRegex.test(val);
-      case 'eng-num':
-        return engNumRegex.test(val);
       default:
         return true;
     }
@@ -92,11 +110,19 @@ const InfoInput: React.FC<InfoInputProps> = ({
   return (
     <Container>
       <Label>{text}</Label>
-      <Input
-        value={value as string}
-        onChange={onChangeValue}
-        // type={inputType === 'number' ? 'text' : inputType}
-      />
+      {text === '로그인' || text === '기수' || text === '역할' ? (
+        <NoEdit
+          value={value as string}
+          onChange={onChangeValue}
+          type={inputType}
+        />
+      ) : (
+        <Input
+          value={value as string}
+          onChange={onChangeValue}
+          type={inputType}
+        />
+      )}
     </Container>
   );
 };

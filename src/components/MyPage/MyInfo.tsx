@@ -9,6 +9,7 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: 19px;
 `;
 
 const ContentWrapper = styled.div`
