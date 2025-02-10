@@ -13,7 +13,6 @@ const resetPwdApi = async (userId: number | number[]) => {
   try {
     const queryParam = userIds.map((id) => `userId=${id}`).join('&');
     const url = `${BASE_URL}${PATH}/reset?${queryParam}`;
-    console.log(`API 요청 URL: ${url}`);
     const response = await axios.patch(
       url,
       {},

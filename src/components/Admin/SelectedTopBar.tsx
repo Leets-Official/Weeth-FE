@@ -71,7 +71,7 @@ const SelectedTopBar: React.FC = () => {
     {
       label: '비밀번호 초기화',
       onClick: () =>
-        alert(
+        window.confirm(
           `${selectedMembers.length}명의 멤버 비밀번호를 초기화하시겠습니까?`,
         ),
       disabled: false,

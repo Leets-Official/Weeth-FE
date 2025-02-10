@@ -66,7 +66,8 @@ export const MemberProvider: React.FC<{ children: React.ReactNode }> = ({
         console.log('API응답: ', response.data);
         const mappedMembers = fetchedMembers.map((user: any) => ({
           ...user,
-          cardinals: user.cardinals.length > 0 ? user.cardinals.join('.') : '',
+          cardinals:
+            user.cardinals.length > 0 ? user.cardinals.reverse().join('.') : '',
           status: statusMapping[user.status] || '추방',
           createdAt: new Date(user.createdAt)
             .toISOString()

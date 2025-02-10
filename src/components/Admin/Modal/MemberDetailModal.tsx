@@ -37,20 +37,17 @@ const ModalContent = styled.div`
   background-color: white;
   border-radius: 4px;
   width: 100%;
-  /* max-width: 600px; */
   box-shadow: 0px 3px 8px 0px rgba(133, 141, 138, 0.2);
   display: flex;
   flex-direction: column;
   gap: 20px;
   padding: 10px;
   flex: 1.5;
-  /* margin-top: 20%; */
 `;
 
 const ActivityContent = styled(ModalContent)`
   flex: 1;
   margin-bottom: 6%;
-  /* max-width: 400px; */
 `;
 
 const FlexWrapper = styled.div`

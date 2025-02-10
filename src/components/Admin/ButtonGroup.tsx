@@ -21,7 +21,6 @@ const ButtonGroupContainer = styled.div<{ hasEndGap?: boolean }>`
   overflow-x: auto;
   white-space: nowrap;
   padding-left: 10px;
-  max-width: 100%;
   &::-webkit-scrollbar {
     height: 3px;
   }
@@ -72,7 +71,7 @@ const ButtonGroup: React.FC<ButtonGroupProps & { hasEndGap?: boolean }> = ({
           color="#fff"
           textcolor="#000"
           width="auto"
-          height="40px"
+          height="45px"
           borderRadius="4px"
           onClick={onClick}
           disabled={disabled}
