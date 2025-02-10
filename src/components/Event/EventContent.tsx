@@ -7,6 +7,9 @@ import Button from '@/components/Button/Button';
 import theme from '@/styles/theme';
 import Modal from '@/components/common/Modal';
 import { useState } from 'react';
+import fullscreen from '@/assets/images/ic_fullscreen.svg';
+import smallscreen from '@/assets/images/ic_smallscreen.svg';
+import close from '@/assets/images/ic_close.svg';
 
 const EventContent = ({
   data,
@@ -18,6 +21,7 @@ const EventContent = ({
   useCustomBack('/calendar');
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isFullScreen, setIsFullScreen] = useState(false);
 
   const origStartDate = data.start;
   const origEndDate = data.end;
@@ -41,11 +45,46 @@ const EventContent = ({
   return (
     <S.Container>
       {isModalOpen && (
-        <Modal hasCloseButton={false} onClose={() => setIsModalOpen(false)}>
-          <S.Title>출석코드</S.Title>
-          <S.AttendanceCode>1234</S.AttendanceCode>
+        <Modal
+          isFullScreen={isFullScreen}
+          hasCloseButton={false}
+          onClose={() => setIsModalOpen(false)}
+        >
+          <S.ModalSetting>
+            {!isFullScreen ? (
+              <>
+                <S.ImgButton
+                  src={fullscreen}
+                  alt="fullscreen"
+                  onClick={() => {
+                    setIsFullScreen(true);
+                  }}
+                />
+
+                <S.ImgButton
+                  src={close}
+                  alt="close"
+                  onClick={() => {
+                    setIsModalOpen(false);
+                  }}
+                />
+              </>
+            ) : (
+              <S.ImgButton
+                src={smallscreen}
+                alt="smallscreen"
+                onClick={() => {
+                  setIsFullScreen(false);
+                }}
+              />
+            )}
+          </S.ModalSetting>
+          {isFullScreen && <S.Date>오늘날짜</S.Date>}
+          <S.Title isFullScreen={isFullScreen}>출석코드</S.Title>
+          <S.AttendanceCode isFullScreen={isFullScreen}>1234</S.AttendanceCode>
         </Modal>
       )}
+
       {isAdmin && (
         <Button
           color={theme.color.mainMiddle}
