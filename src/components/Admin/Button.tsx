@@ -5,7 +5,7 @@ interface ButtonProps {
   color: string;
   description: string;
   width: string;
-  onClick: () => void;
+  onClick?: () => void;
 }
 
 const Wrapper = styled.div<{ color: string; width: string }>`
