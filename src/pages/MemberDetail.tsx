@@ -3,6 +3,7 @@ import useGetUserDetail from '@/api/useGetUserDetail';
 import FE from '@/assets/images/ic_char_FE.svg';
 import BE from '@/assets/images/ic_char_BE.svg';
 import D from '@/assets/images/ic_char_DE.svg';
+import Master from '@/assets/images/ic_Master.svg';
 import theme from '@/styles/theme';
 import styled from 'styled-components';
 import CardinalTag from '@/components/common/CardinalTag';
@@ -43,6 +44,8 @@ const MoreInfo = styled.div`
 `;
 
 const Title = styled.div`
+  display: flex;
+  gap: 5px;
   font-size: 32px;
   font-family: ${theme.font.semiBold};
   padding-top: 42px;
@@ -89,7 +92,12 @@ const MemberDetail = () => {
       </Header>
       <PostionCharicter src={positionData.char} alt={position} />
       <Content color={positionData.color}>
-        <Title>{userDetail?.name}</Title>
+        <Title>
+          <span>{userDetail?.name}</span>
+          {userDetail?.role === 'ADMIN' && (
+            <img src={Master} alt="Master" />
+          )}{' '}
+        </Title>
         <CardinalList>
           {userDetail?.cardinals?.map((cardinal) => (
             <CardinalTag cardinal={cardinal} />

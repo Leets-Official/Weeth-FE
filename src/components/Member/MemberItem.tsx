@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import BE from '@/assets/images/ic_BE.svg';
 import D from '@/assets/images/ic_DE.svg';
 import FE from '@/assets/images/ic_FE.svg';
-import MA from '@/assets/images/ic_MA.svg';
+
+import Master from '@/assets/images/ic_Master_BW.svg';
 
 import * as S from '@/styles/member/MemberName.styled';
 
@@ -44,14 +45,11 @@ const MemberItem: React.FC<MemberItemProps> = ({
   return (
     <S.Wrapper>
       <S.Content onClick={onClickMember}>
-        {role === 'ADMIN' ? (
-          <img src={MA} alt="MA" />
-        ) : (
-          <img src={positionIcon} alt={String(positionIcon)} />
-        )}
+        <img src={positionIcon} alt={String(positionIcon)} />
         <S.TextWrapper>
           <S.Title>{name}</S.Title>
           <S.Caption>
+            {role === 'ADMIN' ? <img src={Master} alt="MA" /> : null}
             <span>{positionName}</span>
             <span>|</span>
             <span>{cardinal.map((num) => `${num}기`).join(' · ')}</span>

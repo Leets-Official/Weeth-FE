@@ -12,6 +12,7 @@ export interface UserDetail {
   department: string;
   cardinals: number[];
   position: 'D' | 'FE' | 'BE';
+  role: 'ADMIN' | 'USER';
 }
 
 export const getUserDetail = async (userId: number) => {

@@ -1,10 +1,15 @@
-import useGetAllUsers from '@/api/useGetAllUsers';
+// import useGetAllUsers from '@/api/useGetAllUsers';
 import MemberItem from '@/components/Member/MemberItem';
 import { useSearchParams } from 'react-router-dom';
 import theme from '@/styles/theme';
 import styled from 'styled-components';
+import useGetAllUsers from '@/api/useGetAllUsers';
 
-const List = styled.div``;
+const List = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+`;
 
 const Error = styled.div`
   display: flex;
