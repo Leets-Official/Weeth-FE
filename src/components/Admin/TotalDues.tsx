@@ -8,6 +8,7 @@ import {
 import fetchAccountData from '@/api/admin/dues/account';
 import { AccountResponse } from '@/types/account';
 import { useEffect, useState } from 'react';
+import dayjs from 'dayjs';
 import Box from './Box';
 
 interface TotalDuesProps {
@@ -38,22 +39,9 @@ const InsideDues = styled.div`
 
 const formatDate = (time: unknown): string => {
   if (typeof time === 'string' && time.trim() !== '') {
-    const date = new Date(time);
-
-    if (Number.isNaN(date.getTime())) return '날짜 없음';
-
-    return new Intl.DateTimeFormat('ko-KR', {
-      year: 'numeric',
-      month: 'numeric',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-      hour12: false,
-    })
-      .format(date)
-      .replace(/(\d+)\.\s(\d+)/, '$1.$2');
+    const formattedDate = dayjs(time).format('YYYY.MM.DD HH:mm');
+    return formattedDate || '날짜 없음';
   }
-
   return '날짜 없음';
 };
 
