@@ -1,5 +1,6 @@
 import styled, { keyframes } from 'styled-components';
 import theme from '@/styles/theme';
+import { useGetRecentNotice } from '@/api/useGetBoardInfo';
 
 const flowing = keyframes`
   0% {
@@ -14,6 +15,7 @@ const AnimationLayout = styled.div`
   display: flex;
   flex-direction: row;
   background-color: ${theme.color.mainDark};
+  font-family: ${theme.font.regular};
   margin-top: 15px;
 `;
 
@@ -31,28 +33,38 @@ const FlowText = styled.div`
   width: 100%;
   height: 100%;
   white-space: nowrap;
+  font-family: ${theme.font.semiBold};
+  font-size: 12px;
+  padding-left: 25px;
 `;
 
 const Title = styled.span`
-  font-weight: 600;
+  font-family: ${theme.font.semiBold};
 `;
 
 export const Text = styled.div`
   font-size: 12px;
-  font-weight: 400px;
-  padding-left: 25px;
   animation: ${flowing} 8s linear infinite;
   display: inline-block;
 `;
 
 const HomeNotice = () => {
+  const { recentNotices, isLoading } = useGetRecentNotice();
+
+  console.log(recentNotices);
   return (
     <AnimationLayout>
       <FlowBox>
         <FlowText>
-          <Text>
-            <Title>📢 제목 test</Title>
-          </Text>
+          <Title>📢 공지</Title>
+          {isLoading ? (
+            <div>Loading...</div>
+          ) : (
+            <Text>
+              <Title>{recentNotices[0].title}</Title>
+              &nbsp;{recentNotices[0].content}
+            </Text>
+          )}
         </FlowText>
       </FlowBox>
     </AnimationLayout>
