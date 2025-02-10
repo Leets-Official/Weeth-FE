@@ -53,6 +53,14 @@ const Edit = () => {
   const [userData, setUserData] = useState<{ key: string; value: any }[]>([]);
   const navi = useNavigate();
 
+  const positionMap: Record<string, string> = {
+    FE: '프론트엔드',
+    BE: '백엔드',
+    D: '디자인',
+  };
+
+  const position = userInfo?.position ? positionMap[userInfo.position] : '';
+
   useEffect(() => {
     if (userInfo) {
       setUserData([
@@ -163,7 +171,7 @@ const Edit = () => {
             editValue={(value) => editValue('studentId', value)}
           />
           <InfoInput text="기수" origValue={userInfo.cardinals} />
-          <InfoInput text="역할" origValue={userInfo.position} />
+          <InfoInput text="역할" origValue={position} />
         </InfoWrapper>
       ) : (
         <Error>데이터를 불러오는 중 문제가 발생했습니다.</Error>
