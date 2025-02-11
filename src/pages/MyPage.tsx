@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 
 const MyPage = () => {
   useCustomBack('/home');
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(true);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const navigate = useNavigate();
 
   const confirmLogout = useLogout();
