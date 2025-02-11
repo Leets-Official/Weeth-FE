@@ -11,7 +11,7 @@ export const StyledHomeMain = styled.div`
 export const GridContainer = styled.div`
   display: grid;
   width: 94%;
-  margin: 7.3% 3% 0px 3%;
+  margin: 15px 3% 0px 3%;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: auto auto auto;
   grid-template-areas:
