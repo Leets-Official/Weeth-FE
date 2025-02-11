@@ -1,4 +1,3 @@
-// import useGetAllUsers from '@/api/useGetAllUsers';
 import MemberItem from '@/components/Member/MemberItem';
 import { useSearchParams } from 'react-router-dom';
 import theme from '@/styles/theme';
