@@ -5,7 +5,7 @@ export const UserInfo = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  width: 90%;
+  width: 94%;
   margin: 15px 0 0 5%;
 `;
 
