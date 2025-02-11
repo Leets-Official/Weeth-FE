@@ -151,12 +151,6 @@ const Edit = () => {
             origValue={userInfo.email}
             editValue={(value) => editValue('email', value)}
           />
-          <InfoInput
-            text="로그인"
-            // TODO: 서버 수정 후 데이터 수정 필요
-            origValue="카카오 로그인 완료"
-            editValue={() => {}}
-          />
 
           <Title>활동정보</Title>
           <DropdownMenu
