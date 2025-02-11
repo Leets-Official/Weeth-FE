@@ -1,4 +1,5 @@
-import * as S from '@/styles/home/HomeMain.styled';
+import * as S from '@/styles/home/HomeInfo.styled';
+import { StyledHomeMain } from '@/styles/home/HomeMain.styled';
 import useGetUserInfo from '@/api/useGetUserInfo';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
@@ -15,7 +16,7 @@ const HomeInfo = () => {
       ? userInfo.cardinals[userInfo.cardinals.length - 1]
       : userInfo?.cardinals?.[0] || '...';
   return (
-    <S.StyledHomeMain>
+    <StyledHomeMain>
       <S.CaptionContainer>
         <Caption color="#ffffff" textcolor="#000000">
           {cardinal}기
@@ -34,7 +35,7 @@ const HomeInfo = () => {
           />
         </S.RightButtonContainer>
       </S.UserInfo>
-    </S.StyledHomeMain>
+    </StyledHomeMain>
   );
 };
 

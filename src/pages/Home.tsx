@@ -6,6 +6,7 @@ import LogoutButton from '@/components/home/LogoutButton';
 import logo from '@/assets/images/logo/logo_initial_Xmas.svg';
 import useCustomBack from '@/hooks/useCustomBack';
 import HomeNotice from '@/components/home/HomeNotice';
+import HomeInfo from '@/components/home/HomeInfo';
 
 const Container = styled.div`
   display: flex;
@@ -48,6 +49,7 @@ const Home: React.FC = () => {
         </HeaderContainer>
         <HomeNotice />
         <Main>
+          <HomeInfo />
           <HomeMain />
         </Main>
         <Footer>
