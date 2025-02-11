@@ -29,4 +29,29 @@ const resetPwdApi = async (userId: number | number[]) => {
   }
 };
 
-export default resetPwdApi;
+// 가입 신청 승인
+const approveSignupApi = async (userId: number | number[]) => {
+  const accessToken = localStorage.getItem('accessToken');
+  const refreshToken = localStorage.getItem('refreshToken');
+  const userIds = Array.isArray(userId) ? userId : [userId];
+
+  try {
+    const queryParam = userIds.map((id) => `userId=${id}`).join('&');
+    const url = `${BASE_URL}${PATH}?${queryParam}`;
+    const response = await axios.patch(
+      url,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          Authorization_refresh: `Bearer ${refreshToken}`,
+        },
+      },
+    );
+    return response.data;
+  } catch (error: any) {
+    throw new Error(error.response?.data?.message || '가입 승인 실패');
+  }
+};
+
+export { resetPwdApi, approveSignupApi };

@@ -1,12 +1,12 @@
 import theme from '@/styles/theme';
 import backarrow from '@/assets/images/ic_admin_backarrow.svg';
 import { useState } from 'react';
+import useAdminActions from '@/hooks/useAdminActions';
 import styled from 'styled-components';
 import { useMemberContext } from './context/MemberContext';
 import { Title } from './TopBar';
 import ButtonGroup from './ButtonGroup';
 import CardinalEditModal from './Modal/CardinalEditModal';
-import useAdminActions from '@/hooks/useAdminActions';
 
 const SelectedTopBarWrapper = styled.div`
   width: 100%;
@@ -51,8 +51,7 @@ const SelectedTopBar: React.FC = () => {
   const buttons = [
     {
       label: '가입 승인',
-      onClick: () =>
-        alert(`${selectedMembers.length}명의 멤버 가입을 승인하시겠습니까?`),
+      onClick: () => handleAction('가입 승인', selectedMembers.map(Number)),
       disabled: false,
     },
     {

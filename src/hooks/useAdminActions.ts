@@ -1,4 +1,7 @@
-import resetPwdApi from '@/api/admin/member/patchUserManagement';
+import {
+  resetPwdApi,
+  approveSignupApi,
+} from '@/api/admin/member/patchUserManagement';
 
 type ActionType =
   | '가입 승인'
@@ -36,9 +39,14 @@ const useAdminActions = () => {
         const response = await resetPwdApi(targetIds);
         console.log('비밀번호 초기화 API 응답:', response);
         alert('비밀번호 초기화가 완료되었습니다.');
+      } else if (action === '가입 승인') {
+        const response = await approveSignupApi(targetIds);
+        console.log('가입 승인 API 응답:', response);
+        alert('가입 승인 처리가 완료되었습니다.');
       }
     } catch (error: any) {
       console.error('오류 발생:', error.message);
+      alert(`"${action}" 실행 중 오류가 발생했습니다.`);
     }
   };
 
