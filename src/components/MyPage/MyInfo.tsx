@@ -1,8 +1,8 @@
 import useGetUserInfo from '@/api/useGetUserInfo';
 import theme from '@/styles/theme';
 import styled from 'styled-components';
-import InfoItem from './InfoItem';
-import CardinalTag from '../common/CardinalTag';
+import InfoItem from '@/components/MyPage/InfoItem';
+import CardinalTag from '@/components/common/CardinalTag';
 
 const Container = styled.div`
   display: flex;

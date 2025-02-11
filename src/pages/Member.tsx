@@ -16,6 +16,8 @@ const Member = () => {
 
   return (
     <S.Wrapper>
+      <b>바보</b>
+      <S.Bold>바보</S.Bold>
       <Header RightButtonType="none" isAccessible>
         멤버
       </Header>
