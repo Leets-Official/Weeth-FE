@@ -41,7 +41,7 @@ import TextButton from '@/components/Header/TextButton';
 import LeftButton from '@/components/Header/LeftButton';
 import MenuButton from '@/components/Header/MenuButton';
 import PlusButton from '@/components/Header/PlusButton';
-import EditButton from '@/components/Header/EditButton';
+// import EditButton from '@/components/Header/EditButton';
 
 interface HeaderProps {
   children?: React.ReactNode;
@@ -95,9 +95,9 @@ const Header = ({
 
       {RightButtonType === 'PLUS' && isAccessible && <PlusButton />}
 
-      {RightButtonType === 'EDIT' && onClickRightButton && (
+      {/* {RightButtonType === 'EDIT' && onClickRightButton && (
         <EditButton onClick={onClickRightButton} />
-      )}
+      )} */}
 
       {RightButtonType !== 'none' && !isAccessible && <None />}
       {RightButtonType === 'none' && <None />}

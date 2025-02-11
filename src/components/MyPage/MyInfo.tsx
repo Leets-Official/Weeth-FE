@@ -58,10 +58,8 @@ const MyInfo = () => {
         <Content>
           <InfoItem label="이름">{userInfo.name}</InfoItem>
           <InfoItem label="핸드폰">{userInfo.tel}</InfoItem>
-          <InfoItem label="이메일">{userInfo.email}</InfoItem>
-          {/* TODO: 서버 수정 후 값 수정 필요 */}
-          <InfoItem label="로그인" isLast readOnly>
-            카카오 로그인 완료
+          <InfoItem label="이메일" isLast>
+            {userInfo.email}
           </InfoItem>
         </Content>
       </ContentWrapper>
