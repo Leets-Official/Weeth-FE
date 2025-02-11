@@ -56,7 +56,7 @@ const HeaderWrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 370px;
-  padding: 25px 25px 20px 25px;
+  padding: 25px 10px 20px 10px;
   box-sizing: border-box;
 `;
 

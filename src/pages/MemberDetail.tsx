@@ -1,8 +1,9 @@
 import Header from '@/components/Header/Header';
-// import useGetUserDetail from '@/api/useGetUserDetail';
+import useGetUserDetail from '@/api/useGetUserDetail';
 import FE from '@/assets/images/ic_char_FE.svg';
 import BE from '@/assets/images/ic_char_BE.svg';
 import D from '@/assets/images/ic_char_DE.svg';
+import Master from '@/assets/images/ic_Master.svg';
 import theme from '@/styles/theme';
 import styled from 'styled-components';
 import CardinalTag from '@/components/common/CardinalTag';
@@ -20,14 +21,14 @@ const PostionCharicter = styled.img`
   margin-top: 52px;
 `;
 
-const Content = styled.div<{ color: string }>`
+const Content = styled.div<{ color?: string }>`
   display: flex;
   flex-direction: column;
   gap: 20px;
   width: 100%;
   height: 100vh;
   margin-top: 35px;
-  background-color: ${(props) => props.color};
+  background-color: ${(props) => props.color || 'transparent'};
   padding-left: 42px;
 `;
 
@@ -43,6 +44,8 @@ const MoreInfo = styled.div`
 `;
 
 const Title = styled.div`
+  display: flex;
+  gap: 5px;
   font-size: 32px;
   font-family: ${theme.font.semiBold};
   padding-top: 42px;
@@ -58,17 +61,7 @@ const Gray = styled.div`
 `;
 
 const MemberDetail = () => {
-  // const { userDetail } = useGetUserDetail();
-
-  const userDetail = {
-    id: 7,
-    name: '조혜원',
-    email: 'test1@test.com',
-    studentId: '202235131',
-    department: '인공지능전공',
-    cardinals: [1, 2, 3],
-    position: 'D',
-  };
+  const { userDetail, error, loading } = useGetUserDetail();
 
   const positionMap = {
     FE: {
@@ -88,26 +81,41 @@ const MemberDetail = () => {
     },
   };
 
-  const position = userDetail?.position || 'FE';
-  const positionData =
-    positionMap[position as keyof typeof positionMap] || positionMap.FE;
+  if (loading) {
+    return null;
+  }
+
+  if (error) {
+    return <Wrapper>에러 발생: {error}</Wrapper>;
+  }
+
+  const position = userDetail?.position;
+  const positionData = position
+    ? positionMap[position as keyof typeof positionMap]
+    : undefined;
 
   return (
     <Wrapper>
       <Header RightButtonType="none" isAccessible>
         멤버
       </Header>
-      <PostionCharicter src={positionData.char} alt={position} />
-      <Content color={positionData.color}>
-        <Title>{userDetail?.name}</Title>
+      {positionData && (
+        <PostionCharicter src={positionData.char} alt={position} />
+      )}
+      <Content color={positionData?.color}>
+        <Title>
+          <span>{userDetail?.name}</span>
+          {userDetail?.role === 'ADMIN' && (
+            <img src={Master} alt="Master" />
+          )}{' '}
+        </Title>
         <CardinalList>
           {userDetail?.cardinals?.map((cardinal) => (
-            <CardinalTag cardinal={cardinal} />
+            <CardinalTag cardinal={cardinal} key={cardinal} />
           ))}
         </CardinalList>
-
         <MoreInfo>
-          <b>{positionData.name}</b>
+          {positionData && <b>{positionData.name}</b>}
           <Department>
             <div>{userDetail?.department}</div>
             <Gray>|</Gray>
