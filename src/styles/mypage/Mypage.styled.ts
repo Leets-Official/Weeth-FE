@@ -1,11 +1,21 @@
 import theme from '@/styles/theme';
 import styled from 'styled-components';
 
-export const StyledDetails = styled.div`
+export const Container = styled.div`
   width: 370px;
   padding-bottom: 50px;
   font-family: ${theme.font.regular};
   font-size: 16px;
+`;
+
+export const TextButton = styled.div<{ isSignOut?: boolean }>`
+  width: calc(100% - 8px);
+  box-sizing: border-box;
+  padding: 12px 0 12px 16px;
+  margin: 0 4px;
+  border-bottom: ${(props) =>
+    props.isSignOut ? 'none' : `1px solid ${theme.color.gray[30]}`};
+  color: ${(props) => (props.isSignOut ? theme.color.negative : 'white')};
 `;
 
 export const ImgButton = styled.div`

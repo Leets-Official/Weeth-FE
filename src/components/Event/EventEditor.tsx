@@ -18,9 +18,9 @@ import toTwoDigits from '@/hooks/toTwoDigits';
 import CardinalDropdown from '@/components/common/CardinalDropdown';
 import Modal from '@/components/common/Modal';
 import Button from '@/components/Button/Button';
-import ToggleButton from '../common/ToggleButton';
-import EventInput, { EventInputBlock } from './EventInput';
-import CardinalLabel from './CardinalLabel';
+import ToggleButton from '@/components/common/ToggleButton';
+import EventInput, { EventInputBlock } from '@/components/Event/EventInput';
+import CardinalLabel from '@/components/Event/CardinalLabel';
 
 function checkEmpty(
   field: string | number | undefined,
