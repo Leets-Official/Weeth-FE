@@ -29,7 +29,7 @@ export const GridItem = styled.div`
   border-radius: 10px;
   display: flex;
   padding: 20px 10px 10px 15px;
-  gap: 10px;
+  gap: 34px;
   flex-direction: column;
   justify-content: space-between;
   cursor: pointer;
