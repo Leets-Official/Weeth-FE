@@ -54,4 +54,27 @@ const approveSignupApi = async (userId: number | number[]) => {
   }
 };
 
-export { resetPwdApi, approveSignupApi };
+// 관리자로 승격/강등
+const changeUserRoleApi = async (userId: number, role: 'ADMIN' | 'USER') => {
+  const accessToken = localStorage.getItem('accessToken');
+  const refreshToken = localStorage.getItem('refreshToken');
+
+  try {
+    const url = `${BASE_URL}${PATH}/role?userId=${userId}&role=${role}`;
+    const response = await axios.patch(
+      url,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          Authorization_refresh: `Bearer ${refreshToken}`,
+        },
+      },
+    );
+    return response.data;
+  } catch (error: any) {
+    throw new Error(error.response?.data?.message || '역할 변경 실패');
+  }
+};
+
+export { resetPwdApi, approveSignupApi, changeUserRoleApi };

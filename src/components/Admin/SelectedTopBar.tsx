@@ -32,7 +32,7 @@ const SvgIcon = styled.img`
 `;
 
 const SelectedTopBar: React.FC = () => {
-  const { selectedMembers, setSelectedMembers } = useMemberContext();
+  const { selectedMembers, setSelectedMembers, members } = useMemberContext();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { handleAction } = useAdminActions();
@@ -48,6 +48,16 @@ const SelectedTopBar: React.FC = () => {
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
+
+  const selectedRoles = selectedMembers.map(
+    (id) => members.find((m) => m.id === Number(id))?.role,
+  );
+
+  const hasMixedRoles =
+    selectedRoles.includes('ADMIN') && selectedRoles.includes('USER');
+
+  const allAdmins = selectedRoles.every((role) => role === 'ADMIN');
+  const allUsers = selectedRoles.every((role) => role === 'USER');
   const buttons = [
     {
       label: '가입 승인',
@@ -56,19 +66,13 @@ const SelectedTopBar: React.FC = () => {
     },
     {
       label: '관리자로 변경',
-      onClick: () =>
-        alert(
-          `${selectedMembers.length}명의 멤버를 관리자로 변경하시겠습니까?`,
-        ),
-      disabled: selectedMembers.length !== 1,
+      onClick: () => handleAction('관리자로 변경', selectedMembers.map(Number)),
+      disabled: hasMixedRoles || allAdmins,
     },
     {
       label: '사용자로 변경',
-      onClick: () =>
-        alert(
-          `${selectedMembers.length}명의 멤버를 사용자로 변경하시겠습니까?`,
-        ),
-      disabled: selectedMembers.length !== 1,
+      onClick: () => handleAction('사용자로 변경', selectedMembers.map(Number)),
+      disabled: hasMixedRoles || allUsers,
     },
     {
       label: '비밀번호 초기화',

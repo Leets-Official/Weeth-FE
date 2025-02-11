@@ -81,15 +81,23 @@ const MemberDetailModal: React.FC<MemberDetailModalProps> = ({
 }) => {
   const { handleAction } = useAdminActions();
 
+  const roleChangeButton =
+    data.role === 'ADMIN'
+      ? {
+          label: '사용자로 변경',
+          onClick: () => handleAction('사용자로 변경', [data.id]),
+        }
+      : {
+          label: '관리자로 변경',
+          onClick: () => handleAction('관리자로 변경', [data.id]),
+        };
+
   const buttons = [
     {
       label: '가입 승인',
       onClick: () => handleAction('가입 승인', [data.id]),
     },
-    {
-      label: '관리자로 변경',
-      onClick: () => handleAction('관리자로 변경', [data.id]),
-    },
+    roleChangeButton,
     {
       label: '비밀번호 초기화',
       onClick: () => handleAction('비밀번호 초기화', [data.id]),
