@@ -23,7 +23,6 @@ const resetPwdApi = async (userId: number | number[]) => {
         },
       },
     );
-    console.log('API 응답: ', response);
     return response.data;
   } catch (error: any) {
     throw new Error(error.response?.data?.message || '비밀번호 초기화 실패');

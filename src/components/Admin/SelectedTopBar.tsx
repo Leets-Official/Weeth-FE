@@ -6,6 +6,7 @@ import { useMemberContext } from './context/MemberContext';
 import { Title } from './TopBar';
 import ButtonGroup from './ButtonGroup';
 import CardinalEditModal from './Modal/CardinalEditModal';
+import useAdminActions from '@/hooks/useAdminActions';
 
 const SelectedTopBarWrapper = styled.div`
   width: 100%;
@@ -33,6 +34,8 @@ const SvgIcon = styled.img`
 const SelectedTopBar: React.FC = () => {
   const { selectedMembers, setSelectedMembers } = useMemberContext();
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const { handleAction } = useAdminActions();
 
   const handleBackClick = () => {
     setSelectedMembers([]);
@@ -71,9 +74,7 @@ const SelectedTopBar: React.FC = () => {
     {
       label: '비밀번호 초기화',
       onClick: () =>
-        window.confirm(
-          `${selectedMembers.length}명의 멤버 비밀번호를 초기화하시겠습니까?`,
-        ),
+        handleAction('비밀번호 초기화', selectedMembers.map(Number)),
       disabled: false,
     },
     {

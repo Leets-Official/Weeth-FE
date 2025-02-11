@@ -32,15 +32,11 @@ const useAdminActions = () => {
     if (!window.confirm(confirmMessage)) return;
 
     try {
-      console.log(`${action} API 요청 시작...`, targetIds);
-
       if (action === '비밀번호 초기화') {
         const response = await resetPwdApi(targetIds);
         console.log('비밀번호 초기화 API 응답:', response);
         alert('비밀번호 초기화가 완료되었습니다.');
       }
-
-      // 다른 API 요청 로직 추가 가능
     } catch (error: any) {
       console.error('오류 발생:', error.message);
     }

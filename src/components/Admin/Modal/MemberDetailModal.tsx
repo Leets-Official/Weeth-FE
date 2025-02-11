@@ -4,7 +4,7 @@ import dropdownIcon from '@/assets/images/ic_admin_column_meatball.svg';
 import ButtonGroup from '@/components/Admin/ButtonGroup';
 import StatusIndicator from '@/components/Admin/StatusIndicator';
 import CommonModal from '@/components/Admin/Modal/CommonModal';
-import resetPwdApi from '@/api/patchUserManagement';
+import useAdminActions from '@/hooks/useAdminActions';
 
 interface MemberDetailModalProps {
   data: MemberData;
@@ -79,40 +79,24 @@ const MemberDetailModal: React.FC<MemberDetailModalProps> = ({
   data,
   onClose,
 }) => {
-  const handleAction = async (action: string) => {
-    if (
-      !window.confirm(`"${data.name}" 멤버의 ${action}을(를) 진행하시겠습니까?`)
-    )
-      return;
+  const { handleAction } = useAdminActions();
 
-    try {
-      console.log(`${action} API 요청 시작...`);
-      if (action === '비밀번호 초기화') {
-        console.log(` 비밀번호 초기화 요청 대상 ID: ${data.id}`);
-        const response = await resetPwdApi(data.id);
-        console.log('비밀번호 초기화 API 응답:', response);
-        alert('비밀번호 초기화가 완료되었습니다.');
-      }
-    } catch (error: any) {
-      console.error('오류 발생 : ', error.message);
-    }
-  };
   const buttons = [
     {
       label: '가입 승인',
-      onClick: () => handleAction('가입 승인'),
+      onClick: () => handleAction('가입 승인', [data.id]),
     },
     {
       label: '관리자로 변경',
-      onClick: () => handleAction('관리자로 변경'),
+      onClick: () => handleAction('관리자로 변경', [data.id]),
     },
     {
       label: '비밀번호 초기화',
-      onClick: () => handleAction('비밀번호 초기화'),
+      onClick: () => handleAction('비밀번호 초기화', [data.id]),
     },
     {
       label: '유저 추방',
-      onClick: () => handleAction('유저 추방'),
+      onClick: () => handleAction('유저 추방', [data.id]),
     },
     {
       label: '직접 입력',
