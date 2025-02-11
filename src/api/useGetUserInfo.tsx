@@ -30,25 +30,29 @@ const getUserInfo = async () => {
 };
 
 export const useGetUserInfo = () => {
-  const [userInfo, setUserInfoInfo] = useState<UserInfo | null>(null);
+  const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
   const [userError, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchUserInfo = async () => {
+      setIsLoading(true);
       try {
         const response = await getUserInfo();
         const { data } = response.data;
-        setUserInfoInfo(data);
+        setUserInfo(data);
         setError(null);
       } catch (err: any) {
         setError(err.response?.data?.message);
+      } finally {
+        setIsLoading(false);
       }
     };
 
     fetchUserInfo();
   }, []);
 
-  return { userInfo, userError };
+  return { userInfo, userError, isLoading };
 };
 
 export default useGetUserInfo;

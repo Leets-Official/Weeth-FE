@@ -1,26 +1,25 @@
 import styled from 'styled-components';
 
-export const CaptionContainer = styled.div`
-  margin: 33px 0 0 6%;
-`;
-
 export const UserInfo = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   width: 90%;
-  margin: 2.5% 0 0 5%;
+  margin: 15px 0 0 5%;
 `;
 
 export const UserContainer = styled.div`
   display: flex;
   flex-direction: row;
+  padding-bottom: 10px;
 `;
 
 export const Name = styled.div`
+  display: flex;
+  flex-direction: column;
   font-size: 32px;
   font-weight: bold;
-  padding: 0px;
+  gap: 10px;
   align-self: flex-end;
 `;
 
@@ -37,4 +36,12 @@ export const RightButtonContainer = styled.div`
   align-items: center;
   align-self: flex-end;
   margin-right: 10px;
+`;
+
+export const UserCharacter = styled.img`
+  width: 153px;
+  transition: transform 0.5s ease;
+  &:hover {
+    transform: scale(1.08);
+  }
 `;

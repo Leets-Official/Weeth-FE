@@ -1,37 +1,96 @@
+import { useEffect, useState } from 'react';
 import * as S from '@/styles/home/HomeInfo.styled';
 import { StyledHomeMain } from '@/styles/home/HomeMain.styled';
 import useGetUserInfo from '@/api/useGetUserInfo';
-import styled from 'styled-components';
+
 import { useNavigate } from 'react-router-dom';
 import Caption from '@/components/Button/Caption';
+import FEChar from '@/assets/images/ic_char_FE.svg';
+import FECharHover from '@/assets/images/ic_char_FE_hover.svg';
+import BEChar from '@/assets/images/ic_char_BE.svg';
+import BECharHover from '@/assets/images/ic_char_BE_hover.svg';
+import DEChar from '@/assets/images/ic_char_DE.svg';
+import DECharHover from '@/assets/images/ic_char_DE_hover.svg';
 
-const UserCharacter = styled.img``;
 const HomeInfo = () => {
-  const navi = useNavigate();
-  const { userInfo } = useGetUserInfo();
+  const navigate = useNavigate();
+  const { userInfo, isLoading } = useGetUserInfo();
+  const [characterImg, setCharacterImg] = useState('');
 
-  const userName = userInfo?.name || 'Loading';
-  const cardinal =
-    Array.isArray(userInfo?.cardinals) && userInfo?.cardinals.length >= 2
-      ? userInfo.cardinals[userInfo.cardinals.length - 1]
-      : userInfo?.cardinals?.[0] || '...';
+  useEffect(() => {
+    if (!isLoading && userInfo) {
+      switch (userInfo.position) {
+        case 'FE':
+          setCharacterImg(FEChar);
+          break;
+        case 'BE':
+          setCharacterImg(BEChar);
+          break;
+        case 'DE':
+          setCharacterImg(DEChar);
+          break;
+        default:
+          setCharacterImg('');
+          break;
+      }
+    }
+  }, [userInfo, isLoading]);
+
+  const handleMouseEnter = () => {
+    if (!isLoading && userInfo) {
+      switch (userInfo.position) {
+        case 'FE':
+          setCharacterImg(FECharHover);
+          break;
+        case 'BE':
+          setCharacterImg(BECharHover);
+          break;
+        case 'DE':
+          setCharacterImg(DECharHover);
+          break;
+        default:
+          break;
+      }
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (!isLoading && userInfo) {
+      switch (userInfo.position) {
+        case 'FE':
+          setCharacterImg(FEChar);
+          break;
+        case 'BE':
+          setCharacterImg(BEChar);
+          break;
+        case 'DE':
+          setCharacterImg(DEChar);
+          break;
+        default:
+          break;
+      }
+    }
+  };
+
   return (
     <StyledHomeMain>
-      <S.CaptionContainer>
-        <Caption color="#ffffff" textcolor="#000000">
-          {cardinal}기
-        </Caption>
-      </S.CaptionContainer>
       <S.UserInfo>
         <S.UserContainer>
-          <S.Name>{userName}</S.Name>
+          <S.Name>
+            <Caption color="#ffffff" textcolor="#000000">
+              {userInfo?.cardinals?.[userInfo.cardinals.length - 1] || '...'}기
+            </Caption>
+            <div>{userInfo?.name || 'Loading...'}</div>
+          </S.Name>
           <S.NickName>Elite님</S.NickName>
         </S.UserContainer>
         <S.RightButtonContainer>
-          <UserCharacter
-            onClick={() => {
-              navi(`/mypage`);
-            }}
+          <S.UserCharacter
+            src={characterImg}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            onClick={() => navigate(`/mypage`)}
+            alt="User character icon"
           />
         </S.RightButtonContainer>
       </S.UserInfo>
