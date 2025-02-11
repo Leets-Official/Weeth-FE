@@ -7,7 +7,6 @@ const BASE_URL = import.meta.env.VITE_API_URL;
 // 비밀번호 초기화
 const resetPwdApi = async (userId: number | number[]) => {
   const accessToken = localStorage.getItem('accessToken');
-  const refreshToken = localStorage.getItem('refreshToken');
   const userIds = Array.isArray(userId) ? userId : [userId];
 
   try {
@@ -19,7 +18,6 @@ const resetPwdApi = async (userId: number | number[]) => {
       {
         headers: {
           Authorization: `Bearer ${accessToken}`,
-          Authorization_refresh: `Bearer ${refreshToken}`,
         },
       },
     );
@@ -32,7 +30,6 @@ const resetPwdApi = async (userId: number | number[]) => {
 // 가입 신청 승인
 const approveSignupApi = async (userId: number | number[]) => {
   const accessToken = localStorage.getItem('accessToken');
-  const refreshToken = localStorage.getItem('refreshToken');
   const userIds = Array.isArray(userId) ? userId : [userId];
 
   try {
@@ -44,7 +41,6 @@ const approveSignupApi = async (userId: number | number[]) => {
       {
         headers: {
           Authorization: `Bearer ${accessToken}`,
-          Authorization_refresh: `Bearer ${refreshToken}`,
         },
       },
     );
@@ -57,7 +53,6 @@ const approveSignupApi = async (userId: number | number[]) => {
 // 관리자로 승격/강등
 const changeUserRoleApi = async (userId: number, role: 'ADMIN' | 'USER') => {
   const accessToken = localStorage.getItem('accessToken');
-  const refreshToken = localStorage.getItem('refreshToken');
 
   try {
     const url = `${BASE_URL}${PATH}/role?userId=${userId}&role=${role}`;
@@ -67,7 +62,6 @@ const changeUserRoleApi = async (userId: number, role: 'ADMIN' | 'USER') => {
       {
         headers: {
           Authorization: `Bearer ${accessToken}`,
-          Authorization_refresh: `Bearer ${refreshToken}`,
         },
       },
     );

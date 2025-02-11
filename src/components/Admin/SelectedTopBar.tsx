@@ -82,8 +82,7 @@ const SelectedTopBar: React.FC = () => {
     },
     {
       label: '유저 추방',
-      onClick: () =>
-        alert(`${selectedMembers.length}명의 멤버를 추방하시겠습니까?`),
+      onClick: () => handleAction('유저 추방', selectedMembers.map(Number)),
       disabled: false,
     },
     {

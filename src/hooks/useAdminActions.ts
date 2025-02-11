@@ -1,3 +1,4 @@
+import deleteUserApi from '@/api/admin/member/deleteUser';
 import {
   resetPwdApi,
   approveSignupApi,
@@ -46,13 +47,15 @@ const useAdminActions = () => {
         response = await approveSignupApi(targetIds);
         console.log('가입 승인 API 응답:', response);
         alert('가입 승인 처리가 완료되었습니다.');
-      } else if (action === '관리자로 변경' || '사용자로 변경') {
+      } else if (action === '관리자로 변경' || action === '사용자로 변경') {
         const newRole = action === '관리자로 변경' ? 'ADMIN' : 'USER';
         response = await Promise.all(
           targetIds.map((targetId) => changeUserRoleApi(targetId, newRole)),
         );
-        // console.log('역할 변경 API 응답:', response);
         alert(`멤버의 역할이 ${newRole}로 변경되었습니다.`);
+      } else if (action === '유저 추방') {
+        response = await deleteUserApi(targetIds);
+        alert('유저 추방이 완료되었습니다.');
       }
     } catch (error: any) {
       console.error('오류 발생:', error.message);
