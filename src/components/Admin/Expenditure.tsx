@@ -11,14 +11,18 @@ const ExpenditureWrapper = styled.div`
   justify-content: center;
 `;
 
-const Expenditure: React.FC = () => {
+interface ExpenditureProps {
+  cardinal: number | null;
+}
+
+const Expenditure: React.FC<ExpenditureProps> = ({ cardinal }) => {
   return (
     <TotalDuesWrapper>
       <TopDues>
         <Title>지출 기록</Title>
       </TopDues>
       <ExpenditureWrapper>
-        <ExpenditureRecord />
+        <ExpenditureRecord cardinal={cardinal} />
       </ExpenditureWrapper>
     </TotalDuesWrapper>
   );

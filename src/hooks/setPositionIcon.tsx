@@ -1,7 +1,7 @@
-import FEIcon from '@/assets/images/ic_FE_color.svg';
-import BEIcon from '@/assets/images/ic_BE_color.svg';
-import DEIcon from '@/assets/images/ic_DE_color.svg';
-import ADIcon from '@/assets/images/ic_MA_color.svg';
+import FEIcon from '@/assets/images/ic_FE.svg';
+import BEIcon from '@/assets/images/ic_BE.svg';
+import DEIcon from '@/assets/images/ic_DE.svg';
+import ADIcon from '@/assets/images/ic_MA.svg';
 
 const positionIcons: Record<string, string> = {
   FE: FEIcon,

@@ -4,7 +4,6 @@ import {
   InputWrapper,
   SubTitle,
   CardinalWrapper,
-  CardinalButtonWrapper,
   DuesInputWrapper,
   ButtonWrapper,
 } from '@/styles/admin/DuesRegisterAdd.styled';
@@ -96,12 +95,12 @@ const DuesModifyModal: React.FC<DuesModifyModalProps> = ({ onClose }) => {
         <CardinalTotalWrapper>
           <SubTitle>기수</SubTitle>
           <CardinalWrapper>
-            <CardinalButtonWrapper>
+            <div>
               <Cardinal
                 selectedCardinal={selectedCardinal}
                 setSelectedCardinal={setSelectedCardinal}
               />
-            </CardinalButtonWrapper>
+            </div>
             <DuesInputWrapper>
               <DuesInput width="94%" placeholder="직접 입력" />
             </DuesInputWrapper>

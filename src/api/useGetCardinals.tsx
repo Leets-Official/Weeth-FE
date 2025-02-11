@@ -3,39 +3,22 @@ import axios from 'axios';
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
-export const getAllUsers = async (
-  cardinal: number | null,
-  pageNumber: number,
-) => {
+export const getAllCardinals = async () => {
   const accessToken = localStorage.getItem('accessToken');
   const refreshToken = localStorage.getItem('refreshToken');
 
-  const params: Record<string, any> = {
-    pageNumber,
-    pageSize: 10,
-  };
-
-  if (cardinal) {
-    params.cardinal = cardinal;
-  }
-
-  return axios.get(`${BASE_URL}/api/v1/users/all`, {
+  return axios.get(`${BASE_URL}/api/v1/cardinals`, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
       Authorization_refresh: `Bearer ${refreshToken}`,
     },
-    params,
   });
 };
 
-export const useGetAllUsers = ({
-  cardinal,
-  pageNumber,
-}: {
-  cardinal: number | null;
-  pageNumber: number;
-}) => {
-  const [allUsers, setAllUsers] = useState<any[]>([]);
+export const useGetAllCardinals = () => {
+  const [allCardinals, setAllCardinals] = useState<
+    { id: number; cardinalNumber: number }[]
+  >([]);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -43,8 +26,8 @@ export const useGetAllUsers = ({
       setError(null);
 
       try {
-        const response = await getAllUsers(cardinal, pageNumber);
-        setAllUsers(response.data.data.content);
+        const response = await getAllCardinals();
+        setAllCardinals(response.data.data);
       } catch (err: any) {
         setError(
           err.response?.data?.message ||
@@ -54,9 +37,9 @@ export const useGetAllUsers = ({
     };
 
     fetchUsers();
-  }, [cardinal, pageNumber]);
+  }, []);
 
-  return { allUsers, error };
+  return { allCardinals, error };
 };
 
-export default useGetAllUsers;
+export default useGetAllCardinals;
