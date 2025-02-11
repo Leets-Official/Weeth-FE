@@ -2,23 +2,37 @@ import Modal from '@/components/common/Modal';
 import styled from 'styled-components';
 import theme from '@/styles/theme';
 
-// 스타일드 컴포넌트 정의
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-self: start;
+  margin-left: 4px;
+`;
 const Title = styled.div`
   font-size: 16px;
+  font-family: ${theme.font.regular};
+  font-weight: 600;
+  margin-top: 15px;
 `;
 
 const Description = styled.div`
   font-size: 14px;
   color: ${theme.color.gray[65]};
+  font-family: ${theme.font.regular};
+  font-weight: 500;
+  margin-top: 15px;
 `;
 
 const ButtonContainer = styled.div`
   display: flex;
   flex-direction: row;
+  align-items: start;
+  gap: 9px;
 `;
 
 const ModalButton = styled.button`
   font-family: ${theme.font.semiBold};
+  color: white;
   border: none;
   border-radius: 10px;
   cursor: pointer;
@@ -32,6 +46,9 @@ const ModalButton = styled.button`
 
 const CancelButton = styled(ModalButton)`
   background: ${theme.color.gray[30]};
+  &:hover {
+    opacity: 0.7;
+  }
 `;
 
 const DelButton = styled(ModalButton)`
@@ -41,23 +58,26 @@ const DelButton = styled(ModalButton)`
     color: ${theme.color.gray[30]};
   }
 `;
-// DeleteModal 컴포넌트 정의
 const DeleteModal = ({
   title,
   content,
   onClose,
+  onDelete,
 }: {
   title: string;
   content: string;
   onClose: () => void;
+  onDelete?: () => void;
 }) => {
   return (
     <Modal hasCloseButton={false} onClose={onClose}>
-      <Title>{title}</Title>
-      <Description>{content}</Description>
+      <Container>
+        <Title>{title}</Title>
+        <Description>{content}</Description>
+      </Container>
       <ButtonContainer>
-        <CancelButton>취소</CancelButton>
-        <DelButton>삭제</DelButton>
+        <CancelButton onClick={onClose}>취소</CancelButton>
+        <DelButton onClick={onDelete}>삭제</DelButton>
       </ButtonContainer>
     </Modal>
   );

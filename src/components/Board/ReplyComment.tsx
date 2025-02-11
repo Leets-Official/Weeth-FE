@@ -5,6 +5,8 @@ import deleteComment from '@/api/deleteComment';
 import formatDateTime from '@/hooks/formatDateTime';
 import useGetUserName from '@/hooks/useGetUserName';
 import setPositionIcon from '@/hooks/setPositionIcon';
+import { useState } from 'react';
+import DeleteModal from '../Modal/DeleteModal';
 
 interface ReplyCommentProps {
   name: string;
@@ -29,12 +31,27 @@ const ReplyComment = ({
   role,
   onDelete,
 }: ReplyCommentProps) => {
-  const onClickMenu = () => {
-    deleteComment(path, postId, commentId);
-    onDelete();
-  };
   const formattedTime = formatDateTime(time);
   const isMyComment = name === useGetUserName();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const onClickMenu = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleDeleteComment = async () => {
+    try {
+      await deleteComment(path, postId, commentId);
+      onDelete();
+      handleCloseModal();
+    } catch (error) {
+      console.error('Failed to delete comment:', error);
+    }
+  };
 
   return (
     <S.ReplyCommentContainer>
@@ -55,6 +72,14 @@ const ReplyComment = ({
           </S.ReplyImageButton>
         )}
       </S.ReplyContentContainer>
+      {isModalOpen && (
+        <DeleteModal
+          title="댓글 삭제"
+          content="댓글을 정말 삭제하시겠습니까?"
+          onClose={handleCloseModal}
+          onDelete={handleDeleteComment}
+        />
+      )}
     </S.ReplyCommentContainer>
   );
 };

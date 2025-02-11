@@ -4,7 +4,7 @@ import theme from '@/styles/theme';
 
 const Container = styled.div`
   position: absolute;
-  z-index: 10;
+  z-index: 15;
   width: 100vw;
   height: 100vh;
   top: 50%;
