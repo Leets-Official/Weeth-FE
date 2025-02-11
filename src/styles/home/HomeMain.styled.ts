@@ -26,9 +26,10 @@ export const GridItem = styled.div`
   font-family: ${theme.font.semiBold};
   font-size: 18px;
   color: #fff;
-  padding: 20px;
   border-radius: 10px;
   display: flex;
+  padding: 20px 10px 10px 15px;
+  gap: 10px;
   flex-direction: column;
   justify-content: space-between;
   cursor: pointer;
@@ -62,12 +63,9 @@ export const FeeItem = styled(GridItem)`
 
 export const PlaceholderImage = styled.div`
   display: flex;
-  padding-right: 8%;
   align-items: center;
   justify-content: center;
   background-color: ${theme.color.gray[18]};
-  width: 19%;
-  border-radius: 5px;
   align-self: flex-end;
   justify-self: flex-start;
 `;
