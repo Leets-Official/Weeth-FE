@@ -1,5 +1,4 @@
-import styled, { ThemeProvider } from 'styled-components';
-import theme from '@/styles/theme';
+import styled from 'styled-components';
 import HomeMain from '@/components/home/HomeMain';
 import HomeFooter from '@/components/home/HomeFooter';
 import LogoutButton from '@/components/home/LogoutButton';
@@ -19,44 +18,27 @@ const Container = styled.div`
 const HeaderContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  margin: 45px 0px 0 0px;
+  margin-top: 45px;
   align-items: center;
 `;
 
-const Header = styled.header`
+const Header = styled.img`
   padding-left: 5%;
-`;
-
-const Main = styled.main`
-  width: 100%;
-  margin-top: 33px;
-`;
-
-const Footer = styled.footer`
-  width: 100%;
 `;
 
 const Home: React.FC = () => {
   useCustomBack('/home');
   return (
-    <ThemeProvider theme={theme}>
-      <Container>
-        <HeaderContainer>
-          <Header>
-            <img src={logo} alt="leets로고" />
-          </Header>
-          <LogoutButton />
-        </HeaderContainer>
-        <HomeNotice />
-        <Main>
-          <HomeInfo />
-          <HomeMain />
-        </Main>
-        <Footer>
-          <HomeFooter />
-        </Footer>
-      </Container>
-    </ThemeProvider>
+    <Container>
+      <HeaderContainer>
+        <Header src={logo} alt="leets로고" />
+        <LogoutButton />
+      </HeaderContainer>
+      <HomeNotice />
+      <HomeInfo />
+      <HomeMain />
+      <HomeFooter />
+    </Container>
   );
 };
 

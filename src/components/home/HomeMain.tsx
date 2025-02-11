@@ -16,9 +16,7 @@ const HomeMain: React.FC = () => {
             navi(`/calendar`);
           }}
         >
-          동아리
-          <br />
-          일정 캘린더
+          동아리 일정
           <S.PlaceholderImage>
             <img src={calendar} alt="캘린더 이미지" />
           </S.PlaceholderImage>

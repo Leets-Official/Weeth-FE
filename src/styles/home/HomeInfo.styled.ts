@@ -1,16 +1,15 @@
 import styled from 'styled-components';
 
 export const CaptionContainer = styled.div`
-  margin-left: 6%;
+  margin: 33px 0 0 6%;
 `;
 
 export const UserInfo = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  margin-top: 10px;
   width: 90%;
-  margin: 2.5% 0px 5% 5%;
+  margin: 2.5% 0 0 5%;
 `;
 
 export const UserContainer = styled.div`
