@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import theme from '@/styles/theme';
 import open from '@/assets/images/ic_opened_dropdown.svg';
 import close from '@/assets/images/ic_default_dropdown.svg';
+import useGetAllCardinals from '@/api/useGetCardinals';
 
 const DropdownContainer = styled.div`
   position: relative;
@@ -48,37 +49,36 @@ const DropdownItem = styled.div`
   }
 `;
 
-const DropdownMenu = ({
+const CardinalDropdown = ({
   origValue,
   editValue,
 }: {
-  origValue: number[];
-  editValue: (value: number[]) => void;
+  origValue: number | null;
+  editValue: (value: number | null) => void;
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedValue, setSelectedValue] = useState<number[]>(origValue);
+  const [selectedValue, setSelectedValue] = useState<number | null>(origValue);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const { allCardinals } = useGetAllCardinals();
 
-  const options = [
-    { value: 1, label: '1기' },
-    { value: 2, label: '2기' },
-    { value: 3, label: '3기' },
-    { value: 4, label: '4기' },
-    { value: 5, label: '5기' },
-  ];
+  const options: { value: number | null; label: string }[] =
+    allCardinals?.map(({ id }) => ({
+      value: id,
+      label: `${id}기`,
+    })) || [];
+
+  options.unshift({ value: null, label: '전체' });
 
   const handleToggle = () => {
     setIsOpen(!isOpen);
   };
 
-  const handleSelect = (value: number) => {
-    const updatedSelected = selectedValue.includes(value)
-      ? selectedValue.filter((item) => item !== value) // 값이 이미 선택된 경우 제거
-      : [...selectedValue, value]; // 값이 선택되지 않은 경우 추가
-    setSelectedValue(updatedSelected);
-    editValue(updatedSelected); // 부모 컴포넌트에 업데이트된 배열 전달
+  const handleSelect = (value: number | null) => {
+    setSelectedValue(value);
+    editValue(value);
     setIsOpen(false);
   };
+
   const handleClickOutside = (event: any) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
       setIsOpen(false);
@@ -99,7 +99,7 @@ const DropdownMenu = ({
   return (
     <DropdownContainer ref={dropdownRef}>
       <DropdownButton onClick={handleToggle} $hasValue={!!selectedValue}>
-        기수
+        {selectedValue ? `${selectedValue}기` : '전체'}
         {isOpen ? (
           <img src={open} alt="open" />
         ) : (
@@ -123,4 +123,4 @@ const DropdownMenu = ({
   );
 };
 
-export default DropdownMenu;
+export default CardinalDropdown;
