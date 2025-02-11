@@ -31,25 +31,29 @@ export const getUserDetail = async (userId: number) => {
 export const useGetUserDetail = () => {
   const { userId } = useParams<{ userId: string }>();
   const [userDetail, setUserDetail] = useState<UserDetail | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
         if (!userId) throw new Error('Invalid userId');
+        setLoading(true);
         const numericUserId = parseInt(userId, 10);
         const response = await getUserDetail(numericUserId);
         setUserDetail(response.data.data);
         setError(null);
       } catch (err: any) {
         setError(err.response?.data?.message);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchUser();
   }, [userId]);
 
-  return { userDetail, error };
+  return { userDetail, error, loading };
 };
 
 export default useGetUserDetail;
