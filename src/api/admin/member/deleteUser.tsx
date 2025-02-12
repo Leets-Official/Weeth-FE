@@ -4,6 +4,7 @@ const PATH = '/api/v1/admin/users';
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
+// 유저 추방
 const deleteUserApi = async (userId: number | number[]) => {
   const accessToken = localStorage.getItem('accessToken');
   const userIds = Array.isArray(userId) ? userId : [userId];
