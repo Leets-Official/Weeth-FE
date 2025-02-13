@@ -9,6 +9,7 @@ import {
   ButtonWrapper,
 } from '@/styles/admin/DuesRegisterDropDown.styled';
 import { useState } from 'react';
+import { registerDues } from '@/api/admin/dues/registerDues';
 import Cardinal from './Cardinal';
 import DuesInput from './DuesInput';
 import Button from './Button';
@@ -18,6 +19,22 @@ const DuesRegisterDropDown: React.FC = () => {
   const [customCardinal, setCustomCardinal] = useState('');
   const [description, setDescription] = useState('');
   const [amount, setAmount] = useState('');
+
+  const handleRegister = async () => {
+    const cardinal = selectedCardinal ?? Number(customCardinal);
+    const totalAmount = Number(amount);
+
+    try {
+      await registerDues({ cardinal, description, totalAmount });
+
+      setSelectedCardinal(null);
+      setCustomCardinal('');
+      setDescription('');
+      setAmount('');
+    } catch (error) {
+      console.error('회비 등록 실패:', error);
+    }
+  };
 
   return (
     <Wrapper>
@@ -60,7 +77,12 @@ const DuesRegisterDropDown: React.FC = () => {
         <Description>*회비 등록은 기수당 한 번만 가능합니다.</Description>
         <ButtonWrapper>
           <Button description="Cancel" color="#323232" width="89px" />
-          <Button description="추가" color="#ff5858" width="64px" />
+          <Button
+            description="추가"
+            color="#ff5858"
+            width="64px"
+            onClick={handleRegister}
+          />
         </ButtonWrapper>
       </ButtonWrapperWithDescription>
     </Wrapper>
