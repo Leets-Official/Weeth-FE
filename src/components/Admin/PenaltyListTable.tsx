@@ -1,4 +1,4 @@
-import React, { useReducer, useState } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 import * as S from '@/styles/admin/penalty/Penalty.styled';
 import plusIcon from '@/assets/images/ic_admin_plus.svg';
 import {
@@ -6,6 +6,7 @@ import {
   PenaltyState,
   Penalty,
 } from '@/components/Admin/context/PenaltyReducer';
+import getPenaltyApi from '@/api/admin/penalty/getPenalty';
 import { useMemberContext } from './context/MemberContext';
 import PenaltyDetail from './PenaltyDetail';
 import PenaltyAdd from './PenaltyAdd';
@@ -28,7 +29,7 @@ const PenaltyListTable: React.FC = () => {
     (member) => member.status === '승인 완료',
   );
 
-  const [expandedRow, setExpandedRow] = useState<string | null>(null);
+  const [expandedRow, setExpandedRow] = useState<number | null>(null);
   const [isAdding, setIsAdding] = useState<boolean>(false);
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
 
@@ -37,20 +38,20 @@ const PenaltyListTable: React.FC = () => {
     {} as PenaltyState,
   );
 
-  const handleRowClick = (studentId: string) => {
-    setExpandedRow((prev) => (prev === studentId ? null : studentId));
+  const handleRowClick = (userId: number) => {
+    setExpandedRow((prev) => (prev === userId ? null : userId));
     setIsAdding(false);
   };
 
-  const handleAddPenalty = (studentId: string) => {
+  const handleAddPenalty = (userId: number) => {
     setIsAdding(true);
-    setExpandedRow(studentId);
+    setExpandedRow(userId);
     setEditingIndex(null);
   };
 
-  const handleEditPenalty = (studentId: string, index: number) => {
+  const handleEditPenalty = (userId: number, index: number) => {
     setIsAdding(true);
-    setExpandedRow(studentId);
+    setExpandedRow(userId);
     setEditingIndex(index);
   };
 
@@ -59,23 +60,23 @@ const PenaltyListTable: React.FC = () => {
     setEditingIndex(null);
   };
 
-  const handleSavePenalty = (studentId: string, data: Penalty) => {
+  const handleSavePenalty = (userId: number, data: Penalty) => {
     if (editingIndex !== null) {
       dispatch({
         type: 'EDIT_PENALTY',
-        studentId,
+        userId,
         index: editingIndex,
         payload: data,
       });
     } else {
-      dispatch({ type: 'ADD_PENALTY', studentId, payload: data });
+      dispatch({ type: 'ADD_PENALTY', userId, payload: data });
     }
     setIsAdding(false);
     setEditingIndex(null);
   };
 
-  const handleDeletePenalty = (studentId: string, index: number) => {
-    dispatch({ type: 'DELETE_PENALTY', studentId, index });
+  const handleDeletePenalty = (userId: number, index: number) => {
+    dispatch({ type: 'DELETE_PENALTY', userId, index });
   };
 
   const renderColumns = (member: Record<string, any>) =>
@@ -86,6 +87,19 @@ const PenaltyListTable: React.FC = () => {
         <S.Cell key={column.key}>{member[column.key]}</S.Cell>
       ),
     );
+
+  const fetchPenaltyData = async () => {
+    try {
+      const response = await getPenaltyApi();
+      console.log('페널티 조회 API 응답: ', response);
+    } catch (error: any) {
+      console.error('패널티 조회 오류:', error.message);
+    }
+  };
+
+  useEffect(() => {
+    fetchPenaltyData();
+  }, []);
 
   return (
     <S.TableContainer>
@@ -102,13 +116,13 @@ const PenaltyListTable: React.FC = () => {
           </thead>
           <tbody>
             {StatusfilteredMembers.map((member) => (
-              <React.Fragment key={member.studentId}>
-                <S.Row onClick={() => handleRowClick(member.studentId)}>
+              <React.Fragment key={member.id}>
+                <S.Row onClick={() => handleRowClick(member.id)}>
                   <StatusCell statusColor={statusColors[member.status]} />
                   <S.PlusButtonCell
                     onClick={(e) => {
                       e.stopPropagation();
-                      handleAddPenalty(member.studentId);
+                      handleAddPenalty(member.id);
                     }}
                   >
                     <img src={plusIcon} alt="plus-icon" />
@@ -116,7 +130,7 @@ const PenaltyListTable: React.FC = () => {
                   {renderColumns(member)}
                 </S.Row>
 
-                {expandedRow === member.studentId && (
+                {expandedRow === member.id && (
                   <>
                     <S.ExpandedRow>
                       <td colSpan={columns.length + 2}>
@@ -130,18 +144,16 @@ const PenaltyListTable: React.FC = () => {
                       </td>
                     </S.ExpandedRow>
 
-                    {penaltyData[member.studentId]?.map((penalty, index) => (
+                    {penaltyData[member.id]?.map((penalty, index) => (
                       <S.ExpandedRow
-                        key={`${member.studentId}-${penalty.penaltyDate}`}
+                        key={`${member.id}-${penalty.penaltyDate}`}
                       >
                         <td colSpan={columns.length + 2}>
                           <PenaltyDetail
                             penaltyData={penalty}
-                            onEdit={() =>
-                              handleEditPenalty(member.studentId, index)
-                            }
+                            onEdit={() => handleEditPenalty(member.id, index)}
                             onDelete={() =>
-                              handleDeletePenalty(member.studentId, index)
+                              handleDeletePenalty(member.id, index)
                             }
                           />
                         </td>
@@ -154,11 +166,11 @@ const PenaltyListTable: React.FC = () => {
                           <PenaltyAdd
                             onCancel={handleCancelAdd}
                             onSave={(data) =>
-                              handleSavePenalty(member.studentId, data)
+                              handleSavePenalty(member.id, data)
                             }
                             existingData={
                               editingIndex !== null
-                                ? penaltyData[member.studentId]?.[editingIndex]
+                                ? penaltyData[member.id]?.[editingIndex]
                                 : undefined
                             }
                           />

@@ -5,13 +5,13 @@ export interface Penalty {
 }
 
 export interface PenaltyState {
-  [studentId: string]: Penalty[];
+  [userId: number]: Penalty[];
 }
 
 export interface PenaltyAction {
-  type: 'ADD_PENALTY' | 'EDIT_PENALTY' | 'DELETE_PENALTY';
-  studentId: string;
-  payload?: Penalty;
+  type: 'SET_PENALTY' | 'ADD_PENALTY' | 'EDIT_PENALTY' | 'DELETE_PENALTY';
+  userId: number;
+  payload?: Penalty | PenaltyState;
   index?: number;
 }
 
@@ -20,28 +20,36 @@ export const penaltyReducer = (
   action: PenaltyAction,
 ): PenaltyState => {
   switch (action.type) {
+    case 'SET_PENALTY':
+      return {
+        ...(action.payload as PenaltyState),
+      };
+
     case 'ADD_PENALTY':
       return {
         ...state,
-        [action.studentId]: [
-          ...(state[action.studentId] || []),
-          action.payload!,
+        [action.userId]: [
+          ...(state[action.userId] || []),
+          action.payload as Penalty,
         ],
       };
+
     case 'EDIT_PENALTY':
       return {
         ...state,
-        [action.studentId]: state[action.studentId].map((item, idx) =>
-          idx === action.index ? action.payload! : item,
+        [action.userId]: state[action.userId].map((item, idx) =>
+          idx === action.index ? (action.payload as Penalty) : item,
         ),
       };
+
     case 'DELETE_PENALTY':
       return {
         ...state,
-        [action.studentId]: state[action.studentId].filter(
+        [action.userId]: state[action.userId].filter(
           (_, idx) => idx !== action.index,
         ),
       };
+
     default:
       return state;
   }
