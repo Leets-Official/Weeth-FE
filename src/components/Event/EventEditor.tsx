@@ -44,10 +44,10 @@ const EventEditor = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const [isMeeting, setIsMeeting] = useState(false);
   const [eventRequest, setEventRequest] = useState<EventRequestType>({
     title: '',
     cardinal: 0,
+    isMeeting: false,
     start: '',
     end: '',
     location: '',
@@ -174,10 +174,13 @@ const EventEditor = () => {
             </S.Align>
 
             <ToggleButton
-              isMeeting={isMeeting}
+              isMeeting={eventRequest.isMeeting}
               isEditMode={isEditMode}
               onToggle={() => {
-                setIsMeeting(!isMeeting);
+                setEventRequest((prevInfo) => ({
+                  ...prevInfo,
+                  isMeeting: !prevInfo.isMeeting,
+                }));
               }}
             />
           </S.Meeting>
