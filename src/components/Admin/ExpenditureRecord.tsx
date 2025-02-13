@@ -1,85 +1,46 @@
-import styled from 'styled-components';
-import theme from '@/styles/theme';
-import Receipt from '@/assets/images/ic_admin_receipt.svg';
+import {
+  Container,
+  Wrapper,
+  DateWrapper,
+  Date,
+  ButtonWrapper,
+  ExpenditureWrapper,
+  ExpenditureTitle,
+  Master,
+  ExpenditureMaster,
+  ModifyButton,
+} from '@/styles/admin/ExpenditureRecord.styled';
 import { useState, useEffect } from 'react';
 import fetchAccountData from '@/api/admin/dues/account';
-import { AccountResponse, RECEIPT } from '@/types/account';
+import { AccountResponse, RECEIPT, FileObject } from '@/types/account';
+import Receipt from '@/assets/images/ic_admin_receipt.svg';
+import deleteReceipt from '@/api/admin/dues/deleteReceipt';
 import Button from './Button';
 import DuesModifyModal from './Modal/DuesModifyModal';
+import ReceiptModal from './Modal/ReceiptModal';
 
-interface ExpenditureRecordProps {
-  date?: string;
+export interface ExpenditureRecordProps {
+  date: string;
   title?: string;
-  money?: number;
-  master?: string;
+  amount?: number;
+  source?: string;
   cardinal: number | null;
+  fileUrls?: FileObject[];
+  id: number;
 }
-
-const Container = styled.div`
-  width: 95%;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-`;
-
-const Wrapper = styled.div`
-  background-color: #fff;
-  border: 1px solid #dedede;
-`;
-
-const DateWrapper = styled.div`
-  width: 100%;
-  height: 48px;
-  border-bottom: 1px solid #dedede;
-  display: flex;
-  justify-content: space-between;
-  font-family: ${theme.font.regular};
-  font-size: 18px;
-  align-items: center;
-`;
-
-const Date = styled.div`
-  margin-left: 15px;
-`;
-
-const ButtonWrapper = styled.div`
-  display: flex;
-`;
-
-const ExpenditureWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 20px;
-`;
-
-const ExpenditureTitle = styled.div`
-  font-family: ${theme.font.semiBold};
-  font-size: 24px;
-  margin-bottom: 20px;
-`;
-
-const Master = styled.div`
-  margin-top: 20px;
-`;
-const ExpenditureMaster = styled.div`
-  font-family: ${theme.font.regular};
-  font-size: 18px;
-  margin-top: 40px;
-  display: flex;
-  justify-content: space-between;
-`;
-
-const ModifyButton = styled.div``;
 
 const ExpenditureRecord: React.FC<{ cardinal: number | null }> = ({
   cardinal,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [records, setRecords] = useState<ExpenditureRecordProps[]>([]);
+  const [selectedFileUrls, setSelectedFileUrls] = useState<FileObject[] | null>(
+    null,
+  );
+  const [selectedRecord, setSelectedRecord] =
+    useState<ExpenditureRecordProps | null>(null);
 
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
+  const closeImageModal = () => setSelectedFileUrls(null);
 
   useEffect(() => {
     if (cardinal === null) return;
@@ -88,15 +49,17 @@ const ExpenditureRecord: React.FC<{ cardinal: number | null }> = ({
       try {
         const response: AccountResponse = await fetchAccountData(cardinal);
         if (response.code === 200) {
-          const { description, receipts } = response.data;
+          const { receipts } = response.data;
 
           const formattedRecords: ExpenditureRecordProps[] = receipts.map(
             (receipt: RECEIPT) => ({
               date: receipt.date,
-              title: description,
-              money: receipt.amount,
-              master: receipt.description,
+              title: receipt.description ?? '',
+              amount: receipt.amount,
+              source: receipt.source,
+              fileUrls: receipt.fileUrls,
               cardinal,
+              id: receipt.id,
             }),
           );
           setRecords(formattedRecords);
@@ -105,37 +68,95 @@ const ExpenditureRecord: React.FC<{ cardinal: number | null }> = ({
         console.error('지출 내역을 불러오는 중 오류 발생:', error);
       }
     };
-
     getData();
   }, [cardinal]);
+
+  const openModal = (record: ExpenditureRecordProps) => {
+    setSelectedRecord(record);
+
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedRecord(null);
+  };
+
+  const handleSave = (updatedRecord: ExpenditureRecordProps) => {
+    setRecords((prevRecords) =>
+      prevRecords.map((rec) =>
+        rec.id === updatedRecord.id ? { ...rec, ...updatedRecord } : rec,
+      ),
+    );
+    setIsModalOpen(false);
+  };
+
+  const handleDelete = async (receiptId: number) => {
+    try {
+      await deleteReceipt(receiptId);
+      setRecords((prevRecords) =>
+        prevRecords.filter((rec) => rec.id !== receiptId),
+      );
+    } catch (error) {
+      console.error('삭제 중 오류가 발생하였습니다', error);
+    }
+  };
 
   return (
     <Container>
       {records.map((item) => (
-        <Wrapper>
+        <Wrapper key={item.id}>
           <DateWrapper>
             <Date>{item.date}</Date>
             <ButtonWrapper>
-              <ModifyButton onClick={openModal}>
+              <ModifyButton onClick={() => openModal(item)}>
                 <Button description="수정" color="#323232" width="64px" />
               </ModifyButton>
-
-              <Button description="삭제" color="#ff5858" width="64px" />
+              <ModifyButton onClick={() => handleDelete(item.id)}>
+                <Button description="삭제" color="#ff5858" width="64px" />
+              </ModifyButton>
             </ButtonWrapper>
           </DateWrapper>
           <ExpenditureWrapper>
             <div>
               <ExpenditureTitle>{item.title}</ExpenditureTitle>
-              <ExpenditureTitle>{item.money}원</ExpenditureTitle>
+              <ExpenditureTitle>{item.amount}원</ExpenditureTitle>
             </div>
             <ExpenditureMaster>
-              <Master>{item.master}</Master>
-              <img src={Receipt} alt="Receipt" />
+              <Master>{item.source}</Master>
+              <button
+                type="button"
+                onClick={() => setSelectedFileUrls(item.fileUrls ?? null)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    setSelectedFileUrls(item.fileUrls ?? null);
+                  }
+                }}
+                style={{
+                  border: 'none',
+                  background: 'none',
+                  cursor: 'pointer',
+                  padding: 0,
+                }}
+              >
+                <img src={Receipt} alt="영수증 보기" />
+              </button>
             </ExpenditureMaster>
           </ExpenditureWrapper>
         </Wrapper>
       ))}
-      {isModalOpen && <DuesModifyModal onClose={closeModal} />}
+
+      {selectedFileUrls && (
+        <ReceiptModal fileUrls={selectedFileUrls} onClose={closeImageModal} />
+      )}
+
+      {isModalOpen && selectedRecord && (
+        <DuesModifyModal
+          onClose={closeModal}
+          record={selectedRecord}
+          onSave={handleSave}
+        />
+      )}
     </Container>
   );
 };

@@ -13,6 +13,7 @@ const CardinalButton = styled.div`
   align-items: center;
   cursor: pointer;
   border-radius: 5px;
+  color: black;
 `;
 
 export const DropdownMenu = styled.div`
@@ -22,8 +23,8 @@ export const DropdownMenu = styled.div`
   border: 1px solid #dedede;
   border-radius: 5px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  z-index: 3;
   position: absolute;
+  color: black;
 `;
 
 export const DropdownItem = styled.div`
