@@ -20,7 +20,6 @@ import Modal from '@/components/common/Modal';
 import Button from '@/components/Button/Button';
 import ToggleButton from '@/components/common/ToggleButton';
 import EventInput, { EventInputBlock } from '@/components/Event/EventInput';
-import CardinalLabel from '@/components/Event/CardinalLabel';
 
 function checkEmpty(
   field: string | number | undefined,
@@ -183,18 +182,21 @@ const EventEditor = () => {
             />
           </S.Meeting>
           <S.Line />
-          <S.Cardinal>
+          <S.Meeting>
+            <S.Align>
+              <div>기수</div>
+            </S.Align>
             <CardinalDropdown
               origValue={eventRequest.cardinal}
               editValue={(value) => editEventInfo('cardinal', value)}
             />
-            <S.CardinalList>
+            {/* <S.CardinalList>
               <CardinalLabel
                 key={eventRequest.cardinal}
                 cardinal={eventRequest.cardinal}
               />
-            </S.CardinalList>
-          </S.Cardinal>
+            </S.CardinalList> */}
+          </S.Meeting>
           <S.Line />
           <S.StartDate>
             <div>시작</div>

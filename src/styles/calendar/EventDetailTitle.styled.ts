@@ -44,12 +44,12 @@ export const Cardinal = styled.div`
   padding-right: 5px;
 `;
 
-export const TextButton = styled.div<{ isLast?: boolean }>`
+export const TextButton = styled.div<{ $isLast?: boolean }>`
   width: calc(100% - 8px);
   box-sizing: border-box;
   padding: 12px 0 12px 16px;
   margin: 0 4px;
   border-bottom: ${(props) =>
-    props.isLast ? 'none' : `1px solid ${theme.color.gray[30]}`};
-  color: ${(props) => (props.isLast ? theme.color.negative : 'white')};
+    props.$isLast ? 'none' : `1px solid ${theme.color.gray[30]}`};
+  color: ${(props) => (props.$isLast ? theme.color.negative : 'white')};
 `;

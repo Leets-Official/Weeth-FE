@@ -53,13 +53,14 @@ const ToggleButton = ({
   isMeeting: boolean;
   isEditMode: boolean;
 }) => {
+  console.log('isEditMode', isEditMode);
   return (
     <Switch
       $isMeeting={isMeeting}
       isEditMode={isEditMode}
-      onClick={isEditMode ? onToggle : undefined}
+      // onClick={isEditMode ? undefined : onToggle}
     >
-      <Checkbox type="checkbox" onChange={isEditMode ? onToggle : undefined} />
+      <Checkbox type="checkbox" onChange={isEditMode ? undefined : onToggle} />
       <Slider $isMeeting={isMeeting} />
     </Switch>
   );

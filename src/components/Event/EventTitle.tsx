@@ -17,7 +17,7 @@ const EventTitle = ({
   data: EventDetailData;
   isAdmin: boolean;
 }) => {
-  const [isModalOpen, setIsModalIsOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
   const formattedDateTime = formatDateTime(data.createdAt);
 
@@ -41,14 +41,18 @@ const EventTitle = ({
       <Header
         isAccessible={isAdmin}
         onClickRightButton={() => {
-          setIsModalIsOpen(true);
+          console.log('Right button clicked!');
+
+          setIsModalOpen(true);
+          console.log(isModalOpen);
         }}
         RightButtonType="MENU"
       />
+
       <S.EventTitleWrapper>
         <S.SpaceBetween>
           <S.Title>{data.title}</S.Title>
-          <Tag type={type} />
+          {type === 'meetings' && <Tag />}
         </S.SpaceBetween>
 
         <S.SpaceBetween>
@@ -62,10 +66,10 @@ const EventTitle = ({
         {isModalOpen && (
           <MenuModal
             onClose={() => {
-              setIsModalIsOpen(false);
+              setIsModalOpen(false);
             }}
-            top="-65px"
-            right="30px"
+            top={-65}
+            right={630}
           >
             <S.TextButton
               onClick={() => {
@@ -75,7 +79,7 @@ const EventTitle = ({
               수정
             </S.TextButton>
             <S.TextButton
-              isLast
+              $isLast
               onClick={() => {
                 onClickDel();
               }}

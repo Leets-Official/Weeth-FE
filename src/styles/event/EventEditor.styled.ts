@@ -72,12 +72,12 @@ export const Cardinal = styled.div`
   display: flex;
   gap: 10px;
   padding: 13px 10px;
+  margin-left: auto;
 `;
 
 export const CardinalList = styled.div`
   display: flex;
   flex-wrap: wrap;
-  width: 238px;
   max-width: 238px;
   gap: 5px;
   box-sizing: border-box;
