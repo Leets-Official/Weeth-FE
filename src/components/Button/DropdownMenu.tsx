@@ -26,7 +26,7 @@ const DropdownButton = styled.div`
   width: 257px;
   height: 45px;
   box-sizing: border-box;
-  padding-right: 10px;
+  padding-left: 10px;
   font-size: 16px;
   outline: none;
   border: none;
@@ -36,7 +36,6 @@ const DropdownButton = styled.div`
   cursor: pointer;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
 `;
 
 const SignupDropDownButton = styled.div<{ $hasValue: boolean }>`
