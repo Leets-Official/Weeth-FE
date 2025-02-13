@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 
 import ModalAttend from '@/components/Attendance/Modal/ModalAttend';
 import ModalPenalty from '@/components/Attendance/Modal/ModalPenalty';
-import Button from '@/components/Button/Button';
+
 import RightButton from '@/components/Header/RightButton';
 import check from '@/assets/images/ic_check.svg';
 import warning from '@/assets/images/ic_warning.svg';
@@ -11,13 +11,14 @@ import warning from '@/assets/images/ic_warning.svg';
 import * as S from '@/styles/attend/AttendMain.styled';
 import useGetAttend from '@/api/useGetAttend';
 import useGetPenalty from '@/api/useGetPenalty';
+import { AttendInfo, NoAttnedInfo } from './AttendInfo';
 
 const AttendMain: React.FC = () => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [penaltyModalOpen, setPenaltyModalOpen] = useState<boolean>(false);
   const [hasPenalty, setHasPenalty] = useState<boolean>(false);
 
-  const { attendInfo, isLoading, hasSchedule, error } = useGetAttend();
+  const { attendInfo, hasSchedule, error } = useGetAttend();
   const { penaltyInfo } = useGetPenalty();
 
   useEffect(() => {
@@ -91,47 +92,17 @@ const AttendMain: React.FC = () => {
     <S.StyledAttend>
       <S.StyledBox>
         <img src={check} alt="v" />
-        {hasSchedule ? (
-          <div>
-            <S.SemiBold>
-              <S.AttendProject>
-                오늘은{' '}
-                <span style={{ color: theme.color.main }}>
-                  &quot;{title}&quot;
-                </span>
-                이&#40;가&#41; 있는 날이에요
-              </S.AttendProject>
-            </S.SemiBold>
-            <S.AttendDate>
-              날짜 : {startDateTime} {endDateTime}
-            </S.AttendDate>
-            <S.AttendPlace>장소 : {location}</S.AttendPlace>
-            <S.AttendButton>
-              <Button
-                color={
-                  isWithinTimeRange
-                    ? theme.color.gray[30]
-                    : theme.color.gray[30]
-                }
-                textcolor={
-                  isWithinTimeRange
-                    ? theme.color.gray[100]
-                    : theme.color.gray[20]
-                }
-                onClick={handleOpenModal}
-                disabled={!isWithinTimeRange}
-              >
-                출석하기
-              </Button>
-            </S.AttendButton>
-          </div>
+        {hasSchedule && attendInfo && !error ? (
+          <AttendInfo
+            title={title}
+            location={location}
+            startDateTime={startDateTime}
+            endDateTime={endDateTime}
+            isWithinTimeRange={isWithinTimeRange}
+            handleOpenModal={handleOpenModal}
+          />
         ) : (
-          <div>
-            <S.SemiBold>
-              <S.AttendProject>오늘은 일정이 없어요</S.AttendProject>
-            </S.SemiBold>
-            <S.AttendPlace>동아리원과 스터디를 하는건 어때요?</S.AttendPlace>
-          </div>
+          <NoAttnedInfo />
         )}
       </S.StyledBox>
       <S.StyledBox>
