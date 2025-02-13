@@ -7,7 +7,6 @@ const NavMenuWrapper = styled.div`
   background-color: #ffffff;
   border: 1px solid #f2f2f2;
   box-shadow: 0px 3px 8px 0px rgba(133, 141, 138, 0.2);
-  flex-shrink: 0;
 `;
 
 const NavMenu: React.FC = () => {
