@@ -1,7 +1,7 @@
 import theme from '@/styles/theme';
 import styled from 'styled-components';
 
-const Switch = styled.label<{ $isMeeting: boolean }>`
+const Switch = styled.label<{ $isMeeting: boolean; isEditMode: boolean }>`
   position: relative;
   display: inline-block;
   width: 36px;
@@ -12,7 +12,7 @@ const Switch = styled.label<{ $isMeeting: boolean }>`
 
   background-color: ${(props) =>
     props.$isMeeting ? theme.color.mainMiddle : theme.color.gray[65]};
-  cursor: pointer;
+  cursor: ${(props) => (props.isEditMode ? 'pointer' : 'default')};
 `;
 
 const Checkbox = styled.input`
@@ -47,13 +47,19 @@ const Slider = styled.span<{ $isMeeting: boolean }>`
 const ToggleButton = ({
   onToggle,
   isMeeting,
+  isEditMode,
 }: {
   onToggle: () => void;
   isMeeting: boolean;
+  isEditMode: boolean;
 }) => {
   return (
-    <Switch $isMeeting={isMeeting}>
-      <Checkbox type="checkbox" onChange={onToggle} />
+    <Switch
+      $isMeeting={isMeeting}
+      isEditMode={isEditMode}
+      onClick={isEditMode ? onToggle : undefined}
+    >
+      <Checkbox type="checkbox" onChange={isEditMode ? onToggle : undefined} />
       <Slider $isMeeting={isMeeting} />
     </Switch>
   );

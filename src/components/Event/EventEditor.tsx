@@ -176,6 +176,7 @@ const EventEditor = () => {
 
             <ToggleButton
               isMeeting={isMeeting}
+              isEditMode={isEditMode}
               onToggle={() => {
                 setIsMeeting(!isMeeting);
               }}
@@ -191,9 +192,6 @@ const EventEditor = () => {
               <CardinalLabel
                 key={eventRequest.cardinal}
                 cardinal={eventRequest.cardinal}
-                onDelete={() => {
-                  // TODO: 기수 삭제 UI 수정 필요
-                }}
               />
             </S.CardinalList>
           </S.Cardinal>
