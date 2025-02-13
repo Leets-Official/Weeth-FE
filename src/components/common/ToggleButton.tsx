@@ -53,7 +53,6 @@ const ToggleButton = ({
   isMeeting: boolean;
   isEditMode: boolean;
 }) => {
-  console.log('isMeeting', isMeeting);
   return (
     <Switch $isMeeting={isMeeting} $isEditMode={isEditMode}>
       <Checkbox type="checkbox" onChange={isEditMode ? undefined : onToggle} />
