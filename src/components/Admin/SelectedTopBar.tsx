@@ -1,6 +1,7 @@
 import theme from '@/styles/theme';
 import backarrow from '@/assets/images/ic_admin_backarrow.svg';
 import { useState } from 'react';
+import useAdminActions from '@/hooks/useAdminActions';
 import styled from 'styled-components';
 import { useMemberContext } from './context/MemberContext';
 import { Title } from './TopBar';
@@ -31,8 +32,10 @@ const SvgIcon = styled.img`
 `;
 
 const SelectedTopBar: React.FC = () => {
-  const { selectedMembers, setSelectedMembers } = useMemberContext();
+  const { selectedMembers, setSelectedMembers, members } = useMemberContext();
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const { handleAction } = useAdminActions();
 
   const handleBackClick = () => {
     setSelectedMembers([]);
@@ -45,41 +48,41 @@ const SelectedTopBar: React.FC = () => {
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
+
+  const selectedRoles = selectedMembers.map(
+    (id) => members.find((m) => m.id === Number(id))?.role,
+  );
+
+  const hasMixedRoles =
+    selectedRoles.includes('ADMIN') && selectedRoles.includes('USER');
+
+  const allAdmins = selectedRoles.every((role) => role === 'ADMIN');
+  const allUsers = selectedRoles.every((role) => role === 'USER');
   const buttons = [
     {
       label: '가입 승인',
-      onClick: () =>
-        alert(`${selectedMembers.length}명의 멤버 가입을 승인하시겠습니까?`),
+      onClick: () => handleAction('가입 승인', selectedMembers.map(Number)),
       disabled: false,
     },
     {
       label: '관리자로 변경',
-      onClick: () =>
-        alert(
-          `${selectedMembers.length}명의 멤버를 관리자로 변경하시겠습니까?`,
-        ),
-      disabled: selectedMembers.length !== 1,
+      onClick: () => handleAction('관리자로 변경', selectedMembers.map(Number)),
+      disabled: hasMixedRoles || allAdmins,
     },
     {
       label: '사용자로 변경',
-      onClick: () =>
-        alert(
-          `${selectedMembers.length}명의 멤버를 사용자로 변경하시겠습니까?`,
-        ),
-      disabled: selectedMembers.length !== 1,
+      onClick: () => handleAction('사용자로 변경', selectedMembers.map(Number)),
+      disabled: hasMixedRoles || allUsers,
     },
     {
       label: '비밀번호 초기화',
       onClick: () =>
-        alert(
-          `${selectedMembers.length}명의 멤버 비밀번호를 초기화하시겠습니까?`,
-        ),
+        handleAction('비밀번호 초기화', selectedMembers.map(Number)),
       disabled: false,
     },
     {
       label: '유저 추방',
-      onClick: () =>
-        alert(`${selectedMembers.length}명의 멤버를 추방하시겠습니까?`),
+      onClick: () => handleAction('유저 추방', selectedMembers.map(Number)),
       disabled: false,
     },
     {
