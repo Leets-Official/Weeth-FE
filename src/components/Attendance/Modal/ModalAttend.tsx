@@ -39,10 +39,11 @@ const CloseButton: React.FC<{ onClick: () => void }> = ({ onClick }) => (
   </S.ImgButton>
 );
 
-const ModalAttend: React.FC<{ open: boolean; close: () => void }> = ({
-  open,
-  close,
-}) => {
+const ModalAttend: React.FC<{
+  open: boolean;
+  close: () => void;
+  handleAttend: (attended: boolean) => void;
+}> = ({ open, close, handleAttend }) => {
   const [codeCheck, setCodeCheck] = useState(0);
   const [inputValue, setInputValue] = useState('');
   const [message, setMessage] = useState('');
@@ -84,6 +85,7 @@ const ModalAttend: React.FC<{ open: boolean; close: () => void }> = ({
       setMessage(response.data.message);
       if (response.data.code === 200) {
         setCodeCheck(1); // Correct
+        handleAttend(true);
       } else {
         setCodeCheck(2); // Wrong
       }

@@ -20,6 +20,9 @@ const AttendMain: React.FC = () => {
 
   const { attendInfo, hasSchedule, error } = useGetAttend();
   const { penaltyInfo } = useGetPenalty();
+  const [isAttend, setIsAttend] = useState(false);
+
+  console.log(attendInfo);
 
   useEffect(() => {
     setHasPenalty(
@@ -100,6 +103,7 @@ const AttendMain: React.FC = () => {
             endDateTime={endDateTime}
             isWithinTimeRange={isWithinTimeRange}
             handleOpenModal={handleOpenModal}
+            isAttend={isAttend}
           />
         ) : (
           <NoAttnedInfo />
@@ -152,7 +156,11 @@ const AttendMain: React.FC = () => {
           </>
         )}
       </S.StyledBox>
-      <ModalAttend open={modalOpen} close={handleCloseModal} />
+      <ModalAttend
+        open={modalOpen}
+        close={handleCloseModal}
+        handleAttend={setIsAttend}
+      />
       <ModalPenalty open={penaltyModalOpen} close={handleClosePenaltyModal} />
     </S.StyledAttend>
   );

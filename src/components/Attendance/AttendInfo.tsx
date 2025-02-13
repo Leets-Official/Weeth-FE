@@ -9,6 +9,7 @@ interface AttendInfoProps {
   location: string;
   isWithinTimeRange: boolean;
   handleOpenModal: () => void;
+  isAttend: boolean;
 }
 
 export const AttendInfo: React.FC<AttendInfoProps> = ({
@@ -18,6 +19,7 @@ export const AttendInfo: React.FC<AttendInfoProps> = ({
   location,
   isWithinTimeRange,
   handleOpenModal,
+  isAttend,
 }) => {
   return (
     <div>
@@ -33,14 +35,18 @@ export const AttendInfo: React.FC<AttendInfoProps> = ({
       </S.AttendDate>
       <S.AttendPlace>장소: {location}</S.AttendPlace>
       <S.AttendButton>
-        <Button
-          color={theme.color.gray[30]}
-          textcolor={theme.color.gray[100]}
-          onClick={handleOpenModal}
-          disabled={!isWithinTimeRange}
-        >
-          출석하기
-        </Button>
+        {isAttend ? (
+          <div>출석완료</div>
+        ) : (
+          <Button
+            color={theme.color.gray[30]}
+            textcolor={theme.color.gray[100]}
+            onClick={handleOpenModal}
+            disabled={!isWithinTimeRange}
+          >
+            출석하기
+          </Button>
+        )}
       </S.AttendButton>
     </div>
   );
