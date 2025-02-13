@@ -11,6 +11,7 @@ import { useState } from 'react';
 import fullscreen from '@/assets/images/ic_fullscreen.svg';
 import smallscreen from '@/assets/images/ic_smallscreen.svg';
 import close from '@/assets/images/ic_close.svg';
+import { useParams } from 'react-router-dom';
 
 const EventContent = ({
   data,
@@ -23,6 +24,7 @@ const EventContent = ({
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isFullScreen, setIsFullScreen] = useState(false);
+  const { type } = useParams();
 
   const start = dayjs(data.start);
   const end = dayjs(data.end);
@@ -68,11 +70,13 @@ const EventContent = ({
           </S.ModalSetting>
           {isFullScreen && <S.Date>{dayjs().format('YYYY년 M월 D일')}</S.Date>}
           <S.Title isFullScreen={isFullScreen}>출석코드</S.Title>
-          <S.AttendanceCode isFullScreen={isFullScreen}>1234</S.AttendanceCode>
+          <S.AttendanceCode isFullScreen={isFullScreen}>
+            {data.code}
+          </S.AttendanceCode>
         </Modal>
       )}
 
-      {isAdmin && (
+      {isAdmin && type === 'meetings' && (
         <Button
           color={theme.color.mainMiddle}
           onClick={() => {

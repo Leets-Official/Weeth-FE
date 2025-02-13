@@ -17,10 +17,12 @@ const Meeting = styled(DefaultStyle)`
   color: ${theme.color.main};
 `;
 
-const Tag = ({ type }: { type: string }) => {
+const Tag = ({ type }: { type: string | undefined }) => {
   switch (type) {
-    case 'meeting':
+    case 'meetings':
       return <Meeting>정기 모임</Meeting>;
+    case 'events':
+      return <Meeting>그 외 일정</Meeting>;
     // 추가 예정...
     default:
       return null;

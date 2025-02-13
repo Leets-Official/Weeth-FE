@@ -11,7 +11,8 @@ export interface EventDetailData {
   title: string;
   content: string;
   location: string;
-  requiredItem: string;
+  cardinal: number;
+  code?: number;
   name: string;
   memberCount: string;
   start: string;
