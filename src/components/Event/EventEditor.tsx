@@ -18,12 +18,12 @@ import toTwoDigits from '@/hooks/toTwoDigits';
 import CardinalDropdown from '@/components/common/CardinalDropdown';
 import Modal from '@/components/common/Modal';
 import Button from '@/components/Button/Button';
-import ToggleButton from '../common/ToggleButton';
-import EventInput, { EventInputBlock } from './EventInput';
-import CardinalLabel from './CardinalLabel';
+import ToggleButton from '@/components/common/ToggleButton';
+import EventInput, { EventInputBlock } from '@/components/Event/EventInput';
+import CardinalLabel from '@/components/Event/CardinalLabel';
 
 function checkEmpty(
-  field: string | number[] | undefined,
+  field: string | number | undefined,
   message: string,
 ): boolean {
   // TODO🚨important!!🚨: 배열 내에 빈 값이 있는 경우를 처리하는 로직 추가
@@ -48,7 +48,7 @@ const EventEditor = () => {
   const [isMeeting, setIsMeeting] = useState(false);
   const [eventRequest, setEventRequest] = useState<EventRequestType>({
     title: '',
-    cardinal: [],
+    cardinal: 0,
     start: '',
     end: '',
     location: '',
@@ -78,13 +78,6 @@ const EventEditor = () => {
       setEventRequest(eventDetailData);
     }
   }, [eventDetailData]);
-
-  const handleDeleteCardinal = (cardinal: number) => {
-    setEventRequest((prev) => ({
-      ...prev,
-      cardinal: prev.cardinal.filter((item) => item !== cardinal), // 해당 기수 삭제
-    }));
-  };
 
   const editEventInfo = (key: keyof EventRequestType, value: any) => {
     setEventRequest((prevInfo) => ({
@@ -195,13 +188,13 @@ const EventEditor = () => {
               editValue={(value) => editEventInfo('cardinal', value)}
             />
             <S.CardinalList>
-              {eventRequest.cardinal.map((cardinal) => (
-                <CardinalLabel
-                  key={cardinal}
-                  cardinal={cardinal}
-                  onDelete={handleDeleteCardinal}
-                />
-              ))}
+              <CardinalLabel
+                key={eventRequest.cardinal}
+                cardinal={eventRequest.cardinal}
+                onDelete={() => {
+                  // TODO: 기수 삭제 UI 수정 필요
+                }}
+              />
             </S.CardinalList>
           </S.Cardinal>
           <S.Line />

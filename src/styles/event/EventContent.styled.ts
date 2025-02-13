@@ -8,16 +8,51 @@ export const Container = styled.div`
   gap: 15px;
 `;
 
-export const Title = styled.div`
-  padding-top: 15px;
+export const ModalSetting = styled.div`
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  gap: 9px;
+
+  position: fixed;
+  top: 10px;
+  right: 15px;
+`;
+
+export const ImgButton = styled.img`
+  cursor: pointer;
+`;
+
+export const Date = styled.div`
+  font-size: 48px;
   font-family: ${theme.font.semiBold};
 `;
 
-export const AttendanceCode = styled.div`
+export const Title = styled.div<{ isFullScreen: boolean }>`
+  padding-top: 15px;
+  font-family: ${theme.font.semiBold};
+
+  ${(props) =>
+    props.isFullScreen
+      ? `
+        font-size: 100px;
+        color: ${theme.color.gray[65]};
+      `
+      : ``}
+`;
+
+export const AttendanceCode = styled.div<{ isFullScreen: boolean }>`
   padding-bottom: 20px;
   color: ${theme.color.main};
   font-size: 48px;
   font-family: ${theme.font.semiBold};
+
+  ${(props) =>
+    props.isFullScreen
+      ? `
+        font-size: 300px;
+      `
+      : ``}
 `;
 
 export const ContentBlock = styled.div`

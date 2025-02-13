@@ -7,6 +7,10 @@ export const Wrapper = styled.div`
   margin-bottom: 50px;
 `;
 
+export const Bold = styled.div`
+  font-family: ${theme.font.semiBold};
+`;
+
 export const CardinalWrapper = styled.div`
   margin-left: 30px;
 `;

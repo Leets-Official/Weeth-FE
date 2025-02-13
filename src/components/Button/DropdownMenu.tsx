@@ -3,30 +3,29 @@ import theme from '@/styles/theme';
 import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
-interface DropdownMenuProps {
-  text: string;
-  origValue: string;
-  editValue: (value: string) => void;
-  buttonstyle: string;
-}
-
-const DropdownContainer = styled.div<{ buttonstyle: 'member' | 'signup' }>`
+const DropdownContainer = styled.div<{ type: 'mypage' | 'signup' }>`
   position: relative;
   display: flex;
   align-items: center;
   font-family: ${theme.font.regular};
   font-size: 16px;
   ${(props) =>
-    props.buttonstyle === 'member' &&
+    props.type === 'mypage' &&
     `
-  justify-content: space-between;
-  padding: 16px 25px 8px 25px;
+    justify-content: center;
+    gap: 26px;
     `}
 `;
 
+const Title = styled.div`
+  width: 42px;
+  color: ${theme.color.gray[65]};
+`;
+
 const DropdownButton = styled.div`
-  width: 234px;
+  width: 257px;
   height: 45px;
+  box-sizing: border-box;
   padding-right: 10px;
   font-size: 16px;
   outline: none;
@@ -60,19 +59,18 @@ const Label = styled.div`
   margin-left: 10%;
   margin-right: 9%;
   font-size: 16px;
-  line-height: 19.09px;
 `;
 
-const DropdownList = styled.div<{ buttonstyle: 'member' | 'signup' }>`
+const DropdownList = styled.div<{ type: 'mypage' | 'signup' }>`
   position: absolute;
-  width: 244px;
+  width: ${(props) => (props.type === 'mypage' ? '257px' : '244px')};
   top: calc(100% - 8px);
-  right: 25px;
+  right: ${(props) => (props.type === 'mypage' ? '22.5px' : '25px')};
   border-radius: 4px;
   margin-top: 5px;
   z-index: 1000;
   background-color: ${(props) =>
-    props.buttonstyle === 'signup' ? '#2c2c2c' : 'transparent'};
+    props.type === 'signup' ? '#2c2c2c' : 'transparent'};
 `;
 
 const DropdownItem = styled.div`
@@ -87,11 +85,16 @@ const DropdownItem = styled.div`
   }
 `;
 
-const DropdownMenu: React.FC<DropdownMenuProps> = ({
+const DropdownMenu = ({
   text,
   origValue,
   editValue,
-  buttonstyle,
+  type,
+}: {
+  text: string;
+  origValue: string;
+  editValue: (value: string) => void;
+  type: string;
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState(origValue);
@@ -135,13 +138,10 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({
   }, [origValue]);
 
   return (
-    <DropdownContainer
-      ref={dropdownRef}
-      buttonstyle={buttonstyle as 'member' | 'signup'}
-    >
-      {buttonstyle === 'member' ? (
+    <DropdownContainer ref={dropdownRef} type={type as 'mypage' | 'signup'}>
+      {type === 'mypage' ? (
         <>
-          <div>{text}</div>
+          <Title>{text}</Title>
           <DropdownButton onClick={handleToggle}>
             {selectedValue}
           </DropdownButton>
@@ -160,7 +160,7 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({
         </>
       )}
       {isOpen && (
-        <DropdownList buttonstyle={buttonstyle as 'member' | 'signup'}>
+        <DropdownList type={type as 'mypage' | 'signup'}>
           {options.map((option) => (
             <DropdownItem
               key={option.value}
