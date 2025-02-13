@@ -117,7 +117,10 @@ const PenaltyListTable: React.FC = () => {
           <tbody>
             {StatusfilteredMembers.map((member) => (
               <React.Fragment key={member.id}>
-                <S.Row onClick={() => handleRowClick(member.id)}>
+                <S.Row
+                  isSelected={expandedRow === member.id}
+                  onClick={() => handleRowClick(member.id)}
+                >
                   <StatusCell statusColor={statusColors[member.status]} />
                   <S.PlusButtonCell
                     onClick={(e) => {

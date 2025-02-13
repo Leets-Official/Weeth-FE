@@ -1,7 +1,7 @@
 import theme from '@/styles/theme';
 import backarrow from '@/assets/images/ic_admin_backarrow.svg';
 import { useState } from 'react';
-import useAdminActions from '@/hooks/useAdminActions';
+import useAdminActions from '@/hooks/admin/useAdminActions';
 import styled from 'styled-components';
 import { useMemberContext } from './context/MemberContext';
 import { Title } from './TopBar';
