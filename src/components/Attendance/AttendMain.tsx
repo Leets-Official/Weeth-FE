@@ -1,31 +1,23 @@
 import theme from '@/styles/theme';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 import ModalAttend from '@/components/Attendance/Modal/ModalAttend';
 import ModalPenalty from '@/components/Attendance/Modal/ModalPenalty';
 import Button from '@/components/Button/Button';
 import RightButton from '@/components/Header/RightButton';
-
 import check from '@/assets/images/ic_check.svg';
 import warning from '@/assets/images/ic_warning.svg';
 
 import * as S from '@/styles/attend/AttendMain.styled';
 import useGetAttend from '@/api/useGetAttend';
 import useGetPenalty from '@/api/useGetPenalty';
-import useGetUserName from '@/hooks/useGetUserName';
-
-// 출석률 게이지 임시 값
-let ATTEND_GAUGE = 0;
-const MAX_ATTEND_GUAGE = 100;
 
 const AttendMain: React.FC = () => {
-  const navi = useNavigate();
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [penaltyModalOpen, setPenaltyModalOpen] = useState<boolean>(false);
   const [hasPenalty, setHasPenalty] = useState<boolean>(false);
 
-  const { attendInfo, hasSchedule, error } = useGetAttend();
+  const { attendInfo, isLoading, hasSchedule, error } = useGetAttend();
   const { penaltyInfo } = useGetPenalty();
 
   useEffect(() => {
@@ -33,8 +25,6 @@ const AttendMain: React.FC = () => {
       penaltyInfo?.penaltyCount ? penaltyInfo.penaltyCount > 0 : false,
     );
   }, [penaltyInfo]);
-
-  const userName = useGetUserName();
 
   let title: string;
   let location: string;
@@ -81,10 +71,7 @@ const AttendMain: React.FC = () => {
     if (currentTime >= startTime && currentTime <= endTime) {
       isWithinTimeRange = true;
     }
-
-    ATTEND_GAUGE = attendInfo.attendanceRate ?? 0;
   }
-  const dealt = Math.floor((ATTEND_GAUGE / MAX_ATTEND_GUAGE) * 100);
 
   const handleOpenModal = () => {
     if (isWithinTimeRange) {
