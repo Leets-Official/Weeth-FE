@@ -20,7 +20,6 @@ import Button from '@/components/Button/Button';
 import ToggleButton from '@/components/common/ToggleButton';
 import EventInput, { EventInputBlock } from '@/components/Event/EventInput';
 import CardinalLabel from '@/components/Event/CardinalLabel';
-import useGetGlobaluserInfo from '@/api/useGetGlobaluserInfo';
 
 function checkEmpty(
   field: string | number | undefined,
@@ -39,7 +38,6 @@ const EventEditor = () => {
 
   const { id } = useParams();
   const { data: eventDetailData, error } = useGetEventInfo('events', id);
-  const { isAdmin } = useGetGlobaluserInfo();
   const isEditMode = Boolean(id);
   const navigate = useNavigate();
 
@@ -130,10 +128,6 @@ const EventEditor = () => {
       }
     }
   };
-
-  if (!isAdmin) {
-    return <S.Error>일정 생성 및 수정은 운영진만 가능합니다</S.Error>;
-  }
 
   if (error) return <S.Error>{error}</S.Error>;
 
