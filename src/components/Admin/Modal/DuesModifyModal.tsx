@@ -12,9 +12,9 @@ import { FileObject } from '@/types/account';
 import DuesFileUpload from '@/hooks/admin/handleFileChange';
 import updateReceipt from '@/api/admin/dues/updateReceipt';
 import styled from 'styled-components';
-import Cardinal from '../Cardinal';
 import DuesModalButton from '../DuesModalButton';
 import DuesInput from '../DuesInput';
+import CardinalDropdown from '../Cardinal';
 
 const Wrapper = styled.div`
   width: 100%;
@@ -106,7 +106,7 @@ const DuesModifyModal: React.FC<DuesModifyModalProps> = ({
         <SubTitle>기수</SubTitle>
         <CardinalWrapper>
           <div>
-            <Cardinal
+            <CardinalDropdown
               selectedCardinal={selectedCardinal}
               setSelectedCardinal={(value) => {
                 setSelectedCardinal(value);
