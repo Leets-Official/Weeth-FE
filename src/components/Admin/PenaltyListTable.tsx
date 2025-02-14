@@ -6,7 +6,7 @@ import {
   PenaltyState,
   Penalty,
 } from '@/components/Admin/context/PenaltyReducer';
-import getPenaltyApi from '@/api/admin/penalty/getPenalty';
+import { getPenaltyApi } from '@/api/admin/penalty/getPenalty';
 import { useMemberContext } from './context/MemberContext';
 import PenaltyDetail from './PenaltyDetail';
 import PenaltyAdd from './PenaltyAdd';
@@ -167,6 +167,7 @@ const PenaltyListTable: React.FC = () => {
                       <S.ExpandedRow>
                         <td colSpan={columns.length + 2}>
                           <PenaltyAdd
+                            userId={member.id}
                             onCancel={handleCancelAdd}
                             onSave={(data) =>
                               handleSavePenalty(member.id, data)

@@ -1,8 +1,10 @@
+import { postPenaltyApi } from '@/api/admin/penalty/getPenalty';
 import { useState } from 'react';
 import * as S from '@/styles/admin/penalty/Penalty.styled';
 import Button from './Button';
 
 interface PenaltyAddProps {
+  userId: number;
   onCancel: () => void;
   onSave: (data: {
     reason: string;
@@ -13,6 +15,7 @@ interface PenaltyAddProps {
 }
 
 const PenaltyAdd: React.FC<PenaltyAddProps> = ({
+  userId,
   onCancel,
   onSave,
   existingData,
@@ -28,13 +31,20 @@ const PenaltyAdd: React.FC<PenaltyAddProps> = ({
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!formData.reason || !formData.penalty || !formData.penaltyDate) {
       alert('모든 필드를 작성해주세요.');
       return;
     }
-    onSave(formData);
-    setFormData({ reason: '', penalty: '', penaltyDate: '' });
+    try {
+      await postPenaltyApi(userId, formData.reason); // API 요청
+      alert('패널티가 성공적으로 부여되었습니다.');
+      onSave(formData);
+      setFormData({ reason: '', penalty: '', penaltyDate: '' });
+    } catch (error: any) {
+      alert(error.message);
+      console.error('패널티 부여 실패:', error);
+    }
   };
 
   const fields = [
