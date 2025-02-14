@@ -8,11 +8,9 @@ export const FileButton = styled.img`
 `;
 
 const FileUploader = ({
-  hasFile,
   files,
   setFiles,
 }: {
-  hasFile: boolean;
   files: File[];
   setFiles: (value: File[]) => void;
 }) => {
@@ -39,11 +37,7 @@ const FileUploader = ({
 
   return (
     <>
-      <FileButton
-        src={icClip}
-        onClick={handleClick}
-        alt={hasFile ? '파일 있음' : '파일 없음'}
-      />
+      <FileButton src={icClip} onClick={handleClick} alt="파일 업로드" />
       <input
         type="file"
         ref={fileInputRef}
