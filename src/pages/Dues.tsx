@@ -1,5 +1,5 @@
 import useGetDuesInfo from '@/api/useGetDuesInfo';
-import useGetUserInfo from '@/api/useGetUserInfo';
+import useGetGlobaluserInfo from '@/api/useGetGlobaluserInfo';
 import DueCategory from '@/components/Dues/DueCategory';
 import DuesInfo from '@/components/Dues/DuesInfo';
 import DuesTitle from '@/components/Dues/DuesTitle';
@@ -11,9 +11,10 @@ import { useState } from 'react';
 const Dues: React.FC = () => {
   useCustomBack('/home');
 
-  const { userInfo } = useGetUserInfo();
+  const { globalInfo } = useGetGlobaluserInfo();
 
-  const cardinal = userInfo?.cardinals?.[userInfo.cardinals.length - 1] ?? 0;
+  const cardinal =
+    globalInfo?.cardinals?.[globalInfo.cardinals.length - 1] ?? 0;
   const { duesInfo } = useGetDuesInfo(cardinal);
 
   const [selected, setSelectedDues] = useState<string | null>(null);

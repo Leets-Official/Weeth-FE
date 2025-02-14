@@ -12,7 +12,6 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import useGetEventInfo from '@/api/getEventInfo';
 import replaceNewLines from '@/hooks/newLine';
-import useGetUserInfo from '@/api/useGetUserInfo';
 import ISOtoArray from '@/hooks/ISOtoArray';
 import toTwoDigits from '@/hooks/toTwoDigits';
 import CardinalDropdown from '@/components/common/CardinalDropdown';
@@ -21,6 +20,7 @@ import Button from '@/components/Button/Button';
 import ToggleButton from '@/components/common/ToggleButton';
 import EventInput, { EventInputBlock } from '@/components/Event/EventInput';
 import CardinalLabel from '@/components/Event/CardinalLabel';
+import useGetGlobaluserInfo from '@/api/useGetGlobaluserInfo';
 
 function checkEmpty(
   field: string | number | undefined,
@@ -39,7 +39,7 @@ const EventEditor = () => {
 
   const { id } = useParams();
   const { data: eventDetailData, error } = useGetEventInfo('events', id);
-  const { userInfo } = useGetUserInfo();
+  const { isAdmin } = useGetGlobaluserInfo();
   const isEditMode = Boolean(id);
   const navigate = useNavigate();
 
@@ -131,7 +131,7 @@ const EventEditor = () => {
     }
   };
 
-  if (userInfo && userInfo.role !== 'ADMIN') {
+  if (!isAdmin) {
     return <S.Error>일정 생성 및 수정은 운영진만 가능합니다</S.Error>;
   }
 
