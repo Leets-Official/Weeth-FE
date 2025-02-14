@@ -26,8 +26,11 @@ const Container = styled.div<{ isAdminPage?: boolean }>`
 `;
 
 const AdminOnly = ({ isAdminPage }: { isAdminPage?: boolean }) => {
-  const { isAdmin } = useGetGlobaluserInfo();
+  const { isAdmin, loading } = useGetGlobaluserInfo();
   const navigate = useNavigate();
+
+  // TODO: 로딩 컴포넌트 추가
+  if (loading) return <Container />;
 
   return (
     !isAdmin && (

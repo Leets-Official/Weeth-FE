@@ -25,10 +25,14 @@ const getUserInfo = async () => {
 export const useGetUserInfo = () => {
   const [globalInfo, setGlobalInfo] = useState<UserInfo | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchUserInfo = async () => {
+      setLoading(true);
+
       try {
         const response = await getUserInfo();
         setGlobalInfo(response.data.data);
@@ -36,13 +40,15 @@ export const useGetUserInfo = () => {
         setError(null);
       } catch (err: any) {
         setError(err.response?.data?.message);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchUserInfo();
   }, []);
 
-  return { globalInfo, isAdmin, error };
+  return { globalInfo, isAdmin, loading, error };
 };
 
 export default useGetUserInfo;
