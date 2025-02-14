@@ -22,8 +22,9 @@ const uploadFileToS3 = async (presignedUrl: string, file: File) => {
 };
 
 export const getFileUrl = async (fileNames: string[], files: File[]) => {
+  console.log(fileNames);
   // 파일이 없으면 요청을 보내지 않고 빈 배열을 반환
-  if (fileNames.length === 0 || files.length === 0) {
+  if (fileNames.length === 0) {
     console.log('No files to upload, skipping the request.');
     return [];
   }
@@ -41,6 +42,8 @@ export const getFileUrl = async (fileNames: string[], files: File[]) => {
       return qs.stringify(params, { arrayFormat: 'repeat' });
     },
   });
+
+  console.log(response);
 
   const presignedUrls = response.data.data; // Presigned URL 배열
 
