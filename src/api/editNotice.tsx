@@ -7,7 +7,7 @@ const BASE_URL = import.meta.env.VITE_API_URL;
 
 export const editBoard = async (data: PostRequestType, postId: number) => {
   const response = await axios.patch(
-    `${BASE_URL}/api/v1/notices/${postId}`,
+    `${BASE_URL}/api/v1/admin/notices/${postId}`,
     data,
     {
       headers: {
