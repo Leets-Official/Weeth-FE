@@ -46,18 +46,20 @@ const getBoardDetail = async (path: string, id: number) => {
 export const useGetBoardDetail = (
   path: string,
   id: number,
-  refreshKey: number,
+  refreshKey?: number,
 ) => {
-  console.log('호출');
   const [boardDetailInfo, setBoardDetail] = useState<BoardDetail | null>(null);
   const [error, setError] = useState<string | null>(null);
+
+  console.log('path', path);
+  console.log('id', id);
 
   useEffect(() => {
     const fetchBoardDetail = async () => {
       try {
         const response = await getBoardDetail(path, id);
         const { data } = response.data;
-        console.log(data);
+        console.log('response', data);
 
         // children이 undefined면 빈 배열로 변환
         const formattedComments = data.comments.map((comment: any) => ({
