@@ -39,6 +39,8 @@ export const useGetDuesInfo = (paramsCardinal: number) => {
   const [DuesError, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    if (paramsCardinal === 0) return;
+
     const fetchDuesInfo = async () => {
       try {
         const response = await getDuesInfo(paramsCardinal);

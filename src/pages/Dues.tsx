@@ -6,18 +6,21 @@ import DuesTitle from '@/components/Dues/DuesTitle';
 import Header from '@/components/Header/Header';
 import useCustomBack from '@/hooks/useCustomBack';
 import * as S from '@/styles/dues/Dues.styled';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const Dues: React.FC = () => {
   useCustomBack('/home');
 
   const { globalInfo } = useGetGlobaluserInfo();
 
-  const cardinal =
-    globalInfo?.cardinals?.[globalInfo.cardinals.length - 1] ?? 0;
+  const [selected, setSelectedDues] = useState<string | null>(null);
+  const [cardinal, setCardinal] = useState(0);
+
   const { duesInfo } = useGetDuesInfo(cardinal);
 
-  const [selected, setSelectedDues] = useState<string | null>(null);
+  useEffect(() => {
+    setCardinal(globalInfo?.cardinals?.[globalInfo.cardinals.length - 1] ?? 0);
+  }, [globalInfo]);
 
   const filteredDues =
     selected === null
