@@ -51,13 +51,17 @@ export const useGetBoardDetail = (
   const [boardDetailInfo, setBoardDetail] = useState<BoardDetail | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  console.log('path', path);
-  console.log('id', id);
+  let type = '';
+  if (path === 'editBoard' || path === 'posts') {
+    type = 'posts';
+  } else if (path === 'editNotice' || path === 'notices') {
+    type = 'notices';
+  }
 
   useEffect(() => {
     const fetchBoardDetail = async () => {
       try {
-        const response = await getBoardDetail(path, id);
+        const response = await getBoardDetail(type, id);
         const { data } = response.data;
         console.log('response', data);
 

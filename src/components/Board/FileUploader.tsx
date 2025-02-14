@@ -11,8 +11,8 @@ const FileUploader = ({
   files,
   setFiles,
 }: {
-  files: File[];
-  setFiles: (value: File[]) => void;
+  files: string[];
+  setFiles: (value: string[]) => void;
 }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -27,11 +27,16 @@ const FileUploader = ({
     if (selectedFiles) {
       let isUnique = true;
       Array.from(selectedFiles).forEach((newFile) => {
-        if (files.some((file) => file.name === newFile.name)) {
+        if (files.some((fileName) => fileName === newFile.name)) {
           isUnique = false;
         }
       });
-      if (isUnique) setFiles([...files, ...Array.from(selectedFiles)]);
+      if (isUnique) {
+        setFiles([
+          ...files,
+          ...Array.from(selectedFiles).map((file) => file.name),
+        ]);
+      }
     }
   };
 

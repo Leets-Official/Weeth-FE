@@ -1,7 +1,8 @@
 /* eslint-disable no-console */
 /* eslint-disable no-alert */
-import createNotice from '@/api/usePostNotice';
-import createStudy from '@/api/usePostStudy';
+import createNotice from '@/api/postNotice';
+import editBoard from '@/api/editBoard';
+import editNotice from '@/api/editNotice';
 import FileUploader from '@/components/Board/FileUploader';
 import PostEditor from '@/components/Board/PostEditor';
 import PostFile from '@/components/Board/PostFile';
@@ -12,6 +13,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import getFileUrl from '@/api/uploadFiles';
 import useGetBoardDetail from '@/api/useGetBoardDetail';
+import createBoard from '@/api/postBoard';
 
 const PostWrapper = styled.div`
   display: flex;
@@ -38,28 +40,26 @@ const BoardPost = () => {
   const pathArray = url.pathname.split('/');
   const path = pathArray[1];
 
-  let type = '';
-  if (path === 'board') {
-    type = 'posts';
-  } else if (path === 'notice') {
-    type = 'notices';
-  }
-
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [fileNameList, setFileNameList] = useState<string[]>([]);
 
-  const { boardDetailInfo } = useGetBoardDetail(
-    type ?? '',
-    postId ? parseInt(postId, 10) : 0,
-  );
+  const numericPostId = postId ? parseInt(postId, 10) : 0;
 
   console.log(fileNameList);
+
+  let type = '';
+  if (path === 'board') {
+    type = pathArray[3] === 'edit' ? 'editBoard' : 'posts';
+  } else if (path === 'notice') {
+    type = pathArray[3] === 'edit' ? 'editNotice' : 'notices';
+  }
+
+  const { boardDetailInfo } = useGetBoardDetail(type ?? '', numericPostId);
 
   useEffect(() => {
     setTitle(boardDetailInfo?.title ?? '');
     setContent(boardDetailInfo?.content ?? '');
-    // Automatically set the file names from boardDetailInfo when the component is loaded
     setFileNameList(
       boardDetailInfo?.fileUrls.map((file) => file.fileName) ?? [],
     );
@@ -85,11 +85,6 @@ const BoardPost = () => {
       return;
     }
 
-    if (fileNameList.length === 0) {
-      alert('파일을 선택해주세요.');
-      return;
-    }
-
     try {
       // 1. 서버에서 presigned URL을 받아옴
       const fileUrls = await getFileUrl(fileNameList, []);
@@ -105,8 +100,14 @@ const BoardPost = () => {
       };
 
       // 3. 업로드 성공 후, 해당 게시물 타입에 맞는 API 호출
-      if (type === 'posts') {
-        await createStudy(postData);
+      if (type === 'editBoard') {
+        await editBoard(postData, numericPostId);
+        navi('/board');
+      } else if (type === 'editNotice') {
+        await editNotice(postData, numericPostId);
+        navi('/notice');
+      } else if (type === 'posts') {
+        await createBoard(postData);
         navi('/board');
       } else if (type === 'notices') {
         await createNotice(postData);
@@ -136,7 +137,7 @@ const BoardPost = () => {
       />
 
       <FileUploaderWrapper>
-        <FileUploader files={[]} setFiles={() => {}} />
+        <FileUploader files={fileNameList} setFiles={setFileNameList} />
         {fileNameList.length > 0 && (
           <>
             {fileNameList.map((file) => (
