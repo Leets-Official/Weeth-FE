@@ -57,11 +57,15 @@ const App = () => {
         <Route path="/dues" element={<Dues />} />
         <Route path="/receipt" element={<Receipt />} />
 
+        <Route path="/:type/post" element={<BoardPost />} />
+
         <Route path="/notice" element={<Notice />} />
         <Route path="/notice/:postId" element={<NoticePostDetail />} />
+        <Route path="/notice/:postId/edit" element={<BoardPost />} />
+
         <Route path="/board" element={<Board />} />
         <Route path="/board/:postId" element={<BoardPostDetail />} />
-        <Route path="/:type/post" element={<BoardPost />} />
+        <Route path="/board/:postId/edit" element={<BoardPost />} />
 
         <Route path="/admin/attendance" element={<AdminAttendance />} />
         <Route path="/admin/member" element={<AdminMember />} />
