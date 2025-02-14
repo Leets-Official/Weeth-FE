@@ -2,6 +2,7 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import CardinalSVG from '@/assets/images/ic_admin_cardinal.svg';
 import { CardinalProps } from '@/types/adminCardinal';
+import { useGetAllCardinals } from '@/api/useGetCardinals';
 
 const CardinalButton = styled.div`
   width: 118px;
@@ -49,12 +50,14 @@ const CardinalDropdown: React.FC<CardinalProps> = ({
   setSelectedCardinal,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const { allCardinals } = useGetAllCardinals();
+
+  const sortedCardinals = [...allCardinals].reverse();
 
   const toggleDropdown = () => setIsOpen(!isOpen);
 
-  const selectCardinal = (value: string) => {
-    const numberValue = parseInt(value.replace('기', ''), 10);
-    setSelectedCardinal(Number.isNaN(numberValue) ? null : numberValue);
+  const selectCardinal = (value: number) => {
+    setSelectedCardinal(value);
     setIsOpen(false);
   };
 
@@ -74,11 +77,18 @@ const CardinalDropdown: React.FC<CardinalProps> = ({
       </CardinalButton>
       {isOpen && (
         <DropdownMenu>
-          {['4기', '3기', '2기', '1기'].map((item) => (
-            <DropdownItem key={item} onClick={() => selectCardinal(item)}>
-              {item}
-            </DropdownItem>
-          ))}
+          {sortedCardinals.length === 0 && (
+            <DropdownItem>기수 없음</DropdownItem>
+          )}
+          {sortedCardinals.length > 0 &&
+            sortedCardinals.map((item) => (
+              <DropdownItem
+                key={item.id}
+                onClick={() => selectCardinal(item.cardinalNumber)}
+              >
+                {item.cardinalNumber}기
+              </DropdownItem>
+            ))}
         </DropdownMenu>
       )}
     </>
