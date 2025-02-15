@@ -4,6 +4,18 @@ import react from '@vitejs/plugin-react';
 import svgr from 'vite-plugin-svgr';
 import EnvironmentPlugin from 'vite-plugin-environment';
 
+const problematicEnvVars = [
+  'CommonProgramFiles(x86)',
+  'ProgramFiles(x86)',
+  'IntelliJ IDEA',
+  'PyCharm Community Edition',
+];
+
+// 환경 변수 삭제
+problematicEnvVars.forEach((varName) => {
+  delete process.env[varName];
+});
+
 export default defineConfig({
   plugins: [react(), svgr(), EnvironmentPlugin('all')],
   server: {
