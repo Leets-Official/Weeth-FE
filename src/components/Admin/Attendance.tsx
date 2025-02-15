@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   AttendanceTable,
   Wrapper,
@@ -7,8 +7,9 @@ import {
   ContentText,
   Button,
 } from '@/styles/admin/Attendance.styled';
-
 import DropDown from '@/assets/images/ic_admin_cardinal.svg';
+import fetchAttendancesByCardinal from '@/api/admin/attendance/fetchAttendancesByCardinal';
+import dayjs from 'dayjs';
 import AttendDropdown from './AttendDropdown';
 
 interface AttendanceItem {
@@ -18,29 +19,29 @@ interface AttendanceItem {
   start: string;
 }
 
-const Attendance: React.FC = () => {
-  const [data] = useState<AttendanceItem[]>([
-    {
-      id: 1,
-      title: '정기모임',
-      content: '1주차',
-      start: '2024-08-01',
-    },
-    {
-      id: 2,
-      title: '정기모임',
-      content: '2주차',
-      start: '2024-08-02',
-    },
-    {
-      id: 3,
-      title: '정기모임',
-      content: '3주차',
-      start: '2024-08-03',
-    },
-  ]);
+interface AttendanceProps {
+  selectedCardinal: number | null;
+}
 
+const Attendance: React.FC<AttendanceProps> = ({ selectedCardinal }) => {
+  const [data, setData] = useState<AttendanceItem[]>([]);
   const [openDropdownId, setOpenDropdownId] = useState<number | null>(null);
+
+  const formatDate = (dateString: string) => {
+    return dayjs(dateString).format('YYYY년 M월 D일');
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await fetchAttendancesByCardinal(
+        selectedCardinal ?? undefined,
+      );
+      if (res.code === 200) {
+        setData(res.data);
+      }
+    };
+    fetchData();
+  }, [selectedCardinal]);
 
   const toggleDropdown = (id: number) => {
     setOpenDropdownId((prevId) => (prevId === id ? null : id));
@@ -54,7 +55,7 @@ const Attendance: React.FC = () => {
             <Wrapper>
               <div>
                 <DateInfoWrapper>
-                  <DateText>{item.start}</DateText>
+                  <DateText>{formatDate(item.start)}</DateText>
                   <ContentText>
                     {item.content} {item.title}
                   </ContentText>
@@ -65,7 +66,7 @@ const Attendance: React.FC = () => {
               </Button>
             </Wrapper>
           </AttendanceTable>
-          {openDropdownId === item.id && <AttendDropdown />}
+          {openDropdownId === item.id && <AttendDropdown meetingId={item.id} />}
         </div>
       ))}
     </>

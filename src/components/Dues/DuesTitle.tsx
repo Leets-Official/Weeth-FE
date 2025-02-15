@@ -1,5 +1,5 @@
 import useGetDuesInfo from '@/api/useGetDuesInfo';
-import useGetUserInfo from '@/api/useGetUserInfo';
+import useGetGlobaluserInfo from '@/api/useGetGlobaluserInfo';
 import receipt from '@/assets/images/ic_receipt.svg';
 import formatDateTime from '@/hooks/formatDateTime';
 import theme from '@/styles/theme';
@@ -72,8 +72,9 @@ const DuesTitle: React.FC = () => {
     }
   }
 
-  const { userInfo } = useGetUserInfo();
-  const cardinal = userInfo?.cardinals?.[userInfo.cardinals.length - 1] ?? 0;
+  const { globalInfo } = useGetGlobaluserInfo();
+  const cardinal =
+    globalInfo?.cardinals?.[globalInfo.cardinals.length - 1] ?? 0;
   const { duesInfo } = useGetDuesInfo(cardinal);
 
   const formattedTime = duesInfo ? formatDateTime(duesInfo.time) : 'N/A';

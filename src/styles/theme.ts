@@ -20,6 +20,7 @@ const theme = {
       65: '#A6A6A6',
     },
     lightGray: '#c1c1c1',
+    kakao: '#FEE500',
   },
 
   font: {

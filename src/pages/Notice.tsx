@@ -79,7 +79,7 @@ const Notice = () => {
 
   return (
     <Container>
-      <Header isAccessible RightButtonType="none">
+      <Header RightButtonType="none" isAccessible={false}>
         📢 공지사항
       </Header>
       {posts.map((post) => (
@@ -93,7 +93,7 @@ const Notice = () => {
             hasFile={post.hasFile}
             position={post.position}
             role={post.role}
-            onClick={() => navigate(`/study/${post.id}`)}
+            onClick={() => navigate(`/notice/${post.id}`)}
           />
           <Line />
         </PostList>

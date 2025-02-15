@@ -1,3 +1,4 @@
+import theme from '@/styles/theme';
 import styled from 'styled-components';
 
 const Container = styled.div`
@@ -10,6 +11,7 @@ const Container = styled.div`
   background-color: #fff;
   color: #000;
   font-size: 12px;
+  font-family: ${theme.font.semiBold};
 `;
 
 const CardinalTag = ({ cardinal }: { cardinal: number }) => {

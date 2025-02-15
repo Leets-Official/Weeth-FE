@@ -15,8 +15,9 @@ const Row = styled.tr`
 const Cell = styled.td`
   padding: 15px;
   text-align: left;
-
+  white-space: nowrap;
   border-bottom: 1px solid #dedede;
+  vertical-align: middle;
 `;
 export const StatusCell = styled.td<{ statusColor: string }>`
   width: 2px;
@@ -27,6 +28,7 @@ export const SvgWrapper = styled.td`
   padding: 10px;
   text-align: center;
   cursor: pointer;
+  border-top: 1px solid #dedede;
 `;
 
 interface TableRowProps {
@@ -37,14 +39,17 @@ interface TableRowProps {
 const MemberListTableRow: React.FC<TableRowProps> = ({ data, columns }) => {
   const { selectedMembers, setSelectedMembers } = useMemberContext();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const isChecked = selectedMembers.includes(data.studentId);
+  const isChecked = selectedMembers.includes(data.id.toString());
 
   const onClickToCheckBox = () => {
-    setSelectedMembers((prevSelected) =>
-      isChecked
-        ? prevSelected.filter((id) => id !== data.studentId)
-        : [...prevSelected, data.studentId],
-    );
+    setSelectedMembers((prevSelected) => {
+      const updatedSelected = isChecked
+        ? prevSelected.filter((id) => id !== String(data.id))
+        : [...prevSelected, String(data.id)];
+
+      console.log('선택된 멤버 id :', updatedSelected);
+      return updatedSelected;
+    });
   };
 
   const openModal = () => setIsModalOpen(true);

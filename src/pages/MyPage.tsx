@@ -1,24 +1,27 @@
+/* eslint-disable no-alert */
 import deleteUser from '@/api/deleteUser';
-import icEdit from '@/assets/images/ic_edit.svg';
-import icLogout from '@/assets/images/ic_logout_white.svg';
+import MenuModal from '@/components/common/MenuModal';
 import Header from '@/components/Header/Header';
 import MyInfo from '@/components/MyPage/MyInfo';
 import useCustomBack from '@/hooks/useCustomBack';
 import useLogout from '@/hooks/useLogout';
 import * as S from '@/styles/mypage/Mypage.styled';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const MyPage = () => {
   useCustomBack('/home');
-  const navi = useNavigate();
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   const confirmLogout = useLogout();
   const onClickLeave = async () => {
+    // TODO: 공통 모달로 수정 필요
     if (window.confirm('탈퇴하시겠습니까?')) {
       try {
         await deleteUser();
         alert('탈퇴가 완료되었습니다.');
-        navi('/');
+        navigate('/');
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (err) {
         alert('탈퇴 중 오류가 발생했습니다.');
@@ -27,26 +30,40 @@ const MyPage = () => {
   };
 
   return (
-    <S.StyledDetails>
-      <Header RightButtonType="none" isAccessible>
+    <S.Container>
+      {isModalOpen && (
+        <MenuModal
+          onClose={() => {
+            setIsModalOpen(false);
+          }}
+          top={60}
+          right={620}
+        >
+          <S.TextButton
+            onClick={() => {
+              navigate('/edit');
+            }}
+          >
+            정보 수정
+          </S.TextButton>
+          <S.TextButton onClick={confirmLogout}>로그아웃</S.TextButton>
+          <S.TextButton isSignOut onClick={onClickLeave}>
+            탈퇴
+          </S.TextButton>
+        </MenuModal>
+      )}
+
+      <Header
+        RightButtonType="MENU"
+        onClickRightButton={() => {
+          setIsModalOpen(true);
+        }}
+        isAccessible
+      >
         MY
       </Header>
       <MyInfo />
-      <S.ImgButton
-        onClick={() => {
-          navi(`/edit`);
-        }}
-      >
-        <img src={icEdit} alt="Edit" />
-      </S.ImgButton>
-      <S.Account>
-        <S.LeaveButton onClick={onClickLeave}>탈퇴하기</S.LeaveButton>
-        <S.LogoutButton onClick={confirmLogout}>
-          <img src={icLogout} alt="로그아웃" />
-          <div>로그아웃</div>
-        </S.LogoutButton>
-      </S.Account>
-    </S.StyledDetails>
+    </S.Container>
   );
 };
 

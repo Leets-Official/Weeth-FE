@@ -1,19 +1,14 @@
 /* eslint-disable no-console */
 /* eslint-disable no-alert */
-import Modal from 'react-modal';
-
 import { deleteEvent } from '@/api/EventAdminAPI';
 import Header from '@/components/Header/Header';
-import EditDelModal from '@/components/Modal/EditDelModal';
 import formatDateTime from '@/hooks/formatDateTime';
 import { EventDetailData } from '@/pages/EventDetail';
 import * as S from '@/styles/calendar/EventDetailTitle.styled';
-import { adminModalStyles } from '@/styles/calendar/EventDetailTitle.styled';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Tag from '@/components/Event/Tag';
-
-Modal.setAppElement('#root');
+import MenuModal from '@/components/common/MenuModal';
 
 const EventTitle = ({
   data,
@@ -22,25 +17,18 @@ const EventTitle = ({
   data: EventDetailData;
   isAdmin: boolean;
 }) => {
-  const [adminModalIsOpen, setAdminModalIsOpen] = useState(false);
-  const navi = useNavigate();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigate = useNavigate();
   const formattedDateTime = formatDateTime(data.createdAt);
 
-  const cardinal = [3, 4]; // 임시 데이터
-
-  const openAdminModal = () => {
-    setAdminModalIsOpen(true);
-  };
-  const closeAdminModal = () => {
-    setAdminModalIsOpen(false);
-  };
+  const { id, type } = useParams();
 
   const onClickDel = async () => {
     if (window.confirm('삭제하시겠습니까?')) {
       try {
         await deleteEvent(data.id);
         alert('삭제가 완료되었습니다.');
-        navi('/calendar');
+        navigate('/calendar');
       } catch (err) {
         alert('삭제 중 오류가 발생했습니다.');
         console.error(err);
@@ -48,21 +36,23 @@ const EventTitle = ({
     }
   };
 
-  if (!isAdmin) {
-    return null;
-  }
-
   return (
     <>
       <Header
         isAccessible={isAdmin}
-        onClickRightButton={openAdminModal}
+        onClickRightButton={() => {
+          console.log('Right button clicked!');
+
+          setIsModalOpen(true);
+          console.log(isModalOpen);
+        }}
         RightButtonType="MENU"
       />
+
       <S.EventTitleWrapper>
         <S.SpaceBetween>
           <S.Title>{data.title}</S.Title>
-          <Tag type="meeting" />
+          {type === 'meetings' && <Tag />}
         </S.SpaceBetween>
 
         <S.SpaceBetween>
@@ -70,26 +60,34 @@ const EventTitle = ({
             <S.Writer>{data.name}</S.Writer>
             <S.WrittenTime>{formattedDateTime}</S.WrittenTime>
           </S.WriteInfo>
-          <S.Cardinal>
-            {cardinal.map((num) => `${num}기`).join(' · ')}
-          </S.Cardinal>
+          <S.Cardinal>{data.cardinal}기</S.Cardinal>
         </S.SpaceBetween>
 
-        <Modal
-          className="calendar-modal"
-          isOpen={adminModalIsOpen}
-          onRequestClose={closeAdminModal}
-          style={adminModalStyles}
-        >
-          <EditDelModal
-            title="일정"
-            onClickEdit={() => {
-              navi(`/events/${data.id}/edit`);
+        {isModalOpen && (
+          <MenuModal
+            onClose={() => {
+              setIsModalOpen(false);
             }}
-            onClickDel={onClickDel}
-            onClickCancel={closeAdminModal}
-          />
-        </Modal>
+            top={-65}
+            right={630}
+          >
+            <S.TextButton
+              onClick={() => {
+                navigate(`/${type}/${id}/edit`);
+              }}
+            >
+              수정
+            </S.TextButton>
+            <S.TextButton
+              $isLast
+              onClick={() => {
+                onClickDel();
+              }}
+            >
+              삭제
+            </S.TextButton>
+          </MenuModal>
+        )}
       </S.EventTitleWrapper>
     </>
   );
