@@ -8,6 +8,7 @@ import DuesRegisterAdd from '@/components/Admin/DuesRegisterAdd';
 import { useState } from 'react';
 import DuesRegister from '@/components/Admin/DuesRegister';
 import TotalCardinal from '@/components/Admin/CardinalWrapper';
+import AdminOnly from '@/components/common/AdminOnly';
 
 const ContentWrapper = styled.div`
   display: flex;
@@ -53,6 +54,7 @@ const AdminDues: React.FC = () => {
 
   return (
     <PageWrapper>
+      <AdminOnly isAdminPage />
       <NavMenu />
       <ContentWrapper>
         <TopBar

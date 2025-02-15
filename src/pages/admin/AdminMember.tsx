@@ -8,6 +8,7 @@ import {
   MemberProvider,
   useMemberContext,
 } from '@/components/Admin/context/MemberContext';
+import AdminOnly from '@/components/common/AdminOnly';
 import {
   PageWrapper,
   ContentWrapper,
@@ -44,6 +45,7 @@ const DynamicTopBar: React.FC = () => {
 const AdminMember: React.FC = () => {
   return (
     <MemberProvider>
+      <AdminOnly isAdminPage />
       <PageWrapper>
         <NavMenu />
         <ContentWrapper>

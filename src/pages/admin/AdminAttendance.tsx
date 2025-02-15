@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { PageWrapper, ContentWrapper } from '@/styles/admin/AdminLayout.styled';
 import { useState } from 'react';
 import TotalCardinal from '@/components/Admin/CardinalWrapper';
+import AdminOnly from '@/components/common/AdminOnly';
 
 const AttendanceWrapper = styled.div`
   width: 100%;
@@ -35,6 +36,7 @@ const AdminAttendance: React.FC = () => {
 
   return (
     <PageWrapper>
+      <AdminOnly isAdminPage />
       <NavMenu />
       <ContentWrapper>
         <TopBar

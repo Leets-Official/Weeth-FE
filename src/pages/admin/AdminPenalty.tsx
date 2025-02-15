@@ -3,6 +3,7 @@ import { MemberProvider } from '@/components/Admin/context/MemberContext';
 import NavMenu from '@/components/Admin/NavMenu';
 import PenaltyListTable from '@/components/Admin/PenaltyListTable';
 import TopBar from '@/components/Admin/TopBar';
+import AdminOnly from '@/components/common/AdminOnly';
 import {
   Container,
   PageWrapper,
@@ -15,6 +16,7 @@ const AdminPenalty: React.FC = () => {
 
   return (
     <MemberProvider>
+      <AdminOnly isAdminPage />
       <PageWrapper>
         <NavMenu />
         <ContentWrapper>
