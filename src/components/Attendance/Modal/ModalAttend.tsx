@@ -6,15 +6,14 @@ import {
 import * as S from '@/styles/attend/ModalAttend.styled';
 
 import { ChangeEvent, useEffect, useState } from 'react';
-import api from '@/api/api';
 
 import check from '@/assets/images/ic_check.svg';
 import icClose from '@/assets/images/ic_close.svg';
 import correct from '@/assets/images/ic_correct.svg';
 import wrong from '@/assets/images/ic_wrong.svg';
 import Button from '@/components/Button/Button';
-import theme from '@/styles/theme';
 import patchAttend from '@/api/patchAttend';
+import Tag from '@/components/Event/Tag';
 
 const RightContainer: React.FC = () => {
   return (
@@ -127,12 +126,9 @@ const ModalAttend: React.FC<{
         <div>
           <S.SemiBoldContainer>
             <div>출석하기</div>
-            <S.ContainerRow>
-              오늘은&nbsp;&nbsp;
-              <div style={{ color: theme.color.main }}>&quot;{title}&quot;</div>
-              &nbsp;&nbsp;이&#40;가&#41; 있는 날이에요
-            </S.ContainerRow>
+            <S.Highlight>{title}</S.Highlight>
           </S.SemiBoldContainer>
+          <Tag />
           <S.RegularConatiner>
             <div>
               날짜: {startDateTime} {endDateTime}

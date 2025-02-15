@@ -55,11 +55,6 @@ export const SemiBoldContainer = styled.div`
   gap: 20px;
 `;
 
-export const ContainerRow = styled.div`
-  display: flex;
-  flex-direction: row;
-`;
-
 export const RegularConatiner = styled.div`
   display: flex;
   flex-direction: column;
@@ -74,4 +69,11 @@ export const CenterContainer = styled.div`
   flex-direction: column;
   align-items: center;
   width: 100%;
+`;
+
+export const Highlight = styled.div`
+  font-family: ${theme.font.semiBold};
+  font-size: 20px;
+  color: ${theme.color.main};
+  margin-bottom: 5px;
 `;
