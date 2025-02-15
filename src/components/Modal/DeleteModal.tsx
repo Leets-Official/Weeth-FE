@@ -70,7 +70,7 @@ const DeleteModal = ({
   onDelete?: () => void;
 }) => {
   return (
-    <Modal hasCloseButton={false} onClose={onClose}>
+    <Modal isDelete hasCloseButton={false} onClose={onClose}>
       <Container>
         <Title>{title}</Title>
         <Description>{content}</Description>

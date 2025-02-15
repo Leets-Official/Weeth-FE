@@ -15,7 +15,7 @@ const Container = styled.div`
   webkitbackdropfilter: 'blur(2px)';
 `;
 
-const Content = styled.div`
+const Content = styled.div<{ $isDelete: boolean }>`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -28,7 +28,8 @@ const Content = styled.div`
   width: 325px;
   box-sizing: border-box;
 
-  background-color: ${theme.color.gray[18]};
+  background-color: ${({ $isDelete }) =>
+    $isDelete ? theme.color.gray[12] : theme.color.gray[18]};
   border-radius: 20px;
   font-size: 14px;
 
@@ -47,14 +48,16 @@ const Modal = ({
   children,
   hasCloseButton,
   onClose,
+  isDelete = false,
 }: {
   children: React.ReactNode;
   hasCloseButton: boolean;
   onClose?: () => void;
+  isDelete?: boolean;
 }) => {
   return (
     <Container onClick={onClose}>
-      <Content onClick={(e) => e.stopPropagation()}>
+      <Content $isDelete={isDelete} onClick={(e) => e.stopPropagation()}>
         {hasCloseButton ? (
           <Img
             src={close}
