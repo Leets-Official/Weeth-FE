@@ -15,7 +15,6 @@
     "axios": "^1.7.2",
     "axios-mock-adapter": "^2.1.0",
     "date-fns": "^3.6.0",
-    "dayjs": "^1.11.13",
     "fullcalendar": "^6.1.15",
     "prop-types": "^15.8.1",
     "qs": "^6.13.1",
@@ -31,7 +30,6 @@
   "type": "module",
   "scripts": {
     "start": "vite",
-    "prebuild": "unset BASH_FUNC_which%%; env | grep BASH_FUNC || echo 'No problematic env variables found.'",
     "build": "vite build",
     "serve": "vite preview",
     "test": "jest"
