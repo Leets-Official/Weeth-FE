@@ -71,8 +71,6 @@ const Edit = () => {
         { key: 'cardinals', value: userInfo.cardinals },
         { key: 'position', value: userInfo.position },
         { key: 'email', value: userInfo.email },
-        // TODO: 서버 수정 후 삭제 필요
-        { key: 'password', value: 'password' },
       ]);
     }
   }, [userInfo]);

@@ -8,6 +8,7 @@ import * as S from '@/styles/calendar/Calendar.styled';
 import Header from '@/components/Header/Header';
 import icLeftArrow from '@/assets/images/ic_leftArrow.svg';
 import icRightArrow from '@/assets/images/ic_rightArrow.svg';
+import useGetGlobaluserInfo from '@/api/useGetGlobaluserInfo';
 
 const Calendar = () => {
   useCustomBack('/home');
@@ -20,6 +21,7 @@ const Calendar = () => {
     }
     return 2;
   });
+  const { isAdmin } = useGetGlobaluserInfo();
 
   const onToggle = () => {
     setIsMonth(!isMonth);
@@ -27,8 +29,11 @@ const Calendar = () => {
 
   return (
     <S.CalendarWrapper>
-      {/* TODO: 어드민 체크 추가 */}
-      <Header RightButtonType="PLUS" isAccessible onClickRightButton={() => {}}>
+      <Header
+        RightButtonType="PLUS"
+        isAccessible={isAdmin}
+        onClickRightButton={() => {}}
+      >
         <S.DateWrapper>
           <S.ImgButton
             src={icLeftArrow}
