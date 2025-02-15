@@ -1,4 +1,8 @@
-import '@/components/Attendance/Modal/ModalStyled.css';
+import {
+  StyledModal,
+  ModalContent,
+  ModalHeader,
+} from '@/styles/attend/CommonModal.styled';
 import * as S from '@/styles/attend/ModalAttend.styled';
 
 import { ChangeEvent, useEffect, useState } from 'react';
@@ -101,44 +105,47 @@ const ModalAttend: React.FC<{
   };
 
   return (
-    <S.StyledModal open={open}>
-      <S.Regular>
-        <div className="modal-content">
-          <div className="modal-header">
-            <img src={check} alt="체크" className="modal-check-icon" />
-            <CloseButton onClick={close} />
-          </div>
-          <div className="modal-body">
-            <S.SemiBold className="modal-title">출석하기</S.SemiBold>
-            <S.SemiBold className="modal-text">
-              오늘은&nbsp;
-              <div style={{ color: theme.color.main }}>{title}</div>
-              &nbsp;이&#40;가&#41; 있는 날이에요
-            </S.SemiBold>
-            <div className="modal-date">
+    <StyledModal open={open}>
+      <ModalContent>
+        <ModalHeader>
+          <img src={check} alt="체크" />
+          <CloseButton onClick={close} />
+        </ModalHeader>
+        <div>
+          <S.SemiBoldContainer>
+            <div>출석하기</div>
+            <S.ContainerRow>
+              오늘은&nbsp;&nbsp;
+              <div style={{ color: theme.color.main }}>&quot;{title}&quot;</div>
+              &nbsp;&nbsp;이&#40;가&#41; 있는 날이에요
+            </S.ContainerRow>
+          </S.SemiBoldContainer>
+          <S.RegularConatiner>
+            <div>
               날짜: {startDateTime} {endDateTime}
             </div>
-            <div className="modal-place">장소: {location}</div>
-            <S.Line />
-            <input
-              className="modal-input"
+            <div>장소: {location}</div>
+          </S.RegularConatiner>
+          <S.Line />
+          <S.CenterContainer>
+            <S.ModalInput
               type="text"
               placeholder="코드를 입력하세요"
               value={inputValue}
               onChange={handleChange}
             />
-          </div>
-          <div className="modal-buttons">
-            <Button onClick={handleCompleteBtn} width="280px" height="45px">
-              입력완료
-            </Button>
-          </div>
-          {codeCheck === 0 && <div> </div>}
-          {codeCheck === 1 && <RightContainer />}
-          {codeCheck === 2 && <WrongContainer message={message} />}
+          </S.CenterContainer>
         </div>
-      </S.Regular>
-    </S.StyledModal>
+        <S.CenterContainer>
+          <Button onClick={handleCompleteBtn} width="285px" height="45px">
+            입력완료
+          </Button>
+        </S.CenterContainer>
+        {codeCheck === 0 && <div> </div>}
+        {codeCheck === 1 && <RightContainer />}
+        {codeCheck === 2 && <WrongContainer message={message} />}
+      </ModalContent>
+    </StyledModal>
   );
 };
 

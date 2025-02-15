@@ -10,11 +10,11 @@ export const StyledAttend = styled.div`
   include-font-padding: false;
 `;
 
-export const Progress = styled.div<{ isAttend: number }>`
+export const Progress = styled.div<{ attendPercent: number }>`
   width: 86%;
   height: 19px;
-  background-color: ${({ isAttend }) =>
-    isAttend === 0 ? theme.color.gray[20] : theme.color.negative};
+  background-color: ${({ attendPercent }) =>
+    attendPercent === 0 ? theme.color.gray[20] : theme.color.negative};
   border-radius: 10px;
   overflow: hidden;
   margin: 5% 10px 0px 10px;

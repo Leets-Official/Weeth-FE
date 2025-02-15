@@ -38,7 +38,7 @@ const AttendRate = () => {
           <RightButton onClick={() => navi('/attendCheck')} />
         </S.RightButtonWrapper>
       </S.AttendPercent>
-      <S.Progress isAttend={attendGauge}>
+      <S.Progress attendPercent={attendGauge}>
         <S.Dealt dealt={dealt} />
       </S.Progress>
     </S.StyledAttend>
