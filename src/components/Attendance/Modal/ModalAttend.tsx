@@ -73,7 +73,7 @@ const ModalAttend: React.FC<{
 
   const handleCompleteBtn = async () => {
     if (!inputValue) {
-      // TODO: 토스크 메세지
+      // 토스트 메시지로 알림 변경 예정
       alert('코드를 입력해 주세요');
       return;
     }
@@ -83,16 +83,19 @@ const ModalAttend: React.FC<{
     }
     try {
       const response = await patchAttend({ code: inputValue });
-      setMessage(response.data.message);
       if (response.data.code === 200) {
         setCodeCheck(1); // Correct
         handleAttend(true);
+        setMessage('출석 처리가 성공적으로 완료되었습니다.');
       } else {
         setCodeCheck(2); // Wrong
+        setMessage(response.data.message || '출석 처리에 실패했습니다.');
       }
-    } catch (error) {
+    } catch (error: any) {
       setCodeCheck(2); // Wrong
-      setMessage('ERROR');
+      const errorMessage =
+        error.response?.data?.message || '출석 처리 중 문제가 발생했습니다.';
+      setMessage(errorMessage);
       console.error(error);
     }
   };
