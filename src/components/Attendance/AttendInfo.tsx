@@ -36,7 +36,12 @@ export const AttendInfo: React.FC<AttendInfoProps> = ({
       <S.AttendPlace>장소: {location}</S.AttendPlace>
       <S.AttendButton>
         {isAttend ? (
-          <div>출석완료</div>
+          <Button
+            color={theme.color.gray[18]}
+            textcolor={theme.color.gray[100]}
+          >
+            출석완료
+          </Button>
         ) : (
           <Button
             color={theme.color.gray[30]}

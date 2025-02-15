@@ -7,8 +7,8 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: calc(370 * 0.84);
-  min-width: calc(370 * 0.84);
+  width: 345px;
+  min-width: 345px;
   height: 489px;
   background-color: #2f2f2f;
   border-radius: 14px;

@@ -10,18 +10,18 @@ export const StyledAttend = styled.div`
   include-font-padding: false;
 `;
 
-export const Progress = styled.div<{ $isAttend: number }>`
+export const Progress = styled.div<{ isAttend: number }>`
   width: 86%;
   height: 19px;
-  background-color: ${({ $isAttend }) =>
-    $isAttend === 0 ? theme.color.gray[20] : theme.color.negative};
+  background-color: ${({ isAttend }) =>
+    isAttend === 0 ? theme.color.gray[20] : theme.color.negative};
   border-radius: 10px;
   overflow: hidden;
   margin: 5% 10px 0px 10px;
 `;
 
-export const Dealt = styled.div<{ $dealt: number }>`
-  width: ${(props) => `${props.$dealt}%`};
+export const Dealt = styled.div<{ dealt: number }>`
+  width: ${(props) => `${props.dealt}%`};
   height: 100%;
   border-radius: 10px;
   background-color: ${theme.color.main};
@@ -30,8 +30,8 @@ export const Dealt = styled.div<{ $dealt: number }>`
 export const StyledBox = styled.div`
   background-color: ${theme.color.gray[18]};
   border-radius: 10px;
-  padding: 4%;
-  margin: 5.3% 10px 0px 10px;
+  padding: 15px;
+  margin: 20px 10px 0px 10px;
   display: flex;
   flex-direction: column;
   align-items: start;
@@ -128,6 +128,8 @@ export const AttendPlace = styled.div`
 
 export const AttendButton = styled.div`
   margin-top: 20px;
+  display: flex;
+  align-items: center;
 `;
 
 export const AttendName = styled.div`

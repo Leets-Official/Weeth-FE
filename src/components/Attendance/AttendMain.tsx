@@ -76,6 +76,11 @@ const AttendMain: React.FC = () => {
       isWithinTimeRange = true;
     }
   }
+  useEffect(() => {
+    if (attendInfo?.status === 'ATTEND') {
+      setIsAttend(true);
+    }
+  }, [attendInfo?.status]);
 
   const handleOpenModal = () => {
     if (isWithinTimeRange) {
