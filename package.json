@@ -31,7 +31,7 @@
   "type": "module",
   "scripts": {
     "start": "vite",
-    "prebuild": "unset BASH_FUNC_which%%",
+    "prebuild": "unset BASH_FUNC_which%%; env | grep BASH_FUNC || echo 'No problematic env variables found.'",
     "build": "vite build",
     "serve": "vite preview",
     "test": "jest"
