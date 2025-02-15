@@ -1,6 +1,7 @@
 import styled, { keyframes } from 'styled-components';
 import theme from '@/styles/theme';
 import { useGetRecentNotice } from '@/api/useGetBoardInfo';
+import { useNavigate } from 'react-router-dom';
 
 const flowing = keyframes`
   100% {
@@ -52,13 +53,17 @@ export const Text = styled.div`
 
 const HomeNotice = () => {
   const { recentNotices, isLoading } = useGetRecentNotice();
-
+  const navi = useNavigate();
   const formatContent = (content: string) => {
     return content.length > 25 ? `${content.substring(0, 25)}...` : content;
   };
   console.log(recentNotices);
+
+  const handleNotice = () => {
+    navi(`/notice/${recentNotices[0].id}`);
+  };
   return (
-    <AnimationLayout>
+    <AnimationLayout onClick={handleNotice}>
       <FlowBox>
         <FlowText>
           <Title>📢 공지</Title>
