@@ -19,7 +19,6 @@ const Attendance: React.FC = () => {
       <Header RightButtonType="none" isAccessible>
         출석
       </Header>
-
       <AttendMain />
     </Container>
   );

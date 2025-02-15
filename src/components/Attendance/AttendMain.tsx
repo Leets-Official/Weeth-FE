@@ -97,6 +97,8 @@ const AttendMain: React.FC = () => {
   const handleOpenPenaltyModal = () => setPenaltyModalOpen(true);
   const handleClosePenaltyModal = () => setPenaltyModalOpen(false);
 
+  console.log(penaltyInfo);
+
   return (
     <S.StyledAttend>
       <AttendRate attendRate={attendInfo?.attendanceRate} />
