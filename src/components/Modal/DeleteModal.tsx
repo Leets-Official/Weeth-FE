@@ -61,11 +61,13 @@ const DelButton = styled(ModalButton)`
 const DeleteModal = ({
   title,
   content,
+  buttonContent = '삭제',
   onClose,
   onDelete,
 }: {
   title: string;
   content: string;
+  buttonContent?: string;
   onClose: () => void;
   onDelete?: () => void;
 }) => {
@@ -77,7 +79,7 @@ const DeleteModal = ({
       </Container>
       <ButtonContainer>
         <CancelButton onClick={onClose}>취소</CancelButton>
-        <DelButton onClick={onDelete}>삭제</DelButton>
+        <DelButton onClick={onDelete}>{buttonContent}</DelButton>
       </ButtonContainer>
     </Modal>
   );
