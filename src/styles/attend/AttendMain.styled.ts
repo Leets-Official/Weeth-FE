@@ -11,7 +11,7 @@ export const StyledAttend = styled.div`
 `;
 
 export const Progress = styled.div<{ attendPercent: number }>`
-  width: 86%;
+  width: 325px;
   height: 19px;
   background-color: ${({ attendPercent }) =>
     attendPercent === 0 ? theme.color.gray[20] : theme.color.negative};
@@ -28,14 +28,14 @@ export const Dealt = styled.div<{ dealt: number }>`
 `;
 
 export const StyledBox = styled.div`
+  width: 315px;
   background-color: ${theme.color.gray[18]};
   border-radius: 10px;
   padding: 15px;
-  margin: 20px 10px 0px 10px;
+  margin-top: 20px;
   display: flex;
   flex-direction: column;
   align-items: start;
-  width: 86%;
 `;
 
 export const SemiBold = styled.div`
@@ -74,7 +74,6 @@ export const ButtonContainer = styled.div`
   margin-right: 3%;
 `;
 
-// new
 export const AttendPercent = styled.div`
   display: flex;
   flex-direction: row;
@@ -128,8 +127,6 @@ export const AttendPlace = styled.div`
 
 export const AttendButton = styled.div`
   margin-top: 20px;
-  display: flex;
-  align-items: center;
 `;
 
 export const AttendName = styled.div`

@@ -11,6 +11,7 @@ interface ButtonProps {
   width?: string;
   borderRadius?: string;
   disabled?: boolean;
+  isAttend?: boolean;
 }
 
 const BasicButton = styled.button<ButtonProps>`
@@ -43,6 +44,7 @@ const Button: FC<ButtonProps> = ({
   width,
   borderRadius,
   disabled,
+  isAttend,
 }) => (
   <BasicButton
     color={color}

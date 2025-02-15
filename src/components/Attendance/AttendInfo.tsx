@@ -37,6 +37,8 @@ export const AttendInfo: React.FC<AttendInfoProps> = ({
       <S.AttendButton>
         {isAttend ? (
           <Button
+            width="315px"
+            height="50px"
             color={theme.color.gray[18]}
             textcolor={theme.color.gray[100]}
           >
@@ -44,6 +46,8 @@ export const AttendInfo: React.FC<AttendInfoProps> = ({
           </Button>
         ) : (
           <Button
+            width="315px"
+            height="50px"
             color={theme.color.gray[30]}
             textcolor={theme.color.gray[100]}
             onClick={handleOpenModal}

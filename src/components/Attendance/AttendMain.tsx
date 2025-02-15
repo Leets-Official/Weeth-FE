@@ -1,18 +1,20 @@
-import theme from '@/styles/theme';
 import { useEffect, useState } from 'react';
 
 import ModalAttend from '@/components/Attendance/Modal/ModalAttend';
 import ModalPenalty from '@/components/Attendance/Modal/ModalPenalty';
 
-import RightButton from '@/components/Header/RightButton';
 import check from '@/assets/images/ic_check.svg';
 import warning from '@/assets/images/ic_warning.svg';
 
 import * as S from '@/styles/attend/AttendMain.styled';
 import useGetAttend from '@/api/useGetAttend';
 import useGetPenalty from '@/api/useGetPenalty';
-import { AttendInfo, NoAttnedInfo } from './AttendInfo';
-import AttendRate from './AttendRate';
+import { AttendInfo, NoAttnedInfo } from '@/components/Attendance/AttendInfo';
+import AttendRate from '@/components/Attendance/AttendRate';
+import {
+  MyPenaltyInfo,
+  PenaltyInfo,
+} from '@/components/Attendance/PenaltyInfo';
 
 const AttendMain: React.FC = () => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
@@ -123,22 +125,10 @@ const AttendMain: React.FC = () => {
         ) : (
           <>
             {hasPenalty ? (
-              <S.PenaltyContainer>
-                <S.ButtonContainer>
-                  <S.SemiBold>
-                    패널티&nbsp;
-                    <div style={{ color: theme.color.negative }}>
-                      {penaltyInfo?.penaltyCount}회
-                    </div>
-                  </S.SemiBold>
-                  <RightButton onClick={handleOpenPenaltyModal} />
-                </S.ButtonContainer>
-                <S.PenaltyCount>
-                  패널티가 {penaltyInfo?.penaltyCount}회 적립이 되었어요.
-                  <br />
-                  어떤 이유인지 알아볼까요?
-                </S.PenaltyCount>
-              </S.PenaltyContainer>
+              <MyPenaltyInfo
+                penaltyCount={penaltyInfo?.penaltyCount}
+                handleOpenPenaltyModal={handleOpenPenaltyModal}
+              />
             ) : (
               <S.PenaltyContainer>
                 <S.NoPenaltyInfo>
@@ -146,18 +136,7 @@ const AttendMain: React.FC = () => {
                 </S.NoPenaltyInfo>
               </S.PenaltyContainer>
             )}
-            <div>
-              <S.PenaltyInfo>
-                패널티를 받는 기준은 아래와 같아요
-                <br />
-                - 정기 모임에 출석을 하지 않았을 때
-                <br />
-                - 미션을 제출하지 않았을 때
-                <br />
-                - 스터디 발표를 하지 않았을 때
-                <br />
-              </S.PenaltyInfo>
-            </div>
+            <PenaltyInfo />
           </>
         )}
       </S.StyledBox>
