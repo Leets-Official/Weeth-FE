@@ -1,14 +1,12 @@
 import axios, { AxiosHeaders, type InternalAxiosRequestConfig } from 'axios';
 
 // API URL
-const BASE_URL = process.env.VITE_API_URL;
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 // Axios 인스턴스 생성
 const api = axios.create({
   baseURL: BASE_URL,
-  headers: {
-    'Content-Type': 'application/json',
-  },
+  headers: { 'Content-Type': 'application/json' },
 });
 
 // 리프레시 토큰을 사용하여 엑세스 토큰을 갱신하는 함수
@@ -46,10 +44,7 @@ api.interceptors.request.use(
     }
 
     // config 객체를 직접 변경하지 않고, 새 객체를 만들어 반환
-    const modifiedConfig = {
-      ...config,
-      headers: newHeaders,
-    };
+    const modifiedConfig = { ...config, headers: newHeaders };
 
     return modifiedConfig;
   },
