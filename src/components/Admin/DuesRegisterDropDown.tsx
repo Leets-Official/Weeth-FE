@@ -9,10 +9,10 @@ import {
   ButtonWrapper,
 } from '@/styles/admin/DuesRegisterDropDown.styled';
 import { useState } from 'react';
-import { registerDues } from '@/api/admin/dues/registerDues';
-import Cardinal from './Cardinal';
+import { registerDues } from '@/api/admin/dues/postRegisterDues';
 import DuesInput from './DuesInput';
 import Button from './Button';
+import CardinalDropdown from './Cardinal';
 
 const DuesRegisterDropDown: React.FC = () => {
   const [selectedCardinal, setSelectedCardinal] = useState<null | number>(null);
@@ -41,7 +41,7 @@ const DuesRegisterDropDown: React.FC = () => {
       <Title>기수</Title>
       <CardinalWrapper>
         <div>
-          <Cardinal
+          <CardinalDropdown
             selectedCardinal={selectedCardinal}
             setSelectedCardinal={setSelectedCardinal}
           />

@@ -17,8 +17,11 @@ import MemberDetail from '@/pages/MemberDetail';
 import MyPage from '@/pages/MyPage';
 import Profile from '@/pages/Profile';
 import Receipt from '@/pages/Receipt';
-import Signup from '@/pages/Signup';
 import theme from '@/styles/theme';
+import Redirect from '@/pages/Redirect';
+import AccountCheck from '@/pages/AccountCheck';
+import RegistrationSuccess from '@/pages/RegistrationSuccess';
+import WaitingApproval from '@/pages/WaitingApproval';
 
 import AdminAttendance from '@/pages/admin/AdminAttendance';
 import AdminMember from '@/pages/admin/AdminMember';
@@ -40,8 +43,11 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/kakao/oauth" element={<Redirect />} />
+        <Route path="/accountcheck" element={<AccountCheck />} />
+        <Route path="/register-success" element={<RegistrationSuccess />} />
+        <Route path="/waiting-approval" element={<WaitingApproval />} />
 
         <Route path="/attendance" element={<Attendance />} />
         <Route path="/calendar" element={<Calendar />} />
@@ -67,6 +73,7 @@ const App = () => {
         <Route path="/board/:postId" element={<BoardPostDetail />} />
         <Route path="/board/:postId/edit" element={<BoardPost />} />
 
+        <Route path="/admin" element={<AdminAttendance />} />
         <Route path="/admin/attendance" element={<AdminAttendance />} />
         <Route path="/admin/member" element={<AdminMember />} />
         <Route path="/admin/dues" element={<AdminDues />} />

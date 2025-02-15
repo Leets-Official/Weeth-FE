@@ -1,24 +1,28 @@
-import { useState, useEffect } from 'react';
-import {
-  DescriptionWrapper,
-  SubTitle,
-  CardinalWrapper,
-  DuesInputWrapper,
-  SaveAddButton,
-  FileWrapper,
-} from '@/styles/admin/DuesRegisterAdd.styled';
+import { useEffect, useState } from 'react';
+// import {
+//   DescriptionWrapper,
+//   SubTitle,
+//   CardinalWrapper,
+//   DuesInputWrapper,
+//   SaveAddButton,
+//   FileWrapper,
+//   ButtonWrapper,
+//   InputWrapper,
+//   ModalWrapper,
+//   InputContainer,
+//   StyledDuesInput,
+//   StyledCloseButton,
+// } from '@/styles/admin/DuesRegisterAdd.styled';
+import * as S from '@/styles/admin/DuesRegisterAdd.styled';
 import CommonModal from '@/components/Admin/Modal/CommonModal';
+import Close from '@/assets/images/ic_admin_close.svg';
 import { FileObject } from '@/types/account';
-import DuesFileUpload from '@/hooks/admin/handleFileChange';
 import updateReceipt from '@/api/admin/dues/updateReceipt';
-import styled from 'styled-components';
-import Cardinal from '../Cardinal';
+import useDuesFileUpload from '@/hooks/admin/handleFileChange';
+import Button from '../Button';
 import DuesModalButton from '../DuesModalButton';
 import DuesInput from '../DuesInput';
-
-const Wrapper = styled.div`
-  width: 100%;
-`;
+import CardinalDropdown from '../Cardinal';
 
 interface DuesModifyModalProps {
   onClose: () => void;
@@ -45,13 +49,18 @@ const DuesModifyModal: React.FC<DuesModifyModalProps> = ({
   const [source, setSource] = useState(record.source);
   const [selectedCardinal, setSelectedCardinal] = useState(record.cardinal);
   const [customCardinal, setCustomCardinal] = useState('');
-  const [uploadedFiles, setUploadedFiles] = useState<FileObject[]>([]);
+  const {
+    uploadedFiles,
+    setUploadedFiles,
+    handleFileChange,
+    handleRemoveFile,
+  } = useDuesFileUpload();
 
   useEffect(() => {
     if (selectedCardinal) setCustomCardinal(`${selectedCardinal}기`);
 
     if (record.fileUrls) {
-      setUploadedFiles(record.fileUrls);
+      setUploadedFiles([...record.fileUrls]);
     }
   }, [selectedCardinal, record.fileUrls]);
 
@@ -69,7 +78,7 @@ const DuesModifyModal: React.FC<DuesModifyModalProps> = ({
         amount: Number(amount),
         source,
         cardinal: selectedCardinal,
-        fileUrls: uploadedFiles,
+        fileUrls: [...uploadedFiles],
       };
 
       await updateReceipt(updatedRecord);
@@ -94,19 +103,19 @@ const DuesModifyModal: React.FC<DuesModifyModalProps> = ({
       onClose={onClose}
       title="회비 지출 기록 수정"
       footer={
-        <SaveAddButton>
+        <S.SaveAddButton>
           <DuesModalButton description="Cancel" onClick={onClose} />
           <DuesModalButton description="저장" onClick={handleSave} />
-        </SaveAddButton>
+        </S.SaveAddButton>
       }
       height="800px"
       top="50%"
     >
-      <Wrapper>
-        <SubTitle>기수</SubTitle>
-        <CardinalWrapper>
+      <S.ModalWrapper>
+        <S.SubTitle>기수</S.SubTitle>
+        <S.CardinalWrapper>
           <div>
-            <Cardinal
+            <CardinalDropdown
               selectedCardinal={selectedCardinal}
               setSelectedCardinal={(value) => {
                 setSelectedCardinal(value);
@@ -114,7 +123,7 @@ const DuesModifyModal: React.FC<DuesModifyModalProps> = ({
               }}
             />
           </div>
-          <DuesInputWrapper>
+          <S.DuesInputWrapper>
             <DuesInput
               width="95%"
               placeholder="직접 입력"
@@ -122,28 +131,28 @@ const DuesModifyModal: React.FC<DuesModifyModalProps> = ({
               onChange={(e) => setCustomCardinal(e.target.value)}
               onBlur={handleCustomCardinalBlur}
             />
-          </DuesInputWrapper>
-        </CardinalWrapper>
-        <SubTitle>일자</SubTitle>
-        <DescriptionWrapper>
+          </S.DuesInputWrapper>
+        </S.CardinalWrapper>
+        <S.SubTitle>일자</S.SubTitle>
+        <S.DescriptionWrapper>
           <DuesInput
             width="91%"
             value={date}
             onChange={(e) => setDate(e.target.value)}
           />
-        </DescriptionWrapper>
+        </S.DescriptionWrapper>
 
-        <SubTitle>사용 내용</SubTitle>
-        <DescriptionWrapper>
+        <S.SubTitle>사용 내용</S.SubTitle>
+        <S.DescriptionWrapper>
           <DuesInput
             width="91%"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
-        </DescriptionWrapper>
+        </S.DescriptionWrapper>
 
-        <SubTitle>사용 금액</SubTitle>
-        <DescriptionWrapper>
+        <S.SubTitle>사용 금액</S.SubTitle>
+        <S.DescriptionWrapper>
           <DuesInput
             width="91%"
             value={amount !== undefined ? amount.toString() : ''}
@@ -151,25 +160,68 @@ const DuesModifyModal: React.FC<DuesModifyModalProps> = ({
               setAmount(e.target.value ? Number(e.target.value) : undefined)
             }
           />
-        </DescriptionWrapper>
+        </S.DescriptionWrapper>
 
-        <SubTitle>사용처</SubTitle>
-        <DescriptionWrapper>
+        <S.SubTitle>사용처</S.SubTitle>
+        <S.DescriptionWrapper>
           <DuesInput
             width="91%"
             value={source}
             onChange={(e) => setSource(e.target.value)}
           />
-        </DescriptionWrapper>
+        </S.DescriptionWrapper>
 
-        <SubTitle>영수증 첨부</SubTitle>
-        <FileWrapper>
-          <DuesFileUpload
-            onFilesUploaded={(newFiles) => setUploadedFiles([...newFiles])}
-            existingFiles={record.fileUrls || []}
-          />
-        </FileWrapper>
-      </Wrapper>
+        <S.SubTitle>영수증 첨부</S.SubTitle>
+        <S.DescriptionWrapper>
+          <S.FileWrapper>
+            <S.ButtonWrapper>
+              <input
+                id="modal-file-upload"
+                type="file"
+                accept="image/*,application/pdf"
+                style={{ display: 'none' }}
+                multiple
+                onChange={(e) => {
+                  handleFileChange(e);
+                }}
+              />
+              <Button
+                description="파일 선택"
+                color="#00dda8"
+                width="99px"
+                onClick={() => {
+                  document.getElementById('modal-file-upload')?.click();
+                }}
+              />
+            </S.ButtonWrapper>
+
+            <S.InputWrapper>
+              {uploadedFiles.length === 0 ? (
+                <DuesInput
+                  width="90%"
+                  placeholder="선택된 파일 없음"
+                  readOnly
+                />
+              ) : (
+                uploadedFiles.map((file) => (
+                  <S.InputContainer key={file.fileId}>
+                    <S.StyledDuesInput
+                      width="90%"
+                      placeholder={file.fileName}
+                      readOnly
+                    />
+                    <S.StyledCloseButton
+                      onClick={() => handleRemoveFile(file.fileName)}
+                    >
+                      <img src={Close} alt="삭제" width="20px" />
+                    </S.StyledCloseButton>
+                  </S.InputContainer>
+                ))
+              )}
+            </S.InputWrapper>
+          </S.FileWrapper>
+        </S.DescriptionWrapper>
+      </S.ModalWrapper>
     </CommonModal>
   );
 };

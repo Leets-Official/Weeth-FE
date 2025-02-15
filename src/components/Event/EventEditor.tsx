@@ -8,7 +8,6 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import useGetEventInfo from '@/api/getEventInfo';
 import replaceNewLines from '@/hooks/newLine';
-import useGetUserInfo from '@/api/useGetUserInfo';
 import CardinalDropdown from '@/components/common/CardinalDropdown';
 import Modal from '@/components/common/Modal';
 import Button from '@/components/Button/Button';
@@ -38,7 +37,6 @@ const EventEditor = () => {
 
   const { id } = useParams();
   const { data: eventDetailData, error } = useGetEventInfo('events', id);
-  const { userInfo } = useGetUserInfo();
   const isEditMode = Boolean(id);
   const navigate = useNavigate();
 
@@ -60,8 +58,6 @@ const EventEditor = () => {
     requiredItem: '',
     content: '',
   });
-
-  console.log(eventRequest);
 
   useEffect(() => {
     if (eventDetailData) {
@@ -120,10 +116,6 @@ const EventEditor = () => {
       }
     }
   };
-
-  if (userInfo && userInfo.role !== 'ADMIN') {
-    return <S.Error>일정 생성 및 수정은 운영진만 가능합니다</S.Error>;
-  }
 
   if (error) return <S.Error>{error}</S.Error>;
 

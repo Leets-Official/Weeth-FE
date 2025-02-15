@@ -4,7 +4,7 @@ import EventTitle from '@/components/Event/EventTitle';
 import EventContent from '@/components/Event/EventContent';
 import useCustomBack from '@/hooks/useCustomBack';
 import { useParams } from 'react-router-dom';
-import useGetUserInfo from '@/api/useGetUserInfo';
+import useGetGlobaluserInfo from '@/api/useGetGlobaluserInfo';
 
 export interface EventDetailData {
   id: number;
@@ -25,20 +25,16 @@ const EventDetail = () => {
   useCustomBack('/calendar');
 
   const { id, type } = useParams();
-  // TODO: 어드민 로직 수정
-  const { userInfo } = useGetUserInfo();
+  const { isAdmin } = useGetGlobaluserInfo();
   const { data: eventDetailData, error } = useGetEventInfo(type, id);
 
   if (error || !eventDetailData) return <S.Error>{error}</S.Error>;
 
   return (
     <S.EventDetailWrapper>
-      <EventTitle data={eventDetailData} isAdmin={userInfo?.role === 'ADMIN'} />
+      <EventTitle data={eventDetailData} isAdmin={isAdmin} />
       <S.Line />
-      <EventContent
-        data={eventDetailData}
-        isAdmin={userInfo?.role === 'ADMIN'}
-      />
+      <EventContent data={eventDetailData} isAdmin={isAdmin} />
     </S.EventDetailWrapper>
   );
 };

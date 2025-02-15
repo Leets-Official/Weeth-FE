@@ -1,0 +1,43 @@
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import api from '@/api/api';
+
+const Redirect: React.FC = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const queryParams = new URLSearchParams(window.location.search);
+    const code = queryParams.get('code');
+
+    if (code) {
+      api
+        .post(`/api/v1/users/kakao/login`, { authCode: code })
+        .then((res) => {
+          const { kakaoId, status, accessToken, refreshToken } = res.data.data;
+          localStorage.setItem('kakaoId', kakaoId);
+          if (res.data.code === 200) {
+            if (status === 'LOGIN') {
+              localStorage.setItem('accessToken', accessToken);
+              localStorage.setItem('refreshToken', refreshToken);
+              navigate('/home');
+            } else {
+              navigate('/accountcheck');
+            }
+          } else if (res.data.code === 403) {
+            navigate('/waiting-approval');
+          }
+        })
+        .catch((err: any) => {
+          if ((err.response.data as { code: number }).code === 403) {
+            navigate('/waiting-approval');
+          } else {
+            navigate('/');
+          }
+        });
+    }
+  }, [navigate]);
+
+  return <div />;
+};
+
+export default Redirect;

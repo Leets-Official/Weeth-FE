@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components';
+import DuesInput from '@/components/Admin/DuesInput';
 import theme from '../theme';
 
 export const flexMixin = (flexValue: number) => css`
@@ -15,6 +16,32 @@ export const Wrapper = styled.div`
 
   padding-bottom: 30px;
   margin-bottom: 30px;
+`;
+
+export const ModalWrapper = styled.div`
+  width: 100%;
+`;
+
+export const InputContainer = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+`;
+
+export const StyledDuesInput = styled(DuesInput)`
+  width: 100%;
+  padding-right: 50px;
+`;
+
+export const StyledCloseButton = styled.button`
+  position: absolute;
+  right: 50px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
 `;
 
 export const Title = styled.div`

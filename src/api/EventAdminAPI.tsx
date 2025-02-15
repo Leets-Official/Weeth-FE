@@ -1,8 +1,4 @@
-import axios from 'axios';
-
-const accessToken = localStorage.getItem('accessToken');
-const refreshToken = localStorage.getItem('refreshToken');
-const BASE_URL = import.meta.env.VITE_API_URL;
+import api from './api';
 
 export interface EventRequestType {
   title: string;
@@ -16,35 +12,16 @@ export interface EventRequestType {
 }
 
 export const createEvent = async (data: EventRequestType) => {
-  const response = await axios.post(`${BASE_URL}/api/v1/admin/events`, data, {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-      Authorization_refresh: `Bearer ${refreshToken}`,
-    },
-  });
+  const response = await api.post(`/api/v1/admin/events`, data);
   return response;
 };
 
 export const editEvent = async (data: EventRequestType, id: number) => {
-  const response = await axios.patch(
-    `${BASE_URL}/api/v1/admin/events/${id}`,
-    data,
-    {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        Authorization_refresh: `Bearer ${refreshToken}`,
-      },
-    },
-  );
+  const response = await api.patch(`/api/v1/admin/events/${id}`, data);
   return response;
 };
 
 export const deleteEvent = async (id: number) => {
-  const response = await axios.delete(`${BASE_URL}/api/v1/admin/events/${id}`, {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-      Authorization_refresh: `Bearer ${refreshToken}`,
-    },
-  });
+  const response = await api.delete(`/api/v1/admin/events/${id}`);
   return response;
 };

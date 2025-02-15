@@ -1,22 +1,25 @@
-import React from 'react';
-import CardinalDropdown from '@/components/Admin/Cardinal';
+import React, { Dispatch, SetStateAction, useState } from 'react';
+import CardinalDropDown from './Cardinal';
 import SearchBar, { SearchBarWrapper } from './SearchBar';
 
 interface CombinedSearchBarProps {
-  selectedCardinal: string;
-  setSelectedCardinal: (cardinal: string) => void;
+  selectedCardinal: number | null;
+  setSelectedCardinal: Dispatch<SetStateAction<number | null>>;
 }
 
-const CombinedSearchBar: React.FC<CombinedSearchBarProps> = ({
-  selectedCardinal,
-  setSelectedCardinal,
-}) => {
+const CombinedSearchBar: React.FC<CombinedSearchBarProps> = () => {
+  const [selectedCardinal, setSelectedCardinal] = useState<null | number>(null);
+
   return (
     <SearchBarWrapper>
-      <CardinalDropdown
-        selectedCardinal={selectedCardinal}
-        setSelectedCardinal={setSelectedCardinal}
-      />
+      <div>
+        <CardinalDropDown
+          selectedCardinal={selectedCardinal}
+          setSelectedCardinal={(value) => {
+            setSelectedCardinal(value);
+          }}
+        />
+      </div>
       <SearchBar isWrapped={false} />
     </SearchBarWrapper>
   );
