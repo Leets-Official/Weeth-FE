@@ -27,7 +27,7 @@ interface ApiResponse {
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
-const useGetBoardInfo = async (
+export const useGetBoardInfo = async (
   path: string,
   pageNumber: number,
   setPosts: React.Dispatch<React.SetStateAction<Content[]>>,
@@ -65,11 +65,13 @@ const useGetBoardInfo = async (
 // 최신 공지사항 10개를 가져오는 훅
 export const useGetRecentNotice = () => {
   const [recentNotices, setRecentNotices] = useState<Content[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchRecentNotice = async () => {
       try {
+        setIsLoading(true);
         const accessToken = localStorage.getItem('accessToken');
         const refreshToken = localStorage.getItem('refreshToken');
 
@@ -91,13 +93,13 @@ export const useGetRecentNotice = () => {
           err.response?.data?.message ||
             '공지사항을 불러오는 중 오류가 발생했습니다.',
         );
+      } finally {
+        setIsLoading(false);
       }
     };
 
     fetchRecentNotice();
   }, []);
 
-  return { recentNotices, error };
+  return { recentNotices, isLoading, error };
 };
-
-export default useGetBoardInfo;
