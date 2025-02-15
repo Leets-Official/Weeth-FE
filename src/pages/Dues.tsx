@@ -1,22 +1,26 @@
 import useGetDuesInfo from '@/api/useGetDuesInfo';
-import useGetUserInfo from '@/api/useGetUserInfo';
+import useGetGlobaluserInfo from '@/api/useGetGlobaluserInfo';
 import DueCategory from '@/components/Dues/DueCategory';
 import DuesInfo from '@/components/Dues/DuesInfo';
 import DuesTitle from '@/components/Dues/DuesTitle';
 import Header from '@/components/Header/Header';
 import useCustomBack from '@/hooks/useCustomBack';
 import * as S from '@/styles/dues/Dues.styled';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const Dues: React.FC = () => {
   useCustomBack('/home');
 
-  const { userInfo } = useGetUserInfo();
-
-  const cardinal = userInfo?.cardinals?.[userInfo.cardinals.length - 1] ?? 0;
-  const { duesInfo } = useGetDuesInfo(cardinal);
+  const { globalInfo } = useGetGlobaluserInfo();
 
   const [selected, setSelectedDues] = useState<string | null>(null);
+  const [cardinal, setCardinal] = useState(0);
+
+  const { duesInfo } = useGetDuesInfo(cardinal);
+
+  useEffect(() => {
+    setCardinal(globalInfo?.cardinals?.[globalInfo.cardinals.length - 1] ?? 0);
+  }, [globalInfo]);
 
   const filteredDues =
     selected === null

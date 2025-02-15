@@ -1,7 +1,7 @@
 import '@/components/Attendance/Modal/ModalStyled.css';
 import * as S from '@/styles/attend/ModalAttend.styled';
-import axios from 'axios';
 import { ChangeEvent, useEffect, useState } from 'react';
+import api from '@/api/api';
 
 import check from '@/assets/images/ic_check.svg';
 import icClose from '@/assets/images/ic_close.svg';
@@ -49,7 +49,6 @@ const ModalAttend: React.FC<{ open: boolean; close: () => void }> = ({
   const [accessToken, setAccessToken] = useState<string | null>(
     localStorage.getItem('accessToken'),
   );
-  const refreshToken = localStorage.getItem('refreshToken');
 
   const { attendCheckInfo, error } = useGetAttendCheck();
 
@@ -70,16 +69,9 @@ const ModalAttend: React.FC<{ open: boolean; close: () => void }> = ({
       return;
     }
     try {
-      const headers = {
-        Authorization: `Bearer ${accessToken}`,
-        Authorization_refresh: `Bearer ${refreshToken}`,
-      };
-      const BASE_URL = import.meta.env.VITE_API_URL;
-      const response = await axios.patch(
-        `${BASE_URL}/api/v1/attendances`,
-        { code: inputValue },
-        { headers },
-      );
+      const response = await api.patch(`/api/v1/attendances`, {
+        code: inputValue,
+      });
       setMessage(response.data.message);
       if (response.data.code === 200) {
         setCodeCheck(1); // Correct

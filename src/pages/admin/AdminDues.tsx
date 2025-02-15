@@ -8,6 +8,7 @@ import DuesRegisterAdd from '@/components/Admin/DuesRegisterAdd';
 import { useState } from 'react';
 import DuesRegister from '@/components/Admin/DuesRegister';
 import TotalCardinal from '@/components/Admin/CardinalWrapper';
+import AdminOnly from '@/components/common/AdminOnly';
 
 const ContentWrapper = styled.div`
   display: flex;
@@ -51,13 +52,9 @@ const DuesRegisterWrapper = styled.div`
 const AdminDues: React.FC = () => {
   const [selectedCardinal, setSelectedCardinal] = useState<null | number>(null);
 
-  const getDuesText = () => {
-    if (selectedCardinal === null) return '기수 정보 없음';
-    return `${selectedCardinal}기 회비(3월 이월금 + ${selectedCardinal}기 회비)`;
-  };
-
   return (
     <PageWrapper>
+      <AdminOnly isAdminPage />
       <NavMenu />
       <ContentWrapper>
         <TopBar
@@ -71,10 +68,7 @@ const AdminDues: React.FC = () => {
               setSelectedCardinal={setSelectedCardinal}
             />
             <DuesWrapper>
-              <TotalDues
-                getDuesText={getDuesText}
-                cardinal={selectedCardinal}
-              />
+              <TotalDues cardinal={selectedCardinal} />
               <Expenditure cardinal={selectedCardinal} />
             </DuesWrapper>
           </Container>

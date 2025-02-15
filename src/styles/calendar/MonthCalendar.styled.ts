@@ -126,7 +126,7 @@ export const Today = styled.div`
   justify-content: center;
   position: absolute;
   top: 1px;
-  right: 1px;
+  right: 0.5px;
   background: ${theme.color.main};
   border-radius: 10px;
   padding-top: 2px;

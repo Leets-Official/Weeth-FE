@@ -42,8 +42,6 @@ const CloseButton = styled.button`
 `;
 
 const ReceiptModal: React.FC<ReceiptModalProps> = ({ fileUrls, onClose }) => {
-  fileUrls.forEach((file) => console.log('파일 URL:', encodeURI(file.fileUrl)));
-
   return (
     <ModalOverlay onClick={onClose}>
       <ModalContent onClick={(e) => e.stopPropagation()}>
@@ -54,11 +52,7 @@ const ReceiptModal: React.FC<ReceiptModalProps> = ({ fileUrls, onClose }) => {
         </Header>
         {fileUrls.map((file) => (
           <div key={file.fileId}>
-            <img
-              src={encodeURI(file.fileUrl)}
-              alt={file.fileName}
-              width="50%"
-            />
+            <img src={file.fileUrl} alt={file.fileName} width="50%" />
           </div>
         ))}
       </ModalContent>
