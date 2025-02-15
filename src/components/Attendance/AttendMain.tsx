@@ -67,13 +67,12 @@ const AttendMain: React.FC = () => {
     const endDate = dayjs(attendInfo.end);
 
     startDateTime = startDate.format('YYYY년 MMMM D일');
-    const startTime = startDate.format('HH:mm');
-    const endTime = endDate.format('HH:mm');
+    const startTime = startDate.locale('en').format('h:mm A');
+    const endTime = endDate.locale('en').format('h:mm A');
 
     endDateTime = `(${startTime} ~ ${endTime})`;
 
-    const currentTime = dayjs().format('HH:mm');
-
+    const currentTime = dayjs().format('h:mm A');
     isWithinTimeRange = currentTime >= startTime && currentTime <= endTime;
   }
   useEffect(() => {
