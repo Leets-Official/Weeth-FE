@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import {
   DescriptionWrapper,
   SubTitle,
@@ -6,19 +6,22 @@ import {
   DuesInputWrapper,
   SaveAddButton,
   FileWrapper,
+  ButtonWrapper,
+  InputWrapper,
+  ModalWrapper,
+  InputContainer,
+  StyledDuesInput,
+  StyledCloseButton,
 } from '@/styles/admin/DuesRegisterAdd.styled';
 import CommonModal from '@/components/Admin/Modal/CommonModal';
+import Close from '@/assets/images/ic_admin_close.svg';
 import { FileObject } from '@/types/account';
-import DuesFileUpload from '@/hooks/admin/handleFileChange';
 import updateReceipt from '@/api/admin/dues/updateReceipt';
-import styled from 'styled-components';
+import useDuesFileUpload from '@/hooks/admin/handleFileChange';
+import Button from '../Button';
 import DuesModalButton from '../DuesModalButton';
 import DuesInput from '../DuesInput';
 import CardinalDropdown from '../Cardinal';
-
-const Wrapper = styled.div`
-  width: 100%;
-`;
 
 interface DuesModifyModalProps {
   onClose: () => void;
@@ -45,13 +48,18 @@ const DuesModifyModal: React.FC<DuesModifyModalProps> = ({
   const [source, setSource] = useState(record.source);
   const [selectedCardinal, setSelectedCardinal] = useState(record.cardinal);
   const [customCardinal, setCustomCardinal] = useState('');
-  const [uploadedFiles, setUploadedFiles] = useState<FileObject[]>([]);
+  const {
+    uploadedFiles,
+    setUploadedFiles,
+    handleFileChange,
+    handleRemoveFile,
+  } = useDuesFileUpload();
 
   useEffect(() => {
     if (selectedCardinal) setCustomCardinal(`${selectedCardinal}기`);
 
     if (record.fileUrls) {
-      setUploadedFiles(record.fileUrls);
+      setUploadedFiles([...record.fileUrls]);
     }
   }, [selectedCardinal, record.fileUrls]);
 
@@ -69,7 +77,7 @@ const DuesModifyModal: React.FC<DuesModifyModalProps> = ({
         amount: Number(amount),
         source,
         cardinal: selectedCardinal,
-        fileUrls: uploadedFiles,
+        fileUrls: [...uploadedFiles],
       };
 
       await updateReceipt(updatedRecord);
@@ -102,7 +110,7 @@ const DuesModifyModal: React.FC<DuesModifyModalProps> = ({
       height="800px"
       top="50%"
     >
-      <Wrapper>
+      <ModalWrapper>
         <SubTitle>기수</SubTitle>
         <CardinalWrapper>
           <div>
@@ -163,13 +171,56 @@ const DuesModifyModal: React.FC<DuesModifyModalProps> = ({
         </DescriptionWrapper>
 
         <SubTitle>영수증 첨부</SubTitle>
-        <FileWrapper>
-          <DuesFileUpload
-            onFilesUploaded={(newFiles) => setUploadedFiles([...newFiles])}
-            existingFiles={record.fileUrls || []}
-          />
-        </FileWrapper>
-      </Wrapper>
+        <DescriptionWrapper>
+          <FileWrapper>
+            <ButtonWrapper>
+              <input
+                id="modal-file-upload"
+                type="file"
+                accept="image/*,application/pdf"
+                style={{ display: 'none' }}
+                multiple
+                onChange={(e) => {
+                  handleFileChange(e);
+                }}
+              />
+              <Button
+                description="파일 선택"
+                color="#00dda8"
+                width="99px"
+                onClick={() => {
+                  document.getElementById('modal-file-upload')?.click();
+                }}
+              />
+            </ButtonWrapper>
+
+            <InputWrapper>
+              {uploadedFiles.length === 0 ? (
+                <DuesInput
+                  width="90%"
+                  placeholder="선택된 파일 없음"
+                  readOnly
+                />
+              ) : (
+                uploadedFiles.map((file) => (
+                  <InputContainer key={file.fileId}>
+                    <StyledDuesInput
+                      width="90%"
+                      placeholder={file.fileName}
+                      readOnly
+                    />
+                    <StyledCloseButton
+                      onClick={() => handleRemoveFile(file.fileName)}
+                    >
+                      <img src={Close} alt="삭제" width="20px" />
+                    </StyledCloseButton>
+                  </InputContainer>
+                ))
+              )}
+            </InputWrapper>
+          </FileWrapper>
+        </DescriptionWrapper>
+      </ModalWrapper>
     </CommonModal>
   );
 };
