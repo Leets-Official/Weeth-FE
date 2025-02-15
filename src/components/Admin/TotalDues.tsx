@@ -5,7 +5,7 @@ import {
   TopDues,
   Title,
 } from '@/styles/admin/TotalDues.styled';
-import fetchAccountData from '@/api/admin/dues/account';
+import fetchAccountData from '@/api/admin/dues/getAccount';
 import { AccountResponse } from '@/types/account';
 import { useEffect, useState } from 'react';
 import dayjs from 'dayjs';

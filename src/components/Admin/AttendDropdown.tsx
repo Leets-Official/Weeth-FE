@@ -1,4 +1,4 @@
-import fetchAttendances from '@/api/admin/attendance/attendance';
+import fetchAttendances from '@/api/admin/attendance/getAttendance';
 import { useEffect, useState } from 'react';
 import {
   Wrapper,
