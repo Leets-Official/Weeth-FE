@@ -51,11 +51,6 @@ const DuesRegisterWrapper = styled.div`
 const AdminDues: React.FC = () => {
   const [selectedCardinal, setSelectedCardinal] = useState<null | number>(null);
 
-  const getDuesText = () => {
-    if (selectedCardinal === null) return '기수 정보 없음';
-    return `${selectedCardinal}기 회비(3월 이월금 + ${selectedCardinal}기 회비)`;
-  };
-
   return (
     <PageWrapper>
       <NavMenu />
@@ -71,10 +66,7 @@ const AdminDues: React.FC = () => {
               setSelectedCardinal={setSelectedCardinal}
             />
             <DuesWrapper>
-              <TotalDues
-                getDuesText={getDuesText}
-                cardinal={selectedCardinal}
-              />
+              <TotalDues cardinal={selectedCardinal} />
               <Expenditure cardinal={selectedCardinal} />
             </DuesWrapper>
           </Container>

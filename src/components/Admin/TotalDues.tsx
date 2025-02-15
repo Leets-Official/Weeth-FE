@@ -12,7 +12,6 @@ import dayjs from 'dayjs';
 import Box from './Box';
 
 interface TotalDuesProps {
-  getDuesText: () => string;
   cardinal: number | null;
 }
 
@@ -45,7 +44,8 @@ const formatDate = (time: unknown): string => {
   return '날짜 없음';
 };
 
-const TotalDues: React.FC<TotalDuesProps> = ({ getDuesText, cardinal }) => {
+const TotalDues: React.FC<TotalDuesProps> = ({ cardinal }) => {
+  const [title, setTitle] = useState('');
   const [boxData, setBoxData] = useState([
     {
       id: 'box1',
@@ -77,7 +77,9 @@ const TotalDues: React.FC<TotalDuesProps> = ({ getDuesText, cardinal }) => {
         const response: AccountResponse = await fetchAccountData(cardinal);
 
         if (response.code === 200) {
-          const { totalAmount, currentAmount, time } = response.data;
+          const { totalAmount, currentAmount, time, description } =
+            response.data;
+          setTitle(description);
 
           setBoxData([
             {
@@ -116,7 +118,7 @@ const TotalDues: React.FC<TotalDuesProps> = ({ getDuesText, cardinal }) => {
         <Title>총 회비</Title>
       </TopDues>
       <InsideDues>
-        <CardinalWrapper>{getDuesText()}</CardinalWrapper>
+        <CardinalWrapper>{title || '기수 정보 없음'}</CardinalWrapper>
         <BoxWrapper>
           {boxData.map((box) => (
             <Box
