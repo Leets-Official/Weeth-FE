@@ -166,7 +166,7 @@ const Login: React.FC = () => {
       <LoginHeaderMargin />
       <LoginTitle>계정 연동하기</LoginTitle>
       <LoginSubTitle>
-        연동이 완료되면 &nbsp;
+        연동이 완료되면 <span style={{ margin: '0 5px' }}></span>
         <p
           style={{
             color: '#508FFF',

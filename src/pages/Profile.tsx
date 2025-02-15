@@ -221,7 +221,7 @@ const Profile: React.FC = () => {
       <ProfileTitle>회원 정보 입력하기</ProfileTitle>
       <ProfileSubTitle>신규 회원님의 정보를 입력해주세요.</ProfileSubTitle>
       <ProfileSubTitle>
-        작성이 완료되면 &nbsp;
+        작성이 완료되면 <span style={{ margin: '0 5px' }}></span>
         <p
           style={{
             color: '#508FFF',
