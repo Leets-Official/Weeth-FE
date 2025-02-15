@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import theme from '../theme';
+import theme from '@/styles/theme';
 
 export const UserInfo = styled.div`
   display: flex;
@@ -46,4 +46,9 @@ export const UserCharacter = styled.img`
   &:hover {
     transform: scale(1.08);
   }
+`;
+
+export const LoadingContainer = styled.div`
+  width: 153px;
+  height: 140px;
 `;

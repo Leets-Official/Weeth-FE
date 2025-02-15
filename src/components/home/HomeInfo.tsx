@@ -71,7 +71,6 @@ const HomeInfo = () => {
       }
     }
   };
-
   return (
     <StyledHomeMain>
       <S.UserInfo>
@@ -85,13 +84,17 @@ const HomeInfo = () => {
           <S.NickName>Elite님</S.NickName>
         </S.UserContainer>
         <S.RightButtonContainer>
-          <S.UserCharacter
-            src={characterImg}
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-            onClick={() => navigate(`/mypage`)}
-            alt="User character icon"
-          />
+          {isLoading || !userInfo ? (
+            <S.LoadingContainer>...</S.LoadingContainer>
+          ) : (
+            <S.UserCharacter
+              src={characterImg}
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+              onClick={() => navigate(`/mypage`)}
+              alt="User character icon"
+            />
+          )}
         </S.RightButtonContainer>
       </S.UserInfo>
     </StyledHomeMain>
