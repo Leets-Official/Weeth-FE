@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import * as S from '@/styles/attend/AttendMain.styled';
 import useGetUserName from '@/hooks/useGetUserName';
 import { useNavigate } from 'react-router-dom';
@@ -5,17 +6,19 @@ import RightButton from '@/components/Header/RightButton';
 import useGetAttend from '@/api/useGetAttend';
 
 const AttendRate = () => {
-  // 출석률 게이지 임시 값
-  let ATTEND_GAUGE = 0;
-  const MAX_ATTEND_GUAGE = 100;
   const navi = useNavigate();
-
   const userName = useGetUserName();
-  const dealt = Math.floor((ATTEND_GAUGE / MAX_ATTEND_GUAGE) * 100);
-
   const { attendInfo } = useGetAttend();
 
-  ATTEND_GAUGE = attendInfo?.attendanceRate ?? 0;
+  const [attendGauge, setAttendGauge] = useState(0);
+
+  useEffect(() => {
+    if (attendInfo) {
+      setAttendGauge(attendInfo.attendanceRate ?? 0);
+    }
+  }, [attendInfo]);
+
+  const dealt = Math.floor((attendGauge / 100) * 100);
 
   return (
     <S.StyledAttend>
@@ -28,14 +31,14 @@ const AttendRate = () => {
       <S.AttendPercent>
         <S.TitleWrapper>
           <S.SemiBold>
-            <div>{ATTEND_GAUGE}%</div>
+            <div>{attendGauge}%</div>
           </S.SemiBold>
         </S.TitleWrapper>
         <S.RightButtonWrapper>
           <RightButton onClick={() => navi('/attendCheck')} />
         </S.RightButtonWrapper>
       </S.AttendPercent>
-      <S.Progress isAttend={ATTEND_GAUGE}>
+      <S.Progress isAttend={attendGauge}>
         <S.Dealt dealt={dealt} />
       </S.Progress>
     </S.StyledAttend>
