@@ -157,6 +157,10 @@ const AttendMain: React.FC = () => {
         )}
       </S.StyledBox>
       <ModalAttend
+        title={title}
+        location={location}
+        startDateTime={startDateTime}
+        endDateTime={endDateTime}
         open={modalOpen}
         close={handleCloseModal}
         handleAttend={setIsAttend}

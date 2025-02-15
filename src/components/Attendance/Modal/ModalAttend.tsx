@@ -40,19 +40,27 @@ const CloseButton: React.FC<{ onClick: () => void }> = ({ onClick }) => (
 );
 
 const ModalAttend: React.FC<{
+  title: string;
+  location: string;
+  startDateTime: string;
+  endDateTime: string;
   open: boolean;
   close: () => void;
   handleAttend: (attended: boolean) => void;
-}> = ({ open, close, handleAttend }) => {
+}> = ({
+  title,
+  location,
+  startDateTime,
+  endDateTime,
+  open,
+  close,
+  handleAttend,
+}) => {
   const [codeCheck, setCodeCheck] = useState(0);
   const [inputValue, setInputValue] = useState('');
   const [message, setMessage] = useState('');
-  const [accessToken, setAccessToken] = useState<string | null>(
-    localStorage.getItem('accessToken'),
-  );
+  const accessToken = localStorage.getItem('accessToken');
   const refreshToken = localStorage.getItem('refreshToken');
-
-  const { attendCheckInfo, error } = useGetAttendCheck();
 
   useEffect(() => {
     if (!open) {
@@ -103,61 +111,6 @@ const ModalAttend: React.FC<{
     }
   };
 
-  let title: string;
-  let location: string;
-  let startDateTime: string;
-  let endDateTime: string;
-
-  if (error) {
-    title = 'error';
-    location = 'error';
-    startDateTime = 'error';
-    endDateTime = 'error';
-  } else if (!attendCheckInfo) {
-    title = '로딩중';
-    location = '로딩중';
-    startDateTime = '로딩중';
-    endDateTime = '로딩중';
-  } else {
-    const attendance = attendCheckInfo.attendances[0]; // 첫 번째 출석 정보
-    title = attendance.title;
-    location = attendance.location;
-    const startDate = new Date(attendance.start);
-    const endDate = new Date(attendance.end);
-
-    const dateOptions: Intl.DateTimeFormatOptions = {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    };
-    startDateTime = startDate.toLocaleDateString('ko-KR', dateOptions);
-
-    const timeOptions: Intl.DateTimeFormatOptions = {
-      hour: '2-digit',
-      minute: '2-digit',
-      hour12: false,
-    };
-    const startTime = startDate.toLocaleTimeString('ko-KR', timeOptions);
-    const endTime = endDate.toLocaleTimeString('ko-KR', timeOptions);
-
-    endDateTime = `(${startTime} ~ ${endTime})`;
-  }
-
-  useEffect(() => {
-    const handleStorageChange = () => {
-      const newToken = localStorage.getItem('accessToken');
-      if (newToken !== accessToken) {
-        setAccessToken(newToken);
-      }
-    };
-
-    window.addEventListener('storage', handleStorageChange);
-
-    return () => {
-      window.removeEventListener('storage', handleStorageChange);
-    };
-  }, [accessToken]);
-
   return (
     <S.StyledModal open={open}>
       <S.Regular>
@@ -187,7 +140,7 @@ const ModalAttend: React.FC<{
             />
           </div>
           <div className="modal-buttons">
-            <Button onClick={handleCompleteBtn} width="280" height="45">
+            <Button onClick={handleCompleteBtn} width="280px" height="45px">
               입력완료
             </Button>
           </div>

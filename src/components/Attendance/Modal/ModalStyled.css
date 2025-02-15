@@ -1,15 +1,16 @@
 .openModal {
-  display: block; /* 모달 열기 */
+  display: block;
 }
 
 .modal-content {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%); /* 중앙 정렬 */
-  width: calc(370*0.84);
+  transform: translate(-50%, -50%);
+  width: calc(370 * 0.84);
+  min-width: calc(370 * 0.84);
   height: 489px;
-  background-color: #2F2F2F;
+  background-color: #2f2f2f;
   border-radius: 14px;
   padding: 20px;
   box-sizing: border-box;
@@ -32,7 +33,7 @@
   display: flex;
   flex-direction: row;
   font-size: 14px;
-  color: #A6A6A6;
+  color: #a6a6a6;
   margin-top: 20px;
 }
 
@@ -57,7 +58,7 @@
   margin-top: 14px;
   border-radius: 4px;
   border: none;
-  background-color: #1F1F1F;
+  background-color: #1f1f1f;
   color: #ffff;
   font-size: 16px;
   box-sizing: border-box;
@@ -69,7 +70,7 @@
   margin: 20px 0 0 0;
 }
 
-.modal-penalty{
+.modal-penalty {
   font-size: 32px;
   margin-top: 19px;
 }
