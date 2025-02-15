@@ -16,6 +16,17 @@ import {
   PenaltyInfo,
 } from '@/components/Attendance/PenaltyInfo';
 
+import dayjs from 'dayjs';
+import 'dayjs/locale/ko';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
+import relativeTime from 'dayjs/plugin/relativeTime';
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
+dayjs.extend(relativeTime);
+dayjs.locale('ko');
+
 const AttendMain: React.FC = () => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [penaltyModalOpen, setPenaltyModalOpen] = useState<boolean>(false);
@@ -52,31 +63,18 @@ const AttendMain: React.FC = () => {
     title = attendInfo.title;
     location = attendInfo.location;
 
-    const startDate = new Date(attendInfo.start);
-    const endDate = new Date(attendInfo.end);
+    const startDate = dayjs(attendInfo.start);
+    const endDate = dayjs(attendInfo.end);
 
-    const dateOptions: Intl.DateTimeFormatOptions = {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    };
-    startDateTime = startDate.toLocaleDateString('ko-KR', dateOptions);
-
-    const timeOptions: Intl.DateTimeFormatOptions = {
-      hour: '2-digit',
-      minute: '2-digit',
-      hour12: false,
-    };
-    const startTime = startDate.toLocaleTimeString('ko-KR', timeOptions);
-    const endTime = endDate.toLocaleTimeString('ko-KR', timeOptions);
+    startDateTime = startDate.format('YYYY년 MMMM D일');
+    const startTime = startDate.format('HH:mm');
+    const endTime = endDate.format('HH:mm');
 
     endDateTime = `(${startTime} ~ ${endTime})`;
 
-    const currentTime = new Date().toLocaleTimeString('ko-KR', timeOptions);
+    const currentTime = dayjs().format('HH:mm');
 
-    if (currentTime >= startTime && currentTime <= endTime) {
-      isWithinTimeRange = true;
-    }
+    isWithinTimeRange = currentTime >= startTime && currentTime <= endTime;
   }
   useEffect(() => {
     if (attendInfo?.status === 'ATTEND') {
