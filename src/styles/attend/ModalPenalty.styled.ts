@@ -21,17 +21,6 @@ export const Line = styled.div`
   transform: scaleY(0.2);
 `;
 
-export const Regular = styled.div`
-  font-family: ${theme.font.regular};
-`;
-
-export const SemiBold = styled.div`
-  font-family: ${theme.font.semiBold};
-  include-font-padding: false;
-  display: flex;
-  flex-direction: row;
-`;
-
 export const ImgButton = styled.div`
   display: flex;
   justify-content: flex-end;
@@ -60,9 +49,20 @@ export const PenaltyIcon = styled.div`
 export const PenaltyTextBox = styled.div`
   display: flex;
   flex-direction: column;
+  gap: 3px;
+  font-size: 16px;
 `;
 
-export const PenaltyText = styled.div`
+export const Title = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin-top: 25px;
   font-size: 16px;
-  color: white;
+  aling-items: center;
+`;
+
+export const PenaltyCount = styled.div`
+  font-family: ${theme.font.semiBold};
+  font-size: 32px;
+  margin-top: 19px;
 `;

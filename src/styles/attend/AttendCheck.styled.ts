@@ -20,7 +20,8 @@ export const SemiTitle = styled.div`
   font-size: 16px;
 `;
 
-export const Penalty = styled.div`
+export const AttendCount = styled.div`
+  font-family: ${theme.font.semiBold};
   margin-top: 19px;
   font-size: 32px;
 `;
@@ -109,10 +110,6 @@ export const MeetingInfo = styled.div`
   margin: 13px 5% 0 5%;
   font-size: 14px;
   line-height: 1.7;
-`;
-
-export const StyledText = styled.div`
-  margin-top: -2.5px;
 `;
 
 export const NullBox = styled.div`

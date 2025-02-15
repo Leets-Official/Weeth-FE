@@ -1,28 +1,35 @@
-/*
-ISO string 형식의 문자열을
-MM/DD 형식으로 변환
+import dayjs from 'dayjs';
+import 'dayjs/locale/ko';
+import weekday from 'dayjs/plugin/weekday';
+import advancedFormat from 'dayjs/plugin/advancedFormat';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
 
-2024-01-01T00:00:00.000Z -> 01/01
-*/
-
-import { WEEK_DAYS } from '@/constants/dateConstants';
+dayjs.extend(weekday);
+dayjs.extend(advancedFormat);
 
 function formatDate(isoDate: string) {
-  const date = new Date(isoDate);
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
-  return `${month}/${day}`;
+  return dayjs(isoDate).format('MM/DD');
+}
+
+export function formatDateTime(isoDate: string) {
+  dayjs.locale('ko');
+  const formatted = dayjs(isoDate);
+  return formatted.format('M월 D일 (ddd) HH:mm');
+}
+
+dayjs.extend(customParseFormat);
+dayjs.locale('ko');
+
+export function formatMeetingDates(meetingStart: string, meetingEnd: string) {
+  const startDate = dayjs(meetingStart);
+  const endDate = dayjs(meetingEnd);
+
+  const startDateTime = startDate.format('YYYY년 M월 D일');
+
+  const startTime = startDate.format('HH:mm');
+  const endTime = endDate.format('HH:mm');
+
+  return `${startDateTime} (${startTime} ~ ${endTime})`;
 }
 
 export default formatDate;
-
-export function formatDateTime(isoDate: string) {
-  const date = new Date(isoDate);
-  const month = date.getMonth() + 1;
-  const day = date.getDate();
-  const hours = date.getHours();
-  const minutes = String(date.getMinutes()).padStart(2, '0');
-  const weekday = WEEK_DAYS[date.getDay()];
-
-  return `${month}월 ${day}일 (${weekday}) ${hours}:${minutes}`;
-}

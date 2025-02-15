@@ -4,6 +4,7 @@ import theme from '@/styles/theme';
 import * as S from '@/styles/attend/AttendCheck.styled';
 import useGetAttendCheck from '@/api/useGetAttendCheck';
 import useGetUserName from '@/hooks/useGetUserName';
+import { formatMeetingDates } from '@/hooks/formatDate';
 
 interface SmallBoxProps {
   title: string;
@@ -84,16 +85,16 @@ const AttendCheckMain: React.FC = () => {
     return <S.SemiBold>Loading...</S.SemiBold>;
   }
 
+  console.log(attendCheckInfo);
+
   return (
     <S.Container>
       <S.Header>
         <S.SemiTitle>
           <S.SemiBold>{userName}</S.SemiBold>
-          <S.StyledText>&nbsp;님의 출석횟수</S.StyledText>
+          &nbsp;님의 출석횟수
         </S.SemiTitle>
-        <S.Penalty>
-          <S.SemiBold>{attendCheckInfo.attendanceCount}회</S.SemiBold>
-        </S.Penalty>
+        <S.AttendCount>{attendCheckInfo.attendanceCount}회</S.AttendCount>
       </S.Header>
       <S.StyledBox>
         <S.SmallStyledBoxContainer>
@@ -104,39 +105,13 @@ const AttendCheckMain: React.FC = () => {
         <S.Line />
         {attendCheckInfo.attendances.length > 0 ? (
           attendCheckInfo.attendances.map((meeting: MeetingProps) => {
-            const startDate = new Date(meeting.start);
-            const endDate = new Date(meeting.end);
-
-            const dateOptions: Intl.DateTimeFormatOptions = {
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric',
-            };
-            const startDateTime = startDate.toLocaleDateString(
-              'ko-KR',
-              dateOptions,
-            );
-
-            const timeOptions: Intl.DateTimeFormatOptions = {
-              hour: '2-digit',
-              minute: '2-digit',
-              hour12: false,
-            };
-            const startTime = startDate.toLocaleTimeString(
-              'ko-KR',
-              timeOptions,
-            );
-            const endTime = endDate.toLocaleTimeString('ko-KR', timeOptions);
-
-            const formattedDate = `${startDateTime} (${startTime} ~ ${endTime})`;
-
             return (
               <MeetingBox
                 key={meeting.id}
                 attend={meeting.status}
                 title={meeting.title}
                 week={`${meeting.weekNumber}주차`}
-                date={formattedDate}
+                date={formatMeetingDates(meeting.start, meeting.end)}
                 place={meeting.location}
               />
             );
