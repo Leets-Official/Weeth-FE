@@ -8,7 +8,6 @@ const Container = styled.div`
   height: 100vh;
 `;
 
-// 수정
 const Content = styled.div<{ top?: number; right?: number }>`
   display: flex;
   flex-direction: column;
