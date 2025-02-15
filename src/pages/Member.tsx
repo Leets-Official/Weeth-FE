@@ -7,6 +7,8 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
 import search from '@/assets/images/ic_search.svg';
+import getSearchMember from '@/api/getSearchMember';
+import { User } from '@/types/user';
 
 const Wrapper = styled.div`
   width: 370px;
@@ -38,7 +40,9 @@ const SearchInput = styled.input`
   }
 `;
 
-const SearchButton = styled.img``;
+const SearchButton = styled.img`
+  cursor: pointer;
+`;
 
 const Member = () => {
   useCustomBack('/home');
@@ -47,7 +51,19 @@ const Member = () => {
   const [selectedCardinal, setSelectedCardinal] = useState<number | null>(
     Number(cardinal) || null,
   );
+  const [keyword, setKeyword] = useState<string>('');
+  const [searchResults, setSearchResults] = useState<User[] | undefined>([]);
   const navigate = useNavigate();
+
+  const handleSearch = async () => {
+    try {
+      const response = await getSearchMember(keyword);
+      setSearchResults(response.data.data);
+      navigate(`/member?search=${keyword}`);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   useEffect(() => {
     navigate(`/member?cardinal=${selectedCardinal}`);
@@ -62,17 +78,16 @@ const Member = () => {
         <CardinalDropdown
           origValue={selectedCardinal}
           editValue={setSelectedCardinal}
+          isMember
         />
-        <SearchInput placeholder="멤버 이름을 검색하세요" />
-        <SearchButton
-          src={search}
-          alt={search}
-          onClick={() => {
-            // TODO: 검색 API 요청
-          }}
+        <SearchInput
+          placeholder="멤버 이름을 검색하세요"
+          value={keyword}
+          onChange={(e) => setKeyword(e.target.value)}
         />
+        <SearchButton src={search} alt={search} onClick={handleSearch} />
       </Search>
-      <MemberList />
+      <MemberList searchResults={searchResults} />
     </Wrapper>
   );
 };
