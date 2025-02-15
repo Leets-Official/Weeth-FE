@@ -1,6 +1,6 @@
 import '@/components/Attendance/Modal/ModalStyled.css';
 import * as S from '@/styles/attend/ModalAttend.styled';
-import axios from 'axios';
+
 import { ChangeEvent, useEffect, useState } from 'react';
 
 import check from '@/assets/images/ic_check.svg';
@@ -9,7 +9,7 @@ import correct from '@/assets/images/ic_correct.svg';
 import wrong from '@/assets/images/ic_wrong.svg';
 import Button from '@/components/Button/Button';
 import theme from '@/styles/theme';
-import useGetAttendCheck from '@/api/useGetAttendCheck';
+import patchAttend from '@/api/patchAttend';
 
 const RightContainer: React.FC = () => {
   return (
@@ -59,8 +59,6 @@ const ModalAttend: React.FC<{
   const [codeCheck, setCodeCheck] = useState(0);
   const [inputValue, setInputValue] = useState('');
   const [message, setMessage] = useState('');
-  const accessToken = localStorage.getItem('accessToken');
-  const refreshToken = localStorage.getItem('refreshToken');
 
   useEffect(() => {
     if (!open) {
@@ -71,7 +69,7 @@ const ModalAttend: React.FC<{
 
   const handleCompleteBtn = async () => {
     if (!inputValue) {
-      // TODO: 토스트 메세지로 변경
+      // TODO: 토스크 메세지
       alert('코드를 입력해 주세요');
       return;
     }
@@ -80,16 +78,7 @@ const ModalAttend: React.FC<{
       return;
     }
     try {
-      const headers = {
-        Authorization: `Bearer ${accessToken}`,
-        Authorization_refresh: `Bearer ${refreshToken}`,
-      };
-      const BASE_URL = import.meta.env.VITE_API_URL;
-      const response = await axios.patch(
-        `${BASE_URL}/api/v1/attendances`,
-        { code: inputValue },
-        { headers },
-      );
+      const response = await patchAttend({ code: inputValue });
       setMessage(response.data.message);
       if (response.data.code === 200) {
         setCodeCheck(1); // Correct
@@ -97,10 +86,10 @@ const ModalAttend: React.FC<{
       } else {
         setCodeCheck(2); // Wrong
       }
-    } catch (Patcherror) {
+    } catch (error) {
       setCodeCheck(2); // Wrong
       setMessage('ERROR');
-      console.error(Patcherror);
+      console.error(error);
     }
   };
 
