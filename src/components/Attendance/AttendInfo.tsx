@@ -1,6 +1,7 @@
 import * as S from '@/styles/attend/AttendMain.styled';
 import theme from '@/styles/theme';
 import Button from '@/components/Button/Button';
+import checkTitle from '@/hooks/checkTitle';
 
 interface AttendInfoProps {
   title: string;
@@ -25,9 +26,9 @@ export const AttendInfo: React.FC<AttendInfoProps> = ({
     <div>
       <S.SemiBold>
         <S.AttendProject>
-          오늘은{' '}
+          오늘은
           <span style={{ color: theme.color.main }}>&quot;{title}&quot;</span>
-          이&#40;가&#41; 있는 날이에요
+          {checkTitle(title)} 있는 날이에요
         </S.AttendProject>
       </S.SemiBold>
       <S.AttendDate>

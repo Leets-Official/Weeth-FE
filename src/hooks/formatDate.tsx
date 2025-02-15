@@ -24,10 +24,8 @@ export function formatMeetingDates(meetingStart: string, meetingEnd: string) {
   const startDate = dayjs(meetingStart);
   const endDate = dayjs(meetingEnd);
 
-  // 날짜를 'YYYY년 M월 D일' 형식으로 포맷
   const startDateTime = startDate.format('YYYY년 M월 D일');
 
-  // 시간을 'HH:mm' 형식으로 포맷 (24시간제)
   const startTime = startDate.format('HH:mm');
   const endTime = endDate.format('HH:mm');
 
