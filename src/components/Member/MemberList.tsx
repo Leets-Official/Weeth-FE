@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react';
 import MemberItem from '@/components/Member/MemberItem';
 import { useSearchParams } from 'react-router-dom';
 import theme from '@/styles/theme';
@@ -28,17 +29,52 @@ const MemberList = ({
   const isSearch = searchParams.get('search') !== null; // search parameter가 존재하면 true
   const selectedCardinal = cardinal ? Number(cardinal) : 0;
 
+  const [pageNumber, setPageNumber] = useState(0);
+  const [members, setMembers] = useState<User[]>([]);
+  const [hasMore, setHasMore] = useState(true);
+  const observerRef = useRef<HTMLDivElement | null>(null);
+
   const { allUsers, error } = useGetAllUsers({
     cardinal: selectedCardinal,
-    pageNumber: 0, // TODO: 무한스크롤 적용 후 수정
+    pageNumber,
   });
+
+  useEffect(() => {
+    if (allUsers.length > 0) {
+      setMembers((prevMembers) => [...prevMembers, ...allUsers]);
+    }
+    if (allUsers.length === 0) {
+      setHasMore(false);
+    }
+  }, [allUsers]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && hasMore) {
+          setPageNumber((prevPage) => prevPage + 1);
+        }
+      },
+      { threshold: 0.1 },
+    );
+
+    if (observerRef.current) {
+      observer.observe(observerRef.current);
+    }
+
+    return () => {
+      if (observerRef.current) {
+        observer.unobserve(observerRef.current);
+      }
+    };
+  }, [hasMore]);
 
   let content;
 
   if (error) {
     content = <Error>멤버 정보를 불러올 수 없습니다.</Error>;
   } else if (isSearch) {
-    if (isSearch && searchResults?.length === 0) {
+    if (searchResults?.length === 0) {
       content = <Error>검색된 멤버가 없습니다.</Error>;
     } else {
       content = searchResults?.map((user: User) => (
@@ -52,25 +88,32 @@ const MemberList = ({
         />
       ));
     }
+  } else if (members.length === 0) {
+    content = <Error>{selectedCardinal}기 멤버가 존재하지 않습니다.</Error>;
   } else {
-    // eslint-disable-next-line no-lonely-if
-    if (allUsers.length === 0) {
-      content = <Error>{selectedCardinal}기 멤버가 존재하지 않습니다.</Error>;
-    } else {
-      content = allUsers.map((user: User) => (
-        <MemberItem
-          key={user.studentId}
-          userId={user.id}
-          name={user.name}
-          cardinal={user.cardinals}
-          position={user.position}
-          role={user.role}
-        />
-      ));
-    }
+    content = members.map((user: User) => (
+      <MemberItem
+        key={user.studentId}
+        userId={user.id}
+        name={user.name}
+        cardinal={user.cardinals}
+        position={user.position}
+        role={user.role}
+      />
+    ));
   }
 
-  return <List>{content}</List>;
+  return (
+    <List>
+      {content}
+      {hasMore && (
+        <div
+          ref={observerRef}
+          style={{ height: '20px', backgroundColor: 'transparent' }}
+        />
+      )}
+    </List>
+  );
 };
 
 export default MemberList;
