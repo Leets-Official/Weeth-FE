@@ -2,12 +2,11 @@ import styled from 'styled-components';
 import theme from '../theme';
 
 export const AttendanceTable = styled.div`
-  width: 815px;
+  width: 95%;
   background-color: #f2f9f8;
   border-radius: 10px 10px 0px 0px;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  margin-left: 2.5%;
   margin-top: 15px;
   border-bottom: 1px solid #dedede;
 
@@ -41,4 +40,6 @@ export const ContentText = styled.span`
   color: black;
 `;
 
-export const Button = styled.div``;
+export const Button = styled.div`
+  cursor: pointer;
+`;

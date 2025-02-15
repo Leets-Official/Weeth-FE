@@ -1,8 +1,6 @@
 /* eslint-disable no-alert */
 import { EventRequestType, createEvent, editEvent } from '@/api/EventAdminAPI';
-import DatePicker from '@/components/Event/DatePicker';
 import Header from '@/components/Header/Header';
-import InfoInput from '@/components/MyPage/InfoInput';
 import {
   CURRENT_DAY,
   CURRENT_MONTH,
@@ -13,12 +11,21 @@ import * as S from '@/styles/event/EventEditor.styled';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import useGetEventInfo from '@/api/getEventInfo';
-import ISOtoArray from '@/hooks/ISOtoArray';
-import ArrayToISO from '@/hooks/ArrayToISO';
 import replaceNewLines from '@/hooks/newLine';
 import useGetUserInfo from '@/api/useGetUserInfo';
+import ISOtoArray from '@/hooks/ISOtoArray';
+import toTwoDigits from '@/hooks/toTwoDigits';
+import CardinalDropdown from '@/components/common/CardinalDropdown';
+import Modal from '@/components/common/Modal';
+import Button from '@/components/Button/Button';
+import ToggleButton from '@/components/common/ToggleButton';
+import EventInput, { EventInputBlock } from '@/components/Event/EventInput';
+import CardinalLabel from '@/components/Event/CardinalLabel';
 
-function checkEmpty(field: string | undefined, message: string): boolean {
+function checkEmpty(
+  field: string | number | undefined,
+  message: string,
+): boolean {
   // TODO🚨important!!🚨: 배열 내에 빈 값이 있는 경우를 처리하는 로직 추가
   if (Array.isArray(field) && field.length === 0) {
     alert(message);
@@ -35,13 +42,17 @@ const EventEditor = () => {
   const { userInfo } = useGetUserInfo();
   const isEditMode = Boolean(id);
   const navigate = useNavigate();
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const [isMeeting, setIsMeeting] = useState(false);
   const [eventRequest, setEventRequest] = useState<EventRequestType>({
     title: '',
+    cardinal: 0,
     start: '',
     end: '',
     location: '',
     requiredItem: '',
-    memberCount: '',
     content: '',
   });
 
@@ -86,11 +97,11 @@ const EventEditor = () => {
 
     if (
       checkEmpty(data.title, '제목을 입력해 주세요.') ||
+      checkEmpty(data.cardinal, '기수를 입력해 주세요.') ||
       checkEmpty(data.start, '시작 시간을 입력해 주세요.') ||
       checkEmpty(data.end, '종료 시간을 입력해 주세요.') ||
       checkEmpty(data.location, '장소를 입력해 주세요.') ||
       checkEmpty(data.requiredItem, '준비물을 입력해 주세요.') ||
-      checkEmpty(data.memberCount, '총인원을 입력해 주세요.') ||
       checkEmpty(data.content, '내용을 입력해 주세요.')
     ) {
       return;
@@ -127,63 +138,114 @@ const EventEditor = () => {
   if (error) return <S.Error>{error}</S.Error>;
 
   return (
-    <S.EventEditorWrapper>
+    <>
+      {isModalOpen && (
+        <Modal hasCloseButton onClose={() => setIsModalOpen(false)}>
+          <S.Bold>정기모임</S.Bold>
+          <S.Description>
+            선택한 기수에 해당하는 날짜로 출석 요청을 진행 합니다. 출석 코드는
+            일정 상세 페이지에서 운영진만 확인 가능합니다.
+            <br />
+            <br />
+            만약 원하는 기수가 목록에 없다면, 관리자 서비스 에서 새로운 기수를
+            추가해 주세요.
+          </S.Description>
+          <Button width="305px" onClick={() => navigate('/admin/member')}>
+            관리자 서비스 바로가기
+          </Button>
+        </Modal>
+      )}
       <Header onClickRightButton={onSave} RightButtonType="TEXT" isAccessible>
         {isEditMode ? '일정 수정' : '일정 추가'}
       </Header>
-      <InfoInput
-        placeholder="제목"
-        origValue={eventRequest.title}
-        padding="15px"
-        align="left"
-        editValue={(value) => editEventInfo('title', value)}
-      />
-      <DatePicker
-        startDate={startArr}
-        endDate={endArr}
-        onStartDateChange={(index, value) => {
-          const updatedStartDate = [...startArr];
-          updatedStartDate[index] = value;
-          setStartArr(updatedStartDate);
-          const isoDate = ArrayToISO(updatedStartDate);
-          editEventInfo('start', isoDate);
-        }}
-        onEndDateChange={(index, value) => {
-          const updatedEndDate = [...endArr];
-          updatedEndDate[index] = value;
-          setEndArr(updatedEndDate);
-          const isoDate = ArrayToISO(updatedEndDate);
-          editEventInfo('end', isoDate);
-        }}
-      />
-      {['location', 'requiredItem', 'memberCount'].map((key) => (
-        <InfoInput
-          key={key}
-          text={
-            // eslint-disable-next-line no-nested-ternary
-            key === 'location'
-              ? '장소'
-              : key === 'requiredItem'
-                ? '준비물'
-                : '총인원'
-          }
-          origValue={eventRequest[key as keyof EventRequestType]}
-          width="75%"
-          padding="15px"
-          align="left"
-          editValue={(value) =>
-            editEventInfo(key as keyof EventRequestType, value)
-          }
-        />
-      ))}
-      <S.TextAreaWrapper>
-        <S.TextArea
-          placeholder="내용"
-          value={eventRequest.content}
-          onChange={(e) => editEventInfo('content', e.target.value)}
-        />
-      </S.TextAreaWrapper>
-    </S.EventEditorWrapper>
+      <S.EventEditorWrapper>
+        <EventInputBlock>
+          <EventInput
+            origValue={eventRequest.title}
+            placeholder="제목"
+            editValue={(value) => editEventInfo('title', value)}
+          />
+        </EventInputBlock>
+
+        <EventInputBlock>
+          <S.Meeting>
+            <S.Align>
+              <div>정기모임</div>
+              <S.Help onClick={() => setIsModalOpen(true)}>?</S.Help>
+            </S.Align>
+
+            <ToggleButton
+              isMeeting={isMeeting}
+              onToggle={() => {
+                setIsMeeting(!isMeeting);
+              }}
+            />
+          </S.Meeting>
+          <S.Line />
+          <S.Cardinal>
+            <CardinalDropdown
+              origValue={eventRequest.cardinal}
+              editValue={(value) => editEventInfo('cardinal', value)}
+            />
+            <S.CardinalList>
+              <CardinalLabel
+                key={eventRequest.cardinal}
+                cardinal={eventRequest.cardinal}
+                onDelete={() => {
+                  // TODO: 기수 삭제 UI 수정 필요
+                }}
+              />
+            </S.CardinalList>
+          </S.Cardinal>
+          <S.Line />
+          <S.StartDate>
+            <div>시작</div>
+            <S.Time>
+              <S.TimeBlock>
+                {startArr.slice(0, 3).map(toTwoDigits).join('. ')}
+              </S.TimeBlock>
+              <S.TimeBlock>
+                {startArr.slice(3, 5).map(toTwoDigits).join(':')}
+              </S.TimeBlock>
+            </S.Time>
+          </S.StartDate>
+          <S.Line />
+          <S.StartDate>
+            <div>끝</div>
+            <S.Time>
+              <S.TimeBlock>
+                {endArr.slice(0, 3).map(toTwoDigits).join('. ')}
+              </S.TimeBlock>
+              <S.TimeBlock>
+                {endArr.slice(3, 5).map(toTwoDigits).join(':')}
+              </S.TimeBlock>
+            </S.Time>
+          </S.StartDate>
+        </EventInputBlock>
+
+        <EventInputBlock>
+          <EventInput
+            origValue={eventRequest.location}
+            placeholder="장소"
+            editValue={(value) => editEventInfo('location', value)}
+          />
+          <S.Line />
+          <EventInput
+            origValue={eventRequest.requiredItem}
+            placeholder="준비물"
+            editValue={(value) => editEventInfo('requiredItem', value)}
+          />
+        </EventInputBlock>
+
+        <S.TextAreaWrapper>
+          <S.TextArea
+            placeholder="내용"
+            value={eventRequest.content}
+            onChange={(e) => editEventInfo('content', e.target.value)}
+          />
+        </S.TextAreaWrapper>
+      </S.EventEditorWrapper>
+    </>
   );
 };
 

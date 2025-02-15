@@ -1,85 +1,126 @@
-/* eslint-disable no-console */
-
-import icClock from '@/assets/images/ic_clock.svg';
+import dayjs from 'dayjs';
 import icCalendar from '@/assets/images/ic_date.svg';
 import { WEEK_DAYS } from '@/constants/dateConstants';
-import { EventDetailData } from '@/pages/EventDetails';
+import { EventDetailData } from '@/pages/EventDetail';
 import useCustomBack from '@/hooks/useCustomBack';
 import * as S from '@/styles/event/EventContent.styled';
+import Button from '@/components/Button/Button';
+import theme from '@/styles/theme';
+import Modal from '@/components/common/Modal';
+import { useState } from 'react';
+import fullscreen from '@/assets/images/ic_fullscreen.svg';
+import smallscreen from '@/assets/images/ic_smallscreen.svg';
+import close from '@/assets/images/ic_close.svg';
 
-const EventContent = ({ data }: { data: EventDetailData }) => {
+const EventContent = ({
+  data,
+  isAdmin,
+}: {
+  data: EventDetailData;
+  isAdmin: boolean;
+}) => {
   useCustomBack('/calendar');
 
-  const origStartDate = data.start;
-  const origEndDate = data.end;
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isFullScreen, setIsFullScreen] = useState(false);
 
-  const splittedStartDate = origStartDate.split('T'); // YYYY-MM-DD,HH:MM:SS.SSSZ
-  const startDate = splittedStartDate[0].split('-'); // [YYYY, MM, DD]
-  const startTime = splittedStartDate[1].split(':'); // [HH, MM]
+  const start = dayjs(data.start);
+  const end = dayjs(data.end);
 
-  const splittedEndDate = origEndDate.split('T'); // YYYY-MM-DD,HH:MM:SS.SSSZ
-  const endDate = splittedEndDate[0].split('-'); // [YYYY, MM, DD]
-  const endTime = splittedEndDate[1].split(':'); // [HH, MM]
-
-  let isOneday = true;
-  // eslint-disable-next-line no-plusplus
-  for (let i = 0; i < startDate.length; i++) {
-    if (startDate[i] !== endDate[i]) {
-      isOneday = false;
-    }
-  }
+  const isOneday = start.isSame(end, 'day');
 
   return (
-    <>
+    <S.Container>
+      {isModalOpen && (
+        <Modal
+          isFullScreen={isFullScreen}
+          hasCloseButton={false}
+          onClose={() => setIsModalOpen(false)}
+        >
+          <S.ModalSetting>
+            {!isFullScreen ? (
+              <>
+                <S.ImgButton
+                  src={fullscreen}
+                  alt="fullscreen"
+                  onClick={() => {
+                    setIsFullScreen(true);
+                  }}
+                />
+
+                <S.ImgButton
+                  src={close}
+                  alt="close"
+                  onClick={() => {
+                    setIsModalOpen(false);
+                  }}
+                />
+              </>
+            ) : (
+              <S.ImgButton
+                src={smallscreen}
+                alt="smallscreen"
+                onClick={() => {
+                  setIsFullScreen(false);
+                }}
+              />
+            )}
+          </S.ModalSetting>
+          {isFullScreen && <S.Date>{dayjs().format('YYYY년 M월 D일')}</S.Date>}
+          <S.Title isFullScreen={isFullScreen}>출석코드</S.Title>
+          <S.AttendanceCode isFullScreen={isFullScreen}>1234</S.AttendanceCode>
+        </Modal>
+      )}
+
+      {isAdmin && (
+        <Button
+          color={theme.color.mainMiddle}
+          onClick={() => {
+            setIsModalOpen(true);
+          }}
+        >
+          출석코드 확인
+        </Button>
+      )}
       <S.ContentBlock>
         {isOneday ? (
-          <>
-            <S.TimeInfo>
-              <S.Icon src={icCalendar} alt="calendar" />
-              <div>
-                {startDate[0]}년 {parseInt(startDate[1], 10)}월{' '}
-                {parseInt(startDate[2], 10)}일{' '}
-                {WEEK_DAYS[new Date(origStartDate).getDay()]}요일
-              </div>
-            </S.TimeInfo>
-            <S.TimeInfo>
-              <S.Icon src={icClock} alt="clock" />
-              <div>
-                {startTime[0]}:{startTime[1]} ~ {endTime[0]}:{endTime[1]}
-              </div>
-            </S.TimeInfo>
-          </>
+          <S.Time>
+            <img src={icCalendar} alt="calendar" style={{ marginRight: 5 }} />
+            <div>
+              {dayjs(data.start).format('YYYY년 M월 D일')} (
+              {WEEK_DAYS[new Date(data.start).getDay()]}){' '}
+              {dayjs(data.start).format('HH:mm')} ~{' '}
+              {dayjs(data.end).format('HH:mm')}
+            </div>
+          </S.Time>
         ) : (
           <>
-            <S.TimeInfo>
-              <S.Icon src={icCalendar} alt="calendar" />
+            <S.Time>
+              <img src={icCalendar} alt="calendar" style={{ marginRight: 5 }} />
               <div>
-                {startDate[0]}년 {parseInt(startDate[1], 10)}월{' '}
-                {parseInt(startDate[2], 10)}일 &#40;
-                {WEEK_DAYS[new Date(origStartDate).getDay()]}&#41;{' '}
-                {startTime[0]}:{startTime[1]}에서
+                {dayjs(data.start).format('YYYY년 M월 D일')} (
+                {WEEK_DAYS[new Date(data.start).getDay()]}){' '}
+                {dayjs(data.start).format('HH:mm')}
               </div>
-            </S.TimeInfo>
-            <S.TimeInfo>
+            </S.Time>
+            <S.Time>
               <S.EndTime>
-                {endDate[0]}년 {parseInt(endDate[1], 10)}월{' '}
-                {parseInt(endDate[2], 10)}일 &#40;
-                {WEEK_DAYS[new Date(origEndDate).getDay()]}&#41; {endTime[0]}:
-                {endTime[1]}까지
+                ~ {dayjs(data.end).format('YYYY년 M월 D일')} (
+                {WEEK_DAYS[new Date(data.start).getDay()]}){' '}
+                {dayjs(data.end).format('HH:mm')}
               </S.EndTime>
-            </S.TimeInfo>
+            </S.Time>
           </>
         )}
       </S.ContentBlock>
       <S.ContentBlock>
         <div>장소 : {data.location} </div>
-        <div>준비물 : {data.requiredItem} </div>
         <div>총 인원 : {data.memberCount}</div>
       </S.ContentBlock>
       <S.ContentBlock>
         <div>{data.content}</div>
       </S.ContentBlock>
-    </>
+    </S.Container>
   );
 };
 

@@ -15,6 +15,7 @@
     "axios": "^1.7.2",
     "axios-mock-adapter": "^2.1.0",
     "date-fns": "^3.6.0",
+    "dayjs": "^1.11.13",
     "fullcalendar": "^6.1.15",
     "prop-types": "^15.8.1",
     "qs": "^6.13.1",

@@ -2,11 +2,11 @@ import api from './api';
 
 export interface EventRequestType {
   title: string;
+  cardinal: number;
   start: string;
   end: string;
   location: string;
   requiredItem: string;
-  memberCount: string;
   content: string;
 }
 

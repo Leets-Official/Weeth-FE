@@ -31,20 +31,22 @@ RightButtonType
 TEXT : 텍스트타입의 버튼입니다. 현재(2024.11.22)는 '완료'로만 사용되고 있습니다.
 MENU : 점 세개(⋮) 버튼입니다.
 PLUS : 캘린더에서 사용되는 +버튼입니다.
+EDIT : 마이페이지에서 사용되는 연필버튼입니다.
 
 */
 
 import theme from '@/styles/theme';
 import styled from 'styled-components';
 import TextButton from '@/components/Header/TextButton';
-import LeftButton from './LeftButton';
-import MenuButton from './MenuButton';
-import PlusButton from './PlusButton';
+import LeftButton from '@/components/Header/LeftButton';
+import MenuButton from '@/components/Header/MenuButton';
+import PlusButton from '@/components/Header/PlusButton';
+// import EditButton from '@/components/Header/EditButton';
 
 interface HeaderProps {
   children?: React.ReactNode;
   onClickRightButton?: () => void;
-  RightButtonType: 'TEXT' | 'MENU' | 'PLUS' | 'none';
+  RightButtonType: 'TEXT' | 'MENU' | 'PLUS' | 'EDIT' | 'none';
   isComplete?: boolean;
   isAccessible: boolean;
 }
@@ -53,7 +55,9 @@ const HeaderWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 25px 25px 20px 25px;
+  width: 370px;
+  padding: 25px 10px 20px 10px;
+  box-sizing: border-box;
 `;
 
 const Title = styled.div`
@@ -84,10 +88,17 @@ const Header = ({
           isComplete={isComplete}
         />
       )}
+
       {RightButtonType === 'MENU' && onClickRightButton && isAccessible && (
         <MenuButton onClick={onClickRightButton} />
       )}
+
       {RightButtonType === 'PLUS' && isAccessible && <PlusButton />}
+
+      {/* {RightButtonType === 'EDIT' && onClickRightButton && (
+        <EditButton onClick={onClickRightButton} />
+      )} */}
+
       {RightButtonType !== 'none' && !isAccessible && <None />}
       {RightButtonType === 'none' && <None />}
     </HeaderWrapper>

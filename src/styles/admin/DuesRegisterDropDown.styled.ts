@@ -24,8 +24,6 @@ export const CardinalWrapper = styled.div`
   gap: 20px;
 `;
 
-export const CardinalButtonWrapper = styled.div``;
-
 export const DuesInputWrapper = styled.div`
   ${flexMixin(7)};
 `;
