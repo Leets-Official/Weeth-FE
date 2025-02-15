@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import Modal from 'react-modal';
 import useGetBoardDetail from '@/api/useGetBoardDetail';
 import CommentInput from '@/components/Board/CommentInput';
 import PostCommentList from '@/components/Board/PostCommentList';
@@ -8,9 +7,8 @@ import Header from '@/components/Header/Header';
 import styled from 'styled-components';
 import { useNavigate, useParams } from 'react-router-dom';
 import useGetUserName from '@/hooks/useGetUserName';
-import EditDelModal from '@/components/Modal/EditDelModal';
-
-Modal.setAppElement('#root');
+import MenuModal from '@/components/common/MenuModal';
+import theme from '@/styles/theme';
 
 const Container = styled.div`
   display: flex;
@@ -34,6 +32,16 @@ const CommentInputContainer = styled.div`
   justify-content: center;
 `;
 
+const TextButton = styled.div<{ $isLast?: boolean }>`
+  width: calc(100% - 8px);
+  box-sizing: border-box;
+  padding: 12px 0 12px 16px;
+  margin: 0 4px;
+  border-bottom: ${(props) =>
+    props.$isLast ? 'none' : `1px solid ${theme.color.gray[30]}`};
+  color: ${(props) => (props.$isLast ? theme.color.negative : 'white')};
+`;
+
 const NoticePostDetail = () => {
   const path = 'notices';
   const { postId } = useParams();
@@ -46,6 +54,7 @@ const NoticePostDetail = () => {
 
   const [refreshKey, setRefreshKey] = useState(0);
   const [parentCommentId, setParentCommentId] = useState<number | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const { boardDetailInfo, error } = useGetBoardDetail(
     path,
@@ -53,21 +62,7 @@ const NoticePostDetail = () => {
     refreshKey,
   );
 
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-  const navi = useNavigate();
-
-  const openModal = () => {
-    setModalIsOpen(true);
-  };
-
-  const closeModal = () => {
-    setModalIsOpen(false);
-  };
-
-  const onClickEdit = () => {
-    console.log('수정 페이지로 이동');
-    navi('/notices/edit'); // 수정 페이지로 이동
-  };
+  const navigate = useNavigate();
 
   const onClickDel = async () => {
     if (window.confirm('삭제하시겠습니까?')) {
@@ -76,7 +71,7 @@ const NoticePostDetail = () => {
         // API 호출 예시
         // await deletePost(postId);
         alert('삭제가 완료되었습니다.');
-        navi('/notice'); // 공지사항 목록 페이지로 이동
+        navigate('/notice'); // 공지사항 목록 페이지로 이동
       } catch (err) {
         alert('삭제 중 오류가 발생했습니다.');
         console.error(err);
@@ -94,11 +89,38 @@ const NoticePostDetail = () => {
 
   return (
     <>
+      {isModalOpen && (
+        <MenuModal
+          onClose={() => {
+            setIsModalOpen(false);
+          }}
+          top={55}
+          right={20}
+        >
+          <TextButton
+            onClick={() => {
+              navigate(`/notice/${postId}/edit`);
+            }}
+          >
+            수정
+          </TextButton>
+          <TextButton
+            $isLast
+            onClick={() => {
+              onClickDel();
+            }}
+          >
+            삭제
+          </TextButton>
+        </MenuModal>
+      )}
       <Container>
         <Header
           RightButtonType="MENU"
           isAccessible={isMyPost}
-          onClickRightButton={openModal}
+          onClickRightButton={() => {
+            setIsModalOpen(true);
+          }}
         >
           📢 공지사항
         </Header>
@@ -125,33 +147,6 @@ const NoticePostDetail = () => {
           />
         )}
       </CommentInputContainer>
-
-      {/* 모달 컴포넌트 */}
-      <Modal
-        isOpen={modalIsOpen}
-        onRequestClose={closeModal}
-        style={{
-          overlay: {
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
-            zIndex: 1000,
-          },
-          content: {
-            background: 'transparent',
-            maxWidth: '400px',
-            margin: 'auto',
-            padding: '20px',
-            borderRadius: '8px',
-            border: 'none',
-          },
-        }}
-      >
-        <EditDelModal
-          title="공지사항"
-          onClickEdit={onClickEdit}
-          onClickDel={onClickDel}
-          onClickCancel={closeModal}
-        />
-      </Modal>
     </>
   );
 };

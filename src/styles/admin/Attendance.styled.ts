@@ -40,4 +40,6 @@ export const ContentText = styled.span`
   color: black;
 `;
 
-export const Button = styled.div``;
+export const Button = styled.div`
+  cursor: pointer;
+`;

@@ -6,12 +6,13 @@ interface InputProps {
   placeholder?: string;
   value?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
+  readOnly?: boolean;
 }
-
-const Wrapper = styled.div``;
 
 const Input = styled.input<InputProps>`
   width: ${(props) => props.width};
+  gap: 5%;
   height: 48px;
   border-radius: 5px;
   border: 1px solid #dedede;
@@ -35,16 +36,18 @@ const DuesInput: React.FC<InputProps> = ({
   placeholder,
   value,
   onChange,
+  onBlur,
+  readOnly,
 }) => {
   return (
-    <Wrapper>
-      <Input
-        width={width}
-        placeholder={placeholder}
-        value={value}
-        onChange={onChange}
-      />
-    </Wrapper>
+    <Input
+      width={width}
+      placeholder={placeholder}
+      value={value}
+      onChange={onChange}
+      onBlur={onBlur}
+      readOnly={readOnly}
+    />
   );
 };
 

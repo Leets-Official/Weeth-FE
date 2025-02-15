@@ -14,10 +14,10 @@ import { StatusCell } from './MemberListTableRow';
 
 const columns = [
   { key: 'name', header: '이름' },
-  { key: 'role', header: '역할' },
-  { key: 'major', header: '학과' },
+  { key: 'position', header: '역할' },
+  { key: 'department', header: '학과' },
   { key: 'studentId', header: '학번' },
-  { key: 'penalty', header: '패널티' },
+  { key: 'penaltyCount', header: '패널티' },
   { key: 'LatestPenalty', header: '최근 패널티' },
   { key: 'empty', header: '' },
 ];

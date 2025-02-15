@@ -7,7 +7,7 @@ interface SignupMemInputProps {
   labelName: string;
   placeholderText: string;
   origValue: string | string[];
-  inputType: 'text' | 'number';
+  inputType: 'text' | 'number' | 'email';
   onChange: (value: string) => void;
 }
 
@@ -44,6 +44,18 @@ const InputLine = styled.input`
     color: #333333;
     font-family: ${theme.font.regular};
   }
+
+  /* 숫자 입력 시 화살표 제거 */
+  -moz-appearance: textfield; /* Firefox */
+  -webkit-appearance: none; /* Chrome, Safari, Opera */
+  appearance: none; /* 기본값 제거 */
+
+  /* 화살표 버튼을 숨기기 위한 추가 스타일 (Chrome/Safari에서 유효) */
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
 `;
 
 const SignupMemInput: React.FC<SignupMemInputProps> = ({
@@ -71,6 +83,8 @@ const SignupMemInput: React.FC<SignupMemInputProps> = ({
           return /^[1-4]*$/.test(val) && val.length <= 1; // 1~4 사이 한자리 숫자
         }
         return numberRegex.test(val);
+      case 'email':
+        return true;
       default:
         return true;
     }

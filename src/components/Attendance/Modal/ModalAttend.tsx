@@ -6,6 +6,7 @@ import {
 import * as S from '@/styles/attend/ModalAttend.styled';
 
 import { ChangeEvent, useEffect, useState } from 'react';
+import api from '@/api/api';
 
 import check from '@/assets/images/ic_check.svg';
 import icClose from '@/assets/images/ic_close.svg';

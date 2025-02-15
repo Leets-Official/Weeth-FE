@@ -3,7 +3,7 @@ import ReactModal from 'react-modal';
 import ReceiptInfo from '@/components/Receipt/ReceiptInfo';
 import * as S from '@/styles/receipt/ReceiptMain.styled';
 import useGetDuesInfo from '@/api/useGetDuesInfo';
-import useGetUserInfo from '@/api/useGetUserInfo';
+import useGetGlobaluserInfo from '@/api/useGetGlobaluserInfo';
 
 interface ReceiptProps {
   id: number;
@@ -18,8 +18,9 @@ interface GroupedByMonth {
 }
 
 const ReceiptMain: React.FC = () => {
-  const { userInfo } = useGetUserInfo();
-  const cardinal = userInfo?.cardinals?.[userInfo.cardinals.length - 1] ?? 0;
+  const { globalInfo } = useGetGlobaluserInfo();
+  const cardinal =
+    globalInfo?.cardinals?.[globalInfo.cardinals.length - 1] ?? 0;
   const { duesInfo } = useGetDuesInfo(cardinal);
 
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);

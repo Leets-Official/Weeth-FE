@@ -18,13 +18,25 @@ const ButtonGroupContainer = styled.div<{ hasEndGap?: boolean }>`
   align-items: center;
   gap: 12px;
   padding-right: 20px;
-
+  overflow-x: auto;
+  white-space: nowrap;
+  padding-left: 10px;
+  &::-webkit-scrollbar {
+    height: 3px;
+  }
   // 상세관리모달에서 완료 버튼 앞에만 추가 간격
   ${({ hasEndGap }) =>
     hasEndGap &&
     `
     & > :last-child {
     margin-left:150px
+    }
+
+      @media (max-width: 900px) {
+      & > :last-child {
+        display:none;
+      }
+      
     }
   `}
 `;
@@ -34,6 +46,17 @@ const ButtonContent = styled.div<{ hasIcon?: boolean }>`
   align-items: center;
   padding: ${({ hasIcon }) => (hasIcon ? '5px 10px' : '5px')};
   gap: ${({ hasIcon }) => (hasIcon ? '25px' : '0')};
+  white-space: nowrap;
+
+  @media (max-width: 900px) {
+    font-size: 12px;
+    padding: 2px;
+    gap: 2px;
+    img {
+      width: 18px;
+      height: 18px;
+    }
+  }
 `;
 
 const ButtonGroup: React.FC<ButtonGroupProps & { hasEndGap?: boolean }> = ({
@@ -48,7 +71,7 @@ const ButtonGroup: React.FC<ButtonGroupProps & { hasEndGap?: boolean }> = ({
           color="#fff"
           textcolor="#000"
           width="auto"
-          height="43px"
+          height="45px"
           borderRadius="4px"
           onClick={onClick}
           disabled={disabled}

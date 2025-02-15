@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components';
+import DuesInput from '@/components/Admin/DuesInput';
 import theme from '../theme';
 
 export const flexMixin = (flexValue: number) => css`
@@ -15,6 +16,32 @@ export const Wrapper = styled.div`
 
   padding-bottom: 30px;
   margin-bottom: 30px;
+`;
+
+export const ModalWrapper = styled.div`
+  width: 100%;
+`;
+
+export const InputContainer = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+`;
+
+export const StyledDuesInput = styled(DuesInput)`
+  width: 100%;
+  padding-right: 50px;
+`;
+
+export const StyledCloseButton = styled.button`
+  position: absolute;
+  right: 50px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
 `;
 
 export const Title = styled.div`
@@ -53,12 +80,71 @@ export const DescriptionWrapper = styled.div`
 
 export const FileWrapper = styled.div`
   display: flex;
-  width: 100%;
   gap: 5px;
+  width: 100%;
 `;
 
 export const ButtonWrapper = styled.div``;
 
+export const SaveAddButton = styled.div`
+  display: flex;
+  gap: 5px;
+  margin-left: 70%;
+`;
+
 export const InputWrapper = styled.div`
   ${flexMixin(7)};
+`;
+
+export const SaveButton = styled.div`
+  display: flex;
+  margin-left: 63%;
+  margin-top: 5%;
+  gap: 5px;
+`;
+
+export const FileList = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 10px;
+  width: 100%;
+`;
+
+export const ModalContentWrapper = styled.div`
+  width: 100%;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+  box-sizing: border-box;
+  height: calc(100% - 96px - 96px);
+  color: black;
+`;
+
+export const ModalButtonWrapper = styled.div`
+  gap: 10px;
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+  margin-right: 5%;
+`;
+
+export const CardinalTotalWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+`;
+
+export const ReceiptWrapper = styled.div`
+  margin-left: 30px;
+  width: 100%;
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+`;
+
+export const ModalFileWrapper = styled.div`
+  width: 294%;
 `;

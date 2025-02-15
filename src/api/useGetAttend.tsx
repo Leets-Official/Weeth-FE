@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
-
-const BASE_URL = import.meta.env.VITE_API_URL;
+import api from './api';
 
 interface AttendInfo {
   title: string;
@@ -14,15 +12,7 @@ interface AttendInfo {
 
 // 출석 정보 받아오는 API
 const getAttend = async () => {
-  const accessToken = localStorage.getItem('accessToken');
-  const refreshToken = localStorage.getItem('refreshToken');
-
-  return axios.get(`${BASE_URL}/api/v1/attendances`, {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-      Authorization_refresh: `Bearer ${refreshToken}`,
-    },
-  });
+  return api.get(`/api/v1/attendances`);
 };
 
 export const useGetAttend = (isAttend: boolean) => {

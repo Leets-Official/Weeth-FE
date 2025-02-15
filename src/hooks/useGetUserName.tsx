@@ -1,13 +1,13 @@
-import useGetUserInfo from '@/api/useGetUserInfo';
+import useGetGlobaluserInfo from '@/api/useGetGlobaluserInfo';
 
 const useGetUserName = () => {
-  const { userInfo } = useGetUserInfo();
+  const { globalInfo } = useGetGlobaluserInfo();
 
   let name: string;
-  if (!userInfo) {
+  if (!globalInfo) {
     name = 'loading';
   } else {
-    name = userInfo.name;
+    name = globalInfo.name;
   }
 
   return name;

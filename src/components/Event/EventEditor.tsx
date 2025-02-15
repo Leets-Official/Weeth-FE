@@ -1,29 +1,27 @@
 /* eslint-disable no-alert */
+import { DayPicker } from 'react-day-picker';
 import { EventRequestType, createEvent, editEvent } from '@/api/EventAdminAPI';
 import Header from '@/components/Header/Header';
-import {
-  CURRENT_DAY,
-  CURRENT_MONTH,
-  CURRENT_YEAR,
-} from '@/constants/dateConstants';
 import useCustomBack from '@/hooks/useCustomBack';
 import * as S from '@/styles/event/EventEditor.styled';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import useGetEventInfo from '@/api/getEventInfo';
 import replaceNewLines from '@/hooks/newLine';
-import useGetUserInfo from '@/api/useGetUserInfo';
-import ISOtoArray from '@/hooks/ISOtoArray';
-import toTwoDigits from '@/hooks/toTwoDigits';
 import CardinalDropdown from '@/components/common/CardinalDropdown';
 import Modal from '@/components/common/Modal';
 import Button from '@/components/Button/Button';
-import ToggleButton from '../common/ToggleButton';
-import EventInput, { EventInputBlock } from './EventInput';
-import CardinalLabel from './CardinalLabel';
+import ToggleButton from '@/components/common/ToggleButton';
+import EventInput, { EventInputBlock } from '@/components/Event/EventInput';
+import dayjs from 'dayjs';
+import timezone from 'dayjs/plugin/timezone';
+import utc from 'dayjs/plugin/utc';
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 function checkEmpty(
-  field: string | number[] | undefined,
+  field: string | number | undefined,
   message: string,
 ): boolean {
   // TODO🚨important!!🚨: 배열 내에 빈 값이 있는 경우를 처리하는 로직 추가
@@ -39,16 +37,21 @@ const EventEditor = () => {
 
   const { id } = useParams();
   const { data: eventDetailData, error } = useGetEventInfo('events', id);
-  const { userInfo } = useGetUserInfo();
   const isEditMode = Boolean(id);
   const navigate = useNavigate();
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
+  const [isStartDateModalOpen, setIsStartDateModalOpen] = useState(false);
+  const [isEndDateModalOpen, setIsEndDateModalOpen] = useState(false);
+  const [selectedStartDate, setSelectedStartDate] = useState<
+    Date | undefined
+  >();
+  const [selectedEndDate, setSelectedEndDate] = useState<Date | undefined>();
 
-  const [isMeeting, setIsMeeting] = useState(false);
   const [eventRequest, setEventRequest] = useState<EventRequestType>({
     title: '',
-    cardinal: [],
+    cardinal: 0,
+    isMeeting: false,
     start: '',
     end: '',
     location: '',
@@ -56,35 +59,11 @@ const EventEditor = () => {
     content: '',
   });
 
-  const [startArr, setStartArr] = useState([
-    CURRENT_YEAR,
-    CURRENT_MONTH,
-    CURRENT_DAY,
-    0,
-    0,
-  ]);
-  const [endArr, setEndArr] = useState([
-    CURRENT_YEAR,
-    CURRENT_MONTH,
-    CURRENT_DAY,
-    23,
-    59,
-  ]);
-
   useEffect(() => {
     if (eventDetailData) {
-      setStartArr(ISOtoArray((eventDetailData as EventRequestType).start));
-      setEndArr(ISOtoArray((eventDetailData as EventRequestType).end));
       setEventRequest(eventDetailData);
     }
   }, [eventDetailData]);
-
-  const handleDeleteCardinal = (cardinal: number) => {
-    setEventRequest((prev) => ({
-      ...prev,
-      cardinal: prev.cardinal.filter((item) => item !== cardinal), // 해당 기수 삭제
-    }));
-  };
 
   const editEventInfo = (key: keyof EventRequestType, value: any) => {
     setEventRequest((prevInfo) => ({
@@ -138,16 +117,12 @@ const EventEditor = () => {
     }
   };
 
-  if (userInfo && userInfo.role !== 'ADMIN') {
-    return <S.Error>일정 생성 및 수정은 운영진만 가능합니다</S.Error>;
-  }
-
   if (error) return <S.Error>{error}</S.Error>;
 
   return (
     <>
-      {isModalOpen && (
-        <Modal hasCloseButton onClose={() => setIsModalOpen(false)}>
+      {isHelpModalOpen && (
+        <Modal hasCloseButton onClose={() => setIsHelpModalOpen(false)}>
           <S.Bold>정기모임</S.Bold>
           <S.Description>
             선택한 기수에 해당하는 날짜로 출석 요청을 진행 합니다. 출석 코드는
@@ -162,6 +137,59 @@ const EventEditor = () => {
           </Button>
         </Modal>
       )}
+
+      {/* 시작 날짜 모달 */}
+      {isStartDateModalOpen && (
+        <Modal
+          hasCloseButton={false}
+          onClose={() => setIsStartDateModalOpen(false)}
+        >
+          <DayPicker
+            mode="single"
+            selected={selectedStartDate}
+            onSelect={(date) => {
+              if (date) {
+                const kstStart = dayjs(date).tz('Asia/Seoul').format(); // 한국 시간
+                editEventInfo('start', kstStart);
+                setSelectedStartDate(date); // 선택된 날짜로 업데이트
+                setIsStartDateModalOpen(false);
+              }
+            }}
+            footer={
+              selectedStartDate
+                ? `선택된 날짜: ${dayjs(selectedStartDate).tz('Asia/Seoul').format('YYYY.MM.DD HH:mm')}`
+                : '시작 날짜를 선택하세요.'
+            }
+          />
+        </Modal>
+      )}
+
+      {/* 종료 날짜 모달 */}
+      {isEndDateModalOpen && (
+        <Modal
+          hasCloseButton={false}
+          onClose={() => setIsEndDateModalOpen(false)}
+        >
+          <DayPicker
+            mode="single"
+            selected={selectedEndDate}
+            onSelect={(date) => {
+              if (date) {
+                const kstEnd = dayjs(date).tz('Asia/Seoul').format(); // 한국 시간
+                editEventInfo('end', kstEnd);
+                setSelectedEndDate(date); // 선택된 날짜로 업데이트
+                setIsEndDateModalOpen(false);
+              }
+            }}
+            footer={
+              selectedEndDate
+                ? `선택된 날짜: ${dayjs(selectedEndDate).tz('Asia/Seoul').format('YYYY.MM.DD HH:mm')}`
+                : '종료 날짜를 선택하세요.'
+            }
+          />
+        </Modal>
+      )}
+
       <Header onClickRightButton={onSave} RightButtonType="TEXT" isAccessible>
         {isEditMode ? '일정 수정' : '일정 추가'}
       </Header>
@@ -177,57 +205,49 @@ const EventEditor = () => {
         <EventInputBlock>
           <S.Meeting>
             <S.Align>
-              <div>정기모임</div>
-              <S.Help onClick={() => setIsModalOpen(true)}>?</S.Help>
+              <span>정기모임</span>
+              <S.Help onClick={() => setIsHelpModalOpen(true)}>?</S.Help>
             </S.Align>
 
             <ToggleButton
-              isMeeting={isMeeting}
+              isMeeting={eventRequest.isMeeting}
+              isEditMode={isEditMode}
               onToggle={() => {
-                setIsMeeting(!isMeeting);
+                setEventRequest((prevInfo) => ({
+                  ...prevInfo,
+                  isMeeting: !prevInfo.isMeeting,
+                }));
               }}
             />
           </S.Meeting>
-          <S.Line />
-          <S.Cardinal>
+          <S.Meeting>
+            <div>기수</div>
             <CardinalDropdown
               origValue={eventRequest.cardinal}
               editValue={(value) => editEventInfo('cardinal', value)}
             />
-            <S.CardinalList>
-              {eventRequest.cardinal.map((cardinal) => (
-                <CardinalLabel
-                  key={cardinal}
-                  cardinal={cardinal}
-                  onDelete={handleDeleteCardinal}
-                />
-              ))}
-            </S.CardinalList>
-          </S.Cardinal>
-          <S.Line />
-          <S.StartDate>
+          </S.Meeting>
+          <S.DateTime>
             <div>시작</div>
             <S.Time>
-              <S.TimeBlock>
-                {startArr.slice(0, 3).map(toTwoDigits).join('. ')}
+              <S.TimeBlock onClick={() => setIsStartDateModalOpen(true)}>
+                {selectedStartDate?.toLocaleDateString() ||
+                  dayjs(eventRequest.start).format('YYYY.MM.DD')}
               </S.TimeBlock>
-              <S.TimeBlock>
-                {startArr.slice(3, 5).map(toTwoDigits).join(':')}
-              </S.TimeBlock>
+              <S.TimeBlock>startTime</S.TimeBlock>
             </S.Time>
-          </S.StartDate>
+          </S.DateTime>
           <S.Line />
-          <S.StartDate>
+          <S.DateTime>
             <div>끝</div>
             <S.Time>
-              <S.TimeBlock>
-                {endArr.slice(0, 3).map(toTwoDigits).join('. ')}
+              <S.TimeBlock onClick={() => setIsEndDateModalOpen(true)}>
+                {selectedEndDate?.toLocaleDateString() ||
+                  dayjs(eventRequest.end).format('YYYY.MM.DD')}
               </S.TimeBlock>
-              <S.TimeBlock>
-                {endArr.slice(3, 5).map(toTwoDigits).join(':')}
-              </S.TimeBlock>
+              <S.TimeBlock>endTime</S.TimeBlock>
             </S.Time>
-          </S.StartDate>
+          </S.DateTime>
         </EventInputBlock>
 
         <EventInputBlock>

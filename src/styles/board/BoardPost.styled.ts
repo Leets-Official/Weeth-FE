@@ -12,12 +12,6 @@ export const PostWrapper = styled.div`
   }
 `;
 
-export const FileUploaderWrapper = styled.div`
-  margin-left: 20px;
-  align-items: flex-start;
-  top: calc(var(--vh, 1vh) * 40 + 120px);
-`;
-
 export const TitleInput = styled.input`
   background-color: transparent;
   border: none;
@@ -50,9 +44,4 @@ export const ContentInput = styled.textarea`
     font-size: 16px;
     font-family: ${theme.font.regular};
   }
-`;
-
-export const DeleteButton = styled.img`
-  margin-left: 10px;
-  cursor: pointer;
 `;

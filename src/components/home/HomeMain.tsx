@@ -7,17 +7,17 @@ import calendar from '@/assets/images/ic_home_calendar.svg';
 import attend from '@/assets/images/ic_home_attend.svg';
 import board from '@/assets/images/ic_home_board.svg';
 import * as S from '@/styles/home/HomeMain.styled';
-import useGetUserInfo from '@/api/useGetUserInfo';
+import useGetGlobaluserInfo from '@/api/useGetGlobaluserInfo';
 
 const HomeMain: React.FC = () => {
   const navi = useNavigate();
-  const { userInfo } = useGetUserInfo();
+  const { globalInfo } = useGetGlobaluserInfo();
 
-  const userName = userInfo?.name || 'Loading';
+  const userName = globalInfo?.name || 'Loading';
   const cardinal =
-    Array.isArray(userInfo?.cardinals) && userInfo?.cardinals.length >= 2
-      ? userInfo.cardinals[userInfo.cardinals.length - 1]
-      : userInfo?.cardinals?.[0] || 'Loading';
+    Array.isArray(globalInfo?.cardinals) && globalInfo?.cardinals.length >= 2
+      ? globalInfo.cardinals[globalInfo.cardinals.length - 1]
+      : globalInfo?.cardinals?.[0] || 'Loading';
 
   return (
     <S.StyledHomeMain>
