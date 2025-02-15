@@ -8,13 +8,11 @@ export const FileButton = styled.img`
 `;
 
 const FileUploader = ({
-  hasFile,
   files,
   setFiles,
 }: {
-  hasFile: boolean;
-  files: File[];
-  setFiles: (value: File[]) => void;
+  files: string[];
+  setFiles: (value: string[]) => void;
 }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -29,21 +27,22 @@ const FileUploader = ({
     if (selectedFiles) {
       let isUnique = true;
       Array.from(selectedFiles).forEach((newFile) => {
-        if (files.some((file) => file.name === newFile.name)) {
+        if (files.some((fileName) => fileName === newFile.name)) {
           isUnique = false;
         }
       });
-      if (isUnique) setFiles([...files, ...Array.from(selectedFiles)]);
+      if (isUnique) {
+        setFiles([
+          ...files,
+          ...Array.from(selectedFiles).map((file) => file.name),
+        ]);
+      }
     }
   };
 
   return (
     <>
-      <FileButton
-        src={icClip}
-        onClick={handleClick}
-        alt={hasFile ? '파일 있음' : '파일 없음'}
-      />
+      <FileButton src={icClip} onClick={handleClick} alt="파일 업로드" />
       <input
         type="file"
         ref={fileInputRef}

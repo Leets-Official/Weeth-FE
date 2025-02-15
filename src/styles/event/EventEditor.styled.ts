@@ -40,10 +40,8 @@ export const Help = styled.div`
   cursor: pointer;
 `;
 
-export const Meeting = styled.div`
-  width: 360px;
+export const DefaultStyle = styled.div`
   height: 50px;
-  padding: 0 20px 0 14px;
   box-sizing: border-box;
   display: flex;
   flex-direction: row;
@@ -51,15 +49,15 @@ export const Meeting = styled.div`
   justify-content: space-between;
 `;
 
-export const StartDate = styled.div`
+export const Meeting = styled(DefaultStyle)`
+  width: 360px;
+  padding: 0 20px 0 14px;
+  border-bottom: 1px solid ${theme.color.gray[30]};
+`;
+
+export const DateTime = styled(DefaultStyle)`
   width: 100%;
-  height: 50px;
   padding: 0 12px 0 14px;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
 `;
 
 export const Time = styled.div`
@@ -72,12 +70,12 @@ export const Cardinal = styled.div`
   display: flex;
   gap: 10px;
   padding: 13px 10px;
+  margin-left: auto;
 `;
 
 export const CardinalList = styled.div`
   display: flex;
   flex-wrap: wrap;
-  width: 238px;
   max-width: 238px;
   gap: 5px;
   box-sizing: border-box;
@@ -91,11 +89,12 @@ export const TimeBlock = styled.div`
   align-items: center;
   justify-content: center;
   border-radius: 4px;
+  cursor: pointer;
 `;
 
 export const Line = styled.div`
   width: 360px;
-  border: 1px solid ${theme.color.gray[30]};
+  border-bottom: 1px solid ${theme.color.gray[30]};
 `;
 
 export const TextAreaWrapper = styled.div`

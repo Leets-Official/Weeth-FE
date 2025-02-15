@@ -1,39 +1,80 @@
-import icInvisible from '@/assets/images/ic_toggleInvisible.svg';
-import icVisible from '@/assets/images/ic_toggleVisible.svg';
-import * as S from '@/styles/mypage/InfoInput.styled';
 import { useEffect, useState } from 'react';
+import theme from '@/styles/theme';
+import styled from 'styled-components';
 
-interface InfoInputProps {
-  text?: string;
-  origValue: string | number[];
-  editValue: (val: string) => void;
-  placeholder?: string;
-  width?: string;
-  padding: string;
-  align: string;
-  edit?: boolean;
-  inputType?: 'text' | 'number' | 'no-korean' | 'eng-num';
-}
+const Container = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 26px;
+  font-family: ${theme.font.regular};
+  font-size: 16px;
+`;
 
-const InfoInput: React.FC<InfoInputProps> = ({
+const Label = styled.div`
+  width: 42px;
+  text-align: left;
+  color: ${theme.color.gray[65]};
+`;
+
+const Input = styled.input`
+  width: 257px;
+  height: 45px;
+  box-sizing: border-box;
+  padding-left: 10px;
+
+  outline: none;
+  border: none;
+  border-radius: 4px;
+  background-color: ${theme.color.gray[18]};
+  color: #fff;
+
+  font-family: ${theme.font.regular};
+  font-size: 16px;
+
+  &::-webkit-inner-spin-button,
+  &::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  &::placeholder {
+    font-family: ${theme.font.regular};
+  }
+`;
+
+const NoEdit = styled(Input).attrs({ readOnly: true })`
+  color: ${theme.color.gray[65]};
+`;
+
+const InfoInput = ({
   text,
   origValue,
-  editValue,
-  placeholder,
-  width,
-  padding,
-  align,
-  edit,
-  inputType,
+  editValue = () => {},
+}: {
+  text: string;
+  origValue: string | number[];
+  editValue?: (val: string | number) => void;
 }) => {
   const [value, setValue] = useState(origValue);
-  const [passwordVisible, setPasswordVisible] = useState(false);
+
+  let inputType;
+  switch (text) {
+    case '핸드폰':
+    case '학번':
+      inputType = 'number';
+      break;
+    case '메일':
+      inputType = 'no-korean';
+      break;
+    default:
+      inputType = 'text';
+  }
 
   const validateValue = (val: string): boolean => {
     if (val === '') return true;
     const numberRegex = /^[0-9]*$/;
     const koreanRegex = /^[ㄱ-ㅎ가-힣]*$/;
-    const engNumRegex = /^[a-zA-Z0-9]*$/;
 
     switch (inputType) {
       case 'text':
@@ -48,8 +89,6 @@ const InfoInput: React.FC<InfoInputProps> = ({
         return numberRegex.test(val);
       case 'no-korean':
         return !koreanRegex.test(val);
-      case 'eng-num':
-        return engNumRegex.test(val);
       default:
         return true;
     }
@@ -63,55 +102,27 @@ const InfoInput: React.FC<InfoInputProps> = ({
     }
   };
 
-  const togglePasswordVisibility = () => {
-    setPasswordVisible((prevState) => !prevState);
-  };
-
   useEffect(() => {
     setValue(origValue);
   }, [origValue]);
 
-  if (text === '비밀번호') {
-    return (
-      <S.StyledInfoInput $padding={padding}>
-        <div>{text}</div>
-        <S.PwInput
-          placeholder={placeholder}
+  return (
+    <Container>
+      <Label>{text}</Label>
+      {text === '로그인' || text === '기수' || text === '역할' ? (
+        <NoEdit
           value={value as string}
           onChange={onChangeValue}
-          width={width}
-          align={align}
-          type={passwordVisible ? 'text' : 'password'}
+          type={inputType}
         />
-        {passwordVisible ? (
-          <S.Visible
-            onClick={togglePasswordVisibility}
-            src={icVisible}
-            alt="숨김"
-          />
-        ) : (
-          <S.Visible
-            onClick={togglePasswordVisibility}
-            src={icInvisible}
-            alt="보임"
-          />
-        )}
-      </S.StyledInfoInput>
-    );
-  }
-  return (
-    <S.StyledInfoInput $padding={padding}>
-      <div>{text}</div>
-      <S.Input
-        placeholder={placeholder}
-        value={value as string}
-        onChange={onChangeValue}
-        width={width}
-        align={align}
-        $edit={edit}
-        type={inputType === 'number' ? 'text' : inputType}
-      />
-    </S.StyledInfoInput>
+      ) : (
+        <Input
+          value={value as string}
+          onChange={onChangeValue}
+          type={inputType}
+        />
+      )}
+    </Container>
   );
 };
 

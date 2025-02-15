@@ -1,7 +1,7 @@
-import axios from 'axios';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import api from '@/api/api';
 
 import toggleInvisibleIcon from '@/assets/images/ic_toggleInvisible.svg';
 import toggleVisibleIcon from '@/assets/images/ic_toggleVisible.svg';
@@ -18,8 +18,26 @@ const Container = styled.div`
   padding-top: 0;
 `;
 
+const LoginTitle = styled.div`
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 40px;
+  margin-left: 7%;
+`;
+
+const LoginSubTitle = styled.div`
+  font-size: 14px;
+  font-weight: 400;
+  margin-bottom: 30px;
+  line-height: 20px;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  margin-left: 7%;
+`;
+
 const LoginHeaderMargin = styled.div`
-  margin-bottom: 119px;
+  margin-bottom: 30px;
 `;
 
 const TextMargin = styled.div`
@@ -35,8 +53,33 @@ const ErrorMessage = styled.div`
   width: 100%;
 `;
 
+const LoginButtonContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+`;
+
+const LoginButton = styled.button`
+  width: 315px;
+  height: 50px;
+  border-radius: 10px;
+  background-color: #00dda8;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 19px;
+  margin-top: 100px;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 const Login: React.FC = () => {
-  useCustomBack('/');
+  useCustomBack('/accountcheck');
 
   const navigate = useNavigate();
   const [email, setEmail] = useState<string>('');
@@ -96,42 +139,39 @@ const Login: React.FC = () => {
     }
     const params = {
       email,
-      password,
+      passWord: password,
+      kakaoId: Number(localStorage.getItem('kakaoId')),
     };
 
     try {
-      const BASE_URL = import.meta.env.VITE_API_URL as string;
-      const response = await axios.post(`${BASE_URL}/api/v1/login`, params);
-
+      const response = await api.patch('/api/v1/users/kakao/link', params);
       if (response.status === 200) {
         setError(null);
-        const newToken = response.headers.authorization;
-        const newRefreshToken = response.headers.authorization_refresh;
-        localStorage.setItem('accessToken', newToken);
-        localStorage.setItem('refreshToken', newRefreshToken);
+        localStorage.setItem('accessToken', response.data.data.accessToken);
+        localStorage.setItem('refreshToken', response.data.data.refreshToken);
         navigate('/home');
       }
-    } catch (err: unknown) {
-      if (axios.isAxiosError(err) && err.response) {
-        setError(err.response.data);
-      } else if (err instanceof Error) {
-        setError(err.message);
-      } else {
-        setError('서버로부터 응답을 받지 못했습니다.');
-      }
+    } catch (err: any) {
+      setError(err.response?.data.message);
     }
   };
 
   return (
     <Container>
       <Header
+        isAccessible
         isComplete={!!isAllValid && isPwdValid && isEmailValid}
-        onClickRightButton={handleLogin}
-        RightButtonType="TEXT"
+        RightButtonType="none"
       />
       <LoginHeaderMargin />
+      <LoginTitle>계정 연동하기</LoginTitle>
+      <LoginSubTitle>
+        연동이 완료되면 <span style={{ margin: '0 2px' }} />
+        <p style={{ color: '#508FFF' }}>홈</p>
+        으로 이동합니다.
+      </LoginSubTitle>
       <SignupTextComponent
-        text="email"
+        text="E-mail"
         value={email}
         onChange={handleEmailChange}
         onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -139,11 +179,12 @@ const Login: React.FC = () => {
         }}
         placeholder="ex) weeth@gmail.com"
         type="text"
+        // eslint-disable-next-line react/no-children-prop
         children=""
       />
       <TextMargin />
       <SignupTextComponent
-        text="password"
+        text="PW"
         value={password}
         onChange={handlePasswordChange}
         onKeyPress={(e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -153,30 +194,27 @@ const Login: React.FC = () => {
         type={passwordVisible ? 'text' : 'password'}
       >
         {passwordVisible ? (
+          // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions, jsx-a11y/click-events-have-key-events
           <img
             src={toggleVisibleIcon}
             alt=""
             onClick={togglePasswordVisibility}
-            style={{
-              background: 'none',
-              border: 'none',
-              cursor: 'pointer',
-            }}
+            style={{ background: 'none', border: 'none', cursor: 'pointer' }}
           />
         ) : (
+          // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions
           <img
             src={toggleInvisibleIcon}
             alt=""
             onClick={togglePasswordVisibility}
-            style={{
-              background: 'none',
-              border: 'none',
-              cursor: 'pointer',
-            }}
+            style={{ background: 'none', border: 'none', cursor: 'pointer' }}
           />
         )}
       </SignupTextComponent>
       <ErrorMessage>{error}</ErrorMessage>
+      <LoginButtonContainer>
+        <LoginButton onClick={handleLogin}>연동하기</LoginButton>
+      </LoginButtonContainer>
     </Container>
   );
 };

@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
-
-const BASE_URL = import.meta.env.VITE_API_URL;
+import api from './api';
 
 interface Attendance {
   id: number;
@@ -28,18 +26,7 @@ interface ApiResponse {
 
 // 출석 조회 정보 받아오는 API
 const getAttendCheck = async (): Promise<AttendanceData> => {
-  const accessToken = localStorage.getItem('accessToken');
-  const refreshToken = localStorage.getItem('refreshToken');
-
-  const response = await axios.get<ApiResponse>(
-    `${BASE_URL}/api/v1/attendances/detail`,
-    {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        Authorization_refresh: `Bearer ${refreshToken}`,
-      },
-    },
-  );
+  const response = await api.get<ApiResponse>(`/api/v1/attendances/detail`);
 
   return response.data.data;
 };

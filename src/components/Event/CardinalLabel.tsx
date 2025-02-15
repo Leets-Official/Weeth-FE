@@ -1,12 +1,11 @@
 import theme from '@/styles/theme';
 import styled from 'styled-components';
-import close from '@/assets/images/ic_close.svg';
+// import close from '@/assets/images/ic_close.svg';
 
 const Container = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 0 15px;
+  justify-content: center;
   width: 76px;
   height: 30px;
   border-radius: 29px;
@@ -16,28 +15,29 @@ const Container = styled.div`
   font-family: ${theme.font.semiBold};
 `;
 
-const DeleteButton = styled.img`
-  width: 14px;
-  cursor: pointer;
-`;
+// const DeleteButton = styled.img`
+//   width: 14px;
+//   cursor: pointer;
+// `;
 
 const CardinalLabel = ({
   cardinal,
-  onDelete,
+  // onDelete,
 }: {
   cardinal: number;
-  onDelete: (val: number) => void;
+  // onDelete: (val: number) => void;
 }) => {
   return (
     <Container>
-      <p>{cardinal}기</p>
+      {cardinal}기
+      {/* TODO: 여러 기수 선택하도록 확장 후 추가 예정
       <DeleteButton
         src={close}
         alt="close"
         onClick={() => {
           onDelete(cardinal);
         }}
-      />
+      /> */}
     </Container>
   );
 };

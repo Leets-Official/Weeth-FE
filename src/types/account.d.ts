@@ -1,4 +1,4 @@
-export interface FILE {
+export interface FileObject {
   fileId: number;
   fileName: string;
   fileUrl: string;
@@ -10,7 +10,8 @@ export interface RECEIPT {
   description: string;
   images: string[];
   date: string;
-  fileUrls: FILE[];
+  source: string;
+  fileUrls: FileObject[];
 }
 
 export interface AccountResponse {
@@ -25,4 +26,13 @@ export interface AccountResponse {
     cardinal: number;
     receipts: RECEIPT[];
   };
+}
+
+export interface adminReceiptsTypes {
+  description: string;
+  source: string;
+  amount: number;
+  date: string;
+  cardinal: number;
+  files: File[];
 }

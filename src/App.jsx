@@ -17,8 +17,11 @@ import MemberDetail from '@/pages/MemberDetail';
 import MyPage from '@/pages/MyPage';
 import Profile from '@/pages/Profile';
 import Receipt from '@/pages/Receipt';
-import Signup from '@/pages/Signup';
 import theme from '@/styles/theme';
+import Redirect from '@/pages/Redirect';
+import AccountCheck from '@/pages/AccountCheck';
+import RegistrationSuccess from '@/pages/RegistrationSuccess';
+import WaitingApproval from '@/pages/WaitingApproval';
 
 import AdminAttendance from '@/pages/admin/AdminAttendance';
 import AdminMember from '@/pages/admin/AdminMember';
@@ -40,14 +43,17 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/kakao/oauth" element={<Redirect />} />
+        <Route path="/accountcheck" element={<AccountCheck />} />
+        <Route path="/register-success" element={<RegistrationSuccess />} />
+        <Route path="/waiting-approval" element={<WaitingApproval />} />
 
         <Route path="/attendance" element={<Attendance />} />
         <Route path="/calendar" element={<Calendar />} />
         <Route path="/:type/:id" element={<EventDetail />} />
         <Route path="/events/create" element={<EventPost />} />
-        <Route path="/events/:id/edit" element={<EventPost />} />
+        <Route path="/:type/:id/edit" element={<EventPost />} />
         <Route path="/home" element={<Home />} />
         <Route path="/attendCheck" element={<AttendCheck />} />
         <Route path="/member" element={<Member />} />
@@ -57,12 +63,17 @@ const App = () => {
         <Route path="/dues" element={<Dues />} />
         <Route path="/receipt" element={<Receipt />} />
 
-        <Route path="/notice" element={<Notice />} />
-        <Route path="/notice/:postId" element={<NoticePostDetail />} />
-        <Route path="/board" element={<Board />} />
-        <Route path="/board/:postId" element={<BoardPostDetail />} />
         <Route path="/:type/post" element={<BoardPost />} />
 
+        <Route path="/notice" element={<Notice />} />
+        <Route path="/notice/:postId" element={<NoticePostDetail />} />
+        <Route path="/notice/:postId/edit" element={<BoardPost />} />
+
+        <Route path="/board" element={<Board />} />
+        <Route path="/board/:postId" element={<BoardPostDetail />} />
+        <Route path="/board/:postId/edit" element={<BoardPost />} />
+
+        <Route path="/admin" element={<AdminAttendance />} />
         <Route path="/admin/attendance" element={<AdminAttendance />} />
         <Route path="/admin/member" element={<AdminMember />} />
         <Route path="/admin/dues" element={<AdminDues />} />

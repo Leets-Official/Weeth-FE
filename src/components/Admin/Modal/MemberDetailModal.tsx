@@ -4,6 +4,7 @@ import dropdownIcon from '@/assets/images/ic_admin_column_meatball.svg';
 import ButtonGroup from '@/components/Admin/ButtonGroup';
 import StatusIndicator from '@/components/Admin/StatusIndicator';
 import CommonModal from '@/components/Admin/Modal/CommonModal';
+import useAdminActions from '@/hooks/useAdminActions';
 
 interface MemberDetailModalProps {
   data: MemberData;
@@ -24,12 +25,12 @@ const FontStyle = styled.div<FontStyleProps>`
 
 const ModalContentWrapper = styled.div`
   display: flex;
-  flex: 0;
+  flex-wrap: wrap;
   height: calc(100% - 96px - 96px);
   justify-content: center;
   align-items: center;
   gap: 20px;
-  padding: 20px;
+  padding: 5px;
 `;
 
 const ModalContent = styled.div`
@@ -40,9 +41,8 @@ const ModalContent = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
-  padding: 15px;
+  padding: 10px;
   flex: 1.5;
-  margin-top: 20%;
 `;
 
 const ActivityContent = styled(ModalContent)`
@@ -72,29 +72,39 @@ const DataFlex = styled.div`
   color: #000;
 `;
 
-const getHighestCardinal = (cardinal: string): string =>
-  `${cardinal.split('.')[0]}기`;
+const getHighestCardinal = (cardinals: string): string =>
+  `${cardinals.split('.')[0]}기`;
 
 const MemberDetailModal: React.FC<MemberDetailModalProps> = ({
   data,
   onClose,
 }) => {
+  const { handleAction } = useAdminActions();
+
+  const roleChangeButton =
+    data.role === 'ADMIN'
+      ? {
+          label: '사용자로 변경',
+          onClick: () => handleAction('사용자로 변경', [data.id]),
+        }
+      : {
+          label: '관리자로 변경',
+          onClick: () => handleAction('관리자로 변경', [data.id]),
+        };
+
   const buttons = [
     {
       label: '가입 승인',
-      onClick: () => alert('1명의 멤버 가입을 승인하시겠습니까?'),
+      onClick: () => handleAction('가입 승인', [data.id]),
     },
-    {
-      label: '관리자로 변경',
-      onClick: () => alert('1명의 멤버 역할을 관리자로 변경하시겠습니까?'),
-    },
+    roleChangeButton,
     {
       label: '비밀번호 초기화',
-      onClick: () => alert('1명의 멤버 비밀번호를 초기화 시키시겠습니까?'),
+      onClick: () => handleAction('비밀번호 초기화', [data.id]),
     },
     {
       label: '유저 추방',
-      onClick: () => alert('1명의 멤버를 추방하시겠습니까?'),
+      onClick: () => handleAction('유저 추방', [data.id]),
     },
     {
       label: '직접 입력',
@@ -105,21 +115,21 @@ const MemberDetailModal: React.FC<MemberDetailModalProps> = ({
   ];
 
   const memberInfo = [
-    { label: '직급', value: data.position },
-    { label: '역할', value: data.role },
-    { label: '학과', value: data.major },
-    { label: '전화번호', value: data.phone },
+    { label: '직급', value: data.role },
+    { label: '역할', value: data.position },
+    { label: '학과', value: data.department },
+    { label: '전화번호', value: data.tel },
     { label: '학번', value: data.studentId },
     { label: '이메일', value: data.email },
   ];
 
   const activityInfo = [
-    { label: '활동기수', value: data.cardinal },
+    { label: '활동기수', value: data.cardinals },
     { label: '상태', value: data.membershipType },
-    { label: '가입일', value: data.joinDate },
-    { label: '출석', value: data.attendance },
-    { label: '결석', value: data.absence },
-    { label: '패널티', value: data.penalty },
+    { label: '가입일', value: data.createdAt },
+    { label: '출석', value: data.attendanceCount },
+    { label: '결석', value: data.absenceCount },
+    { label: '패널티', value: data.penaltyCount },
   ];
 
   return (
@@ -137,7 +147,7 @@ const MemberDetailModal: React.FC<MemberDetailModalProps> = ({
           <FlexWrapper>
             <FontStyle fontSize="24px" fontWeight="700" color="#000">
               {data.name} &nbsp;
-              {getHighestCardinal(data.cardinal)}
+              {getHighestCardinal(data.cardinals)}
             </FontStyle>
             <StatusIndicator status={data.status} />
           </FlexWrapper>

@@ -15,7 +15,10 @@ const Container = styled.div`
   webkitbackdropfilter: 'blur(2px)';
 `;
 
-const Content = styled.div<{ $isDelete: boolean }>`
+const Content = styled.div<{
+  $isFullScreen: boolean | undefined;
+  $isDelete: boolean;
+}>`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -35,6 +38,15 @@ const Content = styled.div<{ $isDelete: boolean }>`
 
   gap: 20px;
   padding: 15px;
+
+  ${(props) =>
+    props.$isFullScreen
+      ? `
+        width: 100vw;
+        height: 100vh;
+        border-radius: 0;
+      `
+      : ``}
 `;
 
 const Img = styled.img`
@@ -49,15 +61,21 @@ const Modal = ({
   hasCloseButton,
   onClose,
   isDelete = false,
+  isFullScreen,
 }: {
   children: React.ReactNode;
   hasCloseButton: boolean;
   onClose?: () => void;
   isDelete?: boolean;
+  isFullScreen?: boolean;
 }) => {
   return (
     <Container onClick={onClose}>
-      <Content $isDelete={isDelete} onClick={(e) => e.stopPropagation()}>
+      <Content
+        $isDelete={isDelete}
+        $isFullScreen={isFullScreen}
+        onClick={(e) => e.stopPropagation()}
+      >
         {hasCloseButton ? (
           <Img
             src={close}

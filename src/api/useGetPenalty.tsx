@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
-
-const BASE_URL = import.meta.env.VITE_API_URL;
+import api from './api';
 
 interface Penalty {
   penaltyId: number;
@@ -17,15 +15,7 @@ interface UserPenaltyData {
 }
 
 const getPenalty = async (): Promise<UserPenaltyData> => {
-  const accessToken = localStorage.getItem('accessToken');
-  const refreshToken = localStorage.getItem('refreshToken');
-
-  const response = await axios.get(`${BASE_URL}/api/v1/penalties`, {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-      Authorization_refresh: `Bearer ${refreshToken}`,
-    },
-  });
+  const response = await api.get(`/api/v1/penalties`);
 
   return response.data.data;
 };

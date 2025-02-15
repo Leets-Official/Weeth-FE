@@ -14,7 +14,7 @@ const MenuListWrapper = styled.div`
 
 const SectionHeader = styled.div`
   font-size: 14px;
-  font-weight: bold;
+  font-weight: 500;
   color: #000;
   padding: 0 20px;
   margin: 20px 0 20px 0;
