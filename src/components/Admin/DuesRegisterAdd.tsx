@@ -1,25 +1,13 @@
 import { useState } from 'react';
-import {
-  Wrapper,
-  Title,
-  SubTitle,
-  CardinalWrapper,
-  DuesInputWrapper,
-  SaveButton,
-  DescriptionWrapper,
-} from '@/styles/admin/DuesRegisterAdd.styled';
+import * as S from '@/styles/admin/DuesRegisterAdd.styled';
 import adminReceipts from '@/api/admin/dues/adminReceipts';
-import { FileObject } from '@/types/account';
-import DuesFileUpload from '@/hooks/admin/handleFileChange';
 import inputFields from '@/constants/admin/duesRegisterAddConstants';
-import styled from 'styled-components';
+import Close from '@/assets/images/ic_admin_close.svg';
+import useDuesFileUpload from '@/hooks/admin/handleFileChange';
 import CardinalDropdown from './Cardinal';
 import DuesInput from './DuesInput';
 import Button from './Button';
-
-const ReceiptInputWrapper = styled.div`
-  width: 100%;
-`;
+import { ExpenditureRecordProps } from './ExpenditureRecord';
 
 const DuesRegisterAdd: React.FC = () => {
   const [selectedCardinal, setSelectedCardinal] = useState<null | number>(null);
@@ -28,7 +16,13 @@ const DuesRegisterAdd: React.FC = () => {
   const [source, setSource] = useState('');
   const [amount, setAmount] = useState('');
   const [date, setDate] = useState('');
-  const [uploadedFiles, setUploadedFiles] = useState<FileObject[]>([]);
+
+  const {
+    uploadedFiles,
+    setUploadedFiles,
+    handleFileChange,
+    handleRemoveFile,
+  } = useDuesFileUpload();
 
   const handleCustomCardinalBlur = () => {
     const cardinalNumber = Number(customCardinal.trim());
@@ -40,14 +34,16 @@ const DuesRegisterAdd: React.FC = () => {
   const handleRegister = async () => {
     const cardinal =
       selectedCardinal ?? Number(customCardinal.replace('기', ''));
+    const formattedDate = `${date.slice(0, 4)}-${date.slice(4, 6)}-${date.slice(6, 8)}`;
 
-    const requestData = {
+    const requestData: ExpenditureRecordProps = {
       description,
       source,
       amount: Number(amount),
-      date,
+      date: formattedDate,
       cardinal,
-      files: uploadedFiles,
+      fileUrls: uploadedFiles,
+      id: undefined,
     };
 
     try {
@@ -60,9 +56,9 @@ const DuesRegisterAdd: React.FC = () => {
       setSource('');
       setAmount('');
       setDate('');
-      setUploadedFiles([]);
       setCustomCardinal('');
       setSelectedCardinal(null);
+      setUploadedFiles([]);
     } catch (error) {
       console.error('등록 실패:', error);
       alert('등록 중 오류가 발생했습니다.');
@@ -84,10 +80,10 @@ const DuesRegisterAdd: React.FC = () => {
   };
 
   return (
-    <Wrapper>
-      <Title>회비 사용 내역 추가</Title>
-      <SubTitle>기수</SubTitle>
-      <CardinalWrapper>
+    <S.Wrapper>
+      <S.Title>회비 사용 내역 추가</S.Title>
+      <S.SubTitle>기수</S.SubTitle>
+      <S.CardinalWrapper>
         <div>
           <CardinalDropdown
             selectedCardinal={selectedCardinal}
@@ -97,7 +93,7 @@ const DuesRegisterAdd: React.FC = () => {
             }}
           />
         </div>
-        <DuesInputWrapper>
+        <S.DuesInputWrapper>
           <DuesInput
             width="95%"
             placeholder="직접 입력"
@@ -105,29 +101,69 @@ const DuesRegisterAdd: React.FC = () => {
             onChange={(e) => setCustomCardinal(e.target.value)}
             onBlur={handleCustomCardinalBlur}
           />
-        </DuesInputWrapper>
-      </CardinalWrapper>
+        </S.DuesInputWrapper>
+      </S.CardinalWrapper>
 
       {inputFields.map((field) => (
         <div key={field.id}>
-          <SubTitle>{field.title}</SubTitle>
-          <DescriptionWrapper>
+          <S.SubTitle>{field.title}</S.SubTitle>
+          <S.DescriptionWrapper>
             <DuesInput
               width={field.width}
               placeholder={field.placeholder}
               value={getInputValue(field.id)}
               onChange={(e) => setInputValue(field.id, e.target.value)}
             />
-          </DescriptionWrapper>
+          </S.DescriptionWrapper>
         </div>
       ))}
 
-      <SubTitle>영수증 첨부</SubTitle>
-      <ReceiptInputWrapper>
-        <DuesFileUpload onFilesUploaded={setUploadedFiles} />
-      </ReceiptInputWrapper>
+      <S.SubTitle>영수증 첨부</S.SubTitle>
+      <S.DescriptionWrapper>
+        <S.FileWrapper>
+          <S.ButtonWrapper>
+            <input
+              id="file-upload"
+              type="file"
+              accept="image/*,application/pdf"
+              style={{ display: 'none' }}
+              multiple
+              onChange={(e) => {
+                handleFileChange(e);
+              }}
+            />
+            <Button
+              description="파일 선택"
+              color="#00dda8"
+              width="99px"
+              onClick={() => document.getElementById('file-upload')?.click()}
+            />
+          </S.ButtonWrapper>
 
-      <SaveButton>
+          <S.InputWrapper>
+            {uploadedFiles.length === 0 ? (
+              <DuesInput width="90%" placeholder="선택된 파일 없음" readOnly />
+            ) : (
+              uploadedFiles.map((file) => (
+                <S.InputContainer key={file.fileId}>
+                  <S.StyledDuesInput
+                    width="90%"
+                    placeholder={file.fileName}
+                    readOnly
+                  />
+                  <S.StyledCloseButton
+                    onClick={() => handleRemoveFile(file.fileName)}
+                  >
+                    <img src={Close} alt="삭제" width="20px" />
+                  </S.StyledCloseButton>
+                </S.InputContainer>
+              ))
+            )}
+          </S.InputWrapper>
+        </S.FileWrapper>
+      </S.DescriptionWrapper>
+
+      <S.SaveButton>
         <Button description="Cancel" color="#323232" width="89px" />
         <Button
           description="추가"
@@ -135,8 +171,8 @@ const DuesRegisterAdd: React.FC = () => {
           width="64px"
           onClick={handleRegister}
         />
-      </SaveButton>
-    </Wrapper>
+      </S.SaveButton>
+    </S.Wrapper>
   );
 };
 

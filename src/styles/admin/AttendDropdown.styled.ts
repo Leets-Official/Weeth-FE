@@ -39,7 +39,10 @@ export const SearchBar = styled.div`
   padding-left: 10px;
 `;
 
-export const EditButton = styled.div<{ isEdit: boolean }>``;
+export const EditButton = styled.button`
+  background-color: white;
+  border: none;
+`;
 
 export const Edit = styled.div`
   width: 64px;

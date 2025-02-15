@@ -26,6 +26,7 @@ export const DropdownMenu = styled.div`
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   position: absolute;
   color: black;
+  z-index: 5;
 `;
 
 export const DropdownItem = styled.div`

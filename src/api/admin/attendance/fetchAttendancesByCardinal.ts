@@ -3,14 +3,15 @@ import axios from 'axios';
 const BASE_URL = import.meta.env.VITE_API_URL;
 const ACCESSTOKEN = import.meta.env.VITE_MASTER_TOKEN;
 
-const fetchAttendancesByCardinal = async (cardinal: number) => {
+const fetchAttendancesByCardinal = async (cardinal: number | undefined) => {
   try {
     const res = await axios.get(
-      `${BASE_URL}/api/v1/admin/attendances/meetings/${cardinal}`,
+      `${BASE_URL}/api/v1/admin/attendances/meetings`,
       {
         headers: {
           Authorization: `Bearer ${ACCESSTOKEN}`,
         },
+        params: cardinal !== undefined ? { cardinal } : {},
       },
     );
     return res.data;

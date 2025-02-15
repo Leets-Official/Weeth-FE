@@ -32,10 +32,10 @@ const Attendance: React.FC<AttendanceProps> = ({ selectedCardinal }) => {
   };
 
   useEffect(() => {
-    if (selectedCardinal === null) return;
-
     const fetchData = async () => {
-      const res = await fetchAttendancesByCardinal(selectedCardinal);
+      const res = await fetchAttendancesByCardinal(
+        selectedCardinal ?? undefined,
+      );
       if (res.code === 200) {
         setData(res.data);
       }

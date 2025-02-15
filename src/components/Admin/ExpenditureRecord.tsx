@@ -26,7 +26,8 @@ export interface ExpenditureRecordProps {
   source?: string;
   cardinal: number | null;
   fileUrls?: FileObject[];
-  id: number;
+  id?: number;
+  description?: string;
 }
 
 const ExpenditureRecord: React.FC<{ cardinal: number | null }> = ({
@@ -112,7 +113,9 @@ const ExpenditureRecord: React.FC<{ cardinal: number | null }> = ({
               <ModifyButton onClick={() => openModal(item)}>
                 <Button description="수정" color="#323232" width="64px" />
               </ModifyButton>
-              <ModifyButton onClick={() => handleDelete(item.id)}>
+              <ModifyButton
+                onClick={() => item.id !== undefined && handleDelete(item.id)}
+              >
                 <Button description="삭제" color="#ff5858" width="64px" />
               </ModifyButton>
             </ButtonWrapper>
