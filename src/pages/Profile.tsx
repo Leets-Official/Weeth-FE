@@ -1,7 +1,6 @@
 /* eslint-disable no-alert */
-import axios from 'axios';
 import React, { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import DropdownMenu from '@/components/Button/DropdownMenu';
@@ -9,7 +8,7 @@ import Header from '@/components/Header/Header';
 import PositionSector from '@/components/Signup/PositionSector';
 import SignupMemInput from '@/components/Signup/SignupMemInput';
 import useCustomBack from '@/hooks/useCustomBack';
-import theme from '@/styles/theme';
+import api from '@/api/api';
 
 // Styled components
 const ProfileContainer = styled.div`
@@ -19,15 +18,53 @@ const ProfileContainer = styled.div`
   overflow-x: hidden; /* Prevent horizontal scroll */
 `;
 
-const HeaderText = styled.div`
+const ProfileTitle = styled.div`
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 40px;
+  margin-left: 7%;
+  margin-top: 30px;
+`;
+
+const ProfileSubTitle = styled.div`
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
   display: flex;
-  margin: 110px 0 0 7%;
-  font-size: 18px;
-  font-family: ${theme.font.semiBold};
+  text-align: center;
+  align-items: center;
+  margin-left: 7%;
+`;
+
+const ProfileButtonContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+`;
+
+const ProfileButton = styled.button<{ disabled: boolean }>`
+  width: 315px;
+  height: 50px;
+  border-radius: 10px;
+  background-color: ${(props: { disabled: boolean }) =>
+    props.disabled ? '#4D4D4D' : '#00dda8'};
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 19px;
+  margin-top: 100px;
+  border: none;
+  cursor: ${(props: { disabled: boolean }) =>
+    props.disabled ? 'not-allowed' : 'pointer'};
+  outline: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const InputContainer = styled.div`
-  margin-top: 50px;
+  margin-top: 30px;
 `;
 
 const InputWrapper = styled.div`
@@ -42,28 +79,63 @@ const roleMapping: Record<string, string> = {
 
 // Member info state type
 interface MemberInfo {
-  email?: string;
-  password?: string;
   name?: string;
   studentId?: string;
   department?: string;
   tel?: string;
   cardinal?: string;
   position?: string;
+  email?: string;
 }
 
 // Define a type for the valid keys of MemberInfo
 type MemberInfoKeys = keyof MemberInfo;
 
 const Profile: React.FC = () => {
-  useCustomBack('/signup');
+  useCustomBack('/accountcheck');
 
-  const location = useLocation();
   const navigate = useNavigate();
-  const { email, password } = location.state || { email: '', password: '' };
 
-  const [memberInfo, setMemberInfo] = useState<MemberInfo>({ email, password });
+  const [memberInfo, setMemberInfo] = useState<MemberInfo>({
+    name: '',
+    studentId: '',
+    department: '',
+    tel: '',
+    cardinal: '',
+    position: '',
+    email: '',
+  });
   const [isNextEnabled, setIsNextEnabled] = useState<boolean>(false);
+
+  const validateEmail = (validEmail: string): boolean => {
+    // 이메일 형식을 검사하는 정규식 (기본적인 이메일 형식)
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/;
+
+    // 허용되는 도메인 확장자 목록
+    const allowedExtensions = [
+      'com',
+      'net',
+      'org',
+      'edu',
+      'ac.kr', // 학교 이메일 도메인 추가
+      'co.kr',
+      'go.kr',
+      'or.kr',
+      'kakao.com', // 추가적으로 원하는 도메인도 여기에 넣을 수 있음
+    ];
+
+    // 이메일 형식이 유효한지 먼저 체크
+    if (!emailRegex.test(validEmail)) {
+      return false;
+    }
+
+    // 이메일 주소에서 도메인 추출 (확장자 부분만 추출)
+    const emailDomain = validEmail.split('@')[1];
+    const domainExtension = emailDomain.split('.').pop(); // 마지막 확장자 부분을 추출
+
+    // 허용된 확장자 목록에 포함되는지 확인
+    return allowedExtensions.includes(domainExtension || '');
+  };
 
   const handleNextClick = async () => {
     const allFieldsFilled = [
@@ -73,6 +145,7 @@ const Profile: React.FC = () => {
       'tel',
       'cardinal',
       'position',
+      'email',
     ].every(
       (field) =>
         typeof memberInfo[field as keyof MemberInfo] === 'string' &&
@@ -87,6 +160,10 @@ const Profile: React.FC = () => {
       alert('올바른 휴대폰 번호를 입력해 주세요.');
       return;
     }
+    if ((memberInfo.email && validateEmail(memberInfo.email)) === false) {
+      alert('올바른 이메일을 입력해 주세요.');
+      return;
+    }
 
     if (!allFieldsFilled) {
       alert('모든 항목을 입력해 주세요.');
@@ -94,21 +171,21 @@ const Profile: React.FC = () => {
     }
 
     const mappedMemberInfo = {
+      kakaoId: Number(localStorage.getItem('kakaoId')),
       ...memberInfo,
+      cardinal: Number(memberInfo.cardinal),
       position: roleMapping[memberInfo.position || ''] || memberInfo.position,
     };
 
     try {
-      const BASE_URL = import.meta.env.VITE_API_URL;
-      const response = await axios.post(
-        `${BASE_URL}/api/v1/users/apply`,
+      const response = await api.post(
+        `/api/v1/users/kakao/register`,
         mappedMemberInfo,
       );
-
       if (response.data.code === 200) {
         alert(`가입 신청이 완료되었습니다.
         운영진의 승인 후 서비스 이용이 가능합니다.`);
-        navigate('/');
+        navigate('/register-success');
       } else {
         alert(response.data.message);
       }
@@ -128,6 +205,7 @@ const Profile: React.FC = () => {
       'tel',
       'cardinal',
       'position',
+      'email',
     ].every(
       (field) =>
         typeof newMemberInfo[field as keyof MemberInfo] === 'string' &&
@@ -139,13 +217,16 @@ const Profile: React.FC = () => {
 
   return (
     <ProfileContainer>
-      <Header
-        isComplete={isNextEnabled}
-        onClickRightButton={handleNextClick}
-        RightButtonType="TEXT"
-        isAccessible
-      />
-      <HeaderText>동아리원의 정보를 입력해주세요.</HeaderText>
+      <Header isAccessible isComplete={isNextEnabled} RightButtonType="none" />
+      <ProfileTitle>회원 정보 입력하기</ProfileTitle>
+      <ProfileSubTitle>신규 회원님의 정보를 입력해주세요.</ProfileSubTitle>
+      <ProfileSubTitle>
+        작성이 완료되면 <span style={{ margin: '0 2px' }} />
+        <p style={{ color: '#508FFF', margin: 0 }}>
+          승인 후 서비스 이용이 가능
+        </p>
+        합니다.
+      </ProfileSubTitle>
       <InputContainer>
         <InputWrapper>
           <SignupMemInput
@@ -184,6 +265,15 @@ const Profile: React.FC = () => {
         </InputWrapper>
         <InputWrapper>
           <SignupMemInput
+            labelName="이메일"
+            placeholderText="aaa123@example.com"
+            origValue={memberInfo.email || ''}
+            inputType="email"
+            onChange={(value) => handleChange('email', value)}
+          />
+        </InputWrapper>
+        <InputWrapper>
+          <SignupMemInput
             labelName="기수"
             placeholderText="4"
             origValue={memberInfo.cardinal || ''}
@@ -199,6 +289,11 @@ const Profile: React.FC = () => {
           />
         </InputWrapper>
       </InputContainer>
+      <ProfileButtonContainer>
+        <ProfileButton onClick={handleNextClick} disabled={!isNextEnabled}>
+          작성 완료
+        </ProfileButton>
+      </ProfileButtonContainer>
     </ProfileContainer>
   );
 };
