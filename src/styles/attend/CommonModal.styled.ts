@@ -21,12 +21,12 @@ export const ModalContent = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 345px;
-  min-width: 345px;
+  width: 315px;
+  min-width: 315px;
   height: 489px;
   background-color: #2f2f2f;
   border-radius: 14px;
-  padding: 20px;
+  padding: 15px;
   box-sizing: border-box;
 `;
 

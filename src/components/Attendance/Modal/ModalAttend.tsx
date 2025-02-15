@@ -103,6 +103,11 @@ const ModalAttend: React.FC<{
       setInputValue(value);
     }
   };
+  const handleKeyPress = (event: React.KeyboardEvent) => {
+    if (event.key === 'Enter') {
+      handleCompleteBtn();
+    }
+  };
 
   return (
     <StyledModal open={open}>
@@ -133,14 +138,13 @@ const ModalAttend: React.FC<{
               placeholder="코드를 입력하세요"
               value={inputValue}
               onChange={handleChange}
+              onKeyPress={handleKeyPress}
             />
+            <Button onClick={handleCompleteBtn} width="285px" height="45px">
+              입력완료
+            </Button>
           </S.CenterContainer>
         </div>
-        <S.CenterContainer>
-          <Button onClick={handleCompleteBtn} width="285px" height="45px">
-            입력완료
-          </Button>
-        </S.CenterContainer>
         {codeCheck === 0 && <div> </div>}
         {codeCheck === 1 && <RightContainer />}
         {codeCheck === 2 && <WrongContainer message={message} />}
