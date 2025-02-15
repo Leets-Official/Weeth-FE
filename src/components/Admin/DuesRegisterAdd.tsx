@@ -1,19 +1,5 @@
 import { useState } from 'react';
-import {
-  Wrapper,
-  Title,
-  SubTitle,
-  CardinalWrapper,
-  DuesInputWrapper,
-  SaveButton,
-  DescriptionWrapper,
-  FileWrapper,
-  ButtonWrapper,
-  InputWrapper,
-  InputContainer,
-  StyledDuesInput,
-  StyledCloseButton,
-} from '@/styles/admin/DuesRegisterAdd.styled';
+import * as S from '@/styles/admin/DuesRegisterAdd.styled';
 import adminReceipts from '@/api/admin/dues/adminReceipts';
 import inputFields from '@/constants/admin/duesRegisterAddConstants';
 import Close from '@/assets/images/ic_admin_close.svg';
@@ -94,10 +80,10 @@ const DuesRegisterAdd: React.FC = () => {
   };
 
   return (
-    <Wrapper>
-      <Title>회비 사용 내역 추가</Title>
-      <SubTitle>기수</SubTitle>
-      <CardinalWrapper>
+    <S.Wrapper>
+      <S.Title>회비 사용 내역 추가</S.Title>
+      <S.SubTitle>기수</S.SubTitle>
+      <S.CardinalWrapper>
         <div>
           <CardinalDropdown
             selectedCardinal={selectedCardinal}
@@ -107,7 +93,7 @@ const DuesRegisterAdd: React.FC = () => {
             }}
           />
         </div>
-        <DuesInputWrapper>
+        <S.DuesInputWrapper>
           <DuesInput
             width="95%"
             placeholder="직접 입력"
@@ -115,27 +101,27 @@ const DuesRegisterAdd: React.FC = () => {
             onChange={(e) => setCustomCardinal(e.target.value)}
             onBlur={handleCustomCardinalBlur}
           />
-        </DuesInputWrapper>
-      </CardinalWrapper>
+        </S.DuesInputWrapper>
+      </S.CardinalWrapper>
 
       {inputFields.map((field) => (
         <div key={field.id}>
-          <SubTitle>{field.title}</SubTitle>
-          <DescriptionWrapper>
+          <S.SubTitle>{field.title}</S.SubTitle>
+          <S.DescriptionWrapper>
             <DuesInput
               width={field.width}
               placeholder={field.placeholder}
               value={getInputValue(field.id)}
               onChange={(e) => setInputValue(field.id, e.target.value)}
             />
-          </DescriptionWrapper>
+          </S.DescriptionWrapper>
         </div>
       ))}
 
-      <SubTitle>영수증 첨부</SubTitle>
-      <DescriptionWrapper>
-        <FileWrapper>
-          <ButtonWrapper>
+      <S.SubTitle>영수증 첨부</S.SubTitle>
+      <S.DescriptionWrapper>
+        <S.FileWrapper>
+          <S.ButtonWrapper>
             <input
               id="file-upload"
               type="file"
@@ -152,32 +138,32 @@ const DuesRegisterAdd: React.FC = () => {
               width="99px"
               onClick={() => document.getElementById('file-upload')?.click()}
             />
-          </ButtonWrapper>
+          </S.ButtonWrapper>
 
-          <InputWrapper>
+          <S.InputWrapper>
             {uploadedFiles.length === 0 ? (
               <DuesInput width="90%" placeholder="선택된 파일 없음" readOnly />
             ) : (
               uploadedFiles.map((file) => (
-                <InputContainer key={file.fileId}>
-                  <StyledDuesInput
+                <S.InputContainer key={file.fileId}>
+                  <S.StyledDuesInput
                     width="90%"
                     placeholder={file.fileName}
                     readOnly
                   />
-                  <StyledCloseButton
+                  <S.StyledCloseButton
                     onClick={() => handleRemoveFile(file.fileName)}
                   >
                     <img src={Close} alt="삭제" width="20px" />
-                  </StyledCloseButton>
-                </InputContainer>
+                  </S.StyledCloseButton>
+                </S.InputContainer>
               ))
             )}
-          </InputWrapper>
-        </FileWrapper>
-      </DescriptionWrapper>
+          </S.InputWrapper>
+        </S.FileWrapper>
+      </S.DescriptionWrapper>
 
-      <SaveButton>
+      <S.SaveButton>
         <Button description="Cancel" color="#323232" width="89px" />
         <Button
           description="추가"
@@ -185,8 +171,8 @@ const DuesRegisterAdd: React.FC = () => {
           width="64px"
           onClick={handleRegister}
         />
-      </SaveButton>
-    </Wrapper>
+      </S.SaveButton>
+    </S.Wrapper>
   );
 };
 
