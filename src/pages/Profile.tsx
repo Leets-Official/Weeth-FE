@@ -251,7 +251,7 @@ const Profile: React.FC = () => {
             text="학과"
             origValue={memberInfo.department || ''}
             editValue={(value) => handleChange('department', value)}
-            buttonstyle="signup"
+            type="signup"
           />
         </InputWrapper>
         <InputWrapper>
