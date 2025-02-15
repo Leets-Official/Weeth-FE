@@ -10,18 +10,18 @@ export const StyledAttend = styled.div`
   include-font-padding: false;
 `;
 
-export const Progress = styled.div<{ attendPercent: number }>`
+export const Progress = styled.div<{ $attendPercent: number }>`
   width: 325px;
   height: 19px;
-  background-color: ${({ attendPercent }) =>
-    attendPercent === 0 ? theme.color.gray[20] : theme.color.negative};
+  background-color: ${({ $attendPercent }) =>
+    $attendPercent === 0 ? theme.color.gray[20] : theme.color.negative};
   border-radius: 10px;
   overflow: hidden;
   margin: 5% 10px 0px 10px;
 `;
 
-export const Dealt = styled.div<{ dealt: number }>`
-  width: ${(props) => `${props.dealt}%`};
+export const Dealt = styled.div<{ $dealt: number }>`
+  width: ${(props) => `${props.$dealt}%`};
   height: 100%;
   border-radius: 10px;
   background-color: ${theme.color.main};

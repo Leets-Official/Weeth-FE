@@ -29,8 +29,8 @@ const AttendRate: React.FC<{ attendRate: number | undefined }> = ({
           <RightButton onClick={() => navi('/attendCheck')} />
         </S.RightButtonWrapper>
       </S.AttendPercent>
-      <S.Progress attendPercent={displayedRate}>
-        <S.Dealt dealt={Math.floor((displayedRate / 100) * 100)} />
+      <S.Progress $attendPercent={displayedRate}>
+        <S.Dealt $dealt={Math.floor((displayedRate / 100) * 100)} />
       </S.Progress>
     </S.StyledAttend>
   );
