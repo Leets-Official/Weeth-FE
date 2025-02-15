@@ -8,13 +8,14 @@ const Container = styled.div`
   height: 100vh;
 `;
 
-const Content = styled.div`
+const Content = styled.div<{ top?: number; right?: number }>`
   display: flex;
   flex-direction: column;
   justify-content: center;
+
   position: absolute;
-  top: 60px;
-  right: 20px;
+  top: ${({ top }) => (top ? `${top}px` : 0)};
+  right: ${({ right }) => (right ? `${right}px` : 0)};
   width: 144px;
   box-sizing: border-box;
 
@@ -27,13 +28,19 @@ const Content = styled.div`
 const MenuModal = ({
   children,
   onClose,
+  top,
+  right,
 }: {
   children: React.ReactNode;
   onClose?: () => void;
+  top?: number;
+  right?: number;
 }) => {
   return (
     <Container onClick={onClose}>
-      <Content onClick={(e) => e.stopPropagation()}>{children}</Content>
+      <Content onClick={(e) => e.stopPropagation()} top={top} right={right}>
+        {children}
+      </Content>
     </Container>
   );
 };

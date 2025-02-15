@@ -3,6 +3,7 @@ import api from './api';
 export interface EventRequestType {
   title: string;
   cardinal: number;
+  isMeeting: boolean;
   start: string;
   end: string;
   location: string;

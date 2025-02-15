@@ -21,7 +21,7 @@ const Input = styled.input`
   width: 257px;
   height: 45px;
   box-sizing: border-box;
-  padding-right: 10px;
+  padding-left: 10px;
 
   outline: none;
   border: none;
@@ -31,7 +31,6 @@ const Input = styled.input`
 
   font-family: ${theme.font.regular};
   font-size: 16px;
-  text-align: right;
 
   &::-webkit-inner-spin-button,
   &::-webkit-outer-spin-button {

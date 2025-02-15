@@ -52,9 +52,11 @@ const DropdownItem = styled.div`
 const CardinalDropdown = ({
   origValue,
   editValue,
+  isMember,
 }: {
   origValue: number | null;
   editValue: (value: number | null) => void;
+  isMember?: boolean;
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState<number | null>(origValue);
@@ -67,7 +69,7 @@ const CardinalDropdown = ({
       label: `${id}기`,
     })) || [];
 
-  options.unshift({ value: null, label: '전체' });
+  if (isMember === true) options.unshift({ value: null, label: '전체' });
 
   const handleToggle = () => {
     setIsOpen(!isOpen);
@@ -99,7 +101,7 @@ const CardinalDropdown = ({
   return (
     <DropdownContainer ref={dropdownRef}>
       <DropdownButton onClick={handleToggle} $hasValue={!!selectedValue}>
-        {selectedValue ? `${selectedValue}기` : '전체'}
+        {selectedValue ? `${selectedValue}기` : '기수'}
         {isOpen ? (
           <img src={open} alt="open" />
         ) : (

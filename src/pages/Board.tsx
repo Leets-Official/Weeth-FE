@@ -52,7 +52,7 @@ const Board = () => {
   };
 
   const handlePosting = () => {
-    navigate('/study/post');
+    navigate('/board/post');
   };
 
   // Intersection Observer 설정
