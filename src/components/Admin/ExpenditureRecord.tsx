@@ -25,7 +25,7 @@ export interface ExpenditureRecordProps {
   amount?: number;
   source?: string;
   cardinal: number | null;
-  fileUrls?: FileObject[];
+  files?: FileObject[];
   id?: number;
   description?: string;
 }
@@ -58,7 +58,7 @@ const ExpenditureRecord: React.FC<{ cardinal: number | null }> = ({
               title: receipt.description ?? '',
               amount: receipt.amount,
               source: receipt.source,
-              fileUrls: receipt.fileUrls,
+              files: receipt.fileUrls,
               cardinal,
               id: receipt.id,
             }),
@@ -129,10 +129,15 @@ const ExpenditureRecord: React.FC<{ cardinal: number | null }> = ({
               <Master>{item.source}</Master>
               <button
                 type="button"
-                onClick={() => setSelectedFileUrls(item.fileUrls ?? null)}
+                onClick={() => {
+                  console.log('📌 클릭됨:', item.files); // 디버깅용 콘솔 로그
+                  setSelectedFileUrls(
+                    item.files && item.files.length > 0 ? item.files : [],
+                  );
+                }}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' || e.key === ' ') {
-                    setSelectedFileUrls(item.fileUrls ?? null);
+                    setSelectedFileUrls(item.files ?? null);
                   }
                 }}
                 style={{
@@ -150,7 +155,7 @@ const ExpenditureRecord: React.FC<{ cardinal: number | null }> = ({
       ))}
 
       {selectedFileUrls && (
-        <ReceiptModal fileUrls={selectedFileUrls} onClose={closeImageModal} />
+        <ReceiptModal files={selectedFileUrls} onClose={closeImageModal} />
       )}
 
       {isModalOpen && selectedRecord && (
