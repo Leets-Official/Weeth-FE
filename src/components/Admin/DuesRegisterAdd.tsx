@@ -13,7 +13,7 @@ import { FileObject } from '@/types/account';
 import DuesFileUpload from '@/hooks/admin/handleFileChange';
 import inputFields from '@/constants/admin/duesRegisterAddConstants';
 import styled from 'styled-components';
-import Cardinal from './Cardinal';
+import CardinalDropdown from './Cardinal';
 import DuesInput from './DuesInput';
 import Button from './Button';
 
@@ -89,7 +89,7 @@ const DuesRegisterAdd: React.FC = () => {
       <SubTitle>기수</SubTitle>
       <CardinalWrapper>
         <div>
-          <Cardinal
+          <CardinalDropdown
             selectedCardinal={selectedCardinal}
             setSelectedCardinal={(value) => {
               setSelectedCardinal(value);

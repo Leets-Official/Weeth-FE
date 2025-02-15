@@ -11,7 +11,7 @@ import {
   ModifyButton,
 } from '@/styles/admin/ExpenditureRecord.styled';
 import { useState, useEffect } from 'react';
-import fetchAccountData from '@/api/admin/dues/account';
+import fetchAccountData from '@/api/admin/dues/getAccount';
 import { AccountResponse, RECEIPT, FileObject } from '@/types/account';
 import Receipt from '@/assets/images/ic_admin_receipt.svg';
 import deleteReceipt from '@/api/admin/dues/deleteReceipt';

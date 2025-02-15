@@ -97,7 +97,7 @@ export const Info = styled.div`
 
 export const InfoWrapper = styled.div`
   display: flex;
-  width: 157px;
+  width: 162px;
   height: 48px;
   font-family: ${theme.font.semiBold};
   font-size: 18px;
@@ -124,7 +124,7 @@ export const User = styled.div`
 `;
 
 export const Attend = styled.div`
-  width: 158px;
+  width: 160px;
   height: 48px;
   border: 1px solid #dedede;
   font-family: ${theme.font.semiBold};
@@ -161,7 +161,7 @@ export const UserInfo = styled.div`
 `;
 
 export const Check = styled.div`
-  width: 158px;
+  width: 160px;
   height: 74px;
   border: 1px solid #dedede;
   display: flex;
@@ -179,7 +179,7 @@ export const CheckGap = styled.div`
 
 export const StatusWrapper = styled.div`
   display: flex;
-  width: 100%;
+  width: 160px;
   height: 100%;
 `;
 
@@ -193,4 +193,8 @@ export const StatusBox = styled.div`
   &:last-child {
     border-right: none;
   }
+`;
+
+export const SearchBarWrapper = styled.div`
+  width: 60%;
 `;

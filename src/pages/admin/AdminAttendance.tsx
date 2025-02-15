@@ -48,7 +48,7 @@ const AdminAttendance: React.FC = () => {
               setSelectedCardinal={setSelectedCardinal}
             />
             <AttendanceWrapper>
-              <Attendance />
+              <Attendance selectedCardinal={selectedCardinal} />
             </AttendanceWrapper>
           </Container>
         </Wrapper>
