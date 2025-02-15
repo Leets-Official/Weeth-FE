@@ -130,7 +130,6 @@ const ExpenditureRecord: React.FC<{ cardinal: number | null }> = ({
               <button
                 type="button"
                 onClick={() => {
-                  console.log('📌 클릭됨:', item.files); // 디버깅용 콘솔 로그
                   setSelectedFileUrls(
                     item.files && item.files.length > 0 ? item.files : [],
                   );
