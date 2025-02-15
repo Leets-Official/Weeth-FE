@@ -12,16 +12,16 @@ import * as S from '@/styles/attend/AttendMain.styled';
 import useGetAttend from '@/api/useGetAttend';
 import useGetPenalty from '@/api/useGetPenalty';
 import { AttendInfo, NoAttnedInfo } from './AttendInfo';
+import AttendRate from './AttendRate';
 
 const AttendMain: React.FC = () => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [penaltyModalOpen, setPenaltyModalOpen] = useState<boolean>(false);
   const [hasPenalty, setHasPenalty] = useState<boolean>(false);
 
-  const { attendInfo, hasSchedule, error } = useGetAttend();
   const { penaltyInfo } = useGetPenalty();
   const [isAttend, setIsAttend] = useState(false);
-
+  const { attendInfo, hasSchedule, error } = useGetAttend(isAttend);
   console.log(attendInfo);
 
   useEffect(() => {
@@ -88,7 +88,6 @@ const AttendMain: React.FC = () => {
     }
   };
 
-  // TODO: 출석 모달이 닫힐 때 출석 정보 바로 반영 되도록 수정
   const handleCloseModal = () => {
     setModalOpen(false);
   };
@@ -98,6 +97,7 @@ const AttendMain: React.FC = () => {
 
   return (
     <S.StyledAttend>
+      <AttendRate attendRate={attendInfo?.attendanceRate} />
       <S.StyledBox>
         <img src={check} alt="v" />
         {hasSchedule && attendInfo && !error ? (

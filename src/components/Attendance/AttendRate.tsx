@@ -1,24 +1,15 @@
-import { useEffect, useState } from 'react';
 import * as S from '@/styles/attend/AttendMain.styled';
 import useGetUserName from '@/hooks/useGetUserName';
 import { useNavigate } from 'react-router-dom';
 import RightButton from '@/components/Header/RightButton';
-import useGetAttend from '@/api/useGetAttend';
 
-const AttendRate = () => {
+const AttendRate: React.FC<{ attendRate: number | undefined }> = ({
+  attendRate,
+}) => {
   const navi = useNavigate();
   const userName = useGetUserName();
-  const { attendInfo } = useGetAttend();
 
-  const [attendGauge, setAttendGauge] = useState(0);
-
-  useEffect(() => {
-    if (attendInfo) {
-      setAttendGauge(attendInfo.attendanceRate ?? 0);
-    }
-  }, [attendInfo]);
-
-  const dealt = Math.floor((attendGauge / 100) * 100);
+  const displayedRate = attendRate ?? 0;
 
   return (
     <S.StyledAttend>
@@ -31,15 +22,15 @@ const AttendRate = () => {
       <S.AttendPercent>
         <S.TitleWrapper>
           <S.SemiBold>
-            <div>{attendGauge}%</div>
+            <div>{displayedRate}%</div>
           </S.SemiBold>
         </S.TitleWrapper>
         <S.RightButtonWrapper>
           <RightButton onClick={() => navi('/attendCheck')} />
         </S.RightButtonWrapper>
       </S.AttendPercent>
-      <S.Progress attendPercent={attendGauge}>
-        <S.Dealt dealt={dealt} />
+      <S.Progress attendPercent={displayedRate}>
+        <S.Dealt dealt={Math.floor((displayedRate / 100) * 100)} />
       </S.Progress>
     </S.StyledAttend>
   );

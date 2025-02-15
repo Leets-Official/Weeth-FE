@@ -1,5 +1,4 @@
 import AttendMain from '@/components/Attendance/AttendMain';
-import AttendRate from '@/components/Attendance/AttendRate';
 import Header from '@/components/Header/Header';
 import useCustomBack from '@/hooks/useCustomBack';
 import styled from 'styled-components';
@@ -20,7 +19,7 @@ const Attendance: React.FC = () => {
       <Header RightButtonType="none" isAccessible>
         출석
       </Header>
-      <AttendRate />
+
       <AttendMain />
     </Container>
   );

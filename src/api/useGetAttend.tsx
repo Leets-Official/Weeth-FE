@@ -25,7 +25,7 @@ const getAttend = async () => {
   });
 };
 
-export const useGetAttend = () => {
+export const useGetAttend = (isAttend: boolean) => {
   const [attendInfo, setAttendInfo] = useState<AttendInfo | null>(null);
   const [hasSchedule, setHasSchedule] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -51,7 +51,7 @@ export const useGetAttend = () => {
     };
 
     fetchAttend();
-  }, []);
+  }, [isAttend]);
 
   return { attendInfo, hasSchedule, isLoading, error };
 };
