@@ -99,21 +99,13 @@ const NoticePostDetail = () => {
 
   return (
     <>
-      {isDeleteModalOpen && (
-        <DeleteModal
-          title="게시물 삭제"
-          content="이 게시물을 정말 삭제하시겠습니까?"
-          onClose={closeDeleteModal}
-          onDelete={confirmDelete}
-        />
-      )}
       {isModalOpen && (
         <MenuModal
           onClose={() => {
             setIsModalOpen(false);
           }}
           top={55}
-          right={535}
+          right={20}
         >
           <TextButton onClick={() => navigate(`/board/${postId}/edit`)}>
             수정
@@ -123,6 +115,15 @@ const NoticePostDetail = () => {
           </TextButton>
         </MenuModal>
       )}
+      {isDeleteModalOpen && (
+        <DeleteModal
+          title="게시물 삭제"
+          content="이 게시물을 정말 삭제하시겠습니까?"
+          onClose={closeDeleteModal}
+          onDelete={confirmDelete}
+        />
+      )}
+
       <Container>
         <Header
           RightButtonType="MENU"

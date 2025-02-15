@@ -5,6 +5,8 @@ import HomeFooter from '@/components/home/HomeFooter';
 import LogoutButton from '@/components/home/LogoutButton';
 import logo from '@/assets/images/logo/logo_initial_Xmas.svg';
 import useCustomBack from '@/hooks/useCustomBack';
+import MenuModal from '@/components/common/MenuModal';
+import { TextButton } from '@/styles/mypage/Mypage.styled';
 
 const Container = styled.div`
   display: flex;

@@ -41,22 +41,13 @@ const MyPage = () => {
 
   return (
     <S.Container>
-      {isDeleteModalOpen && (
-        <DeleteModal
-          title="회원 탈퇴"
-          content="정말 탈퇴하시겠습니까?"
-          buttonContent="회원 탈퇴"
-          onClose={closeDeleteModal}
-          onDelete={onClickLeave}
-        />
-      )}
       {isModalOpen && (
         <MenuModal
           onClose={() => {
             setIsModalOpen(false);
           }}
           top={60}
-          right={535}
+          right={620}
         >
           <S.TextButton
             onClick={() => {
@@ -71,7 +62,15 @@ const MyPage = () => {
           </S.TextButton>
         </MenuModal>
       )}
-
+      {isDeleteModalOpen && (
+        <DeleteModal
+          title="회원 탈퇴"
+          content="정말 탈퇴하시겠습니까?"
+          buttonContent="회원 탈퇴"
+          onClose={closeDeleteModal}
+          onDelete={onClickLeave}
+        />
+      )}
       <Header
         RightButtonType="MENU"
         onClickRightButton={() => {
