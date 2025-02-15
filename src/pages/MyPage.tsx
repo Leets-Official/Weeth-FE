@@ -37,7 +37,7 @@ const MyPage = () => {
             setIsModalOpen(false);
           }}
           top={60}
-          right={620}
+          right={535}
         >
           <S.TextButton
             onClick={() => {

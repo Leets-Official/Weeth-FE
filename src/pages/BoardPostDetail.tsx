@@ -100,7 +100,7 @@ const BoardPostDetail = () => {
             setIsModalOpen(false);
           }}
           top={55}
-          right={20}
+          right={535}
         >
           <TextButton
             onClick={() => {
