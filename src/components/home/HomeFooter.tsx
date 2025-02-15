@@ -93,7 +93,7 @@ const HomeFooter: React.FC = () => {
           href="https://www.leets.land/project/8"
           target="_blank"
         >
-          <span>filling</span>
+          <span>fling</span>
         </S.GridItemWithImage>
         <S.GridItemWithImage
           $image={weneed}
