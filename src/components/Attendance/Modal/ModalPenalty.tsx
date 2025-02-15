@@ -77,7 +77,9 @@ const ModalPenalty: React.FC<ModalPenaltyProps> = ({ open, close }) => {
                 <div style={{ color: theme.color.negative }}>패널티</div>
                 &nbsp;횟수
               </S.Title>
-              <S.PenaltyCount>{penaltyInfo?.penaltyCount}회</S.PenaltyCount>
+              <S.PenaltyCount className="modal-penalty">
+                {penaltyInfo?.penaltyCount}회
+              </S.PenaltyCount>
               <S.Line />
               {penaltyInfo.Penalties.map((penalty: PenaltyProps) => {
                 return (

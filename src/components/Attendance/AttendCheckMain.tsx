@@ -84,16 +84,16 @@ const AttendCheckMain: React.FC = () => {
     return <S.SemiBold>Loading...</S.SemiBold>;
   }
 
+  console.log(attendCheckInfo);
+
   return (
     <S.Container>
       <S.Header>
         <S.SemiTitle>
           <S.SemiBold>{userName}</S.SemiBold>
-          <S.StyledText>&nbsp;님의 출석횟수</S.StyledText>
+          &nbsp;님의 출석횟수
         </S.SemiTitle>
-        <S.Penalty>
-          <S.SemiBold>{attendCheckInfo.attendanceCount}회</S.SemiBold>
-        </S.Penalty>
+        <S.AttendCount>{attendCheckInfo.attendanceCount}회</S.AttendCount>
       </S.Header>
       <S.StyledBox>
         <S.SmallStyledBoxContainer>
