@@ -73,7 +73,7 @@ const ModalAttend: React.FC<{
 
   const handleCompleteBtn = async () => {
     if (!inputValue) {
-      // 토스트 메시지로 알림 변경 예정
+      // TODO: 토스트 메시지로 알림 변경 예정
       alert('코드를 입력해 주세요');
       return;
     }
@@ -87,6 +87,10 @@ const ModalAttend: React.FC<{
         setCodeCheck(1); // Correct
         handleAttend(true);
         setMessage('출석 처리가 성공적으로 완료되었습니다.');
+        // 출석 처리 성공 후 3초 뒤 모달 닫기
+        setTimeout(() => {
+          close();
+        }, 3000);
       } else {
         setCodeCheck(2); // Wrong
         setMessage(response.data.message || '출석 처리에 실패했습니다.');
