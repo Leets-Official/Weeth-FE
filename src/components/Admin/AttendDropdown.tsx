@@ -114,6 +114,11 @@ const AttendDropdown: React.FC<AttendDropdownProps> = ({ meetingId }) => {
     setSearchTerm(e.target.value);
   };
 
+  const statusOptions = [
+    { value: '출석', label: '출석', color: '#508FFF' },
+    { value: '결석', label: '결석', color: '#FF5858' },
+  ];
+
   const filteredData = data.filter((item) =>
     item.name.toLowerCase().includes(searchTerm.toLowerCase()),
   );
@@ -159,28 +164,21 @@ const AttendDropdown: React.FC<AttendDropdownProps> = ({ meetingId }) => {
             <Check>
               {isEditMode ? (
                 <StatusWrapper>
-                  <StatusBox>
-                    <RadioButton
-                      id={`attend-${item.id}`}
-                      name={`status-${item.id}`}
-                      value="출석"
-                      label="출석"
-                      checked={item.status === '출석'}
-                      onChange={() => handleStatusChange(item.id, '출석')}
-                      color="#508FFF"
-                    />
-                  </StatusBox>
-                  <StatusBox>
-                    <RadioButton
-                      id={`absent-${item.id}`}
-                      name={`status-${item.id}`}
-                      value="결석"
-                      label="결석"
-                      checked={item.status === '결석'}
-                      onChange={() => handleStatusChange(item.id, '결석')}
-                      color="#FF5858"
-                    />
-                  </StatusBox>
+                  {statusOptions.map((option) => (
+                    <StatusBox key={option.value}>
+                      <RadioButton
+                        id={`${option.value}-${item.id}`}
+                        name={`status-${item.id}`}
+                        value={option.value}
+                        label={option.label}
+                        checked={item.status === option.value}
+                        onChange={() =>
+                          handleStatusChange(item.id, option.value)
+                        }
+                        color={option.color}
+                      />
+                    </StatusBox>
+                  ))}
                 </StatusWrapper>
               ) : (
                 <CheckGap>
