@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useState } from 'react';
+import React, { useReducer, useState } from 'react';
 import * as S from '@/styles/admin/penalty/Penalty.styled';
 import plusIcon from '@/assets/images/ic_admin_plus.svg';
 import {
@@ -39,25 +39,30 @@ const PenaltyListTable: React.FC = () => {
   );
 
   const formatDate = (time: string | null | undefined) => {
-    if (!time || isNaN(Date.parse(time))) return '날짜 없음'; // 값이 없거나 잘못된 날짜인 경우
+    if (!time || Number.isNaN(Date.parse(time))) return '날짜 없음';
     return new Date(time).toISOString().split('T')[0].replace(/-/g, '.');
   };
 
-  const fetchPenaltyData = async (userId: number) => {
+  const fetchPenaltyData = async () => {
     try {
       const response = await getPenaltyApi();
       console.log('페널티 조회 API 응답: ', response);
 
       if (response.code === 200) {
-        const penalties = response.data.reduce((acc, item) => {
-          acc[item.userId] = item.Penalties.map((penalty: any) => ({
-            penaltyId: penalty.penaltyId,
-            penaltyDescription: penalty.penaltyDescription,
-            penalty: '1',
-            time: formatDate(penalty.time),
-          }));
-          return acc;
-        }, {} as PenaltyState);
+        const penalties = response.data.reduce(
+          (
+            acc: { [x: string]: any },
+            item: { userId: string | number; Penalties: any[] },
+          ) => {
+            acc[item.userId] = item.Penalties.map((penalty: any) => ({
+              penaltyId: penalty.penaltyId,
+              penaltyDescription: penalty.penaltyDescription,
+              time: formatDate(penalty.time),
+            }));
+            return acc;
+          },
+          {} as PenaltyState,
+        );
 
         dispatch({ type: 'SET_PENALTY', payload: penalties });
       }
@@ -65,15 +70,17 @@ const PenaltyListTable: React.FC = () => {
       console.error('패널티 조회 오류:', error.message);
     }
   };
+
   const handleRowClick = async (userId: number) => {
     if (expandedRow === userId) {
       setExpandedRow(null);
     } else {
       setExpandedRow(userId);
       setIsAdding(false);
-      await fetchPenaltyData(userId);
+      await fetchPenaltyData();
     }
   };
+
   const handleAddPenalty = (userId: number) => {
     setIsAdding(true);
     setExpandedRow(userId);
@@ -81,24 +88,14 @@ const PenaltyListTable: React.FC = () => {
   };
 
   const handleEditPenalty = (userId: number, index: number) => {
-    console.log('🛠 handleEditPenalty 실행됨:', { userId, index });
-
     setIsAdding(true);
     setExpandedRow(userId);
 
     setEditingIndex((prev) => {
       console.log(' 이전 editingIndex:', prev);
-      return index; // 최신 값 업데이트
+      return index;
     });
-
-    setTimeout(() => {
-      console.log('setTimeout 후 editingIndex:', editingIndex);
-    }, 100);
   };
-
-  useEffect(() => {
-    console.log('editingIndex 변경됨 (최신 값):', editingIndex);
-  }, [editingIndex]);
 
   const handleCancelAdd = () => {
     setIsAdding(false);
@@ -132,11 +129,6 @@ const PenaltyListTable: React.FC = () => {
         <S.Cell key={column.key}>{member[column.key]}</S.Cell>
       ),
     );
-
-  useEffect(() => {
-    fetchPenaltyData();
-    console.log('📌 isAdding:', isAdding, 'editingIndex:', editingIndex);
-  }, []);
 
   return (
     <S.TableContainer>
@@ -191,7 +183,6 @@ const PenaltyListTable: React.FC = () => {
                             penaltyData={{
                               penaltyId: penalty.penaltyId,
                               penaltyDescription: penalty.penaltyDescription,
-                              penalty: '1',
                               time: formatDate(penalty.time),
                             }}
                             onEdit={() => handleEditPenalty(member.id, index)}
@@ -210,7 +201,10 @@ const PenaltyListTable: React.FC = () => {
                             userId={member.id}
                             onCancel={handleCancelAdd}
                             onSave={(data) =>
-                              handleSavePenalty(member.id, data)
+                              handleSavePenalty(member.id, {
+                                ...data,
+                                penaltyId: data.penaltyId ?? 0,
+                              })
                             }
                             existingData={
                               editingIndex !== null && penaltyData[member.id]

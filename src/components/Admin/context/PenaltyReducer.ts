@@ -1,6 +1,5 @@
 export interface Penalty {
   penaltyDescription: string;
-  // penalty: string;
   time: string;
   penaltyId: number;
 }
@@ -11,7 +10,7 @@ export interface PenaltyState {
 
 export interface PenaltyAction {
   type: 'SET_PENALTY' | 'ADD_PENALTY' | 'EDIT_PENALTY' | 'DELETE_PENALTY';
-  userId: number;
+  userId?: number;
   payload?: Penalty | PenaltyState;
   index?: number;
 }
@@ -27,6 +26,7 @@ export const penaltyReducer = (
       };
 
     case 'ADD_PENALTY':
+      if (action.userId === undefined) return state;
       return {
         ...state,
         [action.userId]: [
@@ -36,6 +36,7 @@ export const penaltyReducer = (
       };
 
     case 'EDIT_PENALTY':
+      if (action.userId === undefined) return state;
       return {
         ...state,
         [action.userId]: state[action.userId].map((item, idx) =>
@@ -44,6 +45,7 @@ export const penaltyReducer = (
       };
 
     case 'DELETE_PENALTY':
+      if (action.userId === undefined) return state;
       return {
         ...state,
         [action.userId]: state[action.userId].filter(
