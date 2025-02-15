@@ -26,6 +26,7 @@ const MyPage = () => {
 
   const confirmLogout = useLogout();
 
+  // 수정
   const onClickLeave = async () => {
     try {
       await deleteUser();
