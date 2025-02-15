@@ -1,7 +1,8 @@
 export interface Penalty {
-  reason: string;
-  penalty: string;
-  penaltyDate: string;
+  penaltyDescription: string;
+  // penalty: string;
+  time: string;
+  penaltyId: number;
 }
 
 export interface PenaltyState {

@@ -4,9 +4,10 @@ import Button from './Button';
 
 interface PenaltyDetailProps {
   penaltyData: {
-    reason: string;
+    penaltyId: number;
     penalty: string;
-    penaltyDate: string;
+    penaltyDescription: string;
+    time: string;
   };
   onEdit: () => void;
   onDelete: () => void;
@@ -25,9 +26,9 @@ const PenaltyDetail: React.FC<PenaltyDetailProps> = ({
 
   return (
     <S.DetailContainer>
-      <S.DetailText>{penaltyData.reason}</S.DetailText>
+      <S.DetailText>{penaltyData.penaltyDescription}</S.DetailText>
       <S.DetailText>{penaltyData.penalty}</S.DetailText>
-      <S.DetailText>{penaltyData.penaltyDate}</S.DetailText>
+      <S.DetailText>{penaltyData.time}</S.DetailText>
       <S.ButtonWrapper>
         <Button
           color="#2f2f2f"

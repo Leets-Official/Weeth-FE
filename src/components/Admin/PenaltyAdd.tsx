@@ -1,5 +1,5 @@
 import { postPenaltyApi } from '@/api/admin/penalty/getPenalty';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import * as S from '@/styles/admin/penalty/Penalty.styled';
 import Button from './Button';
 
@@ -11,7 +11,7 @@ interface PenaltyAddProps {
     penalty: string;
     penaltyDate: string;
   }) => void;
-  existingData?: { reason: string; penalty: string; penaltyDate: string };
+  existingData?: { penaltyDescription: string; penalty: string; time: string };
 }
 
 const PenaltyAdd: React.FC<PenaltyAddProps> = ({
@@ -21,10 +21,14 @@ const PenaltyAdd: React.FC<PenaltyAddProps> = ({
   existingData,
 }) => {
   const [formData, setFormData] = useState({
-    reason: existingData?.reason || '',
+    reason: existingData?.penaltyDescription || '',
     penalty: existingData?.penalty || '',
-    penaltyDate: existingData?.penaltyDate || '',
+    penaltyDate: existingData?.time || '',
   });
+
+  useEffect(() => {
+    console.log('📌 PenaltyAdd 기존 데이터:', existingData);
+  }, [existingData]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
