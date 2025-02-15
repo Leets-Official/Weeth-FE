@@ -166,14 +166,8 @@ const Login: React.FC = () => {
       <LoginHeaderMargin />
       <LoginTitle>계정 연동하기</LoginTitle>
       <LoginSubTitle>
-        연동이 완료되면 <span style={{ margin: '0 5px' }}></span>
-        <p
-          style={{
-            color: '#508FFF',
-          }}
-        >
-          홈
-        </p>
+        연동이 완료되면 <span style={{ margin: '0 2px' }} />
+        <p style={{ color: '#508FFF' }}>홈</p>
         으로 이동합니다.
       </LoginSubTitle>
       <SignupTextComponent
@@ -205,11 +199,7 @@ const Login: React.FC = () => {
             src={toggleVisibleIcon}
             alt=""
             onClick={togglePasswordVisibility}
-            style={{
-              background: 'none',
-              border: 'none',
-              cursor: 'pointer',
-            }}
+            style={{ background: 'none', border: 'none', cursor: 'pointer' }}
           />
         ) : (
           // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions
@@ -217,11 +207,7 @@ const Login: React.FC = () => {
             src={toggleInvisibleIcon}
             alt=""
             onClick={togglePasswordVisibility}
-            style={{
-              background: 'none',
-              border: 'none',
-              cursor: 'pointer',
-            }}
+            style={{ background: 'none', border: 'none', cursor: 'pointer' }}
           />
         )}
       </SignupTextComponent>

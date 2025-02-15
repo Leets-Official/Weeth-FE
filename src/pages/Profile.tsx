@@ -221,13 +221,8 @@ const Profile: React.FC = () => {
       <ProfileTitle>회원 정보 입력하기</ProfileTitle>
       <ProfileSubTitle>신규 회원님의 정보를 입력해주세요.</ProfileSubTitle>
       <ProfileSubTitle>
-        작성이 완료되면 <span style={{ margin: '0 5px' }}></span>
-        <p
-          style={{
-            color: '#508FFF',
-            margin: 0,
-          }}
-        >
+        작성이 완료되면 <span style={{ margin: '0 2px' }} />
+        <p style={{ color: '#508FFF', margin: 0 }}>
           승인 후 서비스 이용이 가능
         </p>
         합니다.
