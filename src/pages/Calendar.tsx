@@ -97,7 +97,10 @@ const Calendar = () => {
         {isMonth ? (
           <MonthCalendar month={month} year={year} />
         ) : (
-          <YearCalendar year={year.toString()} term={term} />
+          <YearCalendar
+            year={month === 1 || month === 2 ? year - 1 : year}
+            term={term}
+          />
         )}
       </S.Content>
     </S.CalendarWrapper>

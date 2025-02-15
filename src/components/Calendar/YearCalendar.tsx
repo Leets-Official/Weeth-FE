@@ -3,10 +3,11 @@ import * as S from '@/styles/calendar/YearCalendar.styled';
 import useGetYearlySchedule from '@/api/useGetYearlySchedule';
 import YearlyCard from './YearlyCard';
 
-const YearCalendar = ({ year, term }: { year: string; term: number }) => {
-  const validYear = year.toString().length === 4 ? parseInt(year, 10) : 2024;
-
-  const { data: yearlySchedule, error } = useGetYearlySchedule(year);
+const YearCalendar = ({ year, term }: { year: number; term: number }) => {
+  const { data: yearlySchedule, error } = useGetYearlySchedule({
+    year,
+    semester: term,
+  });
 
   if (error) {
     return <div>{error}</div>;
@@ -19,7 +20,7 @@ const YearCalendar = ({ year, term }: { year: string; term: number }) => {
           <YearlyCard
             key={monthItem}
             thisMonth={monthItem}
-            year={validYear}
+            year={year}
             events={yearlySchedule[monthItem] || []}
           />
         ))}
@@ -28,7 +29,7 @@ const YearCalendar = ({ year, term }: { year: string; term: number }) => {
           <YearlyCard
             key={monthItem}
             thisMonth={monthItem}
-            year={validYear}
+            year={year}
             events={yearlySchedule[monthItem] || []}
           />
         ))}
