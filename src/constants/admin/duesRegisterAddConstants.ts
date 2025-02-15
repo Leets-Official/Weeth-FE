@@ -2,7 +2,7 @@ const inputFields = [
   {
     id: 'date',
     title: '일자',
-    placeholder: 'YYYY-MM-DD형식으로 입력',
+    placeholder: '- 없이 숫자만 입력',
     width: '91%',
   },
   {
