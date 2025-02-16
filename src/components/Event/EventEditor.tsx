@@ -1,7 +1,7 @@
 /* eslint-disable no-alert */
 import { DayPicker } from 'react-day-picker';
 import 'react-day-picker/style.css';
-import { id, ko } from 'date-fns/locale'; // 한국어 locale import
+import { ko } from 'date-fns/locale';
 import { EventRequestType, createEvent, editEvent } from '@/api/EventAdminAPI';
 import Header from '@/components/Header/Header';
 import useCustomBack from '@/hooks/useCustomBack';
@@ -134,14 +134,15 @@ const EventEditor = () => {
     // ) {
     //   return;
     // }
-    // if (data.start === data.end) {
-    //   alert('시작 시간과 종료 시간은 같을 수 없습니다.');
-    //   return;
-    // }
-    // if (data.start > data.end) {
-    //   alert('종료 시간은 시작 시간보다 빠를 수 없습니다.');
-    //   return;
-    // }
+
+    if (eventRequest.start === eventRequest.end) {
+      alert('시작 시간과 종료 시간은 같을 수 없습니다.');
+      return;
+    }
+    if (eventRequest.start > eventRequest.end) {
+      alert('종료 시간은 시작 시간보다 빠를 수 없습니다.');
+      return;
+    }
 
     if (window.confirm('저장하시겠습니까?')) {
       try {

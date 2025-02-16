@@ -1,19 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { TimepickerUI } from 'timepicker-ui';
-import styled from 'styled-components';
-
-const Input = styled.input`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: transparent;
-  color: white;
-  border: none;
-  outline: none;
-  cursor: pointer;
-  width: 75px;
-  font-size: 16px;
-`;
+import '@/styles/event/TimePicker.css';
 
 const TimePicker = ({
   onChange,
@@ -29,7 +16,9 @@ const TimePicker = ({
   useEffect(() => {
     if (!timepickerRef.current) return;
 
-    const timepicker = new TimepickerUI(timepickerRef.current, {});
+    const timepicker = new TimepickerUI(timepickerRef.current, {
+      clockType: '12h',
+    });
     timepicker.create();
 
     const handleAccept = (event: Event) => {
@@ -62,7 +51,7 @@ const TimePicker = ({
 
   return (
     <div className="timepicker-ui" ref={timepickerRef}>
-      <Input
+      <input
         type="text"
         className="timepicker-ui-input"
         value={inputValue}
