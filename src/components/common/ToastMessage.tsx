@@ -70,7 +70,7 @@ const showCustomToast = ({ type, message }: ShowCustomToastOptions) => {
   const icon = type === 'error' ? warningIcon : undefined;
   toast[type](<CustomToastContent message={message} icon={icon} />, {
     position: 'bottom-center',
-    autoClose: 4000,
+    autoClose: 2000,
     hideProgressBar: true,
     closeOnClick: true,
     pauseOnHover: true,
