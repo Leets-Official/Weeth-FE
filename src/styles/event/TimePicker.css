@@ -21,12 +21,12 @@
 
 .timepicker-ui-wrapper {
   background-color: #1f1f1f !important;
-  border-radius: 100px;
+  border-radius: 10px !important;
 }
 
 .timepicker-ui-header {
   height: 200px;
-  padding: 0;
+  padding: 0 !important;
 }
 
 .timepicker-ui-clock-face {
@@ -112,6 +112,7 @@
 .timepicker-ui-cancel-btn {
   color: #fff !important;
   font-family: 'Pretendard';
+  margin-bottom: 20px;
 }
 .timepicker-ui-cancel-btn:hover {
   background-color: transparent !important;
@@ -119,6 +120,7 @@
 .timepicker-ui-ok-btn {
   color: #00dda8 !important;
   font-family: 'Pretendard';
+  margin-bottom: 20px;
 }
 .timepicker-ui-ok-btn:hover {
   color: #00dda8 !important;

@@ -1,5 +1,25 @@
 import theme from '@/styles/theme';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
+
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`;
+
+const scaleIn = keyframes`
+  from {
+    transform: translate(-50%, -50%) scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+`;
 
 const Container = styled.div`
   position: absolute;
@@ -9,9 +29,8 @@ const Container = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(2px);
-  webkitbackdropfilter: 'blur(2px)';
+  background-color: rgba(256, 256, 256, 0.3);
+  animation: ${fadeIn} 0.3s ease-in-out;
 
   .rdp-chevron {
     fill: ${theme.color.main};
@@ -49,11 +68,12 @@ const Content = styled.div`
   box-sizing: border-box;
 
   background-color: ${theme.color.gray[12]};
-  border-radius: 20px;
+  border-radius: 10px;
   font-size: 14px;
 
   gap: 20px;
   padding: 12px;
+  animation: ${scaleIn} 0.3s ease-in-out;
 `;
 
 const Modal = ({
