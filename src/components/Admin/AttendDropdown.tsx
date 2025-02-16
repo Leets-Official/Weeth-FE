@@ -1,29 +1,6 @@
 import fetchAttendances from '@/api/admin/attendance/getAttendance';
 import { useEffect, useState } from 'react';
-import {
-  Wrapper,
-  SearchWrapper,
-  EditButton,
-  Edit,
-  ButtonWrapper,
-  CancelButton,
-  SaveButton,
-  UserWrapper,
-  Info,
-  InfoWrapper,
-  InfoBox,
-  User,
-  Attend,
-  MemberWrapper,
-  Member,
-  UserName,
-  UserInfo,
-  Check,
-  CheckGap,
-  StatusBox,
-  StatusWrapper,
-  SearchBarWrapper,
-} from '@/styles/admin/AttendDropdown.styled';
+import * as S from '@/styles/admin/AttendDropdown.styled';
 import CheckBox from '@/assets/images/ic_admin_check.svg';
 import Absence from '@/assets/images/ic_admin_absence.svg';
 import updateAttendanceStatus from '@/api/admin/attendance/updateAttendanceStatus';
@@ -124,48 +101,48 @@ const AttendDropdown: React.FC<AttendDropdownProps> = ({ meetingId }) => {
   );
 
   return (
-    <Wrapper>
-      <SearchWrapper>
-        <SearchBarWrapper>
+    <S.Wrapper>
+      <S.SearchWrapper>
+        <S.SearchBarWrapper>
           <SearchInput searchTerm={searchTerm} onSearch={handleSearchChange} />
-        </SearchBarWrapper>
+        </S.SearchBarWrapper>
 
-        <EditButton onClick={toggleEditMode}>
+        <S.EditButton onClick={toggleEditMode}>
           {isEditMode ? (
-            <ButtonWrapper>
-              <CancelButton onClick={handleCancel}>취소</CancelButton>
-              <SaveButton onClick={handleSave}>저장</SaveButton>
-            </ButtonWrapper>
+            <S.ButtonWrapper>
+              <S.CancelButton onClick={handleCancel}>취소</S.CancelButton>
+              <S.SaveButton onClick={handleSave}>저장</S.SaveButton>
+            </S.ButtonWrapper>
           ) : (
-            <Edit>수정</Edit>
+            <S.Edit>수정</S.Edit>
           )}
-        </EditButton>
-      </SearchWrapper>
-      <UserWrapper>
-        <Info>
-          <User>사용자 정보</User>
+        </S.EditButton>
+      </S.SearchWrapper>
+      <S.UserWrapper>
+        <S.Info>
+          <S.User>사용자 정보</S.User>
           {isEditMode ? (
-            <InfoWrapper>
-              <InfoBox>출석</InfoBox>
-              <InfoBox>결석</InfoBox>
-            </InfoWrapper>
+            <S.InfoWrapper>
+              <S.InfoBox>출석</S.InfoBox>
+              <S.InfoBox>결석</S.InfoBox>
+            </S.InfoWrapper>
           ) : (
-            <Attend>출석 정보</Attend>
+            <S.Attend>출석 정보</S.Attend>
           )}
-        </Info>
+        </S.Info>
         {filteredData.map((item) => (
-          <MemberWrapper key={item.id}>
-            <Member>
-              <UserName>{item.name}</UserName>
-              <UserInfo>
+          <S.MemberWrapper key={item.id}>
+            <S.Member>
+              <S.UserName>{item.name}</S.UserName>
+              <S.UserInfo>
                 {item.position} {item.department} {item.studentId}
-              </UserInfo>
-            </Member>
-            <Check>
+              </S.UserInfo>
+            </S.Member>
+            <S.Check>
               {isEditMode ? (
-                <StatusWrapper>
+                <S.StatusWrapper>
                   {statusOptions.map((option) => (
-                    <StatusBox key={option.value}>
+                    <S.StatusBox key={option.value}>
                       <RadioButton
                         id={`${option.value}-${item.id}`}
                         name={`status-${item.id}`}
@@ -177,23 +154,23 @@ const AttendDropdown: React.FC<AttendDropdownProps> = ({ meetingId }) => {
                         }
                         color={option.color}
                       />
-                    </StatusBox>
+                    </S.StatusBox>
                   ))}
-                </StatusWrapper>
+                </S.StatusWrapper>
               ) : (
-                <CheckGap>
+                <S.CheckGap>
                   <img
                     src={item.status === '출석' ? CheckBox : Absence}
                     alt={item.status === '출석' ? '출석 이미지' : '결석 이미지'}
                   />
                   {item.status}
-                </CheckGap>
+                </S.CheckGap>
               )}
-            </Check>
-          </MemberWrapper>
+            </S.Check>
+          </S.MemberWrapper>
         ))}
-      </UserWrapper>
-    </Wrapper>
+      </S.UserWrapper>
+    </S.Wrapper>
   );
 };
 export default AttendDropdown;

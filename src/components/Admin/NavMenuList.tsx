@@ -63,6 +63,14 @@ const NavMenuList: React.FC = () => {
     },
   ];
 
+  const handleNavigationClick = (id: string) => {
+    if (id === 'service') {
+      window.location.href = 'https://weeth.site';
+    } else if (id === 'manual') {
+      console.log('추후에 추가');
+    }
+  };
+
   const isActive = (path: string) => location.pathname === path;
 
   return (
@@ -83,6 +91,7 @@ const NavMenuList: React.FC = () => {
           key={`navigation-${item.id}`}
           icon={item.icon}
           label={item.label}
+          onClick={() => handleNavigationClick(item.id)}
           // active={activeIndex === index + managementItems.length}
           // onClick={() => }
         />

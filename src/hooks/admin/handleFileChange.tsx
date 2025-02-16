@@ -26,7 +26,6 @@ const useDuesFileUpload = (existingFiles: FileObject[] = []) => {
             await getPresignedUrl(putUrl, file);
 
             return {
-              fileId: Date.now(),
               fileName,
               fileUrl: putUrl.split('?')[0],
             };
