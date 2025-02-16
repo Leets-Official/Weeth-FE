@@ -79,9 +79,20 @@ const EventEditor = () => {
 
   useEffect(() => {
     if (startDate && startTime) {
+      const [time, period] = startTime.split(' ');
+      const [hour, minute] = time.split(':');
+
+      let adjustedHour = parseInt(hour, 10);
+      if (period === 'PM' && adjustedHour < 12) {
+        adjustedHour += 12;
+      }
+      if (period === 'AM' && adjustedHour === 12) {
+        adjustedHour = 0;
+      }
+
       const startDateTime = dayjs(startDate)
-        .set('hour', parseInt(startTime.split(':')[0], 10))
-        .set('minute', parseInt(startTime.split(':')[1].split(' ')[0], 10))
+        .set('hour', adjustedHour)
+        .set('minute', parseInt(minute, 10))
         .set('second', 0)
         .set('millisecond', 0)
         .tz('Asia/Seoul')
@@ -96,9 +107,20 @@ const EventEditor = () => {
 
   useEffect(() => {
     if (endDate && endTime) {
+      const [time, period] = endTime.split(' ');
+      const [hour, minute] = time.split(':');
+
+      let adjustedHour = parseInt(hour, 10);
+      if (period === 'PM' && adjustedHour < 12) {
+        adjustedHour += 12;
+      }
+      if (period === 'AM' && adjustedHour === 12) {
+        adjustedHour = 0;
+      }
+
       const endDateTime = dayjs(endDate)
-        .set('hour', parseInt(endTime.split(':')[0], 10))
-        .set('minute', parseInt(endTime.split(':')[1].split(' ')[0], 10))
+        .set('hour', adjustedHour)
+        .set('minute', parseInt(minute, 10))
         .set('second', 0)
         .set('millisecond', 0)
         .tz('Asia/Seoul')
