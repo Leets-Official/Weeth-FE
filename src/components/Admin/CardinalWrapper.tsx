@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import CardinalDropdown from './Cardinal';
+import CardinalDropdown from '@/components/Admin/Cardinal';
 
 interface TotalCardinalProps {
   selectedCardinal: number | null;

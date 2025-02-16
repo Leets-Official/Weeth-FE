@@ -16,18 +16,18 @@ export const MenuItemWrapper = styled.div<{ active?: boolean }>`
     active ? `${theme.color.main}` : 'transparent'};
   color: ${({ active }) => (active ? '#fff' : '#000')};
   cursor: pointer;
+
+  svg {
+    fill: currentColor;
+    width: 24px;
+    height: 24px;
+  }
 `;
 
 export const Label = styled.div`
   padding-left: 12px;
-  font-weight: 400;
+  font-weight: 500;
 `;
-
-// export const Icon = styled.div<{ active?: boolean }>`
-//   svg {
-//     fill: ${({ active }) => (active ? '#fff' : '#000')};
-//   }
-// `;
 
 const NavMenuItem: React.FC<MenuItemsProps> = ({
   icon,
@@ -37,7 +37,7 @@ const NavMenuItem: React.FC<MenuItemsProps> = ({
 }) => {
   return (
     <MenuItemWrapper active={active} onClick={onClick}>
-      <div style={{ fill: active ? '#fff' : '#000' }}>{icon}</div>
+      {icon}
       <Label>{label}</Label>
     </MenuItemWrapper>
   );
