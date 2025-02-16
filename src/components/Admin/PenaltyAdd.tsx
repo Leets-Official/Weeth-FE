@@ -46,12 +46,12 @@ const PenaltyAdd: React.FC<PenaltyAddProps> = ({
       await postPenaltyApi(userId, formData.penaltyDescription); // API 요청
       alert('패널티가 성공적으로 부여되었습니다.');
       onSave({ ...formData, penaltyId: formData.penaltyId ?? 0 });
-
       setFormData({
         penaltyId: 0,
         penaltyDescription: '',
         time: '',
       });
+      window.location.reload();
     } catch (error: any) {
       alert(error.message);
       console.error('패널티 부여 실패:', error);

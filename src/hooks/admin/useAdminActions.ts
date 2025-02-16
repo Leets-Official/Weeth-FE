@@ -46,12 +46,14 @@ const useAdminActions = () => {
           response = await resetPwdApi(targetIds);
           console.log('비밀번호 초기화 API 응답:', response);
           alert('비밀번호 초기화가 완료되었습니다.');
+          window.location.reload();
           break;
 
         case '가입 승인':
           response = await approveSignupApi(targetIds);
           console.log('가입 승인 API 응답:', response);
           alert('가입 승인 처리가 완료되었습니다.');
+          window.location.reload();
           break;
 
         case '관리자로 변경':
@@ -64,12 +66,14 @@ const useAdminActions = () => {
           }));
           response = await changeUserRoleApi(roleChangeData);
           alert(`멤버의 역할이 ${newRole}로 변경되었습니다.`);
+          window.location.reload();
           break;
         }
 
         case '유저 추방':
           response = await deleteUserApi(targetIds);
           alert('유저 추방이 완료되었습니다.');
+          window.location.reload();
           break;
 
         default:
