@@ -5,6 +5,8 @@ import {
   changeUserRoleApi,
 } from '@/api/admin/member/patchUserManagement';
 
+type UserRole = 'ADMIN' | 'USER';
+
 type ActionType =
   | '가입 승인'
   | '관리자로 변경'
@@ -39,23 +41,39 @@ const useAdminActions = () => {
     try {
       let response;
 
-      if (action === '비밀번호 초기화') {
-        response = await resetPwdApi(targetIds);
-        console.log('비밀번호 초기화 API 응답:', response);
-        alert('비밀번호 초기화가 완료되었습니다.');
-      } else if (action === '가입 승인') {
-        response = await approveSignupApi(targetIds);
-        console.log('가입 승인 API 응답:', response);
-        alert('가입 승인 처리가 완료되었습니다.');
-      } else if (action === '관리자로 변경' || action === '사용자로 변경') {
-        const newRole = action === '관리자로 변경' ? 'ADMIN' : 'USER';
-        response = await Promise.all(
-          targetIds.map((targetId) => changeUserRoleApi(targetId, newRole)),
-        );
-        alert(`멤버의 역할이 ${newRole}로 변경되었습니다.`);
-      } else if (action === '유저 추방') {
-        response = await deleteUserApi(targetIds);
-        alert('유저 추방이 완료되었습니다.');
+      switch (action) {
+        case '비밀번호 초기화':
+          response = await resetPwdApi(targetIds);
+          console.log('비밀번호 초기화 API 응답:', response);
+          alert('비밀번호 초기화가 완료되었습니다.');
+          break;
+
+        case '가입 승인':
+          response = await approveSignupApi(targetIds);
+          console.log('가입 승인 API 응답:', response);
+          alert('가입 승인 처리가 완료되었습니다.');
+          break;
+
+        case '관리자로 변경':
+        case '사용자로 변경': {
+          const newRole: UserRole =
+            action === '관리자로 변경' ? 'ADMIN' : 'USER';
+          const roleChangeData = targetIds.map((id) => ({
+            userId: id,
+            role: newRole,
+          }));
+          response = await changeUserRoleApi(roleChangeData);
+          alert(`멤버의 역할이 ${newRole}로 변경되었습니다.`);
+          break;
+        }
+
+        case '유저 추방':
+          response = await deleteUserApi(targetIds);
+          alert('유저 추방이 완료되었습니다.');
+          break;
+
+        default:
+          console.warn('잘못된 액션 타입:', action);
       }
     } catch (error: any) {
       console.error('오류 발생:', error.message);
