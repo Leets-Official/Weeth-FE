@@ -5,7 +5,9 @@ import PostFile from '@/components/Board/PostFile';
 import formatDateTime from '@/hooks/formatDateTime';
 import setPositionIcon from '@/hooks/setPositionIcon';
 import { useCallback } from 'react';
-import showCustomToast, { CustomToastContainer } from '../common/ToastMessage';
+import showCustomToast, {
+  CustomToastContainer,
+} from '@/components/common/ToastMessage';
 
 interface Comment {
   id: number;
