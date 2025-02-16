@@ -44,4 +44,17 @@ const changeUserRoleApi = async (
   return sendPatchRequest('/role', users, '역할 변경 실패');
 };
 
-export { resetPwdApi, approveSignupApi, changeUserRoleApi };
+// 다음 기수도 진행 ( 기수 변경 )
+const continueNextCardinalApi = async (cardinalInfo: {
+  userId: number[];
+  cardinal: number;
+}) => {
+  return sendPatchRequest('/apply', cardinalInfo, '기수 변경 실패');
+};
+
+export {
+  resetPwdApi,
+  approveSignupApi,
+  changeUserRoleApi,
+  continueNextCardinalApi,
+};
