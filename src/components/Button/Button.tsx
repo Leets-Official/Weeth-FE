@@ -11,6 +11,7 @@ interface ButtonProps {
   width?: string;
   borderRadius?: string;
   disabled?: boolean;
+  isAttend?: boolean;
 }
 
 const BasicButton = styled.button<ButtonProps>`
@@ -33,7 +34,7 @@ const BasicButton = styled.button<ButtonProps>`
   }
 `;
 
-// function 컴포넌트
+// TODO: 스타일 props 변수 이름에 '$' 넣기
 const Button: FC<ButtonProps> = ({
   children,
   color,

@@ -1,53 +1,22 @@
 import { useNavigate } from 'react-router-dom';
 
-import Caption from '@/components/Button/Caption';
-import RightButton from '@/components/Header/RightButton';
-
 import calendar from '@/assets/images/ic_home_calendar.svg';
 import attend from '@/assets/images/ic_home_attend.svg';
 import board from '@/assets/images/ic_home_board.svg';
 import * as S from '@/styles/home/HomeMain.styled';
-import useGetGlobaluserInfo from '@/api/useGetGlobaluserInfo';
 
 const HomeMain: React.FC = () => {
   const navi = useNavigate();
-  const { globalInfo } = useGetGlobaluserInfo();
-
-  const userName = globalInfo?.name || 'Loading';
-  const cardinal =
-    Array.isArray(globalInfo?.cardinals) && globalInfo?.cardinals.length >= 2
-      ? globalInfo.cardinals[globalInfo.cardinals.length - 1]
-      : globalInfo?.cardinals?.[0] || 'Loading';
 
   return (
     <S.StyledHomeMain>
-      <S.CaptionContainer>
-        <Caption color="#ffffff" textcolor="#000000">
-          {cardinal}기
-        </Caption>
-      </S.CaptionContainer>
-      <S.UserInfo>
-        <S.UserContainer>
-          <S.Name>{userName}</S.Name>
-          <S.NickName>Elite님</S.NickName>
-        </S.UserContainer>
-        <S.RightButtonContainer>
-          <RightButton
-            onClick={() => {
-              navi(`/mypage`);
-            }}
-          />
-        </S.RightButtonContainer>
-      </S.UserInfo>
       <S.GridContainer>
         <S.CalendarItem
           onClick={() => {
             navi(`/calendar`);
           }}
         >
-          동아리
-          <br />
-          일정 캘린더
+          동아리 일정
           <S.PlaceholderImage>
             <img src={calendar} alt="캘린더 이미지" />
           </S.PlaceholderImage>

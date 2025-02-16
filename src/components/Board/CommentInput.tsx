@@ -2,7 +2,7 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import theme from '@/styles/theme';
 import CommentSend from '@/assets/images/ic_send.svg';
-import createComment from '@/api/usePostComment';
+import createComment from '@/api/postComment';
 
 const Container = styled.div`
   width: 80%;
