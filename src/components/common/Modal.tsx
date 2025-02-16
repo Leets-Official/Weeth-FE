@@ -4,7 +4,7 @@ import theme from '@/styles/theme';
 
 const Container = styled.div`
   position: absolute;
-  z-index: 10;
+  z-index: 15;
   width: 100vw;
   height: 100vh;
   top: 50%;
@@ -15,7 +15,10 @@ const Container = styled.div`
   webkitbackdropfilter: 'blur(2px)';
 `;
 
-const Content = styled.div<{ isFullScreen: boolean | undefined }>`
+const Content = styled.div<{
+  $isFullScreen: boolean | undefined;
+  $isDelete: boolean;
+}>`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -28,7 +31,8 @@ const Content = styled.div<{ isFullScreen: boolean | undefined }>`
   width: 325px;
   box-sizing: border-box;
 
-  background-color: ${theme.color.gray[18]};
+  background-color: ${({ $isDelete }) =>
+    $isDelete ? theme.color.gray[12] : theme.color.gray[18]};
   border-radius: 20px;
   font-size: 14px;
 
@@ -36,7 +40,7 @@ const Content = styled.div<{ isFullScreen: boolean | undefined }>`
   padding: 15px;
 
   ${(props) =>
-    props.isFullScreen
+    props.$isFullScreen
       ? `
         width: 100vw;
         height: 100vh;
@@ -56,16 +60,22 @@ const Modal = ({
   children,
   hasCloseButton,
   onClose,
+  isDelete = false,
   isFullScreen,
 }: {
   children: React.ReactNode;
   hasCloseButton: boolean;
   onClose?: () => void;
+  isDelete?: boolean;
   isFullScreen?: boolean;
 }) => {
   return (
     <Container onClick={onClose}>
-      <Content isFullScreen={isFullScreen} onClick={(e) => e.stopPropagation()}>
+      <Content
+        $isDelete={isDelete}
+        $isFullScreen={isFullScreen}
+        onClick={(e) => e.stopPropagation()}
+      >
         {hasCloseButton ? (
           <Img
             src={close}

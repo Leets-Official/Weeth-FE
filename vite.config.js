@@ -15,6 +15,7 @@ const problematicEnvVars = [
 problematicEnvVars.forEach((varName) => {
   delete process.env[varName];
 });
+
 export default defineConfig({
   plugins: [react(), svgr(), EnvironmentPlugin('all')],
   server: {

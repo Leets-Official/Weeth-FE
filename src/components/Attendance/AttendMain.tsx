@@ -1,11 +1,7 @@
-import theme from '@/styles/theme';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 import ModalAttend from '@/components/Attendance/Modal/ModalAttend';
 import ModalPenalty from '@/components/Attendance/Modal/ModalPenalty';
-import Button from '@/components/Button/Button';
-import RightButton from '@/components/Header/RightButton';
 
 import check from '@/assets/images/ic_check.svg';
 import warning from '@/assets/images/ic_warning.svg';
@@ -13,28 +9,39 @@ import warning from '@/assets/images/ic_warning.svg';
 import * as S from '@/styles/attend/AttendMain.styled';
 import useGetAttend from '@/api/useGetAttend';
 import useGetPenalty from '@/api/useGetPenalty';
-import useGetUserName from '@/hooks/useGetUserName';
+import { AttendInfo, NoAttnedInfo } from '@/components/Attendance/AttendInfo';
+import AttendRate from '@/components/Attendance/AttendRate';
+import {
+  MyPenaltyInfo,
+  PenaltyInfo,
+} from '@/components/Attendance/PenaltyInfo';
 
-// 출석률 게이지 임시 값
-let ATTEND_GAUGE = 0;
-const MAX_ATTEND_GUAGE = 100;
+import dayjs from 'dayjs';
+import 'dayjs/locale/ko';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
+import relativeTime from 'dayjs/plugin/relativeTime';
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
+dayjs.extend(relativeTime);
+dayjs.locale('ko');
 
 const AttendMain: React.FC = () => {
-  const navi = useNavigate();
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [penaltyModalOpen, setPenaltyModalOpen] = useState<boolean>(false);
   const [hasPenalty, setHasPenalty] = useState<boolean>(false);
 
-  const { attendInfo, hasSchedule, error } = useGetAttend();
   const { penaltyInfo } = useGetPenalty();
+  const [isAttend, setIsAttend] = useState(false);
+  const { attendInfo, hasSchedule, error } = useGetAttend(isAttend);
+  console.log(attendInfo);
 
   useEffect(() => {
     setHasPenalty(
       penaltyInfo?.penaltyCount ? penaltyInfo.penaltyCount > 0 : false,
     );
   }, [penaltyInfo]);
-
-  const userName = useGetUserName();
 
   let title: string;
   let location: string;
@@ -56,35 +63,23 @@ const AttendMain: React.FC = () => {
     title = attendInfo.title;
     location = attendInfo.location;
 
-    const startDate = new Date(attendInfo.start);
-    const endDate = new Date(attendInfo.end);
+    const startDate = dayjs(attendInfo.start);
+    const endDate = dayjs(attendInfo.end);
 
-    const dateOptions: Intl.DateTimeFormatOptions = {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    };
-    startDateTime = startDate.toLocaleDateString('ko-KR', dateOptions);
-
-    const timeOptions: Intl.DateTimeFormatOptions = {
-      hour: '2-digit',
-      minute: '2-digit',
-      hour12: false,
-    };
-    const startTime = startDate.toLocaleTimeString('ko-KR', timeOptions);
-    const endTime = endDate.toLocaleTimeString('ko-KR', timeOptions);
+    startDateTime = startDate.format('YYYY년 MMMM D일');
+    const startTime = startDate.locale('en').format('h:mm A');
+    const endTime = endDate.locale('en').format('h:mm A');
 
     endDateTime = `(${startTime} ~ ${endTime})`;
 
-    const currentTime = new Date().toLocaleTimeString('ko-KR', timeOptions);
-
-    if (currentTime >= startTime && currentTime <= endTime) {
-      isWithinTimeRange = true;
-    }
-
-    ATTEND_GAUGE = attendInfo.attendanceRate ?? 0;
+    const currentTime = dayjs().format('h:mm A');
+    isWithinTimeRange = currentTime >= startTime && currentTime <= endTime;
   }
-  const dealt = Math.floor((ATTEND_GAUGE / MAX_ATTEND_GUAGE) * 100);
+  useEffect(() => {
+    if (attendInfo?.status === 'ATTEND') {
+      setIsAttend(true);
+    }
+  }, [attendInfo?.status]);
 
   const handleOpenModal = () => {
     if (isWithinTimeRange) {
@@ -92,7 +87,6 @@ const AttendMain: React.FC = () => {
     }
   };
 
-  // TODO: 출석 모달이 닫힐 때 출석 정보 바로 반영 되도록 수정
   const handleCloseModal = () => {
     setModalOpen(false);
   };
@@ -100,70 +94,25 @@ const AttendMain: React.FC = () => {
   const handleOpenPenaltyModal = () => setPenaltyModalOpen(true);
   const handleClosePenaltyModal = () => setPenaltyModalOpen(false);
 
+  console.log(penaltyInfo);
+
   return (
     <S.StyledAttend>
-      <S.NameContainer>
-        <S.SemiBold>
-          <S.AttendName>{userName}&nbsp;</S.AttendName>
-        </S.SemiBold>
-        <S.AttendText>님의 출석률은</S.AttendText>
-      </S.NameContainer>
-      <S.AttendPercent>
-        <S.TitleWrapper>
-          <S.SemiBold>
-            <div>{ATTEND_GAUGE}%</div>
-          </S.SemiBold>
-        </S.TitleWrapper>
-        <S.RightButtonWrapper>
-          <RightButton onClick={() => navi('/attendCheck')} />
-        </S.RightButtonWrapper>
-      </S.AttendPercent>
-      <S.Progress $isAttend={ATTEND_GAUGE}>
-        <S.Dealt $dealt={dealt} />
-      </S.Progress>
+      <AttendRate attendRate={attendInfo?.attendanceRate} />
       <S.StyledBox>
         <img src={check} alt="v" />
-        {hasSchedule ? (
-          <div>
-            <S.SemiBold>
-              <S.AttendProject>
-                오늘은{' '}
-                <span style={{ color: theme.color.main }}>
-                  &quot;{title}&quot;
-                </span>
-                이&#40;가&#41; 있는 날이에요
-              </S.AttendProject>
-            </S.SemiBold>
-            <S.AttendDate>
-              날짜 : {startDateTime} {endDateTime}
-            </S.AttendDate>
-            <S.AttendPlace>장소 : {location}</S.AttendPlace>
-            <S.AttendButton>
-              <Button
-                color={
-                  isWithinTimeRange
-                    ? theme.color.gray[30]
-                    : theme.color.gray[30]
-                }
-                textcolor={
-                  isWithinTimeRange
-                    ? theme.color.gray[100]
-                    : theme.color.gray[20]
-                }
-                onClick={handleOpenModal}
-                disabled={!isWithinTimeRange}
-              >
-                출석하기
-              </Button>
-            </S.AttendButton>
-          </div>
+        {hasSchedule && attendInfo && !error ? (
+          <AttendInfo
+            title={title}
+            location={location}
+            startDateTime={startDateTime}
+            endDateTime={endDateTime}
+            isWithinTimeRange={isWithinTimeRange}
+            handleOpenModal={handleOpenModal}
+            isAttend={isAttend}
+          />
         ) : (
-          <div>
-            <S.SemiBold>
-              <S.AttendProject>오늘은 일정이 없어요</S.AttendProject>
-            </S.SemiBold>
-            <S.AttendPlace>동아리원과 스터디를 하는건 어때요?</S.AttendPlace>
-          </div>
+          <NoAttnedInfo />
         )}
       </S.StyledBox>
       <S.StyledBox>
@@ -175,22 +124,10 @@ const AttendMain: React.FC = () => {
         ) : (
           <>
             {hasPenalty ? (
-              <S.PenaltyContainer>
-                <S.ButtonContainer>
-                  <S.SemiBold>
-                    패널티&nbsp;
-                    <div style={{ color: theme.color.negative }}>
-                      {penaltyInfo?.penaltyCount}회
-                    </div>
-                  </S.SemiBold>
-                  <RightButton onClick={handleOpenPenaltyModal} />
-                </S.ButtonContainer>
-                <S.PenaltyCount>
-                  패널티가 {penaltyInfo?.penaltyCount}회 적립이 되었어요.
-                  <br />
-                  어떤 이유인지 알아볼까요?
-                </S.PenaltyCount>
-              </S.PenaltyContainer>
+              <MyPenaltyInfo
+                penaltyCount={penaltyInfo?.penaltyCount}
+                handleOpenPenaltyModal={handleOpenPenaltyModal}
+              />
             ) : (
               <S.PenaltyContainer>
                 <S.NoPenaltyInfo>
@@ -198,22 +135,19 @@ const AttendMain: React.FC = () => {
                 </S.NoPenaltyInfo>
               </S.PenaltyContainer>
             )}
-            <div>
-              <S.PenaltyInfo>
-                패널티를 받는 기준은 아래와 같아요
-                <br />
-                - 정기 모임에 출석을 하지 않았을 때
-                <br />
-                - 미션을 제출하지 않았을 때
-                <br />
-                - 스터디 발표를 하지 않았을 때
-                <br />
-              </S.PenaltyInfo>
-            </div>
+            <PenaltyInfo />
           </>
         )}
       </S.StyledBox>
-      <ModalAttend open={modalOpen} close={handleCloseModal} />
+      <ModalAttend
+        title={title}
+        location={location}
+        startDateTime={startDateTime}
+        endDateTime={endDateTime}
+        open={modalOpen}
+        close={handleCloseModal}
+        handleAttend={setIsAttend}
+      />
       <ModalPenalty open={penaltyModalOpen} close={handleClosePenaltyModal} />
     </S.StyledAttend>
   );

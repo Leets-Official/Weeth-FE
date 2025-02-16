@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import StatusIndicator from './StatusIndicator';
-import SortButton from './SortButton';
+import StatusIndicator from '@/components/Admin/StatusIndicator';
+import SortButton from '@/components/Admin/SortButton';
 
 const FilterWrapper = styled.div`
   display: flex;

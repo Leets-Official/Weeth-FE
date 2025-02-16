@@ -1,7 +1,4 @@
-import axios from 'axios';
-
-const BASE_URL = import.meta.env.VITE_API_URL;
-const ACCESSTOKEN = import.meta.env.VITE_MASTER_TOKEN;
+import api from '@/api/api';
 
 export interface DuesRegisterRequest {
   cardinal: number;
@@ -9,20 +6,11 @@ export interface DuesRegisterRequest {
   totalAmount: number;
 }
 
-// 회비 총 금액 기입
 export const registerDues = async (
   data: DuesRegisterRequest,
 ): Promise<void> => {
   try {
-    const response = await axios.post(
-      `${BASE_URL}/api/v1/admin/account`,
-      data,
-      {
-        headers: {
-          Authorization: `Bearer ${ACCESSTOKEN}`,
-        },
-      },
-    );
+    const response = await api.post(`/api/v1/admin/account`, data);
 
     if (response.status === 200) {
       alert('회비가 성공적으로 등록되었습니다.');

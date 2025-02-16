@@ -3,7 +3,6 @@ import { styled } from 'styled-components';
 
 // penaltyListTable.tsx
 export const TableWrapper = styled.div`
-  width: fit-content;
   font-size: 18px;
   border-collapse: collapse;
 
@@ -14,6 +13,8 @@ export const TableWrapper = styled.div`
 `;
 
 export const TableContainer = styled.div`
+  width: 60%;
+  min-width: fit-content;
   background-color: #fff;
   border: 1px solid #f2f2f2;
   border-radius: 8px;
@@ -23,9 +24,11 @@ export const TableContainer = styled.div`
   box-sizing: border-box;
 `;
 
-export const Row = styled.tr`
+export const Row = styled.tr<{ isSelected: boolean }>`
   border-bottom: 1px solid #dedede;
   cursor: pointer;
+  background-color: ${(props) =>
+    props.isSelected ? '#e9e9e9' : 'transparent'};
 `;
 
 export const Cell = styled.td`
@@ -45,6 +48,7 @@ export const HeaderCell = styled.th`
   padding: 10px;
   border-bottom: 1px solid #dedede;
   font-weight: bold;
+  white-space: nowrap;
 `;
 
 export const SubHeaderRow = styled.div`
@@ -78,7 +82,7 @@ export const EmptyCell = styled.td`
 export const AddContainer = styled.div`
   display: grid;
   grid-template-columns: 2fr 1fr 1fr 70px 1fr;
-  grid-template-areas: 'reason empty empty penalty penaltyDate actions';
+  grid-template-areas: 'reason empty penalty penaltyDate actions';
   gap: 10px;
   padding-left: 70px;
   background-color: ${theme.color.gray[100]};
@@ -92,8 +96,9 @@ export const Input = styled.input`
   width: 100%;
   max-width: 300px;
   background-color: transparent;
+  text-overflow: ellipsis;
   border: none;
-  font-size: 18px;
+  font-size: 14px;
   outline: none;
 `;
 

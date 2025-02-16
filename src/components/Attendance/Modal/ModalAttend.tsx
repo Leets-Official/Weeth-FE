@@ -1,15 +1,19 @@
-import '@/components/Attendance/Modal/ModalStyled.css';
+import {
+  StyledModal,
+  ModalContent,
+  ModalHeader,
+} from '@/styles/attend/CommonModal.styled';
 import * as S from '@/styles/attend/ModalAttend.styled';
+
 import { ChangeEvent, useEffect, useState } from 'react';
-import api from '@/api/api';
 
 import check from '@/assets/images/ic_check.svg';
 import icClose from '@/assets/images/ic_close.svg';
 import correct from '@/assets/images/ic_correct.svg';
 import wrong from '@/assets/images/ic_wrong.svg';
 import Button from '@/components/Button/Button';
-import theme from '@/styles/theme';
-import useGetAttendCheck from '@/api/useGetAttendCheck';
+import patchAttend from '@/api/patchAttend';
+import Tag from '@/components/Event/Tag';
 
 const RightContainer: React.FC = () => {
   return (
@@ -39,18 +43,26 @@ const CloseButton: React.FC<{ onClick: () => void }> = ({ onClick }) => (
   </S.ImgButton>
 );
 
-const ModalAttend: React.FC<{ open: boolean; close: () => void }> = ({
+const ModalAttend: React.FC<{
+  title: string;
+  location: string;
+  startDateTime: string;
+  endDateTime: string;
+  open: boolean;
+  close: () => void;
+  handleAttend: (attended: boolean) => void;
+}> = ({
+  title,
+  location,
+  startDateTime,
+  endDateTime,
   open,
   close,
+  handleAttend,
 }) => {
   const [codeCheck, setCodeCheck] = useState(0);
   const [inputValue, setInputValue] = useState('');
   const [message, setMessage] = useState('');
-  const [accessToken, setAccessToken] = useState<string | null>(
-    localStorage.getItem('accessToken'),
-  );
-
-  const { attendCheckInfo, error } = useGetAttendCheck();
 
   useEffect(() => {
     if (!open) {
@@ -61,6 +73,7 @@ const ModalAttend: React.FC<{ open: boolean; close: () => void }> = ({
 
   const handleCompleteBtn = async () => {
     if (!inputValue) {
+      // TODO: 토스트 메시지로 알림 변경 예정
       alert('코드를 입력해 주세요');
       return;
     }
@@ -69,19 +82,25 @@ const ModalAttend: React.FC<{ open: boolean; close: () => void }> = ({
       return;
     }
     try {
-      const response = await api.patch(`/api/v1/attendances`, {
-        code: inputValue,
-      });
-      setMessage(response.data.message);
+      const response = await patchAttend({ code: inputValue });
       if (response.data.code === 200) {
         setCodeCheck(1); // Correct
+        handleAttend(true);
+        setMessage('출석 처리가 성공적으로 완료되었습니다.');
+        // 출석 처리 성공 후 3초 뒤 모달 닫기
+        setTimeout(() => {
+          close();
+        }, 3000);
       } else {
         setCodeCheck(2); // Wrong
+        setMessage(response.data.message || '출석 처리에 실패했습니다.');
       }
-    } catch (Patcherror) {
+    } catch (error: any) {
       setCodeCheck(2); // Wrong
-      setMessage('ERROR');
-      console.error(Patcherror);
+      const errorMessage =
+        error.response?.data?.message || '출석 처리 중 문제가 발생했습니다.';
+      setMessage(errorMessage);
+      console.error(error);
     }
   };
 
@@ -91,101 +110,50 @@ const ModalAttend: React.FC<{ open: boolean; close: () => void }> = ({
       setInputValue(value);
     }
   };
-
-  let title: string;
-  let location: string;
-  let startDateTime: string;
-  let endDateTime: string;
-
-  if (error) {
-    title = 'error';
-    location = 'error';
-    startDateTime = 'error';
-    endDateTime = 'error';
-  } else if (!attendCheckInfo) {
-    title = '로딩중';
-    location = '로딩중';
-    startDateTime = '로딩중';
-    endDateTime = '로딩중';
-  } else {
-    const attendance = attendCheckInfo.attendances[0]; // 첫 번째 출석 정보
-    title = attendance.title;
-    location = attendance.location;
-    const startDate = new Date(attendance.start);
-    const endDate = new Date(attendance.end);
-
-    const dateOptions: Intl.DateTimeFormatOptions = {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    };
-    startDateTime = startDate.toLocaleDateString('ko-KR', dateOptions);
-
-    const timeOptions: Intl.DateTimeFormatOptions = {
-      hour: '2-digit',
-      minute: '2-digit',
-      hour12: false,
-    };
-    const startTime = startDate.toLocaleTimeString('ko-KR', timeOptions);
-    const endTime = endDate.toLocaleTimeString('ko-KR', timeOptions);
-
-    endDateTime = `(${startTime} ~ ${endTime})`;
-  }
-
-  useEffect(() => {
-    const handleStorageChange = () => {
-      const newToken = localStorage.getItem('accessToken');
-      if (newToken !== accessToken) {
-        setAccessToken(newToken);
-      }
-    };
-
-    window.addEventListener('storage', handleStorageChange);
-
-    return () => {
-      window.removeEventListener('storage', handleStorageChange);
-    };
-  }, [accessToken]);
+  const handleKeyPress = (event: React.KeyboardEvent) => {
+    if (event.key === 'Enter') {
+      handleCompleteBtn();
+    }
+  };
 
   return (
-    <S.StyledModal open={open}>
-      <S.Regular>
-        <div className="modal-content">
-          <div className="modal-header">
-            <img src={check} alt="체크" className="modal-check-icon" />
-            <CloseButton onClick={close} />
-          </div>
-          <div className="modal-body">
-            <S.SemiBold className="modal-title">출석하기</S.SemiBold>
-            <S.SemiBold className="modal-text">
-              오늘은&nbsp;
-              <div style={{ color: theme.color.main }}>{title}</div>
-              &nbsp;이&#40;가&#41; 있는 날이에요
-            </S.SemiBold>
-            <div className="modal-date">
+    <StyledModal open={open}>
+      <ModalContent>
+        <ModalHeader>
+          <img src={check} alt="체크" />
+          <CloseButton onClick={close} />
+        </ModalHeader>
+        <div>
+          <S.SemiBoldContainer>
+            <div>출석하기</div>
+            <S.Highlight>{title}</S.Highlight>
+          </S.SemiBoldContainer>
+          <Tag />
+          <S.RegularConatiner>
+            <div>
               날짜: {startDateTime} {endDateTime}
             </div>
-            <div className="modal-place">장소: {location}</div>
-            <S.Line />
-            <input
-              className="modal-input"
+            <div>장소: {location}</div>
+          </S.RegularConatiner>
+          <S.Line />
+          <S.CenterContainer>
+            <S.ModalInput
               type="text"
               placeholder="코드를 입력하세요"
               value={inputValue}
               onChange={handleChange}
+              onKeyPress={handleKeyPress}
             />
-          </div>
-          <div className="modal-buttons">
-            <Button onClick={handleCompleteBtn} width="280" height="45">
+            <Button onClick={handleCompleteBtn} width="285px" height="45px">
               입력완료
             </Button>
-          </div>
-          {codeCheck === 0 && <div> </div>}
-          {codeCheck === 1 && <RightContainer />}
-          {codeCheck === 2 && <WrongContainer message={message} />}
+          </S.CenterContainer>
         </div>
-      </S.Regular>
-    </S.StyledModal>
+        {codeCheck === 0 && <div> </div>}
+        {codeCheck === 1 && <RightContainer />}
+        {codeCheck === 2 && <WrongContainer message={message} />}
+      </ModalContent>
+    </StyledModal>
   );
 };
 

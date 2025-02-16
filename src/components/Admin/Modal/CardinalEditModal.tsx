@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Button from '@/components/Button/Button';
 import * as S from '@/styles/admin/cardinal/AdminCardinal.styled';
-import CommonCardinalModal from './CommonCardinalModal';
+import CommonCardinalModal from '@/components/Admin/Modal/CommonCardinalModal';
 
 interface CardinalChangeModalProps {
   isOpen: boolean;
@@ -22,7 +22,7 @@ const CardinalEditModal: React.FC<CardinalChangeModalProps> = ({
 }) => {
   const [cardinalNumber, setCardinalNumber] = useState('');
   const [customInput, setCustomInput] = useState('');
-  const [error, setError] = useState('');
+  const [, setError] = useState('');
 
   const handleSave = () => {
     const inputValue = customInput || cardinalNumber;

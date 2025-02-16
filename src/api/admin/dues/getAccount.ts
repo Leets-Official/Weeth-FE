@@ -1,21 +1,12 @@
-import axios from 'axios';
+import api from '@/api/api';
 import { AccountResponse } from '@/types/account';
 
-const BASE_URL = import.meta.env.VITE_API_URL;
-const ACCESSTOKEN = import.meta.env.VITE_MASTER_TOKEN;
-
-// 회비 내역 조회
 const fetchAccountData = async (
   cardinal: number | null,
 ): Promise<AccountResponse> => {
   try {
-    const response = await axios.get<AccountResponse>(
-      `${BASE_URL}/api/v1/account/${cardinal}`,
-      {
-        headers: {
-          Authorization: `Bearer ${ACCESSTOKEN}`,
-        },
-      },
+    const response = await api.get<AccountResponse>(
+      `/api/v1/account/${cardinal}`,
     );
     return response.data;
   } catch (error: any) {

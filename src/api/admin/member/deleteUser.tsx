@@ -5,17 +5,16 @@ const PATH = '/api/v1/admin/users';
 const BASE_URL = import.meta.env.VITE_API_URL;
 
 // 유저 추방
-const deleteUserApi = async (userId: number | number[]) => {
+const deleteUserApi = async (userIds: number[]) => {
   const accessToken = localStorage.getItem('accessToken');
-  const userIds = Array.isArray(userId) ? userId : [userId];
 
   try {
-    const queryParam = userIds.map((id) => `userId=${id}`).join('&');
-    const url = `${BASE_URL}${PATH}?${queryParam}`;
+    const url = `${BASE_URL}${PATH}`;
     const response = await axios.delete(url, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
+      data: { userId: userIds },
     });
     return response.data;
   } catch (error: any) {
