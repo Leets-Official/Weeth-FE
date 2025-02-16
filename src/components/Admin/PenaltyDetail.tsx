@@ -4,7 +4,7 @@ import {
 } from '@/api/admin/penalty/modifyPenalty';
 import React, { useState } from 'react';
 import * as S from '@/styles/admin/penalty/Penalty.styled';
-import Button from './Button';
+import Button from '@/components/Admin/Button';
 
 interface PenaltyDetailProps {
   penaltyData: {

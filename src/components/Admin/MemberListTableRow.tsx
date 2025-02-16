@@ -3,10 +3,13 @@ import CheckBox from '@/assets/images/ic_admin_checkbox.svg';
 import UnCheckBox from '@/assets/images/ic_admin_uncheckbox.svg';
 import MeatBallSvg from '@/assets/images/ic_admin_meatball.svg';
 import { useState } from 'react';
-import { statusColors } from './StatusIndicator';
-import { MemberData, useMemberContext } from './context/MemberContext';
-import { Column } from './MemberListTable';
-import MemberDetailModal from './Modal/MemberDetailModal';
+import { statusColors } from '@/components/Admin/StatusIndicator';
+import {
+  MemberData,
+  useMemberContext,
+} from '@/components/Admin/context/MemberContext';
+import { Column } from '@/components/Admin/MemberListTable';
+import MemberDetailModal from '@/components/Admin/Modal/MemberDetailModal';
 
 const Row = styled.tr`
   border-bottom: 1px solid #dedede;

@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import theme from '@/styles/theme';
 import { useState } from 'react';
 import icSearch from '@/assets/images/ic_admin_search.svg';
-import { useMemberContext } from './context/MemberContext';
+import { useMemberContext } from '@/components/Admin/context/MemberContext';
 
 export const SearchBarWrapper = styled.div`
   position: relative;

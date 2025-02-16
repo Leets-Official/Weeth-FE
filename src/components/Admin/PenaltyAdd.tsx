@@ -1,7 +1,7 @@
 import { postPenaltyApi } from '@/api/admin/penalty/getPenalty';
 import { useState } from 'react';
 import * as S from '@/styles/admin/penalty/Penalty.styled';
-import Button from './Button';
+import Button from '@/components/Admin/Button';
 
 interface PenaltyAddProps {
   userId: number;

@@ -1,6 +1,6 @@
 import React, { Dispatch, SetStateAction, useState } from 'react';
-import CardinalDropDown from './Cardinal';
-import SearchBar, { SearchBarWrapper } from './SearchBar';
+import CardinalDropDown from '@/components/Admin/Cardinal';
+import SearchBar, { SearchBarWrapper } from '@/components/Admin/SearchBar';
 
 interface CombinedSearchBarProps {
   selectedCardinal: number | null;

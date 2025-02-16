@@ -1,8 +1,8 @@
 import theme from '@/styles/theme';
 import styled from 'styled-components';
 import AddCardinal from '@/components/Admin/AddCardinal';
-import { BoxWrapper } from './TotalDues';
-import Box from './Box';
+import { BoxWrapper } from '@/components/Admin/TotalDues';
+import Box from '@/components/Admin/Box';
 
 const CardinalBoxWrapper = styled(BoxWrapper)`
   padding: 0 0 30px 0;

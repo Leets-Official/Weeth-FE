@@ -3,10 +3,10 @@ import backarrow from '@/assets/images/ic_admin_backarrow.svg';
 import { useState } from 'react';
 import useAdminActions from '@/hooks/admin/useAdminActions';
 import styled from 'styled-components';
-import { useMemberContext } from './context/MemberContext';
-import { Title } from './TopBar';
-import ButtonGroup from './ButtonGroup';
-import CardinalEditModal from './Modal/CardinalEditModal';
+import { useMemberContext } from '@/components/Admin/context/MemberContext';
+import { Title } from '@/components/Admin/TopBar';
+import ButtonGroup from '@/components/Admin/ButtonGroup';
+import CardinalEditModal from '@/components/Admin/Modal/CardinalEditModal';
 
 const SelectedTopBarWrapper = styled.div`
   width: 100%;

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import NavHeader from './NavHeader';
-import NavMenuList from './NavMenuList';
+import NavHeader from '@/components/Admin/NavHeader';
+import NavMenuList from '@/components/Admin/NavMenuList';
 
 const NavMenuWrapper = styled.div`
   width: 250px;

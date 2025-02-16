@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import SortIcon from '@/assets/images/ic_admin_change.svg';
-import { useMemberContext } from './context/MemberContext';
+import { useMemberContext } from '@/components/Admin/context/MemberContext';
 
 const SortButtonWrapper = styled.div`
   display: flex;

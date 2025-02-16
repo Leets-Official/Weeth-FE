@@ -7,11 +7,11 @@ import {
   Penalty,
 } from '@/components/Admin/context/PenaltyReducer';
 import { getPenaltyApi } from '@/api/admin/penalty/getPenalty';
-import { useMemberContext } from './context/MemberContext';
-import PenaltyDetail from './PenaltyDetail';
-import PenaltyAdd from './PenaltyAdd';
-import { statusColors } from './StatusIndicator';
-import { StatusCell } from './MemberListTableRow';
+import { useMemberContext } from '@/components/Admin/context/MemberContext';
+import PenaltyDetail from '@/components/Admin/PenaltyDetail';
+import PenaltyAdd from '@/components/Admin/PenaltyAdd';
+import { statusColors } from '@/components/Admin/StatusIndicator';
+import { StatusCell } from '@/components/Admin/MemberListTableRow';
 
 const columns = [
   { key: 'name', header: '이름' },
