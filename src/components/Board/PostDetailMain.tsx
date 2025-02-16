@@ -5,6 +5,7 @@ import PostFile from '@/components/Board/PostFile';
 import formatDateTime from '@/hooks/formatDateTime';
 import setPositionIcon from '@/hooks/setPositionIcon';
 import { useCallback } from 'react';
+import showCustomToast, { CustomToastContainer } from '../common/ToastMessage';
 
 interface Comment {
   id: number;
@@ -57,14 +58,23 @@ const PostDetailMain = ({ info }: PostDetailMainProps) => {
           window.URL.revokeObjectURL(url);
           a.remove();
         }, 1000);
+        showCustomToast({
+          type: 'success',
+          message: '저장되었습니다',
+        });
       })
       .catch((err) => {
+        showCustomToast({
+          type: 'error',
+          message: '저장에 실패했습니다',
+        });
         console.error('err', err);
       });
   }, []);
 
   return (
     <S.PostMainContainer>
+      <CustomToastContainer />
       <S.PostMainTitleText>{info.title}</S.PostMainTitleText>
       <S.SmallText>
         <S.PositionIcon
