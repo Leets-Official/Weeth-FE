@@ -5,6 +5,7 @@ import CheckBox from '@/assets/images/ic_admin_checkbox.svg';
 import UnCheckBox from '@/assets/images/ic_admin_uncheckbox.svg';
 import * as S from '@/styles/admin/cardinal/AdminCardinal.styled';
 import CommonCardinalModal from '@/components/Admin/Modal/CommonCardinalModal';
+import postCardinalApi from '@/api/admin/cardinal/postCardinal';
 
 interface CardinalModalProps {
   isOpen: boolean;
@@ -12,7 +13,7 @@ interface CardinalModalProps {
 }
 
 export const ModalContentWrapper = styled.div`
-  padding: 20px;
+  padding: 10px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -20,10 +21,49 @@ export const ModalContentWrapper = styled.div`
 `;
 
 const CardinalModal: React.FC<CardinalModalProps> = ({ isOpen, onClose }) => {
-  const [isChecked, setIsChecked] = useState(false);
+  const [formState, setFormState] = useState({
+    cardinalNumber: '',
+    year: '',
+    semester: '',
+    isChecked: false,
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormState((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
 
   const handleCheckBoxClick = () => {
-    setIsChecked((prev) => !prev);
+    setFormState((prev) => ({
+      ...prev,
+      isChecked: !prev.isChecked,
+    }));
+  };
+
+  const handleClick = async () => {
+    const { cardinalNumber, year, semester } = formState;
+
+    if (!cardinalNumber || !year || !semester) {
+      alert('모든 필드를 입력해주세요.');
+      return;
+    }
+
+    try {
+      const response = await postCardinalApi(
+        Number(cardinalNumber),
+        Number(year),
+        Number(semester),
+      );
+      console.log('새로운 기수 저장 성공:', response);
+      alert('새로운 기수가 저장되었습니다.');
+      onClose();
+    } catch (error: any) {
+      console.error('새로운 기수 저장 실패:', error.message);
+      alert(`새로운 기수 저장 실패: ${error.message}`);
+    }
   };
 
   return (
@@ -38,23 +78,47 @@ const CardinalModal: React.FC<CardinalModalProps> = ({ isOpen, onClose }) => {
       overlayColor="rgba(0,0,0,0.5)"
       showCloseButton
       footer={
-        <Button width="60px" height="48px" color="#323232" borderRadius="4px">
+        <Button
+          width="60px"
+          height="48px"
+          color="#323232"
+          borderRadius="4px"
+          onClick={handleClick}
+        >
           저장
         </Button>
       }
     >
       <ModalContentWrapper>
         <S.Title>추가할 새로운 기수를 작성해주세요</S.Title>
-        <S.Input type="text" placeholder="기" />
+        <S.Input
+          type="text"
+          placeholder="기"
+          name="cardinalNumber"
+          value={formState.cardinalNumber}
+          onChange={handleChange}
+        />
         <div>활동 시기</div>
         <S.FlexRow>
-          <S.Input type="text" placeholder="년" />
-          <S.Input type="text" placeholder="학기" />
+          <S.Input
+            type="text"
+            placeholder="년"
+            name="year"
+            value={formState.year}
+            onChange={handleChange}
+          />
+          <S.Input
+            type="text"
+            placeholder="학기"
+            name="semester"
+            value={formState.semester}
+            onChange={handleChange}
+          />
         </S.FlexRow>
         <S.SvgText onClick={handleCheckBoxClick}>
           <img
-            src={isChecked ? CheckBox : UnCheckBox}
-            alt={isChecked ? 'checked' : 'unchecked'}
+            src={formState.isChecked ? CheckBox : UnCheckBox}
+            alt={formState.isChecked ? 'checked' : 'unchecked'}
           />
           <div> 현재 진행 중 </div>
         </S.SvgText>

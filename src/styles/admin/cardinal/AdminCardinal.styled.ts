@@ -30,11 +30,11 @@ export const StyledModalContent = styled.div<{
   left: ${(props) => props.left || '50%'};
   transform: ${(props) =>
     props.top && props.left ? 'none' : 'translate(-50%, -50%)'};
-  border-radius: 8px;
   background-color: ${theme.color.gray[100]};
   padding: 0;
-  overflow: hidden;
+  overflow: visible;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
 `;
 
 export const ModalContainer = styled.div`
@@ -66,7 +66,7 @@ export const MainContent = styled.div<{ borderBottom?: boolean }>`
   flex-direction: column;
   justify-content: center;
   padding: 15px;
-  overflow: hidden;
+  overflow: visible;
   border-bottom: ${(props) =>
     props.borderBottom ? '1px solid #dedede' : 'none'};
 `;
@@ -79,6 +79,8 @@ export const Footer = styled.div`
   justify-content: flex-end;
   padding: 10px;
   bottom: 0;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
 `;
 
 // CardinalEditModal.tsx
@@ -91,13 +93,13 @@ export const ModalContentWrapper = styled.div`
   box-sizing: border-box;
   width: calc(100% - 40px);
   max-width: 360px;
-  z-index: 1000;
 `;
 
 export const InputGroup = styled.div`
   display: flex;
   gap: 10px;
   width: 100%;
+  position: relative;
 `;
 
 export const FooterWrapper = styled.div`

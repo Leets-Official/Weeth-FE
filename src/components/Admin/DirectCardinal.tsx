@@ -1,13 +1,20 @@
 import { useState } from 'react';
-import CardinalSVG from '@/assets/images/ic_admin_column_meatball.svg';
+import { styled } from 'styled-components';
 import { CardinalProps } from '@/types/adminCardinal';
-import { useGetAllCardinals } from '@/api/useGetCardinals';
+import useGetAllCardinals from '@/api/useGetCardinals';
+import CardinalSVG from '@/assets/images/ic_admin_column_meatball.svg';
 import {
   ArrowIcon,
   CardinalButton,
   DropdownItem,
   DropdownMenu,
-} from './Cardinal';
+} from '@/components/Admin/Cardinal';
+
+export const StyledCardinal = styled.div`
+  width: 35%;
+  position: relative;
+  z-index: 1000;
+`;
 
 const DirectCardinalDropdown: React.FC<CardinalProps> = ({
   selectedCardinal,
@@ -40,7 +47,7 @@ const DirectCardinalDropdown: React.FC<CardinalProps> = ({
   };
 
   return (
-    <>
+    <StyledCardinal>
       <CardinalButton onClick={toggleDropdown}>
         <div>{getDisplayText()}</div>
 
@@ -67,7 +74,7 @@ const DirectCardinalDropdown: React.FC<CardinalProps> = ({
           <DropdownItem onClick={handleCustomInput}>직접 입력</DropdownItem>
         </DropdownMenu>
       )}
-    </>
+    </StyledCardinal>
   );
 };
 

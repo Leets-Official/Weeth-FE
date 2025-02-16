@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Button from '@/components/Button/Button';
 import * as S from '@/styles/admin/cardinal/AdminCardinal.styled';
 import CommonCardinalModal from '@/components/Admin/Modal/CommonCardinalModal';
+import DirectCardinalDropdown from '../DirectCardinal';
 
 interface CardinalChangeModalProps {
   isOpen: boolean;
@@ -23,6 +24,7 @@ const CardinalEditModal: React.FC<CardinalChangeModalProps> = ({
   const [cardinalNumber, setCardinalNumber] = useState('');
   const [customInput, setCustomInput] = useState('');
   const [, setError] = useState('');
+  const [selectedCardinal, setSelectedCardinal] = useState<number | null>(null);
 
   const handleSave = () => {
     const inputValue = customInput || cardinalNumber;
@@ -81,13 +83,9 @@ const CardinalEditModal: React.FC<CardinalChangeModalProps> = ({
             flex={2}
             maxWidth="65%"
           />
-          <S.StyledInput
-            type="text"
-            placeholder="직접 입력"
-            value={customInput}
-            onChange={(e) => setCustomInput(e.target.value)}
-            flex={1}
-            maxWidth="35%"
+          <DirectCardinalDropdown
+            selectedCardinal={selectedCardinal}
+            setSelectedCardinal={setSelectedCardinal}
           />
         </S.InputGroup>
         <S.ErrorMessage>
