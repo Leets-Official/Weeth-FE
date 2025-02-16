@@ -77,6 +77,8 @@ const Notice = () => {
     };
   }, [hasMore, isLoading, pageNumber]);
 
+  console.log(posts);
+
   return (
     <Container>
       <Header RightButtonType="none" isAccessible={false}>

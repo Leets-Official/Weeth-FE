@@ -11,6 +11,9 @@ import MenuModal from '@/components/common/MenuModal';
 import theme from '@/styles/theme';
 import DeleteModal from '@/components/Modal/DeleteModal';
 import deletePost from '@/api/deletePost';
+import showCustomToast, {
+  CustomToastContainer,
+} from '@/components/common/ToastMessage';
 
 const Container = styled.div`
   display: flex;
@@ -77,12 +80,16 @@ const NoticePostDetail = () => {
 
   const confirmDelete = async () => {
     try {
-      await deletePost(numericPostId);
-      // TODO: 삭제 토스트 메세지 적용
-      alert('삭제가 완료되었습니다.');
-      navigate('/board'); // 게시판 목록 페이지로 이동
+      await deletePost(numericPostId, path);
+      showCustomToast({ type: 'info', message: '게시물이 삭제되었습니다' });
+      setTimeout(() => {
+        navigate('/notice'); // 2초 후 공지지 목록 페이지로 이동
+      }, 2000);
     } catch (err) {
-      alert('삭제 중 오류가 발생했습니다.');
+      showCustomToast({
+        type: 'error',
+        message: '오류가 발생했습니다.',
+      });
       console.error(err);
     }
     closeDeleteModal();
@@ -99,6 +106,7 @@ const NoticePostDetail = () => {
 
   return (
     <>
+      <CustomToastContainer />
       {isModalOpen && (
         <MenuModal
           onClose={() => {

@@ -60,12 +60,12 @@ const CustomToastContent: React.FC<CustomToastContentProps> = ({
   </div>
 );
 
+// success는 파란 배경, info는 빨간 배경, error는 회색 배경에 느낌표 아이콘이 있습니다,, 상황에 맞게 사용하세요!
 interface ShowCustomToastOptions {
   type: 'success' | 'info' | 'error';
   message: string;
 }
 
-// 토스트 메시지 함수
 const showCustomToast = ({ type, message }: ShowCustomToastOptions) => {
   const icon = type === 'error' ? warningIcon : undefined;
   toast[type](<CustomToastContent message={message} icon={icon} />, {

@@ -1,6 +1,9 @@
 /* eslint-disable no-alert */
 import deleteUser from '@/api/deleteUser';
 import MenuModal from '@/components/common/MenuModal';
+import showCustomToast, {
+  CustomToastContainer,
+} from '@/components/common/ToastMessage';
 import Header from '@/components/Header/Header';
 import DeleteModal from '@/components/Modal/DeleteModal';
 import MyInfo from '@/components/MyPage/MyInfo';
@@ -29,11 +32,15 @@ const MyPage = () => {
   const onClickLeave = async () => {
     try {
       await deleteUser();
-      // TODO: 삭제 토스트 메세지 적용
-      alert('탈퇴가 완료되었습니다.');
-      navigate('/');
+      showCustomToast({ type: 'info', message: '탈퇴가 완료되었습니다' });
+      setTimeout(() => {
+        navigate('/');
+      }, 2000);
     } catch (err) {
-      alert('탈퇴퇴 중 오류가 발생했습니다.');
+      showCustomToast({
+        type: 'error',
+        message: '오류가 발생했습니다.',
+      });
       console.error(err);
     }
     closeDeleteModal();
@@ -41,6 +48,7 @@ const MyPage = () => {
 
   return (
     <S.Container>
+      <CustomToastContainer />
       {isModalOpen && (
         <MenuModal
           onClose={() => {

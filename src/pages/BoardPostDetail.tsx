@@ -85,8 +85,8 @@ const BoardPostDetail = () => {
 
   const confirmDelete = async () => {
     try {
-      await deletePost(numericPostId);
-      showCustomToast({ type: 'error', message: '게시물이 삭제되었습니다' });
+      await deletePost(numericPostId, path);
+      showCustomToast({ type: 'info', message: '게시물이 삭제되었습니다' });
       setTimeout(() => {
         navigate('/board'); // 2초 후 게시판 목록 페이지로 이동
       }, 2000);
