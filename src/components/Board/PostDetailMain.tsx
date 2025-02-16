@@ -4,6 +4,7 @@ import Line from '@/components/common/Line';
 import PostFile from '@/components/Board/PostFile';
 import formatDateTime from '@/hooks/formatDateTime';
 import setPositionIcon from '@/hooks/setPositionIcon';
+import { useCallback } from 'react';
 
 interface Comment {
   id: number;
@@ -37,42 +38,30 @@ interface PostDetailMainProps {
   info: BoardDetail | null;
 }
 
-const onClickDownload = async (fileName: string, fileUrl: string) => {
-  try {
-    // Fetch API로 파일 가져오기
-    const response = await fetch(fileUrl);
-
-    if (!response.ok) {
-      throw new Error(`Failed to fetch file: ${response.statusText}`);
-    }
-
-    // Blob 데이터 생성
-    const blob = await response.blob();
-
-    // Blob URL 생성
-    const url = window.URL.createObjectURL(blob);
-
-    // 동적으로 a 태그 생성
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = fileName;
-
-    // 다운로드 트리거
-    document.body.appendChild(link);
-    link.click();
-
-    // DOM에서 태그 제거 및 Blob URL 해제
-    link.remove();
-    window.URL.revokeObjectURL(url);
-  } catch (error) {
-    console.error('Download failed:', error);
-  }
-};
-
 const PostDetailMain = ({ info }: PostDetailMainProps) => {
   const formattedDate = formatDateTime(info?.time ?? '');
 
   if (!info) return <div>Loading...</div>;
+
+  const onClickDownload = useCallback((fileUrl: string, fileName: string) => {
+    fetch(fileUrl, { method: 'GET' })
+      .then((res) => res.blob())
+      .then((blob) => {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = fileName;
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(() => {
+          window.URL.revokeObjectURL(url);
+          a.remove();
+        }, 1000);
+      })
+      .catch((err) => {
+        console.error('err', err);
+      });
+  }, []);
 
   return (
     <S.PostMainContainer>
@@ -91,7 +80,7 @@ const PostDetailMain = ({ info }: PostDetailMainProps) => {
           key={file.fileId}
           fileName={file.fileName}
           isDownload
-          onClick={() => onClickDownload(file.fileName, file.fileUrl)}
+          onClick={() => onClickDownload(file.fileUrl, file.fileName)}
         />
       ))}
       <S.CommentText>
