@@ -29,7 +29,6 @@ const postPenaltyApi = async (userId: number, penaltyDescription: string) => {
       {
         headers: {
           Authorization: `Bearer ${accessToken}`,
-          'Content-Type': 'application/json',
         },
       },
     );
