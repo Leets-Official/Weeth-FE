@@ -1,5 +1,7 @@
 /* eslint-disable no-alert */
 import { DayPicker } from 'react-day-picker';
+import 'react-day-picker/style.css';
+import { ko } from 'date-fns/locale'; // 한국어 locale import
 import { EventRequestType, createEvent, editEvent } from '@/api/EventAdminAPI';
 import Header from '@/components/Header/Header';
 import useCustomBack from '@/hooks/useCustomBack';
@@ -16,6 +18,7 @@ import EventInput, { EventInputBlock } from '@/components/Event/EventInput';
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
+import PickerModal from './PickerModal';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -24,7 +27,7 @@ function checkEmpty(
   field: string | number | undefined,
   message: string,
 ): boolean {
-  // TODO🚨important!!🚨: 배열 내에 빈 값이 있는 경우를 처리하는 로직 추가
+  // TODO: 🚨important!!🚨: 배열 내에 빈 값이 있는 경우를 처리하는 로직 추가
   if (Array.isArray(field) && field.length === 0) {
     alert(message);
     return true;
@@ -41,12 +44,14 @@ const EventEditor = () => {
   const navigate = useNavigate();
 
   const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
-  const [isStartDateModalOpen, setIsStartDateModalOpen] = useState(false);
+  const [isStartDateModalOpen, setIsStartDateModalOpen] = useState(true);
   const [isEndDateModalOpen, setIsEndDateModalOpen] = useState(false);
-  const [selectedStartDate, setSelectedStartDate] = useState<
-    Date | undefined
-  >();
-  const [selectedEndDate, setSelectedEndDate] = useState<Date | undefined>();
+  const [selectedStartDate, setSelectedStartDate] = useState<Date | undefined>(
+    new Date(),
+  );
+  const [selectedEndDate, setSelectedEndDate] = useState<Date | undefined>(
+    new Date(),
+  );
 
   const [eventRequest, setEventRequest] = useState<EventRequestType>({
     title: '',
@@ -81,6 +86,7 @@ const EventEditor = () => {
           : '',
     };
 
+    // TODO: 빈칸 확인 리팩토링 및 토스트 메세지로 수정
     if (
       checkEmpty(data.title, '제목을 입력해 주세요.') ||
       checkEmpty(data.cardinal, '기수를 입력해 주세요.') ||
@@ -140,13 +146,15 @@ const EventEditor = () => {
 
       {/* 시작 날짜 모달 */}
       {isStartDateModalOpen && (
-        <Modal
-          hasCloseButton={false}
-          onClose={() => setIsStartDateModalOpen(false)}
-        >
+        <PickerModal onClose={() => setIsStartDateModalOpen(false)}>
           <DayPicker
+            locale={ko}
             mode="single"
             selected={selectedStartDate}
+            formatters={{
+              formatMonthCaption: (month) =>
+                `${month.getFullYear()}년 ${month.getMonth() + 1}월`,
+            }}
             onSelect={(date) => {
               if (date) {
                 const kstStart = dayjs(date).tz('Asia/Seoul').format(); // 한국 시간
@@ -155,24 +163,20 @@ const EventEditor = () => {
                 setIsStartDateModalOpen(false);
               }
             }}
-            footer={
-              selectedStartDate
-                ? `선택된 날짜: ${dayjs(selectedStartDate).tz('Asia/Seoul').format('YYYY.MM.DD HH:mm')}`
-                : '시작 날짜를 선택하세요.'
-            }
           />
-        </Modal>
+        </PickerModal>
       )}
 
       {/* 종료 날짜 모달 */}
       {isEndDateModalOpen && (
-        <Modal
-          hasCloseButton={false}
-          onClose={() => setIsEndDateModalOpen(false)}
-        >
+        <PickerModal onClose={() => setIsEndDateModalOpen(false)}>
           <DayPicker
             mode="single"
             selected={selectedEndDate}
+            formatters={{
+              formatMonthCaption: (month) =>
+                `${month.getFullYear()}년 ${month.getMonth() + 1}월`,
+            }}
             onSelect={(date) => {
               if (date) {
                 const kstEnd = dayjs(date).tz('Asia/Seoul').format(); // 한국 시간
@@ -181,13 +185,8 @@ const EventEditor = () => {
                 setIsEndDateModalOpen(false);
               }
             }}
-            footer={
-              selectedEndDate
-                ? `선택된 날짜: ${dayjs(selectedEndDate).tz('Asia/Seoul').format('YYYY.MM.DD HH:mm')}`
-                : '종료 날짜를 선택하세요.'
-            }
           />
-        </Modal>
+        </PickerModal>
       )}
 
       <Header onClickRightButton={onSave} RightButtonType="TEXT" isAccessible>
