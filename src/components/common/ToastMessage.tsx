@@ -9,19 +9,17 @@ interface ToastProps {
 
 const fadeIn = keyframes`
   from {
-    opacity: 0;
     transform: translateY(20px);
   }
   to {
-    opacity: 1;
     transform: translateY(0);
   }
 `;
 
 const ToastContainer = styled.div`
-  width: 100%;
+  width: 370px;
   position: fixed;
-  bottom: 0;
+  bottom: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -35,8 +33,8 @@ const Button = styled.button`
   margin: 5px 0;
   border: none;
   border-radius: 20px;
-  color: white;
-  font-size: 16px;
+  color: ${theme.color.gray[100]};
+  font-size: 12px;
   cursor: pointer;
   outline: none;
 
@@ -60,7 +58,7 @@ const AlertContainer = styled.div`
   width: 90%;
   padding: 10px;
   background-color: ${theme.color.gray[30]};
-  font-size: 16px;
+  font-size: 12px;
   border-radius: 20px;
 `;
 
