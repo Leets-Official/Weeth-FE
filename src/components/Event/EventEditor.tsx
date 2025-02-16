@@ -1,7 +1,7 @@
 /* eslint-disable no-alert */
 import { DayPicker } from 'react-day-picker';
 import 'react-day-picker/style.css';
-import { ko } from 'date-fns/locale'; // 한국어 locale import
+import { id, ko } from 'date-fns/locale'; // 한국어 locale import
 import { EventRequestType, createEvent, editEvent } from '@/api/EventAdminAPI';
 import Header from '@/components/Header/Header';
 import useCustomBack from '@/hooks/useCustomBack';
@@ -19,21 +19,22 @@ import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
 import PickerModal from './PickerModal';
+import TimePicker from './TimePicker';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-function checkEmpty(
-  field: string | number | undefined,
-  message: string,
-): boolean {
-  // TODO: 🚨important!!🚨: 배열 내에 빈 값이 있는 경우를 처리하는 로직 추가
-  if (Array.isArray(field) && field.length === 0) {
-    alert(message);
-    return true;
-  }
-  return false;
-}
+// function checkEmpty(
+//   field: string | number | undefined,
+//   message: string,
+// ): boolean {
+//   // TODO: 🚨important!!🚨: 배열 내에 빈 값이 있는 경우를 처리하는 로직 추가
+//   if (Array.isArray(field) && field.length === 0) {
+//     alert(message);
+//     return true;
+//   }
+//   return false;
+// }
 
 const EventEditor = () => {
   useCustomBack('/calendar');
@@ -44,18 +45,17 @@ const EventEditor = () => {
   const navigate = useNavigate();
 
   const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
-  const [isStartDateModalOpen, setIsStartDateModalOpen] = useState(true);
+  const [isStartDateModalOpen, setIsStartDateModalOpen] = useState(false);
   const [isEndDateModalOpen, setIsEndDateModalOpen] = useState(false);
-  const [selectedStartDate, setSelectedStartDate] = useState<Date | undefined>(
-    new Date(),
-  );
-  const [selectedEndDate, setSelectedEndDate] = useState<Date | undefined>(
-    new Date(),
-  );
+  const [startDate, setStartDate] = useState<Date | undefined>(new Date());
+  const [endDate, setEndDate] = useState<Date | undefined>(new Date());
+  const [startTime, setStartTime] = useState('12:00 AM');
+  const [endTime, setEndTime] = useState('11:59 PM');
 
   const [eventRequest, setEventRequest] = useState<EventRequestType>({
     title: '',
-    cardinal: 0,
+    // TODO: (refactor) 서버로부터 받은 기수값을 이용하여 초기값 설정하는 로직 추가
+    cardinal: 5,
     isMeeting: false,
     start: '',
     end: '',
@@ -63,6 +63,8 @@ const EventEditor = () => {
     requiredItem: '',
     content: '',
   });
+
+  console.log(eventRequest);
 
   useEffect(() => {
     if (eventDetailData) {
@@ -77,40 +79,74 @@ const EventEditor = () => {
     }));
   };
 
+  useEffect(() => {
+    if (startDate && startTime) {
+      const startDateTime = dayjs(startDate)
+        .set('hour', parseInt(startTime.split(':')[0], 10))
+        .set('minute', parseInt(startTime.split(':')[1].split(' ')[0], 10))
+        .set('second', 0)
+        .set('millisecond', 0)
+        .tz('Asia/Seoul')
+        .format('YYYY-MM-DDTHH:mm:ss');
+
+      setEventRequest((prevInfo) => ({
+        ...prevInfo,
+        start: startDateTime,
+      }));
+    }
+  }, [startDate, startTime]);
+
+  useEffect(() => {
+    if (endDate && endTime) {
+      const endDateTime = dayjs(endDate)
+        .set('hour', parseInt(endTime.split(':')[0], 10))
+        .set('minute', parseInt(endTime.split(':')[1].split(' ')[0], 10))
+        .set('second', 0)
+        .set('millisecond', 0)
+        .tz('Asia/Seoul')
+        .format('YYYY-MM-DDTHH:mm:ss');
+
+      setEventRequest((prevInfo) => ({
+        ...prevInfo,
+        end: endDateTime,
+      }));
+    }
+  }, [endDate, endTime]);
+
   const onSave = async () => {
-    const data = {
+    setEventRequest({
       ...eventRequest,
       content:
         typeof eventRequest.content === 'string'
           ? replaceNewLines(eventRequest.content)
           : '',
-    };
+    });
 
     // TODO: 빈칸 확인 리팩토링 및 토스트 메세지로 수정
-    if (
-      checkEmpty(data.title, '제목을 입력해 주세요.') ||
-      checkEmpty(data.cardinal, '기수를 입력해 주세요.') ||
-      checkEmpty(data.start, '시작 시간을 입력해 주세요.') ||
-      checkEmpty(data.end, '종료 시간을 입력해 주세요.') ||
-      checkEmpty(data.location, '장소를 입력해 주세요.') ||
-      checkEmpty(data.requiredItem, '준비물을 입력해 주세요.') ||
-      checkEmpty(data.content, '내용을 입력해 주세요.')
-    ) {
-      return;
-    }
-    if (data.start === data.end) {
-      alert('시작 시간과 종료 시간은 같을 수 없습니다.');
-      return;
-    }
-    if (data.start > data.end) {
-      alert('종료 시간은 시작 시간보다 빠를 수 없습니다.');
-      return;
-    }
+    // if (
+    //   checkEmpty(data.title, '제목을 입력해 주세요.') ||
+    //   checkEmpty(data.cardinal, '기수를 입력해 주세요.') ||
+    //   checkEmpty(data.start, '시작 시간을 입력해 주세요.') ||
+    //   checkEmpty(data.end, '종료 시간을 입력해 주세요.') ||
+    //   checkEmpty(data.location, '장소를 입력해 주세요.') ||
+    //   checkEmpty(data.requiredItem, '준비물을 입력해 주세요.') ||
+    //   checkEmpty(data.content, '내용을 입력해 주세요.')
+    // ) {
+    //   return;
+    // }
+    // if (data.start === data.end) {
+    //   alert('시작 시간과 종료 시간은 같을 수 없습니다.');
+    //   return;
+    // }
+    // if (data.start > data.end) {
+    //   alert('종료 시간은 시작 시간보다 빠를 수 없습니다.');
+    //   return;
+    // }
 
     if (window.confirm('저장하시겠습니까?')) {
       try {
-        if (isEditMode) await editEvent(data, Number(id));
-        else await createEvent(data);
+        if (isEditMode) await editEvent(eventRequest, Number(id));
+        else await createEvent(eventRequest);
         alert('저장이 완료되었습니다.');
         navigate('/calendar');
       } catch (err: any) {
@@ -127,6 +163,7 @@ const EventEditor = () => {
 
   return (
     <>
+      {/* 도움말 모달 */}
       {isHelpModalOpen && (
         <Modal hasCloseButton onClose={() => setIsHelpModalOpen(false)}>
           <S.Bold>정기모임</S.Bold>
@@ -150,7 +187,7 @@ const EventEditor = () => {
           <DayPicker
             locale={ko}
             mode="single"
-            selected={selectedStartDate}
+            selected={startDate}
             formatters={{
               formatMonthCaption: (month) =>
                 `${month.getFullYear()}년 ${month.getMonth() + 1}월`,
@@ -159,7 +196,7 @@ const EventEditor = () => {
               if (date) {
                 const kstStart = dayjs(date).tz('Asia/Seoul').format(); // 한국 시간
                 editEventInfo('start', kstStart);
-                setSelectedStartDate(date); // 선택된 날짜로 업데이트
+                setStartDate(date); // 선택된 날짜로 업데이트
                 setIsStartDateModalOpen(false);
               }
             }}
@@ -172,7 +209,7 @@ const EventEditor = () => {
         <PickerModal onClose={() => setIsEndDateModalOpen(false)}>
           <DayPicker
             mode="single"
-            selected={selectedEndDate}
+            selected={endDate}
             formatters={{
               formatMonthCaption: (month) =>
                 `${month.getFullYear()}년 ${month.getMonth() + 1}월`,
@@ -181,7 +218,7 @@ const EventEditor = () => {
               if (date) {
                 const kstEnd = dayjs(date).tz('Asia/Seoul').format(); // 한국 시간
                 editEventInfo('end', kstEnd);
-                setSelectedEndDate(date); // 선택된 날짜로 업데이트
+                setEndDate(date); // 선택된 날짜로 업데이트
                 setIsEndDateModalOpen(false);
               }
             }}
@@ -230,10 +267,15 @@ const EventEditor = () => {
             <div>시작</div>
             <S.Time>
               <S.TimeBlock onClick={() => setIsStartDateModalOpen(true)}>
-                {selectedStartDate?.toLocaleDateString() ||
+                {startDate?.toLocaleDateString() ||
                   dayjs(eventRequest.start).format('YYYY.MM.DD')}
               </S.TimeBlock>
-              <S.TimeBlock>startTime</S.TimeBlock>
+              <S.TimeBlock>
+                <TimePicker
+                  inputValue={startTime}
+                  setInputValue={setStartTime}
+                />
+              </S.TimeBlock>
             </S.Time>
           </S.DateTime>
           <S.Line />
@@ -241,10 +283,12 @@ const EventEditor = () => {
             <div>끝</div>
             <S.Time>
               <S.TimeBlock onClick={() => setIsEndDateModalOpen(true)}>
-                {selectedEndDate?.toLocaleDateString() ||
+                {endDate?.toLocaleDateString() ||
                   dayjs(eventRequest.end).format('YYYY.MM.DD')}
               </S.TimeBlock>
-              <S.TimeBlock>endTime</S.TimeBlock>
+              <S.TimeBlock>
+                <TimePicker inputValue={endTime} setInputValue={setEndTime} />
+              </S.TimeBlock>
             </S.Time>
           </S.DateTime>
         </EventInputBlock>
