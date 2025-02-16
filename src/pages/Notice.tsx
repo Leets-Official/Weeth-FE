@@ -3,9 +3,12 @@ import styled from 'styled-components';
 import PostListItem from '@/components/Board/PostListItem';
 import formatDate from '@/hooks/formatDate';
 import theme from '@/styles/theme';
+import * as S from '@/styles/board/Board.styled';
 import { useGetBoardInfo } from '@/api/useGetBoardInfo';
 import Header from '@/components/Header/Header';
 import { useNavigate } from 'react-router-dom';
+import useGetGlobaluserInfo from '@/api/useGetGlobaluserInfo';
+import PostingButton from '@/components/Board/PostingButton';
 
 const Container = styled.div`
   display: flex;
@@ -45,8 +48,7 @@ interface Content {
 
 const Notice = () => {
   const navigate = useNavigate();
-  // TODO: 어드민인지 확인해서 true false 변경해주기
-  // const isPostButtonVisible = true;
+  const { isAdmin } = useGetGlobaluserInfo();
 
   const [posts, setPosts] = useState<Content[]>([]);
   const [hasMore, setHasMore] = useState(true);
@@ -77,7 +79,9 @@ const Notice = () => {
     };
   }, [hasMore, isLoading, pageNumber]);
 
-  console.log(posts);
+  const handlePosting = () => {
+    navigate('/notice/post');
+  };
 
   return (
     <Container>
@@ -108,6 +112,11 @@ const Notice = () => {
       )}
       {isLoading && <Text>로딩 중...</Text>}
       {!hasMore && <Text>마지막 게시물입니다.</Text>}
+      {isAdmin && (
+        <S.PostingButtonContainer>
+          <PostingButton onClick={handlePosting} />
+        </S.PostingButtonContainer>
+      )}
     </Container>
   );
 };
