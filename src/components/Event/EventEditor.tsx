@@ -56,15 +56,13 @@ const EventEditor = () => {
     title: '',
     // TODO: (refactor) 서버로부터 받은 기수값을 이용하여 초기값 설정하는 로직 추가
     cardinal: 5,
-    isMeeting: false,
+    type: 'EVENT',
     start: '',
     end: '',
     location: '',
     requiredItem: '',
     content: '',
   });
-
-  console.log(eventRequest);
 
   useEffect(() => {
     if (eventDetailData) {
@@ -135,11 +133,23 @@ const EventEditor = () => {
     //   return;
     // }
 
-    if (eventRequest.start === eventRequest.end) {
+    const startDateTime = new Date(eventRequest.start);
+    const endDateTime = new Date(eventRequest.end);
+
+    const startISO = startDateTime
+      .toLocaleString('sv-SE', { timeZone: 'Asia/Seoul' })
+      .replace(' ', 'T');
+    const endISO = endDateTime
+      .toLocaleString('sv-SE', { timeZone: 'Asia/Seoul' })
+      .replace(' ', 'T');
+
+    console.log(startISO, endISO);
+
+    if (startISO === endISO) {
       alert('시작 시간과 종료 시간은 같을 수 없습니다.');
       return;
     }
-    if (eventRequest.start > eventRequest.end) {
+    if (startISO > endISO) {
       alert('종료 시간은 시작 시간보다 빠를 수 없습니다.');
       return;
     }
@@ -247,12 +257,12 @@ const EventEditor = () => {
             </S.Align>
 
             <ToggleButton
-              isMeeting={eventRequest.isMeeting}
+              isMeeting={eventRequest.type === 'MEETING'}
               isEditMode={isEditMode}
               onToggle={() => {
                 setEventRequest((prevInfo) => ({
                   ...prevInfo,
-                  isMeeting: !prevInfo.isMeeting,
+                  type: prevInfo.type === 'MEETING' ? 'EVENT' : 'MEETING',
                 }));
               }}
             />

@@ -2,13 +2,13 @@ import api from './api';
 
 export interface EventRequestType {
   title: string;
-  cardinal: number;
-  isMeeting: boolean;
-  start: string;
-  end: string;
+  content: string;
   location: string;
   requiredItem: string;
-  content: string;
+  type: 'EVENT' | 'MEETING';
+  cardinal: number;
+  start: string;
+  end: string;
 }
 
 export const createEvent = async (data: EventRequestType) => {
