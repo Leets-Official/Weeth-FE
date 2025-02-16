@@ -1,5 +1,5 @@
 export interface FileObject {
-  fileId: number;
+  fileId?: number;
   fileName: string;
   fileUrl: string;
 }

@@ -42,8 +42,7 @@ const DuesRegisterAdd: React.FC = () => {
       amount: Number(amount),
       date: formattedDate,
       cardinal,
-      fileUrls: uploadedFiles,
-      id: undefined,
+      files: uploadedFiles,
     };
 
     try {
@@ -145,7 +144,7 @@ const DuesRegisterAdd: React.FC = () => {
               <DuesInput width="90%" placeholder="선택된 파일 없음" readOnly />
             ) : (
               uploadedFiles.map((file) => (
-                <S.InputContainer key={file.fileId}>
+                <S.InputContainer key={file.fileId || file.fileName}>
                   <S.StyledDuesInput
                     width="90%"
                     placeholder={file.fileName}

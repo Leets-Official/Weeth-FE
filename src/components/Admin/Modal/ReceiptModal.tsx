@@ -3,7 +3,7 @@ import Close from '@/assets/images/ic_admin_close.svg';
 import { FileObject } from '@/types/account';
 
 interface ReceiptModalProps {
-  fileUrls: FileObject[];
+  files: FileObject[];
   onClose: () => void;
 }
 
@@ -41,7 +41,7 @@ const CloseButton = styled.button`
   cursor: pointer;
 `;
 
-const ReceiptModal: React.FC<ReceiptModalProps> = ({ fileUrls, onClose }) => {
+const ReceiptModal: React.FC<ReceiptModalProps> = ({ files = [], onClose }) => {
   return (
     <ModalOverlay onClick={onClose}>
       <ModalContent onClick={(e) => e.stopPropagation()}>
@@ -50,7 +50,7 @@ const ReceiptModal: React.FC<ReceiptModalProps> = ({ fileUrls, onClose }) => {
             <img src={Close} alt="닫기" />
           </CloseButton>
         </Header>
-        {fileUrls.map((file) => (
+        {files.map((file) => (
           <div key={file.fileId}>
             <img src={file.fileUrl} alt={file.fileName} width="50%" />
           </div>

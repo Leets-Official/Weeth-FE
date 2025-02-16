@@ -1,18 +1,4 @@
 import { useEffect, useState } from 'react';
-// import {
-//   DescriptionWrapper,
-//   SubTitle,
-//   CardinalWrapper,
-//   DuesInputWrapper,
-//   SaveAddButton,
-//   FileWrapper,
-//   ButtonWrapper,
-//   InputWrapper,
-//   ModalWrapper,
-//   InputContainer,
-//   StyledDuesInput,
-//   StyledCloseButton,
-// } from '@/styles/admin/DuesRegisterAdd.styled';
 import * as S from '@/styles/admin/DuesRegisterAdd.styled';
 import CommonModal from '@/components/Admin/Modal/CommonModal';
 import Close from '@/assets/images/ic_admin_close.svg';
@@ -33,7 +19,7 @@ interface DuesModifyModalProps {
     amount?: number;
     source?: string;
     cardinal: number | null;
-    fileUrls?: FileObject[];
+    files?: FileObject[];
   };
   onSave: (updatedRecord: any) => void;
 }
@@ -59,10 +45,10 @@ const DuesModifyModal: React.FC<DuesModifyModalProps> = ({
   useEffect(() => {
     if (selectedCardinal) setCustomCardinal(`${selectedCardinal}기`);
 
-    if (record.fileUrls) {
-      setUploadedFiles([...record.fileUrls]);
+    if (record.files) {
+      setUploadedFiles([...record.files]);
     }
-  }, [selectedCardinal, record.fileUrls]);
+  }, [selectedCardinal, record.files]);
 
   const handleSave = async () => {
     if (!record.id) {
@@ -78,7 +64,7 @@ const DuesModifyModal: React.FC<DuesModifyModalProps> = ({
         amount: Number(amount),
         source,
         cardinal: selectedCardinal,
-        fileUrls: [...uploadedFiles],
+        files: [...uploadedFiles],
       };
 
       await updateReceipt(updatedRecord);
