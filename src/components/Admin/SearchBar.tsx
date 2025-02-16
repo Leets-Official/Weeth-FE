@@ -32,7 +32,7 @@ export const StyledInput = styled.input`
 
 export const SearchBarIcon = styled.img<{ isWrapped?: boolean }>`
   position: absolute;
-  left: ${({ isWrapped }) => (isWrapped ? '32px' : '157px')};
+  left: ${({ isWrapped }) => (isWrapped ? '32px' : '165px')};
   top: 50%;
   width: 20px;
   height: 20px;

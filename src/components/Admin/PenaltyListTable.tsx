@@ -1,4 +1,4 @@
-import React, { useReducer, useState } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 import * as S from '@/styles/admin/penalty/Penalty.styled';
 import plusIcon from '@/assets/images/ic_admin_plus.svg';
 import {
@@ -12,6 +12,11 @@ import PenaltyDetail from '@/components/Admin/PenaltyDetail';
 import PenaltyAdd from '@/components/Admin/PenaltyAdd';
 import { statusColors } from '@/components/Admin/StatusIndicator';
 import { StatusCell } from '@/components/Admin/MemberListTableRow';
+import { EmptyCell } from '@/components/Admin/MemberListTableHeader';
+import dayjs from 'dayjs';
+import 'dayjs/locale/ko';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
 
 const columns = [
   { key: 'name', header: '이름' },
@@ -22,6 +27,10 @@ const columns = [
   { key: 'LatestPenalty', header: '최근 패널티' },
   { key: 'empty', header: '' },
 ];
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
+dayjs.locale('ko');
 
 const PenaltyListTable: React.FC = () => {
   const { filteredMembers } = useMemberContext();
@@ -39,8 +48,18 @@ const PenaltyListTable: React.FC = () => {
   );
 
   const formatDate = (time: string | null | undefined) => {
-    if (!time || Number.isNaN(Date.parse(time))) return '날짜 없음';
-    return new Date(time).toISOString().split('T')[0].replace(/-/g, '.');
+    if (!time) return '날짜 없음';
+
+    return dayjs(time).tz('Asia/Seoul').format('YYYY.MM.DD');
+  };
+
+  const getLatestPenaltyDate = (penalties: { time: string }[] | undefined) => {
+    if (!penalties || penalties.length === 0) return '없음';
+
+    return penalties
+      .map((penalty) => dayjs(penalty.time).tz('Asia/Seoul'))
+      .sort((a, b) => b.valueOf() - a.valueOf())[0]
+      .format('YYYY.MM.DD');
   };
 
   const fetchPenaltyData = async () => {
@@ -122,13 +141,25 @@ const PenaltyListTable: React.FC = () => {
   };
 
   const renderColumns = (member: Record<string, any>) =>
-    columns.map((column) =>
-      column.key === 'empty' ? (
-        <S.EmptyCell key={column.key} />
-      ) : (
-        <S.Cell key={column.key}>{member[column.key]}</S.Cell>
-      ),
-    );
+    columns.map((column) => {
+      if (column.key === 'empty') {
+        return <S.EmptyCell key={column.key} />;
+      }
+
+      if (column.key === 'LatestPenalty') {
+        return (
+          <S.Cell key={column.key}>
+            {getLatestPenaltyDate(penaltyData[member.id])}
+          </S.Cell>
+        );
+      }
+
+      return <S.Cell key={column.key}>{member[column.key]}</S.Cell>;
+    });
+
+  useEffect(() => {
+    fetchPenaltyData();
+  }, []);
 
   return (
     <S.TableContainer>
@@ -136,8 +167,8 @@ const PenaltyListTable: React.FC = () => {
         <table>
           <thead>
             <tr>
-              <th aria-label="Status Indicator" />
-              <th aria-label="Plus Button" />
+              <EmptyCell aria-label="Status Indicator" />
+              <EmptyCell aria-label="Plus Button" />
               {columns.map((column) => (
                 <S.HeaderCell key={column.key}>{column.header}</S.HeaderCell>
               ))}

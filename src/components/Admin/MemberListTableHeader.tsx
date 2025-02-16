@@ -12,9 +12,10 @@ const HeaderCell = styled.th`
   white-space: nowrap;
 `;
 
-const EmptyCell = styled.th`
+export const EmptyCell = styled.th`
   border-bottom: 1px solid #dedede;
 `;
+
 const MemberListTableHeader: React.FC<TableHeaderProps> = ({ columns }) => {
   return (
     <thead>
