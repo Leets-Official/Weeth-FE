@@ -3,7 +3,6 @@ import { styled } from 'styled-components';
 
 // penaltyListTable.tsx
 export const TableWrapper = styled.div`
-  width: fit-content;
   font-size: 18px;
   border-collapse: collapse;
 
@@ -14,6 +13,8 @@ export const TableWrapper = styled.div`
 `;
 
 export const TableContainer = styled.div`
+  width: 70%;
+  min-width: fit-content;
   background-color: #fff;
   border: 1px solid #f2f2f2;
   border-radius: 8px;
