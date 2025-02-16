@@ -1,5 +1,6 @@
 import styled from 'styled-components';
-import logo from 'public/logo/original.svg';
+
+const logo = '/logo/original.svg';
 
 const StyledHeader = styled.div`
   display: flex;

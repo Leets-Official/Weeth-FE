@@ -22,7 +22,7 @@ const CardinalEditModal: React.FC<CardinalChangeModalProps> = ({
 }) => {
   const [cardinalNumber, setCardinalNumber] = useState('');
   const [customInput, setCustomInput] = useState('');
-  const [error, setError] = useState('');
+  const [, setError] = useState('');
 
   const handleSave = () => {
     const inputValue = customInput || cardinalNumber;
