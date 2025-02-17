@@ -91,6 +91,12 @@ const SelectedTopBar: React.FC = () => {
       label: '기수 변경',
       onClick: handleOpenModal,
       disabled: false,
+      style: {
+        backgroundColor: isModalOpen
+          ? theme.color.gray[18]
+          : theme.color.gray[100],
+        color: isModalOpen ? theme.color.gray[100] : '#000',
+      },
     },
   ];
 
