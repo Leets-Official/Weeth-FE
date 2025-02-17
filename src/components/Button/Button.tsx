@@ -12,7 +12,7 @@ interface ButtonProps {
   borderRadius?: string;
   disabled?: boolean;
   isAttend?: boolean;
-  isSemibold?: boolean;
+  isSemibold?: boolean; // 폰트 두께 : true(기본값) - semibold, false - regular
 }
 
 const BasicButton = styled.button<ButtonProps>`

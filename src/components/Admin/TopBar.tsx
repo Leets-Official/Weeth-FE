@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
 import Button from '@/components/Button/Button';
+import useLogout from '@/hooks/useLogout';
 
 export const TopBarWrapper = styled.div`
   width: 100%;
@@ -35,13 +35,7 @@ interface TopBarProps {
 }
 
 const TopBar: React.FC<TopBarProps> = ({ title, description }) => {
-  const nav = useNavigate();
-
-  const handleLogout = () => {
-    window.confirm('로그아웃하시겠습니까?');
-    localStorage.removeItem('accessToken');
-    nav('/');
-  };
+  const logout = useLogout();
 
   return (
     <TopBarWrapper>
@@ -56,7 +50,7 @@ const TopBar: React.FC<TopBarProps> = ({ title, description }) => {
         width="80px"
         borderRadius="4px"
         isSemibold={false}
-        onClick={handleLogout}
+        onClick={logout}
       >
         Logout
       </Button>

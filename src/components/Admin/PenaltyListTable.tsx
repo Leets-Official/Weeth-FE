@@ -7,7 +7,10 @@ import {
   Penalty,
 } from '@/components/Admin/context/PenaltyReducer';
 import { getPenaltyApi } from '@/api/admin/penalty/getPenalty';
-import { useMemberContext } from '@/components/Admin/context/MemberContext';
+import {
+  // MemberData,
+  useMemberContext,
+} from '@/components/Admin/context/MemberContext';
 import PenaltyDetail from '@/components/Admin/PenaltyDetail';
 import PenaltyAdd from '@/components/Admin/PenaltyAdd';
 import { statusColors } from '@/components/Admin/StatusIndicator';
@@ -31,6 +34,10 @@ const columns = [
 dayjs.extend(utc);
 dayjs.extend(timezone);
 dayjs.locale('ko');
+
+// interface PenaltyListTableProps {
+//   members: MemberData[];
+// }
 
 const PenaltyListTable: React.FC = () => {
   const { filteredMembers } = useMemberContext();
