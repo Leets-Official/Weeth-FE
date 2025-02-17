@@ -32,26 +32,22 @@ const MemberList = ({
   const [pageNumber, setPageNumber] = useState(0);
   const [members, setMembers] = useState<User[]>([]);
   const [hasMore, setHasMore] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const observerRef = useRef<HTMLDivElement | null>(null);
 
-  const { allUsers, error } = useGetAllUsers({
-    cardinal: selectedCardinal,
+  useGetAllUsers(
+    selectedCardinal,
     pageNumber,
-  });
+    setMembers,
+    setHasMore,
+    setIsLoading,
+  );
 
-  useEffect(() => {
-    if (allUsers.length > 0) {
-      setMembers((prevMembers) => [...prevMembers, ...allUsers]);
-    }
-    if (allUsers.length === 0) {
-      setHasMore(false);
-    }
-  }, [allUsers]);
-
+  // Intersection Observer 설정
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
-        if (entries[0].isIntersecting && hasMore) {
+        if (entries[0].isIntersecting && hasMore && !isLoading) {
           setPageNumber((prevPage) => prevPage + 1);
         }
       },
@@ -67,13 +63,11 @@ const MemberList = ({
         observer.unobserve(observerRef.current);
       }
     };
-  }, [hasMore]);
+  }, [hasMore, isLoading]);
 
   let content;
 
-  if (error) {
-    content = <Error>멤버 정보를 불러올 수 없습니다.</Error>;
-  } else if (isSearch) {
+  if (isSearch) {
     if (searchResults?.length === 0) {
       content = <Error>검색된 멤버가 없습니다.</Error>;
     } else {
@@ -106,12 +100,13 @@ const MemberList = ({
   return (
     <List>
       {content}
-      {hasMore && (
+      {hasMore && !isLoading && (
         <div
           ref={observerRef}
           style={{ height: '20px', backgroundColor: 'transparent' }}
         />
       )}
+      {/* {!hasMore && <Error>마지막 멤버입니다.</Error>} */}
     </List>
   );
 };
