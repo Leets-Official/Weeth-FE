@@ -126,6 +126,14 @@ export const StyledInput = styled.input<{ flex: number; maxWidth: string }>`
   &::placeholder {
     color: ${theme.color.gray[65]};
   }
+
+  // readOnly 일 때 색상 변경
+  ${({ readOnly }) =>
+    readOnly &&
+    `
+    color: ${theme.color.gray[65]};
+    cursor: not-allowed;
+  `}
 `;
 
 // CardinalModal.tsx

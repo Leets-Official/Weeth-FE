@@ -22,18 +22,24 @@ const CardinalEditModal: React.FC<CardinalChangeModalProps> = ({
   overlayColor = 'transparent',
 }) => {
   const [cardinalNumber, setCardinalNumber] = useState('');
-  const [customInput, setCustomInput] = useState('');
-  const [, setError] = useState('');
+  const [isCustomInput, setIsCustomInput] = useState(false);
   const [selectedCardinal, setSelectedCardinal] = useState<number | null>(null);
 
+  const handleSelectCardinal = (value: number, isCustom: boolean) => {
+    setIsCustomInput(isCustom);
+    if (isCustom) {
+      setCardinalNumber('');
+    } else {
+      setCardinalNumber(String(value));
+    }
+  };
+
   const handleSave = () => {
-    const inputValue = customInput || cardinalNumber;
-    if (!inputValue.trim()) {
-      setError('기수를 입력해주세요.');
+    if (!cardinalNumber.trim()) {
+      alert('변경할 기수를 선택해주세요.');
       return;
     }
-    setError('');
-    alert(`새로운 기수: ${inputValue}`);
+    alert(`새로운 기수: ${cardinalNumber}`);
     onClose();
   };
 
@@ -82,10 +88,11 @@ const CardinalEditModal: React.FC<CardinalChangeModalProps> = ({
             onChange={(e) => setCardinalNumber(e.target.value)}
             flex={2}
             maxWidth="65%"
+            readOnly={!isCustomInput}
           />
           <DirectCardinalDropdown
             selectedCardinal={selectedCardinal}
-            setSelectedCardinal={setSelectedCardinal}
+            setSelectedCardinal={handleSelectCardinal}
           />
         </S.InputGroup>
         <S.ErrorMessage>

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { styled } from 'styled-components';
-import { CardinalProps } from '@/types/adminCardinal';
+import { DirectCardinalProps } from '@/types/adminCardinal';
 import useGetAllCardinals from '@/api/useGetCardinals';
 import CardinalSVG from '@/assets/images/ic_admin_column_meatball.svg';
 import {
@@ -15,7 +15,7 @@ export const StyledCardinal = styled.div`
   z-index: 1000;
 `;
 
-const DirectCardinalDropdown: React.FC<CardinalProps> = ({
+const DirectCardinalDropdown: React.FC<DirectCardinalProps> = ({
   selectedCardinal,
   setSelectedCardinal,
 }) => {
@@ -28,14 +28,14 @@ const DirectCardinalDropdown: React.FC<CardinalProps> = ({
   const toggleDropdown = () => setIsOpen(!isOpen);
 
   const selectCardinal = (value: number) => {
-    setSelectedCardinal(value);
-    setIsCustomInput(false);
-
+    setSelectedCardinal(value, false);
+    // setIsCustomInput(false);
     setIsOpen(false);
   };
 
   const handleCustomInput = () => {
-    setIsCustomInput(true);
+    setSelectedCardinal(0, true);
+    // setIsCustomInput(true);
     setIsOpen(false);
   };
 
