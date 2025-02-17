@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
-import getAllUsers from '@/api/admin/member/getAdminUser';
+import { getAllUsers } from '@/api/admin/member/getAdminUser';
 
 export type MemberData = {
   id: number;

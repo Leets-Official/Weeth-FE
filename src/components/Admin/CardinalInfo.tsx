@@ -5,6 +5,7 @@ import { BoxWrapper } from '@/components/Admin/TotalDues';
 import Box from '@/components/Admin/Box';
 import useGetAllCardinals from '@/api/useGetCardinals';
 import { useEffect, useState } from 'react';
+import { useGetAdminUsers } from '@/api/admin/member/getAdminUser';
 
 const CardinalBoxWrapper = styled(BoxWrapper)`
   padding: 0 0 30px 0;
@@ -34,18 +35,25 @@ const ScrollContainer = styled.div`
 
 const CardinalInfo: React.FC = () => {
   const { allCardinals } = useGetAllCardinals();
+  const { allUsers } = useGetAdminUsers();
   const [cardinalList, setCardinalList] = useState<
-    { id: number; year: number; semester: number; cardinalNumber: number }[]
+    { id: number; year?: number; semester?: number; cardinalNumber: number }[]
   >([]);
 
   useEffect(() => {
     const sortedCardinals = [...allCardinals].sort(
-      (a, b) => b.year - a.year || b.semester - a.semester,
+      (a, b) => b.cardinalNumber - a.cardinalNumber,
     );
     setCardinalList(sortedCardinals);
   }, [allCardinals]);
 
-  const totalMembers = cardinalList.length * 25;
+  const getMemberCountByCardinal = (cardinalNumber: number) => {
+    return allUsers.filter((member) =>
+      member.cardinals.includes(cardinalNumber),
+    ).length;
+  };
+
+  const totalMembers = allUsers.length;
 
   return (
     <CardinalBoxWrapper>
@@ -59,17 +67,25 @@ const CardinalInfo: React.FC = () => {
           lastColor="#D3D3D3"
           isCardinalBox
         />
-        {cardinalList.map((cardinal) => (
-          <CardinalBox
-            key={cardinal.id}
-            title={`${cardinal.year}년 ${cardinal.semester}학기`}
-            description={`${cardinal.cardinalNumber}기`}
-            last="노정완 외 25명"
-            color={theme.color.gray[65]}
-            lastColor="#D3D3D3"
-            isCardinalBox
-          />
-        ))}
+        {cardinalList.map((cardinal) => {
+          const memberCount = getMemberCountByCardinal(cardinal.cardinalNumber);
+          const lastText =
+            cardinal.cardinalNumber <= 3
+              ? `김성민 외 ${memberCount}명`
+              : `노정완 외 ${memberCount}명`;
+
+          return (
+            <CardinalBox
+              key={cardinal.id}
+              title={`${cardinal.year}년 ${cardinal.semester}학기`}
+              description={`${cardinal.cardinalNumber}기`}
+              last={lastText}
+              color={theme.color.gray[65]}
+              lastColor="#D3D3D3"
+              isCardinalBox
+            />
+          );
+        })}
       </ScrollContainer>
     </CardinalBoxWrapper>
   );
