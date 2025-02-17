@@ -162,3 +162,65 @@ export const SvgText = styled.div`
   align-items: center;
   gap: 10px;
 `;
+
+// MemberDetailModal.tsx
+export interface FontStyleProps {
+  fontSize?: string;
+  fontWeight?: string | number;
+  color?: string;
+}
+
+export const FontStyle = styled.div<FontStyleProps>`
+  font-size: ${({ fontSize }) => fontSize || '18px'};
+  font-weight: ${({ fontWeight }) => fontWeight || '500'};
+  color: ${({ color }) => color};
+`;
+
+export const ContentWrapper = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  height: calc(100% - 96px - 96px);
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  padding: 5px;
+`;
+
+export const ModalContent = styled.div`
+  background-color: white;
+  border-radius: 4px;
+  width: 100%;
+  box-shadow: 0px 3px 8px 0px rgba(133, 141, 138, 0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 10px;
+  flex: 1.5;
+`;
+
+export const ActivityContent = styled(ModalContent)`
+  flex: 1;
+  margin-bottom: 6%;
+`;
+
+export const FlexWrapper = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  gap: 40px;
+`;
+
+export const LabelFlex = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 15px;
+  color: #a6a6a6;
+`;
+
+export const DataFlex = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 15px;
+  color: #000;
+`;

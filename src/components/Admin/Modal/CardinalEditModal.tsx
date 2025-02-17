@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Button from '@/components/Button/Button';
 import * as S from '@/styles/admin/cardinal/AdminCardinal.styled';
 import CommonCardinalModal from '@/components/Admin/Modal/CommonCardinalModal';
-import DirectCardinalDropdown from '../DirectCardinal';
+import DirectCardinalDropdown from '@/components/Admin/DirectCardinal';
 
 interface CardinalChangeModalProps {
   isOpen: boolean;

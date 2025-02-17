@@ -4,7 +4,6 @@ import { CardinalProps } from '@/types/adminCardinal';
 import useGetAllCardinals from '@/api/useGetCardinals';
 import CardinalSVG from '@/assets/images/ic_admin_column_meatball.svg';
 import {
-  ArrowIcon,
   CardinalButton,
   DropdownItem,
   DropdownMenu,
@@ -51,7 +50,7 @@ const DirectCardinalDropdown: React.FC<CardinalProps> = ({
       <CardinalButton onClick={toggleDropdown}>
         <div>{getDisplayText()}</div>
 
-        <ArrowIcon
+        <img
           src={CardinalSVG}
           alt="cardinal"
           className={isOpen ? 'open' : ''}
