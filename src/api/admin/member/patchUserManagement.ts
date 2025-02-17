@@ -45,10 +45,12 @@ const changeUserRoleApi = async (
 };
 
 // 다음 기수도 진행 ( 기수 변경 )
-const continueNextCardinalApi = async (cardinalInfo: {
-  userId: number[];
-  cardinal: number;
-}) => {
+const continueNextCardinalApi = async (
+  cardinalInfo: {
+    userId: number;
+    cardinal: number;
+  }[],
+) => {
   return sendPatchRequest('/apply', cardinalInfo, '기수 변경 실패');
 };
 

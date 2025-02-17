@@ -3,10 +3,12 @@ import Button from '@/components/Button/Button';
 import * as S from '@/styles/admin/cardinal/AdminCardinal.styled';
 import CommonCardinalModal from '@/components/Admin/Modal/CommonCardinalModal';
 import DirectCardinalDropdown from '@/components/Admin/DirectCardinal';
+import { continueNextCardinalApi } from '@/api/admin/member/patchUserManagement';
 
 interface CardinalChangeModalProps {
   isOpen: boolean;
   onClose: () => void;
+  selectedUserIds: number[];
   top?: string;
   left?: string;
   position?: 'center' | 'absolute' | 'fixed';
@@ -16,6 +18,7 @@ interface CardinalChangeModalProps {
 const CardinalEditModal: React.FC<CardinalChangeModalProps> = ({
   isOpen,
   onClose,
+  selectedUserIds,
   top = '100px',
   left = '50%',
   position = 'absolute',
@@ -37,12 +40,31 @@ const CardinalEditModal: React.FC<CardinalChangeModalProps> = ({
     }
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!cardinalNumber.trim()) {
-      alert('변경할 기수를 선택해주세요.');
+      alert('변경할 기수를 입력해주세요.');
       return;
     }
-    alert(`새로운 기수: ${cardinalNumber}`);
+
+    try {
+      const cardinalData = selectedUserIds.map((id) => ({
+        userId: id,
+        cardinal: Number(cardinalNumber),
+      }));
+
+      const response = await continueNextCardinalApi(cardinalData);
+
+      if (response.code === 200) {
+        alert('기수가 성공적으로 변경되었습니다.');
+        onClose();
+        window.location.reload();
+      } else {
+        alert(`기수 변경 실패: ${response.message}`);
+      }
+    } catch (error) {
+      console.error('기수 변경 오류: ', error);
+      alert(`기수 변경 중 오류가 발생했습니다.`);
+    }
     onClose();
   };
 
