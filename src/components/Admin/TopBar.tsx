@@ -1,5 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
+import Button from '@/components/Button/Button';
 
 export const TopBarWrapper = styled.div`
   width: 100%;
@@ -8,28 +10,56 @@ export const TopBarWrapper = styled.div`
   padding: 0 20px;
   box-sizing: border-box;
   display: flex;
+  justify-content: space-between;
   align-items: center;
 `;
+
 export const Title = styled.p`
   font-weight: 700;
   font-size: 24px;
 `;
+
 export const Description = styled.p`
   padding-left: 20px;
   font-size: 18px;
   font-weight: 400;
 `;
 
+export const TitleContainer = styled.div`
+  display: flex;
+  align-items: center;
+`;
 interface TopBarProps {
   title: string;
   description: string;
 }
 
 const TopBar: React.FC<TopBarProps> = ({ title, description }) => {
+  const nav = useNavigate();
+
+  const handleLogout = () => {
+    window.confirm('로그아웃하시겠습니까?');
+    localStorage.removeItem('accessToken');
+    nav('/');
+  };
+
   return (
     <TopBarWrapper>
-      <Title>{title}</Title>
-      <Description>{description}</Description>
+      <TitleContainer>
+        <Title>{title}</Title>
+        <Description>{description}</Description>
+      </TitleContainer>
+      <Button
+        color="#2f2f2f"
+        textcolor="#fff"
+        height="40px"
+        width="80px"
+        borderRadius="4px"
+        isSemibold={false}
+        onClick={handleLogout}
+      >
+        Logout
+      </Button>
     </TopBarWrapper>
   );
 };

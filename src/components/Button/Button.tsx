@@ -12,11 +12,13 @@ interface ButtonProps {
   borderRadius?: string;
   disabled?: boolean;
   isAttend?: boolean;
+  isSemibold?: boolean;
 }
 
 const BasicButton = styled.button<ButtonProps>`
   background-color: ${({ color }) => color || theme.color.gray[30]};
-  font-family: ${theme.font.semiBold};
+  font-family: ${({ isSemibold }) =>
+    isSemibold ? theme.font.semiBold : theme.font.regular};
   color: ${({ textcolor }) => textcolor || theme.color.gray[100]};
   border: none;
   border-radius: ${({ borderRadius }) => borderRadius || '10px'};
@@ -44,6 +46,7 @@ const Button: FC<ButtonProps> = ({
   width,
   borderRadius,
   disabled,
+  isSemibold = true,
 }) => (
   <BasicButton
     color={color}
@@ -53,6 +56,7 @@ const Button: FC<ButtonProps> = ({
     width={width}
     borderRadius={borderRadius}
     disabled={disabled}
+    isSemibold={isSemibold}
   >
     {children}
   </BasicButton>
