@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import Button from '@/components/Button/Button';
 import * as S from '@/styles/admin/cardinal/AdminCardinal.styled';
 import CommonCardinalModal from '@/components/Admin/Modal/CommonCardinalModal';
@@ -23,12 +23,15 @@ const CardinalEditModal: React.FC<CardinalChangeModalProps> = ({
 }) => {
   const [cardinalNumber, setCardinalNumber] = useState('');
   const [isCustomInput, setIsCustomInput] = useState(false);
-  const [selectedCardinal, setSelectedCardinal] = useState<number | null>(null);
+  const [selectedCardinal] = useState<number | null>(null);
+
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const handleSelectCardinal = (value: number, isCustom: boolean) => {
     setIsCustomInput(isCustom);
     if (isCustom) {
       setCardinalNumber('');
+      setTimeout(() => inputRef.current?.focus(), 0);
     } else {
       setCardinalNumber(String(value));
     }
@@ -89,6 +92,7 @@ const CardinalEditModal: React.FC<CardinalChangeModalProps> = ({
             flex={2}
             maxWidth="65%"
             readOnly={!isCustomInput}
+            ref={inputRef}
           />
           <DirectCardinalDropdown
             selectedCardinal={selectedCardinal}
