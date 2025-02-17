@@ -46,8 +46,8 @@ const TopBar: React.FC<TopBarProps> = ({ title, description }) => {
       <Button
         color="#2f2f2f"
         textcolor="#fff"
-        height="40px"
-        width="80px"
+        height="45px"
+        width="85px"
         borderRadius="4px"
         isSemibold={false}
         onClick={logout}

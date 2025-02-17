@@ -1,7 +1,7 @@
 import CardinalSearchBar from '@/components/Admin/CardinalSearchBar';
 import {
   MemberProvider,
-  useMemberContext,
+  // useMemberContext,
 } from '@/components/Admin/context/MemberContext';
 import NavMenu from '@/components/Admin/NavMenu';
 import PenaltyListTable from '@/components/Admin/PenaltyListTable';

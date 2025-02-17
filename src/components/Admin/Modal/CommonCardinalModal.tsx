@@ -55,7 +55,12 @@ const CommonCardinalModal: React.FC<CommonCardinalModalProps> = ({
             <S.TitleContainer borderBottom={borderBottom}>
               <S.TitleText>{title}</S.TitleText>
               {showCloseButton && (
-                <CloseIcon src={closeIcon} alt="close" onClick={onClose} />
+                <CloseIcon
+                  isCardinalModal
+                  src={closeIcon}
+                  alt="close"
+                  onClick={onClose}
+                />
               )}
             </S.TitleContainer>
             <S.MainContent borderBottom={borderBottom}>
