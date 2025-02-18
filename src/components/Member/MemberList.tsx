@@ -106,7 +106,7 @@ const MemberList = ({
           style={{ height: '20px', backgroundColor: 'transparent' }}
         />
       )}
-      {/* {!hasMore && <Error>마지막 멤버입니다.</Error>} */}
+      {!hasMore && <Error>마지막 멤버입니다.</Error>}
     </List>
   );
 };
