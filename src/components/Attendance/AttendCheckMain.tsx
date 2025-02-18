@@ -13,7 +13,6 @@ interface SmallBoxProps {
 interface MeetingBoxProps {
   attend: 'ATTEND' | 'ABSENT' | 'PENDING';
   title: string;
-  week: string;
   date: string;
   place: string;
 }
@@ -23,7 +22,6 @@ interface MeetingProps {
   start: string;
   end: string;
   status: 'ATTEND' | 'PENDING' | 'ABSENT';
-  weekNumber: number;
   location: string;
 }
 
@@ -39,7 +37,6 @@ const SmallBox: React.FC<SmallBoxProps> = ({ title, num }) => {
 const MeetingBox: React.FC<MeetingBoxProps> = ({
   attend,
   title,
-  week,
   date,
   place,
 }) => {
@@ -58,9 +55,7 @@ const MeetingBox: React.FC<MeetingBoxProps> = ({
     <S.MeetingInfoBox>
       <S.MeetingHeader>
         <Caption color={captionColor}>{captionText}</Caption>
-        <S.MeetingTitle>
-          {week}: {title}
-        </S.MeetingTitle>
+        <S.MeetingTitle>{title}</S.MeetingTitle>
       </S.MeetingHeader>
       <S.MeetingInfo>
         <div>
@@ -110,7 +105,6 @@ const AttendCheckMain: React.FC = () => {
                 key={meeting.id}
                 attend={meeting.status}
                 title={meeting.title}
-                week={`${meeting.weekNumber}주차`}
                 date={formatMeetingDates(meeting.start, meeting.end)}
                 place={meeting.location}
               />
