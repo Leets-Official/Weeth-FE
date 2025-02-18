@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import axios from 'axios';
+import api from './api';
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
@@ -7,7 +7,7 @@ export const updateUserInfo = async (data: Record<string, any>) => {
   const accessToken = localStorage.getItem('accessToken');
   const refreshToken = localStorage.getItem('refreshToken');
 
-  return axios.patch(`${BASE_URL}/api/v1/users`, data, {
+  return api.patch(`${BASE_URL}/api/v1/users`, data, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
       Authorization_refresh: `Bearer ${refreshToken}`,

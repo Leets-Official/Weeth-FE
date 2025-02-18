@@ -1,8 +1,11 @@
 import styled from 'styled-components';
-import MemberListTableHeader from './MemberListTableHeader';
-import MemberListTableRow from './MemberListTableRow';
-import StatusList from './StatusList';
-import { MemberData, useMemberContext } from './context/MemberContext';
+import MemberListTableHeader from '@/components/Admin/MemberListTableHeader';
+import MemberListTableRow from '@/components/Admin/MemberListTableRow';
+import StatusList from '@/components/Admin/StatusList';
+import {
+  MemberData,
+  useMemberContext,
+} from '@/components/Admin/context/MemberContext';
 
 export interface Column {
   key: keyof MemberData;

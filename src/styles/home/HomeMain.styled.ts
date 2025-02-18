@@ -8,14 +8,10 @@ export const StyledHomeMain = styled.div`
   width: 100%;
 `;
 
-export const CaptionContainer = styled.div`
-  margin-left: 7%;
-`;
-
 export const GridContainer = styled.div`
   display: grid;
   width: 94%;
-  margin: 7.3% 3% 0px 3%;
+  margin: 15px 3% 0px 3%;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: auto auto auto;
   grid-template-areas:
@@ -30,9 +26,10 @@ export const GridItem = styled.div`
   font-family: ${theme.font.semiBold};
   font-size: 18px;
   color: #fff;
-  padding: 20px;
   border-radius: 10px;
   display: flex;
+  padding: 20px 10px 10px 15px;
+  gap: 34px;
   flex-direction: column;
   justify-content: space-between;
   cursor: pointer;
@@ -66,52 +63,9 @@ export const FeeItem = styled(GridItem)`
 
 export const PlaceholderImage = styled.div`
   display: flex;
-  padding-right: 8%;
   align-items: center;
   justify-content: center;
   background-color: ${theme.color.gray[18]};
-  width: 19%;
-  border-radius: 5px;
   align-self: flex-end;
   justify-self: flex-start;
-`;
-
-export const UserInfo = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  margin-top: 10px;
-  width: 90%;
-  margin: 2.5% 0px 5% 5%;
-`;
-
-export const UserContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-`;
-
-export const Name = styled.div`
-  font-size: 32px;
-  font-weight: bold;
-  padding: 0px;
-  align-self: flex-end;
-  //여기는 왜 이렇게 설정되어있나요??
-  font-family: var(--font-family-pretendard_semiBold);
-`;
-
-export const NickName = styled.div`
-  font-size: 14px;
-  font-family: var(--font-family-pretendard_regular)
-  //------------
-  margin-left: 8px;
-  align-self: flex-end;
-  padding-bottom: 5px;
-`;
-
-export const RightButtonContainer = styled.div`
-  display: flex;
-  padding-bottom: 5px;
-  align-items: center;
-  align-self: flex-end;
-  margin-right: 10px;
 `;

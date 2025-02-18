@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import theme from '@/styles/theme';
 import { useState } from 'react';
 import icSearch from '@/assets/images/ic_admin_search.svg';
-import { useMemberContext } from './context/MemberContext';
+import { useMemberContext } from '@/components/Admin/context/MemberContext';
 
 export const SearchBarWrapper = styled.div`
   position: relative;
@@ -32,7 +32,7 @@ export const StyledInput = styled.input`
 
 export const SearchBarIcon = styled.img<{ isWrapped?: boolean }>`
   position: absolute;
-  left: ${({ isWrapped }) => (isWrapped ? '32px' : '157px')};
+  left: ${({ isWrapped }) => (isWrapped ? '32px' : '165px')};
   top: 50%;
   width: 20px;
   height: 20px;

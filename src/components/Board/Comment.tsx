@@ -6,6 +6,7 @@ import { useState } from 'react';
 import formatDateTime from '@/hooks/formatDateTime';
 import useGetUserName from '@/hooks/useGetUserName';
 import setPositionIcon from '@/hooks/setPositionIcon';
+import DeleteModal from '../Modal/DeleteModal';
 
 interface CommentProps {
   name: string;
@@ -33,6 +34,7 @@ const Comment = ({
   onReply,
 }: CommentProps) => {
   const [isHighlighted, setIsHighlighted] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const onClickReply = () => {
     console.log('답댓', commentId);
@@ -40,10 +42,22 @@ const Comment = ({
     setIsHighlighted((prev) => !prev);
   };
 
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
   const onClickMenu = () => {
-    console.log('삭제', commentId);
-    deleteComment(path, postId, commentId);
-    onDelete();
+    setIsModalOpen(true);
+  };
+
+  const handleDeleteComment = async () => {
+    try {
+      await deleteComment(path, postId, commentId);
+      onDelete();
+      handleCloseModal();
+    } catch (error) {
+      console.error('Failed to delete comment:', error);
+    }
   };
 
   const formattedTime = formatDateTime(time);
@@ -73,6 +87,14 @@ const Comment = ({
           </S.ImageButton>
         )}
       </S.ButtonContainer>
+      {isModalOpen && (
+        <DeleteModal
+          title="댓글 삭제"
+          content="댓글을 정말 삭제하시겠습니까?"
+          onClose={handleCloseModal}
+          onDelete={handleDeleteComment}
+        />
+      )}
     </S.CommentContainer>
   );
 };

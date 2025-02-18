@@ -10,6 +10,7 @@ import useGetUserName from '@/hooks/useGetUserName';
 import deletePost from '@/api/deletePost';
 import MenuModal from '@/components/common/MenuModal';
 import theme from '@/styles/theme';
+import DeleteModal from '@/components/Modal/DeleteModal';
 
 const Container = styled.div`
   display: flex;
@@ -67,21 +68,29 @@ const BoardPostDetail = () => {
     refreshKey,
   );
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+
   const navigate = useNavigate();
 
-  const onClickDel = async () => {
-    if (window.confirm('삭제하시겠습니까?')) {
-      try {
-        console.log('삭제 API 호출');
-        // API 호출 예시
-        await deletePost(numericPostId);
-        alert('삭제가 완료되었습니다.');
-        navigate('/board'); // 게시판 목록 페이지로 이동
-      } catch (err) {
-        alert('삭제 중 오류가 발생했습니다.');
-        console.error(err);
-      }
+  const openDeleteModal = () => {
+    setIsDeleteModalOpen(true);
+  };
+
+  const closeDeleteModal = () => {
+    setIsDeleteModalOpen(false);
+  };
+
+  const confirmDelete = async () => {
+    try {
+      await deletePost(numericPostId);
+      // TODO: 삭제 토스트 메세지 적용
+      alert('삭제가 완료되었습니다.');
+      navigate('/board'); // 게시판 목록 페이지로 이동
+    } catch (err) {
+      alert('삭제 중 오류가 발생했습니다.');
+      console.error(err);
     }
+    closeDeleteModal();
   };
 
   const handleRefresh = () => {
@@ -109,15 +118,18 @@ const BoardPostDetail = () => {
           >
             수정
           </TextButton>
-          <TextButton
-            $isLast
-            onClick={() => {
-              onClickDel();
-            }}
-          >
+          <TextButton $isLast onClick={openDeleteModal}>
             삭제
           </TextButton>
         </MenuModal>
+      )}
+      {isDeleteModalOpen && (
+        <DeleteModal
+          title="게시물 삭제"
+          content="이 게시물을 정말 삭제하시겠습니까?"
+          onClose={closeDeleteModal}
+          onDelete={confirmDelete}
+        />
       )}
       <Container>
         <Header

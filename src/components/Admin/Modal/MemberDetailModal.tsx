@@ -4,7 +4,7 @@ import dropdownIcon from '@/assets/images/ic_admin_column_meatball.svg';
 import ButtonGroup from '@/components/Admin/ButtonGroup';
 import StatusIndicator from '@/components/Admin/StatusIndicator';
 import CommonModal from '@/components/Admin/Modal/CommonModal';
-import useAdminActions from '@/hooks/useAdminActions';
+import useAdminActions from '@/hooks/admin/useAdminActions';
 
 interface MemberDetailModalProps {
   data: MemberData;

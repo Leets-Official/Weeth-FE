@@ -1,46 +1,70 @@
+import { postPenaltyApi } from '@/api/admin/penalty/getPenalty';
 import { useState } from 'react';
 import * as S from '@/styles/admin/penalty/Penalty.styled';
-import Button from './Button';
+import Button from '@/components/Admin/Button';
 
 interface PenaltyAddProps {
+  userId: number;
   onCancel: () => void;
   onSave: (data: {
-    reason: string;
-    penalty: string;
-    penaltyDate: string;
+    penaltyId: number;
+    penaltyDescription: string;
+    time: string;
   }) => void;
-  existingData?: { reason: string; penalty: string; penaltyDate: string };
+  existingData?: {
+    penaltyId?: number;
+    penaltyDescription: string;
+    time: string;
+  };
 }
 
 const PenaltyAdd: React.FC<PenaltyAddProps> = ({
+  userId,
   onCancel,
   onSave,
   existingData,
 }) => {
   const [formData, setFormData] = useState({
-    reason: existingData?.reason || '',
-    penalty: existingData?.penalty || '',
-    penaltyDate: existingData?.penaltyDate || '',
+    penaltyId: existingData?.penaltyId,
+    penaltyDescription: existingData?.penaltyDescription || '',
+    time: existingData?.time || '',
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({
+      ...prev,
+      [name]: name === 'penalty' ? parseInt(value, 10) || 1 : value,
+    }));
   };
-
-  const handleSave = () => {
-    if (!formData.reason || !formData.penalty || !formData.penaltyDate) {
+  const handleSave = async () => {
+    if (!formData.penaltyDescription || !formData.time) {
       alert('모든 필드를 작성해주세요.');
       return;
     }
-    onSave(formData);
-    setFormData({ reason: '', penalty: '', penaltyDate: '' });
+    try {
+      await postPenaltyApi(userId, formData.penaltyDescription); // API 요청
+      alert('패널티가 성공적으로 부여되었습니다.');
+      onSave({ ...formData, penaltyId: formData.penaltyId ?? 0 });
+      setFormData({
+        penaltyId: 0,
+        penaltyDescription: '',
+        time: '',
+      });
+      window.location.reload();
+    } catch (error: any) {
+      alert(error.message);
+      console.error('패널티 부여 실패:', error);
+    }
   };
 
   const fields = [
-    { name: 'reason', placeholder: '추가할 패널티의 사유를 작성해주세요' },
-    { name: 'penalty', placeholder: '' },
-    { name: 'penaltyDate', placeholder: '' },
+    {
+      name: 'penaltyDescription',
+      placeholder: '추가할 패널티의 사유를 작성해주세요',
+    },
+    { name: 'penaltyId', placeholder: '' },
+    { name: 'time', placeholder: '' },
   ];
 
   return (
@@ -48,7 +72,7 @@ const PenaltyAdd: React.FC<PenaltyAddProps> = ({
       {fields.map((field) => (
         <S.Input
           key={field.name}
-          type="text"
+          type={field.name === 'penalty' ? 'number' : 'text'}
           name={field.name}
           placeholder={field.placeholder || undefined}
           value={formData[field.name as keyof typeof formData]}

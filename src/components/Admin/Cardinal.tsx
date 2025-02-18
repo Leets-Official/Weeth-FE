@@ -4,7 +4,7 @@ import CardinalSVG from '@/assets/images/ic_admin_cardinal.svg';
 import { CardinalProps } from '@/types/adminCardinal';
 import { useGetAllCardinals } from '@/api/useGetCardinals';
 
-const CardinalButton = styled.div`
+export const CardinalButton = styled.div`
   width: 118px;
   height: 48px;
   border: 1px solid #dedede;
@@ -40,7 +40,7 @@ export const DropdownItem = styled.div`
   cursor: pointer;
 `;
 
-const ArrowIcon = styled.img`
+export const ArrowIcon = styled.img`
   &.open {
     transform: rotate(180deg);
   }

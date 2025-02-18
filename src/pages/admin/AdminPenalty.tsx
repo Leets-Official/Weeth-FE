@@ -12,7 +12,7 @@ import {
 import { useState } from 'react';
 
 const AdminPenalty: React.FC = () => {
-  const [selectedCardinal, setSelectedCardinal] = useState('기수');
+  const [selectedCardinal, setSelectedCardinal] = useState<null | number>(null);
 
   return (
     <MemberProvider>
