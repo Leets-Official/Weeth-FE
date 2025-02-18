@@ -20,6 +20,13 @@ const DuesRegisterDropDown: React.FC = () => {
   const [description, setDescription] = useState('');
   const [amount, setAmount] = useState('');
 
+  const handleCustomCardinalBlur = () => {
+    const cardinalNumber = Number(customCardinal.trim());
+    if (!Number.isNaN(cardinalNumber) && cardinalNumber > 0) {
+      setCustomCardinal(`${cardinalNumber}기`);
+    }
+  };
+
   const handleRegister = async () => {
     const cardinal = selectedCardinal ?? Number(customCardinal);
     const totalAmount = Number(amount);
@@ -43,7 +50,10 @@ const DuesRegisterDropDown: React.FC = () => {
         <div>
           <CardinalDropdown
             selectedCardinal={selectedCardinal}
-            setSelectedCardinal={setSelectedCardinal}
+            setSelectedCardinal={(value) => {
+              setSelectedCardinal(value);
+              setCustomCardinal(`${value}기`);
+            }}
           />
         </div>
         <DuesInputWrapper>
@@ -52,6 +62,7 @@ const DuesRegisterDropDown: React.FC = () => {
             placeholder="직접 입력"
             value={customCardinal}
             onChange={(e) => setCustomCardinal(e.target.value)}
+            onBlur={handleCustomCardinalBlur}
           />
         </DuesInputWrapper>
       </CardinalWrapper>
