@@ -17,6 +17,8 @@ const Input = styled.input<InputProps>`
   border-radius: 5px;
   border: 1px solid #dedede;
   padding-left: 10px;
+  font-family: ${theme.font.regular};
+  font-size: 18px;
 
   &::placeholder {
     font-family: ${theme.font.regular};
