@@ -49,7 +49,7 @@ export const ScrollContainer = styled.div`
 
 export const NoticeCard = styled.div`
   flex: 0 0 auto;
-  background-color: ${theme.color.mainMiddle};
+  background-color: ${theme.color.gray[30]};
   color: white;
   font-family: ${theme.font.semiBold};
   border-radius: 10px;
@@ -62,8 +62,8 @@ export const NoticeCard = styled.div`
   font-size: 14px;
   line-height: 1.4;
 
-  &:nth-child(2) {
-    background-color: ${theme.color.gray[30]};
+  &:nth-child(1) {
+    background-color: ${theme.color.mainMiddle};
     color: white;
   }
 `;
