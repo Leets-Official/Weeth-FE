@@ -18,8 +18,8 @@ import EventInput, { EventInputBlock } from '@/components/Event/EventInput';
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
-import PickerModal from './PickerModal';
-import TimePicker from './TimePicker';
+import PickerModal from '@/components/Event/PickerModal';
+import TimePicker from '@/components/Event/TimePicker';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
