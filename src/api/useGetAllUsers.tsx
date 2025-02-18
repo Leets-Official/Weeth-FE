@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useEffect } from 'react';
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
@@ -28,35 +28,32 @@ export const getAllUsers = async (
   });
 };
 
-export const useGetAllUsers = ({
-  cardinal,
-  pageNumber,
-}: {
-  cardinal: number | null;
-  pageNumber: number;
-}) => {
-  const [allUsers, setAllUsers] = useState<any[]>([]);
-  const [error, setError] = useState<string | null>(null);
+const useGetAllUsers = (
+  cardinal: number | null,
+  pageNumber: number,
+  setUsers: React.Dispatch<React.SetStateAction<any[]>>,
+  setHasMore: React.Dispatch<React.SetStateAction<boolean>>,
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
+) => {
+  const fetchUsers = async () => {
+    setIsLoading(true);
+
+    try {
+      const response = await getAllUsers(cardinal, pageNumber);
+      const { data } = response.data;
+
+      setUsers((prevUsers) => [...prevUsers, ...data.content]);
+      setHasMore(!data.last);
+    } catch (error) {
+      console.error('Error fetching users:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchUsers = async () => {
-      setError(null);
-
-      try {
-        const response = await getAllUsers(cardinal, pageNumber);
-        setAllUsers(response.data.data.content);
-      } catch (err: any) {
-        setError(
-          err.response?.data?.message ||
-            '데이터를 불러오는 중 오류가 발생했습니다.',
-        );
-      }
-    };
-
     fetchUsers();
   }, [cardinal, pageNumber]);
-
-  return { allUsers, error };
 };
 
 export default useGetAllUsers;

@@ -66,8 +66,13 @@ const YearlyCard = ({
   year: string | number;
   events: Event[];
 }) => {
-  const isToday = CURRENT_MONTH === thisMonth && CURRENT_YEAR === year;
+  let isToday;
 
+  if (thisMonth === 1 || thisMonth === 2) {
+    isToday = CURRENT_MONTH === thisMonth && CURRENT_YEAR - 1 === year;
+  } else {
+    isToday = CURRENT_MONTH === thisMonth && CURRENT_YEAR === year;
+  }
   return (
     <StyledYear>
       <MonthName $isToday={isToday}>{thisMonth}월</MonthName>

@@ -40,7 +40,6 @@ export const useGetBoardInfo = async (
     const accessToken = localStorage.getItem('accessToken');
     const refreshToken = localStorage.getItem('refreshToken');
 
-    console.log('Fetching page:', pageNumber);
     const response = await axios.get<ApiResponse>(
       `${BASE_URL}/api/v1/${path}`,
       {
@@ -103,3 +102,5 @@ export const useGetRecentNotice = () => {
 
   return { recentNotices, isLoading, error };
 };
+
+export default useGetBoardInfo;
