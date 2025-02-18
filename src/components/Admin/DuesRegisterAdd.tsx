@@ -131,12 +131,14 @@ const DuesRegisterAdd: React.FC = () => {
                 handleFileChange(e);
               }}
             />
-            <Button
-              description="파일 선택"
-              color="#00dda8"
-              width="99px"
-              onClick={() => document.getElementById('file-upload')?.click()}
-            />
+            <S.DuesWrapper>
+              <Button
+                description="파일 선택"
+                color="#00dda8"
+                width="99px"
+                onClick={() => document.getElementById('file-upload')?.click()}
+              />
+            </S.DuesWrapper>
           </S.ButtonWrapper>
 
           <S.InputWrapper>

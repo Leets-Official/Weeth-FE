@@ -98,7 +98,8 @@ export const InputWrapper = styled.div`
 
 export const SaveButton = styled.div`
   display: flex;
-  margin-left: 63%;
+  justify-content: flex-end;
+  margin-right: 6%;
   margin-top: 5%;
   gap: 5px;
 `;
@@ -147,4 +148,8 @@ export const ReceiptWrapper = styled.div`
 
 export const ModalFileWrapper = styled.div`
   width: 294%;
+`;
+
+export const DuesWrapper = styled.div`
+  margin-top: 2%;
 `;

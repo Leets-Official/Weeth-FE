@@ -9,7 +9,7 @@ import fetchAccountData from '@/api/admin/dues/getAccount';
 import { AccountResponse } from '@/types/account';
 import { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
-import Box from './Box';
+import Box from '@/components/Admin/Box';
 
 interface TotalDuesProps {
   cardinal: number | null;
@@ -51,21 +51,21 @@ const TotalDues: React.FC<TotalDuesProps> = ({ cardinal }) => {
       id: 'box1',
       title: '원금',
       description: '0원',
-      last: '0000.00.00. 00:00',
+      last: '-',
       color: '#00DDA8',
     },
     {
       id: 'box2',
       title: '현재',
       description: '0원',
-      last: '0000.00.00. 00:00',
+      last: '-',
       color: '#2f2f2f',
     },
     {
       id: 'box3',
       title: '사용',
       description: '0원',
-      last: '0000.00.00. 00:00',
+      last: '-',
       color: '#2f2f2f',
     },
   ]);
