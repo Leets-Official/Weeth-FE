@@ -1,11 +1,13 @@
+import React, { useCallback } from 'react';
 import CommentImage from '@/assets/images/ic_comment_count.svg';
 import * as S from '@/styles/board/PostDetail.styled';
 import Line from '@/components/common/Line';
 import PostFile from '@/components/Board/PostFile';
 import formatDateTime from '@/hooks/formatDateTime';
 import setPositionIcon from '@/hooks/setPositionIcon';
-import { useCallback } from 'react';
-import showCustomToast, {
+import {
+  toastSuccess,
+  toastError,
   CustomToastContainer,
 } from '@/components/common/ToastMessage';
 
@@ -60,16 +62,10 @@ const PostDetailMain = ({ info }: PostDetailMainProps) => {
           window.URL.revokeObjectURL(url);
           a.remove();
         }, 1000);
-        showCustomToast({
-          type: 'success',
-          message: '저장되었습니다',
-        });
+        toastSuccess('저장되었습니다');
       })
       .catch((err) => {
-        showCustomToast({
-          type: 'error',
-          message: '저장에 실패했습니다',
-        });
+        toastError('저장에 실패했습니다');
         console.error('err', err);
       });
   }, []);

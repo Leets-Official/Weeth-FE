@@ -5,11 +5,6 @@ import styled from 'styled-components';
 import warningIcon from '@/assets/images/ic_toast_warning.svg';
 import theme from '@/styles/theme';
 
-interface CustomToastContentProps {
-  message: string;
-  icon?: string;
-}
-
 const CustomToastContainer = styled(ToastContainer).attrs({})`
   .Toastify__toast {
     border-radius: 50px;
@@ -49,6 +44,10 @@ const IconImg = styled.img`
   width: 20px;
   margin-right: 10px;
 `;
+interface CustomToastContentProps {
+  message: string;
+  icon?: string;
+}
 
 const CustomToastContent: React.FC<CustomToastContentProps> = ({
   message,
@@ -60,13 +59,7 @@ const CustomToastContent: React.FC<CustomToastContentProps> = ({
   </div>
 );
 
-// success는 파란 배경, info는 빨간 배경, error는 회색 배경에 느낌표 아이콘이 있습니다,, 상황에 맞게 사용하세요!
-interface ShowCustomToastOptions {
-  type: 'success' | 'info' | 'error';
-  message: string;
-}
-
-const showCustomToast = ({ type, message }: ShowCustomToastOptions) => {
+const showToast = (type: 'success' | 'info' | 'error', message: string) => {
   const icon = type === 'error' ? warningIcon : undefined;
   toast[type](<CustomToastContent message={message} icon={icon} />, {
     position: 'bottom-center',
@@ -80,5 +73,9 @@ const showCustomToast = ({ type, message }: ShowCustomToastOptions) => {
   });
 };
 
-export default showCustomToast;
+export const toastSuccess = (message: string) => showToast('success', message);
+export const toastInfo = (message: string) => showToast('info', message);
+export const toastError = (message?: string) =>
+  showToast('error', message || '오류가 발생했습니다!');
+
 export { CustomToastContainer };

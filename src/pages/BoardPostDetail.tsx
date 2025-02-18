@@ -11,8 +11,10 @@ import deletePost from '@/api/deletePost';
 import MenuModal from '@/components/common/MenuModal';
 import theme from '@/styles/theme';
 import DeleteModal from '@/components/Modal/DeleteModal';
-import showCustomToast, {
+import {
+  toastError,
   CustomToastContainer,
+  toastInfo,
 } from '@/components/common/ToastMessage';
 
 const Container = styled.div`
@@ -86,15 +88,12 @@ const BoardPostDetail = () => {
   const confirmDelete = async () => {
     try {
       await deletePost(numericPostId, path);
-      showCustomToast({ type: 'info', message: '게시물이 삭제되었습니다' });
+      toastInfo('게시물이 삭제되었습니다');
       setTimeout(() => {
-        navigate('/board'); // 2초 후 게시판 목록 페이지로 이동
+        navigate('/board');
       }, 2000);
     } catch (err) {
-      showCustomToast({
-        type: 'error',
-        message: '오류가 발생했습니다.',
-      });
+      toastError();
       console.error(err);
     }
     closeDeleteModal();

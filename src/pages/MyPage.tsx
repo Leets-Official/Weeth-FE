@@ -1,8 +1,10 @@
 /* eslint-disable no-alert */
 import deleteUser from '@/api/deleteUser';
 import MenuModal from '@/components/common/MenuModal';
-import showCustomToast, {
+import {
   CustomToastContainer,
+  toastError,
+  toastInfo,
 } from '@/components/common/ToastMessage';
 import Header from '@/components/Header/Header';
 import DeleteModal from '@/components/Modal/DeleteModal';
@@ -32,15 +34,12 @@ const MyPage = () => {
   const onClickLeave = async () => {
     try {
       await deleteUser();
-      showCustomToast({ type: 'info', message: '탈퇴가 완료되었습니다' });
+      toastInfo('탈퇴가 완료되었습니다');
       setTimeout(() => {
         navigate('/');
       }, 2000);
     } catch (err) {
-      showCustomToast({
-        type: 'error',
-        message: '오류가 발생했습니다.',
-      });
+      toastError();
       console.error(err);
     }
     closeDeleteModal();
