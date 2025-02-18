@@ -65,7 +65,7 @@ const Button = styled.button`
 const WaitingApproval = () => {
   return (
     <Container>
-      <Header RightButtonType="none" />
+      <Header RightButtonType="none" isAccessible />
       <Content>
         <img
           src={weeth}
