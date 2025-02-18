@@ -1,5 +1,5 @@
 import { MemberData } from '@/components/Admin/context/MemberContext';
-import * as S from '@/styles/admin/cardinal/AdminCardinal.styled';
+import * as S from '@/styles/admin/cardinal/CardinalModal.styled';
 import dropdownIcon from '@/assets/images/ic_admin_column_meatball.svg';
 import ButtonGroup from '@/components/Admin/ButtonGroup';
 import StatusIndicator from '@/components/Admin/StatusIndicator';

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Button from '@/components/Button/Button';
 import CheckBox from '@/assets/images/ic_admin_checkbox.svg';
 import UnCheckBox from '@/assets/images/ic_admin_uncheckbox.svg';
-import * as S from '@/styles/admin/cardinal/AdminCardinal.styled';
+import * as S from '@/styles/admin/cardinal/CardinalModal.styled';
 import CommonCardinalModal from '@/components/Admin/Modal/CommonCardinalModal';
 import postCardinalApi from '@/api/admin/cardinal/postCardinal';
 

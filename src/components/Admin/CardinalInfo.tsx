@@ -1,37 +1,9 @@
 import theme from '@/styles/theme';
-import styled from 'styled-components';
+import * as S from '@/styles/admin/cardinal/CardinalInfo.styled';
 import AddCardinal from '@/components/Admin/AddCardinal';
-import { BoxWrapper } from '@/components/Admin/TotalDues';
-import Box from '@/components/Admin/Box';
 import useGetAllCardinals from '@/api/useGetCardinals';
 import { useEffect, useState } from 'react';
 import { useGetAdminUsers } from '@/api/admin/member/getAdminUser';
-
-const CardinalBoxWrapper = styled(BoxWrapper)`
-  padding: 0 0 30px 0;
-  box-sizing: border-box;
-`;
-
-const TotalBox = styled(Box)`
-  background-color: ${theme.color.gray[18]};
-`;
-
-const CardinalBox = styled(Box)<{ isIncomplete?: boolean }>`
-  ${({ isIncomplete }) =>
-    isIncomplete ? `border: 2px dashed ${theme.color.gray[18]};` : ''}
-`;
-
-const ScrollContainer = styled.div`
-  display: flex;
-  gap: 16px;
-  margin-top: 10px;
-  overflow-x: auto;
-  scroll-behavior: smooth;
-  max-width: 100%;
-  &::-webkit-scrollbar {
-    display: none;
-  }
-`;
 
 const CardinalInfo: React.FC = () => {
   const { allCardinals } = useGetAllCardinals();
@@ -56,10 +28,10 @@ const CardinalInfo: React.FC = () => {
   const totalMembers = allUsers.length;
 
   return (
-    <CardinalBoxWrapper>
-      <ScrollContainer>
+    <S.CardinalBoxWrapper>
+      <S.ScrollContainer>
         <AddCardinal />
-        <TotalBox
+        <S.TotalBox
           title=" "
           description="전체"
           last={`총 ${totalMembers}명`}
@@ -75,7 +47,7 @@ const CardinalInfo: React.FC = () => {
               : `노정완 외 ${memberCount}명`;
 
           return (
-            <CardinalBox
+            <S.CardinalBox
               key={cardinal.id}
               title={`${cardinal.year}년 ${cardinal.semester}학기`}
               description={`${cardinal.cardinalNumber}기`}
@@ -86,8 +58,8 @@ const CardinalInfo: React.FC = () => {
             />
           );
         })}
-      </ScrollContainer>
-    </CardinalBoxWrapper>
+      </S.ScrollContainer>
+    </S.CardinalBoxWrapper>
   );
 };
 export default CardinalInfo;

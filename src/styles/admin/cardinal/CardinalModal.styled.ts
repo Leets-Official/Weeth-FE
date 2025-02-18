@@ -1,5 +1,5 @@
-import theme from '@/styles/theme';
 import { styled } from 'styled-components';
+import theme from '@/styles/theme';
 
 // CommonCardinalModal.tsx
 export const StyledModalOverlay = styled.div<{ overlayColor?: string }>`

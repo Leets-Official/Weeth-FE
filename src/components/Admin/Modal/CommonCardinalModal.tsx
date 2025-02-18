@@ -1,5 +1,5 @@
 import Modal from 'react-modal';
-import * as S from '@/styles/admin/cardinal/AdminCardinal.styled';
+import * as S from '@/styles/admin/cardinal/CardinalModal.styled';
 import closeIcon from '@/assets/images/ic_admin_close.svg';
 import { CloseIcon } from '@/components/Admin/Modal/CommonModal';
 

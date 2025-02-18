@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import Button from '@/components/Button/Button';
-import * as S from '@/styles/admin/cardinal/AdminCardinal.styled';
+import * as S from '@/styles/admin/cardinal/CardinalModal.styled';
 import CommonCardinalModal from '@/components/Admin/Modal/CommonCardinalModal';
 import DirectCardinalDropdown from '@/components/Admin/DirectCardinal';
 import { continueNextCardinalApi } from '@/api/admin/member/patchUserManagement';
