@@ -5,7 +5,7 @@ import { useState } from 'react';
 import CardinalModal from '@/components/Admin/Modal/CardinalModal';
 
 export const AddCardinalWrapper = styled.div`
-  width: 80px;
+  min-width: 80px;
   height: 164px;
   box-sizing: border-box;
   background-color: ${theme.color.gray[100]};

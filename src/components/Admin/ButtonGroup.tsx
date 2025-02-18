@@ -6,6 +6,7 @@ interface ButtonItem {
   onClick: () => void;
   disabled?: boolean;
   icon?: string;
+  style?: React.CSSProperties;
 }
 
 interface ButtonGroupProps {
@@ -65,11 +66,11 @@ const ButtonGroup: React.FC<ButtonGroupProps & { hasEndGap?: boolean }> = ({
 }) => {
   return (
     <ButtonGroupContainer hasEndGap={hasEndGap}>
-      {buttons.map(({ label, onClick, disabled, icon }) => (
+      {buttons.map(({ label, onClick, disabled, icon, style }) => (
         <Button
           key={label}
-          color="#fff"
-          textcolor="#000"
+          color={style?.backgroundColor || '#fff'}
+          textcolor={style?.color || '#000'}
           width="auto"
           height="45px"
           borderRadius="4px"

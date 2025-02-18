@@ -34,15 +34,17 @@ const SvgIcon = styled.img`
 const SelectedTopBar: React.FC = () => {
   const { selectedMembers, setSelectedMembers, members } = useMemberContext();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedUserIds, setSelectedUserIds] = useState<number[]>([]);
 
   const { handleAction } = useAdminActions();
 
-  const handleBackClick = () => {
-    setSelectedMembers([]);
+  const handleOpenModal = () => {
+    setSelectedUserIds(selectedMembers.map(Number));
+    setIsModalOpen(true);
   };
 
-  const handleOpenModal = () => {
-    setIsModalOpen(true);
+  const handleBackClick = () => {
+    setSelectedMembers([]);
   };
 
   const handleCloseModal = () => {
@@ -89,6 +91,12 @@ const SelectedTopBar: React.FC = () => {
       label: '기수 변경',
       onClick: handleOpenModal,
       disabled: false,
+      style: {
+        backgroundColor: isModalOpen
+          ? theme.color.gray[18]
+          : theme.color.gray[100],
+        color: isModalOpen ? theme.color.gray[100] : '#000',
+      },
     },
   ];
 
@@ -110,6 +118,7 @@ const SelectedTopBar: React.FC = () => {
           left="75%"
           position="absolute"
           overlayColor="transparent"
+          selectedUserIds={selectedUserIds}
         />
       )}
     </>
