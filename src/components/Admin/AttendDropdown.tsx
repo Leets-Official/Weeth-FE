@@ -4,6 +4,7 @@ import * as S from '@/styles/admin/AttendDropdown.styled';
 import CheckBox from '@/assets/images/ic_admin_check.svg';
 import Absence from '@/assets/images/ic_admin_absence.svg';
 import updateAttendanceStatus from '@/api/admin/attendance/updateAttendanceStatus';
+import useGetGlobaluserInfo from '@/api/useGetGlobaluserInfo';
 import RadioButton from './RadioButton';
 import SearchInput from './SearchInput';
 
@@ -36,8 +37,12 @@ const AttendDropdown: React.FC<AttendDropdownProps> = ({ meetingId }) => {
     [id: number]: string;
   }>({});
 
+  const { isAdmin } = useGetGlobaluserInfo();
+
   useEffect(() => {
     const loadAttendances = async () => {
+      if (!isAdmin) return;
+
       const res = await fetchAttendances(meetingId);
 
       if (res.code === 200) {
@@ -72,6 +77,8 @@ const AttendDropdown: React.FC<AttendDropdownProps> = ({ meetingId }) => {
   };
 
   const handleSave = async () => {
+    if (!isAdmin) return;
+
     const updates = Object.entries(changedData).map(([id, status]) => ({
       attendanceId: Number(id),
       status: formatStatusForAPI(status),
@@ -80,7 +87,6 @@ const AttendDropdown: React.FC<AttendDropdownProps> = ({ meetingId }) => {
     const res = await updateAttendanceStatus(updates);
 
     if (res.code === 200) {
-      alert('출석 상태가 성공적으로 업데이트되었습니다.');
       setIsEditMode(false);
     } else {
       alert('출석 상태 업데이트에 실패했습니다.');
