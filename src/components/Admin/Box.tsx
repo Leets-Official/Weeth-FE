@@ -36,7 +36,7 @@ const Description = styled.div`
 const Last = styled.div<{ lastColor?: string }>`
   font-size: 18px;
   font-family: ${theme.font.regular};
-  color: ${({ lastColor }) => lastColor || '#979797'};
+  color: ${({ lastColor }) => lastColor || 'rgba(255, 255, 255, 0.5)'};
 `;
 
 const Box: React.FC<BoxProps> = ({
