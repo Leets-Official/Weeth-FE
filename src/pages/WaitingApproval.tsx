@@ -65,7 +65,7 @@ const Button = styled.button`
 const WaitingApproval = () => {
   return (
     <Container>
-      <Header RightButtonType="none" />
+      <Header RightButtonType="none" isAccessible={false} />
       <Content>
         <img
           src={weeth}
@@ -81,7 +81,13 @@ const WaitingApproval = () => {
           오랜기간 승인이 되지 않을 시 운영진에게 문의해주세요.
         </SubTitle>
         <ButtonContainer>
-          <Button>문의하기</Button>
+          <Button
+            onClick={() => {
+              window.location.href = 'https://pf.kakao.com/_LtLyG';
+            }}
+          >
+            문의하기
+          </Button>
         </ButtonContainer>
       </Content>
     </Container>

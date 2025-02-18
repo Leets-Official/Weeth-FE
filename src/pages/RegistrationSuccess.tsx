@@ -65,7 +65,7 @@ const Button = styled.button`
 const RegistrationSuccess = () => {
   return (
     <Container>
-      <Header RightButtonType="none" />
+      <Header RightButtonType="none" isAccessible={false} />
       <Content>
         <img
           src={weeth}
@@ -77,9 +77,15 @@ const RegistrationSuccess = () => {
         <img src={success} alt="success" width={215} height={215} />
         <Title>가입을 축하합니다!</Title>
         <SubTitle>운영진의 승인 후 서비스 이용이 가능합니다.</SubTitle>
-        <SubTitle>운영진에게 문의하시면 더 빠르게 승입됩니다.</SubTitle>
+        <SubTitle>운영진에게 문의하시면 더 빠르게 승인됩니다.</SubTitle>
         <ButtonContainer>
-          <Button>문의하기</Button>
+          <Button
+            onClick={() => {
+              window.location.href = 'https://pf.kakao.com/_LtLyG';
+            }}
+          >
+            문의하기
+          </Button>
         </ButtonContainer>
       </Content>
     </Container>
