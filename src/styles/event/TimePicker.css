@@ -60,6 +60,7 @@
   box-sizing: border-box;
   border: none !important;
   font-family: 'Pretendard SemiBold';
+  background-color: #2f2f2f;
 }
 
 .timepicker-ui-hour:hover {
