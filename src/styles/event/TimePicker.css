@@ -1,0 +1,129 @@
+.timepicker-ui-modal {
+  font-family: 'Pretendard';
+}
+
+.timepicker-ui-input {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  color: white;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  width: 75px;
+  font-size: 16px;
+}
+
+.timepicker-ui-select-time {
+  display: none;
+}
+
+.timepicker-ui-wrapper {
+  background-color: #1f1f1f !important;
+  border-radius: 10px !important;
+}
+
+.timepicker-ui-header {
+  height: 200px;
+  padding: 0 !important;
+}
+
+.timepicker-ui-clock-face {
+  background-color: #2f2f2f !important;
+}
+.timepicker-ui-wrapper-time {
+  height: 60px;
+}
+
+.timepicker-ui-hour {
+  color: #fff;
+  background-color: #2f2f2f !important;
+  box-sizing: border-box;
+  font-family: 'Pretendard SemiBold';
+}
+
+.timepicker-ui-minutes {
+  color: #fff;
+  background-color: #2f2f2f !important;
+  box-sizing: border-box;
+  font-family: 'Pretendard SemiBold';
+}
+
+.timepicker-ui-dots {
+  color: #fff;
+  font-family: 'Pretendard SemiBold';
+}
+
+.timepicker-ui-type-mode {
+  color: #fff;
+  box-sizing: border-box;
+  border: none !important;
+  font-family: 'Pretendard SemiBold';
+  background-color: #2f2f2f;
+}
+
+.timepicker-ui-hour:hover {
+  color: #fff !important;
+  background-color: #00dda8 !important;
+}
+.timepicker-ui-hour.active {
+  color: #fff !important;
+  background-color: #00dda8 !important;
+}
+.timepicker-ui-minutes:hover {
+  color: #fff !important;
+  background-color: #00dda8 !important;
+}
+.timepicker-ui-minutes.active {
+  color: #fff !important;
+  background-color: #00dda8 !important;
+}
+.timepicker-ui-am:hover {
+  color: #fff !important;
+  background-color: #00dda8 !important;
+}
+.timepicker-ui-am.active {
+  color: #fff !important;
+  background-color: #00dda8 !important;
+}
+.timepicker-ui-pm:hover {
+  color: #fff !important;
+  background-color: #00dda8 !important;
+}
+.timepicker-ui-pm.active {
+  color: #fff !important;
+  background-color: #00dda8 !important;
+}
+.timepicker-ui-value-tips {
+  color: #fff;
+}
+.timepicker-ui-circle-hand {
+  background-color: #00dda8 !important;
+  width: 25px;
+  height: 25px;
+}
+.timepicker-ui-clock-hand {
+  background-color: #00dda8 !important;
+}
+.timepicker-ui-dot {
+  background-color: #00dda8 !important;
+}
+
+.timepicker-ui-cancel-btn {
+  color: #fff !important;
+  font-family: 'Pretendard';
+  margin-bottom: 20px;
+}
+.timepicker-ui-cancel-btn:hover {
+  background-color: transparent !important;
+}
+.timepicker-ui-ok-btn {
+  color: #00dda8 !important;
+  font-family: 'Pretendard';
+  margin-bottom: 20px;
+}
+.timepicker-ui-ok-btn:hover {
+  color: #00dda8 !important;
+  background-color: transparent !important;
+}

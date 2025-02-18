@@ -119,7 +119,7 @@ const EventContent = ({
       </S.ContentBlock>
       <S.ContentBlock>
         <div>장소 : {data.location} </div>
-        <div>총 인원 : {data.memberCount}</div>
+        <div>준비물 : {data.requiredItem}</div>
       </S.ContentBlock>
       <S.ContentBlock>
         <div>{data.content}</div>
