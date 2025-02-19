@@ -2,6 +2,7 @@ import { postPenaltyApi } from '@/api/admin/penalty/getPenalty';
 import { useState } from 'react';
 import * as S from '@/styles/admin/penalty/Penalty.styled';
 import Button from '@/components/Admin/Button';
+import dayjs from 'dayjs';
 
 interface PenaltyAddProps {
   userId: number;
@@ -24,10 +25,12 @@ const PenaltyAdd: React.FC<PenaltyAddProps> = ({
   onSave,
   existingData,
 }) => {
+  const today = dayjs().format('YYYY.MM.DD');
+
   const [formData, setFormData] = useState({
     penaltyId: existingData?.penaltyId,
     penaltyDescription: existingData?.penaltyDescription || '',
-    time: existingData?.time || '',
+    time: existingData?.time || today,
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -49,7 +52,7 @@ const PenaltyAdd: React.FC<PenaltyAddProps> = ({
       setFormData({
         penaltyId: 0,
         penaltyDescription: '',
-        time: '',
+        time: today,
       });
       window.location.reload();
     } catch (error: any) {

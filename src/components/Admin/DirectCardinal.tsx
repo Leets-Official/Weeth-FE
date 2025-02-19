@@ -1,35 +1,39 @@
 import { useState } from 'react';
+import { styled } from 'styled-components';
+import { DirectCardinalProps } from '@/types/adminCardinal';
+import useGetAllCardinals from '@/api/useGetCardinals';
 import CardinalSVG from '@/assets/images/ic_admin_column_meatball.svg';
-import { CardinalProps } from '@/types/adminCardinal';
-import { useGetAllCardinals } from '@/api/useGetCardinals';
 import {
-  ArrowIcon,
   CardinalButton,
   DropdownItem,
   DropdownMenu,
-} from './Cardinal';
+} from '@/components/Admin/Cardinal';
 
-const DirectCardinalDropdown: React.FC<CardinalProps> = ({
+export const StyledCardinal = styled.div`
+  width: 35%;
+  position: relative;
+  z-index: 1000;
+`;
+
+const DirectCardinalDropdown: React.FC<DirectCardinalProps> = ({
   selectedCardinal,
   setSelectedCardinal,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const { allCardinals } = useGetAllCardinals();
-  const [isCustomInput, setIsCustomInput] = useState(false);
+  const [isCustomInput] = useState(false);
 
   const sortedCardinals = [...allCardinals].reverse();
 
   const toggleDropdown = () => setIsOpen(!isOpen);
 
   const selectCardinal = (value: number) => {
-    setSelectedCardinal(value);
-    setIsCustomInput(false);
-
+    setSelectedCardinal(value, false);
     setIsOpen(false);
   };
 
   const handleCustomInput = () => {
-    setIsCustomInput(true);
+    setSelectedCardinal(0, true);
     setIsOpen(false);
   };
 
@@ -40,11 +44,11 @@ const DirectCardinalDropdown: React.FC<CardinalProps> = ({
   };
 
   return (
-    <>
+    <StyledCardinal>
       <CardinalButton onClick={toggleDropdown}>
         <div>{getDisplayText()}</div>
 
-        <ArrowIcon
+        <img
           src={CardinalSVG}
           alt="cardinal"
           className={isOpen ? 'open' : ''}
@@ -67,7 +71,7 @@ const DirectCardinalDropdown: React.FC<CardinalProps> = ({
           <DropdownItem onClick={handleCustomInput}>직접 입력</DropdownItem>
         </DropdownMenu>
       )}
-    </>
+    </StyledCardinal>
   );
 };
 

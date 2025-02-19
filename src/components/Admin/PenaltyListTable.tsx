@@ -13,10 +13,8 @@ import PenaltyAdd from '@/components/Admin/PenaltyAdd';
 import { statusColors } from '@/components/Admin/StatusIndicator';
 import { StatusCell } from '@/components/Admin/MemberListTableRow';
 import { EmptyCell } from '@/components/Admin/MemberListTableHeader';
+import formatDate from '@/utils/admin/dateUtils';
 import dayjs from 'dayjs';
-import 'dayjs/locale/ko';
-import utc from 'dayjs/plugin/utc';
-import timezone from 'dayjs/plugin/timezone';
 
 const columns = [
   { key: 'name', header: '이름' },
@@ -27,10 +25,6 @@ const columns = [
   { key: 'LatestPenalty', header: '최근 패널티' },
   { key: 'empty', header: '' },
 ];
-
-dayjs.extend(utc);
-dayjs.extend(timezone);
-dayjs.locale('ko');
 
 const PenaltyListTable: React.FC = () => {
   const { filteredMembers } = useMemberContext();
@@ -46,12 +40,6 @@ const PenaltyListTable: React.FC = () => {
     penaltyReducer,
     {} as PenaltyState,
   );
-
-  const formatDate = (time: string | null | undefined) => {
-    if (!time) return '날짜 없음';
-
-    return dayjs(time).tz('Asia/Seoul').format('YYYY.MM.DD');
-  };
 
   const getLatestPenaltyDate = (penalties: { time: string }[] | undefined) => {
     if (!penalties || penalties.length === 0) return '없음';

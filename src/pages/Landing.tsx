@@ -76,7 +76,7 @@ const Landing: React.FC = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowButtonWrapper(true);
-    }, 1000);
+    }, 100);
     return () => clearTimeout(timer);
   }, []);
 

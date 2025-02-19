@@ -1,5 +1,5 @@
 import Modal from 'react-modal';
-import * as S from '@/styles/admin/cardinal/AdminCardinal.styled';
+import * as S from '@/styles/admin/cardinal/CardinalModal.styled';
 import closeIcon from '@/assets/images/ic_admin_close.svg';
 import { CloseIcon } from '@/components/Admin/Modal/CommonModal';
 
@@ -55,7 +55,12 @@ const CommonCardinalModal: React.FC<CommonCardinalModalProps> = ({
             <S.TitleContainer borderBottom={borderBottom}>
               <S.TitleText>{title}</S.TitleText>
               {showCloseButton && (
-                <CloseIcon src={closeIcon} alt="close" onClick={onClose} />
+                <CloseIcon
+                  isCardinalModal
+                  src={closeIcon}
+                  alt="close"
+                  onClick={onClose}
+                />
               )}
             </S.TitleContainer>
             <S.MainContent borderBottom={borderBottom}>

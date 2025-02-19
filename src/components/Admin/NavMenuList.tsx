@@ -7,9 +7,10 @@ import ArrowIcon from '@/assets/images/ic_admin_service_transfer.svg?react';
 import ManualIcon from '@/assets/images/ic_admin_manual.svg?react';
 import styled from 'styled-components';
 import NavMenuItem from '@/components/Admin/NavMenuItem';
+import { useState } from 'react';
 
 const MenuListWrapper = styled.div`
-  padding: 20px 0 20px 0;
+  padding: 20px 0;
 `;
 
 const SectionHeader = styled.div`
@@ -17,11 +18,14 @@ const SectionHeader = styled.div`
   font-weight: 500;
   color: #000;
   padding: 0 20px;
-  margin: 20px 0 20px 0;
+  margin: 20px 0;
 `;
 const NavMenuList: React.FC = () => {
   const nav = useNavigate();
   const location = useLocation();
+  const [activeMenu, setActiveMenu] = useState<string | null>(
+    location.pathname,
+  );
 
   const managementItems = [
     {
@@ -55,23 +59,29 @@ const NavMenuList: React.FC = () => {
       id: 'service',
       icon: <ArrowIcon />,
       label: '서비스로 이동',
+      path: 'https://weeth.site',
     },
     {
       id: 'manual',
       icon: <ManualIcon />,
       label: '관리자 메뉴얼',
+      path: '', // 추후 수정
     },
   ];
 
-  const handleNavigationClick = (id: string) => {
-    if (id === 'service') {
-      window.location.href = 'https://weeth.site';
-    } else if (id === 'manual') {
-      console.log('추후에 추가');
-    }
+  const handleInternalNavigation = (path: string) => {
+    setActiveMenu(path);
+    nav(path);
   };
 
-  const isActive = (path: string) => location.pathname === path;
+  const handleExternalNavigation = (id: string, path: string) => {
+    setActiveMenu(id);
+    if (id === 'service') {
+      window.location.href = path;
+    } else if (id === 'manual') {
+      console.log('추후 추가');
+    }
+  };
 
   return (
     <MenuListWrapper>
@@ -81,8 +91,8 @@ const NavMenuList: React.FC = () => {
           key={`managementItems-${item.id}`}
           icon={item.icon}
           label={item.label}
-          active={isActive(item.path)}
-          onClick={() => nav(item.path)}
+          active={activeMenu === item.path}
+          onClick={() => handleInternalNavigation(item.path)}
         />
       ))}
       <SectionHeader>이동</SectionHeader>
@@ -91,9 +101,8 @@ const NavMenuList: React.FC = () => {
           key={`navigation-${item.id}`}
           icon={item.icon}
           label={item.label}
-          onClick={() => handleNavigationClick(item.id)}
-          // active={activeIndex === index + managementItems.length}
-          // onClick={() => }
+          onClick={() => handleExternalNavigation(item.id, item.path)}
+          active={activeMenu === item.id}
         />
       ))}
     </MenuListWrapper>

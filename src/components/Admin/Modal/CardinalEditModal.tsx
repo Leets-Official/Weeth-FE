@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import Button from '@/components/Button/Button';
-import * as S from '@/styles/admin/cardinal/AdminCardinal.styled';
+import * as S from '@/styles/admin/cardinal/CardinalModal.styled';
 import CommonCardinalModal from '@/components/Admin/Modal/CommonCardinalModal';
+import DirectCardinalDropdown from '@/components/Admin/DirectCardinal';
+import { continueNextCardinalApi } from '@/api/admin/member/patchUserManagement';
 
 interface CardinalChangeModalProps {
   isOpen: boolean;
   onClose: () => void;
+  selectedUserIds: number[];
   top?: string;
   left?: string;
   position?: 'center' | 'absolute' | 'fixed';
@@ -15,23 +18,53 @@ interface CardinalChangeModalProps {
 const CardinalEditModal: React.FC<CardinalChangeModalProps> = ({
   isOpen,
   onClose,
+  selectedUserIds,
   top = '100px',
   left = '50%',
   position = 'absolute',
   overlayColor = 'transparent',
 }) => {
   const [cardinalNumber, setCardinalNumber] = useState('');
-  const [customInput, setCustomInput] = useState('');
-  const [, setError] = useState('');
+  const [isCustomInput, setIsCustomInput] = useState(false);
+  const [selectedCardinal] = useState<number | null>(null);
 
-  const handleSave = () => {
-    const inputValue = customInput || cardinalNumber;
-    if (!inputValue.trim()) {
-      setError('기수를 입력해주세요.');
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const handleSelectCardinal = (value: number, isCustom: boolean) => {
+    setIsCustomInput(isCustom);
+    if (isCustom) {
+      setCardinalNumber('');
+      setTimeout(() => inputRef.current?.focus(), 0);
+    } else {
+      setCardinalNumber(String(value));
+    }
+  };
+
+  const handleSave = async () => {
+    if (!cardinalNumber.trim()) {
+      alert('변경할 기수를 입력해주세요.');
       return;
     }
-    setError('');
-    alert(`새로운 기수: ${inputValue}`);
+
+    try {
+      const cardinalData = selectedUserIds.map((id) => ({
+        userId: id,
+        cardinal: Number(cardinalNumber),
+      }));
+
+      const response = await continueNextCardinalApi(cardinalData);
+
+      if (response.code === 200) {
+        alert('기수가 성공적으로 변경되었습니다.');
+        onClose();
+        window.location.reload();
+      } else {
+        alert(`기수 변경 실패: ${response.message}`);
+      }
+    } catch (error) {
+      console.error('기수 변경 오류: ', error);
+      alert(`기수 변경 중 오류가 발생했습니다.`);
+    }
     onClose();
   };
 
@@ -80,14 +113,12 @@ const CardinalEditModal: React.FC<CardinalChangeModalProps> = ({
             onChange={(e) => setCardinalNumber(e.target.value)}
             flex={2}
             maxWidth="65%"
+            readOnly={!isCustomInput}
+            ref={inputRef}
           />
-          <S.StyledInput
-            type="text"
-            placeholder="직접 입력"
-            value={customInput}
-            onChange={(e) => setCustomInput(e.target.value)}
-            flex={1}
-            maxWidth="35%"
+          <DirectCardinalDropdown
+            selectedCardinal={selectedCardinal}
+            setSelectedCardinal={handleSelectCardinal}
           />
         </S.InputGroup>
         <S.ErrorMessage>
