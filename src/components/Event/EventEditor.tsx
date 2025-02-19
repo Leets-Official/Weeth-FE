@@ -20,6 +20,7 @@ import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
 import PickerModal from '@/components/Event/PickerModal';
 import TimePicker from '@/components/Event/TimePicker';
+import Loading from '../common/Loading';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -259,6 +260,7 @@ const EventEditor = () => {
         </PickerModal>
       )}
 
+      <Loading />
       <Header onClickRightButton={onSave} RightButtonType="TEXT" isAccessible>
         {isEditMode ? '일정 수정' : '일정 추가'}
       </Header>
