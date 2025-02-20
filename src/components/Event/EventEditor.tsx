@@ -41,7 +41,11 @@ const EventEditor = () => {
   useCustomBack('/calendar');
 
   const { id } = useParams();
-  const { data: eventDetailData, error } = useGetEventInfo('events', id);
+  const {
+    data: eventDetailData,
+    loading,
+    error,
+  } = useGetEventInfo('events', id);
   const isEditMode = Boolean(id);
   const navigate = useNavigate();
 
@@ -166,8 +170,6 @@ const EventEditor = () => {
       .toLocaleString('sv-SE', { timeZone: 'Asia/Seoul' })
       .replace(' ', 'T');
 
-    console.log(startISO, endISO);
-
     if (startISO === endISO) {
       alert('시작 시간과 종료 시간은 같을 수 없습니다.');
       return;
@@ -192,6 +194,8 @@ const EventEditor = () => {
       }
     }
   };
+
+  if (loading) return <Loading />;
 
   if (error) return <S.Error>{error}</S.Error>;
 
@@ -260,7 +264,6 @@ const EventEditor = () => {
         </PickerModal>
       )}
 
-      <Loading />
       <Header onClickRightButton={onSave} RightButtonType="TEXT" isAccessible>
         {isEditMode ? '일정 수정' : '일정 추가'}
       </Header>

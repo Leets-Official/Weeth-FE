@@ -11,8 +11,10 @@ export const getEventInfo = async (
 export const useGetEventInfo = (type?: string, id?: string) => {
   const [data, setData] = useState(null);
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
+    setLoading(true);
     const fetchData = async () => {
       try {
         if (id && type) {
@@ -25,13 +27,15 @@ export const useGetEventInfo = (type?: string, id?: string) => {
         }
       } catch (err: any) {
         setError(err.message || 'An error occurred');
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchData();
   }, [id, type]);
 
-  return { data, error };
+  return { data, loading, error };
 };
 
 export default useGetEventInfo;
