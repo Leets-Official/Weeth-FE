@@ -90,30 +90,31 @@ const CardinalModal: React.FC<CardinalModalProps> = ({ isOpen, onClose }) => {
       }
     >
       <ModalContentWrapper>
-        <S.Title>추가할 새로운 기수를 작성해주세요</S.Title>
+        <S.Title>새로운 기수 추가</S.Title>
+        <div>추가할 새로운 기수를 작성해주세요</div>
         <S.Input
           type="text"
-          placeholder="기"
           name="cardinalNumber"
           value={formState.cardinalNumber}
           onChange={handleChange}
         />
+        <div>기</div>
         <div>활동 시기</div>
         <S.FlexRow>
           <S.Input
             type="text"
-            placeholder="년"
             name="year"
             value={formState.year}
             onChange={handleChange}
           />
+          <div>년</div>
           <S.Input
             type="text"
-            placeholder="학기"
             name="semester"
             value={formState.semester}
             onChange={handleChange}
           />
+          <div>학기</div>
         </S.FlexRow>
         <S.SvgText onClick={handleCheckBoxClick}>
           <img
