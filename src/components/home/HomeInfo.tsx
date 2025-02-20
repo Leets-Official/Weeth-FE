@@ -11,23 +11,30 @@ import BEChar from '@/assets/images/ic_char_BE.svg';
 import BECharHover from '@/assets/images/ic_char_BE_hover.svg';
 import DEChar from '@/assets/images/ic_char_DE.svg';
 import DECharHover from '@/assets/images/ic_char_DE_hover.svg';
+import useGetGlobaluserInfo from '@/api/useGetGlobaluserInfo';
+import AdminIcon from '@/assets/images/ic_Master_BW.svg';
 
 const HomeInfo = () => {
   const navigate = useNavigate();
   const { userInfo, isLoading } = useGetUserInfo();
   const [characterImg, setCharacterImg] = useState('');
+  const [userPart, setUserPart] = useState('');
+  const { isAdmin } = useGetGlobaluserInfo();
 
   useEffect(() => {
     if (!isLoading && userInfo) {
       switch (userInfo.position) {
         case 'FE':
           setCharacterImg(FEChar);
+          setUserPart('FE');
           break;
         case 'BE':
           setCharacterImg(BEChar);
+          setUserPart('BE');
           break;
         case 'DE':
           setCharacterImg(DEChar);
+          setUserPart('D');
           break;
         default:
           setCharacterImg('');
@@ -81,7 +88,9 @@ const HomeInfo = () => {
             </Caption>
             <div>{userInfo?.name || 'Loading...'}</div>
           </S.Name>
-          <S.NickName>Elite님</S.NickName>
+          <S.NickNameContainer>
+            {isAdmin && <S.Admin src={AdminIcon} alt="어드민" />} {userPart}
+          </S.NickNameContainer>
         </S.UserContainer>
         <S.RightButtonContainer>
           {isLoading || !userInfo ? (

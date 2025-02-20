@@ -58,6 +58,8 @@ const ModalPenalty: React.FC<ModalPenaltyProps> = ({ open, close }) => {
 
   const userName = useGetUserName();
 
+  console.log(penaltyInfo);
+
   return (
     <StyledModal open={open}>
       <ModalContent>
