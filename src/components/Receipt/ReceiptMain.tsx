@@ -1,20 +1,12 @@
 import { useState } from 'react';
 import ReceiptInfo from '@/components/Receipt/ReceiptInfo';
 import * as S from '@/styles/receipt/ReceiptMain.styled';
-import useGetDuesInfo from '@/api/useGetDuesInfo';
+import useGetDuesInfo, { Receipt } from '@/api/useGetDuesInfo';
 import useGetGlobaluserInfo from '@/api/useGetGlobaluserInfo';
-import ReceiptImageModal from './ReceiptImageModal';
-
-interface ReceiptProps {
-  id: number;
-  date: string;
-  amount: number;
-  description: string;
-  images: string[];
-}
+import ReceiptImageModal from '@/components/Receipt/ReceiptImageModal';
 
 interface GroupedByMonth {
-  [key: number]: ReceiptProps[];
+  [key: string]: Receipt[];
 }
 
 const ReceiptMain: React.FC = () => {
@@ -37,12 +29,16 @@ const ReceiptMain: React.FC = () => {
   };
 
   const groupedByMonth: GroupedByMonth =
-    duesInfo?.receipts?.reduce((acc: GroupedByMonth, curr: ReceiptProps) => {
-      const month = new Date(curr.date).getMonth() + 1;
-      if (!acc[month]) {
-        acc[month] = [];
+    duesInfo?.receipts?.reduce<GroupedByMonth>((acc, curr) => {
+      const dateParts = curr.date.split('-').map((part) => parseInt(part, 10));
+      const date = new Date(dateParts[0], dateParts[1] - 1, dateParts[2]);
+      const month = date.getMonth() + 1;
+      const monthKey = month.toString();
+
+      if (!acc[monthKey]) {
+        acc[monthKey] = [];
       }
-      acc[month].push(curr);
+      acc[monthKey].push(curr);
       return acc;
     }, {} as GroupedByMonth) || {};
 
@@ -55,13 +51,14 @@ const ReceiptMain: React.FC = () => {
   } else {
     months = [9, 10, 11, 12, 1, 2];
   }
+
   return (
     <S.StyledReceipt>
       {months.map((month) => (
-        <div key={month}>
+        <div key={month.toString()}>
           <S.StyledMonth>{month}월</S.StyledMonth>
-          {groupedByMonth[month] ? (
-            groupedByMonth[month].map((receipt) => (
+          {groupedByMonth[month.toString()] ? (
+            groupedByMonth[month.toString()].map((receipt) => (
               <div key={receipt.id}>
                 <ReceiptInfo
                   money={`${receipt.amount.toLocaleString()}`}
@@ -69,14 +66,16 @@ const ReceiptMain: React.FC = () => {
                   memo={receipt.description}
                 />
                 <S.ScrollContainer>
-                  {receipt.images?.length > 0 ? (
-                    receipt.images.map((image, index) => (
-                      <S.GridItem key={index} onClick={() => openModal(image)}>
+                  {receipt.fileUrls.length > 0 ? (
+                    receipt.fileUrls.map((image, index) => (
+                      <S.GridItem
+                        key={image.fileId}
+                        onClick={() => openModal(image.fileUrl)}
+                      >
                         <S.GridItemImage
-                          src={image}
+                          src={image.fileUrl}
                           title={`영수증 사진 ${index + 1}`}
                         />
-                        <S.OpenModalButton onClick={() => openModal(image)} />
                       </S.GridItem>
                     ))
                   ) : (

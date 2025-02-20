@@ -1,11 +1,17 @@
 import { useEffect, useState } from 'react';
 import api from './api';
 
-interface Receipt {
+export interface ImageInfo {
+  fileId: number;
+  fileName: string;
+  fileUrl: string;
+}
+
+export interface Receipt {
   id: number;
   amount: number;
   description: string;
-  images: string[];
+  fileUrls: ImageInfo[];
   date: string;
 }
 
