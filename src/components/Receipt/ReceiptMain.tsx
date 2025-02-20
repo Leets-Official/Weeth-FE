@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import ReactModal from 'react-modal';
 import ReceiptInfo from '@/components/Receipt/ReceiptInfo';
 import * as S from '@/styles/receipt/ReceiptMain.styled';
 import useGetDuesInfo from '@/api/useGetDuesInfo';
 import useGetGlobaluserInfo from '@/api/useGetGlobaluserInfo';
+import ReceiptImageModal from './ReceiptImageModal';
 
 interface ReceiptProps {
   id: number;
@@ -91,31 +91,11 @@ const ReceiptMain: React.FC = () => {
           <S.Line />
         </div>
       ))}
-      <ReactModal
+      <ReceiptImageModal
         isOpen={modalIsOpen}
+        selectedImage={selectedImage}
         onRequestClose={closeModal}
-        style={{
-          overlay: {
-            backgroundColor: 'rgba(0, 0, 0, 0.75)',
-          },
-          content: {
-            top: '45%',
-            left: '50%',
-            right: 'auto',
-            bottom: 'auto',
-            marginRight: '-50%',
-            transform: 'translate(-50%, -50%)',
-            padding: '0',
-            border: 'none',
-            background: 'none',
-            width: '50%',
-            height: '50%',
-            overflow: 'hidden',
-          },
-        }}
-      >
-        <S.ModalImage src={selectedImage} title="영수증 큰 이미지" />
-      </ReactModal>
+      />
     </S.StyledReceipt>
   );
 };
