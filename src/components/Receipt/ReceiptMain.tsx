@@ -55,7 +55,6 @@ const ReceiptMain: React.FC = () => {
   } else {
     months = [9, 10, 11, 12, 1, 2];
   }
-
   return (
     <S.StyledReceipt>
       {months.map((month) => (
@@ -70,9 +69,9 @@ const ReceiptMain: React.FC = () => {
                   memo={receipt.description}
                 />
                 <S.ScrollContainer>
-                  {receipt.images.length > 0 ? (
+                  {receipt.images?.length > 0 ? (
                     receipt.images.map((image, index) => (
-                      <S.GridItem onClick={() => openModal(image)}>
+                      <S.GridItem key={index} onClick={() => openModal(image)}>
                         <S.GridItemImage
                           src={image}
                           title={`영수증 사진 ${index + 1}`}
