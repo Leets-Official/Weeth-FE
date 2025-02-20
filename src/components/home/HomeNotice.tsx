@@ -18,6 +18,7 @@ const AnimationLayout = styled.div`
   background-color: ${theme.color.mainDark};
   font-family: ${theme.font.regular};
   margin-top: 15px;
+  cursor: pointer;
 `;
 
 const FlowBox = styled.div`
