@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { toastError } from '@/components/common/ToastMessage';
 import api from './api';
 
 const getMonthlySchedule = async (start: string, end: string) => {
@@ -25,6 +26,7 @@ export const useGetMonthlySchedule = (start: string, end: string) => {
           setError(response.data.message);
         }
       } catch (err: any) {
+        toastError('데이터를 불러오는 데에 실패했습니다.');
         setError(
           err.response?.data?.message || '데이터를 불러오지 못했습니다.',
         );
