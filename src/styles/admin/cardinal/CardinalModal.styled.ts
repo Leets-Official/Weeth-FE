@@ -122,20 +122,25 @@ export const StyledInput = styled.input<{ flex: number; maxWidth: string }>`
   border-radius: 4px;
   font-size: 16px;
   padding: 12px;
-  &::focus {
-    outline: 2px solid #2f2f2f;
-  }
   &::placeholder {
     color: ${theme.color.gray[65]};
   }
 
   // readOnly 일 때 색상 변경
   ${({ readOnly }) =>
-    readOnly &&
-    `
-    color: ${theme.color.gray[65]};
-    cursor: not-allowed;
-  `}
+    readOnly
+      ? `
+      color: ${theme.color.gray[65]};
+      cursor: not-allowed;
+      &:focus {
+      outline: none
+      }
+      `
+      : `
+      &:focus {
+      outline: 2px solid #2f2f2f;
+      }
+    `}
 `;
 
 // CardinalModal.tsx

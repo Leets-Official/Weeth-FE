@@ -5,7 +5,7 @@ import CommonCardinalModal from '@/components/Admin/Modal/CommonCardinalModal';
 import DirectCardinalDropdown from '@/components/Admin/DirectCardinal';
 import { continueNextCardinalApi } from '@/api/admin/member/patchUserManagement';
 import useGetAllCardinals from '@/api/useGetCardinals';
-import { patchCardinalApi } from '@/api/admin/cardinal/postCardinal';
+// import { patchCardinalApi } from '@/api/admin/cardinal/postCardinal';
 
 interface CardinalChangeModalProps {
   isOpen: boolean;
@@ -28,7 +28,7 @@ const CardinalEditModal: React.FC<CardinalChangeModalProps> = ({
 }) => {
   const [cardinalNumber, setCardinalNumber] = useState('');
   const [isCustomInput, setIsCustomInput] = useState(false);
-  const [selectedCardinal] = useState<number | null>(null);
+  const [selectedCardinal, setSelectedCardinal] = useState<number | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const { allCardinals } = useGetAllCardinals();
@@ -38,9 +38,11 @@ const CardinalEditModal: React.FC<CardinalChangeModalProps> = ({
     setIsCustomInput(isCustom);
     if (isCustom) {
       setCardinalNumber('');
+      setSelectedCardinal(null);
       setTimeout(() => inputRef.current?.focus(), 0);
     } else {
       setCardinalNumber(String(value));
+      setSelectedCardinal(value);
     }
   };
 

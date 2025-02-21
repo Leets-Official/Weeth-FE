@@ -39,7 +39,6 @@ const CardinalInfo: React.FC = () => {
     semester?: number;
     cardinalNumber: number;
   }) => {
-    console.log('클릭된 기수:', cardinal.cardinalNumber);
     if (!cardinal.year || !cardinal.semester) {
       setCurrentEditingCardinal(cardinal);
       // setIsModalOpen(true)
