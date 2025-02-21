@@ -9,21 +9,37 @@ export interface BoxProps {
   lastColor?: string;
   minWidth?: string;
   isCardinalBox?: boolean;
+  onClick?: () => void;
+  isClick?: boolean;
+  isSelected?: boolean;
 }
 
 export const Wrapper = styled.div<{
   color: string;
   isCardinalBox: boolean;
+  isClick?: boolean;
+  isSelected?: boolean;
 }>`
   width: ${({ isCardinalBox }) => (isCardinalBox ? 'none' : '234px')};
   min-width: ${({ isCardinalBox }) => (isCardinalBox ? '234px' : 'none')};
   height: 164px;
-  background-color: ${(props) => props.color};
+  background-color: ${({ isSelected, color }) =>
+    isSelected ? theme.color.gray[18] : color};
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   padding: 16px;
   box-sizing: border-box;
+  cursor: ${({ isClick }) => (isClick ? 'pointer' : 'auto')};
+
+  ${({ isClick, isSelected }) =>
+    isClick &&
+    !isSelected &&
+    `
+    &:hover {
+      background-color: ${theme.color.gray[18]};
+    }
+  `}
 `;
 
 export const Title = styled.div<{ isHidden?: boolean }>`
@@ -52,9 +68,18 @@ const Box: React.FC<BoxProps> = ({
   color,
   lastColor,
   isCardinalBox = false,
+  onClick,
+  isClick = false,
+  isSelected = false,
 }) => {
   return (
-    <Wrapper color={color} isCardinalBox={isCardinalBox}>
+    <Wrapper
+      onClick={onClick}
+      color={color}
+      isCardinalBox={isCardinalBox}
+      isClick={isClick}
+      isSelected={isSelected}
+    >
       {title && <Title>{title}</Title>}
       <Description>{description}</Description>
       <Last lastColor={lastColor}>{last}</Last>

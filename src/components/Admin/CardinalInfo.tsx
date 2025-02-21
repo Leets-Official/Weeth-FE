@@ -4,10 +4,16 @@ import AddCardinal from '@/components/Admin/AddCardinal';
 import useGetAllCardinals from '@/api/useGetCardinals';
 import { useEffect, useState } from 'react';
 import { useGetAdminUsers } from '@/api/admin/member/getAdminUser';
+import { useMemberContext } from './context/MemberContext';
 
 const CardinalInfo: React.FC = () => {
+  const { selectedCardinal, setSelectedCardinal } = useMemberContext();
   const { allCardinals } = useGetAllCardinals();
   const { allUsers } = useGetAdminUsers();
+  const [currentEditingCardinal, setCurrentEditingCardinal] = useState<{
+    id: number;
+    cardinalNumber: number;
+  } | null>(null);
   const [cardinalList, setCardinalList] = useState<
     { id: number; year?: number; semester?: number; cardinalNumber: number }[]
   >([]);
@@ -27,6 +33,20 @@ const CardinalInfo: React.FC = () => {
 
   const totalMembers = allUsers.length;
 
+  const handleCardinalClick = (cardinal: {
+    id: number;
+    year?: number;
+    semester?: number;
+    cardinalNumber: number;
+  }) => {
+    console.log('클릭된 기수:', cardinal.cardinalNumber);
+    if (!cardinal.year || !cardinal.semester) {
+      setCurrentEditingCardinal(cardinal);
+      // setIsModalOpen(true)
+    } else {
+      setSelectedCardinal(cardinal.cardinalNumber);
+    }
+  };
   return (
     <S.CardinalBoxWrapper>
       <S.ScrollContainer>
@@ -38,6 +58,8 @@ const CardinalInfo: React.FC = () => {
           color={theme.color.gray[18]}
           lastColor="#D3D3D3"
           isCardinalBox
+          isClick
+          onClick={() => setSelectedCardinal(null)}
         />
         {cardinalList.map((cardinal) => {
           const memberCount = getMemberCountByCardinal(cardinal.cardinalNumber);
@@ -55,6 +77,9 @@ const CardinalInfo: React.FC = () => {
               color={theme.color.gray[65]}
               lastColor="#D3D3D3"
               isCardinalBox
+              isClick
+              isSelected={selectedCardinal === cardinal.cardinalNumber}
+              onClick={() => handleCardinalClick(cardinal)}
             />
           );
         })}

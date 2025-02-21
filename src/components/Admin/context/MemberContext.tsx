@@ -8,7 +8,7 @@ export type MemberData = {
   name: string;
   role: string;
   department: string;
-  cardinals: string;
+  cardinals: number[];
   tel: string;
   studentId: string;
   position: string;
@@ -32,6 +32,8 @@ interface MemberContextProps {
   setSortingOrder: React.Dispatch<
     React.SetStateAction<'NAME_ASCENDING' | 'CARDINAL_DESCENDING'>
   >;
+  selectedCardinal: number | null;
+  setSelectedCardinal: React.Dispatch<React.SetStateAction<number | null>>;
 }
 
 // context 생성
@@ -52,6 +54,8 @@ export const MemberProvider: React.FC<{ children: React.ReactNode }> = ({
     'NAME_ASCENDING' | 'CARDINAL_DESCENDING'
   >('NAME_ASCENDING');
 
+  const [selectedCardinal, setSelectedCardinal] = useState<number | null>(null);
+
   const statusMapping: Record<string, string> = {
     ACTIVE: '승인 완료',
     WAITING: '대기 중',
@@ -69,7 +73,7 @@ export const MemberProvider: React.FC<{ children: React.ReactNode }> = ({
           ...user,
           cardinals:
             user.cardinals.length > 0 ? user.cardinals.reverse().join('.') : '',
-          status: statusMapping[user.status] || '추방',
+          status: statusMapping[user.status] || '대기 중',
           attendanceCount: user.attendanceCount ?? 0,
           absenceCount: user.absenceCount ?? 0,
           penaltyCount: user.penaltyCount ?? 0,
@@ -85,6 +89,20 @@ export const MemberProvider: React.FC<{ children: React.ReactNode }> = ({
 
     fetchMembers();
   }, [sortingOrder]);
+
+  useEffect(() => {
+    if (selectedCardinal === null) {
+      setFilteredMembers(members);
+      return;
+    }
+
+    const filtered = members.filter((member) => {
+      return member.cardinals.includes(selectedCardinal);
+    });
+
+    setFilteredMembers(filtered);
+  }, [selectedCardinal, members]);
+
   const value = useMemo(
     () => ({
       members,
@@ -95,8 +113,10 @@ export const MemberProvider: React.FC<{ children: React.ReactNode }> = ({
       setFilteredMembers,
       sortingOrder,
       setSortingOrder,
+      selectedCardinal,
+      setSelectedCardinal,
     }),
-    [members, selectedMembers, filteredMembers, error],
+    [members, selectedMembers, filteredMembers, selectedCardinal, error],
   );
 
   return (
