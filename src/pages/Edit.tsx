@@ -119,7 +119,7 @@ const Edit = () => {
 
       if (response?.data?.code === 400) {
         // TODO: 에러 코드에 따른 세분화
-        alert(response?.data?.message);
+        toastInfo(response?.data?.message);
         return;
       }
 
@@ -129,9 +129,9 @@ const Edit = () => {
       } else {
         toastInfo('저장 중 오류가 발생했습니다.');
       }
-    } catch (err) {
+    } catch (err: any) {
       // TODO: 에러 코드에 따른 세분화
-      alert(err);
+      toastInfo(err);
     } finally {
       setIsDeleteModalOpen(false);
     }

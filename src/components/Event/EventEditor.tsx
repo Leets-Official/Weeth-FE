@@ -26,6 +26,7 @@ import {
   toastInfo,
   toastSuccess,
 } from '../common/ToastMessage';
+import DeleteModal from '../Modal/DeleteModal';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -56,6 +57,7 @@ const EventEditor = () => {
   const navigate = useNavigate();
 
   const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isStartDateModalOpen, setIsStartDateModalOpen] = useState(false);
   const [isEndDateModalOpen, setIsEndDateModalOpen] = useState(false);
   const [startDate, setStartDate] = useState<Date | undefined>(new Date());
@@ -144,7 +146,7 @@ const EventEditor = () => {
     }
   }, [endDate, endTime]);
 
-  const onSave = async () => {
+  const checkValid = async () => {
     setEventRequest({
       ...eventRequest,
       content:
@@ -177,26 +179,24 @@ const EventEditor = () => {
 
     if (startISO === endISO) {
       toastInfo('시작 시간과 종료 시간은 같을 수 없습니다.');
-      return;
     }
     if (startISO > endISO) {
       toastInfo('종료 시간은 시작 시간보다 빠를 수 없습니다.');
-      return;
     }
+  };
 
-    if (window.confirm('저장하시겠습니까?')) {
-      try {
-        if (isEditMode) await editEvent(eventRequest, Number(id));
-        else await createEvent(eventRequest);
-        toastSuccess('저장이 완료되었습니다.');
-        navigate('/calendar');
-      } catch (err: any) {
-        if (err.response.status === 403) {
-          toastInfo('일정 생성 및 수정은 운영진만 가능합니다.');
-          return;
-        }
-        toastError('저장 중 오류가 발생했습니다.');
+  const handleSave = async () => {
+    try {
+      if (isEditMode) await editEvent(eventRequest, Number(id));
+      else await createEvent(eventRequest);
+      toastSuccess('저장이 완료되었습니다.');
+      navigate('/calendar');
+    } catch (err: any) {
+      if (err.response.status === 403) {
+        toastInfo('일정 생성 및 수정은 운영진만 가능합니다.');
+        return;
       }
+      toastError('저장 중 오류가 발생했습니다.');
     }
   };
 
@@ -270,7 +270,20 @@ const EventEditor = () => {
         </PickerModal>
       )}
 
-      <Header onClickRightButton={onSave} RightButtonType="TEXT" isAccessible>
+      {isDeleteModalOpen && (
+        <DeleteModal
+          title="일정 생성"
+          content="일정을 생성하시겠습니까?"
+          onClose={() => setIsDeleteModalOpen(false)}
+          onDelete={handleSave}
+        />
+      )}
+
+      <Header
+        onClickRightButton={checkValid}
+        RightButtonType="TEXT"
+        isAccessible
+      >
         {isEditMode ? '일정 수정' : '일정 추가'}
       </Header>
       <S.EventEditorWrapper>

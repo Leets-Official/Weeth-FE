@@ -37,9 +37,9 @@ const MyPage = () => {
       setTimeout(() => {
         navigate('/');
       }, 2000);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
-      toastError();
-      console.error(err);
+      toastError('탈퇴 중 문제가 발생하였습니다.');
     }
     closeDeleteModal();
   };
