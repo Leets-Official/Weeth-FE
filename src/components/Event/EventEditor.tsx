@@ -20,21 +20,28 @@ import utc from 'dayjs/plugin/utc';
 import PickerModal from '@/components/Event/PickerModal';
 import TimePicker from '@/components/Event/TimePicker';
 import Loading from '../common/Loading';
+import {
+  CustomToastContainer,
+  toastError,
+  toastInfo,
+  toastSuccess,
+} from '../common/ToastMessage';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-// function checkEmpty(
-//   field: string | number | undefined,
-//   message: string,
-// ): boolean {
-//   // TODO: 🚨important!!🚨: 배열 내에 빈 값이 있는 경우를 처리하는 로직 추가
-//   if (Array.isArray(field) && field.length === 0) {
-//     alert(message);
-//     return true;
-//   }
-//   return false;
-// }
+function checkEmpty(field: string | number, message: string) {
+  if (typeof field === 'string' && field.trim().length === 0) {
+    toastInfo(message);
+    return true;
+  }
+  if (typeof field === 'number' && (Number.isNaN(field) || field === 0)) {
+    toastError(message);
+    return true;
+  }
+
+  return false;
+}
 
 const EventEditor = () => {
   useCustomBack('/calendar');
@@ -146,18 +153,17 @@ const EventEditor = () => {
           : '',
     });
 
-    // TODO: 빈칸 확인 리팩토링 및 토스트 메세지로 수정
-    // if (
-    //   checkEmpty(data.title, '제목을 입력해 주세요.') ||
-    //   checkEmpty(data.cardinal, '기수를 입력해 주세요.') ||
-    //   checkEmpty(data.start, '시작 시간을 입력해 주세요.') ||
-    //   checkEmpty(data.end, '종료 시간을 입력해 주세요.') ||
-    //   checkEmpty(data.location, '장소를 입력해 주세요.') ||
-    //   checkEmpty(data.requiredItem, '준비물을 입력해 주세요.') ||
-    //   checkEmpty(data.content, '내용을 입력해 주세요.')
-    // ) {
-    //   return;
-    // }
+    if (
+      checkEmpty(eventRequest.title, '제목을 입력해 주세요.') ||
+      checkEmpty(eventRequest.cardinal, '기수를 입력해 주세요.') ||
+      checkEmpty(eventRequest.start, '시작 시간을 입력해 주세요.') ||
+      checkEmpty(eventRequest.end, '종료 시간을 입력해 주세요.') ||
+      checkEmpty(eventRequest.location, '장소를 입력해 주세요.') ||
+      checkEmpty(eventRequest.requiredItem, '준비물을 입력해 주세요.') ||
+      checkEmpty(eventRequest.content, '내용을 입력해 주세요.')
+    ) {
+      return;
+    }
 
     const startDateTime = new Date(eventRequest.start);
     const endDateTime = new Date(eventRequest.end);
@@ -170,11 +176,11 @@ const EventEditor = () => {
       .replace(' ', 'T');
 
     if (startISO === endISO) {
-      alert('시작 시간과 종료 시간은 같을 수 없습니다.');
+      toastInfo('시작 시간과 종료 시간은 같을 수 없습니다.');
       return;
     }
     if (startISO > endISO) {
-      alert('종료 시간은 시작 시간보다 빠를 수 없습니다.');
+      toastInfo('종료 시간은 시작 시간보다 빠를 수 없습니다.');
       return;
     }
 
@@ -182,14 +188,14 @@ const EventEditor = () => {
       try {
         if (isEditMode) await editEvent(eventRequest, Number(id));
         else await createEvent(eventRequest);
-        alert('저장이 완료되었습니다.');
+        toastSuccess('저장이 완료되었습니다.');
         navigate('/calendar');
       } catch (err: any) {
         if (err.response.status === 403) {
-          alert('일정 생성 및 수정은 운영진만 가능합니다.');
+          toastInfo('일정 생성 및 수정은 운영진만 가능합니다.');
           return;
         }
-        alert('저장 중 오류가 발생했습니다.');
+        toastError('저장 중 오류가 발생했습니다.');
       }
     }
   };
@@ -200,6 +206,7 @@ const EventEditor = () => {
 
   return (
     <>
+      <CustomToastContainer />
       {/* 도움말 모달 */}
       {isHelpModalOpen && (
         <Modal hasCloseButton onClose={() => setIsHelpModalOpen(false)}>

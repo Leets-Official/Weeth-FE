@@ -9,7 +9,11 @@ import useGetUserInfo from '@/api/useGetUserInfo';
 import Header from '@/components/Header/Header';
 import Line from '@/components/common/Line';
 import useUpdateUserInfo from '@/api/usePatchMyInfo';
-import { toastInfo, toastSuccess } from '@/components/common/ToastMessage';
+import {
+  CustomToastContainer,
+  toastInfo,
+  toastSuccess,
+} from '@/components/common/ToastMessage';
 import DeleteModal from '@/components/Modal/DeleteModal';
 
 const Container = styled.div`
@@ -135,6 +139,7 @@ const Edit = () => {
 
   return (
     <Container>
+      <CustomToastContainer />
       <Header onClickRightButton={onSave} RightButtonType="TEXT" isAccessible>
         MY 수정
       </Header>
