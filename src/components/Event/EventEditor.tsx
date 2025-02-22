@@ -177,6 +177,8 @@ const EventEditor = () => {
     }
     if (startISO > endISO) {
       toastInfo('종료 시간은 시작 시간보다 빠를 수 없습니다.');
+    } else {
+      setIsDeleteModalOpen(true);
     }
   };
 
@@ -268,6 +270,7 @@ const EventEditor = () => {
         <DeleteModal
           title="일정 생성"
           content="일정을 생성하시겠습니까?"
+          buttonContent="생성"
           onClose={() => setIsDeleteModalOpen(false)}
           onDelete={handleSave}
         />
