@@ -5,20 +5,36 @@ import ButtonGroup from '@/components/Admin/ButtonGroup';
 import StatusIndicator from '@/components/Admin/StatusIndicator';
 import CommonModal from '@/components/Admin/Modal/CommonModal';
 import useAdminActions from '@/hooks/admin/useAdminActions';
+import { useRef, useState } from 'react';
+import CardinalEditModal from './CardinalEditModal';
 
 interface MemberDetailModalProps {
   data: MemberData;
   onClose: () => void;
 }
 
-const getHighestCardinal = (cardinals: string): string =>
-  `${cardinals.split('.')[0]}기`;
+const getHighestCardinal = (cardinals: number[] | undefined | null): string => {
+  console.log('기수 데이터:', cardinals);
+
+  if (!Array.isArray(cardinals) || cardinals.length === 0) return '기수 없음';
+
+  const validCardinals = cardinals.filter(
+    // eslint-disable-next-line no-restricted-globals
+    (c) => typeof c === 'number' && !isNaN(c),
+  );
+
+  if (validCardinals.length === 0) return '기수 없음';
+
+  return `${Math.max(...validCardinals)}기`;
+};
 
 const MemberDetailModal: React.FC<MemberDetailModalProps> = ({
   data,
   onClose,
 }) => {
   const { handleAction } = useAdminActions();
+  const [isCardinalModalOpen, setIsCardinalModalOpen] = useState(false);
+  const directInputButtonRef = useRef<HTMLDivElement>(null);
 
   const roleChangeButton =
     data.role === 'ADMIN'
@@ -47,7 +63,7 @@ const MemberDetailModal: React.FC<MemberDetailModalProps> = ({
     },
     {
       label: '직접 입력',
-      onClick: () => alert('직접 입력'),
+      onClick: () => setIsCardinalModalOpen(true),
       icon: dropdownIcon,
     },
     { label: '완료', onClick: onClose },
@@ -63,7 +79,7 @@ const MemberDetailModal: React.FC<MemberDetailModalProps> = ({
   ];
 
   const activityInfo = [
-    { label: '활동기수', value: data.cardinals },
+    { label: '활동기수', value: getHighestCardinal(data.cardinals) },
     { label: '상태', value: data.membershipType },
     { label: '가입일', value: data.createdAt },
     { label: '출석', value: data.attendanceCount },
@@ -72,66 +88,76 @@ const MemberDetailModal: React.FC<MemberDetailModalProps> = ({
   ];
 
   return (
-    <CommonModal
-      isOpen
-      onClose={onClose}
-      title="멤버 관리 버튼"
-      footer={<ButtonGroup buttons={buttons} hasEndGap />}
-    >
-      <S.ContentWrapper>
-        <S.ModalContent>
-          <S.FontStyle fontSize="12px" color="#000">
-            회원정보
-          </S.FontStyle>
-          <S.FlexWrapper>
-            <S.FontStyle fontSize="24px" fontWeight="700" color="#000">
-              {data.name} &nbsp;
-              {getHighestCardinal(data.cardinals)}
+    <>
+      <CommonModal
+        isOpen
+        onClose={onClose}
+        title="멤버 관리 버튼"
+        footer={<ButtonGroup buttons={buttons} hasEndGap />}
+      >
+        <S.ContentWrapper>
+          <S.ModalContent>
+            <S.FontStyle fontSize="12px" color="#000">
+              회원정보
             </S.FontStyle>
-            <StatusIndicator status={data.status} />
-          </S.FlexWrapper>
-          <S.FlexWrapper>
-            <S.LabelFlex>
-              {memberInfo.map((info) => (
-                <S.FontStyle key={info.label}>{info.label}</S.FontStyle>
-              ))}
-            </S.LabelFlex>
-            <S.DataFlex>
-              {memberInfo.map((info) => (
-                <S.FontStyle
-                  key={info.label}
-                  color={info.label === '패널티' ? '#ff5858' : undefined}
-                >
-                  {info.value}
-                </S.FontStyle>
-              ))}
-            </S.DataFlex>
-          </S.FlexWrapper>
-        </S.ModalContent>
-        <S.ActivityContent>
-          <S.FontStyle fontSize="12px" color="#000">
-            활동정보
-          </S.FontStyle>
-          <S.FlexWrapper>
-            <S.LabelFlex>
-              {activityInfo.map((info) => (
-                <S.FontStyle key={info.label}>{info.label}</S.FontStyle>
-              ))}
-            </S.LabelFlex>
-            <S.DataFlex>
-              {activityInfo.map((info) => (
-                <S.FontStyle
-                  key={info.label}
-                  color={info.label === '패널티' ? '#ff5858' : undefined}
-                >
-                  {info.value}
-                </S.FontStyle>
-              ))}
-            </S.DataFlex>
-          </S.FlexWrapper>
-        </S.ActivityContent>
-      </S.ContentWrapper>
-    </CommonModal>
+            <S.FlexWrapper>
+              <S.FontStyle fontSize="24px" fontWeight="700" color="#000">
+                {data.name} &nbsp;
+                {getHighestCardinal(data.cardinals)}
+              </S.FontStyle>
+              <StatusIndicator status={data.status} />
+            </S.FlexWrapper>
+            <S.FlexWrapper>
+              <S.LabelFlex>
+                {memberInfo.map((info) => (
+                  <S.FontStyle key={info.label}>{info.label}</S.FontStyle>
+                ))}
+              </S.LabelFlex>
+              <S.DataFlex>
+                {memberInfo.map((info) => (
+                  <S.FontStyle
+                    key={info.label}
+                    color={info.label === '패널티' ? '#ff5858' : undefined}
+                  >
+                    {info.value}
+                  </S.FontStyle>
+                ))}
+              </S.DataFlex>
+            </S.FlexWrapper>
+          </S.ModalContent>
+          <S.ActivityContent>
+            <S.FontStyle fontSize="12px" color="#000">
+              활동정보
+            </S.FontStyle>
+            <S.FlexWrapper>
+              <S.LabelFlex>
+                {activityInfo.map((info) => (
+                  <S.FontStyle key={info.label}>{info.label}</S.FontStyle>
+                ))}
+              </S.LabelFlex>
+              <S.DataFlex>
+                {activityInfo.map((info) => (
+                  <S.FontStyle
+                    key={info.label}
+                    color={info.label === '패널티' ? '#ff5858' : undefined}
+                  >
+                    {info.value}
+                  </S.FontStyle>
+                ))}
+              </S.DataFlex>
+            </S.FlexWrapper>
+          </S.ActivityContent>
+        </S.ContentWrapper>
+      </CommonModal>
+
+      {isCardinalModalOpen && (
+        <CardinalEditModal
+          isOpen={isCardinalModalOpen}
+          onClose={() => setIsCardinalModalOpen(false)}
+          selectedUserIds={[data.id]}
+        />
+      )}
+    </>
   );
 };
 
