@@ -1,4 +1,3 @@
-/* eslint-disable no-alert */
 import deleteUser from '@/api/deleteUser';
 import MenuModal from '@/components/common/MenuModal';
 import {
@@ -73,7 +72,7 @@ const MyPage = () => {
         <DeleteModal
           title="회원 탈퇴"
           content="정말 탈퇴하시겠습니까?"
-          buttonContent="회원 탈퇴"
+          buttonContent="탈퇴"
           onClose={closeDeleteModal}
           onDelete={onClickLeave}
         />

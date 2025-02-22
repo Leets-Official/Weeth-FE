@@ -1,5 +1,4 @@
 /* eslint-disable no-console */
-/* eslint-disable no-alert */
 import createNotice from '@/api/postNotice';
 import editBoard from '@/api/editBoard';
 import editNotice from '@/api/editNotice';
@@ -14,6 +13,7 @@ import styled from 'styled-components';
 import getFileUrl from '@/api/uploadFiles';
 import useGetBoardDetail from '@/api/useGetBoardDetail';
 import createBoard from '@/api/postBoard';
+import { toastError, toastInfo } from '@/components/common/ToastMessage';
 
 const PostWrapper = styled.div`
   display: flex;
@@ -77,11 +77,11 @@ const BoardPost = () => {
   // onSave에서 파일 업로드 처리
   const onSave = async () => {
     if (isTitleEmpty) {
-      alert('제목을 입력해주세요.');
+      toastInfo('제목을 입력해주세요.');
       return;
     }
     if (isContentEmpty) {
-      alert('내용을 입력해주세요.');
+      toastInfo('내용을 입력해주세요.');
       return;
     }
 
@@ -115,7 +115,7 @@ const BoardPost = () => {
       }
     } catch (error) {
       console.log(error);
-      alert('파일 업로드 중 문제가 발생했습니다. 다시 시도해주세요.');
+      toastError('파일 업로드 중 문제가 발생했습니다. 다시 시도해주세요.');
     }
   };
 

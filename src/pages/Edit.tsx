@@ -1,4 +1,3 @@
-/* eslint-disable no-alert */
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
@@ -10,6 +9,8 @@ import useGetUserInfo from '@/api/useGetUserInfo';
 import Header from '@/components/Header/Header';
 import Line from '@/components/common/Line';
 import useUpdateUserInfo from '@/api/usePatchMyInfo';
+import { toastInfo, toastSuccess } from '@/components/common/ToastMessage';
+import DeleteModal from '@/components/Modal/DeleteModal';
 
 const Container = styled.div`
   width: 370px;
@@ -51,6 +52,7 @@ const Edit = () => {
 
   const { userInfo } = useGetUserInfo();
   const [userData, setUserData] = useState<{ key: string; value: any }[]>([]);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const navi = useNavigate();
 
   const positionMap: Record<string, string> = {
@@ -76,7 +78,7 @@ const Edit = () => {
   }, [userInfo]);
 
   const editValue = (key: string, value: string | number | number[]) => {
-    const newuserData = userData.map((item: any) =>
+    const newuserData = userData.map((item) =>
       item.key === key ? { ...item, value } : item,
     );
     setUserData(newuserData);
@@ -85,17 +87,18 @@ const Edit = () => {
   const { updateInfo } = useUpdateUserInfo();
 
   const onSave = async () => {
-    if (!window.confirm('저장하시겠습니까?')) {
-      return;
-    }
+    setIsDeleteModalOpen(true);
+  };
+
+  const handleSave = async () => {
     try {
       const data = userData.reduce((acc: any, item: any) => {
         acc[item.key] = item.value;
         return acc;
       }, {});
 
-      if (userData.some((item: any) => !item.value)) {
-        alert('모든 항목을 입력해 주세요.');
+      if (userData.some((item) => !item.value)) {
+        toastInfo('모든 항목을 입력해 주세요.');
         return;
       }
 
@@ -103,7 +106,7 @@ const Edit = () => {
       // eslint-disable-next-line no-restricted-syntax
       for (const item of userData) {
         if (item.key === 'email' && !emailRegex.test(item.value)) {
-          alert('올바른 이메일 형식이 아닙니다.');
+          toastInfo('올바른 이메일 형식이 아닙니다.');
           return;
         }
       }
@@ -111,18 +114,22 @@ const Edit = () => {
       const response = await updateInfo(data);
 
       if (response?.data?.code === 400) {
+        // TODO: 에러 코드에 따른 세분화
         alert(response?.data?.message);
         return;
       }
 
       if (response?.data?.code === 200) {
-        alert('저장이 완료되었습니다.');
+        toastSuccess('저장이 완료되었습니다.');
         navi('/mypage');
       } else {
-        alert('저장 중 오류가 발생했습니다.');
+        toastInfo('저장 중 오류가 발생했습니다.');
       }
     } catch (err) {
+      // TODO: 에러 코드에 따른 세분화
       alert(err);
+    } finally {
+      setIsDeleteModalOpen(false);
     }
   };
 
@@ -167,6 +174,16 @@ const Edit = () => {
         </InfoWrapper>
       ) : (
         <Error>데이터를 불러오는 중 문제가 발생했습니다.</Error>
+      )}
+
+      {isDeleteModalOpen && (
+        <DeleteModal
+          title="정보 수정"
+          content="변경사항을 저장하시겠습니까?"
+          onClose={() => setIsDeleteModalOpen(false)}
+          onDelete={handleSave}
+          buttonContent="저장"
+        />
       )}
     </Container>
   );

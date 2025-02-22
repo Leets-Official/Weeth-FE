@@ -1,4 +1,3 @@
-/* eslint-disable no-alert */
 import { DayPicker } from 'react-day-picker';
 import 'react-day-picker/style.css';
 import { ko } from 'date-fns/locale';
