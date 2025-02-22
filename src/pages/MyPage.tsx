@@ -1,10 +1,6 @@
 import deleteUser from '@/api/deleteUser';
 import MenuModal from '@/components/common/MenuModal';
-import {
-  CustomToastContainer,
-  toastError,
-  toastInfo,
-} from '@/components/common/ToastMessage';
+import { toastError, toastInfo } from '@/components/common/ToastMessage';
 import Header from '@/components/Header/Header';
 import DeleteModal from '@/components/Modal/DeleteModal';
 import MyInfo from '@/components/MyPage/MyInfo';
@@ -46,7 +42,6 @@ const MyPage = () => {
 
   return (
     <S.Container>
-      <CustomToastContainer />
       {isModalOpen && (
         <MenuModal
           onClose={() => {

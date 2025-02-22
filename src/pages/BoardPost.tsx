@@ -13,11 +13,7 @@ import styled from 'styled-components';
 import getFileUrl from '@/api/uploadFiles';
 import useGetBoardDetail from '@/api/useGetBoardDetail';
 import createBoard from '@/api/postBoard';
-import {
-  CustomToastContainer,
-  toastError,
-  toastInfo,
-} from '@/components/common/ToastMessage';
+import { toastError, toastInfo } from '@/components/common/ToastMessage';
 
 const PostWrapper = styled.div`
   display: flex;
@@ -125,7 +121,6 @@ const BoardPost = () => {
 
   return (
     <PostWrapper>
-      <CustomToastContainer />
       <Header
         onClickRightButton={onSave}
         RightButtonType="TEXT"

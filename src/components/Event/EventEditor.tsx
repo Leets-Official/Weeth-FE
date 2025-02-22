@@ -20,12 +20,7 @@ import utc from 'dayjs/plugin/utc';
 import PickerModal from '@/components/Event/PickerModal';
 import TimePicker from '@/components/Event/TimePicker';
 import Loading from '../common/Loading';
-import {
-  CustomToastContainer,
-  toastError,
-  toastInfo,
-  toastSuccess,
-} from '../common/ToastMessage';
+import { toastError, toastInfo, toastSuccess } from '../common/ToastMessage';
 import DeleteModal from '../Modal/DeleteModal';
 
 dayjs.extend(utc);
@@ -206,7 +201,6 @@ const EventEditor = () => {
 
   return (
     <>
-      <CustomToastContainer />
       {/* 도움말 모달 */}
       {isHelpModalOpen && (
         <Modal hasCloseButton onClose={() => setIsHelpModalOpen(false)}>
