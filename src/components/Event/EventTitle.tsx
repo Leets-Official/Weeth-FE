@@ -8,8 +8,8 @@ import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Tag from '@/components/Event/Tag';
 import MenuModal from '@/components/common/MenuModal';
-import DeleteModal from '../Modal/DeleteModal';
-import { toastError, toastSuccess } from '../common/ToastMessage';
+import DeleteModal from '@/components/Modal/DeleteModal';
+import { toastError, toastSuccess } from '@/components/common/ToastMessage';
 
 const EventTitle = ({
   data,

@@ -19,9 +19,13 @@ import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
 import PickerModal from '@/components/Event/PickerModal';
 import TimePicker from '@/components/Event/TimePicker';
-import Loading from '../common/Loading';
-import { toastError, toastInfo, toastSuccess } from '../common/ToastMessage';
-import DeleteModal from '../Modal/DeleteModal';
+import DeleteModal from '@/components/Modal/DeleteModal';
+import Loading from '@/components/common/Loading';
+import {
+  toastError,
+  toastInfo,
+  toastSuccess,
+} from '@/components/common/ToastMessage';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
