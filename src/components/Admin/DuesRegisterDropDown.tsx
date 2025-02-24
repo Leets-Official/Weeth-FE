@@ -28,6 +28,27 @@ const DuesRegisterDropDown: React.FC = () => {
   };
 
   const handleRegister = async () => {
+    const validateInputs = async () => {
+      if (!selectedCardinal && !customCardinal.trim()) {
+        alert('기수를 선택하거나 입력해야 합니다.');
+        return false;
+      }
+
+      if (!description.trim()) {
+        alert('회비 설명을 입력해주세요.');
+        return false;
+      }
+
+      const totalAmount = Number(amount);
+      if (Number.isNaN(totalAmount) || totalAmount <= 0) {
+        alert('사용 금액을 올바르게 입력해주세요.');
+        return false;
+      }
+
+      return true;
+    };
+
+    if (!(await validateInputs())) return;
     const cardinal = selectedCardinal ?? Number(customCardinal);
     const totalAmount = Number(amount);
 
@@ -63,6 +84,7 @@ const DuesRegisterDropDown: React.FC = () => {
             value={customCardinal}
             onChange={(e) => setCustomCardinal(e.target.value)}
             onBlur={handleCustomCardinalBlur}
+            readOnly={selectedCardinal !== null}
           />
         </DuesInputWrapper>
       </CardinalWrapper>

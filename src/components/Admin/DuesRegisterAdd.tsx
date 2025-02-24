@@ -32,6 +32,38 @@ const DuesRegisterAdd: React.FC = () => {
   };
 
   const handleRegister = async () => {
+    const validateInputs = () => {
+      if (!selectedCardinal && !customCardinal.trim()) {
+        alert('기수를 선택하거나 입력해야 합니다.');
+        return false;
+      }
+
+      if (!description.trim()) {
+        alert('회비 설명을 입력해주세요.');
+        return false;
+      }
+
+      if (!source.trim()) {
+        alert('사용처를 입력해주세요.');
+        return false;
+      }
+
+      const amountNumber = Number(amount);
+      if (Number.isNaN(amountNumber) || amountNumber <= 0) {
+        alert('사용 금액을 올바르게 입력해주세요.');
+        return false;
+      }
+
+      if (!date.trim() || !/^\d{8}$/.test(date)) {
+        alert('날짜를 YYYYMMDD 형식으로 입력해주세요.');
+        return false;
+      }
+
+      return true;
+    };
+
+    if (!validateInputs()) return;
+
     const cardinal =
       selectedCardinal ?? Number(customCardinal.replace('기', ''));
     const formattedDate = `${date.slice(0, 4)}-${date.slice(4, 6)}-${date.slice(6, 8)}`;
@@ -99,6 +131,7 @@ const DuesRegisterAdd: React.FC = () => {
             value={customCardinal}
             onChange={(e) => setCustomCardinal(e.target.value)}
             onBlur={handleCustomCardinalBlur}
+            readOnly={selectedCardinal !== null}
           />
         </S.DuesInputWrapper>
       </S.CardinalWrapper>
