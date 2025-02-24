@@ -53,8 +53,8 @@ export const HeaderCell = styled.th`
 
 export const SubHeaderRow = styled.div`
   display: grid;
-  grid-template-columns: 2fr 80px 95px 190px 120px;
-  grid-template-areas: 'reason empty penalty penaltyDate actions';
+  grid-template-columns: 2fr 1fr 1fr 120px 120px;
+  grid-template-areas: 'reason  penalty penaltyDate empty actions';
   gap: 10px;
   padding: 5px;
   padding-left: 70px;
@@ -81,8 +81,8 @@ export const EmptyCell = styled.td`
 // penaltyAdd.tsx
 export const AddContainer = styled.div`
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr 70px 1fr;
-  grid-template-areas: 'reason empty penalty penaltyDate actions';
+  grid-template-columns: 2fr 1fr 1fr 120px 120px;
+  grid-template-areas: 'reason penalty penaltyDate empty actions';
   gap: 10px;
   padding-left: 70px;
   background-color: ${theme.color.gray[100]};
@@ -111,8 +111,8 @@ export const ButtonWrapper = styled.div`
 // penaltyDetail.tsx
 export const DetailContainer = styled.div`
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr 70px 1fr;
-  grid-template-areas: 'reason empty penalty penaltyDate actions';
+  grid-template-columns: 2fr 1fr 1fr 120px 120px;
+  grid-template-areas: 'reason penalty penaltyDate empty actions';
   gap: 10px;
   padding-left: 70px;
   background-color: #ffffff;

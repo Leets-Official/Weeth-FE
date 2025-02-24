@@ -24,7 +24,7 @@ export const Name = styled.div`
   align-self: flex-end;
 `;
 
-export const NickName = styled.div`
+export const NickNameContainer = styled.div`
   font-size: 14px;
   font-family: ${theme.font.regular};
   margin-left: 8px;
@@ -51,4 +51,8 @@ export const UserCharacter = styled.img`
 export const LoadingContainer = styled.div`
   width: 153px;
   height: 140px;
+`;
+
+export const Admin = styled.img`
+  margin-bottom: -1.5px;
 `;

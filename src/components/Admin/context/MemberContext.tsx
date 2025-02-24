@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
-import getAllUsers from '@/api/admin/member/getAdminUser';
+import { getAllUsers } from '@/api/admin/member/getAdminUser';
+import formatDate from '@/utils/admin/dateUtils';
 
 export type MemberData = {
   id: number;
@@ -69,10 +70,10 @@ export const MemberProvider: React.FC<{ children: React.ReactNode }> = ({
           cardinals:
             user.cardinals.length > 0 ? user.cardinals.reverse().join('.') : '',
           status: statusMapping[user.status] || '추방',
-          createdAt: new Date(user.createdAt)
-            .toISOString()
-            .split('T')[0]
-            .replace(/-/g, '.'),
+          attendanceCount: user.attendanceCount ?? 0,
+          absenceCount: user.absenceCount ?? 0,
+          penaltyCount: user.penaltyCount ?? 0,
+          createdAt: formatDate(user.createdAt),
         }));
         setMembers(mappedMembers);
         setFilteredMembers(mappedMembers);

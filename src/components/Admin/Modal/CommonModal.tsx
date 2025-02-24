@@ -11,6 +11,7 @@ interface CommonModalProps {
   footer: React.ReactNode;
   height?: string;
   top?: string;
+  isCardinalModal?: boolean;
 }
 
 const ModalContainer = styled.div`
@@ -61,9 +62,9 @@ const Footer = styled.div`
   flex-shrink: 0;
 `;
 
-export const CloseIcon = styled.img`
+export const CloseIcon = styled.img<{ isCardinalModal?: boolean }>`
   cursor: pointer;
-  margin-right: 20px;
+  margin-right: ${({ isCardinalModal }) => (isCardinalModal ? '0' : '20px')};
 `;
 
 const CommonModal: React.FC<CommonModalProps> = ({
