@@ -19,6 +19,7 @@ const Input = styled.input<InputProps>`
   padding-left: 10px;
   font-family: ${theme.font.regular};
   font-size: 18px;
+  cursor: ${(props) => (props.readOnly ? 'not-allowed' : 'text')};
 
   &::placeholder {
     font-family: ${theme.font.regular};
