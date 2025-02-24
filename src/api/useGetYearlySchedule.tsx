@@ -30,12 +30,12 @@ export const useGetYearlySchedule = ({
           if (response.data.code === 200) {
             setData(response.data.data);
           } else {
-            toastError('데이터를 불러오는 데에 실패했습니다.');
+            toastError('데이터를 불러오지 못했습니다.');
             setError(response.data.message);
           }
         }
       } catch (err: any) {
-        toastError('데이터를 불러오는 데에 실패했습니다.');
+        toastError('데이터를 불러오지 못했습니다.');
         setError(err.response?.data?.message);
       }
     };
