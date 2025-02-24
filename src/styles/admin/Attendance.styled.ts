@@ -5,6 +5,7 @@ export const AttendanceTable = styled.div`
   width: 95%;
   background-color: #f2f9f8;
   border-radius: 10px 10px 0px 0px;
+  border-bottom: 1px solid #dedede;
   display: flex;
   margin-left: 2.5%;
   margin-top: 15px;
