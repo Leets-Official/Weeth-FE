@@ -56,7 +56,7 @@ const AttendDropdown: React.FC<AttendDropdownProps> = ({ meetingId }) => {
     if (meetingId) {
       loadAttendances();
     }
-  }, [meetingId]);
+  }, [meetingId, isAdmin]);
 
   const toggleEditMode = () => setIsEditMode((prev) => !prev);
 

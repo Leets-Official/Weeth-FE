@@ -37,15 +37,14 @@ const Attendance: React.FC<AttendanceProps> = ({ selectedCardinal }) => {
     const fetchData = async () => {
       if (!isAdmin) return;
 
-      const res = await fetchAttendancesByCardinal(
-        selectedCardinal ?? undefined,
-      );
+      const res = await fetchAttendancesByCardinal(selectedCardinal);
+
       if (res.code === 200) {
         setData(res.data);
       }
     };
     fetchData();
-  }, [selectedCardinal]);
+  }, [selectedCardinal, isAdmin]);
 
   const toggleDropdown = (id: number) => {
     setOpenDropdownId((prevId) => (prevId === id ? null : id));

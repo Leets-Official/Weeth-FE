@@ -1,9 +1,9 @@
 import api from '@/api/api';
 
-const fetchAttendancesByCardinal = async (cardinal: number | undefined) => {
+const fetchAttendancesByCardinal = async (cardinal: number | null) => {
   try {
     const res = await api.get(`/api/v1/admin/attendances/meetings`, {
-      params: cardinal !== undefined ? { cardinal } : {},
+      params: cardinal != null ? { cardinal } : undefined,
     });
     return res.data;
   } catch (error) {
