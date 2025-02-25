@@ -15,7 +15,13 @@ const CardinalInfo: React.FC = () => {
     cardinalNumber: number;
   } | null>(null);
   const [cardinalList, setCardinalList] = useState<
-    { id: number; year?: number; semester?: number; cardinalNumber: number }[]
+    {
+      id: number;
+      year?: number;
+      semester?: number;
+      cardinalNumber: number;
+      status?: string;
+    }[]
   >([]);
 
   useEffect(() => {
@@ -70,7 +76,7 @@ const CardinalInfo: React.FC = () => {
           return (
             <S.CardinalBox
               key={cardinal.id}
-              title={`${cardinal.year}년 ${cardinal.semester}학기`}
+              title={`${cardinal.year}년 ${cardinal.semester}학기 ${cardinal.status === 'IN_PROGRESS' ? '(현재)' : ''}`}
               description={`${cardinal.cardinalNumber}기`}
               last={lastText}
               color={theme.color.gray[65]}

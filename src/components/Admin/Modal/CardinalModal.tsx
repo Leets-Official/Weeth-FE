@@ -41,7 +41,7 @@ const CardinalModal: React.FC<CardinalModalProps> = ({ isOpen, onClose }) => {
   };
 
   const handleClick = async () => {
-    const { cardinalNumber, year, semester } = formState;
+    const { cardinalNumber, year, semester, isChecked } = formState;
 
     if (!cardinalNumber || !year || !semester) {
       alert('모든 필드를 입력해주세요.');
@@ -53,6 +53,7 @@ const CardinalModal: React.FC<CardinalModalProps> = ({ isOpen, onClose }) => {
         Number(cardinalNumber),
         Number(year),
         Number(semester),
+        isChecked,
       );
       console.log('새로운 기수 저장 성공:', response);
       alert('새로운 기수가 저장되었습니다.');

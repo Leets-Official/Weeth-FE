@@ -8,13 +8,14 @@ const postCardinalApi = async (
   cardinalNumber: number,
   year: number,
   semester: number,
+  inProgress: boolean,
 ) => {
   const accessToken = localStorage.getItem('accessToken');
 
   try {
     const response = await axios.post(
       `${BASE_URL}${PATH}`,
-      { cardinalNumber, year, semester },
+      { cardinalNumber, year, semester, inProgress },
       {
         headers: {
           Authorization: `Bearer ${accessToken}`,
