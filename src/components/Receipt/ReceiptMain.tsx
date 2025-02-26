@@ -4,6 +4,8 @@ import * as S from '@/styles/receipt/ReceiptMain.styled';
 import useGetDuesInfo, { Receipt } from '@/api/useGetDuesInfo';
 import useGetGlobaluserInfo from '@/api/useGetGlobaluserInfo';
 import ReceiptImageModal from '@/components/Receipt/ReceiptImageModal';
+import ReceiptPdfModal from '@/components/Receipt/ReceiptPdfModal'; // ✅ PDF 모달 추가
+import PdfViewer from '@/components/Receipt/PdfViewer'; // ✅ PDF 미리보기 추가
 
 interface GroupedByMonth {
   [key: string]: Receipt[];
@@ -17,16 +19,28 @@ const ReceiptMain: React.FC = () => {
 
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
   const [selectedImage, setSelectedImage] = useState<string>('');
+  const [pdfModalOpen, setPdfModalOpen] = useState<boolean>(false); // ✅ PDF 모달 상태 추가
+  const [selectedPdf, setSelectedPdf] = useState<string>('');
 
-  const openModal = (image: string) => {
+  const openImageModal = (image: string) => {
     setSelectedImage(image);
     setModalIsOpen(true);
   };
 
-  const closeModal = () => {
-    setModalIsOpen(false);
-    setSelectedImage('');
+  const openPdfModal = (pdfUrl: string) => {
+    setSelectedPdf(pdfUrl);
+    setPdfModalOpen(true);
   };
+
+  const closeModals = () => {
+    setModalIsOpen(false);
+    setPdfModalOpen(false);
+    setSelectedImage('');
+    setSelectedPdf('');
+  };
+
+  // 파일 확장자를 판별하는 함수
+  const isPdfFile = (url: string) => url.toLowerCase().endsWith('.pdf');
 
   const groupedByMonth: GroupedByMonth =
     duesInfo?.receipts?.reduce<GroupedByMonth>((acc, curr) => {
@@ -67,15 +81,23 @@ const ReceiptMain: React.FC = () => {
                 />
                 <S.ScrollContainer>
                   {receipt.fileUrls.length > 0 ? (
-                    receipt.fileUrls.map((image, index) => (
+                    receipt.fileUrls.map((file, index) => (
                       <S.GridItem
-                        key={image.fileId}
-                        onClick={() => openModal(image.fileUrl)}
+                        key={file.fileId}
+                        onClick={() =>
+                          isPdfFile(file.fileUrl)
+                            ? openPdfModal(file.fileUrl) // ✅ PDF 모달 열기
+                            : openImageModal(file.fileUrl)
+                        }
                       >
-                        <S.GridItemImage
-                          src={image.fileUrl}
-                          title={`영수증 사진 ${index + 1}`}
-                        />
+                        {isPdfFile(file.fileUrl) ? (
+                          <PdfViewer fileUrl={file.fileUrl} />
+                        ) : (
+                          <S.GridItemImage
+                            src={file.fileUrl}
+                            title={`영수증 사진 ${index + 1}`}
+                          />
+                        )}
                       </S.GridItem>
                     ))
                   ) : (
@@ -90,10 +112,19 @@ const ReceiptMain: React.FC = () => {
           <S.Line />
         </div>
       ))}
+
+      {/* ✅ 이미지 미리보기 모달 */}
       <ReceiptImageModal
         isOpen={modalIsOpen}
         selectedImage={selectedImage}
-        onRequestClose={closeModal}
+        onRequestClose={closeModals}
+      />
+
+      {/* ✅ PDF 미리보기 모달 */}
+      <ReceiptPdfModal
+        isOpen={pdfModalOpen}
+        selectedPdf={selectedPdf}
+        onRequestClose={closeModals}
       />
     </S.StyledReceipt>
   );

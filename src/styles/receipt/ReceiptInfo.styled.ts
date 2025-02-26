@@ -33,10 +33,10 @@ export const StyledMemoBox = styled.div`
   margin-left: 10px;
 `;
 
-export const Text = styled.div<{ isLong: boolean }>`
+export const Text = styled.div<{ $isLong: boolean }>`
   font-size: 16px;
   word-wrap: break-word;
-  ${({ isLong }) => isLong && `max-width: 80%;`}
+  ${({ $isLong }) => $isLong && `max-width: 80%;`}
 `;
 
 export const MoneyText = styled.div`
