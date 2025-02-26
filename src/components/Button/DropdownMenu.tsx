@@ -27,6 +27,7 @@ const DropdownButton = styled.div`
   height: 45px;
   box-sizing: border-box;
   padding-left: 10px;
+  padding-bottom: 1px;
   font-size: 16px;
   outline: none;
   border: none;
@@ -43,6 +44,7 @@ const SignupDropDownButton = styled.div<{ $hasValue: boolean }>`
   height: 25px;
   font-size: 16px;
   outline: none;
+  padding-bottom: 1px;
   border-bottom: 1px solid ${theme.color.gray[20]};
   background-color: ${theme.color.gray[12]};
   color: ${(props) => (props.$hasValue ? 'white' : theme.color.gray[20])};
@@ -65,7 +67,6 @@ const DropdownList = styled.div<{ type: 'mypage' | 'signup' }>`
   width: ${(props) => (props.type === 'mypage' ? '257px' : '244px')};
   top: calc(100% - 8px);
   right: ${(props) => (props.type === 'mypage' ? '22.5px' : '25px')};
-  border-radius: 4px;
   margin-top: 5px;
   z-index: 1000;
   background-color: ${(props) =>

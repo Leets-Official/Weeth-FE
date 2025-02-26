@@ -1,4 +1,3 @@
-/* eslint-disable no-alert */
 import { DayPicker } from 'react-day-picker';
 import 'react-day-picker/style.css';
 import { ko } from 'date-fns/locale';
@@ -20,31 +19,44 @@ import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
 import PickerModal from '@/components/Event/PickerModal';
 import TimePicker from '@/components/Event/TimePicker';
+import DeleteModal from '@/components/Modal/DeleteModal';
+import Loading from '@/components/common/Loading';
+import {
+  toastError,
+  toastInfo,
+  toastSuccess,
+} from '@/components/common/ToastMessage';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-// function checkEmpty(
-//   field: string | number | undefined,
-//   message: string,
-// ): boolean {
-//   // TODO: 🚨important!!🚨: 배열 내에 빈 값이 있는 경우를 처리하는 로직 추가
-//   if (Array.isArray(field) && field.length === 0) {
-//     alert(message);
-//     return true;
-//   }
-//   return false;
-// }
+function checkEmpty(field: string | number, message: string) {
+  if (typeof field === 'string' && field.trim().length === 0) {
+    toastInfo(message);
+    return true;
+  }
+  if (typeof field === 'number' && (Number.isNaN(field) || field === 0)) {
+    toastError(message);
+    return true;
+  }
+
+  return false;
+}
 
 const EventEditor = () => {
   useCustomBack('/calendar');
 
   const { id } = useParams();
-  const { data: eventDetailData, error } = useGetEventInfo('events', id);
+  const {
+    data: eventDetailData,
+    loading,
+    error,
+  } = useGetEventInfo('events', id);
   const isEditMode = Boolean(id);
   const navigate = useNavigate();
 
   const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isStartDateModalOpen, setIsStartDateModalOpen] = useState(false);
   const [isEndDateModalOpen, setIsEndDateModalOpen] = useState(false);
   const [startDate, setStartDate] = useState<Date | undefined>(new Date());
@@ -133,7 +145,7 @@ const EventEditor = () => {
     }
   }, [endDate, endTime]);
 
-  const onSave = async () => {
+  const checkValid = async () => {
     setEventRequest({
       ...eventRequest,
       content:
@@ -142,18 +154,17 @@ const EventEditor = () => {
           : '',
     });
 
-    // TODO: 빈칸 확인 리팩토링 및 토스트 메세지로 수정
-    // if (
-    //   checkEmpty(data.title, '제목을 입력해 주세요.') ||
-    //   checkEmpty(data.cardinal, '기수를 입력해 주세요.') ||
-    //   checkEmpty(data.start, '시작 시간을 입력해 주세요.') ||
-    //   checkEmpty(data.end, '종료 시간을 입력해 주세요.') ||
-    //   checkEmpty(data.location, '장소를 입력해 주세요.') ||
-    //   checkEmpty(data.requiredItem, '준비물을 입력해 주세요.') ||
-    //   checkEmpty(data.content, '내용을 입력해 주세요.')
-    // ) {
-    //   return;
-    // }
+    if (
+      checkEmpty(eventRequest.title, '제목을 입력해 주세요.') ||
+      checkEmpty(eventRequest.cardinal, '기수를 입력해 주세요.') ||
+      checkEmpty(eventRequest.start, '시작 시간을 입력해 주세요.') ||
+      checkEmpty(eventRequest.end, '종료 시간을 입력해 주세요.') ||
+      checkEmpty(eventRequest.location, '장소를 입력해 주세요.') ||
+      checkEmpty(eventRequest.requiredItem, '준비물을 입력해 주세요.') ||
+      checkEmpty(eventRequest.content, '내용을 입력해 주세요.')
+    ) {
+      return;
+    }
 
     const startDateTime = new Date(eventRequest.start);
     const endDateTime = new Date(eventRequest.end);
@@ -165,32 +176,32 @@ const EventEditor = () => {
       .toLocaleString('sv-SE', { timeZone: 'Asia/Seoul' })
       .replace(' ', 'T');
 
-    console.log(startISO, endISO);
-
     if (startISO === endISO) {
-      alert('시작 시간과 종료 시간은 같을 수 없습니다.');
-      return;
+      toastInfo('시작 시간과 종료 시간은 같을 수 없습니다.');
     }
     if (startISO > endISO) {
-      alert('종료 시간은 시작 시간보다 빠를 수 없습니다.');
-      return;
-    }
-
-    if (window.confirm('저장하시겠습니까?')) {
-      try {
-        if (isEditMode) await editEvent(eventRequest, Number(id));
-        else await createEvent(eventRequest);
-        alert('저장이 완료되었습니다.');
-        navigate('/calendar');
-      } catch (err: any) {
-        if (err.response.status === 403) {
-          alert('일정 생성 및 수정은 운영진만 가능합니다.');
-          return;
-        }
-        alert('저장 중 오류가 발생했습니다.');
-      }
+      toastInfo('종료 시간은 시작 시간보다 빠를 수 없습니다.');
+    } else {
+      setIsDeleteModalOpen(true);
     }
   };
+
+  const handleSave = async () => {
+    try {
+      if (isEditMode) await editEvent(eventRequest, Number(id));
+      else await createEvent(eventRequest);
+      toastSuccess('저장이 완료되었습니다.');
+      navigate('/calendar');
+    } catch (err: any) {
+      if (err.response.status === 403) {
+        toastInfo('일정 생성 및 수정은 운영진만 가능합니다.');
+        return;
+      }
+      toastError('저장 중 오류가 발생했습니다.');
+    }
+  };
+
+  if (loading) return <Loading />;
 
   if (error) return <S.Error>{error}</S.Error>;
 
@@ -259,7 +270,21 @@ const EventEditor = () => {
         </PickerModal>
       )}
 
-      <Header onClickRightButton={onSave} RightButtonType="TEXT" isAccessible>
+      {isDeleteModalOpen && (
+        <DeleteModal
+          title="일정 생성"
+          content="일정을 생성하시겠습니까?"
+          buttonContent="생성"
+          onClose={() => setIsDeleteModalOpen(false)}
+          onDelete={handleSave}
+        />
+      )}
+
+      <Header
+        onClickRightButton={checkValid}
+        RightButtonType="TEXT"
+        isAccessible
+      >
         {isEditMode ? '일정 수정' : '일정 추가'}
       </Header>
       <S.EventEditorWrapper>

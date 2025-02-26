@@ -39,21 +39,24 @@ const SubTitle = styled.div`
 
 const ButtonContainer = styled.div`
   display: flex;
+  flex-direction: column;
+  gap: 10px;
   justify-content: center;
   align-items: center;
   width: 100%;
+  margin-top: 30px;
 `;
 
-const Button = styled.button`
+const Button = styled.button<{ type: string }>`
   width: 315px;
   height: 50px;
   border-radius: 10px;
-  background-color: #4d4d4d;
+  background-color: ${(props) =>
+    props.type === 'kakao' ? '#4d4d4d' : '#00DDA8'};
   color: #ffffff;
   font-size: 16px;
   font-weight: 600;
   line-height: 19px;
-  margin-top: 100px;
   border: none;
   cursor: pointer;
   outline: none;
@@ -82,11 +85,20 @@ const WaitingApproval = () => {
         </SubTitle>
         <ButtonContainer>
           <Button
+            type="kakao"
             onClick={() => {
               window.location.href = 'https://pf.kakao.com/_LtLyG';
             }}
           >
             문의하기
+          </Button>
+          <Button
+            type="login"
+            onClick={() => {
+              window.location.href = '/';
+            }}
+          >
+            로그인으로 돌아가기
           </Button>
         </ButtonContainer>
       </Content>

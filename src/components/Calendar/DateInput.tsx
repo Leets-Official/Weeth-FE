@@ -1,4 +1,3 @@
-/* eslint-disable no-alert */
 import * as S from '@/styles/calendar/DateInput.styled';
 import { useEffect, useState } from 'react';
 

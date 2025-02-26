@@ -11,11 +11,7 @@ import MenuModal from '@/components/common/MenuModal';
 import theme from '@/styles/theme';
 import DeleteModal from '@/components/Modal/DeleteModal';
 import deletePost from '@/api/deletePost';
-import {
-  toastError,
-  CustomToastContainer,
-  toastInfo,
-} from '@/components/common/ToastMessage';
+import { toastError, toastInfo } from '@/components/common/ToastMessage';
 
 const Container = styled.div`
   display: flex;
@@ -105,7 +101,6 @@ const NoticePostDetail = () => {
 
   return (
     <>
-      <CustomToastContainer />
       {isModalOpen && (
         <MenuModal
           onClose={() => {

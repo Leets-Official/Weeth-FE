@@ -1,3 +1,4 @@
+import { toastError } from '@/components/common/ToastMessage';
 import axios from 'axios';
 import { useEffect } from 'react';
 
@@ -45,6 +46,7 @@ const useGetAllUsers = (
       setUsers((prevUsers) => [...prevUsers, ...data.content]);
       setHasMore(!data.last);
     } catch (error) {
+      toastError('데이터를 불러오지 못했습니다.');
       console.error('Error fetching users:', error);
     } finally {
       setIsLoading(false);
