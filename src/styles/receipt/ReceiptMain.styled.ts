@@ -85,3 +85,12 @@ export const ModalImage = styled.embed`
   height: 100%;
   object-fit: contain;
 `;
+export const PdfWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  border-radius: 10px;
+`;

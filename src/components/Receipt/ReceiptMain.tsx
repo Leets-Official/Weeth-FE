@@ -81,25 +81,25 @@ const ReceiptMain: React.FC = () => {
                 />
                 <S.ScrollContainer>
                   {receipt.fileUrls.length > 0 ? (
-                    receipt.fileUrls.map((file, index) => (
-                      <S.GridItem
-                        key={file.fileId}
-                        onClick={() =>
-                          isPdfFile(file.fileUrl)
-                            ? openPdfModal(file.fileUrl) // ✅ PDF 모달 열기
-                            : openImageModal(file.fileUrl)
-                        }
-                      >
-                        {isPdfFile(file.fileUrl) ? (
-                          <PdfViewer fileUrl={file.fileUrl} />
-                        ) : (
+                    receipt.fileUrls.map((file) =>
+                      isPdfFile(file.fileUrl) ? (
+                        <PdfViewer
+                          key={file.fileId}
+                          fileUrl={file.fileUrl}
+                          onClick={() => openPdfModal(file.fileUrl)}
+                        />
+                      ) : (
+                        <S.GridItem
+                          key={file.fileId}
+                          onClick={() => openImageModal(file.fileUrl)}
+                        >
                           <S.GridItemImage
                             src={file.fileUrl}
-                            title={`영수증 사진 ${index + 1}`}
+                            title="영수증 이미지"
                           />
-                        )}
-                      </S.GridItem>
-                    ))
+                        </S.GridItem>
+                      ),
+                    )
                   ) : (
                     <div> </div>
                   )}
