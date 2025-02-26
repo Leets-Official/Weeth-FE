@@ -16,12 +16,20 @@ interface MemberDetailModalProps {
 const getHighestCardinal = (cardinals: number[] | undefined | null): string => {
   console.log('기수 데이터:', cardinals);
 
-  if (!Array.isArray(cardinals) || cardinals.length === 0) return '기수 없음';
+  if (!cardinals) return '기수 없음';
 
-  const validCardinals = cardinals.filter(
-    // eslint-disable-next-line no-restricted-globals
-    (c) => typeof c === 'number' && !isNaN(c),
-  );
+  let validCardinals: number[] = [];
+
+  if (typeof cardinals === 'string') {
+    validCardinals = (cardinals as string)
+      .split('.')
+      .map((c) => Number(c))
+      .filter((c) => !Number.isNaN(c));
+  } else if (Array.isArray(cardinals)) {
+    validCardinals = cardinals.filter(
+      (c) => typeof c === 'number' && !Number.isNaN(c),
+    );
+  }
 
   if (validCardinals.length === 0) return '기수 없음';
 
