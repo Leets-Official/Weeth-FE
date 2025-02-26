@@ -6,35 +6,13 @@ import StatusIndicator from '@/components/Admin/StatusIndicator';
 import CommonModal from '@/components/Admin/Modal/CommonModal';
 import useAdminActions from '@/hooks/admin/useAdminActions';
 import { useRef, useState } from 'react';
+import getHighestCardinal from '@/utils/admin/getHighestCardinal';
 import CardinalEditModal from './CardinalEditModal';
 
 interface MemberDetailModalProps {
   data: MemberData;
   onClose: () => void;
 }
-
-const getHighestCardinal = (cardinals: number[] | undefined | null): string => {
-  console.log('기수 데이터:', cardinals);
-
-  if (!cardinals) return '기수 없음';
-
-  let validCardinals: number[] = [];
-
-  if (typeof cardinals === 'string') {
-    validCardinals = (cardinals as string)
-      .split('.')
-      .map((c) => Number(c))
-      .filter((c) => !Number.isNaN(c));
-  } else if (Array.isArray(cardinals)) {
-    validCardinals = cardinals.filter(
-      (c) => typeof c === 'number' && !Number.isNaN(c),
-    );
-  }
-
-  if (validCardinals.length === 0) return '기수 없음';
-
-  return `${Math.max(...validCardinals)}기`;
-};
 
 const MemberDetailModal: React.FC<MemberDetailModalProps> = ({
   data,
@@ -87,7 +65,7 @@ const MemberDetailModal: React.FC<MemberDetailModalProps> = ({
   ];
 
   const activityInfo = [
-    { label: '활동기수', value: getHighestCardinal(data.cardinals) },
+    { label: '활동기수', value: data.cardinals },
     { label: '상태', value: data.membershipType },
     { label: '가입일', value: data.createdAt },
     { label: '출석', value: data.attendanceCount },

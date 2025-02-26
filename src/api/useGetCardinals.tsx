@@ -17,7 +17,11 @@ export const getAllCardinals = async () => {
 
 export const useGetAllCardinals = () => {
   const [allCardinals, setAllCardinals] = useState<
-    { id: number; cardinalNumber: number }[]
+    {
+      status: string; // 현재 기수인지 아닌지 값 추가
+      id: number;
+      cardinalNumber: number;
+    }[]
   >([]);
   const [error, setError] = useState<string | null>(null);
 

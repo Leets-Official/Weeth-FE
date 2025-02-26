@@ -1,6 +1,8 @@
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { getAllUsers } from '@/api/admin/member/getAdminUser';
 import formatDate from '@/utils/admin/dateUtils';
+import useGetAllCardinals from '@/api/useGetCardinals';
+import getHighestCardinal from '@/utils/admin/getHighestCardinal';
 
 export type MemberData = {
   id: number;
@@ -18,7 +20,7 @@ export type MemberData = {
   LatestPenalty?: string;
   createdAt: string;
   email?: string;
-  membershipType?: '활동 중' | '알럼나이';
+  membershipType?: '활동 중' | '알럼나이' | '상태 없음';
 };
 
 interface MemberContextProps {
@@ -62,6 +64,11 @@ export const MemberProvider: React.FC<{ children: React.ReactNode }> = ({
     BANNED: '추방',
   };
 
+  const { allCardinals } = useGetAllCardinals();
+  const currentCardinal =
+    allCardinals.find((c) => c.status === 'IN_PROGRESS')?.cardinalNumber ||
+    null;
+
   useEffect(() => {
     const fetchMembers = async () => {
       try {
@@ -69,16 +76,36 @@ export const MemberProvider: React.FC<{ children: React.ReactNode }> = ({
         const response = await getAllUsers(sortingOrder);
         const fetchedMembers = response.data.data || [];
         console.log('API응답: ', response.data);
-        const mappedMembers = fetchedMembers.map((user: any) => ({
-          ...user,
-          cardinals:
-            user.cardinals.length > 0 ? user.cardinals.reverse().join('.') : '',
-          status: statusMapping[user.status] || '대기 중',
-          attendanceCount: user.attendanceCount ?? 0,
-          absenceCount: user.absenceCount ?? 0,
-          penaltyCount: user.penaltyCount ?? 0,
-          createdAt: formatDate(user.createdAt),
-        }));
+
+        const mappedMembers = fetchedMembers.map((user: any) => {
+          const highestMemberCardinalStr = getHighestCardinal(user.cardinals);
+          const highestMemberCardinal = parseInt(highestMemberCardinalStr, 10);
+
+          let membershipType: '활동 중' | '알럼나이' | '상태 없음';
+
+          if (Number.isNaN(highestMemberCardinal)) {
+            membershipType = '상태 없음';
+          } else if (highestMemberCardinal === currentCardinal) {
+            membershipType = '활동 중';
+          } else {
+            membershipType = '알럼나이';
+          }
+
+          return {
+            ...user,
+            cardinals:
+              user.cardinals.length > 0
+                ? user.cardinals.reverse().join('.')
+                : '',
+            status: statusMapping[user.status] || '대기 중',
+            attendanceCount: user.attendanceCount ?? 0,
+            absenceCount: user.absenceCount ?? 0,
+            penaltyCount: user.penaltyCount ?? 0,
+            createdAt: formatDate(user.createdAt),
+            membershipType,
+          };
+        });
+
         setMembers(mappedMembers);
         setFilteredMembers(mappedMembers);
         setError(null);
