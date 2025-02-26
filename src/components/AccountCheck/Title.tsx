@@ -35,7 +35,7 @@ const Title: React.FC = () => {
             color: '#508FFF',
           }}
         >
-          딱 한번 &nbsp;
+          딱 한 번{' '}
         </span>
         보이는 페이지예요.
       </SubTitle>

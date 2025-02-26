@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import { toastError } from '@/components/common/ToastMessage';
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
@@ -44,6 +45,7 @@ export const useGetUserDetail = () => {
         setUserDetail(response.data.data);
         setError(null);
       } catch (err: any) {
+        toastError('데이터를 불러오지 못했습니다.');
         setError(err.response?.data?.message);
       } finally {
         setLoading(false);

@@ -18,6 +18,7 @@
     "date-fns": "^3.6.0",
     "dayjs": "^1.11.13",
     "fullcalendar": "^6.1.15",
+    "lottie-react": "^2.4.1",
     "pdfjs-dist": "^4.8.69",
     "prop-types": "^15.8.1",
     "qs": "^6.13.1",

@@ -13,9 +13,9 @@ const Content = styled.div<{ top?: number; right?: number }>`
   flex-direction: column;
   justify-content: center;
 
-  position: absolute;
-  top: ${({ top }) => (top ? `${top}px` : 0)};
-  right: ${({ right }) => (right ? `${right}px` : 0)};
+  // position: absolute;
+  // top: ${({ top }) => (top ? `${top}px` : 0)};
+  // right: ${({ right }) => (right ? `${right}px` : 0)};
   width: 144px;
   box-sizing: border-box;
 

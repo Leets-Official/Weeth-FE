@@ -5,11 +5,7 @@ import Line from '@/components/common/Line';
 import PostFile from '@/components/Board/PostFile';
 import formatDateTime from '@/hooks/formatDateTime';
 import setPositionIcon from '@/hooks/setPositionIcon';
-import {
-  toastSuccess,
-  toastError,
-  CustomToastContainer,
-} from '@/components/common/ToastMessage';
+import { toastSuccess, toastError } from '@/components/common/ToastMessage';
 
 interface Comment {
   id: number;
@@ -72,7 +68,6 @@ const PostDetailMain = ({ info }: PostDetailMainProps) => {
 
   return (
     <S.PostMainContainer>
-      <CustomToastContainer />
       <S.PostMainTitleText>{info.title}</S.PostMainTitleText>
       <S.SmallText>
         <S.PositionIcon
