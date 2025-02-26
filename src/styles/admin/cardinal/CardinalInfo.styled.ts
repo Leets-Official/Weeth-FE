@@ -12,14 +12,6 @@ export const TotalBox = styled(Box)`
   background-color: ${theme.color.gray[18]};
 `;
 
-export const CardinalBox = styled(Box)<{ isIncomplete?: boolean }>`
-  ${({ isIncomplete }) =>
-    isIncomplete
-      ? `border: 2px dashed ${theme.color.gray[18]}; 
-      background-color:transparent`
-      : ''}
-`;
-
 export const ScrollContainer = styled.div`
   display: flex;
   gap: 16px;

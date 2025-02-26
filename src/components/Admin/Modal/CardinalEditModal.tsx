@@ -5,7 +5,6 @@ import CommonCardinalModal from '@/components/Admin/Modal/CommonCardinalModal';
 import DirectCardinalDropdown from '@/components/Admin/DirectCardinal';
 import { continueNextCardinalApi } from '@/api/admin/member/patchUserManagement';
 import useGetAllCardinals from '@/api/useGetCardinals';
-// import { patchCardinalApi } from '@/api/admin/cardinal/postCardinal';
 
 interface CardinalChangeModalProps {
   isOpen: boolean;

@@ -7,7 +7,7 @@ import CommonModal from '@/components/Admin/Modal/CommonModal';
 import useAdminActions from '@/hooks/admin/useAdminActions';
 import { useState } from 'react';
 import getHighestCardinal from '@/utils/admin/getHighestCardinal';
-import CardinalEditModal from './CardinalEditModal';
+import CardinalEditModal from '@/components/Admin/Modal/CardinalEditModal';
 
 interface MemberDetailModalProps {
   data: MemberData;
