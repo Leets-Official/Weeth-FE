@@ -18,7 +18,7 @@ export const getAllCardinals = async () => {
 export const useGetAllCardinals = () => {
   const [allCardinals, setAllCardinals] = useState<
     {
-      status: string; // 현재 기수인지 아닌지 값 추가
+      status: string; // 기수 상태값 추가 ( IN_PROGRESS 이면 현재 기수 )
       id: number;
       cardinalNumber: number;
     }[]

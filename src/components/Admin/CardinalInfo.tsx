@@ -5,6 +5,7 @@ import useGetAllCardinals from '@/api/useGetCardinals';
 import { useEffect, useState } from 'react';
 import { useGetAdminUsers } from '@/api/admin/member/getAdminUser';
 import { useMemberContext } from './context/MemberContext';
+import Box from './Box';
 
 const CardinalInfo: React.FC = () => {
   const { selectedCardinal, setSelectedCardinal } = useMemberContext();
@@ -74,15 +75,22 @@ const CardinalInfo: React.FC = () => {
               : `노정완 외 ${memberCount}명`;
 
           return (
-            <S.CardinalBox
+            <Box
               key={cardinal.id}
-              title={`${cardinal.year}년 ${cardinal.semester}학기 ${cardinal.status === 'IN_PROGRESS' ? '(현재)' : ''}`}
+              title={
+                cardinal.year && cardinal.semester
+                  ? `${cardinal.year}년 ${cardinal.semester}학기 ${
+                      cardinal.status === 'IN_PROGRESS' ? '(현재)' : ''
+                    }`
+                  : '정보를 입력해주세요'
+              }
               description={`${cardinal.cardinalNumber}기`}
               last={lastText}
               color={theme.color.gray[65]}
               lastColor="#D3D3D3"
               isCardinalBox
               isClick
+              isIncomplete={!cardinal.year || !cardinal.semester}
               isSelected={selectedCardinal === cardinal.cardinalNumber}
               onClick={() => handleCardinalClick(cardinal)}
             />

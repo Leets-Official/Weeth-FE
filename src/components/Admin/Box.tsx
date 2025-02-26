@@ -12,6 +12,7 @@ export interface BoxProps {
   onClick?: () => void;
   isClick?: boolean;
   isSelected?: boolean;
+  isIncomplete?: boolean;
 }
 
 export const Wrapper = styled.div<{
@@ -19,12 +20,18 @@ export const Wrapper = styled.div<{
   isCardinalBox: boolean;
   isClick?: boolean;
   isSelected?: boolean;
+  isIncomplete?: boolean;
 }>`
   width: ${({ isCardinalBox }) => (isCardinalBox ? 'none' : '234px')};
   min-width: ${({ isCardinalBox }) => (isCardinalBox ? '234px' : 'none')};
   height: 164px;
-  background-color: ${({ isSelected, color }) =>
-    isSelected ? theme.color.gray[18] : color};
+  background-color: ${({ isIncomplete, isSelected, color }) => {
+    if (isIncomplete) return 'transparent';
+    if (isSelected) return theme.color.gray[18];
+    return color;
+  }};
+  border: ${({ isIncomplete }) =>
+    isIncomplete ? `1.5px dashed ${theme.color.gray[18]}` : 'none'};
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -32,9 +39,10 @@ export const Wrapper = styled.div<{
   box-sizing: border-box;
   cursor: ${({ isClick }) => (isClick ? 'pointer' : 'auto')};
 
-  ${({ isClick, isSelected }) =>
+  ${({ isClick, isSelected, isIncomplete }) =>
     isClick &&
     !isSelected &&
+    !isIncomplete &&
     `
     &:hover {
       background-color: ${theme.color.gray[18]};
@@ -42,23 +50,29 @@ export const Wrapper = styled.div<{
   `}
 `;
 
-export const Title = styled.div<{ isHidden?: boolean }>`
+export const Title = styled.div<{
+  isHidden?: boolean;
+  isIncomplete?: boolean;
+}>`
   font-size: 18px;
   font-family: ${theme.font.regular};
-  color: ${theme.color.gray[100]};
+  color: ${({ isIncomplete }) =>
+    isIncomplete ? theme.color.gray[18] : theme.color.gray[100]};
 `;
 
-export const Description = styled.div`
+export const Description = styled.div<{ isIncomplete?: boolean }>`
   font-size: 24px;
   font-family: ${theme.font.semiBold};
-  color: ${theme.color.gray[100]};
+  color: ${({ isIncomplete }) =>
+    isIncomplete ? theme.color.gray[18] : theme.color.gray[100]};
   margin-top: 20px;
 `;
 
-export const Last = styled.div<{ lastColor?: string }>`
+export const Last = styled.div<{ lastColor?: string; isIncomplete?: boolean }>`
   font-size: 18px;
   font-family: ${theme.font.regular};
-  color: ${({ lastColor }) => lastColor || '#979797'};
+  color: ${({ isIncomplete, lastColor }) =>
+    isIncomplete ? '#909393' : lastColor || '#979797'};
 `;
 
 const Box: React.FC<BoxProps> = ({
@@ -71,6 +85,7 @@ const Box: React.FC<BoxProps> = ({
   onClick,
   isClick = false,
   isSelected = false,
+  isIncomplete = false,
 }) => {
   return (
     <Wrapper
@@ -79,10 +94,13 @@ const Box: React.FC<BoxProps> = ({
       isCardinalBox={isCardinalBox}
       isClick={isClick}
       isSelected={isSelected}
+      isIncomplete={isIncomplete}
     >
-      {title && <Title>{title}</Title>}
-      <Description>{description}</Description>
-      <Last lastColor={lastColor}>{last}</Last>
+      {title && <Title isIncomplete={isIncomplete}>{title}</Title>}
+      <Description isIncomplete={isIncomplete}>{description}</Description>
+      <Last lastColor={lastColor} isIncomplete={isIncomplete}>
+        {last}
+      </Last>
     </Wrapper>
   );
 };
