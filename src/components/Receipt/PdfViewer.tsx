@@ -8,24 +8,19 @@ pdfjs.GlobalWorkerOptions.workerSrc = '/pdfjs/pdf.worker.mjs';
 
 interface PdfViewerProps {
   fileUrl: string;
-  isModal?: boolean;
   onClick?: () => void;
 }
 
-const PdfViewer: React.FC<PdfViewerProps> = ({
-  fileUrl,
-  isModal = false,
-  onClick,
-}) => {
+const PdfViewer: React.FC<PdfViewerProps> = ({ fileUrl, onClick }) => {
   return (
-    <S.GridItem onClick={onClick} $isModal={isModal}>
-      <S.PdfWrapper $isModal={isModal}>
+    <S.GridItem onClick={onClick}>
+      <S.PdfWrapper>
         <Document file={fileUrl}>
           <Page
             pageNumber={1}
-            width={isModal ? 1000 : 112}
-            height={isModal ? 1300 : 124}
-            scale={isModal ? 0.5 : 1}
+            width={112}
+            height={124}
+            scale={1}
             renderTextLayer={false}
             renderAnnotationLayer={false}
           />

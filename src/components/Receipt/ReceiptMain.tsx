@@ -4,8 +4,8 @@ import * as S from '@/styles/receipt/ReceiptMain.styled';
 import useGetDuesInfo, { Receipt } from '@/api/useGetDuesInfo';
 import useGetGlobaluserInfo from '@/api/useGetGlobaluserInfo';
 import ReceiptImageModal from '@/components/Receipt/ReceiptImageModal';
-import ReceiptPdfModal from '@/components/Receipt/ReceiptPdfModal'; // ✅ PDF 모달 추가
-import PdfViewer from '@/components/Receipt/PdfViewer'; // ✅ PDF 미리보기 추가
+import ReceiptPdfModal from '@/components/Receipt/ReceiptPdfModal';
+import PdfViewer from '@/components/Receipt/PdfViewer';
 
 interface GroupedByMonth {
   [key: string]: Receipt[];
@@ -19,7 +19,7 @@ const ReceiptMain: React.FC = () => {
 
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
   const [selectedImage, setSelectedImage] = useState<string>('');
-  const [pdfModalOpen, setPdfModalOpen] = useState<boolean>(false); // ✅ PDF 모달 상태 추가
+  const [pdfModalOpen, setPdfModalOpen] = useState<boolean>(false);
   const [selectedPdf, setSelectedPdf] = useState<string>('');
 
   const openImageModal = (image: string) => {
@@ -39,7 +39,6 @@ const ReceiptMain: React.FC = () => {
     setSelectedPdf('');
   };
 
-  // 파일 확장자를 판별하는 함수
   const isPdfFile = (url: string) => url.toLowerCase().endsWith('.pdf');
 
   const groupedByMonth: GroupedByMonth =
@@ -113,14 +112,14 @@ const ReceiptMain: React.FC = () => {
         </div>
       ))}
 
-      {/* ✅ 이미지 미리보기 모달 */}
+      {/* 이미지 미리보기 모달 */}
       <ReceiptImageModal
         isOpen={modalIsOpen}
         selectedImage={selectedImage}
         onRequestClose={closeModals}
       />
 
-      {/* ✅ PDF 미리보기 모달 */}
+      {/* PDF 미리보기 모달 */}
       <ReceiptPdfModal
         isOpen={pdfModalOpen}
         selectedPdf={selectedPdf}

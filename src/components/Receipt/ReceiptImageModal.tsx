@@ -31,7 +31,7 @@ const ReceiptImageModal: React.FC<ReceiptModalProps> = ({
           padding: '0',
           border: 'none',
           background: 'none',
-          width: '50%',
+          width: '370px',
           height: '50%',
           overflow: 'hidden',
         },

@@ -35,14 +35,13 @@ export const ScrollContainer = styled.div`
   }
 `;
 
-export const GridItem = styled.div<{ $isModal?: boolean }>`
+export const GridItem = styled.div`
   flex: 0 0 auto;
   margin-right: 10px;
   padding: 0;
-  background-color: ${({ $isModal }) =>
-    $isModal ? theme.color.gray[100] : theme.color.gray[18]};
-  width: ${({ $isModal }) => ($isModal ? '100%' : '56%')};
-  height: ${({ $isModal }) => ($isModal ? '100vh' : '124px')};
+  background-color: ${theme.color.gray[18]};
+  width: 56%;
+  height: 124px;
   color: ${theme.color.gray[100]};
   border-radius: 10px;
   display: flex;
@@ -52,6 +51,7 @@ export const GridItem = styled.div<{ $isModal?: boolean }>`
   white-space: nowrap;
   cursor: pointer;
   position: relative;
+
   &:last-child {
     margin-right: 0;
   }
@@ -86,10 +86,9 @@ export const ModalImage = styled.embed`
   height: 100%;
   object-fit: contain;
 `;
-export const PdfWrapper = styled.div<{ $isModal?: boolean }>`
-  width: ${({ $isModal }) => ($isModal ? '100%' : '112px')};
-  height: ${({ $isModal }) => ($isModal ? '100%' : '124px')};
-  overflow: ${({ $isModal }) => ($isModal ? 'auto' : 'hidden')};
+export const PdfWrapper = styled.div`
+  width: 100%;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
