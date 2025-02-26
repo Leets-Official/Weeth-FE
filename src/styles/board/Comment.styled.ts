@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 // Comment.tsx
 export const CommentContainer = styled.div<{ isHighlighted: boolean }>`
-  width: calc(100% - 10px);
+  width: calc(100% - 20px);
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
