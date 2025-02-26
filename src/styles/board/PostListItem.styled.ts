@@ -7,11 +7,6 @@ export const Container = styled.div`
   justify-content: space-between;
   padding: 10px 0;
   cursor: pointer;
-  transition: background-color 0.2s ease-in-out;
-
-  &:hover {
-    background-color: ${theme.color.gray[20]};
-  }
 `;
 
 export const PostLeftSection = styled.div`

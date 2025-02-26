@@ -112,7 +112,16 @@ export const Underline = styled.div`
 `;
 
 export const PostListContainer = styled.div`
-  margin: 0px 25px 0 25px;
+  margin: 0px 20px;
+`;
+
+export const PostListItemContainer = styled.div`
+  padding: 0px 5px;
+  transition: background-color 0.2s ease-in-out;
+
+  &:hover {
+    background-color: ${theme.color.gray[20]};
+  }
 `;
 
 export const Line = styled.div`
