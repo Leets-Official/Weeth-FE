@@ -35,6 +35,12 @@ const MemberList = ({
   const [isLoading, setIsLoading] = useState(false);
   const observerRef = useRef<HTMLDivElement | null>(null);
 
+  useEffect(() => {
+    setPageNumber(0);
+    setMembers([]);
+    setHasMore(true);
+  }, [selectedCardinal]);
+
   useGetAllUsers(
     selectedCardinal,
     pageNumber,
