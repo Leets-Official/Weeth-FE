@@ -71,6 +71,11 @@ const BoardPostDetail = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
+  // 대댓글 작성시 본댓글 하이라이팅
+  const [highlightedComments, setHighlightedComments] = useState<
+    Record<number, boolean>
+  >({});
+
   const navigate = useNavigate();
 
   const openDeleteModal = () => {
@@ -97,6 +102,22 @@ const BoardPostDetail = () => {
 
   const handleRefresh = () => {
     setRefreshKey((prev) => prev + 1);
+  };
+
+  const handleCommentSuccess = () => {
+    setTimeout(() => {
+      setParentCommentId(null);
+      setHighlightedComments({});
+    }, 200);
+    handleRefresh();
+  };
+
+  const handleReply = (commentId: number) => {
+    setParentCommentId(commentId);
+    setHighlightedComments((prev) => ({
+      ...prev,
+      [commentId]: !prev[commentId],
+    }));
   };
 
   const isMyPost = boardDetailInfo?.name === useGetUserName();
@@ -152,7 +173,8 @@ const BoardPostDetail = () => {
               postId={boardDetailInfo.id}
               path={path}
               onCommentDelete={handleRefresh}
-              onReply={(commentId) => setParentCommentId(commentId)}
+              onReply={handleReply}
+              highlightedComments={highlightedComments}
             />
           </>
         )}
@@ -162,7 +184,7 @@ const BoardPostDetail = () => {
           <CommentInput
             postId={boardDetailInfo.id}
             initialParentCommentId={parentCommentId}
-            onCommentSuccess={handleRefresh}
+            onCommentSuccess={handleCommentSuccess}
           />
         )}
       </CommentInputContainer>

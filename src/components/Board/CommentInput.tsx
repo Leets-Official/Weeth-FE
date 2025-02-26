@@ -68,7 +68,9 @@ const CommentInput = ({
     try {
       await createComment(postId, inputValue, parentCommentId ?? undefined);
       setInputValue('');
-      setParentCommentId(null); // ✅ 대댓글 입력 후 일반 댓글 모드로 전환
+      if (onCommentSuccess) {
+        onCommentSuccess();
+      }
       if (onCommentSuccess) onCommentSuccess();
     } catch (error: any) {
       console.error(
