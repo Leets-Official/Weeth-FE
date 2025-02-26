@@ -161,7 +161,7 @@ const BoardPostDetail = () => {
         {boardDetailInfo && (
           <CommentInput
             postId={boardDetailInfo.id}
-            parentCommentId={parentCommentId}
+            initialParentCommentId={parentCommentId}
             onCommentSuccess={handleRefresh}
           />
         )}

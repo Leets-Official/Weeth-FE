@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import theme from '@/styles/theme';
 import CommentSend from '@/assets/images/ic_send.svg';
@@ -38,14 +38,22 @@ const SendButton = styled.img`
 
 const CommentInput = ({
   postId,
-  parentCommentId = null,
+  initialParentCommentId = null,
   onCommentSuccess,
 }: {
   postId: number;
-  parentCommentId?: number | null;
+  initialParentCommentId?: number | null;
   onCommentSuccess?: () => void;
 }) => {
   const [inputValue, setInputValue] = useState('');
+  const [parentCommentId, setParentCommentId] = useState<number | null>(null);
+
+  // 🔥 대댓글 버튼을 눌렀을 때 parentCommentId가 변경되도록 함
+  useEffect(() => {
+    setParentCommentId(initialParentCommentId);
+  }, [initialParentCommentId]);
+
+  console.log('parentCommentId:', parentCommentId); // ✅ 디버깅 확인용
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
@@ -58,9 +66,9 @@ const CommentInput = ({
     }
 
     try {
-      // 댓글 작성 API 호출
       await createComment(postId, inputValue, parentCommentId ?? undefined);
       setInputValue('');
+      setParentCommentId(null); // ✅ 대댓글 입력 후 일반 댓글 모드로 전환
       if (onCommentSuccess) onCommentSuccess();
     } catch (error: any) {
       console.error(
