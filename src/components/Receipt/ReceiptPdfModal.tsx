@@ -1,6 +1,6 @@
 import React from 'react';
 import Modal from 'react-modal';
-import PdfViewer from './PdfViewer';
+import PdfViewer from '@/components/Receipt/PdfViewer';
 
 Modal.setAppElement('#root');
 
@@ -29,20 +29,13 @@ const ReceiptPdfModal: React.FC<ReceiptPdfModalProps> = ({
           marginRight: '-50%',
           transform: 'translate(-50%, -50%)',
           width: '80%',
-          height: '80%',
-          padding: '20px',
+          height: '60%',
+          padding: '10px',
           backgroundColor: '#fff',
         },
       }}
     >
-      <button
-        type="button"
-        onClick={onRequestClose}
-        style={{ float: 'right', cursor: 'pointer' }}
-      >
-        ❌
-      </button>
-      <PdfViewer fileUrl={selectedPdf} />
+      <PdfViewer fileUrl={selectedPdf} isModal />
     </Modal>
   );
 };

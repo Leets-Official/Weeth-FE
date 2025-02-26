@@ -2,24 +2,30 @@ import React from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
 import 'react-pdf/dist/esm/Page/TextLayer.css';
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
-import * as S from '@/styles/receipt/ReceiptMain.styled'; // 스타일 임포트
+import * as S from '@/styles/receipt/ReceiptMain.styled';
 
 pdfjs.GlobalWorkerOptions.workerSrc = '/pdfjs/pdf.worker.mjs';
 
 interface PdfViewerProps {
   fileUrl: string;
-  onClick: () => void; // 클릭 시 원본 PDF 모달 열기
+  isModal?: boolean;
+  onClick?: () => void;
 }
 
-const PdfViewer: React.FC<PdfViewerProps> = ({ fileUrl, onClick }) => {
+const PdfViewer: React.FC<PdfViewerProps> = ({
+  fileUrl,
+  isModal = false,
+  onClick,
+}) => {
   return (
-    <S.GridItem onClick={onClick}>
-      <S.PdfWrapper>
+    <S.GridItem onClick={onClick} $isModal={isModal}>
+      <S.PdfWrapper $isModal={isModal}>
         <Document file={fileUrl}>
           <Page
             pageNumber={1}
-            width={112} // 🔥 GridItem에 맞게 크기 조정
-            height={124} // 🔥 GridItem 높이 유지
+            width={isModal ? 1000 : 112}
+            height={isModal ? 1300 : 124}
+            scale={isModal ? 0.5 : 1}
             renderTextLayer={false}
             renderAnnotationLayer={false}
           />
