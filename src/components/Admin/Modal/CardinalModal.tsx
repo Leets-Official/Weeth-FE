@@ -5,7 +5,10 @@ import CheckBox from '@/assets/images/ic_admin_checkbox.svg';
 import UnCheckBox from '@/assets/images/ic_admin_uncheckbox.svg';
 import * as S from '@/styles/admin/cardinal/CardinalModal.styled';
 import CommonCardinalModal from '@/components/Admin/Modal/CommonCardinalModal';
-import { postCardinalApi } from '@/api/admin/cardinal/postCardinal';
+import {
+  patchCardinalApi,
+  postCardinalApi,
+} from '@/api/admin/cardinal/postCardinal';
 import {
   handleNumericInput,
   preventNonNumeric,
@@ -14,6 +17,12 @@ import {
 interface CardinalModalProps {
   isOpen: boolean;
   onClose: () => void;
+  initialCardinal?: {
+    id: number;
+    cardinalNumber: number;
+    year?: number;
+    semester?: number;
+  };
 }
 
 export const ModalContentWrapper = styled.div`
@@ -25,11 +34,17 @@ export const ModalContentWrapper = styled.div`
   box-sizing: border-box;
 `;
 
-const CardinalModal: React.FC<CardinalModalProps> = ({ isOpen, onClose }) => {
+const CardinalModal: React.FC<CardinalModalProps> = ({
+  isOpen,
+  onClose,
+  initialCardinal,
+}) => {
+  const isEditing = Boolean(initialCardinal);
+
   const [formState, setFormState] = useState({
-    cardinalNumber: '',
-    year: '',
-    semester: '',
+    cardinalNumber: initialCardinal?.cardinalNumber || '',
+    year: initialCardinal?.year || '',
+    semester: initialCardinal?.semester || '',
     isChecked: false,
   });
 
@@ -49,18 +64,32 @@ const CardinalModal: React.FC<CardinalModalProps> = ({ isOpen, onClose }) => {
     }
 
     try {
-      const response = await postCardinalApi(
-        Number(cardinalNumber),
-        Number(year),
-        Number(semester),
-        isChecked,
-      );
-      console.log('새로운 기수 저장 성공:', response);
-      alert('새로운 기수가 저장되었습니다.');
+      if (isEditing && initialCardinal?.id) {
+        // 기수 수정 api 호출
+        const response = await patchCardinalApi(
+          initialCardinal.id,
+          Number(year),
+          Number(semester),
+          isChecked,
+        );
+        console.log('기수 수정 성공:', response);
+        alert('기수 정보가 수정되었습니다.');
+      } else {
+        // 기수 추가 api 호출
+        const response = await postCardinalApi(
+          Number(cardinalNumber),
+          Number(year),
+          Number(semester),
+          isChecked,
+        );
+        console.log('새로운 기수 저장 성공:', response);
+        alert('새로운 기수가 저장되었습니다.');
+      }
+
       onClose();
     } catch (error: any) {
       console.error('새로운 기수 저장 실패:', error.message);
-      alert(`새로운 기수 저장 실패: ${error.message}`);
+      alert(`기수 저장 실패: ${error.message}`);
     }
   };
 
@@ -88,7 +117,7 @@ const CardinalModal: React.FC<CardinalModalProps> = ({ isOpen, onClose }) => {
       }
     >
       <ModalContentWrapper>
-        <S.Title>새로운 기수 추가</S.Title>
+        <S.Title>{isEditing ? '학기 정보 추가' : '새로운 기수 추가'}</S.Title>
         <li>추가할 새로운 기수를 작성해주세요</li>
         <S.InputWrapper>
           <S.Input
@@ -97,6 +126,7 @@ const CardinalModal: React.FC<CardinalModalProps> = ({ isOpen, onClose }) => {
             value={formState.cardinalNumber}
             onChange={(e) => handleNumericInput(e, setFormState, 2)}
             onKeyDown={preventNonNumeric}
+            readOnly={isEditing}
           />
           <S.Unit>기</S.Unit>
         </S.InputWrapper>

@@ -160,7 +160,7 @@ export const InputWrapper = styled.div`
   }
 `;
 
-export const Input = styled.input`
+export const Input = styled.input<{ readOnly?: boolean }>`
   font-family: ${theme.font.semiBold};
   font-size: 18px;
   flex-grow: 1;
@@ -169,6 +169,13 @@ export const Input = styled.input`
   outline: none;
   text-align: right;
   padding: 5px;
+
+  ${({ readOnly }) =>
+    readOnly &&
+    `
+    color: ${theme.color.gray[65]};
+    cursor: not-allowed;
+  `}
 `;
 
 export const Unit = styled.div`

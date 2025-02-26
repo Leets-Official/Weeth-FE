@@ -32,6 +32,7 @@ export const useGetAllCardinals = () => {
       try {
         const response = await getAllCardinals();
         setAllCardinals(response.data.data);
+        console.log('기수 응답: ', response.data);
       } catch (err: any) {
         setError(
           err.response?.data?.message ||

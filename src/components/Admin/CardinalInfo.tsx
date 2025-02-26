@@ -1,16 +1,18 @@
 import theme from '@/styles/theme';
+import Box from '@/components/Admin/Box';
 import * as S from '@/styles/admin/cardinal/CardinalInfo.styled';
 import AddCardinal from '@/components/Admin/AddCardinal';
 import useGetAllCardinals from '@/api/useGetCardinals';
 import { useEffect, useState } from 'react';
 import { useGetAdminUsers } from '@/api/admin/member/getAdminUser';
-import { useMemberContext } from './context/MemberContext';
-import Box from './Box';
+import { useMemberContext } from '@/components/Admin/context/MemberContext';
+import CardinalModal from '@/components/Admin/Modal/CardinalModal';
 
 const CardinalInfo: React.FC = () => {
   const { selectedCardinal, setSelectedCardinal } = useMemberContext();
   const { allCardinals } = useGetAllCardinals();
   const { allUsers } = useGetAdminUsers();
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentEditingCardinal, setCurrentEditingCardinal] = useState<{
     id: number;
     cardinalNumber: number;
@@ -48,7 +50,7 @@ const CardinalInfo: React.FC = () => {
   }) => {
     if (!cardinal.year || !cardinal.semester) {
       setCurrentEditingCardinal(cardinal);
-      // setIsModalOpen(true)
+      setIsModalOpen(true);
     } else {
       setSelectedCardinal(cardinal.cardinalNumber);
     }
@@ -96,6 +98,13 @@ const CardinalInfo: React.FC = () => {
             />
           );
         })}
+        {isModalOpen && currentEditingCardinal && (
+          <CardinalModal
+            isOpen={isModalOpen}
+            onClose={() => setIsModalOpen(false)}
+            initialCardinal={currentEditingCardinal}
+          />
+        )}
       </S.ScrollContainer>
     </S.CardinalBoxWrapper>
   );

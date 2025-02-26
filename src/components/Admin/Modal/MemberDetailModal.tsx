@@ -5,7 +5,7 @@ import ButtonGroup from '@/components/Admin/ButtonGroup';
 import StatusIndicator from '@/components/Admin/StatusIndicator';
 import CommonModal from '@/components/Admin/Modal/CommonModal';
 import useAdminActions from '@/hooks/admin/useAdminActions';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import getHighestCardinal from '@/utils/admin/getHighestCardinal';
 import CardinalEditModal from './CardinalEditModal';
 
@@ -20,7 +20,6 @@ const MemberDetailModal: React.FC<MemberDetailModalProps> = ({
 }) => {
   const { handleAction } = useAdminActions();
   const [isCardinalModalOpen, setIsCardinalModalOpen] = useState(false);
-  const directInputButtonRef = useRef<HTMLDivElement>(null);
 
   const roleChangeButton =
     data.role === 'ADMIN'
