@@ -8,7 +8,7 @@ import theme from '@/styles/theme';
 import useGetUserInfo from '@/api/useGetUserInfo';
 import Header from '@/components/Header/Header';
 import Line from '@/components/common/Line';
-import useUpdateUserInfo from '@/api/usePatchMyInfo';
+import usePatchUserInfo from '@/api/usePatchMyInfo';
 import { toastInfo, toastSuccess } from '@/components/common/ToastMessage';
 import DeleteModal from '@/components/Modal/DeleteModal';
 
@@ -84,7 +84,7 @@ const Edit = () => {
     setUserData(newuserData);
   };
 
-  const { updateInfo } = useUpdateUserInfo();
+  const { updateInfo } = usePatchUserInfo();
 
   const onSave = async () => {
     setIsDeleteModalOpen(true);

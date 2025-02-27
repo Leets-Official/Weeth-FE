@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import createNotice from '@/api/postNotice';
+import postNotice from '@/api/postNotice';
 import editBoard from '@/api/editBoard';
 import editNotice from '@/api/editNotice';
 import FileUploader from '@/components/Board/FileUploader';
@@ -12,7 +12,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import getFileUrl from '@/api/uploadFiles';
 import useGetBoardDetail from '@/api/useGetBoardDetail';
-import createBoard from '@/api/postBoard';
+import postBoard from '@/api/postBoard';
 import { toastError, toastInfo } from '@/components/common/ToastMessage';
 
 const PostWrapper = styled.div`
@@ -107,10 +107,10 @@ const BoardPost = () => {
         await editNotice(postData, numericPostId);
         navi('/notice');
       } else if (type === 'posts') {
-        await createBoard(postData);
+        await postBoard(postData);
         navi('/board');
       } else if (type === 'notices') {
-        await createNotice(postData);
+        await postNotice(postData);
         navi('/notice');
       }
     } catch (error) {

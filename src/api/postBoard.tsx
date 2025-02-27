@@ -1,18 +1,8 @@
 import { PostRequestType } from '@/types/PostRequestType';
-import axios from 'axios';
+import api from './api';
 
-const accessToken = localStorage.getItem('accessToken');
-const refreshToken = localStorage.getItem('refreshToken');
-const BASE_URL = import.meta.env.VITE_API_URL;
-
-export const createBoard = async (data: PostRequestType) => {
-  const response = await axios.post(`${BASE_URL}/api/v1/posts`, data, {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-      Authorization_refresh: `Bearer ${refreshToken}`,
-    },
-  });
-  return response;
+export const postBoard = async (data: PostRequestType) => {
+  return api.patch(`/api/v1/posts/`, data);
 };
 
-export default createBoard;
+export default postBoard;
