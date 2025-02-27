@@ -87,6 +87,7 @@ const CardinalModal: React.FC<CardinalModalProps> = ({
       }
 
       onClose();
+      window.location.reload();
     } catch (error: any) {
       console.error('새로운 기수 저장 실패:', error.message);
       alert(`기수 저장 실패: ${error.message}`);

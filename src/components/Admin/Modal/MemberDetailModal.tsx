@@ -8,6 +8,7 @@ import useAdminActions from '@/hooks/admin/useAdminActions';
 import { useState } from 'react';
 import getHighestCardinal from '@/utils/admin/getHighestCardinal';
 import CardinalEditModal from '@/components/Admin/Modal/CardinalEditModal';
+import theme from '@/styles/theme';
 
 interface MemberDetailModalProps {
   data: MemberData;
@@ -47,9 +48,14 @@ const MemberDetailModal: React.FC<MemberDetailModalProps> = ({
       onClick: () => handleAction('유저 추방', [data.id]),
     },
     {
-      label: '직접 입력',
+      label: '기수 변경',
       onClick: () => setIsCardinalModalOpen(true),
-      icon: dropdownIcon,
+      style: {
+        backgroundColor: isCardinalModalOpen
+          ? theme.color.gray[18]
+          : theme.color.gray[100],
+        color: isCardinalModalOpen ? theme.color.gray[100] : '#000',
+      },
     },
     { label: '완료', onClick: onClose },
   ];
@@ -134,12 +140,13 @@ const MemberDetailModal: React.FC<MemberDetailModalProps> = ({
           </S.ActivityContent>
         </S.ContentWrapper>
       </CommonModal>
-
       {isCardinalModalOpen && (
         <CardinalEditModal
           isOpen={isCardinalModalOpen}
           onClose={() => setIsCardinalModalOpen(false)}
           selectedUserIds={[data.id]}
+          top="26%"
+          left="38%"
         />
       )}
     </>
