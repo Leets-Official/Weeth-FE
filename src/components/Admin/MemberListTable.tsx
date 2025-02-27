@@ -38,12 +38,14 @@ export const TableContainer = styled.div`
 
 const MemberListTable: React.FC<MemberListTableProps> = ({ columns }) => {
   const { filteredMembers } = useMemberContext();
+  const memberIds = filteredMembers.map((member) => String(member.id));
+
   return (
     <TableContainer>
       <StatusList />
       <TableWrapper>
         <table>
-          <MemberListTableHeader columns={columns} />
+          <MemberListTableHeader columns={columns} memberIds={memberIds} />
           <tbody>
             {filteredMembers.map((row) => (
               <MemberListTableRow key={row.id} columns={columns} data={row} />

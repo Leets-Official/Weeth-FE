@@ -12,9 +12,9 @@ export const PageWrapper = styled.div`
 
 export const Container = styled.div`
   width: 100%;
-  max-width: 1300px;
-  margin: 0 auto;
-  padding: 20px;
+  max-width: 1400px;
+  margin: 20px 30px 0 30px;
+  padding-bottom: 30px;
   box-sizing: border-box;
   flex-direction: column;
   align-items: center;

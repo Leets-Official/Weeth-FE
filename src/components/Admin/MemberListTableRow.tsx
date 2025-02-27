@@ -16,7 +16,7 @@ const Row = styled.tr`
 `;
 
 const Cell = styled.td`
-  padding: 15px;
+  padding: 15px 25px;
   text-align: left;
   white-space: nowrap;
   border-bottom: 1px solid #dedede;
@@ -31,7 +31,16 @@ export const SvgWrapper = styled.td`
   padding: 10px;
   text-align: center;
   cursor: pointer;
-  border-top: 1px solid #dedede;
+  border-bottom: 1px solid #dedede;
+
+  img {
+    height: auto;
+    display: block;
+  }
+`;
+
+export const MeatballWrapper = styled(SvgWrapper)`
+  padding-left: 5%;
 `;
 
 interface TableRowProps {
@@ -73,9 +82,9 @@ const MemberListTableRow: React.FC<TableRowProps> = ({ data, columns }) => {
           <Cell key={column.key}>{data[column.key]}</Cell>
         ))}
 
-        <SvgWrapper onClick={openModal}>
+        <MeatballWrapper onClick={openModal}>
           <img src={MeatBallSvg} alt="미트볼 메뉴" />
-        </SvgWrapper>
+        </MeatballWrapper>
       </Row>
 
       {isModalOpen && <MemberDetailModal data={data} onClose={closeModal} />}
