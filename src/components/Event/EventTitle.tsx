@@ -64,11 +64,7 @@ const EventTitle = ({
         </S.SpaceBetween>
 
         {isMenuModalOpen && (
-          <MenuModal
-            onClose={() => setIsMenuModalOpen(false)}
-            top={-65}
-            right={630}
-          >
+          <MenuModal onClose={() => setIsMenuModalOpen(false)}>
             <S.TextButton onClick={() => navigate(`/${type}/${id}/edit`)}>
               수정
             </S.TextButton>
