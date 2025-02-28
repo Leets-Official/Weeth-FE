@@ -11,8 +11,8 @@ const FileUploader = ({
   files,
   setFiles,
 }: {
-  files: string[];
-  setFiles: (value: string[]) => void;
+  files: File[];
+  setFiles: (value: File[]) => void;
 }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -27,14 +27,15 @@ const FileUploader = ({
     if (selectedFiles) {
       let isUnique = true;
       Array.from(selectedFiles).forEach((newFile) => {
-        if (files.some((fileName) => fileName === newFile.name)) {
+        // 파일 객체를 비교하도록 수정
+        if (files.some((file) => file.name === newFile.name)) {
           isUnique = false;
         }
       });
       if (isUnique) {
         setFiles([
           ...files,
-          ...Array.from(selectedFiles).map((file) => file.name),
+          ...Array.from(selectedFiles), // 파일 객체를 추가
         ]);
       }
     }
