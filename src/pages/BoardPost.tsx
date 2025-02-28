@@ -8,6 +8,7 @@ import styled from 'styled-components';
 import useGetBoardDetail from '@/api/useGetBoardDetail';
 import postBoard from '@/api/postBoard';
 import { toastError, toastInfo } from '@/components/common/ToastMessage';
+import Loading from '@/components/common/Loading';
 
 const PostWrapper = styled.div`
   display: flex;
@@ -36,7 +37,8 @@ const BoardPost = () => {
 
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  const [files, setFiles] = useState<File[]>([]); // 실제 File 객체를 저장하는 상태
+  const [files, setFiles] = useState<File[]>([]);
+  const [loading, setLoading] = useState(false);
 
   const numericPostId = postId ? parseInt(postId, 10) : 0;
 
@@ -63,6 +65,7 @@ const BoardPost = () => {
 
   // onSave에서 파일 업로드 처리
   const onSave = async () => {
+    setLoading(true);
     if (isTitleEmpty) {
       toastInfo('제목을 입력해주세요.');
       return;
@@ -85,11 +88,14 @@ const BoardPost = () => {
       // eslint-disable-next-line no-console
       console.log(error);
       toastError('파일 업로드 중 문제가 발생했습니다.');
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <PostWrapper>
+      {loading && <Loading />}
       <Header
         onClickRightButton={onSave}
         RightButtonType="TEXT"
