@@ -25,7 +25,10 @@ export const postBoard = async (files: File[], postData: PostRequestType) => {
     const fileUrls = await Promise.all(
       files.map(async (file) => {
         // getPresignedUrl로 응답 받은 데이터에서 destructuring 사용
-        const [{ putUrl, fileUrl }] = await getPresignedUrl(file, file.name);
+        const response = await getPresignedUrl(file, file.name);
+        // eslint-disable-next-line prefer-destructuring
+        const putUrl = response.data[0].putUrl;
+        console.log('put url', putUrl);
 
         const uploadRes = await uploadFile(putUrl, file);
         if (uploadRes.status !== 200) {
@@ -33,11 +36,9 @@ export const postBoard = async (files: File[], postData: PostRequestType) => {
         }
 
         // 업로드가 성공하면 실제 URL을 반환
-        return fileUrl;
+        return putUrl.split('?')[0];
       }),
     );
-
-    console.log('fileUrls', fileUrls);
 
     // 2. 새로운 객체를 생성하여 files 필드 추가
     const updatedPostData = {
