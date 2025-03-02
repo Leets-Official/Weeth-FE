@@ -5,15 +5,23 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import FullCalendar from '@fullcalendar/react';
 import { format } from 'date-fns';
 import { useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { WEEK_DAYS } from '@/constants/dateConstants';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import {
+  CURRENT_MONTH,
+  CURRENT_YEAR,
+  WEEK_DAYS,
+} from '@/constants/dateConstants';
 import TodayIncluded from '@/hooks/TodayIncluded';
 import ScheduleItem from '@/components/Calendar/ScheduleItem';
 import Line from '@/components/common/Line';
 
-const MonthCalendar = ({ year, month }: { year: number; month: number }) => {
+const MonthCalendar = () => {
   const calendarRef = useRef<FullCalendar | null>(null);
   const navi = useNavigate();
+  const [searchParams] = useSearchParams();
+
+  const year = Number(searchParams.get('year')) || CURRENT_YEAR;
+  const month = Number(searchParams.get('month')) || CURRENT_MONTH;
 
   let formattedEnd;
   if (month === 12)
@@ -61,9 +69,9 @@ const MonthCalendar = ({ year, month }: { year: number; month: number }) => {
     const { isMeeting } = clickInfo.event.extendedProps;
 
     if (isMeeting) {
-      navi(`/meetings/${id}`);
+      navi(`/meetings/${id}`, { state: { year, month } });
     } else {
-      navi(`/events/${id}`);
+      navi(`/events/${id}`, { state: { year, month } });
     }
   };
 

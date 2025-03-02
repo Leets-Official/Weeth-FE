@@ -17,8 +17,12 @@ cosnt Example = () => {
 const useCustomBack = (redirectPath) => {
   const navigate = useNavigate();
 
+  console.log(redirectPath);
+
   const browserPreventEvent = () => {
-    window.history.pushState(null, '', window.location.href);
+    const currentUrl =
+      window.location.pathname + window.location.search + window.location.hash;
+    window.history.pushState(null, '', currentUrl);
     navigate(redirectPath);
   };
 

@@ -4,6 +4,7 @@ import calendar from '@/assets/images/ic_home_calendar.svg';
 import attend from '@/assets/images/ic_home_attend.svg';
 import board from '@/assets/images/ic_home_board.svg';
 import * as S from '@/styles/home/HomeMain.styled';
+import { CURRENT_YEAR, CURRENT_MONTH } from '@/constants/dateConstants';
 
 const HomeMain: React.FC = () => {
   const navi = useNavigate();
@@ -13,7 +14,7 @@ const HomeMain: React.FC = () => {
       <S.GridContainer>
         <S.CalendarItem
           onClick={() => {
-            navi(`/calendar`);
+            navi(`/calendar?year=${CURRENT_YEAR}&month=${CURRENT_MONTH}`);
           }}
         >
           동아리 일정
