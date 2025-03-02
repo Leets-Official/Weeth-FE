@@ -71,7 +71,7 @@ const MyInfo = () => {
           <InfoItem label="학번">{userInfo.studentId}</InfoItem>
           <InfoItem label="기수">
             {userInfo.cardinals.map((cardinal) => (
-              <CardinalTag cardinal={cardinal} />
+              <CardinalTag type="mypage" cardinal={cardinal} />
             ))}
           </InfoItem>
           <InfoItem label="역할" isLast readOnly>

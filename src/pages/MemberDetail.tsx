@@ -151,7 +151,7 @@ const MemberDetail = () => {
         </Title>
         <CardinalList>
           {userDetail?.cardinals?.map((cardinal) => (
-            <CardinalTag cardinal={cardinal} key={cardinal} />
+            <CardinalTag type="member" cardinal={cardinal} key={cardinal} />
           ))}
         </CardinalList>
       </ContentTop>
