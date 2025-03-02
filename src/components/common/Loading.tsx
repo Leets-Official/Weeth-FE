@@ -15,7 +15,7 @@ const Container = styled.div`
   z-index: 1000;
 `;
 
-const MyAnimation = () => {
+const Loading = () => {
   return (
     <Container>
       <Lottie animationData={animationData} loop style={{ width: '100px' }} />
@@ -23,4 +23,4 @@ const MyAnimation = () => {
   );
 };
 
-export default MyAnimation;
+export default Loading;
