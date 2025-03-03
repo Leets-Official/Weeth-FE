@@ -27,7 +27,6 @@ const EventDetail = () => {
   const year = location.state?.year ?? CURRENT_YEAR;
   const month = location.state?.month ?? CURRENT_MONTH;
 
-  console.log(year, month);
   useCustomBack(`/calendar?year=${year}&month=${month}`);
 
   const { id, type } = useParams();
