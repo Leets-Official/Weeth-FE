@@ -38,7 +38,11 @@ const MonthCalendar = () => {
     const isToday =
       format(arg.date, 'yyyy-MM-dd') === format(new Date(), 'yyyy-MM-dd');
     return (
-      <div>
+      <div
+        onClick={() => {
+          // 렌더링 데이터 변경
+        }}
+      >
         {isToday && <S.Today>{arg.date.getDate()}</S.Today>}
         <div>{arg.date.getDate()}</div>
       </div>
@@ -64,17 +68,6 @@ const MonthCalendar = () => {
     );
   };
 
-  const onClickEvent = (clickInfo: any) => {
-    const [id] = clickInfo.event.id.split('_');
-    const { isMeeting } = clickInfo.event.extendedProps;
-
-    if (isMeeting) {
-      navi(`/meetings/${id}`, { state: { year, month } });
-    } else {
-      navi(`/events/${id}`, { state: { year, month } });
-    }
-  };
-
   useEffect(() => {
     if (calendarRef.current) {
       const calendarApi = calendarRef.current.getApi();
@@ -90,7 +83,7 @@ const MonthCalendar = () => {
           plugins={[dayGridPlugin]}
           events={monthlySchedule}
           eventContent={renderEventContent}
-          eventClick={onClickEvent}
+          // eventClick={onClickEvent}
           locale="ko"
           headerToolbar={false}
           fixedWeekCount={false}
@@ -101,17 +94,21 @@ const MonthCalendar = () => {
 
       <Line width="100%" />
 
-      <S.TodayDate>
+      <S.SelectedDate>
         {format(new Date(), 'yyyy년 MM월 dd일')}{' '}
         <span>({WEEK_DAYS[new Date().getDay()]})</span>
-      </S.TodayDate>
+      </S.SelectedDate>
       <S.ScheduleList>
         {monthlySchedule.map((item) => (
           <ScheduleItem
             key={item.id}
+            id={item.id}
             title={item.title}
             start={item.start}
             end={item.end}
+            isMeeting={item.isMeeting}
+            year={year}
+            month={month}
           />
         ))}
       </S.ScheduleList>

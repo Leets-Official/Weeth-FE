@@ -14,10 +14,8 @@ cosnt Example = () => {
 }
 */
 
-const useCustomBack = (redirectPath) => {
+const useCustomBack = (redirectPath: string) => {
   const navigate = useNavigate();
-
-  console.log(redirectPath);
 
   const browserPreventEvent = () => {
     const currentUrl =

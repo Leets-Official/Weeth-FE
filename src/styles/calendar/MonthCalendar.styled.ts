@@ -86,14 +86,14 @@ export const Calendar = styled.div`
   }
 
   // 일정 호버 
-  .fc-event:hover {
-    padding: 3px 10px;
-    background-color: ${theme.color.positive}; !important;
-    border: none;
-    border-radius: 20px;
-    color: white !important;
-    cursor: pointer;
-  }
+  // .fc-event:hover {
+  //   padding: 3px 10px;
+  //   background-color: ${theme.color.positive}; !important;
+  //   border: none;
+  //   border-radius: 20px;
+  //   color: white !important;
+  //   cursor: pointer;
+  // }
   
   // 각 날짜 셀 스타일링
   .fc .fc-daygrid-day-events {
@@ -142,7 +142,7 @@ export const ScheduleList = styled.div`
   gap: 10px;
 `;
 
-export const TodayDate = styled.div`
+export const SelectedDate = styled.div`
   font-weight: 600;
   font-size: 18px;
   margin: 20px 0 15px 25px;
