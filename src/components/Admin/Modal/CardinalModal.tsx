@@ -23,6 +23,24 @@ interface CardinalModalProps {
     year?: number;
     semester?: number;
   };
+  cardinalList: {
+    id: number;
+    year?: number;
+    semester?: number;
+    cardinalNumber: number;
+    status?: string;
+  }[];
+  setCardinalList: React.Dispatch<
+    React.SetStateAction<
+      {
+        id: number;
+        year?: number;
+        semester?: number;
+        cardinalNumber: number;
+        status?: string;
+      }[]
+    >
+  >;
 }
 
 export const ModalContentWrapper = styled.div`
@@ -38,6 +56,8 @@ const CardinalModal: React.FC<CardinalModalProps> = ({
   isOpen,
   onClose,
   initialCardinal,
+  cardinalList,
+  setCardinalList,
 }) => {
   const isEditing = Boolean(initialCardinal);
 
@@ -64,6 +84,8 @@ const CardinalModal: React.FC<CardinalModalProps> = ({
     }
 
     try {
+      let updatedCardinal: { id: number };
+
       if (isEditing && initialCardinal?.id) {
         // 기수 수정 api 호출
         const response = await patchCardinalApi(
@@ -74,6 +96,14 @@ const CardinalModal: React.FC<CardinalModalProps> = ({
         );
         console.log('기수 수정 성공:', response);
         alert('기수 정보가 수정되었습니다.');
+        updatedCardinal = response.data;
+        setCardinalList((prev) =>
+          prev.map((cardinal) =>
+            cardinal.id === updatedCardinal.id
+              ? { ...cardinal, ...updatedCardinal }
+              : cardinal,
+          ),
+        );
       } else {
         // 기수 추가 api 호출
         const response = await postCardinalApi(
@@ -84,6 +114,9 @@ const CardinalModal: React.FC<CardinalModalProps> = ({
         );
         console.log('새로운 기수 저장 성공:', response);
         alert('새로운 기수가 저장되었습니다.');
+        updatedCardinal = response.data;
+
+        setCardinalList((prev) => [...prev, { ...updatedCardinal }]);
       }
 
       onClose();
