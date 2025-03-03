@@ -6,7 +6,7 @@ import { useState } from 'react';
 import formatDateTime from '@/hooks/formatDateTime';
 import useGetUserName from '@/hooks/useGetUserName';
 import setPositionIcon from '@/hooks/setPositionIcon';
-import DeleteModal from '../Modal/DeleteModal';
+import SelectModal from '../Modal/SelectModal';
 
 interface CommentProps {
   name: string;
@@ -88,7 +88,7 @@ const Comment = ({
         )}
       </S.ButtonContainer>
       {isModalOpen && (
-        <DeleteModal
+        <SelectModal
           title="댓글 삭제"
           content="댓글을 정말 삭제하시겠습니까?"
           onClose={handleCloseModal}
