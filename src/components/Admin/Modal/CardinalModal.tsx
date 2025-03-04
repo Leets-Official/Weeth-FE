@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Button from '@/components/Button/Button';
 import CheckBox from '@/assets/images/ic_admin_checkbox.svg';
@@ -22,6 +22,7 @@ interface CardinalModalProps {
     cardinalNumber: number;
     year?: number;
     semester?: number;
+    status?: string;
   };
   cardinalList: {
     id: number;
@@ -57,15 +58,17 @@ const CardinalModal: React.FC<CardinalModalProps> = ({
   onClose,
   initialCardinal,
   cardinalList,
-  setCardinalList,
+  setCardinalList = () => {},
 }) => {
   const isEditing = Boolean(initialCardinal);
+
+  const [, setCardinals] = useState(cardinalList);
 
   const [formState, setFormState] = useState({
     cardinalNumber: initialCardinal?.cardinalNumber || '',
     year: initialCardinal?.year || '',
     semester: initialCardinal?.semester || '',
-    isChecked: false,
+    isChecked: initialCardinal?.status === 'IN_PROGRESS' || false,
   });
 
   const handleCheckBoxClick = () => {
@@ -84,7 +87,13 @@ const CardinalModal: React.FC<CardinalModalProps> = ({
     }
 
     try {
-      let updatedCardinal: { id: number };
+      let updatedCardinal: {
+        id: number;
+        year?: number;
+        semester?: number;
+        cardinalNumber: number;
+        status?: string;
+      };
 
       if (isEditing && initialCardinal?.id) {
         // 기수 수정 api 호출
@@ -120,12 +129,15 @@ const CardinalModal: React.FC<CardinalModalProps> = ({
       }
 
       onClose();
-      window.location.reload();
     } catch (error: any) {
       console.error('새로운 기수 저장 실패:', error.message);
       alert(`기수 저장 실패: ${error.message}`);
     }
   };
+
+  useEffect(() => {
+    setCardinals(cardinalList);
+  }, [cardinalList]);
 
   return (
     <CommonCardinalModal
