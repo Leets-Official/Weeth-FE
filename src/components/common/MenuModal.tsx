@@ -3,21 +3,31 @@ import theme from '@/styles/theme';
 
 const Container = styled.div`
   position: absolute;
+  top: 0;
+  left: 0;
   z-index: 10;
   width: 100vw;
   height: 100vh;
+  // background-color: rgba(0, 0, 0, 0.5);
 `;
 
-const Content = styled.div<{ top?: number; right?: number }>`
+const ModalContainer = styled.div`
+  width: 370px;
+  position: fixed;
+  top: 55px;
+  left: 50%;
+  transform: translate(-50%);
+`;
+
+const Content = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
 
-  // position: absolute;
-  // top: ${({ top }) => (top ? `${top}px` : 0)};
-  // right: ${({ right }) => (right ? `${right}px` : 0)};
   width: 144px;
   box-sizing: border-box;
+  margin-left: auto;
+  margin-right: 18px;
 
   background-color: ${theme.color.gray[18]};
   border-radius: 10px;
@@ -28,19 +38,15 @@ const Content = styled.div<{ top?: number; right?: number }>`
 const MenuModal = ({
   children,
   onClose,
-  top,
-  right,
 }: {
   children: React.ReactNode;
   onClose?: () => void;
-  top?: number;
-  right?: number;
 }) => {
   return (
     <Container onClick={onClose}>
-      <Content onClick={(e) => e.stopPropagation()} top={top} right={right}>
-        {children}
-      </Content>
+      <ModalContainer>
+        <Content onClick={(e) => e.stopPropagation()}>{children}</Content>
+      </ModalContainer>
     </Container>
   );
 };
