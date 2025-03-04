@@ -21,7 +21,7 @@ const DirectCardinalDropdown: React.FC<DirectCardinalProps> = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const { allCardinals } = useGetAllCardinals();
-  const [isCustomInput] = useState(false);
+  const [isCustomInput, setIsCustomInput] = useState(false);
 
   const sortedCardinals = [...allCardinals].reverse();
 
@@ -29,17 +29,18 @@ const DirectCardinalDropdown: React.FC<DirectCardinalProps> = ({
 
   const selectCardinal = (value: number) => {
     setSelectedCardinal(value, false);
+    setIsCustomInput(false);
     setIsOpen(false);
   };
 
   const handleCustomInput = () => {
     setSelectedCardinal(0, true);
+    setIsCustomInput(true);
     setIsOpen(false);
   };
 
   const getDisplayText = () => {
-    if (isCustomInput || selectedCardinal === 0 || selectedCardinal === null)
-      return '직접 입력';
+    if (isCustomInput || selectedCardinal === null) return '직접 입력';
     return `${selectedCardinal}기`;
   };
 

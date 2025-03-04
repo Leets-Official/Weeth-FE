@@ -18,10 +18,9 @@ const ButtonGroupContainer = styled.div<{ hasEndGap?: boolean }>`
   justify-content: center;
   align-items: center;
   gap: 12px;
-  padding-right: 20px;
+  padding: 10px;
   overflow-x: auto;
   white-space: nowrap;
-  padding-left: 10px;
   &::-webkit-scrollbar {
     height: 3px;
   }
@@ -30,7 +29,7 @@ const ButtonGroupContainer = styled.div<{ hasEndGap?: boolean }>`
     hasEndGap &&
     `
     & > :last-child {
-    margin-left:150px
+    margin-left:188px
     }
 
       @media (max-width: 900px) {
