@@ -74,7 +74,6 @@ export const MemberProvider: React.FC<{ children: React.ReactNode }> = ({
 
   useEffect(() => {
     const fetchMembers = async () => {
-      if (!isAdmin) return;
       try {
         console.log(`API 요청: orderBy=${sortingOrder}`);
         const response = await getAllUsers(sortingOrder);

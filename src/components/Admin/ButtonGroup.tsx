@@ -36,9 +36,11 @@ const ButtonGroupContainer = styled.div<{ hasEndGap?: boolean }>`
       & > :last-child {
         display:none;
       }
-      
     }
   `}
+  @media (max-width: 900px) {
+    gap: 6px;
+  }
 `;
 
 const ButtonContent = styled.div<{ hasIcon?: boolean }>`
@@ -50,7 +52,8 @@ const ButtonContent = styled.div<{ hasIcon?: boolean }>`
 
   @media (max-width: 900px) {
     font-size: 12px;
-    padding: 2px;
+    width: fit-content;
+    padding: 1px;
     gap: 2px;
     img {
       width: 18px;

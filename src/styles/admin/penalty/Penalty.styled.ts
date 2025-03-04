@@ -13,7 +13,7 @@ export const TableWrapper = styled.div`
 `;
 
 export const TableContainer = styled.div`
-  width: 70%;
+  width: fit-content;
   min-width: 750px;
   background-color: #fff;
   border: 1px solid #f2f2f2;

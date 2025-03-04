@@ -24,6 +24,7 @@ export const TableWrapper = styled.div`
 
 export const TableContainer = styled.div`
   background-color: #fff;
+  width: max-content;
   border: 1px solid #f2f2f2;
   border-radius: 8px;
   box-shadow: 0px 3px 8px rgba(133, 141, 138, 0.2);

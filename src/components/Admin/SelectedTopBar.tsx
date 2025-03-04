@@ -15,6 +15,7 @@ const SelectedTopBarWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  white-space: nowrap;
 `;
 
 const TitleContainer = styled.div`
@@ -23,6 +24,10 @@ const TitleContainer = styled.div`
   justify-content: flex-start;
   gap: 25px;
   padding-left: 55px;
+
+  @media (max-width: 900px) {
+    font-size: 12px;
+  }
 `;
 
 const SvgIcon = styled.img`

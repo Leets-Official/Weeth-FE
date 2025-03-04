@@ -4,6 +4,7 @@ import Button from '@/components/Button/Button';
 import useLogout from '@/hooks/useLogout';
 
 export const TopBarWrapper = styled.div`
+  position: relative;
   width: 100%;
   background-color: #ffffff;
   border-bottom: 1px solid #dedede;
@@ -11,6 +12,7 @@ export const TopBarWrapper = styled.div`
   box-sizing: border-box;
   display: flex;
   justify-content: space-between;
+  gap: 20px;
   align-items: center;
 `;
 
