@@ -3,6 +3,7 @@ import { getAllUsers } from '@/api/admin/member/getAdminUser';
 import formatDate from '@/utils/admin/dateUtils';
 import useGetAllCardinals from '@/api/useGetCardinals';
 import getHighestCardinal from '@/utils/admin/getHighestCardinal';
+import useGetUserInfo from '@/api/useGetGlobaluserInfo';
 
 export type MemberData = {
   id: number;
@@ -69,8 +70,11 @@ export const MemberProvider: React.FC<{ children: React.ReactNode }> = ({
     allCardinals.find((c) => c.status === 'IN_PROGRESS')?.cardinalNumber ||
     null;
 
+  const { isAdmin } = useGetUserInfo();
+
   useEffect(() => {
     const fetchMembers = async () => {
+      if (!isAdmin) return;
       try {
         console.log(`API 요청: orderBy=${sortingOrder}`);
         const response = await getAllUsers(sortingOrder);
