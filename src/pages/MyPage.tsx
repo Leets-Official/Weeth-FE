@@ -47,8 +47,6 @@ const MyPage = () => {
           onClose={() => {
             setIsModalOpen(false);
           }}
-          top={60}
-          right={620}
         >
           <S.TextButton
             onClick={() => {

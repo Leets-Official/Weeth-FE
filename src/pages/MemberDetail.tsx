@@ -4,6 +4,10 @@ import FE from '@/assets/images/ic_char_FE.svg';
 import BE from '@/assets/images/ic_char_BE.svg';
 import D from '@/assets/images/ic_char_DE.svg';
 import Master from '@/assets/images/ic_Master.svg';
+import clipFE from '@/assets/images/ic_FE_clip.svg';
+import clipBE from '@/assets/images/ic_BE_clip.svg';
+import clipDE from '@/assets/images/ic_DE_clip.svg';
+
 import theme from '@/styles/theme';
 import styled from 'styled-components';
 import CardinalTag from '@/components/common/CardinalTag';
@@ -17,19 +21,46 @@ const Wrapper = styled.div`
 `;
 
 const PostionCharicter = styled.img`
-  width: 203px;
   margin-top: 52px;
 `;
 
-const Content = styled.div<{ color?: string }>`
+const ClipContainer = styled.div`
+  width: 370px;
+  position: fixed;
+  top: 55px;
+  left: 50%;
+  transform: translate(-50%);
+`;
+
+const Clip = styled.img`
+  position: fixed;
+  top: 288px;
+  left: 34px;
+`;
+
+const ContentTop = styled.div`
+  display: flex;
+  flex-direction: column;
+  background-color: ${theme.color.gray[18]};
+  gap: 20px;
+  width: 350px;
+  height: 136px;
+  margin-top: 35px;
+  box-sizing: border-box;
+
+  border-radius: 19px 19px 0 0;
+  padding-left: 16px;
+`;
+
+const ContentBottom = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
-  width: 100%;
-  height: 100vh;
-  margin-top: 35px;
-  background-color: ${(props) => props.color || 'transparent'};
-  padding-left: 42px;
+  width: 350px;
+  box-sizing: border-box;
+  border: 1px solid ${theme.color.gray[18]};
+  border-radius: 0 0 19px 19px;
+  padding: 17px 14px 34px;
 `;
 
 const CardinalList = styled.div`
@@ -41,6 +72,11 @@ const MoreInfo = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
+`;
+
+const Position = styled.div<{ color: string }>`
+  color: ${(props) => props.color};
+  font-family: ${theme.font.semiBold};
 `;
 
 const Title = styled.div`
@@ -57,7 +93,7 @@ const Department = styled.div`
 `;
 
 const Gray = styled.div`
-  color: rgba(255, 255, 255, 0.6);
+  color: ${theme.color.gray[65]};
 `;
 
 const MemberDetail = () => {
@@ -66,16 +102,19 @@ const MemberDetail = () => {
   const positionMap = {
     FE: {
       char: FE,
+      clip: clipFE,
       name: '프론트엔드 파트',
       color: theme.color.negative,
     },
     BE: {
       char: BE,
+      clip: clipBE,
       name: '백엔드 파트',
       color: theme.color.positive,
     },
     D: {
       char: D,
+      clip: clipDE,
       name: '디자인 파트',
       color: theme.color.pointPink,
     },
@@ -102,20 +141,25 @@ const MemberDetail = () => {
       {positionData && (
         <PostionCharicter src={positionData.char} alt={position} />
       )}
-      <Content color={positionData?.color}>
+      <ClipContainer>
+        <Clip src={positionData?.clip} alt="clip" />
+      </ClipContainer>
+      <ContentTop>
         <Title>
           <span>{userDetail?.name}</span>
-          {userDetail?.role === 'ADMIN' && (
-            <img src={Master} alt="Master" />
-          )}{' '}
+          {userDetail?.role === 'ADMIN' && <img src={Master} alt="Master" />}
         </Title>
         <CardinalList>
           {userDetail?.cardinals?.map((cardinal) => (
-            <CardinalTag cardinal={cardinal} key={cardinal} />
+            <CardinalTag type="member" cardinal={cardinal} key={cardinal} />
           ))}
         </CardinalList>
+      </ContentTop>
+      <ContentBottom>
         <MoreInfo>
-          {positionData && <b>{positionData.name}</b>}
+          {positionData && (
+            <Position color={positionData.color}>{positionData.name}</Position>
+          )}
           <Department>
             <div>{userDetail?.department}</div>
             <Gray>|</Gray>
@@ -123,7 +167,7 @@ const MemberDetail = () => {
           </Department>
           <div>{userDetail?.email}</div>
         </MoreInfo>
-      </Content>
+      </ContentBottom>
     </Wrapper>
   );
 };

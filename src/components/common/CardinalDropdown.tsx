@@ -64,10 +64,12 @@ const CardinalDropdown = ({
   const { allCardinals } = useGetAllCardinals();
 
   const options: { value: number | null; label: string }[] =
-    allCardinals?.map(({ id }) => ({
-      value: id,
-      label: `${id}기`,
-    })) || [];
+    allCardinals
+      ?.map(({ id }) => ({
+        value: id,
+        label: `${id}기`,
+      }))
+      .reverse() || [];
 
   if (isMember === true) options.unshift({ value: null, label: '전체' });
 

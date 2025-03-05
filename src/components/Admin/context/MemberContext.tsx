@@ -1,6 +1,8 @@
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { getAllUsers } from '@/api/admin/member/getAdminUser';
 import formatDate from '@/utils/admin/dateUtils';
+import useGetAllCardinals from '@/api/useGetCardinals';
+import getHighestCardinal from '@/utils/admin/getHighestCardinal';
 
 export type MemberData = {
   id: number;
@@ -8,7 +10,7 @@ export type MemberData = {
   name: string;
   role: string;
   department: string;
-  cardinals: string;
+  cardinals: number[];
   tel: string;
   studentId: string;
   position: string;
@@ -18,7 +20,7 @@ export type MemberData = {
   LatestPenalty?: string;
   createdAt: string;
   email?: string;
-  membershipType?: '활동 중' | '알럼나이';
+  membershipType?: '활동 중' | '알럼나이' | '상태 없음';
 };
 
 interface MemberContextProps {
@@ -32,6 +34,8 @@ interface MemberContextProps {
   setSortingOrder: React.Dispatch<
     React.SetStateAction<'NAME_ASCENDING' | 'CARDINAL_DESCENDING'>
   >;
+  selectedCardinal: number | null;
+  setSelectedCardinal: React.Dispatch<React.SetStateAction<number | null>>;
 }
 
 // context 생성
@@ -52,11 +56,18 @@ export const MemberProvider: React.FC<{ children: React.ReactNode }> = ({
     'NAME_ASCENDING' | 'CARDINAL_DESCENDING'
   >('NAME_ASCENDING');
 
+  const [selectedCardinal, setSelectedCardinal] = useState<number | null>(null);
+
   const statusMapping: Record<string, string> = {
     ACTIVE: '승인 완료',
     WAITING: '대기 중',
     BANNED: '추방',
   };
+
+  const { allCardinals } = useGetAllCardinals();
+  const currentCardinal =
+    allCardinals.find((c) => c.status === 'IN_PROGRESS')?.cardinalNumber ||
+    null;
 
   useEffect(() => {
     const fetchMembers = async () => {
@@ -65,16 +76,36 @@ export const MemberProvider: React.FC<{ children: React.ReactNode }> = ({
         const response = await getAllUsers(sortingOrder);
         const fetchedMembers = response.data.data || [];
         console.log('API응답: ', response.data);
-        const mappedMembers = fetchedMembers.map((user: any) => ({
-          ...user,
-          cardinals:
-            user.cardinals.length > 0 ? user.cardinals.reverse().join('.') : '',
-          status: statusMapping[user.status] || '추방',
-          attendanceCount: user.attendanceCount ?? 0,
-          absenceCount: user.absenceCount ?? 0,
-          penaltyCount: user.penaltyCount ?? 0,
-          createdAt: formatDate(user.createdAt),
-        }));
+
+        const mappedMembers = fetchedMembers.map((user: any) => {
+          const highestMemberCardinalStr = getHighestCardinal(user.cardinals);
+          const highestMemberCardinal = parseInt(highestMemberCardinalStr, 10);
+
+          let membershipType: '활동 중' | '알럼나이' | '상태 없음';
+
+          if (Number.isNaN(highestMemberCardinal)) {
+            membershipType = '상태 없음';
+          } else if (highestMemberCardinal === currentCardinal) {
+            membershipType = '활동 중';
+          } else {
+            membershipType = '알럼나이';
+          }
+
+          return {
+            ...user,
+            cardinals:
+              user.cardinals.length > 0
+                ? user.cardinals.reverse().join('.')
+                : '',
+            status: statusMapping[user.status] || '대기 중',
+            attendanceCount: user.attendanceCount ?? 0,
+            absenceCount: user.absenceCount ?? 0,
+            penaltyCount: user.penaltyCount ?? 0,
+            createdAt: formatDate(user.createdAt),
+            membershipType,
+          };
+        });
+
         setMembers(mappedMembers);
         setFilteredMembers(mappedMembers);
         setError(null);
@@ -85,6 +116,20 @@ export const MemberProvider: React.FC<{ children: React.ReactNode }> = ({
 
     fetchMembers();
   }, [sortingOrder]);
+
+  useEffect(() => {
+    if (selectedCardinal === null) {
+      setFilteredMembers(members);
+      return;
+    }
+
+    const filtered = members.filter((member) => {
+      return member.cardinals.includes(selectedCardinal);
+    });
+
+    setFilteredMembers(filtered);
+  }, [selectedCardinal, members]);
+
   const value = useMemo(
     () => ({
       members,
@@ -95,8 +140,10 @@ export const MemberProvider: React.FC<{ children: React.ReactNode }> = ({
       setFilteredMembers,
       sortingOrder,
       setSortingOrder,
+      selectedCardinal,
+      setSelectedCardinal,
     }),
-    [members, selectedMembers, filteredMembers, error],
+    [members, selectedMembers, filteredMembers, selectedCardinal, error],
   );
 
   return (

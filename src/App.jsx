@@ -40,7 +40,7 @@ import { CustomToastContainer } from '@/components/common/ToastMessage';
 const App = () => {
   return (
     <ThemeProvider theme={theme}>
-      <CustomToastContainer />
+      <CustomToastContainer limit={1} />
       <ScrollToTop />
       <Routes>
         <Route path="/" element={<Landing />} />

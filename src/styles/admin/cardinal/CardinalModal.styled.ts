@@ -122,12 +122,54 @@ export const StyledInput = styled.input<{ flex: number; maxWidth: string }>`
   border-radius: 4px;
   font-size: 16px;
   padding: 12px;
-
   &::placeholder {
     color: ${theme.color.gray[65]};
   }
 
   // readOnly 일 때 색상 변경
+  ${({ readOnly }) =>
+    readOnly
+      ? `
+      color: ${theme.color.gray[65]};
+      cursor: not-allowed;
+      &:focus {
+      outline: none
+      }
+      `
+      : `
+      &:focus {
+      outline: 2px solid #2f2f2f;
+      }
+    `}
+`;
+
+// CardinalModal.tsx
+export const InputWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  border: 1px solid #dedede;
+  font-size: 16px;
+  outline: none;
+
+  :focus::placeholder {
+    color: transparent;
+  }
+`;
+
+export const Input = styled.input<{ readOnly?: boolean }>`
+  font-family: ${theme.font.semiBold};
+  font-size: 18px;
+  flex-grow: 1;
+  width: 50%;
+  border: none;
+  outline: none;
+  text-align: right;
+  padding: 5px;
+
   ${({ readOnly }) =>
     readOnly &&
     `
@@ -136,27 +178,17 @@ export const StyledInput = styled.input<{ flex: number; maxWidth: string }>`
   `}
 `;
 
-// CardinalModal.tsx
-export const Input = styled.input`
-  width: 100%;
-  max-width: 100%;
-  padding: 15px;
-  box-sizing: border-box;
-  border: 1px solid #ddd;
-  font-size: 16px;
-  font-family: ${theme.font.semiBold};
-  outline: none;
-  text-align: right;
-
-  :focus::placeholder {
-    color: transparent;
-  }
+export const Unit = styled.div`
+  font-size: 18px;
+  color: ${theme.color.gray[65]};
+  white-space: nowrap;
 `;
 
 export const Title = styled.div`
-  font-weight: 500;
-  font-size: 16px;
-  color: #000;
+  font-weight: 700;
+  font-size: 24px;
+  margin-top: -30px;
+  padding-bottom: 10px;
 `;
 
 export const FlexRow = styled.div`

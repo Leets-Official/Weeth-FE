@@ -106,8 +106,6 @@ const NoticePostDetail = () => {
           onClose={() => {
             setIsModalOpen(false);
           }}
-          top={55}
-          right={20}
         >
           <TextButton onClick={() => navigate(`/board/${postId}/edit`)}>
             수정

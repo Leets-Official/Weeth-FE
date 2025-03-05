@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { toastError } from '@/components/common/ToastMessage';
 import api from './api';
 
 export const getEventInfo = async (
@@ -27,7 +26,6 @@ export const useGetEventInfo = (type?: string, id?: string) => {
           }
         }
       } catch (err: any) {
-        toastError('데이터를 불러오지 못했습니다.');
         setError(err.message || 'An error occurred');
       } finally {
         setLoading(false);
