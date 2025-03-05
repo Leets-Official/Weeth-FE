@@ -12,9 +12,13 @@ import PenaltyDetail from '@/components/Admin/PenaltyDetail';
 import PenaltyAdd from '@/components/Admin/PenaltyAdd';
 import { statusColors } from '@/components/Admin/StatusIndicator';
 import { StatusCell } from '@/components/Admin/MemberListTableRow';
-import { EmptyCell } from '@/components/Admin/MemberListTableHeader';
 import formatDate from '@/utils/admin/dateUtils';
 import dayjs from 'dayjs';
+import { styled } from 'styled-components';
+
+export const EmptyCell = styled.th`
+  border-bottom: 1px solid #dedede;
+`;
 
 const columns = [
   { key: 'name', header: '이름' },

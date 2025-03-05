@@ -16,14 +16,16 @@ const Row = styled.tr`
 `;
 
 const Cell = styled.td`
-  padding: 15px 25px;
+  padding: 15px 20px;
   text-align: left;
   white-space: nowrap;
   border-bottom: 1px solid #dedede;
   vertical-align: middle;
 `;
+
 export const StatusCell = styled.td<{ statusColor: string }>`
   width: 2px;
+  min-width: 2px;
   background-color: ${({ statusColor }) => statusColor};
 `;
 
@@ -37,10 +39,6 @@ export const SvgWrapper = styled.td`
     height: auto;
     display: block;
   }
-`;
-
-export const MeatballWrapper = styled(SvgWrapper)`
-  padding-left: 5%;
 `;
 
 interface TableRowProps {
@@ -59,7 +57,6 @@ const MemberListTableRow: React.FC<TableRowProps> = ({ data, columns }) => {
         ? prevSelected.filter((id) => id !== String(data.id))
         : [...prevSelected, String(data.id)];
 
-      console.log('선택된 멤버 id :', updatedSelected);
       return updatedSelected;
     });
   };
@@ -82,9 +79,9 @@ const MemberListTableRow: React.FC<TableRowProps> = ({ data, columns }) => {
           <Cell key={column.key}>{data[column.key]}</Cell>
         ))}
 
-        <MeatballWrapper onClick={openModal}>
+        <SvgWrapper onClick={openModal}>
           <img src={MeatBallSvg} alt="미트볼 메뉴" />
-        </MeatballWrapper>
+        </SvgWrapper>
       </Row>
 
       {isModalOpen && <MemberDetailModal data={data} onClose={closeModal} />}
