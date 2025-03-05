@@ -6,6 +6,7 @@ import useLogout from '@/hooks/useLogout';
 export const TopBarWrapper = styled.div`
   position: relative;
   width: 100%;
+  min-width: 1500px;
   background-color: #ffffff;
   border-bottom: 1px solid #dedede;
   padding: 0 20px;

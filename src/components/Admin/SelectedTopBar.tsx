@@ -10,6 +10,7 @@ import CardinalEditModal from '@/components/Admin/Modal/CardinalEditModal';
 
 const SelectedTopBarWrapper = styled.div`
   width: 100%;
+  min-width: 1500px;
   background-color: ${theme.color.main};
   color: ${theme.color.gray[100]};
   display: flex;

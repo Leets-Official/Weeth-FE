@@ -1,8 +1,9 @@
 import styled from 'styled-components';
 import CheckBox from '@/assets/images/ic_admin_checkbox.svg';
 import UnCheckBox from '@/assets/images/ic_admin_uncheckbox.svg';
-import { SvgWrapper } from '@/components/Admin/MemberListTableRow';
+import { StatusCell, SvgWrapper } from '@/components/Admin/MemberListTableRow';
 import { useMemberContext } from '@/components/Admin/context/MemberContext';
+import { statusColors } from './StatusIndicator';
 
 interface TableHeaderProps {
   columns: { key: string; header: string }[];
@@ -41,7 +42,7 @@ const MemberListTableHeader: React.FC<TableHeaderProps> = ({
   return (
     <thead>
       <tr>
-        <EmptyCell aria-label="Row Status" />
+        <StatusCell statusColor={statusColors['승인 완료']} />
 
         <SvgWrapper onClick={onClickToCheckBox}>
           <img

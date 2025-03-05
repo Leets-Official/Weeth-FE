@@ -24,7 +24,8 @@ export const TableWrapper = styled.div`
 
 export const TableContainer = styled.div`
   background-color: #fff;
-  width: max-content;
+  width: fit-content;
+  /* min-width: 1400px; */
   border: 1px solid #f2f2f2;
   border-radius: 8px;
   box-shadow: 0px 3px 8px rgba(133, 141, 138, 0.2);
@@ -52,6 +53,7 @@ const MemberListTable: React.FC<MemberListTableProps> = ({ columns }) => {
               <MemberListTableRow key={row.id} columns={columns} data={row} />
             ))}
           </tbody>
+          <MemberListTableHeader columns={columns} memberIds={memberIds} />
         </table>
       </TableWrapper>
     </TableContainer>

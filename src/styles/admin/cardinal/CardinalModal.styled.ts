@@ -224,6 +224,7 @@ export const ContentWrapper = styled.div`
   align-items: center;
   gap: 20px;
   padding: 5px;
+  white-space: nowrap;
 `;
 
 export const ModalContent = styled.div`
