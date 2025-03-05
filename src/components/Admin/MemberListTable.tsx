@@ -77,7 +77,9 @@ const MemberListTable: React.FC<MemberListTableProps> = ({ columns }) => {
               </NoDataRow>
             )}
           </tbody>
-          <MemberListTableHeader columns={columns} memberIds={memberIds} />
+          {filteredMembers.length > 0 && (
+            <MemberListTableHeader columns={columns} memberIds={memberIds} />
+          )}
         </table>
       </TableWrapper>
     </TableContainer>
