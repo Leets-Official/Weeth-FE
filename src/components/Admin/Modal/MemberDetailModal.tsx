@@ -83,6 +83,8 @@ const MemberDetailModal: React.FC<MemberDetailModalProps> = ({
         isOpen
         onClose={onClose}
         title="멤버 관리 버튼"
+        top="40%"
+        height="60%"
         footer={<ButtonGroup buttons={buttons} hasEndGap />}
       >
         <S.ContentWrapper>
@@ -144,8 +146,8 @@ const MemberDetailModal: React.FC<MemberDetailModalProps> = ({
           isOpen={isCardinalModalOpen}
           onClose={() => setIsCardinalModalOpen(false)}
           selectedUserIds={[data.id]}
-          top="26%"
-          left="38%"
+          top="31%"
+          left="39%"
         />
       )}
     </>

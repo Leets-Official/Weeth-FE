@@ -14,6 +14,7 @@ export const TopBarWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   gap: 20px;
+  padding-right: 5%;
   align-items: center;
 `;
 

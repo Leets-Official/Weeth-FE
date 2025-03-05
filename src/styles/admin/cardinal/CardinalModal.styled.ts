@@ -28,6 +28,7 @@ export const StyledModalContent = styled.div<{
   position: fixed;
   top: ${(props) => props.top || '50%'};
   left: ${(props) => props.left || '50%'};
+  transform: translateX(-50%);
   transform: ${(props) =>
     props.top && props.left ? 'none' : 'translate(-50%, -50%)'};
   background-color: ${theme.color.gray[100]};
@@ -35,6 +36,25 @@ export const StyledModalContent = styled.div<{
   overflow: visible;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
+  z-index: 9999;
+
+  @media (max-width: 1024px) {
+    left: 50%;
+    transform: translateX(-10%);
+    width: 45%;
+  }
+
+  @media (max-width: 900px) {
+    left: 50%;
+    transform: translateX(-10%);
+    width: 45%;
+  }
+
+  @media (max-width: 600px) {
+    left: 50%;
+    transform: translateX(-50%);
+    width: 75%;
+  }
 `;
 
 export const ModalContainer = styled.div`
@@ -93,6 +113,7 @@ export const ModalContentWrapper = styled.div`
   box-sizing: border-box;
   width: calc(100% - 40px);
   max-width: 360px;
+  z-index: 1100;
 `;
 
 export const InputGroup = styled.div`

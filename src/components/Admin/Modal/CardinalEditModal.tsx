@@ -21,7 +21,7 @@ const CardinalEditModal: React.FC<CardinalChangeModalProps> = ({
   onClose,
   selectedUserIds,
   top = '100px',
-  left = '50%',
+  left = 'auto',
   position = 'absolute',
   overlayColor = 'transparent',
 }) => {

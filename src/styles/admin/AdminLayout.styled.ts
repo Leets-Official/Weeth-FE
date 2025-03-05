@@ -9,7 +9,6 @@ export const PageWrapper = styled.div`
   color: #000000;
   background-color: #f2f9f8;
   display: flex;
-  overflow-x: auto;
 `;
 
 export const Container = styled.div`

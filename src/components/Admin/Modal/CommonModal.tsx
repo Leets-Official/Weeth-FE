@@ -20,7 +20,7 @@ const ModalContainer = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
-  z-index: 2;
+  z-index: 1000;
 `;
 
 const Title = styled.div`
