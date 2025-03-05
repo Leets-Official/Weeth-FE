@@ -12,22 +12,13 @@ export const CategoryWrapper = styled.div`
 
 export const DuesListBox = styled.div`
   width: 92%;
-  height: calc(100vh - 240px);
-  overflow: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
-  margin: 0 4%;
-  padding-bottom: 10px;
+  border-radius: 14px;
+  margin: 0 4% 50px 4%;
+  padding-bottom: 15px;
   background-color: ${theme.color.gray[18]};
-
-  ::-webkit-scrollbar {
-    display: none;
-  }
-  -ms-overflow-style: none;
-  scrollbar-width: none;
 `;
 
 export const DuesList = styled.div`
