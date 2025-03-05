@@ -4,10 +4,10 @@ import adminReceipts from '@/api/admin/dues/adminReceipts';
 import inputFields from '@/constants/admin/duesRegisterAddConstants';
 import Close from '@/assets/images/ic_admin_close.svg';
 import useDuesFileUpload from '@/hooks/admin/handleFileChange';
-import CardinalDropdown from './Cardinal';
-import DuesInput from './DuesInput';
-import Button from './Button';
-import { ExpenditureRecordProps } from './ExpenditureRecord';
+import { ExpenditureRecordProps } from '@/components/Admin/ExpenditureRecord';
+import DuesInput from '@/components/Admin/DuesInput';
+import Button from '@/components/Admin/Button';
+import CardinalDropdown from '@/components/Admin/Cardinal';
 
 const DuesRegisterAdd: React.FC = () => {
   const [selectedCardinal, setSelectedCardinal] = useState<null | number>(null);

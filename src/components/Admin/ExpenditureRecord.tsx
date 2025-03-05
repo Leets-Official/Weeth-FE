@@ -15,9 +15,9 @@ import fetchAccountData from '@/api/admin/dues/getAccount';
 import { AccountResponse, RECEIPT, FileObject } from '@/types/account';
 import Receipt from '@/assets/images/ic_admin_receipt.svg';
 import deleteReceipt from '@/api/admin/dues/deleteReceipt';
-import Button from './Button';
-import DuesModifyModal from './Modal/DuesModifyModal';
-import ReceiptModal from './Modal/ReceiptModal';
+import Button from '@/components/Admin/Button';
+import DuesModifyModal from '@/components/Admin/Modal/DuesModifyModal';
+import ReceiptModal from '@/components/Admin/Modal/ReceiptModal';
 
 export interface ExpenditureRecordProps {
   date: string;

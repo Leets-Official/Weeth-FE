@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import theme from '@/styles/theme';
 import { useState } from 'react';
 import DownButton from '@/assets/images/ic_admin_cardinal.svg';
-import DuesRegisterDropDown from './DuesRegisterDropDown';
+import DuesRegisterDropDown from '@/components/Admin/DuesRegisterDropDown';
 
 const Wrapper = styled.div`
   width: 90%;

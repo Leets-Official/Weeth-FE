@@ -11,7 +11,7 @@ import DropDown from '@/assets/images/ic_admin_cardinal.svg';
 import fetchAttendancesByCardinal from '@/api/admin/attendance/fetchAttendancesByCardinal';
 import dayjs from 'dayjs';
 import useGetGlobaluserInfo from '@/api/useGetGlobaluserInfo';
-import AttendDropdown from './AttendDropdown';
+import AttendDropdown from '@/components/Admin/AttendDropdown';
 
 interface AttendanceItem {
   id: number;

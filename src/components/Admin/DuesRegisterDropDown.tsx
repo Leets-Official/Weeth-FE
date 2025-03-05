@@ -10,9 +10,9 @@ import {
 } from '@/styles/admin/DuesRegisterDropDown.styled';
 import { useRef, useState } from 'react';
 import { registerDues } from '@/api/admin/dues/postRegisterDues';
-import DuesInput from './DuesInput';
-import Button from './Button';
-import DirectCardinalDropdown from './DirectCardinal';
+import DirectCardinalDropdown from '@/components/Admin/DirectCardinal';
+import DuesInput from '@/components/Admin/DuesInput';
+import Button from '@/components/Admin/Button';
 
 const DuesRegisterDropDown: React.FC = () => {
   const [selectedCardinal, setSelectedCardinal] = useState<null | number>(null);

@@ -5,9 +5,9 @@ import Close from '@/assets/images/ic_admin_close.svg';
 import { FileObject } from '@/types/account';
 import updateReceipt from '@/api/admin/dues/updateReceipt';
 import useDuesFileUpload from '@/hooks/admin/handleFileChange';
-import Button from '../Button';
-import DuesModalButton from '../DuesModalButton';
-import DuesInput from '../DuesInput';
+import Button from '@/components/Admin/Button';
+import DuesInput from '@/components/Admin/DuesInput';
+import DuesModalButton from '@/components/Admin/DuesModalButton';
 
 interface DuesModifyModalProps {
   onClose: () => void;
