@@ -1,9 +1,12 @@
 import styled from 'styled-components';
 import CardinalDropdown from '@/components/Admin/Cardinal';
+import useGetAllCardinals from '@/api/useGetCardinals';
+import { useEffect } from 'react';
 
 interface TotalCardinalProps {
   selectedCardinal: number | null;
   setSelectedCardinal: React.Dispatch<React.SetStateAction<number | null>>;
+  autoSelectLatest?: boolean;
 }
 
 const CardinalWrapper = styled.div`
@@ -22,7 +25,19 @@ const CardinalWrapper = styled.div`
 const TotalCardinal: React.FC<TotalCardinalProps> = ({
   selectedCardinal,
   setSelectedCardinal,
+  autoSelectLatest = false,
 }) => {
+  const { allCardinals } = useGetAllCardinals();
+
+  useEffect(() => {
+    if (autoSelectLatest && allCardinals.length > 0) {
+      const latestCardinal = Math.max(
+        ...allCardinals.map((c) => c.cardinalNumber),
+      );
+      setSelectedCardinal(latestCardinal);
+    }
+  }, [allCardinals, setSelectedCardinal, autoSelectLatest]);
+
   return (
     <CardinalWrapper>
       <div>

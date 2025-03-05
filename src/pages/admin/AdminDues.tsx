@@ -66,6 +66,7 @@ const AdminDues: React.FC = () => {
             <TotalCardinal
               selectedCardinal={selectedCardinal}
               setSelectedCardinal={setSelectedCardinal}
+              autoSelectLatest
             />
             <DuesWrapper>
               <TotalDues cardinal={selectedCardinal} />
