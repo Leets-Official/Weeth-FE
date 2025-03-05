@@ -32,7 +32,7 @@ const Container = styled.div`
 `;
 
 const AdminAttendance: React.FC = () => {
-  const [selectedCardinal, setSelectedCardinal] = useState<null | number>(null);
+  const [selectedCardinal, setSelectedCardinal] = useState<number | null>(null);
 
   return (
     <PageWrapper>

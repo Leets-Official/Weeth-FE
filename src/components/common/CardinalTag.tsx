@@ -1,21 +1,28 @@
 import theme from '@/styles/theme';
 import styled from 'styled-components';
 
-const Container = styled.div`
+const Container = styled.div<{ type: 'member' | 'mypage' }>`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 49px;
+  width: 46px;
   height: 19px;
   border-radius: 13px;
-  background-color: #fff;
-  color: #000;
+  background-color: ${(props) =>
+    props.type === 'mypage' ? theme.color.gray[30] : theme.color.gray[65]};
+  color: ${(props) => (props.type === 'mypage' ? 'white' : 'black')};
   font-size: 12px;
   font-family: ${theme.font.semiBold};
 `;
 
-const CardinalTag = ({ cardinal }: { cardinal: number }) => {
-  return <Container>{cardinal}기</Container>;
+const CardinalTag = ({
+  cardinal,
+  type,
+}: {
+  cardinal: number;
+  type: 'member' | 'mypage';
+}) => {
+  return <Container type={type}>{cardinal}기</Container>;
 };
 
 export default CardinalTag;

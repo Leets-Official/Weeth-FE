@@ -19,7 +19,7 @@ export const CardinalButton = styled.div`
 
 export const DropdownMenu = styled.div`
   width: 118px;
-  height: 48px;
+  height: 240px;
   background-color: #ffffff;
   border: 1px solid #dedede;
   border-radius: 5px;
@@ -27,11 +27,12 @@ export const DropdownMenu = styled.div`
   position: absolute;
   color: black;
   z-index: 5;
+  overflow-y: auto;
 `;
 
 export const DropdownItem = styled.div`
   width: 100%;
-  height: 100%;
+  height: 48px;
   background-color: #ffffff;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   display: flex;

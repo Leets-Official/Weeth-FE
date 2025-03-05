@@ -9,7 +9,7 @@ import fetchAccountData from '@/api/admin/dues/getAccount';
 import { AccountResponse } from '@/types/account';
 import { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
-import Box from './Box';
+import Box from '@/components/Admin/Box';
 
 interface TotalDuesProps {
   cardinal: number | null;
@@ -23,7 +23,7 @@ export const BoxWrapper = styled.div`
 `;
 
 const CardinalWrapper = styled.div`
-  margin-left: 30px;
+  margin-left: 20px;
 `;
 
 const InsideDues = styled.div`
@@ -51,21 +51,21 @@ const TotalDues: React.FC<TotalDuesProps> = ({ cardinal }) => {
       id: 'box1',
       title: '원금',
       description: '0원',
-      last: '0000.00.00. 00:00',
+      last: '-',
       color: '#00DDA8',
     },
     {
       id: 'box2',
       title: '현재',
       description: '0원',
-      last: '0000.00.00. 00:00',
+      last: '-',
       color: '#2f2f2f',
     },
     {
       id: 'box3',
       title: '사용',
       description: '0원',
-      last: '0000.00.00. 00:00',
+      last: '-',
       color: '#2f2f2f',
     },
   ]);
@@ -75,7 +75,6 @@ const TotalDues: React.FC<TotalDuesProps> = ({ cardinal }) => {
       if (cardinal === null) return;
       try {
         const response: AccountResponse = await fetchAccountData(cardinal);
-
         if (response.code === 200) {
           const { totalAmount, currentAmount, time, description } =
             response.data;
@@ -105,10 +104,35 @@ const TotalDues: React.FC<TotalDuesProps> = ({ cardinal }) => {
             },
           ]);
         }
-      } catch (error: any) {
-        throw new Error(error);
+      } catch (error) {
+        console.error('API 호출 중 오류 발생:', error);
+        setTitle('총 회비 정보 없음');
+        setBoxData([
+          {
+            id: 'box1',
+            title: '원금',
+            description: '0원',
+            last: '0000.00.00 00:00',
+            color: '#00DDA8',
+          },
+          {
+            id: 'box2',
+            title: '현재',
+            description: '0원',
+            last: '0000.00.00 00:00',
+            color: '#2f2f2f',
+          },
+          {
+            id: 'box3',
+            title: '사용',
+            description: '0원',
+            last: '0000.00.00 00:00',
+            color: '#2f2f2f',
+          },
+        ]);
       }
     };
+
     getData();
   }, [cardinal]);
 

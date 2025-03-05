@@ -21,6 +21,7 @@ export const TopDues = styled.div`
   font-family: ${theme.font.regular};
   display: flex;
   align-items: center;
+  margin-bottom: 3%;
 `;
 
 export const Title = styled.div`
