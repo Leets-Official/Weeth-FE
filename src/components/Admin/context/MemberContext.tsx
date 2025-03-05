@@ -70,15 +70,17 @@ export const MemberProvider: React.FC<{ children: React.ReactNode }> = ({
     allCardinals.find((c) => c.status === 'IN_PROGRESS')?.cardinalNumber ||
     null;
 
-  const { isAdmin } = useGetUserInfo();
+  const { isAdmin, loading } = useGetUserInfo();
 
   useEffect(() => {
+    if (loading || isAdmin === undefined || !isAdmin) {
+      console.log('isAdmin: ', isAdmin);
+      return;
+    }
     const fetchMembers = async () => {
       try {
-        console.log(`API 요청: orderBy=${sortingOrder}`);
         const response = await getAllUsers(sortingOrder);
         const fetchedMembers = response.data.data || [];
-        console.log('API응답: ', response.data);
 
         const mappedMembers = fetchedMembers.map((user: any) => {
           const highestMemberCardinalStr = getHighestCardinal(user.cardinals);
@@ -118,9 +120,12 @@ export const MemberProvider: React.FC<{ children: React.ReactNode }> = ({
     };
 
     fetchMembers();
-  }, [sortingOrder]);
+  }, [sortingOrder, isAdmin, loading]);
 
   useEffect(() => {
+    if (loading || isAdmin === undefined || !isAdmin) {
+      return;
+    }
     if (selectedCardinal === null) {
       setFilteredMembers(members);
       return;
