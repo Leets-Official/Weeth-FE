@@ -63,7 +63,7 @@ const ReceiptPdfModal: React.FC<ReceiptPdfModalProps> = ({
       isOpen={isOpen}
       onRequestClose={onRequestClose}
       style={{
-        overlay: { backgroundColor: 'rgba(0, 0, 0, 0.7)' },
+        overlay: { backgroundColor: 'rgba(0, 0, 0, 0.75)' },
       }}
     >
       <CloseButton onClick={onRequestClose}>
