@@ -51,25 +51,31 @@ const CancelButton = styled(ModalButton)`
   }
 `;
 
-const DelButton = styled(ModalButton)`
-  background: ${theme.color.negative};
+const ActionButton = styled(ModalButton)<{ type: 'positive' | 'negative' }>`
+  background: ${(props) =>
+    props.type === 'positive' ? theme.color.main : theme.color.negative};
   &:hover {
-    background: ${theme.color.negativeDark};
+    background: ${(props) =>
+      props.type === 'positive'
+        ? theme.color.mainDark
+        : theme.color.negativeDark};
     color: ${theme.color.gray[30]};
   }
 `;
-const DeleteModal = ({
+const SelectModal = ({
   title,
   content,
   buttonContent = '삭제',
   onClose,
   onDelete,
+  type = 'negative',
 }: {
   title: string;
   content: string;
   buttonContent?: string;
   onClose: () => void;
   onDelete?: () => void;
+  type?: 'positive' | 'negative';
 }) => {
   return (
     <Modal isDelete hasCloseButton={false} onClose={onClose}>
@@ -79,10 +85,12 @@ const DeleteModal = ({
       </Container>
       <ButtonContainer>
         <CancelButton onClick={onClose}>취소</CancelButton>
-        <DelButton onClick={onDelete}>{buttonContent}</DelButton>
+        <ActionButton onClick={onDelete} type={type}>
+          {buttonContent}
+        </ActionButton>
       </ButtonContainer>
     </Modal>
   );
 };
 
-export default DeleteModal;
+export default SelectModal;

@@ -8,8 +8,8 @@ import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Tag from '@/components/Event/Tag';
 import MenuModal from '@/components/common/MenuModal';
-import DeleteModal from '@/components/Modal/DeleteModal';
-import { toastError, toastSuccess } from '@/components/common/ToastMessage';
+import SelectModal from '../Modal/DeleteModal';
+import { toastSuccess, toastError } from '../common/ToastMessage';
 
 const EventTitle = ({
   data,
@@ -19,7 +19,7 @@ const EventTitle = ({
   isAdmin: boolean;
 }) => {
   const [isMenuModalOpen, setIsMenuModalOpen] = useState(false);
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isSelectModalOpen, setIsSelectModalOpen] = useState(false);
   const navigate = useNavigate();
   const formattedDateTime = formatDateTime(data.createdAt);
 
@@ -34,7 +34,7 @@ const EventTitle = ({
       toastError('삭제 중 오류가 발생했습니다.');
       console.error(err);
     } finally {
-      setIsDeleteModalOpen(false);
+      setIsSelectModalOpen(false);
     }
   };
 
@@ -72,7 +72,7 @@ const EventTitle = ({
               $isLast
               onClick={() => {
                 setIsMenuModalOpen(false);
-                setIsDeleteModalOpen(true);
+                setIsSelectModalOpen(true);
               }}
             >
               삭제
@@ -80,11 +80,12 @@ const EventTitle = ({
           </MenuModal>
         )}
 
-        {isDeleteModalOpen && (
-          <DeleteModal
+        {isSelectModalOpen && (
+          <SelectModal
+            type="positive"
             title="일정 삭제"
             content="정말 삭제하시겠습니까?"
-            onClose={() => setIsDeleteModalOpen(false)}
+            onClose={() => setIsSelectModalOpen(false)}
             onDelete={handleDelete}
           />
         )}

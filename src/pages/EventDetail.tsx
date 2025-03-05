@@ -3,8 +3,9 @@ import * as S from '@/styles/event/EventDetail.styled';
 import EventTitle from '@/components/Event/EventTitle';
 import EventContent from '@/components/Event/EventContent';
 import useCustomBack from '@/hooks/useCustomBack';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import useGetGlobaluserInfo from '@/api/useGetGlobaluserInfo';
+import { CURRENT_MONTH, CURRENT_YEAR } from '@/constants/dateConstants';
 
 export interface EventDetailData {
   id: number;
@@ -22,7 +23,11 @@ export interface EventDetailData {
 }
 
 const EventDetail = () => {
-  useCustomBack('/calendar');
+  const location = useLocation();
+  const year = location.state?.year ?? CURRENT_YEAR;
+  const month = location.state?.month ?? CURRENT_MONTH;
+
+  useCustomBack(`/calendar?year=${year}&month=${month}`);
 
   const { id, type } = useParams();
   const { isAdmin } = useGetGlobaluserInfo();
