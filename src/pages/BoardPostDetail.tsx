@@ -131,8 +131,6 @@ const BoardPostDetail = () => {
           onClose={() => {
             setIsModalOpen(false);
           }}
-          top={55}
-          right={20}
         >
           <TextButton
             onClick={() => {

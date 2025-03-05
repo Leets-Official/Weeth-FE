@@ -35,6 +35,12 @@ const MemberList = ({
   const [isLoading, setIsLoading] = useState(false);
   const observerRef = useRef<HTMLDivElement | null>(null);
 
+  useEffect(() => {
+    setPageNumber(0);
+    setMembers([]);
+    setHasMore(true);
+  }, [selectedCardinal]);
+
   useGetAllUsers(
     selectedCardinal,
     pageNumber,
@@ -106,7 +112,7 @@ const MemberList = ({
           style={{ height: '20px', backgroundColor: 'transparent' }}
         />
       )}
-      {!hasMore && <Error>마지막 멤버입니다.</Error>}
+      {!hasMore && !isSearch && <Error>마지막 멤버입니다.</Error>}
     </List>
   );
 };

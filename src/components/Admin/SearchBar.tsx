@@ -28,6 +28,7 @@ export const StyledInput = styled.input`
   &::placeholder {
     color: ${theme.color.gray[20]};
   }
+  outline: none;
 `;
 
 export const SearchBarIcon = styled.img<{ isWrapped?: boolean }>`
