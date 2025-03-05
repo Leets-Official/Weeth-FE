@@ -39,7 +39,7 @@ const ReceiptMain: React.FC = () => {
     setSelectedPdf('');
   };
 
-  const isPdfFile = (url: string) => url.toLowerCase().endsWith('.pdf');
+  const isPdfUrl = (url: string) => url.toLowerCase().endsWith('.pdf');
 
   const groupedByMonth: GroupedByMonth =
     duesInfo?.receipts?.reduce<GroupedByMonth>((acc, curr) => {
@@ -81,7 +81,7 @@ const ReceiptMain: React.FC = () => {
                 <S.ScrollContainer>
                   {receipt.fileUrls.length > 0 ? (
                     receipt.fileUrls.map((file) =>
-                      isPdfFile(file.fileUrl) ? (
+                      isPdfUrl(file.fileUrl) ? (
                         <PdfViewer
                           key={file.fileId}
                           fileUrl={file.fileUrl}

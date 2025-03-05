@@ -20,7 +20,7 @@ const PdfViewer: React.FC<PdfViewerProps> = ({ fileUrl, onClick }) => {
             pageNumber={1}
             width={112}
             height={124}
-            scale={1}
+            scale={2}
             renderTextLayer={false}
             renderAnnotationLayer={false}
           />
