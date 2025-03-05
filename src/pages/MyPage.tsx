@@ -1,11 +1,6 @@
-/* eslint-disable no-alert */
 import deleteUser from '@/api/deleteUser';
 import MenuModal from '@/components/common/MenuModal';
-import {
-  CustomToastContainer,
-  toastError,
-  toastInfo,
-} from '@/components/common/ToastMessage';
+import { toastError, toastInfo } from '@/components/common/ToastMessage';
 import Header from '@/components/Header/Header';
 import DeleteModal from '@/components/Modal/DeleteModal';
 import MyInfo from '@/components/MyPage/MyInfo';
@@ -38,23 +33,20 @@ const MyPage = () => {
       setTimeout(() => {
         navigate('/');
       }, 2000);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
-      toastError();
-      console.error(err);
+      toastError('탈퇴 중 문제가 발생하였습니다.');
     }
     closeDeleteModal();
   };
 
   return (
     <S.Container>
-      <CustomToastContainer />
       {isModalOpen && (
         <MenuModal
           onClose={() => {
             setIsModalOpen(false);
           }}
-          top={60}
-          right={620}
         >
           <S.TextButton
             onClick={() => {
@@ -73,7 +65,7 @@ const MyPage = () => {
         <DeleteModal
           title="회원 탈퇴"
           content="정말 탈퇴하시겠습니까?"
-          buttonContent="회원 탈퇴"
+          buttonContent="탈퇴"
           onClose={closeDeleteModal}
           onDelete={onClickLeave}
         />

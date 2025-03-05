@@ -11,11 +11,7 @@ import deletePost from '@/api/deletePost';
 import MenuModal from '@/components/common/MenuModal';
 import theme from '@/styles/theme';
 import DeleteModal from '@/components/Modal/DeleteModal';
-import {
-  toastError,
-  CustomToastContainer,
-  toastInfo,
-} from '@/components/common/ToastMessage';
+import { toastError, toastInfo } from '@/components/common/ToastMessage';
 
 const Container = styled.div`
   display: flex;
@@ -109,14 +105,11 @@ const BoardPostDetail = () => {
 
   return (
     <>
-      <CustomToastContainer />
       {isModalOpen && (
         <MenuModal
           onClose={() => {
             setIsModalOpen(false);
           }}
-          top={55}
-          right={20}
         >
           <TextButton
             onClick={() => {

@@ -35,10 +35,12 @@ import NoticePostDetail from '@/pages/NoticePostDetail';
 import BoardPostDetail from '@/pages/BoardPostDetail';
 import Board from '@/pages/Board';
 import BoardPost from '@/pages/BoardPost';
+import { CustomToastContainer } from '@/components/common/ToastMessage';
 
 const App = () => {
   return (
     <ThemeProvider theme={theme}>
+      <CustomToastContainer limit={1} />
       <ScrollToTop />
       <Routes>
         <Route path="/" element={<Landing />} />

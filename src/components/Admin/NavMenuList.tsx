@@ -56,7 +56,7 @@ const NavMenuList: React.FC = () => {
     {
       id: 'penalty',
       icon: <PenaltyIcon />,
-      label: '페널티 관리',
+      label: '패널티 관리',
       path: '/admin/penalty',
     },
     {
@@ -77,7 +77,7 @@ const NavMenuList: React.FC = () => {
     {
       id: 'manual',
       icon: <ManualIcon />,
-      label: '관리자 메뉴얼',
+      label: '관리자 매뉴얼',
       path: '', // 추후 수정
     },
   ];

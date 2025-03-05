@@ -9,6 +9,7 @@ import styled from 'styled-components';
 import search from '@/assets/images/ic_search.svg';
 import getSearchMember from '@/api/getSearchMember';
 import { User } from '@/types/user';
+import { toastError } from '@/components/common/ToastMessage';
 
 const Wrapper = styled.div`
   width: 370px;
@@ -61,6 +62,8 @@ const Member = () => {
       setSearchResults(response.data.data);
       navigate(`/member?search=${keyword}`);
     } catch (error) {
+      toastError('데이터를 불러오지 못했습니다.');
+      // eslint-disable-next-line no-console
       console.error(error);
     }
   };
@@ -68,6 +71,12 @@ const Member = () => {
   useEffect(() => {
     navigate(`/member?cardinal=${selectedCardinal}`);
   }, [selectedCardinal]);
+
+  const handleEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
+  };
 
   return (
     <Wrapper>
@@ -84,6 +93,7 @@ const Member = () => {
           placeholder="멤버 이름을 검색하세요"
           value={keyword}
           onChange={(e) => setKeyword(e.target.value)}
+          onKeyDown={handleEnter}
         />
         <SearchButton src={search} alt={search} onClick={handleSearch} />
       </Search>

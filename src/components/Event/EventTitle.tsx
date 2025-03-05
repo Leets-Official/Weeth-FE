@@ -1,5 +1,4 @@
 /* eslint-disable no-console */
-/* eslint-disable no-alert */
 import { deleteEvent } from '@/api/EventAdminAPI';
 import Header from '@/components/Header/Header';
 import formatDateTime from '@/hooks/formatDateTime';
@@ -9,6 +8,8 @@ import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Tag from '@/components/Event/Tag';
 import MenuModal from '@/components/common/MenuModal';
+import DeleteModal from '@/components/Modal/DeleteModal';
+import { toastError, toastSuccess } from '@/components/common/ToastMessage';
 
 const EventTitle = ({
   data,
@@ -17,22 +18,23 @@ const EventTitle = ({
   data: EventDetailData;
   isAdmin: boolean;
 }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isMenuModalOpen, setIsMenuModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const navigate = useNavigate();
   const formattedDateTime = formatDateTime(data.createdAt);
 
   const { id, type } = useParams();
 
-  const onClickDel = async () => {
-    if (window.confirm('삭제하시겠습니까?')) {
-      try {
-        await deleteEvent(data.id);
-        alert('삭제가 완료되었습니다.');
-        navigate('/calendar');
-      } catch (err) {
-        alert('삭제 중 오류가 발생했습니다.');
-        console.error(err);
-      }
+  const handleDelete = async () => {
+    try {
+      await deleteEvent(data.id);
+      toastSuccess('삭제가 완료되었습니다.');
+      navigate('/calendar');
+    } catch (err) {
+      toastError('삭제 중 오류가 발생했습니다.');
+      console.error(err);
+    } finally {
+      setIsDeleteModalOpen(false);
     }
   };
 
@@ -42,9 +44,7 @@ const EventTitle = ({
         isAccessible={isAdmin}
         onClickRightButton={() => {
           console.log('Right button clicked!');
-
-          setIsModalOpen(true);
-          console.log(isModalOpen);
+          setIsMenuModalOpen(true);
         }}
         RightButtonType="MENU"
       />
@@ -63,30 +63,30 @@ const EventTitle = ({
           <S.Cardinal>{data.cardinal}기</S.Cardinal>
         </S.SpaceBetween>
 
-        {isModalOpen && (
-          <MenuModal
-            onClose={() => {
-              setIsModalOpen(false);
-            }}
-            top={-65}
-            right={630}
-          >
-            <S.TextButton
-              onClick={() => {
-                navigate(`/${type}/${id}/edit`);
-              }}
-            >
+        {isMenuModalOpen && (
+          <MenuModal onClose={() => setIsMenuModalOpen(false)}>
+            <S.TextButton onClick={() => navigate(`/${type}/${id}/edit`)}>
               수정
             </S.TextButton>
             <S.TextButton
               $isLast
               onClick={() => {
-                onClickDel();
+                setIsMenuModalOpen(false);
+                setIsDeleteModalOpen(true);
               }}
             >
               삭제
             </S.TextButton>
           </MenuModal>
+        )}
+
+        {isDeleteModalOpen && (
+          <DeleteModal
+            title="일정 삭제"
+            content="정말 삭제하시겠습니까?"
+            onClose={() => setIsDeleteModalOpen(false)}
+            onDelete={handleDelete}
+          />
         )}
       </S.EventTitleWrapper>
     </>

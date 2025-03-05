@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { toastError } from '@/components/common/ToastMessage';
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
@@ -39,6 +40,7 @@ export const useGetUserInfo = () => {
         setIsAdmin(response.data.data.role === 'ADMIN');
         setError(null);
       } catch (err: any) {
+        toastError('유저 정보를 불러오는 데에 실패했습니다.');
         setError(err.response?.data?.message);
       } finally {
         setLoading(false);
