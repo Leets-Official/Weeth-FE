@@ -2,17 +2,15 @@ import styled from 'styled-components';
 import theme from '../theme';
 
 export const Wrapper = styled.div`
-  width: 95%;
+  width: 94.7%;
   margin-left: 2.5%;
   background-color: #ffffff;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border-left: 1px solid #dedede;
-  border-right: 1px solid #dedede;
-  border-bottom: 1px solid #dedede;
-
+  border: 0 solid #dedede;
+  border-width: 0 1px 1px;
   &:last-child {
     margin-bottom: 15px;
   }
