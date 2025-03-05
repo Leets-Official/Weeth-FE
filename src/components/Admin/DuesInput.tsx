@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import theme from '@/styles/theme';
+import { forwardRef } from 'react';
 
 interface InputProps {
   width: string;
@@ -34,24 +35,21 @@ const Input = styled.input<InputProps>`
   }
 `;
 
-const DuesInput: React.FC<InputProps> = ({
-  width,
-  placeholder,
-  value,
-  onChange,
-  onBlur,
-  readOnly,
-}) => {
-  return (
-    <Input
-      width={width}
-      placeholder={placeholder}
-      value={value}
-      onChange={onChange}
-      onBlur={onBlur}
-      readOnly={readOnly}
-    />
-  );
-};
+const DuesInput = forwardRef<HTMLInputElement, InputProps>(
+  ({ width, placeholder, value, onChange, onBlur, readOnly }, ref) => {
+    return (
+      <Input
+        ref={ref}
+        width={width}
+        placeholder={placeholder}
+        value={value}
+        onChange={onChange}
+        onBlur={onBlur}
+        readOnly={readOnly}
+      />
+    );
+  },
+);
 
+DuesInput.displayName = 'DuesInput';
 export default DuesInput;

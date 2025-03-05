@@ -8,22 +8,37 @@ import {
   Description,
   ButtonWrapper,
 } from '@/styles/admin/DuesRegisterDropDown.styled';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { registerDues } from '@/api/admin/dues/postRegisterDues';
 import DuesInput from './DuesInput';
 import Button from './Button';
-import CardinalDropdown from './Cardinal';
+import DirectCardinalDropdown from './DirectCardinal';
 
 const DuesRegisterDropDown: React.FC = () => {
   const [selectedCardinal, setSelectedCardinal] = useState<null | number>(null);
   const [customCardinal, setCustomCardinal] = useState('');
   const [description, setDescription] = useState('');
   const [amount, setAmount] = useState('');
+  const [isCustomInput, setIsCustomInput] = useState(false);
+
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const handleCustomCardinalBlur = () => {
     const cardinalNumber = Number(customCardinal.trim());
     if (!Number.isNaN(cardinalNumber) && cardinalNumber > 0) {
       setCustomCardinal(`${cardinalNumber}기`);
+    }
+  };
+
+  const handleSelectCardinal = (value: number | null, isCustom: boolean) => {
+    setSelectedCardinal(value);
+    setIsCustomInput(isCustom);
+
+    if (isCustom) {
+      setCustomCardinal('');
+      setTimeout(() => inputRef.current?.focus(), 0);
+    } else {
+      setCustomCardinal(`${value}기`);
     }
   };
 
@@ -69,22 +84,24 @@ const DuesRegisterDropDown: React.FC = () => {
       <Title>기수</Title>
       <CardinalWrapper>
         <div>
-          <CardinalDropdown
+          <DirectCardinalDropdown
             selectedCardinal={selectedCardinal}
-            setSelectedCardinal={(value) => {
-              setSelectedCardinal(value);
-              setCustomCardinal(`${value}기`);
-            }}
+            setSelectedCardinal={handleSelectCardinal}
           />
         </div>
         <DuesInputWrapper>
           <DuesInput
             width="95%"
-            placeholder="직접 입력"
-            value={customCardinal}
+            placeholder={
+              isCustomInput
+                ? '직접 입력'
+                : customCardinal || '기수를 선택하세요'
+            }
+            value={isCustomInput ? customCardinal : ''}
             onChange={(e) => setCustomCardinal(e.target.value)}
             onBlur={handleCustomCardinalBlur}
-            readOnly={selectedCardinal !== null}
+            readOnly={!isCustomInput}
+            ref={inputRef}
           />
         </DuesInputWrapper>
       </CardinalWrapper>
