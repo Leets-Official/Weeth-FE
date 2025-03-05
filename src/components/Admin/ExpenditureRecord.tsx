@@ -67,6 +67,7 @@ const ExpenditureRecord: React.FC<{ cardinal: number | null }> = ({
         }
       } catch (error) {
         console.error('지출 내역을 불러오는 중 오류 발생:', error);
+        setRecords([]);
       }
     };
     getData();
