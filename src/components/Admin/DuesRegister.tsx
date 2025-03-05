@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import theme from '@/styles/theme';
 import { useState } from 'react';
 import DownButton from '@/assets/images/ic_admin_cardinal.svg';
-import DuesRegisterDropDown from './DuesRegisterDropDown';
+import DuesRegisterDropDown from '@/components/Admin/DuesRegisterDropDown';
 
 const Wrapper = styled.div`
   width: 90%;
@@ -23,6 +23,7 @@ const Title = styled.div`
   align-items: center;
   font-size: 24px;
   font-family: ${theme.font.regular};
+  cursor: pointer;
 `;
 
 const DuesRegister: React.FC = () => {

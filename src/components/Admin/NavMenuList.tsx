@@ -7,7 +7,7 @@ import ArrowIcon from '@/assets/images/ic_admin_service_transfer.svg?react';
 import ManualIcon from '@/assets/images/ic_admin_manual.svg?react';
 import styled from 'styled-components';
 import NavMenuItem from '@/components/Admin/NavMenuItem';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const MenuListWrapper = styled.div`
   padding: 20px 0;
@@ -26,6 +26,19 @@ const NavMenuList: React.FC = () => {
   const [activeMenu, setActiveMenu] = useState<string | null>(
     location.pathname,
   );
+
+  useEffect(() => {
+    if (location.pathname === '/admin') {
+      setActiveMenu('/admin/member');
+    } else {
+      setActiveMenu(location.pathname);
+    }
+  }, [location.pathname]);
+
+  const handleInternalNavigation = (path: string) => {
+    setActiveMenu(path);
+    nav(path);
+  };
 
   const managementItems = [
     {
@@ -68,11 +81,6 @@ const NavMenuList: React.FC = () => {
       path: '', // 추후 수정
     },
   ];
-
-  const handleInternalNavigation = (path: string) => {
-    setActiveMenu(path);
-    nav(path);
-  };
 
   const handleExternalNavigation = (id: string, path: string) => {
     setActiveMenu(id);

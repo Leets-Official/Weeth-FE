@@ -72,7 +72,7 @@ export const Last = styled.div<{ lastColor?: string; isIncomplete?: boolean }>`
   font-size: 18px;
   font-family: ${theme.font.regular};
   color: ${({ isIncomplete, lastColor }) =>
-    isIncomplete ? '#909393' : lastColor || '#979797'};
+    isIncomplete ? '#909393' : lastColor || 'rgba(255, 255, 255, 0.5)'};
 `;
 
 const Box: React.FC<BoxProps> = ({
