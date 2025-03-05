@@ -8,7 +8,6 @@ import useDuesFileUpload from '@/hooks/admin/handleFileChange';
 import Button from '../Button';
 import DuesModalButton from '../DuesModalButton';
 import DuesInput from '../DuesInput';
-import CardinalDropdown from '../Cardinal';
 
 interface DuesModifyModalProps {
   onClose: () => void;
@@ -33,8 +32,6 @@ const DuesModifyModal: React.FC<DuesModifyModalProps> = ({
   const [title, setTitle] = useState(record.title);
   const [amount, setAmount] = useState(record.amount);
   const [source, setSource] = useState(record.source);
-  const [selectedCardinal, setSelectedCardinal] = useState(record.cardinal);
-  const [customCardinal, setCustomCardinal] = useState('');
   const {
     uploadedFiles,
     setUploadedFiles,
@@ -42,13 +39,26 @@ const DuesModifyModal: React.FC<DuesModifyModalProps> = ({
     handleRemoveFile,
   } = useDuesFileUpload();
 
-  useEffect(() => {
-    if (selectedCardinal) setCustomCardinal(`${selectedCardinal}기`);
+  const handleDateChange = (value: string) => {
+    const onlyNumbers = value.replace(/\D/g, '');
 
+    let formattedDate = '';
+    if (onlyNumbers.length <= 4) {
+      formattedDate = onlyNumbers;
+    } else if (onlyNumbers.length <= 6) {
+      formattedDate = `${onlyNumbers.slice(0, 4)}-${onlyNumbers.slice(4, 6)}`;
+    } else {
+      formattedDate = `${onlyNumbers.slice(0, 4)}-${onlyNumbers.slice(4, 6)}-${onlyNumbers.slice(6, 8)}`;
+    }
+
+    setDate(formattedDate);
+  };
+
+  useEffect(() => {
     if (record.files) {
       setUploadedFiles([...record.files]);
     }
-  }, [selectedCardinal, record.files]);
+  }, [record.files]);
 
   const handleSave = async () => {
     if (!record.id) {
@@ -63,23 +73,17 @@ const DuesModifyModal: React.FC<DuesModifyModalProps> = ({
         title,
         amount: Number(amount),
         source,
-        cardinal: selectedCardinal,
+        cardinal: record.cardinal,
         files: [...uploadedFiles],
       };
 
       await updateReceipt(updatedRecord);
       onSave(updatedRecord);
       onClose();
+      window.location.reload();
     } catch (error) {
       console.error('회비 수정 실패:', error);
       alert('수정 중 오류가 발생했습니다.');
-    }
-  };
-
-  const handleCustomCardinalBlur = () => {
-    const cardinalNumber = Number(customCardinal.trim());
-    if (!Number.isNaN(cardinalNumber) && cardinalNumber > 0) {
-      setCustomCardinal(`${cardinalNumber}기`);
     }
   };
 
@@ -100,22 +104,12 @@ const DuesModifyModal: React.FC<DuesModifyModalProps> = ({
       <S.ModalWrapper>
         <S.SubTitle>기수</S.SubTitle>
         <S.CardinalWrapper>
-          <div>
-            <CardinalDropdown
-              selectedCardinal={selectedCardinal}
-              setSelectedCardinal={(value) => {
-                setSelectedCardinal(value);
-                setCustomCardinal(`${value}기`);
-              }}
-            />
-          </div>
           <S.DuesInputWrapper>
             <DuesInput
               width="95%"
-              placeholder="직접 입력"
-              value={customCardinal}
-              onChange={(e) => setCustomCardinal(e.target.value)}
-              onBlur={handleCustomCardinalBlur}
+              placeholder={record.cardinal ? `${record.cardinal}기` : ''}
+              value=""
+              readOnly
             />
           </S.DuesInputWrapper>
         </S.CardinalWrapper>
@@ -124,7 +118,7 @@ const DuesModifyModal: React.FC<DuesModifyModalProps> = ({
           <DuesInput
             width="91%"
             value={date}
-            onChange={(e) => setDate(e.target.value)}
+            onChange={(e) => handleDateChange(e.target.value)}
           />
         </S.DescriptionWrapper>
 

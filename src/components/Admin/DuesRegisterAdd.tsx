@@ -24,13 +24,6 @@ const DuesRegisterAdd: React.FC = () => {
     handleRemoveFile,
   } = useDuesFileUpload();
 
-  const handleCustomCardinalBlur = () => {
-    const cardinalNumber = Number(customCardinal.trim());
-    if (!Number.isNaN(cardinalNumber) && cardinalNumber > 0) {
-      setCustomCardinal(`${cardinalNumber}기`);
-    }
-  };
-
   const handleRegister = async () => {
     const validateInputs = () => {
       if (!selectedCardinal && !customCardinal.trim()) {
@@ -54,11 +47,6 @@ const DuesRegisterAdd: React.FC = () => {
         return false;
       }
 
-      if (!date.trim() || !/^\d{8}$/.test(date)) {
-        alert('날짜를 YYYYMMDD 형식으로 입력해주세요.');
-        return false;
-      }
-
       return true;
     };
 
@@ -66,7 +54,7 @@ const DuesRegisterAdd: React.FC = () => {
 
     const cardinal =
       selectedCardinal ?? Number(customCardinal.replace('기', ''));
-    const formattedDate = `${date.slice(0, 4)}-${date.slice(4, 6)}-${date.slice(6, 8)}`;
+    const formattedDate = date;
 
     const requestData: ExpenditureRecordProps = {
       description,
@@ -81,6 +69,7 @@ const DuesRegisterAdd: React.FC = () => {
       const res = await adminReceipts(requestData);
       if (res.code === 200) {
         alert('회비 사용 내역이 등록되었습니다.');
+        window.location.reload();
       }
 
       setDescription('');
@@ -103,8 +92,23 @@ const DuesRegisterAdd: React.FC = () => {
     return source;
   };
 
+  const handleDateChange = (value: string) => {
+    const onlyNumbers = value.replace(/\D/g, '');
+
+    let formattedDate = onlyNumbers;
+
+    if (onlyNumbers.length > 4) {
+      formattedDate = `${onlyNumbers.slice(0, 4)}-${onlyNumbers.slice(4, 6)}`;
+    }
+    if (onlyNumbers.length > 6) {
+      formattedDate += `-${onlyNumbers.slice(6, 8)}`;
+    }
+
+    setDate(formattedDate);
+  };
+
   const setInputValue = (id: string, value: string) => {
-    if (id === 'date') setDate(value);
+    if (id === 'date') handleDateChange(value);
     else if (id === 'content') setDescription(value);
     else if (id === 'amount') setAmount(value);
     else setSource(value);
@@ -124,16 +128,6 @@ const DuesRegisterAdd: React.FC = () => {
             }}
           />
         </div>
-        <S.DuesInputWrapper>
-          <DuesInput
-            width="95%"
-            placeholder="직접 입력"
-            value={customCardinal}
-            onChange={(e) => setCustomCardinal(e.target.value)}
-            onBlur={handleCustomCardinalBlur}
-            readOnly={selectedCardinal !== null}
-          />
-        </S.DuesInputWrapper>
       </S.CardinalWrapper>
 
       {inputFields.map((field) => (
