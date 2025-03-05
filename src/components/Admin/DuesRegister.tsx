@@ -23,6 +23,7 @@ const Title = styled.div`
   align-items: center;
   font-size: 24px;
   font-family: ${theme.font.regular};
+  cursor: pointer;
 `;
 
 const DuesRegister: React.FC = () => {
