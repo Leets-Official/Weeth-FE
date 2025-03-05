@@ -11,7 +11,7 @@ import theme from '@/styles/theme';
 export interface Column {
   key: keyof MemberData;
   header: string;
-  width?: string;
+  width: string;
 }
 
 export interface MemberListTableProps {
