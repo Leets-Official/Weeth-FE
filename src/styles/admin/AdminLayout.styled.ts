@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import theme from '@/styles/theme';
 
 export const PageWrapper = styled.div`
+  display: flex;
   min-width: 100vw;
   min-height: 100vh;
   font-family: ${theme.font.regular};
@@ -12,9 +13,9 @@ export const PageWrapper = styled.div`
 
 export const Container = styled.div`
   width: 100%;
-  max-width: 1300px;
-  margin: 0 auto;
-  padding: 20px;
+  min-width: 1200px;
+  margin: 20px 30px 0 30px;
+  padding-bottom: 30px;
   box-sizing: border-box;
   flex-direction: column;
   align-items: center;
@@ -25,5 +26,7 @@ export const ContentWrapper = styled.div`
   flex-direction: column;
   flex: 1;
   border: 1px solid #f2f2f2;
-  height: 100%;
+  height: 100vh;
+  width: calc(100vw - 250px);
+  overflow-y: auto;
 `;

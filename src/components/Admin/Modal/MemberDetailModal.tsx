@@ -8,6 +8,7 @@ import { useState } from 'react';
 import getHighestCardinal from '@/utils/admin/getHighestCardinal';
 import CardinalEditModal from '@/components/Admin/Modal/CardinalEditModal';
 import theme from '@/styles/theme';
+import Button from '@/components/Button/Button';
 
 interface MemberDetailModalProps {
   data: MemberData;
@@ -56,7 +57,6 @@ const MemberDetailModal: React.FC<MemberDetailModalProps> = ({
         color: isCardinalModalOpen ? theme.color.gray[100] : '#000',
       },
     },
-    { label: '완료', onClick: onClose },
   ];
 
   const memberInfo = [
@@ -83,7 +83,23 @@ const MemberDetailModal: React.FC<MemberDetailModalProps> = ({
         isOpen
         onClose={onClose}
         title="멤버 관리 버튼"
-        footer={<ButtonGroup buttons={buttons} hasEndGap />}
+        top="40%"
+        height="60%"
+        footer={
+          <S.FooterContainer>
+            <ButtonGroup buttons={buttons} />
+            <Button
+              onClick={onClose}
+              color="#fff"
+              textcolor="#000"
+              width="55px"
+              height="45px"
+              borderRadius="4px"
+            >
+              완료
+            </Button>
+          </S.FooterContainer>
+        }
       >
         <S.ContentWrapper>
           <S.ModalContent>
@@ -144,8 +160,8 @@ const MemberDetailModal: React.FC<MemberDetailModalProps> = ({
           isOpen={isCardinalModalOpen}
           onClose={() => setIsCardinalModalOpen(false)}
           selectedUserIds={[data.id]}
-          top="26%"
-          left="38%"
+          top="31%"
+          left="39%"
         />
       )}
     </>

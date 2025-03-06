@@ -7,65 +7,61 @@ interface ButtonItem {
   disabled?: boolean;
   icon?: string;
   style?: React.CSSProperties;
+  isHeader?: boolean;
 }
 
 interface ButtonGroupProps {
   buttons: ButtonItem[];
 }
 
-const ButtonGroupContainer = styled.div<{ hasEndGap?: boolean }>`
+const ButtonGroupContainer = styled.div<{ isHeader?: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 12px;
-  padding: 10px;
-  overflow-x: auto;
+  overflow-x: visible;
   white-space: nowrap;
+
+  ${({ isHeader }) =>
+    isHeader &&
+    `
+    margin-right: 70px;
+  `}
+
   &::-webkit-scrollbar {
     height: 3px;
   }
-  // 상세관리모달에서 완료 버튼 앞에만 추가 간격
-  ${({ hasEndGap }) =>
-    hasEndGap &&
-    `
-    & > :last-child {
-    margin-left:188px
-    }
-
-      @media (max-width: 900px) {
-      & > :last-child {
-        display:none;
-      }
-      
-    }
-  `}
-`;
-
-const ButtonContent = styled.div<{ hasIcon?: boolean }>`
-  display: flex;
-  align-items: center;
-  padding: ${({ hasIcon }) => (hasIcon ? '5px 10px' : '5px')};
-  gap: ${({ hasIcon }) => (hasIcon ? '25px' : '0')};
-  white-space: nowrap;
 
   @media (max-width: 900px) {
-    font-size: 12px;
-    padding: 2px;
-    gap: 2px;
-    img {
-      width: 18px;
-      height: 18px;
-    }
+    gap: 9px;
   }
 `;
 
-const ButtonGroup: React.FC<ButtonGroupProps & { hasEndGap?: boolean }> = ({
+const ButtonContent = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 3px;
+  white-space: nowrap;
+
+  @media (max-width: 1300px) {
+    font-size: 14px;
+    width: fit-content;
+  }
+
+  @media (max-width: 1000px) {
+    font-size: 12px;
+    padding: 1px;
+    width: fit-content;
+  }
+`;
+
+const ButtonGroup: React.FC<ButtonGroupProps & { isHeader?: boolean }> = ({
   buttons,
-  hasEndGap,
+  isHeader,
 }) => {
   return (
-    <ButtonGroupContainer hasEndGap={hasEndGap}>
-      {buttons.map(({ label, onClick, disabled, icon, style }) => (
+    <ButtonGroupContainer isHeader={isHeader}>
+      {buttons.map(({ label, onClick, disabled, style }) => (
         <Button
           key={label}
           color={style?.backgroundColor || '#fff'}
@@ -76,17 +72,7 @@ const ButtonGroup: React.FC<ButtonGroupProps & { hasEndGap?: boolean }> = ({
           onClick={onClick}
           disabled={disabled}
         >
-          <ButtonContent hasIcon={!!icon}>
-            {label}
-            {icon && (
-              <img
-                src={icon}
-                alt={`${label}-icon`}
-                width="24px"
-                height="24px"
-              />
-            )}
-          </ButtonContent>
+          <ButtonContent>{label}</ButtonContent>
         </Button>
       ))}
     </ButtonGroupContainer>

@@ -28,6 +28,7 @@ export const StyledModalContent = styled.div<{
   position: fixed;
   top: ${(props) => props.top || '50%'};
   left: ${(props) => props.left || '50%'};
+  transform: translateX(-50%);
   transform: ${(props) =>
     props.top && props.left ? 'none' : 'translate(-50%, -50%)'};
   background-color: ${theme.color.gray[100]};
@@ -35,6 +36,24 @@ export const StyledModalContent = styled.div<{
   overflow: visible;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
+
+  @media (max-width: 1024px) {
+    left: 50%;
+    transform: translateX(-10%);
+    width: 45%;
+  }
+
+  @media (max-width: 900px) {
+    left: 50%;
+    transform: translateX(-10%);
+    width: 45%;
+  }
+
+  @media (max-width: 600px) {
+    left: 50%;
+    transform: translateX(-50%);
+    width: 75%;
+  }
 `;
 
 export const ModalContainer = styled.div`
@@ -224,6 +243,7 @@ export const ContentWrapper = styled.div`
   align-items: center;
   gap: 20px;
   padding: 5px;
+  white-space: nowrap;
 `;
 
 export const ModalContent = styled.div`
@@ -263,4 +283,22 @@ export const DataFlex = styled.div`
   align-items: flex-start;
   gap: 15px;
   color: #000;
+`;
+
+export const FooterContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 16px;
+  box-sizing: border-box;
+  margin-right: 40px;
+
+  @media (max-width: 1300px) {
+    & > button:last-child {
+      display: none;
+    }
+    justify-content: center;
+    margin-left: -10px;
+  }
 `;
