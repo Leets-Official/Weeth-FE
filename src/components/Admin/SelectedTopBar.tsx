@@ -114,7 +114,7 @@ const SelectedTopBar: React.FC = () => {
           <SvgIcon src={backarrow} alt="뒤로가기" onClick={handleBackClick} />
           <Title>{`${selectedMembers.length}명 선택됨`}</Title>
         </TitleContainer>
-        <ButtonGroup buttons={buttons} />
+        <ButtonGroup buttons={buttons} isHeader />
       </SelectedTopBarWrapper>
 
       {isModalOpen && (

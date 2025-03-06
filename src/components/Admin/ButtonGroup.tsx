@@ -7,19 +7,26 @@ interface ButtonItem {
   disabled?: boolean;
   icon?: string;
   style?: React.CSSProperties;
+  isHeader?: boolean;
 }
 
 interface ButtonGroupProps {
   buttons: ButtonItem[];
 }
 
-const ButtonGroupContainer = styled.div`
+const ButtonGroupContainer = styled.div<{ isHeader?: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 12px;
   overflow-x: visible;
   white-space: nowrap;
+
+  ${({ isHeader }) =>
+    isHeader &&
+    `
+    margin-right: 70px;
+  `}
 
   &::-webkit-scrollbar {
     height: 3px;
@@ -48,9 +55,12 @@ const ButtonContent = styled.div`
   }
 `;
 
-const ButtonGroup: React.FC<ButtonGroupProps> = ({ buttons }) => {
+const ButtonGroup: React.FC<ButtonGroupProps & { isHeader?: boolean }> = ({
+  buttons,
+  isHeader,
+}) => {
   return (
-    <ButtonGroupContainer>
+    <ButtonGroupContainer isHeader={isHeader}>
       {buttons.map(({ label, onClick, disabled, style }) => (
         <Button
           key={label}
