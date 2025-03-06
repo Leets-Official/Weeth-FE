@@ -48,12 +48,11 @@ const CommentInput = ({
   const [inputValue, setInputValue] = useState('');
   const [parentCommentId, setParentCommentId] = useState<number | null>(null);
 
-  // 🔥 대댓글 버튼을 눌렀을 때 parentCommentId가 변경되도록 함
   useEffect(() => {
     setParentCommentId(initialParentCommentId);
   }, [initialParentCommentId]);
 
-  console.log('parentCommentId:', parentCommentId); // ✅ 디버깅 확인용
+  console.log('parentCommentId:', parentCommentId);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
@@ -68,9 +67,6 @@ const CommentInput = ({
     try {
       await createComment(postId, inputValue, parentCommentId ?? undefined);
       setInputValue('');
-      if (onCommentSuccess) {
-        onCommentSuccess();
-      }
       if (onCommentSuccess) onCommentSuccess();
     } catch (error: any) {
       console.error(
