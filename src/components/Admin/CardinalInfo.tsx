@@ -9,7 +9,8 @@ import { useMemberContext } from '@/components/Admin/context/MemberContext';
 import CardinalModal from '@/components/Admin/Modal/CardinalModal';
 
 const CardinalInfo: React.FC = () => {
-  const { selectedCardinal, setSelectedCardinal } = useMemberContext();
+  const { selectedCardinal, setSelectedCardinal, setFilteredMembers } =
+    useMemberContext();
   const { allCardinals } = useGetAllCardinals();
   const { allUsers } = useGetAdminUsers();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -53,6 +54,10 @@ const CardinalInfo: React.FC = () => {
       setIsModalOpen(true);
     } else {
       setSelectedCardinal(cardinal.cardinalNumber);
+      const filteredMembers = allUsers.filter((member) =>
+        member.cardinals.includes(cardinal.cardinalNumber),
+      );
+      setFilteredMembers(filteredMembers);
     }
   };
   return (

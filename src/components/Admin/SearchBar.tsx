@@ -48,22 +48,24 @@ interface SearchBarProps {
 }
 
 const SearchBar: React.FC<SearchBarProps> = ({ isWrapped = true }) => {
-  const { members, setFilteredMembers } = useMemberContext();
+  const { members, setFilteredMembers, selectedCardinal } = useMemberContext();
   const [searchName, setSearchName] = useState('');
 
   const handleSearchName = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.trim().toLowerCase();
     setSearchName(value);
 
-    if (value === '') {
-      setFilteredMembers([...members]);
-    } else {
-      const filtered = members.filter((member) =>
+    let filtered = selectedCardinal
+      ? members.filter((member) => member.cardinals.includes(selectedCardinal))
+      : members;
+
+    if (value !== '') {
+      filtered = filtered.filter((member) =>
         member.name.toLowerCase().includes(value),
       );
-      setFilteredMembers(filtered);
-      console.log('검색 이름 : ', filtered);
     }
+
+    setFilteredMembers(filtered);
   };
 
   const content = (

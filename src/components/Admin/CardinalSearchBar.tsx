@@ -12,7 +12,7 @@ const CombinedSearchBar: React.FC<CombinedSearchBarProps> = ({
   setSelectedCardinal,
 }) => {
   return (
-    <SearchBarWrapper isPenaltyPage>
+    <SearchBarWrapper>
       <div>
         <CardinalDropDown
           selectedCardinal={selectedCardinal}
