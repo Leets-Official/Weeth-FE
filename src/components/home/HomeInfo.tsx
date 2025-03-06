@@ -94,7 +94,7 @@ const HomeInfo = () => {
         </S.UserContainer>
         <S.RightButtonContainer>
           {isLoading || !userInfo ? (
-            <S.LoadingContainer> </S.LoadingContainer>
+            <S.LoadingContainer />
           ) : (
             <S.UserCharacter
               src={characterImg}
