@@ -193,8 +193,7 @@ const PenaltyListTable: React.FC<PenaltyListTableProps> = ({
         <table>
           <thead>
             <tr>
-              <EmptyCell aria-label="Status Indicator" />
-              <EmptyCell aria-label="Plus Button" />
+              <StatusCell statusColor={statusColors['승인 완료']} />
               {columns.map((column) => (
                 <S.HeaderCell key={column.key}>{column.header}</S.HeaderCell>
               ))}
@@ -208,14 +207,6 @@ const PenaltyListTable: React.FC<PenaltyListTableProps> = ({
                   onClick={() => handleRowClick(member.id)}
                 >
                   <StatusCell statusColor={statusColors[member.status]} />
-                  <S.PlusButtonCell
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleAddPenalty(member.id);
-                    }}
-                  >
-                    <img src={plusIcon} alt="plus-icon" />
-                  </S.PlusButtonCell>
                   {renderColumns(member)}
                 </S.Row>
 
@@ -277,6 +268,10 @@ const PenaltyListTable: React.FC<PenaltyListTableProps> = ({
               </React.Fragment>
             ))}
           </tbody>
+          <StatusCell statusColor={statusColors['승인 완료']} />
+          {columns.map((column) => (
+            <S.HeaderCell key={column.key}>{column.header}</S.HeaderCell>
+          ))}
         </table>
       </S.TableWrapper>
     </S.TableContainer>

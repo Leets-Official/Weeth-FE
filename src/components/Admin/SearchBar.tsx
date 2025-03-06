@@ -10,8 +10,8 @@ export const SearchBarWrapper = styled.div`
   box-sizing: border-box;
   display: flex;
   align-items: center;
-  width: 100%;
-  min-width: 1400px;
+  width: 65%;
+  /* min-width: 1400px; */
   padding: 15px 20px;
   border-radius: 4px;
   margin: 30px 0 10px;

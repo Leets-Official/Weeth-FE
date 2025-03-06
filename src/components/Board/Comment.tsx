@@ -6,7 +6,7 @@ import { useState } from 'react';
 import formatDateTime from '@/hooks/formatDateTime';
 import useGetUserName from '@/hooks/useGetUserName';
 import setPositionIcon from '@/hooks/setPositionIcon';
-import SelectModal from '../Modal/SelectModal';
+// import SelectModal from '../Modal/SelectModal';
 
 interface CommentProps {
   name: string;

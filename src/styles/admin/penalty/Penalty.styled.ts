@@ -13,8 +13,8 @@ export const TableWrapper = styled.div`
 `;
 
 export const TableContainer = styled.div`
-  width: fit-content;
-  min-width: 750px;
+  width: 65%;
+  min-width: 850px;
   background-color: #fff;
   border: 1px solid #f2f2f2;
   border-radius: 8px;
@@ -54,12 +54,12 @@ export const HeaderCell = styled.th`
 
 export const SubHeaderRow = styled.div`
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr 120px 120px;
-  grid-template-areas: 'reason  penalty penaltyDate empty actions';
+  grid-template-columns: 4.8fr 1fr 1fr 1fr 1fr;
+  grid-template-areas: 'reason  penalty penaltyDate empty empty';
   border-bottom: 1px solid #dedede;
   gap: 10px;
   padding: 5px;
-  padding-left: 70px;
+  padding-left: 130px;
   background-color: #e6fcf7;
   font-weight: bold;
 `;
@@ -114,10 +114,10 @@ export const ButtonWrapper = styled.div`
 // penaltyDetail.tsx
 export const DetailContainer = styled.div`
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr 120px 120px;
-  grid-template-areas: 'reason penalty penaltyDate empty actions';
-  gap: 10px;
-  padding-left: 70px;
+  grid-template-columns: 4.5fr 1fr 1fr 0.7fr 1fr;
+  grid-template-areas: ' reason penalty penaltyDate empty actions';
+  /* gap: 10px; */
+  padding-left: 135px;
   border-bottom: 1px solid #dedede;
   background-color: #ffffff;
   align-items: center;
