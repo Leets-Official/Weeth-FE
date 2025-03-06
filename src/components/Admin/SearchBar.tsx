@@ -4,14 +4,14 @@ import { useState } from 'react';
 import icSearch from '@/assets/images/ic_admin_search.svg';
 import { useMemberContext } from '@/components/Admin/context/MemberContext';
 
-export const SearchBarWrapper = styled.div`
+export const SearchBarWrapper = styled.div<{ isWrapped?: boolean }>`
   position: relative;
   background-color: #ffffff;
   box-sizing: border-box;
   display: flex;
   align-items: center;
-  width: 65%;
-  /* min-width: 1400px; */
+  width: ${({ isWrapped }) => (isWrapped ? '60%' : '100%')};
+  min-width: ${({ isWrapped }) => (isWrapped ? 'auto' : '1400px')};
   padding: 15px 20px;
   border-radius: 4px;
   margin: 30px 0 10px;

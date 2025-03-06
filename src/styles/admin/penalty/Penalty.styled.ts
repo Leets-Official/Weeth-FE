@@ -94,14 +94,14 @@ export const AddContainer = styled.div`
 `;
 
 export const Input = styled.input`
-  font-weight: 500;
+  font-family: ${theme.font.regular};
   padding: 8px;
   width: 100%;
   max-width: 300px;
   background-color: transparent;
   text-overflow: ellipsis;
   border: none;
-  font-size: 14px;
+  font-size: 18px;
   outline: none;
 `;
 
@@ -125,5 +125,5 @@ export const DetailContainer = styled.div`
 `;
 
 export const DetailText = styled.div`
-  font-size: 16px;
+  font-size: 18px;
 `;
