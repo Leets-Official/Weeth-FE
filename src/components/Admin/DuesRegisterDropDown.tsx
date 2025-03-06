@@ -8,19 +8,62 @@ import {
   Description,
   ButtonWrapper,
 } from '@/styles/admin/DuesRegisterDropDown.styled';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { registerDues } from '@/api/admin/dues/postRegisterDues';
-import DuesInput from './DuesInput';
-import Button from './Button';
-import CardinalDropdown from './Cardinal';
+import DirectCardinalDropdown from '@/components/Admin/DirectCardinal';
+import DuesInput from '@/components/Admin/DuesInput';
+import Button from '@/components/Admin/Button';
 
 const DuesRegisterDropDown: React.FC = () => {
   const [selectedCardinal, setSelectedCardinal] = useState<null | number>(null);
   const [customCardinal, setCustomCardinal] = useState('');
   const [description, setDescription] = useState('');
   const [amount, setAmount] = useState('');
+  const [isCustomInput, setIsCustomInput] = useState(false);
+
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const handleCustomCardinalBlur = () => {
+    const cardinalNumber = Number(customCardinal.trim());
+    if (!Number.isNaN(cardinalNumber) && cardinalNumber > 0) {
+      setCustomCardinal(`${cardinalNumber}기`);
+    }
+  };
+
+  const handleSelectCardinal = (value: number | null, isCustom: boolean) => {
+    setSelectedCardinal(value);
+    setIsCustomInput(isCustom);
+
+    if (isCustom) {
+      setCustomCardinal('');
+      setTimeout(() => inputRef.current?.focus(), 0);
+    } else {
+      setCustomCardinal(`${value}기`);
+    }
+  };
 
   const handleRegister = async () => {
+    const validateInputs = async () => {
+      if (!selectedCardinal && !customCardinal.trim()) {
+        alert('기수를 선택하거나 입력해야 합니다.');
+        return false;
+      }
+
+      if (!description.trim()) {
+        alert('회비 설명을 입력해주세요.');
+        return false;
+      }
+
+      const totalAmount = Number(amount);
+      if (Number.isNaN(totalAmount) || totalAmount <= 0) {
+        alert('사용 금액을 올바르게 입력해주세요.');
+        return false;
+      }
+
+      return true;
+    };
+
+    if (!(await validateInputs())) return;
     const cardinal = selectedCardinal ?? Number(customCardinal);
     const totalAmount = Number(amount);
 
@@ -41,17 +84,24 @@ const DuesRegisterDropDown: React.FC = () => {
       <Title>기수</Title>
       <CardinalWrapper>
         <div>
-          <CardinalDropdown
+          <DirectCardinalDropdown
             selectedCardinal={selectedCardinal}
-            setSelectedCardinal={setSelectedCardinal}
+            setSelectedCardinal={handleSelectCardinal}
           />
         </div>
         <DuesInputWrapper>
           <DuesInput
             width="95%"
-            placeholder="직접 입력"
-            value={customCardinal}
+            placeholder={
+              isCustomInput
+                ? '직접 입력'
+                : customCardinal || '기수를 선택하세요'
+            }
+            value={isCustomInput ? customCardinal : ''}
             onChange={(e) => setCustomCardinal(e.target.value)}
+            onBlur={handleCustomCardinalBlur}
+            readOnly={!isCustomInput}
+            ref={inputRef}
           />
         </DuesInputWrapper>
       </CardinalWrapper>

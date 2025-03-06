@@ -10,7 +10,7 @@ import Header from '@/components/Header/Header';
 import Line from '@/components/common/Line';
 import useUpdateUserInfo from '@/api/usePatchMyInfo';
 import { toastInfo, toastSuccess } from '@/components/common/ToastMessage';
-import DeleteModal from '@/components/Modal/DeleteModal';
+import SelectModal from '@/components/Modal/SelectModal';
 
 const Container = styled.div`
   width: 370px;
@@ -52,7 +52,7 @@ const Edit = () => {
 
   const { userInfo } = useGetUserInfo();
   const [userData, setUserData] = useState<{ key: string; value: any }[]>([]);
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isSelectModalOpen, setIsSelectModalOpen] = useState(false);
   const navi = useNavigate();
 
   const positionMap: Record<string, string> = {
@@ -87,7 +87,7 @@ const Edit = () => {
   const { updateInfo } = useUpdateUserInfo();
 
   const onSave = async () => {
-    setIsDeleteModalOpen(true);
+    setIsSelectModalOpen(true);
   };
 
   const handleSave = async () => {
@@ -129,7 +129,7 @@ const Edit = () => {
       // TODO: 에러 코드에 따른 세분화
       toastInfo(err);
     } finally {
-      setIsDeleteModalOpen(false);
+      setIsSelectModalOpen(false);
     }
   };
 
@@ -176,11 +176,12 @@ const Edit = () => {
         <Error>데이터를 불러오는 중 문제가 발생했습니다.</Error>
       )}
 
-      {isDeleteModalOpen && (
-        <DeleteModal
+      {isSelectModalOpen && (
+        <SelectModal
+          type="positive"
           title="정보 수정"
           content="변경사항을 저장하시겠습니까?"
-          onClose={() => setIsDeleteModalOpen(false)}
+          onClose={() => setIsSelectModalOpen(false)}
           onDelete={handleSave}
           buttonContent="저장"
         />

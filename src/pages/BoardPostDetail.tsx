@@ -10,8 +10,8 @@ import useGetUserName from '@/hooks/useGetUserName';
 import deletePost from '@/api/deletePost';
 import MenuModal from '@/components/common/MenuModal';
 import theme from '@/styles/theme';
-import DeleteModal from '@/components/Modal/DeleteModal';
-import { toastError, toastInfo } from '@/components/common/ToastMessage';
+import { toastInfo, toastError } from '@/components/common/ToastMessage';
+import SelectModal from '@/components/Modal/SelectModal';
 
 const Container = styled.div`
   display: flex;
@@ -69,7 +69,7 @@ const BoardPostDetail = () => {
     refreshKey,
   );
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isSelectModalOpen, setIsSelectModalOpen] = useState(false);
 
   // 대댓글 작성시 본댓글 하이라이팅
   const [highlightedComments, setHighlightedComments] = useState<
@@ -78,12 +78,12 @@ const BoardPostDetail = () => {
 
   const navigate = useNavigate();
 
-  const openDeleteModal = () => {
-    setIsDeleteModalOpen(true);
+  const openSelectModal = () => {
+    setIsSelectModalOpen(true);
   };
 
-  const closeDeleteModal = () => {
-    setIsDeleteModalOpen(false);
+  const closeSelectModal = () => {
+    setIsSelectModalOpen(false);
   };
 
   const confirmDelete = async () => {
@@ -97,7 +97,7 @@ const BoardPostDetail = () => {
       toastError();
       console.error(err);
     }
-    closeDeleteModal();
+    closeSelectModal();
   };
 
   const handleRefresh = () => {
@@ -139,16 +139,16 @@ const BoardPostDetail = () => {
           >
             수정
           </TextButton>
-          <TextButton $isLast onClick={openDeleteModal}>
+          <TextButton $isLast onClick={openSelectModal}>
             삭제
           </TextButton>
         </MenuModal>
       )}
-      {isDeleteModalOpen && (
-        <DeleteModal
+      {isSelectModalOpen && (
+        <SelectModal
           title="게시물 삭제"
           content="이 게시물을 정말 삭제하시겠습니까?"
-          onClose={closeDeleteModal}
+          onClose={closeSelectModal}
           onDelete={confirmDelete}
         />
       )}

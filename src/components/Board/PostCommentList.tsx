@@ -10,6 +10,7 @@ interface CommentType {
   position: string;
   role: string;
   children?: CommentType[];
+  highlightedComments: Record<number, boolean>;
 }
 
 const Container = styled.div`

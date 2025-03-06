@@ -2,15 +2,15 @@ import styled from 'styled-components';
 import theme from '../theme';
 
 export const Wrapper = styled.div`
-  width: 95%;
+  width: 94.7%;
   margin-left: 2.5%;
   background-color: #ffffff;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border: 1px solid #dedede;
-
+  border: 0 solid #dedede;
+  border-width: 0 1px 1px;
   &:last-child {
     margin-bottom: 15px;
   }
@@ -42,6 +42,7 @@ export const SearchBar = styled.div`
 export const EditButton = styled.button`
   background-color: white;
   border: none;
+  font-size: 18px;
 `;
 
 export const Edit = styled.div`
@@ -49,11 +50,13 @@ export const Edit = styled.div`
   height: 48px;
   background-color: #2f2f2f;
   color: ${theme.color.gray[100]};
+  font-size: 18px;
   border-radius: 5px;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  font-family: ${theme.font.regular};
 `;
 
 export const ButtonWrapper = styled.div`
@@ -65,6 +68,8 @@ export const CancelButton = styled.div`
   width: 64px;
   height: 48px;
   background-color: #a6a6a6;
+  font-family: ${theme.font.regular};
+
   color: ${theme.color.gray[100]};
   border-radius: 5px;
   display: flex;
@@ -83,6 +88,8 @@ export const SaveButton = styled.div`
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  font-size: 18px;
+  font-family: ${theme.font.regular};
 `;
 
 export const UserWrapper = styled.div`
@@ -91,6 +98,8 @@ export const UserWrapper = styled.div`
   border: 1px solid #dedede;
   margin-top: 15px;
   margin-bottom: 15px;
+  border-collapse: collapse;
+  border-spacing: 0;
 `;
 
 export const Info = styled.div`
@@ -103,11 +112,14 @@ export const InfoWrapper = styled.div`
   width: 162px;
   height: 48px;
   font-family: ${theme.font.semiBold};
+  border-collapse: collapse;
+  border-spacing: 0;
   font-size: 18px;
 `;
 
 export const InfoBox = styled.div`
-  border: 1px solid #dedede;
+  border-left: 1px solid #dedede;
+  border-bottom: 1px solid #dedede;
   width: 79px;
   height: 100%;
   display: flex;
@@ -118,7 +130,7 @@ export const InfoBox = styled.div`
 export const User = styled.div`
   width: 626px;
   height: 48px;
-  border: 1px solid #dedede;
+  border-bottom: 1px solid #dedede;
   font-family: ${theme.font.semiBold};
   font-size: 18px;
   display: flex;
@@ -129,7 +141,8 @@ export const User = styled.div`
 export const Attend = styled.div`
   width: 160px;
   height: 48px;
-  border: 1px solid #dedede;
+  border-left: 1px solid #dedede;
+  border-bottom: 1px solid #dedede;
   font-family: ${theme.font.semiBold};
   font-size: 18px;
   display: flex;
@@ -140,17 +153,23 @@ export const Attend = styled.div`
 export const MemberWrapper = styled.div`
   display: flex;
   width: 100%;
+
+  &:last-child {
+    & > div {
+      border-bottom: none;
+    }
+  }
 `;
 
 export const Member = styled.div`
   width: 626px;
   height: 74px;
-  border: 1px solid #dedede;
   display: flex;
   flex-direction: column;
   justify-content: center;
   gap: 5px;
   padding-left: 10px;
+  border-bottom: 1px solid #dedede;
 `;
 
 export const UserName = styled.div`
@@ -166,7 +185,8 @@ export const UserInfo = styled.div`
 export const Check = styled.div`
   width: 160px;
   height: 74px;
-  border: 1px solid #dedede;
+  border-bottom: 1px solid #dedede;
+  border-left: 1px solid #dedede;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -182,7 +202,7 @@ export const CheckGap = styled.div`
 
 export const StatusWrapper = styled.div`
   display: flex;
-  width: 160px;
+  width: 159px;
   height: 100%;
 `;
 
@@ -192,9 +212,10 @@ export const StatusBox = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  border-right: 2px solid #dedede;
+  border-right: 1px solid #dedede;
   &:last-child {
     border-right: none;
+    border-bottom: none;
   }
 `;
 

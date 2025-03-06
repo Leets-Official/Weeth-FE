@@ -5,12 +5,13 @@ import {
   DateInfoWrapper,
   DateText,
   ContentText,
-  Button,
+  DropdownButton,
 } from '@/styles/admin/Attendance.styled';
 import DropDown from '@/assets/images/ic_admin_cardinal.svg';
 import fetchAttendancesByCardinal from '@/api/admin/attendance/fetchAttendancesByCardinal';
 import dayjs from 'dayjs';
-import AttendDropdown from './AttendDropdown';
+import useGetGlobaluserInfo from '@/api/useGetGlobaluserInfo';
+import AttendDropdown from '@/components/Admin/AttendDropdown';
 
 interface AttendanceItem {
   id: number;
@@ -26,6 +27,7 @@ interface AttendanceProps {
 const Attendance: React.FC<AttendanceProps> = ({ selectedCardinal }) => {
   const [data, setData] = useState<AttendanceItem[]>([]);
   const [openDropdownId, setOpenDropdownId] = useState<number | null>(null);
+  const { isAdmin } = useGetGlobaluserInfo();
 
   const formatDate = (dateString: string) => {
     return dayjs(dateString).format('YYYY년 M월 D일');
@@ -33,15 +35,16 @@ const Attendance: React.FC<AttendanceProps> = ({ selectedCardinal }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await fetchAttendancesByCardinal(
-        selectedCardinal ?? undefined,
-      );
+      if (!isAdmin) return;
+
+      const res = await fetchAttendancesByCardinal(selectedCardinal);
+
       if (res.code === 200) {
         setData(res.data);
       }
     };
     fetchData();
-  }, [selectedCardinal]);
+  }, [selectedCardinal, isAdmin]);
 
   const toggleDropdown = (id: number) => {
     setOpenDropdownId((prevId) => (prevId === id ? null : id));
@@ -51,7 +54,7 @@ const Attendance: React.FC<AttendanceProps> = ({ selectedCardinal }) => {
     <>
       {data.map((item) => (
         <div key={item.id}>
-          <AttendanceTable>
+          <AttendanceTable onClick={() => toggleDropdown(item.id)}>
             <Wrapper>
               <div>
                 <DateInfoWrapper>
@@ -61,9 +64,11 @@ const Attendance: React.FC<AttendanceProps> = ({ selectedCardinal }) => {
                   </ContentText>
                 </DateInfoWrapper>
               </div>
-              <Button onClick={() => toggleDropdown(item.id)}>
-                <img src={DropDown} alt="dropdown" />
-              </Button>
+              <DropdownButton
+                src={DropDown}
+                alt="dropdown"
+                isOpen={openDropdownId === item.id}
+              />
             </Wrapper>
           </AttendanceTable>
           {openDropdownId === item.id && <AttendDropdown meetingId={item.id} />}

@@ -19,13 +19,13 @@ import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
 import PickerModal from '@/components/Event/PickerModal';
 import TimePicker from '@/components/Event/TimePicker';
-import DeleteModal from '@/components/Modal/DeleteModal';
 import Loading from '@/components/common/Loading';
 import {
   toastError,
   toastInfo,
   toastSuccess,
 } from '@/components/common/ToastMessage';
+import SelectModal from '@/components/Modal/SelectModal';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -56,7 +56,7 @@ const EventEditor = () => {
   const navigate = useNavigate();
 
   const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isSelectModalOpen, setIsSelectModalOpen] = useState(false);
   const [isStartDateModalOpen, setIsStartDateModalOpen] = useState(false);
   const [isEndDateModalOpen, setIsEndDateModalOpen] = useState(false);
   const [startDate, setStartDate] = useState<Date | undefined>(new Date());
@@ -182,7 +182,7 @@ const EventEditor = () => {
     if (startISO > endISO) {
       toastInfo('종료 시간은 시작 시간보다 빠를 수 없습니다.');
     } else {
-      setIsDeleteModalOpen(true);
+      setIsSelectModalOpen(true);
     }
   };
 
@@ -270,12 +270,13 @@ const EventEditor = () => {
         </PickerModal>
       )}
 
-      {isDeleteModalOpen && (
-        <DeleteModal
+      {isSelectModalOpen && (
+        <SelectModal
+          type="positive"
           title="일정 생성"
           content="일정을 생성하시겠습니까?"
           buttonContent="생성"
-          onClose={() => setIsDeleteModalOpen(false)}
+          onClose={() => setIsSelectModalOpen(false)}
           onDelete={handleSave}
         />
       )}

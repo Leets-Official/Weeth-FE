@@ -19,6 +19,12 @@ export const Calendar = styled.div`
     background-color: transparent !important;
   }
 
+  // 선택한 날짜 표시 스타일링
+  .fc-highlight {
+    background-color: transparent !important;
+    border: 1px solid ${theme.color.main};
+  }
+
   // 월화수목금토일 표시 스타일링
   .fc-col-header-cell {
     background-color: ${theme.color.gray[12]};
@@ -68,7 +74,6 @@ export const Calendar = styled.div`
     background-color: ${theme.color.gray[18]}; !important;
     border: none;
     border-radius: 20px;
-    cursor: pointer;
   }
 
   // 2일 이상 일정 표시 스타일링
@@ -85,22 +90,11 @@ export const Calendar = styled.div`
     text-overflow: ellipsis;
   }
 
-  // 일정 호버 
-  .fc-event:hover {
-    padding: 3px 10px;
-    background-color: ${theme.color.positive}; !important;
-    border: none;
-    border-radius: 20px;
-    color: white !important;
-    cursor: pointer;
-  }
-  
   // 각 날짜 셀 스타일링
   .fc .fc-daygrid-day-events {
     height: 72px;
     margin: 0;
   }
-
 
   // 라이브러리 기본 스타일 제거
   .fc-daygrid-event-dot {
@@ -142,7 +136,7 @@ export const ScheduleList = styled.div`
   gap: 10px;
 `;
 
-export const TodayDate = styled.div`
+export const SelectedDate = styled.div`
   font-weight: 600;
   font-size: 18px;
   margin: 20px 0 15px 25px;
