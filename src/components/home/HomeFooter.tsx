@@ -9,7 +9,7 @@ import github from '@/assets/images/ic_github.svg';
 import gradu from '@/assets/images/ic_gradu.svg';
 import commitato from '@/assets/images/ic_commitato.svg';
 import moodmate from '@/assets/images/ic_moodmate.svg';
-import filling from '@/assets/images/ic_filling.svg';
+import filling from '@/assets/images/ic_fling.svg';
 import weeth from '@/assets/images/ic_weeth.svg';
 import weneed from '@/assets/images/ic_weneed.svg';
 import eatmate from '@/assets/images/ic_eatmate.svg';
