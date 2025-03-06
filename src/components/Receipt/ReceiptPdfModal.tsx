@@ -1,11 +1,11 @@
 import React from 'react';
-import Modal from 'react-modal';
+import ReactModal from 'react-modal';
 import { Document, Page, pdfjs } from 'react-pdf';
 import styled from 'styled-components';
 import theme from '@/styles/theme';
 import Close from '@/assets/images/ic_close.svg';
 
-Modal.setAppElement('#root');
+ReactModal.setAppElement('#root');
 
 pdfjs.GlobalWorkerOptions.workerSrc = '/pdfjs/pdf.worker.mjs';
 
@@ -15,7 +15,7 @@ interface ReceiptPdfModalProps {
   onRequestClose: () => void;
 }
 
-const StyledModal = styled(Modal)`
+const StyledModal = styled(ReactModal)`
   display: flex;
   flex-direction: column;
   justify-content: center;
