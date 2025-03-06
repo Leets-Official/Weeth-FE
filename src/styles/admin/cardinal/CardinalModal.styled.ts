@@ -36,7 +36,6 @@ export const StyledModalContent = styled.div<{
   overflow: visible;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
-  z-index: 9999;
 
   @media (max-width: 1024px) {
     left: 50%;
@@ -113,7 +112,6 @@ export const ModalContentWrapper = styled.div`
   box-sizing: border-box;
   width: calc(100% - 40px);
   max-width: 360px;
-  z-index: 1100;
 `;
 
 export const InputGroup = styled.div`

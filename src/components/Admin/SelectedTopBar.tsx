@@ -13,16 +13,15 @@ const SelectedTopBarWrapper = styled.div`
   top: 0;
   left: 0;
   right: 0;
-  z-index: 10;
   width: 100%;
   min-width: 1500px;
   background-color: ${theme.color.main};
   color: ${theme.color.gray[100]};
   display: flex;
-
   justify-content: space-between;
   align-items: center;
   white-space: nowrap;
+  z-index: 200;
 `;
 
 const TitleContainer = styled.div`
@@ -124,7 +123,7 @@ const SelectedTopBar: React.FC = () => {
           onClose={handleCloseModal}
           top="70px"
           left="75%"
-          position="absolute"
+          position="fixed"
           overlayColor="transparent"
           selectedUserIds={selectedUserIds}
         />
