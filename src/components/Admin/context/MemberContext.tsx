@@ -74,7 +74,6 @@ export const MemberProvider: React.FC<{ children: React.ReactNode }> = ({
 
   useEffect(() => {
     if (loading || isAdmin === undefined || !isAdmin) {
-      console.log('isAdmin: ', isAdmin);
       return;
     }
     const fetchMembers = async () => {
