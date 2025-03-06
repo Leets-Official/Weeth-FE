@@ -6,6 +6,7 @@ const NavMenuWrapper = styled.div`
   width: 250px;
   background-color: #ffffff;
   border: 1px solid #f2f2f2;
+  overflow-y: auto;
   box-shadow: 0px 3px 8px 0px rgba(133, 141, 138, 0.2);
 `;
 

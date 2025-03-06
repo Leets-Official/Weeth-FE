@@ -16,14 +16,16 @@ const Row = styled.tr`
 `;
 
 const Cell = styled.td`
-  padding: 15px;
+  padding: 15px 20px;
   text-align: left;
   white-space: nowrap;
   border-bottom: 1px solid #dedede;
   vertical-align: middle;
 `;
+
 export const StatusCell = styled.td<{ statusColor: string }>`
   width: 2px;
+  min-width: 2px;
   background-color: ${({ statusColor }) => statusColor};
 `;
 
@@ -31,7 +33,12 @@ export const SvgWrapper = styled.td`
   padding: 10px;
   text-align: center;
   cursor: pointer;
-  border-top: 1px solid #dedede;
+  border-bottom: 1px solid #dedede;
+
+  img {
+    height: auto;
+    display: block;
+  }
 `;
 
 interface TableRowProps {
@@ -50,7 +57,6 @@ const MemberListTableRow: React.FC<TableRowProps> = ({ data, columns }) => {
         ? prevSelected.filter((id) => id !== String(data.id))
         : [...prevSelected, String(data.id)];
 
-      console.log('선택된 멤버 id :', updatedSelected);
       return updatedSelected;
     });
   };

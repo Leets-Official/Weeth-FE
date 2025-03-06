@@ -103,7 +103,6 @@ const CardinalInfo: React.FC = () => {
             isOpen={isModalOpen}
             onClose={() => setIsModalOpen(false)}
             initialCardinal={currentEditingCardinal}
-            setCardinalList={setCardinalList}
           />
         )}
       </S.ScrollContainer>

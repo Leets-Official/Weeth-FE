@@ -5,6 +5,10 @@ import CommonCardinalModal from '@/components/Admin/Modal/CommonCardinalModal';
 import DirectCardinalDropdown from '@/components/Admin/DirectCardinal';
 import { continueNextCardinalApi } from '@/api/admin/member/patchUserManagement';
 import useGetAllCardinals from '@/api/useGetCardinals';
+import {
+  handleNumericInput,
+  preventNonNumeric,
+} from '@/utils/admin/handleNumericInput';
 
 interface CardinalChangeModalProps {
   isOpen: boolean;
@@ -21,12 +25,12 @@ const CardinalEditModal: React.FC<CardinalChangeModalProps> = ({
   onClose,
   selectedUserIds,
   top = '100px',
-  left = '50%',
+  left = 'auto',
   position = 'absolute',
   overlayColor = 'transparent',
 }) => {
   const [cardinalNumber, setCardinalNumber] = useState('');
-  const [isCustomInput, setIsCustomInput] = useState(false);
+  const [isCustomInput, setIsCustomInput] = useState(true);
   const [selectedCardinal, setSelectedCardinal] = useState<number | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -125,7 +129,8 @@ const CardinalEditModal: React.FC<CardinalChangeModalProps> = ({
             type="text"
             placeholder="숫자만 입력"
             value={cardinalNumber}
-            onChange={(e) => setCardinalNumber(e.target.value)}
+            onChange={(e) => handleNumericInput(e, setCardinalNumber, 2)}
+            onKeyDown={preventNonNumeric}
             flex={2}
             maxWidth="65%"
             readOnly={!isCustomInput}

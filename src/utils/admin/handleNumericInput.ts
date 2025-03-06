@@ -17,10 +17,13 @@ const handleNumericInput = (
     numericValue = '';
   }
 
-  setState((prev: any) => ({
-    ...prev,
-    [name]: numericValue,
-  }));
+  setState((prev: any) => {
+    if (typeof prev === 'object' && prev !== null) {
+      return { ...prev, [name]: numericValue };
+    }
+
+    return numericValue;
+  });
 };
 
 const preventNonNumeric = (e: React.KeyboardEvent<HTMLInputElement>) => {

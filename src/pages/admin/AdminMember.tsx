@@ -16,17 +16,17 @@ import {
 } from '@/styles/admin/AdminLayout.styled';
 
 const columns: Column[] = [
-  { key: 'name', header: '이름' },
-  { key: 'position', header: '역할' },
-  { key: 'department', header: '학과' },
-  { key: 'cardinals', header: '기수' },
-  { key: 'tel', header: '전화번호' },
-  { key: 'studentId', header: '학번' },
-  { key: 'role', header: '직급' },
-  { key: 'attendanceCount', header: '출석' },
-  { key: 'absenceCount', header: '결석' },
-  { key: 'penaltyCount', header: '페널티' },
-  { key: 'createdAt', header: '가입일' },
+  { key: 'name', header: '이름', width: '7%' },
+  { key: 'position', header: '역할', width: '7%' },
+  { key: 'department', header: '학과', width: '12%' },
+  { key: 'cardinals', header: '기수', width: '10%' },
+  { key: 'tel', header: '전화번호', width: '10%' },
+  { key: 'studentId', header: '학번', width: '15%' },
+  { key: 'role', header: '직급', width: '10%' },
+  { key: 'attendanceCount', header: '출석', width: '7%' },
+  { key: 'absenceCount', header: '결석', width: '7%' },
+  { key: 'penaltyCount', header: '페널티', width: '7%' },
+  { key: 'createdAt', header: '가입일', width: '10%' },
 ];
 
 const DynamicTopBar: React.FC = () => {

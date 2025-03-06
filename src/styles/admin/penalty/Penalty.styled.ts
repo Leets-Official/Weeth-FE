@@ -13,14 +13,15 @@ export const TableWrapper = styled.div`
 `;
 
 export const TableContainer = styled.div`
-  width: 60%;
-  min-width: fit-content;
+  width: fit-content;
+  min-width: 750px;
   background-color: #fff;
   border: 1px solid #f2f2f2;
   border-radius: 8px;
   box-shadow: 0px 3px 8px rgba(133, 141, 138, 0.2);
   padding-top: 10px;
   padding: 20px;
+  margin-top: 30px;
   box-sizing: border-box;
 `;
 
@@ -32,7 +33,7 @@ export const Row = styled.tr<{ isSelected: boolean }>`
 `;
 
 export const Cell = styled.td`
-  padding: 15px;
+  padding: 15px 25px;
   text-align: left;
   white-space: nowrap;
 `;
@@ -45,7 +46,7 @@ export const PlusButtonCell = styled.td`
 
 export const HeaderCell = styled.th`
   text-align: left;
-  padding: 10px;
+  padding: 15px 25px;
   border-bottom: 1px solid #dedede;
   font-weight: bold;
   white-space: nowrap;
@@ -55,6 +56,7 @@ export const SubHeaderRow = styled.div`
   display: grid;
   grid-template-columns: 2fr 1fr 1fr 120px 120px;
   grid-template-areas: 'reason  penalty penaltyDate empty actions';
+  border-bottom: 1px solid #dedede;
   gap: 10px;
   padding: 5px;
   padding-left: 70px;
@@ -83,6 +85,7 @@ export const AddContainer = styled.div`
   display: grid;
   grid-template-columns: 2fr 1fr 1fr 120px 120px;
   grid-template-areas: 'reason penalty penaltyDate empty actions';
+  border-bottom: 1px solid #dedede;
   gap: 10px;
   padding-left: 70px;
   background-color: ${theme.color.gray[100]};
@@ -115,6 +118,7 @@ export const DetailContainer = styled.div`
   grid-template-areas: 'reason penalty penaltyDate empty actions';
   gap: 10px;
   padding-left: 70px;
+  border-bottom: 1px solid #dedede;
   background-color: #ffffff;
   align-items: center;
   box-sizing: border-box;

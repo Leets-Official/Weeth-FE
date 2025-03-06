@@ -12,9 +12,14 @@ import PenaltyDetail from '@/components/Admin/PenaltyDetail';
 import PenaltyAdd from '@/components/Admin/PenaltyAdd';
 import { statusColors } from '@/components/Admin/StatusIndicator';
 import { StatusCell } from '@/components/Admin/MemberListTableRow';
-import { EmptyCell } from '@/components/Admin/MemberListTableHeader';
 import formatDate from '@/utils/admin/dateUtils';
 import dayjs from 'dayjs';
+import { styled } from 'styled-components';
+import useGetUserInfo from '@/api/useGetGlobaluserInfo';
+
+export const EmptyCell = styled.th`
+  border-bottom: 1px solid #dedede;
+`;
 
 const columns = [
   { key: 'name', header: '이름' },
@@ -76,8 +81,15 @@ const PenaltyListTable: React.FC<PenaltyListTableProps> = ({
       .format('YYYY.MM.DD');
   };
 
+  const { isAdmin, loading } = useGetUserInfo();
+
   const fetchPenaltyData = async () => {
     try {
+      if (loading || isAdmin === undefined || !isAdmin) {
+        console.log('isAdmin: ', isAdmin);
+        return;
+      }
+
       const response = await getPenaltyApi();
       console.log('페널티 조회 API 응답: ', response);
 
@@ -173,7 +185,7 @@ const PenaltyListTable: React.FC<PenaltyListTableProps> = ({
 
   useEffect(() => {
     fetchPenaltyData();
-  }, []);
+  }, [isAdmin, loading]);
 
   return (
     <S.TableContainer>

@@ -3,6 +3,7 @@ import { getAllUsers } from '@/api/admin/member/getAdminUser';
 import formatDate from '@/utils/admin/dateUtils';
 import useGetAllCardinals from '@/api/useGetCardinals';
 import getHighestCardinal from '@/utils/admin/getHighestCardinal';
+import useGetUserInfo from '@/api/useGetGlobaluserInfo';
 
 export type MemberData = {
   id: number;
@@ -69,13 +70,16 @@ export const MemberProvider: React.FC<{ children: React.ReactNode }> = ({
     allCardinals.find((c) => c.status === 'IN_PROGRESS')?.cardinalNumber ||
     null;
 
+  const { isAdmin, loading } = useGetUserInfo();
+
   useEffect(() => {
+    if (loading || isAdmin === undefined || !isAdmin) {
+      return;
+    }
     const fetchMembers = async () => {
       try {
-        console.log(`API 요청: orderBy=${sortingOrder}`);
         const response = await getAllUsers(sortingOrder);
         const fetchedMembers = response.data.data || [];
-        console.log('API응답: ', response.data);
 
         const mappedMembers = fetchedMembers.map((user: any) => {
           const highestMemberCardinalStr = getHighestCardinal(user.cardinals);
@@ -115,9 +119,12 @@ export const MemberProvider: React.FC<{ children: React.ReactNode }> = ({
     };
 
     fetchMembers();
-  }, [sortingOrder]);
+  }, [sortingOrder, isAdmin, loading]);
 
   useEffect(() => {
+    if (loading || isAdmin === undefined || !isAdmin) {
+      return;
+    }
     if (selectedCardinal === null) {
       setFilteredMembers(members);
       return;
