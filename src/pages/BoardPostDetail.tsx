@@ -72,7 +72,7 @@ const BoardPostDetail = () => {
   const [isSelectModalOpen, setIsSelectModalOpen] = useState(false);
 
   // 대댓글 작성시 본댓글 하이라이팅
-  const [highlightedComments, setHighlightedComments] = useState<
+  const [selectedComment, setSelectedComment] = useState<
     Record<number, boolean>
   >({});
 
@@ -107,14 +107,14 @@ const BoardPostDetail = () => {
   const handleCommentSuccess = () => {
     setTimeout(() => {
       setParentCommentId(null);
-      setHighlightedComments({});
+      setSelectedComment({});
     }, 200);
     handleRefresh();
   };
 
   const handleReply = (commentId: number) => {
     setParentCommentId(commentId);
-    setHighlightedComments((prev) => ({
+    setSelectedComment((prev) => ({
       ...prev,
       [commentId]: !prev[commentId],
     }));
@@ -172,7 +172,7 @@ const BoardPostDetail = () => {
               path={path}
               onCommentDelete={handleRefresh}
               onReply={handleReply}
-              highlightedComments={highlightedComments}
+              selectedComment={selectedComment}
             />
           </>
         )}

@@ -10,7 +10,6 @@ interface CommentType {
   position: string;
   role: string;
   children?: CommentType[];
-  highlightedComments: Record<number, boolean>;
 }
 
 const Container = styled.div`
@@ -30,14 +29,14 @@ const PostCommentList = ({
   postId,
   onCommentDelete,
   onReply,
-  highlightedComments,
+  selectedComment,
 }: {
   comments: CommentType[];
   path: string;
   postId: number;
   onCommentDelete: () => void;
   onReply: (commentId: number) => void;
-  highlightedComments: Record<number, boolean>;
+  selectedComment: Record<number, boolean>;
 }) => {
   const renderComments = (commentList: CommentType[]) => {
     return commentList.map((comment) => (
@@ -53,7 +52,7 @@ const PostCommentList = ({
           role={comment.role}
           onDelete={onCommentDelete}
           onReply={() => onReply(comment.id)}
-          highlightedComments={highlightedComments}
+          selectedComment={selectedComment}
         />
 
         {comment.children && comment.children.length > 0 && (

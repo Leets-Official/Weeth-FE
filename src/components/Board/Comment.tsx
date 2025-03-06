@@ -19,7 +19,7 @@ interface CommentProps {
   role: string;
   onDelete: () => void;
   onReply: (commentId: number) => void;
-  highlightedComments: Record<number, boolean>;
+  selectedComment: Record<number, boolean>;
 }
 
 const Comment = ({
@@ -33,7 +33,7 @@ const Comment = ({
   role,
   onDelete,
   onReply,
-  highlightedComments,
+  selectedComment,
 }: CommentProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -65,7 +65,7 @@ const Comment = ({
   const isMyComment = name === useGetUserName();
 
   return (
-    <S.CommentContainer isHighlighted={highlightedComments[commentId] || false}>
+    <S.CommentContainer isHighlighted={selectedComment[commentId] || false}>
       <S.CommentContentContainer>
         <S.NameText>
           <S.PositionIcon
