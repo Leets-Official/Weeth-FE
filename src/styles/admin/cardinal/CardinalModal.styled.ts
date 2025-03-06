@@ -284,3 +284,21 @@ export const DataFlex = styled.div`
   gap: 15px;
   color: #000;
 `;
+
+export const FooterContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 16px;
+  box-sizing: border-box;
+  margin-right: 40px;
+
+  @media (max-width: 1300px) {
+    & > button:last-child {
+      display: none;
+    }
+    justify-content: center;
+    margin-left: -10px;
+  }
+`;
