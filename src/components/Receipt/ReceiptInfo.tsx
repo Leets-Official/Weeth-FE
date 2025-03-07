@@ -16,7 +16,7 @@ const ReceiptInfo: React.FC<ReceiptInfoProps> = ({ money, date, memo }) => {
         <S.StyledCaptionBox>
           <Caption color={theme.color.negative}>지출</Caption>
           <S.StyledTextBox>
-            <S.Text isLong={memo.length >= 10}>{memo}</S.Text>
+            <S.Text $isLong={memo.length >= 10}>{memo}</S.Text>
             <S.SmallText>{date}</S.SmallText>
           </S.StyledTextBox>
         </S.StyledCaptionBox>

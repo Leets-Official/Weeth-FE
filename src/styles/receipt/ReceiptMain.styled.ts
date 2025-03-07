@@ -42,7 +42,7 @@ export const GridItem = styled.div`
   background-color: ${theme.color.gray[18]};
   width: 56%;
   height: 124px;
-  color: #fff;
+  color: ${theme.color.gray[100]};
   border-radius: 10px;
   display: flex;
   justify-content: center;
@@ -51,6 +51,7 @@ export const GridItem = styled.div`
   white-space: nowrap;
   cursor: pointer;
   position: relative;
+
   &:last-child {
     margin-right: 0;
   }
@@ -84,4 +85,13 @@ export const ModalImage = styled.embed`
   width: 100%;
   height: 100%;
   object-fit: contain;
+`;
+export const PdfWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  border-radius: 10px;
 `;

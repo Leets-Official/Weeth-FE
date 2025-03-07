@@ -11,7 +11,7 @@ interface DuseInfoProps {
 
 const DuesInfo: React.FC<DuseInfoProps> = ({ dues, category, date, memo }) => {
   return (
-    <S.MemberWrapper>
+    <S.DuesWrapper>
       <S.StyledDuesBox>
         <S.StyledCaptionBox>
           {category === '회비' ? (
@@ -29,7 +29,7 @@ const DuesInfo: React.FC<DuseInfoProps> = ({ dues, category, date, memo }) => {
           <S.SmallTextMemo>{memo}</S.SmallTextMemo>
         </S.StyledMemoBox>
       </S.StyledDuesBox>
-    </S.MemberWrapper>
+    </S.DuesWrapper>
   );
 };
 
