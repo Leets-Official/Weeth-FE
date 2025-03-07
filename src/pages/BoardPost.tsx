@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import useGetBoardDetail from '@/api/useGetBoardDetail';
-import postBoard from '@/api/postBoard';
+import postBoardNotice from '@/api/postBoard';
 import { toastError, toastInfo } from '@/components/common/ToastMessage';
 import Loading from '@/components/common/Loading';
 
@@ -68,24 +68,42 @@ const BoardPost = () => {
     setLoading(true);
     if (isTitleEmpty) {
       toastInfo('제목을 입력해주세요.');
+      setLoading(false);
       return;
     }
     if (isContentEmpty) {
       toastInfo('내용을 입력해주세요.');
+      setLoading(false);
       return;
     }
-    try {
-      // 서버에서 presigned URL을 받아오고, 파일 URL을 postData에 포함시켜서 게시글을 작성
-      await postBoard(files, {
-        title,
-        content,
-        files: [], // 빈 배열로 초기화 후, 실제 파일 URL 정보는 postBoard 함수 내부에서 처리됨
-      });
 
-      // 게시글 작성 후 이동
+    try {
+      // 요청 타입 결정
+      const postType =
+        // eslint-disable-next-line no-nested-ternary
+        path === 'board'
+          ? pathArray[3] === 'edit'
+            ? 'editBoard'
+            : 'postBoard'
+          : pathArray[3] === 'edit'
+            ? 'editNotice'
+            : 'postNotice';
+
+      // 서버 요청
+      await postBoardNotice(
+        files,
+        {
+          title,
+          content,
+          files: [],
+        },
+        postType,
+        numericPostId, // ✅ id를 postData 객체 안에 포함
+      );
+
+      // 게시글 작성/수정 후 이동
       navi(path === 'board' ? '/board' : '/notice');
     } catch (error) {
-      // eslint-disable-next-line no-console
       console.log(error);
       toastError('파일 업로드 중 문제가 발생했습니다.');
     } finally {
