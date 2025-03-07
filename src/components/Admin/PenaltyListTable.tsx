@@ -20,6 +20,10 @@ export const EmptyCell = styled.th`
   border-bottom: 1px solid #dedede;
 `;
 
+export const Wrapper = styled.div`
+  display: flex;
+  gap: 20px;
+`;
 const columns = [
   { key: 'name', header: '이름' },
   { key: 'position', header: '역할' },
@@ -85,7 +89,6 @@ const PenaltyListTable: React.FC<PenaltyListTableProps> = ({
   const fetchPenaltyData = async () => {
     try {
       if (loading || isAdmin === undefined || !isAdmin) {
-        console.log('isAdmin: ', isAdmin);
         return;
       }
 
@@ -123,12 +126,6 @@ const PenaltyListTable: React.FC<PenaltyListTableProps> = ({
       setIsAdding(false);
       await fetchPenaltyData();
     }
-  };
-
-  const handleAddPenalty = (userId: number) => {
-    setIsAdding(true);
-    setExpandedRow(userId);
-    setEditingIndex(null);
   };
 
   const handleEditPenalty = (userId: number, index: number) => {

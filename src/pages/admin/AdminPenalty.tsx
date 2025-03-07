@@ -1,15 +1,25 @@
 import CardinalSearchBar from '@/components/Admin/CardinalSearchBar';
 import { MemberProvider } from '@/components/Admin/context/MemberContext';
 import NavMenu from '@/components/Admin/NavMenu';
+import PenaltyAdd from '@/components/Admin/PenaltyAdd';
 import PenaltyListTable from '@/components/Admin/PenaltyListTable';
 import TopBar from '@/components/Admin/TopBar';
 import AdminOnly from '@/components/common/AdminOnly';
 import {
-  Container,
   PageWrapper,
   ContentWrapper,
+  Container,
 } from '@/styles/admin/AdminLayout.styled';
 import { useState } from 'react';
+import styled from 'styled-components';
+
+export const PenaltyContainer = styled(Container)`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 20px;
+`;
 
 const AdminPenalty: React.FC = () => {
   const [selectedCardinal, setSelectedCardinal] = useState<null | number>(null);
@@ -24,14 +34,17 @@ const AdminPenalty: React.FC = () => {
             title="패널티 관리"
             description="기수를 선택하고, 해당 멤버에 대한 패널티를 수정하는 페이지입니다."
           />
-          <Container>
-            <CardinalSearchBar
-              isPenaltyPage
-              selectedCardinal={selectedCardinal}
-              setSelectedCardinal={setSelectedCardinal}
-            />
-            <PenaltyListTable selectedCardinal={selectedCardinal} />
-          </Container>
+          <PenaltyContainer>
+            <div>
+              <CardinalSearchBar
+                isPenaltyPage
+                selectedCardinal={selectedCardinal}
+                setSelectedCardinal={setSelectedCardinal}
+              />
+              <PenaltyListTable selectedCardinal={selectedCardinal} />
+            </div>
+            <PenaltyAdd />
+          </PenaltyContainer>
         </ContentWrapper>
       </PageWrapper>
     </MemberProvider>

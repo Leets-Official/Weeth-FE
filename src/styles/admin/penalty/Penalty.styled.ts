@@ -10,6 +10,8 @@ export const TableWrapper = styled.div`
     border-collapse: collapse;
     table-layout: fixed;
   }
+
+  margin: 0;
 `;
 
 export const TableContainer = styled.div`

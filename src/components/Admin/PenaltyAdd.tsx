@@ -1,103 +1,35 @@
-import { postPenaltyApi } from '@/api/admin/penalty/getPenalty';
-import { useState } from 'react';
-import * as S from '@/styles/admin/penalty/Penalty.styled';
-import Button from '@/components/Admin/Button';
-import dayjs from 'dayjs';
+import theme from '@/styles/theme';
+import { styled } from 'styled-components';
+import { Title } from '@/components/Admin/DuesRegister';
+import { Wrapper } from '@/styles/admin/DuesRegisterDropDown.styled';
 
-interface PenaltyAddProps {
-  userId: number;
-  onCancel: () => void;
-  onSave: (data: {
-    penaltyId: number;
-    penaltyDescription: string;
-    time: string;
-  }) => void;
-  existingData?: {
-    penaltyId?: number;
-    penaltyDescription: string;
-    time: string;
-  };
-}
+export const SubTitle = styled.div`
+  font-family: ${theme.font.regular};
+  font-size: 16px;
+  margin-left: 10px;
+  margin-bottom: 10px;
+`;
 
-const PenaltyAdd: React.FC<PenaltyAddProps> = ({
-  userId,
-  onCancel,
-  onSave,
-  existingData,
-}) => {
-  const today = dayjs().format('YYYY.MM.DD');
+export const PenaltyWrapper = styled(Wrapper)`
+  border-radius: 4px;
+  width: 43%;
+  min-width: 480px;
+  min-height: 370px;
+  margin-top: 30px;
+  border-top: 0px;
+`;
 
-  const [formData, setFormData] = useState({
-    penaltyId: existingData?.penaltyId,
-    penaltyDescription: existingData?.penaltyDescription || '',
-    time: existingData?.time || today,
-  });
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: name === 'penalty' ? parseInt(value, 10) || 1 : value,
-    }));
-  };
-  const handleSave = async () => {
-    if (!formData.penaltyDescription || !formData.time) {
-      alert('모든 필드를 작성해주세요.');
-      return;
-    }
-    try {
-      await postPenaltyApi(userId, formData.penaltyDescription); // API 요청
-      alert('패널티가 성공적으로 부여되었습니다.');
-      onSave({ ...formData, penaltyId: formData.penaltyId ?? 0 });
-      setFormData({
-        penaltyId: 0,
-        penaltyDescription: '',
-        time: today,
-      });
-      window.location.reload();
-    } catch (error: any) {
-      alert(error.message);
-      console.error('패널티 부여 실패:', error);
-    }
-  };
-
-  const fields = [
-    {
-      name: 'penaltyDescription',
-      placeholder: '추가할 패널티의 사유를 작성해주세요',
-    },
-    { name: 'penaltyId', placeholder: '' },
-    { name: 'time', placeholder: '' },
-  ];
-
+export const Line = styled.div`
+  border: 1px solid #dedede;
+`;
+const PenaltyAdd: React.FC = () => {
   return (
-    <S.AddContainer>
-      {fields.map((field) => (
-        <S.Input
-          key={field.name}
-          type={field.name === 'penalty' ? 'number' : 'text'}
-          name={field.name}
-          placeholder={field.placeholder || undefined}
-          value={formData[field.name as keyof typeof formData]}
-          onChange={handleChange}
-        />
-      ))}
-      <div style={{ gridArea: 'empty' }} />
-      <S.ButtonWrapper>
-        <Button
-          color="#4d4d4d"
-          description="취소"
-          width="64px"
-          onClick={onCancel}
-        />
-        <Button
-          color="#508fff"
-          description="저장"
-          width="64px"
-          onClick={handleSave}
-        />
-      </S.ButtonWrapper>
-    </S.AddContainer>
+    <PenaltyWrapper>
+      <Title>패널티 추가</Title>
+      <Line />
+      <SubTitle>이름</SubTitle>
+      <SubTitle>패널티 사유</SubTitle>
+    </PenaltyWrapper>
   );
 };
 
