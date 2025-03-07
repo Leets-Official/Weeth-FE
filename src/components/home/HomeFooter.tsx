@@ -9,7 +9,7 @@ import github from '@/assets/images/ic_github.svg';
 import gradu from '@/assets/images/ic_gradu.svg';
 import commitato from '@/assets/images/ic_commitato.svg';
 import moodmate from '@/assets/images/ic_moodmate.svg';
-import filling from '@/assets/images/ic_fling.svg';
+import fling from '@/assets/images/ic_fling.svg';
 import weeth from '@/assets/images/ic_weeth.svg';
 import weneed from '@/assets/images/ic_weneed.svg';
 import eatmate from '@/assets/images/ic_eatmate.svg';
@@ -113,7 +113,7 @@ const HomeFooter: React.FC = () => {
           <span>MoodMate</span>
         </S.GridItemWithImage>
         <S.GridItemWithImage
-          $image={filling}
+          $image={fling}
           href="https://www.leets.land/project/8"
           target="_blank"
         >
