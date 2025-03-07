@@ -1,6 +1,5 @@
 import React, { useEffect, useReducer, useState } from 'react';
 import * as S from '@/styles/admin/penalty/Penalty.styled';
-import plusIcon from '@/assets/images/ic_admin_plus.svg';
 import {
   penaltyReducer,
   PenaltyState,

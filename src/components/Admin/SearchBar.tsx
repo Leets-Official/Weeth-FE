@@ -4,14 +4,17 @@ import { useState } from 'react';
 import icSearch from '@/assets/images/ic_admin_search.svg';
 import { useMemberContext } from '@/components/Admin/context/MemberContext';
 
-export const SearchBarWrapper = styled.div<{ isWrapped?: boolean }>`
+export const SearchBarWrapper = styled.div<{
+  isWrapped?: boolean;
+  isPenaltyPage?: boolean;
+}>`
   position: relative;
   background-color: #ffffff;
   box-sizing: border-box;
   display: flex;
   align-items: center;
-  width: ${({ isWrapped }) => (isWrapped ? '60%' : '100%')};
-  min-width: ${({ isWrapped }) => (isWrapped ? 'auto' : '1400px')};
+  width: ${({ isPenaltyPage }) => (isPenaltyPage ? '63%' : '100%')};
+  min-width: ${({ isPenaltyPage }) => (isPenaltyPage ? '830px' : '1400px')};
   padding: 15px 20px;
   border-radius: 4px;
   margin: 30px 0 10px;
@@ -45,6 +48,7 @@ export const SearchBarIcon = styled.img<{ isWrapped?: boolean }>`
 
 interface SearchBarProps {
   isWrapped?: boolean; // Wrapper css 사용 여부
+  isPenaltyPage?: boolean; // 페널티 페이지 검색바 너비 조정
 }
 
 const SearchBar: React.FC<SearchBarProps> = ({ isWrapped = true }) => {

@@ -5,14 +5,16 @@ import SearchBar, { SearchBarWrapper } from '@/components/Admin/SearchBar';
 interface CombinedSearchBarProps {
   selectedCardinal: number | null;
   setSelectedCardinal: Dispatch<SetStateAction<number | null>>;
+  isPenaltyPage?: boolean;
 }
 
 const CombinedSearchBar: React.FC<CombinedSearchBarProps> = ({
   selectedCardinal,
   setSelectedCardinal,
+  isPenaltyPage,
 }) => {
   return (
-    <SearchBarWrapper>
+    <SearchBarWrapper isPenaltyPage={isPenaltyPage}>
       <div>
         <CardinalDropDown
           selectedCardinal={selectedCardinal}

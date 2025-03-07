@@ -26,6 +26,7 @@ const AdminPenalty: React.FC = () => {
           />
           <Container>
             <CardinalSearchBar
+              isPenaltyPage
               selectedCardinal={selectedCardinal}
               setSelectedCardinal={setSelectedCardinal}
             />
