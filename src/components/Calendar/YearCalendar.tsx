@@ -2,15 +2,24 @@ import { FALL_SEMESTER, SPRING_SEMESTER } from '@/constants/dateConstants';
 import * as S from '@/styles/calendar/YearCalendar.styled';
 import useGetYearlySchedule from '@/api/useGetYearlySchedule';
 import YearlyCard from './YearlyCard';
+import Loading from '../common/Loading';
 
 const YearCalendar = ({ year, term }: { year: number; term: number }) => {
-  const { data: yearlySchedule, error } = useGetYearlySchedule({
+  const {
+    data: yearlySchedule,
+    loading,
+    error,
+  } = useGetYearlySchedule({
     year,
     semester: term,
   });
 
   if (error) {
     return <div>{error}</div>;
+  }
+
+  if (loading) {
+    <Loading />;
   }
 
   return (

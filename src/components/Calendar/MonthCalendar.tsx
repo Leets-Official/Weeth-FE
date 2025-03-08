@@ -19,6 +19,7 @@ import ScheduleItem from '@/components/Calendar/ScheduleItem';
 import Line from '@/components/common/Line';
 import dayjs from 'dayjs';
 import { toastError } from '../common/ToastMessage';
+import Loading from '../common/Loading';
 
 const MonthCalendar = () => {
   const calendarRef = useRef<FullCalendar | null>(null);
@@ -36,7 +37,7 @@ const MonthCalendar = () => {
   else
     formattedEnd = new Date(year, month + 1, 1, 23, 59, 59, 999).toISOString();
 
-  const { data: monthlySchedule } = useGetMonthlySchedule(
+  const { data: monthlySchedule, loading } = useGetMonthlySchedule(
     `${year}-${String(month).padStart(2, '0')}-01T00:00:00.000Z`,
     formattedEnd,
   );
@@ -107,6 +108,8 @@ const MonthCalendar = () => {
     const { start } = selectInfo;
     setSelectedDate(start);
   };
+
+  if (loading) return <Loading />;
 
   return (
     <S.Container>

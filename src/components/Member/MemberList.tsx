@@ -5,6 +5,7 @@ import theme from '@/styles/theme';
 import styled from 'styled-components';
 import useGetAllUsers from '@/api/useGetAllUsers';
 import { User } from '@/types/user';
+import Loading from '../common/Loading';
 
 const List = styled.div`
   display: flex;
@@ -32,7 +33,7 @@ const MemberList = ({
   const [pageNumber, setPageNumber] = useState(0);
   const [members, setMembers] = useState<User[]>([]);
   const [hasMore, setHasMore] = useState(true);
-  const [isLoading, setIsLoading] = useState(false);
+  const [observerLoading, setObserverLoading] = useState(false);
   const observerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -46,14 +47,14 @@ const MemberList = ({
     pageNumber,
     setMembers,
     setHasMore,
-    setIsLoading,
+    setObserverLoading,
   );
 
   // Intersection Observer 설정
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
-        if (entries[0].isIntersecting && hasMore && !isLoading) {
+        if (entries[0].isIntersecting && hasMore && !observerLoading) {
           setPageNumber((prevPage) => prevPage + 1);
         }
       },
@@ -69,7 +70,7 @@ const MemberList = ({
         observer.unobserve(observerRef.current);
       }
     };
-  }, [hasMore, isLoading]);
+  }, [hasMore, observerLoading]);
 
   let content;
 
@@ -89,7 +90,7 @@ const MemberList = ({
       ));
     }
   } else if (members.length === 0) {
-    content = <Error>{selectedCardinal}기 멤버가 존재하지 않습니다.</Error>;
+    content = <Loading />;
   } else {
     content = members.map((user: User) => (
       <MemberItem
@@ -106,7 +107,7 @@ const MemberList = ({
   return (
     <List>
       {content}
-      {hasMore && !isLoading && (
+      {hasMore && !observerLoading && (
         <div
           ref={observerRef}
           style={{ height: '20px', backgroundColor: 'transparent' }}

@@ -22,10 +22,10 @@ const useGetAllUsers = (
   pageNumber: number,
   setUsers: React.Dispatch<React.SetStateAction<any[]>>,
   setHasMore: React.Dispatch<React.SetStateAction<boolean>>,
-  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
+  setObserverLoading: React.Dispatch<React.SetStateAction<boolean>>,
 ) => {
   const fetchUsers = async () => {
-    setIsLoading(true);
+    setObserverLoading(true);
 
     try {
       const response = await getAllUsers(cardinal, pageNumber);
@@ -37,7 +37,7 @@ const useGetAllUsers = (
       // eslint-disable-next-line no-console
       console.error('Error fetching users:', error);
     } finally {
-      setIsLoading(false);
+      setObserverLoading(false);
     }
   };
 
