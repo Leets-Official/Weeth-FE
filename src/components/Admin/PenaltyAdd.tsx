@@ -3,6 +3,9 @@ import { styled } from 'styled-components';
 import { Wrapper } from '@/styles/admin/DuesRegisterDropDown.styled';
 import Button from '@/components/Admin/Button';
 import * as S from '@/styles/admin/DuesRegisterDropDown.styled';
+import { useState } from 'react';
+import { useMemberContext } from '@/components/Admin/context/MemberContext';
+import PenaltyMemberDropdown from '@/components/Admin/PenaltyMemberDropdown';
 
 export const TitleWrapper = styled.div`
   padding: 25px 30px;
@@ -25,6 +28,7 @@ export const PenaltyWrapper = styled(Wrapper)`
 `;
 
 export const InputWrapper = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -39,7 +43,7 @@ export const Input = styled.input`
   padding: 12px 16px;
   box-sizing: border-box;
   &:focus {
-    outline: 1px solid ${theme.color.gray[18]};
+    outline: 1.5px solid ${theme.color.gray[18]};
   }
 `;
 
@@ -60,6 +64,21 @@ export const ItemWrapper = styled.div`
 `;
 
 const PenaltyAdd: React.FC = () => {
+  const { members } = useMemberContext();
+  const [searchTerm, setSearchTerm] = useState('');
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [selectedMember, setSelectedMember] = useState<string>('');
+
+  const filteredMembers = members.filter((member) =>
+    member.name.includes(searchTerm),
+  );
+
+  const handleSelectMember = (name: string) => {
+    setSelectedMember(name);
+    setSearchTerm(name);
+    setIsDropdownOpen(false);
+  };
+
   return (
     <PenaltyWrapper>
       <TitleWrapper>
@@ -69,7 +88,22 @@ const PenaltyAdd: React.FC = () => {
       <ItemWrapper>
         <InputWrapper>
           <SubTitle>이름</SubTitle>
-          <Input placeholder="이름" />
+          <Input
+            placeholder="이름"
+            value={searchTerm}
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+              setIsDropdownOpen(true);
+            }}
+            onFocus={() => setIsDropdownOpen(true)}
+            // onBlur={() => setIsDropdownOpen(false)}
+          />
+          {isDropdownOpen && (
+            <PenaltyMemberDropdown
+              members={filteredMembers}
+              onSelect={handleSelectMember}
+            />
+          )}
         </InputWrapper>
         <InputWrapper>
           <SubTitle>패널티 사유</SubTitle>
