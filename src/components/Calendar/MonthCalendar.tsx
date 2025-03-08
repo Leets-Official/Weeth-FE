@@ -115,9 +115,12 @@ const MonthCalendar = () => {
           ref={calendarRef}
           selectable
           select={onDateSelect}
+          longPressDelay={10}
           plugins={[dayGridPlugin, interactionPlugin]}
           events={monthlySchedule}
           eventContent={renderEventContent}
+          dayMaxEvents={3}
+          moreLinkClick="none"
           locale="ko"
           headerToolbar={false}
           fixedWeekCount={false}

@@ -21,8 +21,8 @@ export const Calendar = styled.div`
 
   // 선택한 날짜 표시 스타일링
   .fc-highlight {
-    background-color: transparent !important;
-    border: 1px solid ${theme.color.main};
+    background-color: ${theme.color.gray[30]} !important;
+    border-radius: 10px;
   }
 
   // 월화수목금토일 표시 스타일링
@@ -39,6 +39,10 @@ export const Calendar = styled.div`
 
   .fc .fc-scrollgrid-section, .fc .fc-scrollgrid-section table, .fc .fc-scrollgrid-section > td {
     padding-top: 15px;
+  }
+
+  .fc-daygrid-more-link {
+    display: none !important;
   }
 
   // 셀 테두리 제거
