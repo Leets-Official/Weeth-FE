@@ -26,7 +26,6 @@ export const postBoardNotice = async (
   id?: number,
 ) => {
   try {
-    // 1. 각 파일에 대해 presigned URL을 요청하고 업로드
     const fileUrls = await Promise.all(
       files.map(async (file) => {
         const response = await getPresignedUrl(file, file.name);
@@ -38,11 +37,10 @@ export const postBoardNotice = async (
           throw new Error(`파일 업로드에 실패했습니다.`);
         }
 
-        return putUrl.split('?')[0]; // 실제 파일 URL 반환
+        return putUrl.split('?')[0];
       }),
     );
 
-    // 2. postData에 파일 정보 추가
     const updatedPostData = {
       ...postData,
       files: files.map((file, index) => ({
@@ -50,8 +48,6 @@ export const postBoardNotice = async (
         fileUrl: fileUrls[index],
       })),
     };
-
-    console.log('최종 요청 데이터:', updatedPostData);
 
     let endpoint = '';
     let method: 'post' | 'put' = 'post';
@@ -77,7 +73,6 @@ export const postBoardNotice = async (
         throw new Error('잘못된 postType 입니다.');
     }
 
-    // 4. API 요청 실행
     const postRes = await api[method](endpoint, updatedPostData);
     return postRes;
   } catch (error) {

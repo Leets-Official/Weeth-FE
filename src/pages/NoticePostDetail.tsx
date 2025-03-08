@@ -107,7 +107,7 @@ const NoticePostDetail = () => {
             setIsModalOpen(false);
           }}
         >
-          <TextButton onClick={() => navigate(`/board/${postId}/edit`)}>
+          <TextButton onClick={() => navigate(`/notice/${postId}/edit`)}>
             수정
           </TextButton>
           <TextButton $isLast onClick={openDeleteModal}>
