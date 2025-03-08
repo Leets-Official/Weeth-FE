@@ -9,12 +9,19 @@ import ButtonGroup from '@/components/Admin/ButtonGroup';
 import CardinalEditModal from '@/components/Admin/Modal/CardinalEditModal';
 
 const SelectedTopBarWrapper = styled.div`
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
   width: 100%;
+  min-width: 1500px;
   background-color: ${theme.color.main};
   color: ${theme.color.gray[100]};
   display: flex;
   justify-content: space-between;
   align-items: center;
+  white-space: nowrap;
+  z-index: 200;
 `;
 
 const TitleContainer = styled.div`
@@ -107,7 +114,7 @@ const SelectedTopBar: React.FC = () => {
           <SvgIcon src={backarrow} alt="뒤로가기" onClick={handleBackClick} />
           <Title>{`${selectedMembers.length}명 선택됨`}</Title>
         </TitleContainer>
-        <ButtonGroup buttons={buttons} />
+        <ButtonGroup buttons={buttons} isHeader />
       </SelectedTopBarWrapper>
 
       {isModalOpen && (
@@ -116,7 +123,7 @@ const SelectedTopBar: React.FC = () => {
           onClose={handleCloseModal}
           top="70px"
           left="75%"
-          position="absolute"
+          position="fixed"
           overlayColor="transparent"
           selectedUserIds={selectedUserIds}
         />

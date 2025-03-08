@@ -4,17 +4,13 @@ import { BoxWrapper } from '@/components/Admin/TotalDues';
 import Box from '@/components/Admin/Box';
 
 export const CardinalBoxWrapper = styled(BoxWrapper)`
-  padding: 0 0 30px 0;
+  padding: 0 0 20px 0;
   box-sizing: border-box;
+  min-width: 1400px;
 `;
 
 export const TotalBox = styled(Box)`
   background-color: ${theme.color.gray[18]};
-`;
-
-export const CardinalBox = styled(Box)<{ isIncomplete?: boolean }>`
-  ${({ isIncomplete }) =>
-    isIncomplete ? `border: 2px dashed ${theme.color.gray[18]};` : ''}
 `;
 
 export const ScrollContainer = styled.div`

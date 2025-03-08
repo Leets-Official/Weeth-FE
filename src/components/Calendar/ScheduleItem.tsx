@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import theme from '@/styles/theme';
 import { formatDateTime } from '@/hooks/formatDate';
 import TodayIncluded from '@/hooks/TodayIncluded';
-// import TodayPassed from '@/hooks/TodayPassed';
+import { useNavigate } from 'react-router-dom';
 
 const Container = styled.div`
   display: flex;
@@ -46,18 +46,35 @@ const Date = styled.div`
 `;
 
 const ScheduleItem = ({
+  id,
   title,
   start,
   end,
+  isMeeting,
+  year,
+  month,
 }: {
+  id: number;
   title: string;
   start: string;
   end: string;
+  isMeeting: boolean;
+  year: number;
+  month: number;
 }) => {
   const isTodayIncluded = TodayIncluded(start, end);
+  const navi = useNavigate();
+
+  const onClick = () => {
+    if (isMeeting) {
+      navi(`/meetings/${id}`, { state: { year, month } });
+    } else {
+      navi(`/events/${id}`, { state: { year, month } });
+    }
+  };
 
   return (
-    <Container>
+    <Container onClick={onClick}>
       <Line $isTodayIncluded={isTodayIncluded} />
       <Text>
         <Title>{title}</Title>

@@ -22,7 +22,7 @@ const SortButton: React.FC = () => {
   };
   return (
     <SortButtonWrapper onClick={onClickSort}>
-      {sortingOrder === 'NAME_ASCENDING' ? '오름차순' : '기수 순'}
+      {sortingOrder === 'NAME_ASCENDING' ? '이름순' : '기수순'}
       <img src={SortIcon} alt="sorting" />
     </SortButtonWrapper>
   );

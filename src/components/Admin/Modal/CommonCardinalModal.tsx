@@ -38,8 +38,10 @@ const CommonCardinalModal: React.FC<CommonCardinalModalProps> = ({
     <Modal
       isOpen={isOpen}
       onRequestClose={onClose}
+      className="common-cardinal-modal"
+      portalClassName="common-cardinal-modal-root"
       style={{
-        overlay: { backgroundColor: 'transparent' },
+        overlay: { backgroundColor: 'transparent', zIndex: 1000 },
         content: { inset: 'unset' },
       }}
     >

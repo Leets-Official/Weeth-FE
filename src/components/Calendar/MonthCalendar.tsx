@@ -1,19 +1,34 @@
-import useGetMonthlySchedule from '@/api/useGetMonthSchedule';
+import useGetMonthlySchedule, {
+  getMonthlySchedule,
+} from '@/api/useGetMonthSchedule';
 import * as S from '@/styles/calendar/MonthCalendar.styled';
 import theme from '@/styles/theme';
+import interactionPlugin from '@fullcalendar/interaction';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import FullCalendar from '@fullcalendar/react';
 import { format } from 'date-fns';
-import { useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { WEEK_DAYS } from '@/constants/dateConstants';
+import { useEffect, useRef, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import {
+  CURRENT_MONTH,
+  CURRENT_YEAR,
+  WEEK_DAYS,
+} from '@/constants/dateConstants';
 import TodayIncluded from '@/hooks/TodayIncluded';
 import ScheduleItem from '@/components/Calendar/ScheduleItem';
 import Line from '@/components/common/Line';
+import dayjs from 'dayjs';
+import { toastError } from '../common/ToastMessage';
 
-const MonthCalendar = ({ year, month }: { year: number; month: number }) => {
+const MonthCalendar = () => {
   const calendarRef = useRef<FullCalendar | null>(null);
-  const navi = useNavigate();
+  const [searchParams] = useSearchParams();
+
+  const year = Number(searchParams.get('year')) || CURRENT_YEAR;
+  const month = Number(searchParams.get('month')) || CURRENT_MONTH;
+
+  const [selectedDate, setSelectedDate] = useState<any>(new Date());
+  const [selectedEventList, setSelectedEventList] = useState<any>([]);
 
   let formattedEnd;
   if (month === 12)
@@ -25,6 +40,31 @@ const MonthCalendar = ({ year, month }: { year: number; month: number }) => {
     `${year}-${String(month).padStart(2, '0')}-01T00:00:00.000Z`,
     formattedEnd,
   );
+
+  useEffect(() => {
+    const selectedYear = selectedDate.getFullYear();
+    const selectedMonth = selectedDate.getMonth() + 1;
+    const selectedDay = selectedDate.getDate();
+
+    const fetchData = async () => {
+      try {
+        const response = await getMonthlySchedule(
+          `${selectedYear}-${String(selectedMonth).padStart(2, '0')}-${String(selectedDay).padStart(2, '0')}T00:00:00.000Z`,
+          `${selectedYear}-${String(selectedMonth).padStart(2, '0')}-${String(selectedDay).padStart(2, '0')}T23:59:59.999Z`,
+        );
+        setSelectedEventList(
+          Array.isArray(response.data.data) ? response.data.data : [],
+        );
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.error(error);
+        toastError('데이터를 불러오지 못했습니다.');
+        setSelectedEventList([]);
+      }
+    };
+
+    fetchData();
+  }, [selectedDate]);
 
   const renderDayCell = (arg: any) => {
     const isToday =
@@ -56,17 +96,6 @@ const MonthCalendar = ({ year, month }: { year: number; month: number }) => {
     );
   };
 
-  const onClickEvent = (clickInfo: any) => {
-    const [id] = clickInfo.event.id.split('_');
-    const { isMeeting } = clickInfo.event.extendedProps;
-
-    if (isMeeting) {
-      navi(`/meetings/${id}`);
-    } else {
-      navi(`/events/${id}`);
-    }
-  };
-
   useEffect(() => {
     if (calendarRef.current) {
       const calendarApi = calendarRef.current.getApi();
@@ -74,15 +103,21 @@ const MonthCalendar = ({ year, month }: { year: number; month: number }) => {
     }
   }, [year, month]);
 
+  const onDateSelect = (selectInfo: any) => {
+    const { start } = selectInfo;
+    setSelectedDate(start);
+  };
+
   return (
     <S.Container>
       <S.Calendar>
         <FullCalendar
           ref={calendarRef}
-          plugins={[dayGridPlugin]}
+          selectable
+          select={onDateSelect}
+          plugins={[dayGridPlugin, interactionPlugin]}
           events={monthlySchedule}
           eventContent={renderEventContent}
-          eventClick={onClickEvent}
           locale="ko"
           headerToolbar={false}
           fixedWeekCount={false}
@@ -93,20 +128,29 @@ const MonthCalendar = ({ year, month }: { year: number; month: number }) => {
 
       <Line width="100%" />
 
-      <S.TodayDate>
-        {format(new Date(), 'yyyy년 MM월 dd일')}{' '}
-        <span>({WEEK_DAYS[new Date().getDay()]})</span>
-      </S.TodayDate>
-      <S.ScheduleList>
-        {monthlySchedule.map((item) => (
-          <ScheduleItem
-            key={item.id}
-            title={item.title}
-            start={item.start}
-            end={item.end}
-          />
-        ))}
-      </S.ScheduleList>
+      <S.SelectedDate>
+        {format(new Date(selectedDate), 'yyyy년 MM월 dd일')}{' '}
+        <span>({WEEK_DAYS[dayjs(selectedDate).day()]})</span>
+      </S.SelectedDate>
+
+      {selectedEventList.length > 0 ? (
+        <S.ScheduleList>
+          {selectedEventList.map((item: any) => (
+            <ScheduleItem
+              key={item.id}
+              id={item.id}
+              title={item.title}
+              start={item.start}
+              end={item.end}
+              isMeeting={item.isMeeting}
+              year={year}
+              month={month}
+            />
+          ))}
+        </S.ScheduleList>
+      ) : (
+        <div>일정이 없습니다!</div>
+      )}
     </S.Container>
   );
 };

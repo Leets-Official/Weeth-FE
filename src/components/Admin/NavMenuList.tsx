@@ -7,7 +7,7 @@ import ArrowIcon from '@/assets/images/ic_admin_service_transfer.svg?react';
 import ManualIcon from '@/assets/images/ic_admin_manual.svg?react';
 import styled from 'styled-components';
 import NavMenuItem from '@/components/Admin/NavMenuItem';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const MenuListWrapper = styled.div`
   padding: 20px 0;
@@ -27,6 +27,19 @@ const NavMenuList: React.FC = () => {
     location.pathname,
   );
 
+  useEffect(() => {
+    if (location.pathname === '/admin') {
+      setActiveMenu('/admin/member');
+    } else {
+      setActiveMenu(location.pathname);
+    }
+  }, [location.pathname]);
+
+  const handleInternalNavigation = (path: string) => {
+    setActiveMenu(path);
+    nav(path);
+  };
+
   const managementItems = [
     {
       id: 'member',
@@ -43,7 +56,7 @@ const NavMenuList: React.FC = () => {
     {
       id: 'penalty',
       icon: <PenaltyIcon />,
-      label: '페널티 관리',
+      label: '패널티 관리',
       path: '/admin/penalty',
     },
     {
@@ -64,15 +77,10 @@ const NavMenuList: React.FC = () => {
     {
       id: 'manual',
       icon: <ManualIcon />,
-      label: '관리자 메뉴얼',
+      label: '관리자 매뉴얼',
       path: '', // 추후 수정
     },
   ];
-
-  const handleInternalNavigation = (path: string) => {
-    setActiveMenu(path);
-    nav(path);
-  };
 
   const handleExternalNavigation = (id: string, path: string) => {
     setActiveMenu(id);

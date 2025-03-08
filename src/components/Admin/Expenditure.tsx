@@ -4,7 +4,7 @@ import {
   Title,
 } from '@/styles/admin/TotalDues.styled';
 import styled from 'styled-components';
-import ExpenditureRecord from './ExpenditureRecord';
+import ExpenditureRecord from '@/components/Admin/ExpenditureRecord';
 
 const ExpenditureWrapper = styled.div`
   display: flex;

@@ -12,9 +12,14 @@ import PenaltyDetail from '@/components/Admin/PenaltyDetail';
 import PenaltyAdd from '@/components/Admin/PenaltyAdd';
 import { statusColors } from '@/components/Admin/StatusIndicator';
 import { StatusCell } from '@/components/Admin/MemberListTableRow';
-import { EmptyCell } from '@/components/Admin/MemberListTableHeader';
 import formatDate from '@/utils/admin/dateUtils';
 import dayjs from 'dayjs';
+import { styled } from 'styled-components';
+import useGetUserInfo from '@/api/useGetGlobaluserInfo';
+
+export const EmptyCell = styled.th`
+  border-bottom: 1px solid #dedede;
+`;
 
 const columns = [
   { key: 'name', header: '이름' },
@@ -26,11 +31,37 @@ const columns = [
   { key: 'empty', header: '' },
 ];
 
-const PenaltyListTable: React.FC = () => {
-  const { filteredMembers } = useMemberContext();
-  const StatusfilteredMembers = filteredMembers.filter(
-    (member) => member.status === '승인 완료',
-  );
+interface PenaltyListTableProps {
+  selectedCardinal: number | null;
+}
+
+const PenaltyListTable: React.FC<PenaltyListTableProps> = ({
+  selectedCardinal,
+}) => {
+  const { members } = useMemberContext();
+  const [filteredMembers, setFilteredMembers] = useState(members);
+
+  useEffect(() => {
+    const newFilteredMembers = members.filter((member) => {
+      const isApproved = member.status === '승인 완료';
+
+      if (selectedCardinal) {
+        let cardinalNumbers: number[] = [];
+
+        if (typeof member.cardinals === 'string') {
+          cardinalNumbers = (member.cardinals as string).split('.').map(Number);
+        } else if (Array.isArray(member.cardinals)) {
+          cardinalNumbers = member.cardinals as number[];
+        }
+
+        return isApproved && cardinalNumbers.includes(selectedCardinal);
+      }
+
+      return isApproved;
+    });
+
+    setFilteredMembers(newFilteredMembers);
+  }, [selectedCardinal, members]);
 
   const [expandedRow, setExpandedRow] = useState<number | null>(null);
   const [isAdding, setIsAdding] = useState<boolean>(false);
@@ -50,8 +81,15 @@ const PenaltyListTable: React.FC = () => {
       .format('YYYY.MM.DD');
   };
 
+  const { isAdmin, loading } = useGetUserInfo();
+
   const fetchPenaltyData = async () => {
     try {
+      if (loading || isAdmin === undefined || !isAdmin) {
+        console.log('isAdmin: ', isAdmin);
+        return;
+      }
+
       const response = await getPenaltyApi();
       console.log('페널티 조회 API 응답: ', response);
 
@@ -147,7 +185,7 @@ const PenaltyListTable: React.FC = () => {
 
   useEffect(() => {
     fetchPenaltyData();
-  }, []);
+  }, [isAdmin, loading]);
 
   return (
     <S.TableContainer>
@@ -163,7 +201,7 @@ const PenaltyListTable: React.FC = () => {
             </tr>
           </thead>
           <tbody>
-            {StatusfilteredMembers.map((member) => (
+            {filteredMembers.map((member) => (
               <React.Fragment key={member.id}>
                 <S.Row
                   isSelected={expandedRow === member.id}

@@ -5,36 +5,48 @@ import CheckBox from '@/assets/images/ic_admin_checkbox.svg';
 import UnCheckBox from '@/assets/images/ic_admin_uncheckbox.svg';
 import * as S from '@/styles/admin/cardinal/CardinalModal.styled';
 import CommonCardinalModal from '@/components/Admin/Modal/CommonCardinalModal';
-import postCardinalApi from '@/api/admin/cardinal/postCardinal';
+import {
+  patchCardinalApi,
+  postCardinalApi,
+} from '@/api/admin/cardinal/postCardinal';
+import {
+  handleNumericInput,
+  preventNonNumeric,
+} from '@/utils/admin/handleNumericInput';
 
 interface CardinalModalProps {
   isOpen: boolean;
   onClose: () => void;
+  initialCardinal?: {
+    id: number;
+    cardinalNumber: number;
+    year?: number;
+    semester?: number;
+  };
 }
 
 export const ModalContentWrapper = styled.div`
-  padding: 10px;
+  padding: 5px 20px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 20px;
+  box-sizing: border-box;
 `;
 
-const CardinalModal: React.FC<CardinalModalProps> = ({ isOpen, onClose }) => {
+const CardinalModal: React.FC<CardinalModalProps> = ({
+  isOpen,
+  onClose,
+  initialCardinal,
+}) => {
+  const isEditing = Boolean(initialCardinal);
+
   const [formState, setFormState] = useState({
-    cardinalNumber: '',
-    year: '',
-    semester: '',
+    cardinalNumber: initialCardinal?.cardinalNumber || '',
+    year: initialCardinal?.year || '',
+    semester: initialCardinal?.semester || '',
     isChecked: false,
   });
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormState((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
 
   const handleCheckBoxClick = () => {
     setFormState((prev) => ({
@@ -44,7 +56,7 @@ const CardinalModal: React.FC<CardinalModalProps> = ({ isOpen, onClose }) => {
   };
 
   const handleClick = async () => {
-    const { cardinalNumber, year, semester } = formState;
+    const { cardinalNumber, year, semester, isChecked } = formState;
 
     if (!cardinalNumber || !year || !semester) {
       alert('모든 필드를 입력해주세요.');
@@ -52,17 +64,33 @@ const CardinalModal: React.FC<CardinalModalProps> = ({ isOpen, onClose }) => {
     }
 
     try {
-      const response = await postCardinalApi(
-        Number(cardinalNumber),
-        Number(year),
-        Number(semester),
-      );
-      console.log('새로운 기수 저장 성공:', response);
-      alert('새로운 기수가 저장되었습니다.');
+      if (isEditing && initialCardinal?.id) {
+        // 기수 수정 api 호출
+        const response = await patchCardinalApi(
+          initialCardinal.id,
+          Number(year),
+          Number(semester),
+          isChecked,
+        );
+        console.log('기수 수정 성공:', response);
+        alert('기수 정보가 수정되었습니다.');
+      } else {
+        // 기수 추가 api 호출
+        const response = await postCardinalApi(
+          Number(cardinalNumber),
+          Number(year),
+          Number(semester),
+          isChecked,
+        );
+        console.log('새로운 기수 저장 성공:', response);
+        alert('새로운 기수가 저장되었습니다.');
+      }
+
       onClose();
+      window.location.reload();
     } catch (error: any) {
       console.error('새로운 기수 저장 실패:', error.message);
-      alert(`새로운 기수 저장 실패: ${error.message}`);
+      alert(`기수 저장 실패: ${error.message}`);
     }
   };
 
@@ -90,30 +118,43 @@ const CardinalModal: React.FC<CardinalModalProps> = ({ isOpen, onClose }) => {
       }
     >
       <ModalContentWrapper>
-        <S.Title>추가할 새로운 기수를 작성해주세요</S.Title>
-        <S.Input
-          type="text"
-          placeholder="기"
-          name="cardinalNumber"
-          value={formState.cardinalNumber}
-          onChange={handleChange}
-        />
-        <div>활동 시기</div>
+        <S.Title>{isEditing ? '학기 정보 추가' : '새로운 기수 추가'}</S.Title>
+        <li>추가할 새로운 기수를 작성해주세요</li>
+        <S.InputWrapper>
+          <S.Input
+            type="text"
+            name="cardinalNumber"
+            value={formState.cardinalNumber}
+            onChange={(e) => handleNumericInput(e, setFormState, 2)}
+            onKeyDown={preventNonNumeric}
+            readOnly={isEditing}
+          />
+          <S.Unit>기</S.Unit>
+        </S.InputWrapper>
+        <li>활동 시기</li>
         <S.FlexRow>
-          <S.Input
-            type="text"
-            placeholder="년"
-            name="year"
-            value={formState.year}
-            onChange={handleChange}
-          />
-          <S.Input
-            type="text"
-            placeholder="학기"
-            name="semester"
-            value={formState.semester}
-            onChange={handleChange}
-          />
+          <S.InputWrapper>
+            <S.Input
+              type="text"
+              name="year"
+              value={formState.year}
+              onChange={(e) => handleNumericInput(e, setFormState, 4)}
+              onKeyDown={preventNonNumeric}
+            />
+            <S.Unit>년</S.Unit>
+          </S.InputWrapper>
+          <S.InputWrapper>
+            <S.Input
+              type="text"
+              name="semester"
+              value={formState.semester}
+              onChange={(e) =>
+                handleNumericInput(e, setFormState, 1, ['1', '2'])
+              }
+              onKeyDown={preventNonNumeric}
+            />
+            <S.Unit>학기</S.Unit>
+          </S.InputWrapper>
         </S.FlexRow>
         <S.SvgText onClick={handleCheckBoxClick}>
           <img

@@ -4,10 +4,10 @@ import adminReceipts from '@/api/admin/dues/adminReceipts';
 import inputFields from '@/constants/admin/duesRegisterAddConstants';
 import Close from '@/assets/images/ic_admin_close.svg';
 import useDuesFileUpload from '@/hooks/admin/handleFileChange';
-import CardinalDropdown from './Cardinal';
-import DuesInput from './DuesInput';
-import Button from './Button';
-import { ExpenditureRecordProps } from './ExpenditureRecord';
+import { ExpenditureRecordProps } from '@/components/Admin/ExpenditureRecord';
+import DuesInput from '@/components/Admin/DuesInput';
+import Button from '@/components/Admin/Button';
+import CardinalDropdown from '@/components/Admin/Cardinal';
 
 const DuesRegisterAdd: React.FC = () => {
   const [selectedCardinal, setSelectedCardinal] = useState<null | number>(null);
@@ -24,17 +24,37 @@ const DuesRegisterAdd: React.FC = () => {
     handleRemoveFile,
   } = useDuesFileUpload();
 
-  const handleCustomCardinalBlur = () => {
-    const cardinalNumber = Number(customCardinal.trim());
-    if (!Number.isNaN(cardinalNumber) && cardinalNumber > 0) {
-      setCustomCardinal(`${cardinalNumber}기`);
-    }
-  };
-
   const handleRegister = async () => {
+    const validateInputs = () => {
+      if (!selectedCardinal && !customCardinal.trim()) {
+        alert('기수를 선택하거나 입력해야 합니다.');
+        return false;
+      }
+
+      if (!description.trim()) {
+        alert('회비 설명을 입력해주세요.');
+        return false;
+      }
+
+      if (!source.trim()) {
+        alert('사용처를 입력해주세요.');
+        return false;
+      }
+
+      const amountNumber = Number(amount);
+      if (Number.isNaN(amountNumber) || amountNumber <= 0) {
+        alert('사용 금액을 올바르게 입력해주세요.');
+        return false;
+      }
+
+      return true;
+    };
+
+    if (!validateInputs()) return;
+
     const cardinal =
       selectedCardinal ?? Number(customCardinal.replace('기', ''));
-    const formattedDate = `${date.slice(0, 4)}-${date.slice(4, 6)}-${date.slice(6, 8)}`;
+    const formattedDate = date;
 
     const requestData: ExpenditureRecordProps = {
       description,
@@ -49,6 +69,7 @@ const DuesRegisterAdd: React.FC = () => {
       const res = await adminReceipts(requestData);
       if (res.code === 200) {
         alert('회비 사용 내역이 등록되었습니다.');
+        window.location.reload();
       }
 
       setDescription('');
@@ -71,8 +92,23 @@ const DuesRegisterAdd: React.FC = () => {
     return source;
   };
 
+  const handleDateChange = (value: string) => {
+    const onlyNumbers = value.replace(/\D/g, '');
+
+    let formattedDate = onlyNumbers;
+
+    if (onlyNumbers.length > 4) {
+      formattedDate = `${onlyNumbers.slice(0, 4)}-${onlyNumbers.slice(4, 6)}`;
+    }
+    if (onlyNumbers.length > 6) {
+      formattedDate += `-${onlyNumbers.slice(6, 8)}`;
+    }
+
+    setDate(formattedDate);
+  };
+
   const setInputValue = (id: string, value: string) => {
-    if (id === 'date') setDate(value);
+    if (id === 'date') handleDateChange(value);
     else if (id === 'content') setDescription(value);
     else if (id === 'amount') setAmount(value);
     else setSource(value);
@@ -92,15 +128,6 @@ const DuesRegisterAdd: React.FC = () => {
             }}
           />
         </div>
-        <S.DuesInputWrapper>
-          <DuesInput
-            width="95%"
-            placeholder="직접 입력"
-            value={customCardinal}
-            onChange={(e) => setCustomCardinal(e.target.value)}
-            onBlur={handleCustomCardinalBlur}
-          />
-        </S.DuesInputWrapper>
       </S.CardinalWrapper>
 
       {inputFields.map((field) => (
@@ -131,12 +158,14 @@ const DuesRegisterAdd: React.FC = () => {
                 handleFileChange(e);
               }}
             />
-            <Button
-              description="파일 선택"
-              color="#00dda8"
-              width="99px"
-              onClick={() => document.getElementById('file-upload')?.click()}
-            />
+            <S.DuesWrapper>
+              <Button
+                description="파일 선택"
+                color="#00dda8"
+                width="99px"
+                onClick={() => document.getElementById('file-upload')?.click()}
+              />
+            </S.DuesWrapper>
           </S.ButtonWrapper>
 
           <S.InputWrapper>

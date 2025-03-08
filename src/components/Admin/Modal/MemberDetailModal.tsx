@@ -1,24 +1,26 @@
 import { MemberData } from '@/components/Admin/context/MemberContext';
 import * as S from '@/styles/admin/cardinal/CardinalModal.styled';
-import dropdownIcon from '@/assets/images/ic_admin_column_meatball.svg';
 import ButtonGroup from '@/components/Admin/ButtonGroup';
 import StatusIndicator from '@/components/Admin/StatusIndicator';
 import CommonModal from '@/components/Admin/Modal/CommonModal';
 import useAdminActions from '@/hooks/admin/useAdminActions';
+import { useState } from 'react';
+import getHighestCardinal from '@/utils/admin/getHighestCardinal';
+import CardinalEditModal from '@/components/Admin/Modal/CardinalEditModal';
+import theme from '@/styles/theme';
+import Button from '@/components/Button/Button';
 
 interface MemberDetailModalProps {
   data: MemberData;
   onClose: () => void;
 }
 
-const getHighestCardinal = (cardinals: string): string =>
-  `${cardinals.split('.')[0]}기`;
-
 const MemberDetailModal: React.FC<MemberDetailModalProps> = ({
   data,
   onClose,
 }) => {
   const { handleAction } = useAdminActions();
+  const [isCardinalModalOpen, setIsCardinalModalOpen] = useState(false);
 
   const roleChangeButton =
     data.role === 'ADMIN'
@@ -46,11 +48,15 @@ const MemberDetailModal: React.FC<MemberDetailModalProps> = ({
       onClick: () => handleAction('유저 추방', [data.id]),
     },
     {
-      label: '직접 입력',
-      onClick: () => alert('직접 입력'),
-      icon: dropdownIcon,
+      label: '기수 변경',
+      onClick: () => setIsCardinalModalOpen(true),
+      style: {
+        backgroundColor: isCardinalModalOpen
+          ? theme.color.gray[18]
+          : theme.color.gray[100],
+        color: isCardinalModalOpen ? theme.color.gray[100] : '#000',
+      },
     },
-    { label: '완료', onClick: onClose },
   ];
 
   const memberInfo = [
@@ -72,66 +78,93 @@ const MemberDetailModal: React.FC<MemberDetailModalProps> = ({
   ];
 
   return (
-    <CommonModal
-      isOpen
-      onClose={onClose}
-      title="멤버 관리 버튼"
-      footer={<ButtonGroup buttons={buttons} hasEndGap />}
-    >
-      <S.ContentWrapper>
-        <S.ModalContent>
-          <S.FontStyle fontSize="12px" color="#000">
-            회원정보
-          </S.FontStyle>
-          <S.FlexWrapper>
-            <S.FontStyle fontSize="24px" fontWeight="700" color="#000">
-              {data.name} &nbsp;
-              {getHighestCardinal(data.cardinals)}
+    <>
+      <CommonModal
+        isOpen
+        onClose={onClose}
+        title="멤버 관리 버튼"
+        top="40%"
+        height="60%"
+        footer={
+          <S.FooterContainer>
+            <ButtonGroup buttons={buttons} />
+            <Button
+              onClick={onClose}
+              color="#fff"
+              textcolor="#000"
+              width="55px"
+              height="45px"
+              borderRadius="4px"
+            >
+              완료
+            </Button>
+          </S.FooterContainer>
+        }
+      >
+        <S.ContentWrapper>
+          <S.ModalContent>
+            <S.FontStyle fontSize="12px" color="#000">
+              회원정보
             </S.FontStyle>
-            <StatusIndicator status={data.status} />
-          </S.FlexWrapper>
-          <S.FlexWrapper>
-            <S.LabelFlex>
-              {memberInfo.map((info) => (
-                <S.FontStyle key={info.label}>{info.label}</S.FontStyle>
-              ))}
-            </S.LabelFlex>
-            <S.DataFlex>
-              {memberInfo.map((info) => (
-                <S.FontStyle
-                  key={info.label}
-                  color={info.label === '패널티' ? '#ff5858' : undefined}
-                >
-                  {info.value}
-                </S.FontStyle>
-              ))}
-            </S.DataFlex>
-          </S.FlexWrapper>
-        </S.ModalContent>
-        <S.ActivityContent>
-          <S.FontStyle fontSize="12px" color="#000">
-            활동정보
-          </S.FontStyle>
-          <S.FlexWrapper>
-            <S.LabelFlex>
-              {activityInfo.map((info) => (
-                <S.FontStyle key={info.label}>{info.label}</S.FontStyle>
-              ))}
-            </S.LabelFlex>
-            <S.DataFlex>
-              {activityInfo.map((info) => (
-                <S.FontStyle
-                  key={info.label}
-                  color={info.label === '패널티' ? '#ff5858' : undefined}
-                >
-                  {info.value}
-                </S.FontStyle>
-              ))}
-            </S.DataFlex>
-          </S.FlexWrapper>
-        </S.ActivityContent>
-      </S.ContentWrapper>
-    </CommonModal>
+            <S.FlexWrapper>
+              <S.FontStyle fontSize="24px" fontWeight="700" color="#000">
+                {data.name} &nbsp;
+                {getHighestCardinal(data.cardinals)}
+              </S.FontStyle>
+              <StatusIndicator status={data.status} />
+            </S.FlexWrapper>
+            <S.FlexWrapper>
+              <S.LabelFlex>
+                {memberInfo.map((info) => (
+                  <S.FontStyle key={info.label}>{info.label}</S.FontStyle>
+                ))}
+              </S.LabelFlex>
+              <S.DataFlex>
+                {memberInfo.map((info) => (
+                  <S.FontStyle
+                    key={info.label}
+                    color={info.label === '패널티' ? '#ff5858' : undefined}
+                  >
+                    {info.value}
+                  </S.FontStyle>
+                ))}
+              </S.DataFlex>
+            </S.FlexWrapper>
+          </S.ModalContent>
+          <S.ActivityContent>
+            <S.FontStyle fontSize="12px" color="#000">
+              활동정보
+            </S.FontStyle>
+            <S.FlexWrapper>
+              <S.LabelFlex>
+                {activityInfo.map((info) => (
+                  <S.FontStyle key={info.label}>{info.label}</S.FontStyle>
+                ))}
+              </S.LabelFlex>
+              <S.DataFlex>
+                {activityInfo.map((info) => (
+                  <S.FontStyle
+                    key={info.label}
+                    color={info.label === '패널티' ? '#ff5858' : undefined}
+                  >
+                    {info.value}
+                  </S.FontStyle>
+                ))}
+              </S.DataFlex>
+            </S.FlexWrapper>
+          </S.ActivityContent>
+        </S.ContentWrapper>
+      </CommonModal>
+      {isCardinalModalOpen && (
+        <CardinalEditModal
+          isOpen={isCardinalModalOpen}
+          onClose={() => setIsCardinalModalOpen(false)}
+          selectedUserIds={[data.id]}
+          top="31%"
+          left="39%"
+        />
+      )}
+    </>
   );
 };
 

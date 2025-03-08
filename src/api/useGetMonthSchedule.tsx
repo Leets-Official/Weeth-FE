@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { toastError } from '@/components/common/ToastMessage';
 import api from './api';
 
-const getMonthlySchedule = async (start: string, end: string) => {
+export const getMonthlySchedule = async (start: string, end: string) => {
   return api.get(`/api/v1/schedules/monthly`, {
     params: {
       start,

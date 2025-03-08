@@ -1,8 +1,5 @@
 import CardinalSearchBar from '@/components/Admin/CardinalSearchBar';
-import {
-  MemberProvider,
-  // useMemberContext,
-} from '@/components/Admin/context/MemberContext';
+import { MemberProvider } from '@/components/Admin/context/MemberContext';
 import NavMenu from '@/components/Admin/NavMenu';
 import PenaltyListTable from '@/components/Admin/PenaltyListTable';
 import TopBar from '@/components/Admin/TopBar';
@@ -16,17 +13,6 @@ import { useState } from 'react';
 
 const AdminPenalty: React.FC = () => {
   const [selectedCardinal, setSelectedCardinal] = useState<null | number>(null);
-  // const { members } = useMemberContext();
-
-  // const filteredMembers = selectedCardinal
-  //   ? members.filter((member) => {
-  //       const cardinalNumbers = Array.isArray(member.cardinals)
-  //         ? member.cardinals.map(Number)
-  //         : [Number(member.cardinals)];
-
-  //       return cardinalNumbers.includes(selectedCardinal);
-  //     })
-  //   : members;
 
   return (
     <MemberProvider>
@@ -43,8 +29,7 @@ const AdminPenalty: React.FC = () => {
               selectedCardinal={selectedCardinal}
               setSelectedCardinal={setSelectedCardinal}
             />
-            {/* <PenaltyListTable members={filteredMembers} /> */}
-            <PenaltyListTable />
+            <PenaltyListTable selectedCardinal={selectedCardinal} />
           </Container>
         </ContentWrapper>
       </PageWrapper>

@@ -2,7 +2,6 @@ import dayjs from 'dayjs';
 import icCalendar from '@/assets/images/ic_date.svg';
 import { WEEK_DAYS } from '@/constants/dateConstants';
 import { EventDetailData } from '@/pages/EventDetail';
-import useCustomBack from '@/hooks/useCustomBack';
 import * as S from '@/styles/event/EventContent.styled';
 import Button from '@/components/Button/Button';
 import theme from '@/styles/theme';
@@ -20,8 +19,6 @@ const EventContent = ({
   data: EventDetailData;
   isAdmin: boolean;
 }) => {
-  useCustomBack('/calendar');
-
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isFullScreen, setIsFullScreen] = useState(false);
   const { type } = useParams();

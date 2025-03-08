@@ -4,6 +4,11 @@ import * as S from '@/styles/admin/cardinal/CardinalModal.styled';
 import CommonCardinalModal from '@/components/Admin/Modal/CommonCardinalModal';
 import DirectCardinalDropdown from '@/components/Admin/DirectCardinal';
 import { continueNextCardinalApi } from '@/api/admin/member/patchUserManagement';
+import useGetAllCardinals from '@/api/useGetCardinals';
+import {
+  handleNumericInput,
+  preventNonNumeric,
+} from '@/utils/admin/handleNumericInput';
 
 interface CardinalChangeModalProps {
   isOpen: boolean;
@@ -20,23 +25,27 @@ const CardinalEditModal: React.FC<CardinalChangeModalProps> = ({
   onClose,
   selectedUserIds,
   top = '100px',
-  left = '50%',
+  left = 'auto',
   position = 'absolute',
   overlayColor = 'transparent',
 }) => {
   const [cardinalNumber, setCardinalNumber] = useState('');
-  const [isCustomInput, setIsCustomInput] = useState(false);
-  const [selectedCardinal] = useState<number | null>(null);
-
+  const [isCustomInput, setIsCustomInput] = useState(true);
+  const [selectedCardinal, setSelectedCardinal] = useState<number | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  const { allCardinals } = useGetAllCardinals();
+  const existingCardinalNumbers = allCardinals.map((c) => c.cardinalNumber);
 
   const handleSelectCardinal = (value: number, isCustom: boolean) => {
     setIsCustomInput(isCustom);
     if (isCustom) {
       setCardinalNumber('');
+      setSelectedCardinal(null);
       setTimeout(() => inputRef.current?.focus(), 0);
     } else {
       setCardinalNumber(String(value));
+      setSelectedCardinal(value);
     }
   };
 
@@ -47,6 +56,16 @@ const CardinalEditModal: React.FC<CardinalChangeModalProps> = ({
     }
 
     try {
+      const newCardinalNumber = Number(cardinalNumber);
+
+      const isExistingCardinal =
+        existingCardinalNumbers.includes(newCardinalNumber);
+
+      if (isCustomInput && isExistingCardinal) {
+        alert('이미 존재하는 기수입니다.');
+        return;
+      }
+
       const cardinalData = selectedUserIds.map((id) => ({
         userId: id,
         cardinal: Number(cardinalNumber),
@@ -110,7 +129,8 @@ const CardinalEditModal: React.FC<CardinalChangeModalProps> = ({
             type="text"
             placeholder="숫자만 입력"
             value={cardinalNumber}
-            onChange={(e) => setCardinalNumber(e.target.value)}
+            onChange={(e) => handleNumericInput(e, setCardinalNumber, 2)}
+            onKeyDown={preventNonNumeric}
             flex={2}
             maxWidth="65%"
             readOnly={!isCustomInput}

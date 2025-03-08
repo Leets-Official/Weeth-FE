@@ -11,9 +11,10 @@ export const SearchBarWrapper = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
+  min-width: 1400px;
   padding: 15px 20px;
   border-radius: 4px;
-  margin: 30px 0;
+  margin: 30px 0 10px;
   box-shadow: 0px 3px 8px 0px rgba(133, 141, 138, 0.2);
   gap: 15px;
 `;
@@ -21,6 +22,8 @@ export const SearchBarWrapper = styled.div`
 export const StyledInput = styled.input`
   width: 100%;
   height: 48px;
+  font-size: 18px;
+  font-family: ${theme.font.regular};
   box-sizing: border-box;
   padding: 12px 12px 12px 40px;
   border: 1px solid #dedede;
@@ -28,6 +31,7 @@ export const StyledInput = styled.input`
   &::placeholder {
     color: ${theme.color.gray[20]};
   }
+  outline: none;
 `;
 
 export const SearchBarIcon = styled.img<{ isWrapped?: boolean }>`
