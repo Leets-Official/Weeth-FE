@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import theme from '@/styles/theme';
 import CommentSend from '@/assets/images/ic_send.svg';
@@ -38,14 +38,21 @@ const SendButton = styled.img`
 
 const CommentInput = ({
   postId,
-  parentCommentId = null,
+  initialParentCommentId = null,
   onCommentSuccess,
 }: {
   postId: number;
-  parentCommentId?: number | null;
+  initialParentCommentId?: number | null;
   onCommentSuccess?: () => void;
 }) => {
   const [inputValue, setInputValue] = useState('');
+  const [parentCommentId, setParentCommentId] = useState<number | null>(null);
+
+  useEffect(() => {
+    setParentCommentId(initialParentCommentId);
+  }, [initialParentCommentId]);
+
+  console.log('parentCommentId:', parentCommentId);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
@@ -58,7 +65,6 @@ const CommentInput = ({
     }
 
     try {
-      // 댓글 작성 API 호출
       await createComment(postId, inputValue, parentCommentId ?? undefined);
       setInputValue('');
       if (onCommentSuccess) onCommentSuccess();

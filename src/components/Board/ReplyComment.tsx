@@ -6,7 +6,7 @@ import formatDateTime from '@/hooks/formatDateTime';
 import useGetUserName from '@/hooks/useGetUserName';
 import setPositionIcon from '@/hooks/setPositionIcon';
 import { useState } from 'react';
-import SelectModal from '@/components/Modal/DeleteModal';
+import SelectModal from '@/components/Modal/SelectModal';
 
 interface ReplyCommentProps {
   name: string;

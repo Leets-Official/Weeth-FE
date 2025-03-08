@@ -10,7 +10,7 @@ import Header from '@/components/Header/Header';
 import Line from '@/components/common/Line';
 import useUpdateUserInfo from '@/api/usePatchMyInfo';
 import { toastInfo, toastSuccess } from '@/components/common/ToastMessage';
-import SelectModal from '@/components/Modal/DeleteModal';
+import SelectModal from '@/components/Modal/SelectModal';
 
 const Container = styled.div`
   width: 370px;

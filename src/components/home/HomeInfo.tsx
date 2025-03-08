@@ -32,7 +32,7 @@ const HomeInfo = () => {
           setCharacterImg(BEChar);
           setUserPart('BE');
           break;
-        case 'DE':
+        case 'D':
           setCharacterImg(DEChar);
           setUserPart('D');
           break;
@@ -52,7 +52,7 @@ const HomeInfo = () => {
         case 'BE':
           setCharacterImg(BECharHover);
           break;
-        case 'DE':
+        case 'D':
           setCharacterImg(DECharHover);
           break;
         default:
@@ -70,7 +70,7 @@ const HomeInfo = () => {
         case 'BE':
           setCharacterImg(BEChar);
           break;
-        case 'DE':
+        case 'D':
           setCharacterImg(DEChar);
           break;
         default:
@@ -94,7 +94,7 @@ const HomeInfo = () => {
         </S.UserContainer>
         <S.RightButtonContainer>
           {isLoading || !userInfo ? (
-            <S.LoadingContainer>...</S.LoadingContainer>
+            <S.LoadingContainer />
           ) : (
             <S.UserCharacter
               src={characterImg}

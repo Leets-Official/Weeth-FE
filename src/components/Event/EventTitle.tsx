@@ -8,7 +8,7 @@ import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Tag from '@/components/Event/Tag';
 import MenuModal from '@/components/common/MenuModal';
-import SelectModal from '../Modal/DeleteModal';
+import SelectModal from '@/components/Modal/SelectModal';
 import { toastSuccess, toastError } from '../common/ToastMessage';
 
 const EventTitle = ({

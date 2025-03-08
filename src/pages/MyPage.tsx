@@ -2,7 +2,7 @@ import deleteUser from '@/api/deleteUser';
 import MenuModal from '@/components/common/MenuModal';
 import { toastError, toastInfo } from '@/components/common/ToastMessage';
 import Header from '@/components/Header/Header';
-import SelectModal from '@/components/Modal/DeleteModal';
+import SelectModal from '@/components/Modal/SelectModal';
 import MyInfo from '@/components/MyPage/MyInfo';
 import useCustomBack from '@/hooks/useCustomBack';
 import useLogout from '@/hooks/useLogout';

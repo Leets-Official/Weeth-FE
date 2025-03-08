@@ -29,12 +29,14 @@ const PostCommentList = ({
   postId,
   onCommentDelete,
   onReply,
+  selectedComment,
 }: {
   comments: CommentType[];
   path: string;
   postId: number;
   onCommentDelete: () => void;
   onReply: (commentId: number) => void;
+  selectedComment: Record<number, boolean>;
 }) => {
   const renderComments = (commentList: CommentType[]) => {
     return commentList.map((comment) => (
@@ -50,6 +52,7 @@ const PostCommentList = ({
           role={comment.role}
           onDelete={onCommentDelete}
           onReply={() => onReply(comment.id)}
+          selectedComment={selectedComment}
         />
 
         {comment.children && comment.children.length > 0 && (

@@ -6,7 +6,7 @@ import { useState } from 'react';
 import formatDateTime from '@/hooks/formatDateTime';
 import useGetUserName from '@/hooks/useGetUserName';
 import setPositionIcon from '@/hooks/setPositionIcon';
-import SelectModal from '../Modal/SelectModal';
+import SelectModal from '@/components/Modal/SelectModal';
 
 interface CommentProps {
   name: string;
@@ -19,6 +19,7 @@ interface CommentProps {
   role: string;
   onDelete: () => void;
   onReply: (commentId: number) => void;
+  selectedComment: Record<number, boolean>;
 }
 
 const Comment = ({
@@ -32,14 +33,12 @@ const Comment = ({
   role,
   onDelete,
   onReply,
+  selectedComment,
 }: CommentProps) => {
-  const [isHighlighted, setIsHighlighted] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const onClickReply = () => {
-    console.log('답댓', commentId);
     onReply(commentId);
-    setIsHighlighted((prev) => !prev);
   };
 
   const handleCloseModal = () => {
@@ -56,6 +55,7 @@ const Comment = ({
       onDelete();
       handleCloseModal();
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error('Failed to delete comment:', error);
     }
   };
@@ -65,7 +65,7 @@ const Comment = ({
   const isMyComment = name === useGetUserName();
 
   return (
-    <S.CommentContainer isHighlighted={isHighlighted}>
+    <S.CommentContainer isHighlighted={selectedComment[commentId] || false}>
       <S.CommentContentContainer>
         <S.NameText>
           <S.PositionIcon
