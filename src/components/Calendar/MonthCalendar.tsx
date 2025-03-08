@@ -149,7 +149,9 @@ const MonthCalendar = () => {
           ))}
         </S.ScheduleList>
       ) : (
-        <div>일정이 없습니다!</div>
+        <S.ScheduleList>
+          <S.NoEvent>일정이 없습니다!</S.NoEvent>
+        </S.ScheduleList>
       )}
     </S.Container>
   );

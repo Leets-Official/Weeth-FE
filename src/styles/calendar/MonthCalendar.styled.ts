@@ -141,3 +141,15 @@ export const SelectedDate = styled.div`
   font-size: 18px;
   margin: 20px 0 15px 25px;
 `;
+
+export const NoEvent = styled.div`
+  width: 345px;
+  height: 63px;
+  background-color: ${theme.color.gray[18]};
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: ${theme.color.gray[65]};
+  font-weight: 500;
+`;
