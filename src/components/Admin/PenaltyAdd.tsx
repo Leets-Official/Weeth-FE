@@ -96,7 +96,7 @@ const PenaltyAdd: React.FC = () => {
               setIsDropdownOpen(true);
             }}
             onFocus={() => setIsDropdownOpen(true)}
-            // onBlur={() => setIsDropdownOpen(false)}
+            onBlur={() => setIsDropdownOpen(false)}
           />
           {isDropdownOpen && (
             <PenaltyMemberDropdown

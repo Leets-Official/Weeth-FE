@@ -56,7 +56,7 @@ const PenaltyMemberDropdown: React.FC<DropdownProps> = ({
   }
 
   return (
-    <DropdownContainer>
+    <DropdownContainer onMouseDown={(e) => e.preventDefault()}>
       {members.map((member) => (
         <DropdownItem key={member.id} onClick={() => onSelect(member.name)}>
           <DropdownText>{member.name}</DropdownText>
