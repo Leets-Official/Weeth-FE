@@ -1,8 +1,12 @@
+/*
+본인의 정보를 가져오는 api
+마이페이지에서 사용됩니다.
+*/
+
 import { useEffect, useState } from 'react';
 import { toastError } from '@/components/common/ToastMessage';
 import api from './api';
 
-// TODO: dto 변경시 수정
 interface UserInfo {
   id: number;
   name: string;
@@ -15,7 +19,6 @@ interface UserInfo {
   role: 'USER' | 'ADMIN' | string;
 }
 
-// 유저 정보 받아오는 API
 const getUserInfo = async () => {
   return api.get('/api/v1/users');
 };

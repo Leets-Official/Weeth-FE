@@ -1,5 +1,5 @@
 import Header from '@/components/Header/Header';
-import useGetUserDetail from '@/api/useGetUserDetail';
+import useGetMemberDetail from '@/api/useGetMemberDetail';
 import FE from '@/assets/images/ic_char_FE.svg';
 import BE from '@/assets/images/ic_char_BE.svg';
 import D from '@/assets/images/ic_char_DE.svg';
@@ -97,7 +97,7 @@ const Gray = styled.div`
 `;
 
 const MemberDetail = () => {
-  const { userDetail, error, loading } = useGetUserDetail();
+  const { memberDetail, error, loading } = useGetMemberDetail();
 
   const positionMap = {
     FE: {
@@ -128,7 +128,7 @@ const MemberDetail = () => {
     return <Wrapper>에러 발생: {error}</Wrapper>;
   }
 
-  const position = userDetail?.position;
+  const position = memberDetail?.position;
   const positionData = position
     ? positionMap[position as keyof typeof positionMap]
     : undefined;
@@ -146,11 +146,11 @@ const MemberDetail = () => {
       </ClipContainer>
       <ContentTop>
         <Title>
-          <span>{userDetail?.name}</span>
-          {userDetail?.role === 'ADMIN' && <img src={Master} alt="Master" />}
+          <span>{memberDetail?.name}</span>
+          {memberDetail?.role === 'ADMIN' && <img src={Master} alt="Master" />}
         </Title>
         <CardinalList>
-          {userDetail?.cardinals?.map((cardinal) => (
+          {memberDetail?.cardinals?.map((cardinal) => (
             <CardinalTag type="member" cardinal={cardinal} key={cardinal} />
           ))}
         </CardinalList>
@@ -161,11 +161,11 @@ const MemberDetail = () => {
             <Position color={positionData.color}>{positionData.name}</Position>
           )}
           <Department>
-            <div>{userDetail?.department}</div>
+            <div>{memberDetail?.department}</div>
             <Gray>|</Gray>
-            <Gray>{userDetail?.studentId}</Gray>
+            <Gray>{memberDetail?.studentId}</Gray>
           </Department>
-          <div>{userDetail?.email}</div>
+          <div>{memberDetail?.email}</div>
         </MoreInfo>
       </ContentBottom>
     </Wrapper>

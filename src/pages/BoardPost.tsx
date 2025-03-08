@@ -1,19 +1,14 @@
-/* eslint-disable no-console */
-import createNotice from '@/api/postNotice';
-import editBoard from '@/api/editBoard';
-import editNotice from '@/api/editNotice';
 import FileUploader from '@/components/Board/FileUploader';
 import PostEditor from '@/components/Board/PostEditor';
 import PostFile from '@/components/Board/PostFile';
 import Header from '@/components/Header/Header';
-import { PostRequestType } from '@/types/PostRequestType';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import getFileUrl from '@/api/uploadFiles';
 import useGetBoardDetail from '@/api/useGetBoardDetail';
-import createBoard from '@/api/postBoard';
+import postBoardNotice from '@/api/postBoard';
 import { toastError, toastInfo } from '@/components/common/ToastMessage';
+import Loading from '@/components/common/Loading';
 
 const PostWrapper = styled.div`
   display: flex;
@@ -42,11 +37,10 @@ const BoardPost = () => {
 
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  const [fileNameList, setFileNameList] = useState<string[]>([]);
+  const [files, setFiles] = useState<File[]>([]);
+  const [loading, setLoading] = useState(false);
 
   const numericPostId = postId ? parseInt(postId, 10) : 0;
-
-  console.log(fileNameList);
 
   let type = '';
   if (path === 'board') {
@@ -60,67 +54,66 @@ const BoardPost = () => {
   useEffect(() => {
     setTitle(boardDetailInfo?.title ?? '');
     setContent(boardDetailInfo?.content ?? '');
-    setFileNameList(
-      boardDetailInfo?.fileUrls.map((file) => file.fileName) ?? [],
-    );
   }, [boardDetailInfo]);
 
   const isTitleEmpty = title.trim() === '';
   const isContentEmpty = content.trim() === '';
 
   const handleDeleteFile = (fileName: string) => {
-    setFileNameList((prevNames) =>
-      prevNames.filter((name) => name !== fileName),
-    );
+    setFiles((prevFiles) => prevFiles.filter((file) => file.name !== fileName));
   };
 
   // onSave에서 파일 업로드 처리
   const onSave = async () => {
+    setLoading(true);
     if (isTitleEmpty) {
       toastInfo('제목을 입력해주세요.');
+      setLoading(false);
       return;
     }
     if (isContentEmpty) {
       toastInfo('내용을 입력해주세요.');
+      setLoading(false);
       return;
     }
 
     try {
-      // 1. 서버에서 presigned URL을 받아옴
-      const fileUrls = await getFileUrl(fileNameList, []);
+      // 요청 타입 결정
+      const postType =
+        // eslint-disable-next-line no-nested-ternary
+        path === 'board'
+          ? pathArray[3] === 'edit'
+            ? 'editBoard'
+            : 'postBoard'
+          : pathArray[3] === 'edit'
+            ? 'editNotice'
+            : 'postNotice';
 
-      // 2. 각 파일에 대한 URL을 postData에 포함
-      const postData: PostRequestType = {
-        title,
-        content,
-        files: fileNameList.map((fileName, index) => ({
-          fileName,
-          fileUrl: fileUrls[index]?.putUrl?.split('?')[0],
-        })),
-      };
+      // 서버 요청
+      await postBoardNotice(
+        files,
+        {
+          title,
+          content,
+          files: [],
+        },
+        postType,
+        numericPostId, // ✅ id를 postData 객체 안에 포함
+      );
 
-      // 3. 업로드 성공 후, 해당 게시물 타입에 맞는 API 호출
-      if (type === 'editBoard') {
-        await editBoard(postData, numericPostId);
-        navi('/board');
-      } else if (type === 'editNotice') {
-        await editNotice(postData, numericPostId);
-        navi('/notice');
-      } else if (type === 'posts') {
-        await createBoard(postData);
-        navi('/board');
-      } else if (type === 'notices') {
-        await createNotice(postData);
-        navi('/notice');
-      }
+      // 게시글 작성/수정 후 이동
+      navi(path === 'board' ? '/board' : '/notice');
     } catch (error) {
       console.log(error);
-      toastError('파일 업로드 중 문제가 발생했습니다. 다시 시도해주세요.');
+      toastError('파일 업로드 중 문제가 발생했습니다.');
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <PostWrapper>
+      {loading && <Loading />}
       <Header
         onClickRightButton={onSave}
         RightButtonType="TEXT"
@@ -137,15 +130,15 @@ const BoardPost = () => {
       />
 
       <FileUploaderWrapper>
-        <FileUploader files={fileNameList} setFiles={setFileNameList} />
-        {fileNameList.length > 0 && (
+        <FileUploader files={files} setFiles={setFiles} />
+        {files.length > 0 && (
           <>
-            {fileNameList.map((file) => (
+            {files.map((file) => (
               <PostFile
-                key={file}
-                fileName={file}
+                key={file.name}
+                fileName={file.name}
                 isDownload={false}
-                onClick={() => handleDeleteFile(file)}
+                onClick={() => handleDeleteFile(file.name)}
               />
             ))}
           </>
