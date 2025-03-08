@@ -10,6 +10,7 @@ const DropdownContainer = styled.div`
   display: flex;
   width: 76px;
   height: 31px;
+  box-sizing: border-box;
   font-family: ${theme.font.semiBold};
 `;
 
@@ -31,10 +32,11 @@ const DropdownButton = styled.div<{ $hasValue: boolean }>`
 const DropdownList = styled.div`
   position: absolute;
   width: 76px;
+  max-height: 190px;
   top: 100%;
   margin-top: 5px;
   z-index: 1000;
-  background-color: ${theme.color.gray[30]};
+  overflow-y: auto;
 `;
 
 const DropdownItem = styled.div`
@@ -65,9 +67,9 @@ const CardinalDropdown = ({
 
   const options: { value: number | null; label: string }[] =
     allCardinals
-      ?.map(({ id }) => ({
-        value: id,
-        label: `${id}기`,
+      ?.map(({ cardinalNumber }) => ({
+        value: cardinalNumber,
+        label: `${cardinalNumber}기`,
       }))
       .reverse() || [];
 
