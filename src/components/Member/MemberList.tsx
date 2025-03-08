@@ -22,8 +22,10 @@ const Error = styled.div`
 
 const MemberList = ({
   searchResults,
+  loading,
 }: {
   searchResults: User[] | undefined;
+  loading: boolean;
 }) => {
   const [searchParams] = useSearchParams();
   const cardinal = searchParams.get('cardinal');
@@ -74,21 +76,27 @@ const MemberList = ({
 
   let content;
 
-  if (isSearch) {
-    if (searchResults?.length === 0) {
-      content = <Error>검색된 멤버가 없습니다.</Error>;
-    } else {
-      content = searchResults?.map((user: User) => (
-        <MemberItem
-          key={user.studentId}
-          userId={user.id}
-          name={user.name}
-          cardinal={user.cardinals}
-          position={user.position}
-          role={user.role}
-        />
-      ));
-    }
+  if (loading) {
+    content = <Loading />;
+  }
+
+  // 검색 결과가 없는 경우
+  else if (isSearch && searchResults?.length === 0) {
+    content = <Error>검색된 멤버가 없습니다.</Error>;
+  }
+
+  // 검색된 결과가 있는 경우
+  else if (isSearch) {
+    content = searchResults?.map((user: User) => (
+      <MemberItem
+        key={user.studentId}
+        userId={user.id}
+        name={user.name}
+        cardinal={user.cardinals}
+        position={user.position}
+        role={user.role}
+      />
+    ));
   } else if (members.length === 0) {
     content = <Loading />;
   } else {

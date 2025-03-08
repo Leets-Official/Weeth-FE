@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import api from './api';
 
 export const getAllUsers = async (
@@ -24,7 +24,9 @@ const useGetAllUsers = (
   setHasMore: React.Dispatch<React.SetStateAction<boolean>>,
   setObserverLoading: React.Dispatch<React.SetStateAction<boolean>>,
 ) => {
+  const [loading, setLoading] = useState(false);
   const fetchUsers = async () => {
+    setLoading(true);
     setObserverLoading(true);
 
     try {
@@ -37,6 +39,7 @@ const useGetAllUsers = (
       // eslint-disable-next-line no-console
       console.error('Error fetching users:', error);
     } finally {
+      setLoading(false);
       setObserverLoading(false);
     }
   };
@@ -44,6 +47,8 @@ const useGetAllUsers = (
   useEffect(() => {
     fetchUsers();
   }, [cardinal, pageNumber]);
+
+  return { loading };
 };
 
 export default useGetAllUsers;
