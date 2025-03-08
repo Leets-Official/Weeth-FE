@@ -46,6 +46,7 @@ export const UserCharacter = styled.img`
   &:hover {
     transform: scale(1.08);
   }
+  cursor: pointer;
 `;
 
 export const LoadingContainer = styled.div`

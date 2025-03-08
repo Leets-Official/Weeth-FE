@@ -116,18 +116,20 @@ const Board = () => {
       </S.TabContainerWrapper>
 
       {posts.map((post) => (
-        <S.PostListContainer key={post.id}>
-          <PostListItem
-            name={post.name}
-            time={formatDate(post.time)}
-            title={post.title}
-            content={post.content}
-            totalComments={post.commentCount}
-            hasFile={post.hasFile}
-            position={post.position}
-            role={post.role}
-            onClick={() => navigate(`/board/${post.id}`)}
-          />
+        <S.PostListContainer>
+          <S.PostListItemContainer key={post.id}>
+            <PostListItem
+              name={post.name}
+              time={formatDate(post.time)}
+              title={post.title}
+              content={post.content}
+              totalComments={post.commentCount}
+              hasFile={post.hasFile}
+              position={post.position}
+              role={post.role}
+              onClick={() => navigate(`/board/${post.id}`)}
+            />
+          </S.PostListItemContainer>
           <S.Line />
         </S.PostListContainer>
       ))}

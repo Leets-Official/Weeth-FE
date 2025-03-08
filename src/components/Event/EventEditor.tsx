@@ -25,7 +25,7 @@ import {
   toastInfo,
   toastSuccess,
 } from '@/components/common/ToastMessage';
-import SelectModal from '../Modal/DeleteModal';
+import SelectModal from '@/components/Modal/SelectModal';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
