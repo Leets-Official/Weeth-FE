@@ -34,7 +34,9 @@ export const StyledInput = styled.input`
   &::placeholder {
     color: ${theme.color.gray[20]};
   }
-  outline: none;
+  &:focus {
+    outline: 1.5px solid ${theme.color.gray[18]};
+  }
 `;
 
 export const SearchBarIcon = styled.img<{ isWrapped?: boolean }>`

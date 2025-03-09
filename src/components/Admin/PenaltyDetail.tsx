@@ -69,7 +69,9 @@ const PenaltyDetail: React.FC<PenaltyDetailProps> = ({
         <S.Input
           type="text"
           value={newDescription}
+          autoFocus
           onChange={(e) => setNewDescription(e.target.value)}
+          onBlur={() => setIsEditing(false)}
         />
       ) : (
         <S.DetailText>{penaltyData.penaltyDescription}</S.DetailText>
