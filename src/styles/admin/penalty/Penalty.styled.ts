@@ -2,13 +2,14 @@ import theme from '@/styles/theme';
 import { styled } from 'styled-components';
 
 // penaltyListTable.tsx
-export const TableWrapper = styled.div`
+export const TableWrapper = styled.div<{ hasData: boolean }>`
   font-size: 18px;
   border-collapse: collapse;
 
   table {
     border-collapse: collapse;
     table-layout: fixed;
+    width: ${(props) => (props.hasData ? 'auto' : '100%')};
   }
 
   margin: 0;
@@ -54,6 +55,12 @@ export const HeaderCell = styled.th`
 
 export const EmptyCell = styled.td`
   width: 150px;
+`;
+
+export const NoDataCell = styled.div`
+  color: ${theme.color.gray[65]};
+  padding: 10px;
+  letter-spacing: 1px;
 `;
 
 export const Input = styled.input`

@@ -15,7 +15,6 @@ import { StatusCell } from '@/components/Admin/MemberListTableRow';
 import formatDate from '@/utils/admin/dateUtils';
 import dayjs from 'dayjs';
 import useGetUserInfo from '@/api/useGetGlobaluserInfo';
-import { NoDataCell } from '@/components/Admin/MemberListTable';
 import PenaltySubHeaderRow from '@/components/Admin/PenaltySubHeaderRow';
 
 const columns = [
@@ -58,7 +57,6 @@ const PenaltyListTable: React.FC<PenaltyListTableProps> = ({
       if (loading || isAdmin === undefined || !isAdmin) return;
 
       const response = await getPenaltyApi();
-      console.log('페널티 조회 API 응답: ', response);
 
       if (response.code === 200) {
         const penalties = response.data.reduce(
@@ -170,7 +168,7 @@ const PenaltyListTable: React.FC<PenaltyListTableProps> = ({
 
   return (
     <S.TableContainer>
-      <S.TableWrapper>
+      <S.TableWrapper hasData={filteredMembers.length > 0}>
         <table>
           <thead>
             <tr>
@@ -183,8 +181,8 @@ const PenaltyListTable: React.FC<PenaltyListTableProps> = ({
           <tbody>
             {filteredMembers.length === 0 ? (
               <tr>
-                <td colSpan={columns.length + 2}>
-                  <NoDataCell>검색된 멤버가 없습니다.</NoDataCell>
+                <td colSpan={columns.length} style={{ textAlign: 'center' }}>
+                  <S.NoDataCell>검색된 멤버가 없습니다.</S.NoDataCell>
                 </td>
               </tr>
             ) : (
