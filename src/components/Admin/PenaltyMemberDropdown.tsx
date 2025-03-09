@@ -21,7 +21,7 @@ const DropdownItem = styled.div`
   background-color: #f5faf9;
   padding: 15px;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: 1fr 1fr 70px 1fr;
   align-items: center;
   cursor: pointer;
   &:hover {

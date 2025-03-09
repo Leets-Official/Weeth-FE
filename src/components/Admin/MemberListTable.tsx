@@ -41,12 +41,12 @@ export const TableContainer = styled.div`
   }
 `;
 
-const NoDataRow = styled.tr`
+export const NoDataRow = styled.tr`
   height: 80px;
   text-align: center;
 `;
 
-const NoDataCell = styled.td`
+export const NoDataCell = styled.td`
   padding: 20px;
   text-align: center;
   font-size: 18px;

@@ -21,6 +21,7 @@ export const PenaltyWrapper = styled(Wrapper)`
   border-radius: 4px;
   width: 43%;
   min-width: 480px;
+  /* max-width: 480px; */
   min-height: 420px;
   margin-top: 30px;
   border-top: 0px;
