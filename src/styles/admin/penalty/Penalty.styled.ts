@@ -14,8 +14,12 @@ export const TableWrapper = styled.div`
   margin: 0;
 `;
 
+export const Wrapper = styled.div`
+  display: flex;
+  gap: 20px;
+`;
+
 export const TableContainer = styled.div`
-  /* width: 63%; */
   min-width: 870px;
   background-color: #fff;
   border: 1px solid #f2f2f2;

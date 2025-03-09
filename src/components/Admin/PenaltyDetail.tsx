@@ -10,7 +10,6 @@ interface PenaltyDetailProps {
   penaltyData: {
     penaltyId: number;
     penaltyDescription: string;
-    // penaltyCount?: number;
     time: string;
   };
   onEdit: (penaltyId: number, updatedDescription: string) => void;
@@ -46,6 +45,7 @@ const PenaltyDetail: React.FC<PenaltyDetailProps> = ({
       }
     }
   };
+
   const handleEdit = async () => {
     if (!isEditing) {
       setIsEditing(true);

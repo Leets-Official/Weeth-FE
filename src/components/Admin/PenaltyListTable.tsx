@@ -14,19 +14,9 @@ import { statusColors } from '@/components/Admin/StatusIndicator';
 import { StatusCell } from '@/components/Admin/MemberListTableRow';
 import formatDate from '@/utils/admin/dateUtils';
 import dayjs from 'dayjs';
-import { styled } from 'styled-components';
 import useGetUserInfo from '@/api/useGetGlobaluserInfo';
 import { NoDataCell } from '@/components/Admin/MemberListTable';
-import PenaltySubHeaderRow from './PenaltySubHeaderRow';
-
-export const EmptyCell = styled.th`
-  border-bottom: 1px solid #dedede;
-`;
-
-export const Wrapper = styled.div`
-  display: flex;
-  gap: 20px;
-`;
+import PenaltySubHeaderRow from '@/components/Admin/PenaltySubHeaderRow';
 
 const columns = [
   { key: 'name', header: '이름' },
