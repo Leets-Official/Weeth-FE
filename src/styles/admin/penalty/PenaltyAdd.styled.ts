@@ -1,6 +1,6 @@
+import theme from '@/styles/theme';
 import { styled } from 'styled-components';
 import { Wrapper } from '@/styles/admin/DuesRegisterDropDown.styled';
-import theme from '@/styles/theme';
 
 export const TitleWrapper = styled.div`
   padding: 25px 30px;

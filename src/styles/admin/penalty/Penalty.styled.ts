@@ -56,29 +56,15 @@ export const EmptyCell = styled.td`
   width: 150px;
 `;
 
-// penaltyAdd.tsx
-export const AddContainer = styled.div`
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr 120px 120px;
-  grid-template-areas: 'reason penalty penaltyDate empty actions';
-  border-bottom: 1px solid #dedede;
-  gap: 10px;
-  padding-left: 70px;
-  background-color: ${theme.color.gray[100]};
-  align-items: center;
-  box-sizing: border-box;
-`;
-
 export const Input = styled.input`
   font-family: ${theme.font.regular};
-  padding: 8px;
   width: 100%;
   max-width: 300px;
   background-color: transparent;
-  text-overflow: ellipsis;
   border: none;
   font-size: 18px;
   outline: none;
+  box-sizing: border-box;
 `;
 
 export const ButtonWrapper = styled.div`
@@ -92,7 +78,6 @@ export const DetailContainer = styled.div`
   display: grid;
   grid-template-columns: 5.3fr 1.3fr 1.5fr 1fr;
   grid-template-areas: ' reason penalty penaltyDate actions';
-  /* gap: 10px; */
   padding-left: 125px;
   border-bottom: 1px solid #dedede;
   background-color: #ffffff;
