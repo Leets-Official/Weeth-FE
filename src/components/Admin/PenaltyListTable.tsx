@@ -138,11 +138,6 @@ const PenaltyListTable: React.FC<PenaltyListTableProps> = ({
 
   const handleEditPenalty = (userId: number) => {
     setExpandedRow(userId);
-
-    // setEditingIndex((prev) => {
-    //   console.log(' 이전 editingIndex:', prev);
-    //   return index;
-    // });
   };
 
   const handleDeletePenalty = (userId: number, index: number) => {
@@ -183,52 +178,63 @@ const PenaltyListTable: React.FC<PenaltyListTableProps> = ({
             </tr>
           </thead>
           <tbody>
-            {filteredMembers.map((member) => (
-              <React.Fragment key={member.id}>
-                <S.Row
-                  isSelected={expandedRow === member.id}
-                  onClick={() => handleRowClick(member.id)}
-                >
-                  <StatusCell statusColor={statusColors[member.status]} />
-                  {renderColumns(member)}
-                </S.Row>
+            {filteredMembers.length === 0 ? (
+              <tr>
+                <td colSpan={columns.length + 2}>
+                  <NoDataCell>검색된 멤버가 없습니다.</NoDataCell>
+                </td>
+              </tr>
+            ) : (
+              filteredMembers.map((member) => (
+                <React.Fragment key={member.id}>
+                  <S.Row
+                    isSelected={expandedRow === member.id}
+                    onClick={() => handleRowClick(member.id)}
+                  >
+                    <StatusCell statusColor={statusColors[member.status]} />
+                    {renderColumns(member)}
+                  </S.Row>
 
-                {expandedRow === member.id && (
-                  <>
-                    <S.ExpandedRow>
-                      <td colSpan={columns.length + 2}>
-                        <S.SubHeaderRow>
-                          <S.GridCell area="reason">사유</S.GridCell>
-                          <S.GridCell area="penalty">패널티</S.GridCell>
-                          <S.GridCell area="penaltyDate">
-                            패널티 일자
-                          </S.GridCell>
-                        </S.SubHeaderRow>
-                      </td>
-                    </S.ExpandedRow>
-
-                    {penaltyData[member.id]?.map((penalty, index) => (
-                      <S.ExpandedRow key={`${member.id}-${penalty.penaltyId}`}>
+                  {expandedRow === member.id && (
+                    <>
+                      <S.ExpandedRow>
                         <td colSpan={columns.length + 2}>
-                          <PenaltyDetail
-                            penaltyData={{
-                              penaltyId: penalty.penaltyId,
-                              penaltyDescription: penalty.penaltyDescription,
-                              time: formatDate(penalty.time),
-                            }}
-                            onEdit={() => handleEditPenalty(member.id)}
-                            onDelete={() =>
-                              handleDeletePenalty(member.id, index)
-                            }
-                          />
+                          <S.SubHeaderRow>
+                            <S.GridCell area="reason">사유</S.GridCell>
+                            <S.GridCell area="penalty">패널티</S.GridCell>
+                            <S.GridCell area="penaltyDate">
+                              패널티 일자
+                            </S.GridCell>
+                          </S.SubHeaderRow>
                         </td>
                       </S.ExpandedRow>
-                    ))}
-                  </>
-                )}
-              </React.Fragment>
-            ))}
+
+                      {penaltyData[member.id]?.map((penalty, index) => (
+                        <S.ExpandedRow
+                          key={`${member.id}-${penalty.penaltyId}`}
+                        >
+                          <td colSpan={columns.length + 2}>
+                            <PenaltyDetail
+                              penaltyData={{
+                                penaltyId: penalty.penaltyId,
+                                penaltyDescription: penalty.penaltyDescription,
+                                time: formatDate(penalty.time),
+                              }}
+                              onEdit={() => handleEditPenalty(member.id)}
+                              onDelete={() =>
+                                handleDeletePenalty(member.id, index)
+                              }
+                            />
+                          </td>
+                        </S.ExpandedRow>
+                      ))}
+                    </>
+                  )}
+                </React.Fragment>
+              ))
+            )}
           </tbody>
+
           {filteredMembers.length > 0 && (
             <>
               <StatusCell statusColor={statusColors['승인 완료']} />

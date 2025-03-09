@@ -6,6 +6,7 @@ import * as S from '@/styles/admin/DuesRegisterDropDown.styled';
 import { useState } from 'react';
 import { useMemberContext } from '@/components/Admin/context/MemberContext';
 import PenaltyMemberDropdown from '@/components/Admin/PenaltyMemberDropdown';
+import { postPenaltyApi } from '@/api/admin/penalty/getPenalty';
 
 export const TitleWrapper = styled.div`
   padding: 25px 30px;
@@ -19,9 +20,8 @@ export const SubTitle = styled.div`
 
 export const PenaltyWrapper = styled(Wrapper)`
   border-radius: 4px;
-  width: 43%;
-  min-width: 480px;
-  /* max-width: 480px; */
+  width: 490px;
+  min-width: 490px;
   min-height: 420px;
   margin-top: 30px;
   border-top: 0px;
@@ -69,6 +69,7 @@ const PenaltyAdd: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [selectedMember, setSelectedMember] = useState<string>('');
+  const [penaltyDescription, setPenaltyDescription] = useState<string>('');
 
   const filteredMembers = members.filter((member) =>
     member.name.includes(searchTerm),
@@ -80,6 +81,44 @@ const PenaltyAdd: React.FC = () => {
     setIsDropdownOpen(false);
   };
 
+  const handleReset = () => {
+    setSelectedMember('');
+    setSearchTerm('');
+    setPenaltyDescription('');
+  };
+
+  const handleAddPenalty = async () => {
+    if (!selectedMember || !penaltyDescription.trim()) {
+      alert('멤버와 패널티 사유를 입력해주세요.');
+    }
+
+    const member = members.find((m) => m.name === selectedMember);
+    if (!member) {
+      alert('선택한 멤버를 찾을 수 없습니다.');
+      return;
+    }
+
+    const requestData = {
+      userId: member.id,
+      penaltyDescription,
+    };
+
+    try {
+      const res = await postPenaltyApi(
+        requestData.userId,
+        requestData.penaltyDescription,
+      );
+      if (res.code === 200) {
+        alert('패널티가 성공적으로 부여되었습니다.');
+        handleReset();
+      } else {
+        alert(`패널티 부여 실패: ${res.message}`);
+      }
+    } catch (error) {
+      console.error('패널티 부여 오류: ', error);
+      alert(' 패널티 부여 실패');
+    }
+  };
   return (
     <PenaltyWrapper>
       <TitleWrapper>
@@ -108,7 +147,11 @@ const PenaltyAdd: React.FC = () => {
         </InputWrapper>
         <InputWrapper>
           <SubTitle>패널티 사유</SubTitle>
-          <Input placeholder="ex) 미션 과제 미제출" />
+          <Input
+            placeholder="ex) 미션 과제 미제출"
+            value={penaltyDescription}
+            onChange={(e) => setPenaltyDescription(e.target.value)}
+          />
         </InputWrapper>
         <S.ButtonWrapper>
           <Button
@@ -116,13 +159,14 @@ const PenaltyAdd: React.FC = () => {
             color="#323232"
             width="75px"
             borderRadius="4px"
+            onClick={handleReset}
           />
           <Button
             description="추가"
             color="#ff5858"
             width="62px"
             borderRadius="4px"
-            // onClick={handleRegister}
+            onClick={handleAddPenalty}
           />
         </S.ButtonWrapper>
       </ItemWrapper>

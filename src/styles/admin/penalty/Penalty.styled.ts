@@ -15,8 +15,8 @@ export const TableWrapper = styled.div`
 `;
 
 export const TableContainer = styled.div`
-  width: 63%;
-  min-width: 830px;
+  /* width: 63%; */
+  min-width: 870px;
   background-color: #fff;
   border: 1px solid #f2f2f2;
   border-radius: 8px;

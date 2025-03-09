@@ -51,6 +51,7 @@ export const NoDataCell = styled.td`
   text-align: center;
   font-size: 18px;
   letter-spacing: 1px;
+  vertical-align: middle;
   color: ${theme.color.gray[65]};
 `;
 
