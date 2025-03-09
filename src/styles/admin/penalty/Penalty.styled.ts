@@ -40,42 +40,12 @@ export const Cell = styled.td`
   white-space: nowrap;
 `;
 
-export const PlusButtonCell = styled.td`
-  padding: 10px;
-  text-align: center;
-  cursor: pointer;
-`;
-
 export const HeaderCell = styled.th`
   text-align: left;
   padding: 15px 25px;
   border-bottom: 1px solid #dedede;
   font-weight: bold;
   white-space: nowrap;
-`;
-
-export const SubHeaderRow = styled.div`
-  display: grid;
-  grid-template-columns: 4.8fr 1fr 1fr 1fr 1fr;
-  grid-template-areas: 'reason  penalty penaltyDate empty empty';
-  border-bottom: 1px solid #dedede;
-  gap: 10px;
-  padding: 5px;
-  padding-left: 130px;
-  background-color: #e6fcf7;
-  font-weight: bold;
-`;
-
-export const GridCell = styled.div<{ area: string }>`
-  grid-area: ${(props) => props.area};
-  padding: 5px;
-  text-align: left;
-  white-space: nowrap;
-`;
-export const ExpandedRow = styled.tr`
-  td {
-    grid-column: 1 / -1;
-  }
 `;
 
 export const EmptyCell = styled.td`
@@ -116,10 +86,10 @@ export const ButtonWrapper = styled.div`
 // penaltyDetail.tsx
 export const DetailContainer = styled.div`
   display: grid;
-  grid-template-columns: 4.5fr 1fr 1fr 0.7fr 1fr;
-  grid-template-areas: ' reason penalty penaltyDate empty actions';
+  grid-template-columns: 5.3fr 1.3fr 1.5fr 1fr;
+  grid-template-areas: ' reason penalty penaltyDate actions';
   /* gap: 10px; */
-  padding-left: 135px;
+  padding-left: 125px;
   border-bottom: 1px solid #dedede;
   background-color: #ffffff;
   align-items: center;

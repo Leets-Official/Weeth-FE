@@ -16,7 +16,8 @@ import formatDate from '@/utils/admin/dateUtils';
 import dayjs from 'dayjs';
 import { styled } from 'styled-components';
 import useGetUserInfo from '@/api/useGetGlobaluserInfo';
-import { NoDataCell } from './MemberListTable';
+import { NoDataCell } from '@/components/Admin/MemberListTable';
+import PenaltySubHeaderRow from './PenaltySubHeaderRow';
 
 export const EmptyCell = styled.th`
   border-bottom: 1px solid #dedede;
@@ -197,22 +198,10 @@ const PenaltyListTable: React.FC<PenaltyListTableProps> = ({
 
                   {expandedRow === member.id && (
                     <>
-                      <S.ExpandedRow>
-                        <td colSpan={columns.length + 2}>
-                          <S.SubHeaderRow>
-                            <S.GridCell area="reason">사유</S.GridCell>
-                            <S.GridCell area="penalty">패널티</S.GridCell>
-                            <S.GridCell area="penaltyDate">
-                              패널티 일자
-                            </S.GridCell>
-                          </S.SubHeaderRow>
-                        </td>
-                      </S.ExpandedRow>
+                      <PenaltySubHeaderRow />
 
                       {penaltyData[member.id]?.map((penalty, index) => (
-                        <S.ExpandedRow
-                          key={`${member.id}-${penalty.penaltyId}`}
-                        >
+                        <tr key={`${member.id}-${penalty.penaltyId}`}>
                           <td colSpan={columns.length + 2}>
                             <PenaltyDetail
                               penaltyData={{
@@ -226,7 +215,7 @@ const PenaltyListTable: React.FC<PenaltyListTableProps> = ({
                               }
                             />
                           </td>
-                        </S.ExpandedRow>
+                        </tr>
                       ))}
                     </>
                   )}
