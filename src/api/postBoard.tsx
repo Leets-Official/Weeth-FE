@@ -3,6 +3,12 @@ import { PostRequestType } from '@/types/PostRequestType';
 import axios from 'axios';
 import api from './api';
 
+interface originFile {
+  fileId: number;
+  fileName: string;
+  fileUrl: string;
+}
+
 // 파일을 업로드할 수 있는 presigned URL을 요청하는 함수
 const getPresignedUrl = async (file: File, fileName: string) => {
   const res = await api.get(`/files/`, {
@@ -19,12 +25,19 @@ const uploadFile = async (url: string, file: File) => {
 };
 
 // 파일 업로드 후 게시글을 작성하는 함수
-export const postBoardNotice = async (
-  files: File[],
-  postData: PostRequestType,
-  postType: 'postBoard' | 'postNotice' | 'editBoard' | 'editNotice',
-  id?: number,
-) => {
+export const postBoardNotice = async ({
+  originFiles = [],
+  files = [],
+  postData,
+  postType,
+  id,
+}: {
+  originFiles?: originFile[];
+  files: File[];
+  postData: PostRequestType;
+  postType: 'postBoard' | 'postNotice' | 'editBoard' | 'editNotice';
+  id?: number;
+}) => {
   try {
     const fileUrls = await Promise.all(
       files.map(async (file) => {
@@ -37,16 +50,19 @@ export const postBoardNotice = async (
           throw new Error(`파일 업로드에 실패했습니다.`);
         }
 
-        return putUrl.split('_')[0];
+        return putUrl.split('?')[0];
       }),
     );
 
     const updatedPostData = {
       ...postData,
-      files: files.map((file, index) => ({
-        fileName: file.name,
-        fileUrl: fileUrls[index],
-      })),
+      files: [
+        ...originFiles, // ✅ 기존 파일 유지
+        ...files.map((file, index) => ({
+          fileName: file.name,
+          fileUrl: fileUrls[index],
+        })),
+      ],
     };
 
     let endpoint = '';

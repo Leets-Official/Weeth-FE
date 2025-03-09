@@ -1,13 +1,20 @@
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import styled from 'styled-components';
+import useGetBoardDetail from '@/api/useGetBoardDetail';
+import Header from '@/components/Header/Header';
 import FileUploader from '@/components/Board/FileUploader';
 import PostEditor from '@/components/Board/PostEditor';
 import PostFile from '@/components/Board/PostFile';
-import Header from '@/components/Header/Header';
-import { useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import styled from 'styled-components';
-import postBoardNotice from '@/api/postBoard';
-import { toastError, toastInfo } from '@/components/common/ToastMessage';
 import Loading from '@/components/common/Loading';
+import { toastError, toastInfo } from '@/components/common/ToastMessage';
+import postBoardNotice from '@/api/postBoard';
+
+interface originFile {
+  fileId: number;
+  fileName: string;
+  fileUrl: string;
+}
 
 const PostWrapper = styled.div`
   display: flex;
@@ -26,7 +33,7 @@ const FileUploaderWrapper = styled.div`
   top: calc(var(--vh, 1vh) * 40 + 120px);
 `;
 
-const BoardPost = () => {
+const BoardNoticeEdit = () => {
   const navi = useNavigate();
   const { postId } = useParams();
 
@@ -37,12 +44,27 @@ const BoardPost = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [files, setFiles] = useState<File[]>([]);
+  const [originFiles, setOriginFiles] = useState<originFile[]>([]);
   const [loading, setLoading] = useState(false);
 
   const numericPostId = postId ? parseInt(postId, 10) : 0;
 
+  const { boardDetailInfo } = useGetBoardDetail(path, numericPostId);
+
+  useEffect(() => {
+    setTitle(boardDetailInfo?.title ?? '');
+    setContent(boardDetailInfo?.content ?? '');
+    setOriginFiles(boardDetailInfo?.fileUrls ?? []);
+  }, [boardDetailInfo]);
+
   const isTitleEmpty = title.trim() === '';
   const isContentEmpty = content.trim() === '';
+
+  const handleDeleteOriginFile = (fileName: string) => {
+    setOriginFiles((prevFiles) =>
+      prevFiles.filter((file) => file.fileName !== fileName),
+    );
+  };
 
   const handleDeleteFile = (fileName: string) => {
     setFiles((prevFiles) => prevFiles.filter((file) => file.name !== fileName));
@@ -64,21 +86,22 @@ const BoardPost = () => {
 
     try {
       // 요청 타입 결정
-      const postType = path === 'board' ? 'postBoard' : 'postNotice';
+      const postType = path === 'board' ? 'editBoard' : 'editNotice';
 
       // 서버 요청
-      await postBoardNotice(
+      await postBoardNotice({
+        originFiles,
         files,
-        {
+        postData: {
           title,
           content,
           files: [],
         },
         postType,
-        numericPostId,
-      );
+        id: numericPostId,
+      });
 
-      // 게시글 작성/수정 후 이동
+      // 게시글 수정 후 이동
       navi(path === 'board' ? '/board' : '/notice');
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
@@ -108,7 +131,18 @@ const BoardPost = () => {
 
       <FileUploaderWrapper>
         <FileUploader files={files} setFiles={setFiles} />
-        {files.length === 0 && (
+        {pathArray[3] === 'edit' &&
+          originFiles.map((file) => (
+            <PostFile
+              key={file.fileName}
+              fileName={file.fileName}
+              isDownload={false}
+              onClick={() => {
+                handleDeleteOriginFile(file.fileName);
+              }}
+            />
+          ))}
+        {files.length > 0 && (
           <>
             {files.map((file) => (
               <PostFile
@@ -125,4 +159,4 @@ const BoardPost = () => {
   );
 };
 
-export default BoardPost;
+export default BoardNoticeEdit;

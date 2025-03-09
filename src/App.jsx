@@ -34,8 +34,8 @@ import Notice from '@/pages/Notice';
 import NoticePostDetail from '@/pages/NoticePostDetail';
 import BoardPostDetail from '@/pages/BoardPostDetail';
 import Board from '@/pages/Board';
-import BoardPost from '@/pages/BoardPost';
-import BoardEdit from '@/pages/BoardEdit';
+import BoardNoticePost from '@/pages/BoardNoticePost';
+import BoardNoticeEdit from '@/pages/BoardNoticeEdit';
 import { CustomToastContainer } from '@/components/common/ToastMessage';
 
 const App = () => {
@@ -66,15 +66,15 @@ const App = () => {
         <Route path="/dues" element={<Dues />} />
         <Route path="/receipt" element={<Receipt />} />
 
-        <Route path="/:type/post" element={<BoardPost />} />
+        <Route path="/:type/post" element={<BoardNoticePost />} />
 
         <Route path="/notice" element={<Notice />} />
         <Route path="/notice/:postId" element={<NoticePostDetail />} />
-        <Route path="/notice/:postId/edit" element={<BoardEdit />} />
+        <Route path="/notice/:postId/edit" element={<BoardNoticeEdit />} />
 
         <Route path="/board" element={<Board />} />
         <Route path="/board/:postId" element={<BoardPostDetail />} />
-        <Route path="/board/:postId/edit" element={<BoardEdit />} />
+        <Route path="/board/:postId/edit" element={<BoardNoticeEdit />} />
 
         <Route path="/admin" element={<AdminMember />} />
         <Route path="/admin/attendance" element={<AdminAttendance />} />
