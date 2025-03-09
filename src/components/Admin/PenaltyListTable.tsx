@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useRef, useState } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 import * as S from '@/styles/admin/penalty/Penalty.styled';
 import {
   penaltyReducer,
@@ -127,8 +127,20 @@ const PenaltyListTable: React.FC<PenaltyListTableProps> = ({
     setExpandedRow((prev) => (prev === userId ? null : userId));
   };
 
-  const handleEditPenalty = (userId: number) => {
-    setExpandedRow(userId);
+  const handleEditPenalty = (
+    userId: number,
+    index: number,
+    updatedDescription: string,
+  ) => {
+    dispatch({
+      type: 'EDIT_PENALTY',
+      userId,
+      index,
+      payload: {
+        ...penaltyData[userId][index],
+        penaltyDescription: updatedDescription,
+      },
+    });
   };
 
   const handleDeletePenalty = (userId: number, index: number) => {
@@ -199,7 +211,13 @@ const PenaltyListTable: React.FC<PenaltyListTableProps> = ({
                                 penaltyDescription: penalty.penaltyDescription,
                                 time: formatDate(penalty.time),
                               }}
-                              onEdit={() => handleEditPenalty(member.id)}
+                              onEdit={(penaltyId, updatedDescription) =>
+                                handleEditPenalty(
+                                  member.id,
+                                  index,
+                                  updatedDescription,
+                                )
+                              }
                               onDelete={() =>
                                 handleDeletePenalty(member.id, index)
                               }

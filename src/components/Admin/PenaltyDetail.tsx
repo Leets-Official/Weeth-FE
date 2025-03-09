@@ -61,7 +61,6 @@ const PenaltyDetail: React.FC<PenaltyDetailProps> = ({
         await deletePenaltyApi(penaltyData.penaltyId);
         alert('패널티가 성공적으로 삭제되었습니다.');
         onDelete(penaltyData.penaltyId);
-        window.location.reload();
       } catch (error: any) {
         alert(error.message || '패널티 삭제 실패');
         console.error('패널티 삭제 오류:', error);
@@ -74,11 +73,12 @@ const PenaltyDetail: React.FC<PenaltyDetailProps> = ({
       setIsEditing(true);
     } else {
       try {
+        console.log(typeof newDescription, newDescription);
         await patchPenaltyApi(penaltyData.penaltyId, newDescription);
         alert('패널티가 성공적으로 수정되었습니다.');
+
         onEdit(penaltyData.penaltyId, newDescription);
         setIsEditing(false);
-        window.location.reload();
       } catch (error: any) {
         alert(error.message || '패널티 수정 실패');
         console.error('패널티 수정 오류:', error);
@@ -93,7 +93,7 @@ const PenaltyDetail: React.FC<PenaltyDetailProps> = ({
           type="text"
           value={newDescription}
           autoFocus
-          onChange={(e) => setNewDescription(e.target.value)}
+          onChange={(e) => setNewDescription(String(e.target.value))}
           ref={inputRef}
         />
       ) : (
