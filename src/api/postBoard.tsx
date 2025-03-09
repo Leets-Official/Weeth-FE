@@ -37,7 +37,7 @@ export const postBoardNotice = async (
           throw new Error(`파일 업로드에 실패했습니다.`);
         }
 
-        return putUrl.split('?')[0];
+        return putUrl.split('_')[0];
       }),
     );
 
@@ -50,7 +50,7 @@ export const postBoardNotice = async (
     };
 
     let endpoint = '';
-    let method: 'post' | 'put' = 'post';
+    let method: 'post' | 'patch' = 'post';
 
     switch (postType) {
       case 'postBoard':
@@ -63,11 +63,11 @@ export const postBoardNotice = async (
         break;
       case 'editBoard':
         endpoint = `/api/v1/posts/${id}`;
-        method = 'put';
+        method = 'patch';
         break;
       case 'editNotice':
         endpoint = `/api/v1/admin/notices/${id}`;
-        method = 'put';
+        method = 'patch';
         break;
       default:
         throw new Error('잘못된 postType 입니다.');
