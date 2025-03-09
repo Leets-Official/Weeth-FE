@@ -1,8 +1,11 @@
-import { useEffect, useState } from 'react';
-import axios from 'axios';
-import { toastError } from '@/components/common/ToastMessage';
+/*
+전역적으로 사용되는 본인의 정보를 가져오는 api
+일반 userInfo와 다르게 dto가 축소되어있습니다.
+*/
 
-const BASE_URL = import.meta.env.VITE_API_URL;
+import { useEffect, useState } from 'react';
+import { toastError } from '@/components/common/ToastMessage';
+import api from './api';
 
 interface UserInfo {
   id: number;
@@ -12,15 +15,7 @@ interface UserInfo {
 }
 
 const getUserInfo = async () => {
-  const accessToken = localStorage.getItem('accessToken');
-  const refreshToken = localStorage.getItem('refreshToken');
-
-  return axios.get(`${BASE_URL}/api/v1/users/info`, {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-      Authorization_refresh: `Bearer ${refreshToken}`,
-    },
-  });
+  return api.get(`/api/v1/users/info`);
 };
 
 export const useGetUserInfo = () => {

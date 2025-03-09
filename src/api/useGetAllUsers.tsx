@@ -1,15 +1,10 @@
-import axios from 'axios';
 import { useEffect } from 'react';
-
-const BASE_URL = import.meta.env.VITE_API_URL;
+import api from './api';
 
 export const getAllUsers = async (
   cardinal: number | null,
   pageNumber: number,
 ) => {
-  const accessToken = localStorage.getItem('accessToken');
-  const refreshToken = localStorage.getItem('refreshToken');
-
   const params: Record<string, any> = {
     pageNumber,
     pageSize: 10,
@@ -19,13 +14,7 @@ export const getAllUsers = async (
     params.cardinal = cardinal;
   }
 
-  return axios.get(`${BASE_URL}/api/v1/users/all`, {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-      Authorization_refresh: `Bearer ${refreshToken}`,
-    },
-    params,
-  });
+  return api.get(`/api/v1/users/all`, { params });
 };
 
 const useGetAllUsers = (
@@ -45,6 +34,7 @@ const useGetAllUsers = (
       setUsers((prevUsers) => [...prevUsers, ...data.content]);
       setHasMore(!data.last);
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error('Error fetching users:', error);
     } finally {
       setIsLoading(false);

@@ -11,7 +11,7 @@ import deletePost from '@/api/deletePost';
 import MenuModal from '@/components/common/MenuModal';
 import theme from '@/styles/theme';
 import { toastInfo, toastError } from '@/components/common/ToastMessage';
-import SelectModal from '@/components/Modal/DeleteModal';
+import SelectModal from '@/components/Modal/SelectModal';
 
 const Container = styled.div`
   display: flex;
@@ -71,6 +71,11 @@ const BoardPostDetail = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSelectModalOpen, setIsSelectModalOpen] = useState(false);
 
+  // 대댓글 작성시 본댓글 하이라이팅
+  const [selectedComment, setSelectedComment] = useState<
+    Record<number, boolean>
+  >({});
+
   const navigate = useNavigate();
 
   const openSelectModal = () => {
@@ -97,6 +102,22 @@ const BoardPostDetail = () => {
 
   const handleRefresh = () => {
     setRefreshKey((prev) => prev + 1);
+  };
+
+  const handleCommentSuccess = () => {
+    setTimeout(() => {
+      setParentCommentId(null);
+      setSelectedComment({});
+    }, 200);
+    handleRefresh();
+  };
+
+  const handleReply = (commentId: number) => {
+    setParentCommentId(commentId);
+    setSelectedComment((prev) => ({
+      ...prev,
+      [commentId]: !prev[commentId],
+    }));
   };
 
   const isMyPost = boardDetailInfo?.name === useGetUserName();
@@ -150,7 +171,8 @@ const BoardPostDetail = () => {
               postId={boardDetailInfo.id}
               path={path}
               onCommentDelete={handleRefresh}
-              onReply={(commentId) => setParentCommentId(commentId)}
+              onReply={handleReply}
+              selectedComment={selectedComment}
             />
           </>
         )}
@@ -159,8 +181,8 @@ const BoardPostDetail = () => {
         {boardDetailInfo && (
           <CommentInput
             postId={boardDetailInfo.id}
-            parentCommentId={parentCommentId}
-            onCommentSuccess={handleRefresh}
+            initialParentCommentId={parentCommentId}
+            onCommentSuccess={handleCommentSuccess}
           />
         )}
       </CommentInputContainer>

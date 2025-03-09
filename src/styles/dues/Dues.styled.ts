@@ -3,7 +3,6 @@ import styled from 'styled-components';
 
 export const StyledDues = styled.div`
   width: 370px;
-  height: calc(var(--vh, 1vh) * 100);
   font-family: ${theme.font.regular};
 `;
 
@@ -13,13 +12,12 @@ export const CategoryWrapper = styled.div`
 
 export const DuesListBox = styled.div`
   width: 92%;
-  height: calc(var(--vh, 1vh) * 100);
   display: flex;
   flex-direction: column;
   align-items: center;
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
-  margin: 0 4%;
+  border-radius: 14px;
+  margin: 0 4% 50px 4%;
+  padding-bottom: 15px;
   background-color: ${theme.color.gray[18]};
 `;
 

@@ -1,11 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
 import { toastError } from '@/components/common/ToastMessage';
+import api from './api';
 
-const BASE_URL = import.meta.env.VITE_API_URL;
-
-export interface UserDetail {
+export interface MemberDetail {
   id: number;
   name: string;
   email: string;
@@ -16,22 +14,15 @@ export interface UserDetail {
   role: 'ADMIN' | 'USER';
 }
 
-export const getUserDetail = async (userId: number) => {
-  const accessToken = localStorage.getItem('accessToken');
-  const refreshToken = localStorage.getItem('refreshToken');
-
-  return axios.get(`${BASE_URL}/api/v1/users/details`, {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-      Authorization_refresh: `Bearer ${refreshToken}`,
-    },
+export const getMemberDetail = async (userId: number) => {
+  return api.get(`/api/v1/users/details`, {
     params: { userId },
   });
 };
 
-export const useGetUserDetail = () => {
+export const useGetMemberDetail = () => {
   const { userId } = useParams<{ userId: string }>();
-  const [userDetail, setUserDetail] = useState<UserDetail | null>(null);
+  const [memberDetail, setMemberDetail] = useState<MemberDetail | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -41,8 +32,8 @@ export const useGetUserDetail = () => {
         if (!userId) throw new Error('Invalid userId');
         setLoading(true);
         const numericUserId = parseInt(userId, 10);
-        const response = await getUserDetail(numericUserId);
-        setUserDetail(response.data.data);
+        const response = await getMemberDetail(numericUserId);
+        setMemberDetail(response.data.data);
         setError(null);
       } catch (err: any) {
         toastError('데이터를 불러오지 못했습니다.');
@@ -55,7 +46,7 @@ export const useGetUserDetail = () => {
     fetchUser();
   }, [userId]);
 
-  return { userDetail, error, loading };
+  return { memberDetail, error, loading };
 };
 
-export default useGetUserDetail;
+export default useGetMemberDetail;

@@ -2,28 +2,18 @@ import { useState } from 'react';
 import { toastError } from '@/components/common/ToastMessage';
 import api from './api';
 
-const BASE_URL = import.meta.env.VITE_API_URL;
-
-export const updateUserInfo = async (data: Record<string, any>) => {
-  const accessToken = localStorage.getItem('accessToken');
-  const refreshToken = localStorage.getItem('refreshToken');
-
-  return api.patch(`${BASE_URL}/api/v1/users`, data, {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-      Authorization_refresh: `Bearer ${refreshToken}`,
-    },
-  });
+export const patchMyInfo = async (data: Record<string, any>) => {
+  return api.patch(`/api/v1/users`, data);
 };
 
-export const useUpdateUserInfo = () => {
+export const usePatchMyInfo = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const updateInfo = async (data: Record<string, any>) => {
     setLoading(true);
     try {
-      const response = await updateUserInfo(data);
+      const response = await patchMyInfo(data);
       setError(null);
       return response;
     } catch (err: any) {
@@ -31,7 +21,6 @@ export const useUpdateUserInfo = () => {
       setError(err.response?.data?.message || '오류가 발생했습니다.');
       throw err;
     } finally {
-      toastError('데이터를 불러오지 못했습니다.');
       setLoading(false);
     }
   };
@@ -39,4 +28,4 @@ export const useUpdateUserInfo = () => {
   return { updateInfo, loading, error };
 };
 
-export default useUpdateUserInfo;
+export default usePatchMyInfo;

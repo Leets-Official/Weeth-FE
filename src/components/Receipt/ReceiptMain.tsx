@@ -1,20 +1,14 @@
 import { useState } from 'react';
-import ReactModal from 'react-modal';
 import ReceiptInfo from '@/components/Receipt/ReceiptInfo';
 import * as S from '@/styles/receipt/ReceiptMain.styled';
-import useGetDuesInfo from '@/api/useGetDuesInfo';
+import useGetDuesInfo, { Receipt } from '@/api/useGetDuesInfo';
 import useGetGlobaluserInfo from '@/api/useGetGlobaluserInfo';
-
-interface ReceiptProps {
-  id: number;
-  date: string;
-  amount: number;
-  description: string;
-  images: string[];
-}
+import ReceiptImageModal from '@/components/Receipt/ReceiptImageModal';
+import ReceiptPdfModal from '@/components/Receipt/ReceiptPdfModal';
+import PdfViewer from '@/components/Receipt/PdfViewer';
 
 interface GroupedByMonth {
-  [key: number]: ReceiptProps[];
+  [key: string]: Receipt[];
 }
 
 const ReceiptMain: React.FC = () => {
@@ -25,24 +19,39 @@ const ReceiptMain: React.FC = () => {
 
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
   const [selectedImage, setSelectedImage] = useState<string>('');
+  const [pdfModalOpen, setPdfModalOpen] = useState<boolean>(false);
+  const [selectedPdf, setSelectedPdf] = useState<string>('');
 
-  const openModal = (image: string) => {
+  const openImageModal = (image: string) => {
     setSelectedImage(image);
     setModalIsOpen(true);
   };
 
-  const closeModal = () => {
-    setModalIsOpen(false);
-    setSelectedImage('');
+  const openPdfModal = (pdfUrl: string) => {
+    setSelectedPdf(pdfUrl);
+    setPdfModalOpen(true);
   };
 
+  const closeModals = () => {
+    setModalIsOpen(false);
+    setPdfModalOpen(false);
+    setSelectedImage('');
+    setSelectedPdf('');
+  };
+
+  const isPdfUrl = (url: string) => url.toLowerCase().endsWith('.pdf');
+
   const groupedByMonth: GroupedByMonth =
-    duesInfo?.receipts?.reduce((acc: GroupedByMonth, curr: ReceiptProps) => {
-      const month = new Date(curr.date).getMonth() + 1;
-      if (!acc[month]) {
-        acc[month] = [];
+    duesInfo?.receipts?.reduce<GroupedByMonth>((acc, curr) => {
+      const dateParts = curr.date.split('-').map((part) => parseInt(part, 10));
+      const date = new Date(dateParts[0], dateParts[1] - 1, dateParts[2]);
+      const month = date.getMonth() + 1;
+      const monthKey = month.toString();
+
+      if (!acc[monthKey]) {
+        acc[monthKey] = [];
       }
-      acc[month].push(curr);
+      acc[monthKey].push(curr);
       return acc;
     }, {} as GroupedByMonth) || {};
 
@@ -59,10 +68,10 @@ const ReceiptMain: React.FC = () => {
   return (
     <S.StyledReceipt>
       {months.map((month) => (
-        <div key={month}>
+        <div key={month.toString()}>
           <S.StyledMonth>{month}월</S.StyledMonth>
-          {groupedByMonth[month] ? (
-            groupedByMonth[month].map((receipt) => (
+          {groupedByMonth[month.toString()] ? (
+            groupedByMonth[month.toString()].map((receipt) => (
               <div key={receipt.id}>
                 <ReceiptInfo
                   money={`${receipt.amount.toLocaleString()}`}
@@ -70,16 +79,26 @@ const ReceiptMain: React.FC = () => {
                   memo={receipt.description}
                 />
                 <S.ScrollContainer>
-                  {receipt.images.length > 0 ? (
-                    receipt.images.map((image, index) => (
-                      <S.GridItem onClick={() => openModal(image)}>
-                        <S.GridItemImage
-                          src={image}
-                          title={`영수증 사진 ${index + 1}`}
+                  {receipt.fileUrls.length > 0 ? (
+                    receipt.fileUrls.map((file) =>
+                      isPdfUrl(file.fileUrl) ? (
+                        <PdfViewer
+                          key={file.fileId}
+                          fileUrl={file.fileUrl}
+                          onClick={() => openPdfModal(file.fileUrl)}
                         />
-                        <S.OpenModalButton onClick={() => openModal(image)} />
-                      </S.GridItem>
-                    ))
+                      ) : (
+                        <S.GridItem
+                          key={file.fileId}
+                          onClick={() => openImageModal(file.fileUrl)}
+                        >
+                          <S.GridItemImage
+                            src={file.fileUrl}
+                            title="영수증 이미지"
+                          />
+                        </S.GridItem>
+                      ),
+                    )
                   ) : (
                     <div> </div>
                   )}
@@ -92,31 +111,20 @@ const ReceiptMain: React.FC = () => {
           <S.Line />
         </div>
       ))}
-      <ReactModal
+
+      {/* 이미지 미리보기 모달 */}
+      <ReceiptImageModal
         isOpen={modalIsOpen}
-        onRequestClose={closeModal}
-        style={{
-          overlay: {
-            backgroundColor: 'rgba(0, 0, 0, 0.75)',
-          },
-          content: {
-            top: '45%',
-            left: '50%',
-            right: 'auto',
-            bottom: 'auto',
-            marginRight: '-50%',
-            transform: 'translate(-50%, -50%)',
-            padding: '0',
-            border: 'none',
-            background: 'none',
-            width: '50%',
-            height: '50%',
-            overflow: 'hidden',
-          },
-        }}
-      >
-        <S.ModalImage src={selectedImage} title="영수증 큰 이미지" />
-      </ReactModal>
+        selectedImage={selectedImage}
+        onRequestClose={closeModals}
+      />
+
+      {/* PDF 미리보기 모달 */}
+      <ReceiptPdfModal
+        isOpen={pdfModalOpen}
+        selectedPdf={selectedPdf}
+        onRequestClose={closeModals}
+      />
     </S.StyledReceipt>
   );
 };

@@ -11,7 +11,7 @@ import MenuModal from '@/components/common/MenuModal';
 import theme from '@/styles/theme';
 import deletePost from '@/api/deletePost';
 import { toastError, toastInfo } from '@/components/common/ToastMessage';
-import SelectModal from '@/components/Modal/DeleteModal';
+import SelectModal from '@/components/Modal/SelectModal';
 
 const Container = styled.div`
   display: flex;
@@ -107,7 +107,7 @@ const NoticePostDetail = () => {
             setIsModalOpen(false);
           }}
         >
-          <TextButton onClick={() => navigate(`/board/${postId}/edit`)}>
+          <TextButton onClick={() => navigate(`/notice/${postId}/edit`)}>
             수정
           </TextButton>
           <TextButton $isLast onClick={openSelectModal}>
