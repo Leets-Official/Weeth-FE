@@ -1,5 +1,5 @@
-import theme from '@/styles/theme';
 import { styled } from 'styled-components';
+import theme from '@/styles/theme';
 import { Wrapper } from '@/styles/admin/DuesRegisterDropDown.styled';
 
 export const TitleWrapper = styled.div`
@@ -15,8 +15,9 @@ export const SubTitle = styled.div`
 export const PenaltyWrapper = styled(Wrapper)`
   border-radius: 4px;
   width: 490px;
+  height: 450px;
   min-width: 490px;
-  min-height: 420px;
+  max-height: 450px;
   margin-top: 30px;
   border-top: 0px;
   padding: 0px;

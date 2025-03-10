@@ -12,22 +12,36 @@ export const DropdownContainer = styled.div`
 `;
 
 const NoResult = styled.span`
-  padding-top: 5px;
   color: ${theme.color.gray[65]};
   text-align: center;
+  height: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
 `;
 
-const DropdownItem = styled.div`
+const DropdownItem = styled.div<{ noResult?: boolean }>`
   background-color: #f5faf9;
   padding: 15px;
   display: grid;
   grid-template-columns: 1fr 1fr 70px 1fr;
   align-items: center;
-  cursor: pointer;
-  &:hover {
-    background-color: #ebf5f3;
-  }
   border-bottom: 1px solid #dedede;
+  ${({ noResult }) =>
+    noResult
+      ? `
+    cursor: default; 
+    &:hover {
+      background-color: #f5faf9; 
+    }
+  `
+      : `
+  cursor: pointer; 
+  &:hover {
+    background-color: #ebf5f3; 
+  }
+`}
 `;
 
 const DropdownText = styled.span`
@@ -51,20 +65,22 @@ const PenaltyMemberDropdown: React.FC<DropdownProps> = ({
   members,
   onSelect,
 }) => {
-  if (members.length === 0) {
-    return <NoResult>검색된 멤버가 없습니다.</NoResult>;
-  }
-
   return (
     <DropdownContainer onMouseDown={(e) => e.preventDefault()}>
-      {members.map((member) => (
-        <DropdownItem key={member.id} onClick={() => onSelect(member.name)}>
-          <DropdownText>{member.name}</DropdownText>
-          <DropdownText>{member.cardinals}</DropdownText>
-          <DropdownText>{member.position}</DropdownText>
-          <DropdownText>{member.department}</DropdownText>
+      {members.length === 0 ? (
+        <DropdownItem noResult>
+          <NoResult>검색된 멤버가 없습니다.</NoResult>
         </DropdownItem>
-      ))}
+      ) : (
+        members.map((member) => (
+          <DropdownItem key={member.id} onClick={() => onSelect(member.name)}>
+            <DropdownText>{member.name}</DropdownText>
+            <DropdownText>{member.cardinals}</DropdownText>
+            <DropdownText>{member.position}</DropdownText>
+            <DropdownText>{member.department}</DropdownText>
+          </DropdownItem>
+        ))
+      )}
     </DropdownContainer>
   );
 };
