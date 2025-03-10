@@ -9,11 +9,11 @@ const Container = styled.div`
   align-items: center;
   gap: 10px;
   width: 345px;
-  height: 53px;
+  height: 63px;
   background-color: ${theme.color.gray[18]};
   color: #fff;
   border-radius: 5px;
-  padding: 5px;
+  box-sizing: border-box;
 
   &:hover {
     cursor: pointer;
@@ -28,6 +28,7 @@ const Line = styled.div<{ $isTodayIncluded: boolean }>`
   background-color: ${(props) =>
     props.$isTodayIncluded ? theme.color.main : '#fff'};
   border-radius: 11px;
+  margin-left: 5px;
 `;
 
 const Text = styled.div`

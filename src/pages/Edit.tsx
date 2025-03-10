@@ -11,6 +11,7 @@ import Line from '@/components/common/Line';
 import usePatchUserInfo from '@/api/usePatchMyInfo';
 import { toastInfo, toastSuccess } from '@/components/common/ToastMessage';
 import SelectModal from '@/components/Modal/SelectModal';
+import Loading from '@/components/common/Loading';
 
 const Container = styled.div`
   width: 370px;
@@ -50,7 +51,7 @@ const Title = ({ children }: { children: React.ReactNode }) => {
 const Edit = () => {
   useCustomBack('/mypage');
 
-  const { userInfo } = useGetUserInfo();
+  const { userInfo, loading } = useGetUserInfo();
   const [userData, setUserData] = useState<{ key: string; value: any }[]>([]);
   const [isSelectModalOpen, setIsSelectModalOpen] = useState(false);
   const navi = useNavigate();
@@ -132,6 +133,10 @@ const Edit = () => {
       setIsSelectModalOpen(false);
     }
   };
+
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <Container>

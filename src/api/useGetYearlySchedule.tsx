@@ -21,9 +21,11 @@ export const useGetYearlySchedule = ({
   // TODO: 서버 수정 후 자세한 타입 지정
   const [data, setData] = useState<Record<number, any>>({});
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
       try {
         if (year) {
           const response = await getYearlySchedule(year, semester);
@@ -37,12 +39,14 @@ export const useGetYearlySchedule = ({
       } catch (err: any) {
         toastError('데이터를 불러오지 못했습니다.');
         setError(err.response?.data?.message);
+      } finally {
+        setLoading(false);
       }
     };
     fetchData();
   }, [year]);
 
-  return { data, error };
+  return { data, loading, error };
 };
 
 export default useGetYearlySchedule;

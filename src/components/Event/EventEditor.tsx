@@ -1,5 +1,5 @@
 import { DayPicker } from 'react-day-picker';
-import 'react-day-picker/style.css';
+import '@/styles/event/DatePicker.css';
 import { ko } from 'date-fns/locale';
 import { EventRequestType, createEvent, editEvent } from '@/api/EventAdminAPI';
 import Header from '@/components/Header/Header';
@@ -252,6 +252,7 @@ const EventEditor = () => {
       {isEndDateModalOpen && (
         <PickerModal onClose={() => setIsEndDateModalOpen(false)}>
           <DayPicker
+            locale={ko}
             mode="single"
             selected={endDate}
             formatters={{

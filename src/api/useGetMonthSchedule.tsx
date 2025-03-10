@@ -14,9 +14,11 @@ export const getMonthlySchedule = async (start: string, end: string) => {
 export const useGetMonthlySchedule = (start: string, end: string) => {
   const [data, setData] = useState<any[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
       try {
         const response = await getMonthlySchedule(start, end);
         if (response.data.code === 200) {
@@ -30,13 +32,15 @@ export const useGetMonthlySchedule = (start: string, end: string) => {
         setError(
           err.response?.data?.message || '데이터를 불러오지 못했습니다.',
         );
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchData();
   }, [start, end]);
 
-  return { data, error };
+  return { data, loading, error };
 };
 
 export default useGetMonthlySchedule;

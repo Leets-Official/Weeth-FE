@@ -16,13 +16,13 @@ import AdminIcon from '@/assets/images/ic_Master_BW.svg';
 
 const HomeInfo = () => {
   const navigate = useNavigate();
-  const { userInfo, isLoading } = useGetUserInfo();
+  const { userInfo, loading } = useGetUserInfo();
   const [characterImg, setCharacterImg] = useState('');
   const [userPart, setUserPart] = useState('');
   const { isAdmin } = useGetGlobaluserInfo();
 
   useEffect(() => {
-    if (!isLoading && userInfo) {
+    if (!loading && userInfo) {
       switch (userInfo.position) {
         case 'FE':
           setCharacterImg(FEChar);
@@ -41,10 +41,10 @@ const HomeInfo = () => {
           break;
       }
     }
-  }, [userInfo, isLoading]);
+  }, [userInfo, loading]);
 
   const handleMouseEnter = () => {
-    if (!isLoading && userInfo) {
+    if (!loading && userInfo) {
       switch (userInfo.position) {
         case 'FE':
           setCharacterImg(FECharHover);
@@ -62,7 +62,7 @@ const HomeInfo = () => {
   };
 
   const handleMouseLeave = () => {
-    if (!isLoading && userInfo) {
+    if (!loading && userInfo) {
       switch (userInfo.position) {
         case 'FE':
           setCharacterImg(FEChar);
@@ -93,7 +93,7 @@ const HomeInfo = () => {
           </S.NickNameContainer>
         </S.UserContainer>
         <S.RightButtonContainer>
-          {isLoading || !userInfo ? (
+          {loading || !userInfo ? (
             <S.LoadingContainer />
           ) : (
             <S.UserCharacter

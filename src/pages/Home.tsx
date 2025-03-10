@@ -18,7 +18,7 @@ const Container = styled.div`
 const HeaderContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  margin-top: 15px;
+  margin-top: 25px;
   align-items: center;
 `;
 
