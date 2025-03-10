@@ -70,7 +70,7 @@ export const postBoardNotice = async ({
 
     switch (postType) {
       case 'postBoard':
-        endpoint = `/api/v1/posts`;
+        endpoint = `/api/v1/board`;
         method = 'post';
         break;
       case 'postNotice':
@@ -78,7 +78,7 @@ export const postBoardNotice = async ({
         method = 'post';
         break;
       case 'editBoard':
-        endpoint = `/api/v1/posts/${id}`;
+        endpoint = `/api/v1/board/${id}`;
         method = 'patch';
         break;
       case 'editNotice':

@@ -22,6 +22,9 @@ interface Content {
 
 const Board = () => {
   const navigate = useNavigate();
+  const url = new URL(window.location.href);
+  const pathArray = url.pathname.split('/');
+  const path = pathArray[1];
 
   const [posts, setPosts] = useState<Content[]>([]);
   const [hasMore, setHasMore] = useState(true);

@@ -80,7 +80,7 @@ const SignupMemInput: React.FC<SignupMemInputProps> = ({
           return numberRegex.test(val) && val.length <= 11; // 숫자만, 최대 11자리
         }
         if (labelName === '기수') {
-          return /^[1-4]*$/.test(val) && val.length <= 1; // 1~4 사이 한자리 숫자
+          return /^[1-5]*$/.test(val) && val.length <= 1; // 1~4 사이 한자리 숫자
         }
         return numberRegex.test(val);
       case 'email':
