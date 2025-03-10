@@ -52,8 +52,6 @@ const CommentInput = ({
     setParentCommentId(initialParentCommentId);
   }, [initialParentCommentId]);
 
-  console.log('parentCommentId:', parentCommentId);
-
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
   };

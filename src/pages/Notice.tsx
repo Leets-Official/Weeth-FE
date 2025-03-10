@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import PostListItem from '@/components/Board/PostListItem';
 import formatDate from '@/hooks/formatDate';
-import theme from '@/styles/theme';
 import * as S from '@/styles/board/Board.styled';
 import { useGetBoardInfo } from '@/api/useGetBoardInfo';
 import Header from '@/components/Header/Header';

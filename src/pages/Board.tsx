@@ -62,13 +62,7 @@ const Board = () => {
       (entries) => {
         const firstEntry = entries[0];
         if (firstEntry.isIntersecting && hasMore && !isLoading) {
-          useGetBoardInfo(
-            'posts',
-            pageNumber,
-            setPosts,
-            setHasMore,
-            setIsLoading,
-          );
+          useGetBoardInfo(path, pageNumber, setPosts, setHasMore, setIsLoading);
           setPageNumber((prevPage) => prevPage + 1);
         }
       },
