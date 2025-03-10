@@ -12,6 +12,7 @@ import theme from '@/styles/theme';
 import deletePost from '@/api/deletePost';
 import { toastError, toastInfo } from '@/components/common/ToastMessage';
 import SelectModal from '@/components/Modal/SelectModal';
+import Loading from '@/components/common/Loading';
 
 const Container = styled.div`
   display: flex;
@@ -62,7 +63,7 @@ const NoticePostDetail = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isSelectModalOpen, setIsSelectModalOpen] = useState(false);
 
-  const { boardDetailInfo, error } = useGetBoardDetail(
+  const { boardDetailInfo, error, loading } = useGetBoardDetail(
     path,
     numericPostId,
     refreshKey,
@@ -120,6 +121,7 @@ const NoticePostDetail = () => {
   const isMyPost = boardDetailInfo?.name === useGetUserName();
 
   if (error) return <div>오류: {error}</div>;
+  if (loading) return <Loading />;
 
   return (
     <>

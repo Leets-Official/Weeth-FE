@@ -50,11 +50,13 @@ export const useGetBoardDetail = (
 ) => {
   const [boardDetailInfo, setBoardDetail] = useState<BoardDetail | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
 
   const type = path === 'board' ? 'board' : 'notices';
 
   useEffect(() => {
     const fetchBoardDetail = async () => {
+      setLoading(true);
       try {
         const response = await getBoardDetail(type, id);
         const { data } = response.data;
@@ -72,13 +74,15 @@ export const useGetBoardDetail = (
         setError(null);
       } catch (err: any) {
         setError(err.response?.data?.message);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchBoardDetail();
   }, [path, id, refreshKey]);
 
-  return { boardDetailInfo, error };
+  return { boardDetailInfo, error, loading };
 };
 
 export default useGetBoardDetail;
