@@ -4,7 +4,7 @@ import { useState } from 'react';
 import DownButton from '@/assets/images/ic_admin_cardinal.svg';
 import DuesRegisterDropDown from '@/components/Admin/DuesRegisterDropDown';
 
-const Wrapper = styled.div`
+export const Wrapper = styled.div`
   width: 90%;
   height: 72px;
   margin-top: 50px;
@@ -15,7 +15,7 @@ const Wrapper = styled.div`
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 `;
 
-const Title = styled.div`
+export const Title = styled.div`
   width: 100%;
   height: 100%;
   display: flex;

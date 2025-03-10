@@ -6,9 +6,14 @@ interface ButtonProps {
   description: string;
   width: string;
   onClick?: () => void;
+  borderRadius?: string;
 }
 
-const Wrapper = styled.div<{ color: string; width: string }>`
+const Wrapper = styled.div<{
+  color: string;
+  width: string;
+  borderRadius?: string;
+}>`
   width: ${(props) => props.width || '64px'};
   height: 48px;
   background-color: ${(props) => props.color};
@@ -16,6 +21,7 @@ const Wrapper = styled.div<{ color: string; width: string }>`
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  border-radius: ${({ borderRadius }) => borderRadius || '0px'};
 `;
 
 const Description = styled.div`
@@ -29,9 +35,15 @@ const Button: React.FC<ButtonProps> = ({
   description,
   width,
   onClick,
+  borderRadius,
 }) => {
   return (
-    <Wrapper color={color} width={width} onClick={onClick}>
+    <Wrapper
+      color={color}
+      width={width}
+      onClick={onClick}
+      borderRadius={borderRadius}
+    >
       <Description>{description}</Description>
     </Wrapper>
   );

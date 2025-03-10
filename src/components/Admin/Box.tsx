@@ -55,6 +55,7 @@ export const Title = styled.div<{
   isIncomplete?: boolean;
 }>`
   font-size: 18px;
+  min-height: 24px;
   font-family: ${theme.font.regular};
   color: ${({ isIncomplete }) =>
     isIncomplete ? theme.color.gray[18] : theme.color.gray[100]};
