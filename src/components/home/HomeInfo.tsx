@@ -11,6 +11,7 @@ import BECharHover from '@/assets/images/ic_char_BE_hover.svg';
 import DEChar from '@/assets/images/ic_char_DE.svg';
 import DECharHover from '@/assets/images/ic_char_DE_hover.svg';
 import AdminIcon from '@/assets/images/ic_Master_BW.svg';
+import DefaultIcon from '@/assets/images/ic_default_position.svg';
 
 interface HomeInfoProps {
   position: string;
@@ -40,7 +41,7 @@ const HomeInfo = ({ position, cardinal, name, isAdmin }: HomeInfoProps) => {
           setUserPart('D');
           break;
         default:
-          setCharacterImg('');
+          setCharacterImg(DefaultIcon);
           break;
       }
     }
