@@ -37,7 +37,6 @@ export const useGetYearlySchedule = ({
           }
         }
       } catch (err: any) {
-        toastError('데이터를 불러오지 못했습니다.');
         setError(err.response?.data?.message);
       } finally {
         setLoading(false);

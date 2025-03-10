@@ -5,18 +5,10 @@ import YearlyCard from './YearlyCard';
 import Loading from '../common/Loading';
 
 const YearCalendar = ({ year, term }: { year: number; term: number }) => {
-  const {
-    data: yearlySchedule,
-    loading,
-    error,
-  } = useGetYearlySchedule({
+  const { data: yearlySchedule, loading } = useGetYearlySchedule({
     year,
     semester: term,
   });
-
-  if (error) {
-    return <div>{error}</div>;
-  }
 
   if (loading) {
     <Loading />;
