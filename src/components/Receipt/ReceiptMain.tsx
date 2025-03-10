@@ -6,6 +6,7 @@ import useGetGlobaluserInfo from '@/api/useGetGlobaluserInfo';
 import ReceiptImageModal from '@/components/Receipt/ReceiptImageModal';
 import ReceiptPdfModal from '@/components/Receipt/ReceiptPdfModal';
 import PdfViewer from '@/components/Receipt/PdfViewer';
+import Loading from '../common/Loading';
 
 interface GroupedByMonth {
   [key: string]: Receipt[];
@@ -15,7 +16,7 @@ const ReceiptMain: React.FC = () => {
   const { globalInfo } = useGetGlobaluserInfo();
   const cardinal =
     globalInfo?.cardinals?.[globalInfo.cardinals.length - 1] ?? 0;
-  const { duesInfo } = useGetDuesInfo(cardinal);
+  const { duesInfo, loading } = useGetDuesInfo(cardinal);
 
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
   const [selectedImage, setSelectedImage] = useState<string>('');
@@ -64,6 +65,7 @@ const ReceiptMain: React.FC = () => {
   } else {
     months = [9, 10, 11, 12, 1, 2];
   }
+  if (loading) return <Loading />;
 
   return (
     <S.StyledReceipt>
