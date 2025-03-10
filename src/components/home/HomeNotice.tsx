@@ -68,7 +68,9 @@ const HomeNotice = ({
   };
 
   const handleNotice = () => {
-    navi(`/notice/${id}`);
+    if (!id) {
+      navi(`/notice/${id}`);
+    }
   };
   return (
     <AnimationLayout onClick={handleNotice}>

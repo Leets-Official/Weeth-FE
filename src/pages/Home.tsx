@@ -47,8 +47,8 @@ const Home: React.FC = () => {
         <LogoutButton />
       </HeaderContainer>
       <HomeNotice
-        title={recentNotices[0].title}
-        content={recentNotices[0].content}
+        title={recentNotices[0].title || ' '}
+        content={recentNotices[0].content || ' '}
         id={recentNotices[0].id}
       />
       <HomeInfo
