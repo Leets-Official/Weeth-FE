@@ -1,6 +1,5 @@
 import styled, { keyframes } from 'styled-components';
 import theme from '@/styles/theme';
-import { useGetRecentNotice } from '@/api/useGetBoardInfo';
 import { useNavigate } from 'react-router-dom';
 
 const flowing = keyframes`
@@ -52,30 +51,36 @@ export const Text = styled.div`
   display: inline-block;
 `;
 
-const HomeNotice = () => {
-  const { recentNotices, isLoading } = useGetRecentNotice();
+const HomeNotice = ({
+  title,
+  content,
+  id,
+}: {
+  title: string;
+  content: string;
+  id: number;
+}) => {
   const navi = useNavigate();
-  const formatContent = (content: string) => {
-    return content.length > 25 ? `${content.substring(0, 25)}...` : content;
+  const formatContent = (noticeContent: string) => {
+    return noticeContent.length > 25
+      ? `${noticeContent.substring(0, 25)}...`
+      : noticeContent;
   };
-  console.log(recentNotices);
 
   const handleNotice = () => {
-    navi(`/notice/${recentNotices[0].id}`);
+    if (!id) {
+      navi(`/notice/${id}`);
+    }
   };
   return (
     <AnimationLayout onClick={handleNotice}>
       <FlowBox>
         <FlowText>
           <Title>📢 공지</Title>
-          {isLoading ? (
-            <div>Loading...</div>
-          ) : (
-            <Text>
-              <Title>{recentNotices[0].title}</Title>
-              &nbsp;{formatContent(recentNotices[0].content)}
-            </Text>
-          )}
+          <Text>
+            <Title>{title}</Title>
+            &nbsp;{formatContent(content)}
+          </Text>
         </FlowText>
       </FlowBox>
     </AnimationLayout>

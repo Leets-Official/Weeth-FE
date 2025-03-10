@@ -2,14 +2,14 @@ import theme from '@/styles/theme';
 import styled from 'styled-components';
 
 // Comment.tsx
-export const CommentContainer = styled.div<{ isHighlighted: boolean }>`
+export const CommentContainer = styled.div<{ $isSelect: boolean }>`
   width: calc(100% - 20px);
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   padding: 10px;
   background-color: ${(props) =>
-    props.isHighlighted ? '#508FFF1A' : 'transparent'};
+    props.$isSelect ? '#508FFF1A' : 'transparent'};
   transition: background-color 0.3s ease;
 `;
 

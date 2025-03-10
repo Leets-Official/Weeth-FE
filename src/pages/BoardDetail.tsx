@@ -12,6 +12,7 @@ import MenuModal from '@/components/common/MenuModal';
 import theme from '@/styles/theme';
 import { toastInfo, toastError } from '@/components/common/ToastMessage';
 import SelectModal from '@/components/Modal/SelectModal';
+import Loading from '@/components/common/Loading';
 
 const Container = styled.div`
   display: flex;
@@ -65,7 +66,7 @@ const BoardDetail = () => {
   const [parentCommentId, setParentCommentId] = useState<number | null>(null);
 
   // refreshKey를 의존성으로 사용
-  const { boardDetailInfo, error } = useGetBoardDetail(
+  const { boardDetailInfo, error, loading } = useGetBoardDetail(
     path,
     numericPostId,
     refreshKey,
@@ -125,6 +126,8 @@ const BoardDetail = () => {
   const isMyPost = boardDetailInfo?.name === useGetUserName();
 
   if (error) return <div>오류: {error}</div>;
+
+  if (loading) return <Loading />;
 
   return (
     <>

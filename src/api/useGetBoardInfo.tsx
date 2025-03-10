@@ -1,4 +1,4 @@
-import axios from 'axios';
+import api from '@/api/api';
 import { useState, useEffect } from 'react';
 
 interface Content {
@@ -32,24 +32,14 @@ export const useGetBoardInfo = async (
   pageNumber: number,
   setPosts: React.Dispatch<React.SetStateAction<Content[]>>,
   setHasMore: React.Dispatch<React.SetStateAction<boolean>>,
-  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
+  setObserverLoading: React.Dispatch<React.SetStateAction<boolean>>,
 ) => {
-  setIsLoading(true);
+  setObserverLoading(true);
 
   try {
-    const accessToken = localStorage.getItem('accessToken');
-    const refreshToken = localStorage.getItem('refreshToken');
-
-    const response = await axios.get<ApiResponse>(
-      `${BASE_URL}/api/v1/${path}`,
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          Authorization_refresh: `Bearer ${refreshToken}`,
-        },
-        params: { pageNumber, pageSize: 10 },
-      },
-    );
+    const response = await api.get<ApiResponse>(`${BASE_URL}/api/v1/${path}`, {
+      params: { pageNumber, pageSize: 10 },
+    });
 
     const { data } = response.data;
     setPosts((prevPosts) => [...prevPosts, ...data.content]);
@@ -57,30 +47,24 @@ export const useGetBoardInfo = async (
   } catch (error) {
     console.error('Error fetching data:', error);
   } finally {
-    setIsLoading(false);
+    setObserverLoading(false);
   }
 };
 
 // 최신 공지사항 10개를 가져오는 훅
 export const useGetRecentNotice = () => {
   const [recentNotices, setRecentNotices] = useState<Content[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [recentNoticeLoading, setRecentNoticeLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchRecentNotice = async () => {
       try {
-        setIsLoading(true);
-        const accessToken = localStorage.getItem('accessToken');
-        const refreshToken = localStorage.getItem('refreshToken');
+        setRecentNoticeLoading(true);
 
-        const response = await axios.get<ApiResponse>(
+        const response = await api.get<ApiResponse>(
           `${BASE_URL}/api/v1/notices`,
           {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-              Authorization_refresh: `Bearer ${refreshToken}`,
-            },
             params: { pageNumber: 0, pageSize: 10 },
           },
         );
@@ -93,14 +77,14 @@ export const useGetRecentNotice = () => {
             '공지사항을 불러오는 중 오류가 발생했습니다.',
         );
       } finally {
-        setIsLoading(false);
+        setRecentNoticeLoading(false);
       }
     };
 
     fetchRecentNotice();
   }, []);
 
-  return { recentNotices, isLoading, error };
+  return { recentNotices, recentNoticeLoading, error };
 };
 
 export default useGetBoardInfo;

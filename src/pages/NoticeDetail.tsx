@@ -12,6 +12,7 @@ import theme from '@/styles/theme';
 import deletePost from '@/api/deletePost';
 import { toastError, toastInfo } from '@/components/common/ToastMessage';
 import SelectModal from '@/components/Modal/SelectModal';
+import Loading from '@/components/common/Loading';
 
 const Container = styled.div`
   display: flex;
@@ -62,7 +63,7 @@ const NoticePostDetail = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isSelectModalOpen, setIsSelectModalOpen] = useState(false);
 
-  const { boardDetailInfo, error } = useGetBoardDetail(
+  const { boardDetailInfo, error, loading } = useGetBoardDetail(
     path,
     numericPostId,
     refreshKey,
@@ -84,10 +85,10 @@ const NoticePostDetail = () => {
 
   const confirmDelete = async () => {
     try {
-      await deletePost(numericPostId, path);
+      await deletePost(numericPostId, 'notices');
       toastInfo('게시물이 삭제되었습니다');
       setTimeout(() => {
-        navigate('/notice'); // 2초 후 공지지 목록 페이지로 이동
+        navigate('/notice'); // 2초 후 공지 목록 페이지로 이동
       }, 2000);
     } catch (err) {
       toastError('에러가 발생했습니다.');
@@ -120,6 +121,7 @@ const NoticePostDetail = () => {
   const isMyPost = boardDetailInfo?.name === useGetUserName();
 
   if (error) return <div>오류: {error}</div>;
+  if (loading) return <Loading />;
 
   return (
     <>
@@ -154,7 +156,7 @@ const NoticePostDetail = () => {
             setIsModalOpen(true);
           }}
         >
-          게시판
+          📢 공지사항
         </Header>
 
         {boardDetailInfo && (

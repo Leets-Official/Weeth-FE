@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from '@/api/api';
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
@@ -32,15 +32,7 @@ interface BoardDetail {
 }
 
 const getBoardDetail = async (path: string, id: number) => {
-  const accessToken = localStorage.getItem('accessToken');
-  const refreshToken = localStorage.getItem('refreshToken');
-
-  return axios.get(`${BASE_URL}/api/v1/${path}/${id}`, {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-      Authorization_refresh: `Bearer ${refreshToken}`,
-    },
-  });
+  return api.get(`${BASE_URL}/api/v1/${path}/${id}`, {});
 };
 
 export const useGetBoardDetail = (
@@ -50,11 +42,13 @@ export const useGetBoardDetail = (
 ) => {
   const [boardDetailInfo, setBoardDetail] = useState<BoardDetail | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
 
   const type = path === 'board' ? 'board' : 'notices';
 
   useEffect(() => {
     const fetchBoardDetail = async () => {
+      setLoading(true);
       try {
         const response = await getBoardDetail(type, id);
         const { data } = response.data;
@@ -72,13 +66,15 @@ export const useGetBoardDetail = (
         setError(null);
       } catch (err: any) {
         setError(err.response?.data?.message);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchBoardDetail();
   }, [path, id, refreshKey]);
 
-  return { boardDetailInfo, error };
+  return { boardDetailInfo, error, loading };
 };
 
 export default useGetBoardDetail;

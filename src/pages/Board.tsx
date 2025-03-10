@@ -5,8 +5,9 @@ import { useGetBoardInfo, useGetRecentNotice } from '@/api/useGetBoardInfo';
 import * as S from '@/styles/board/Board.styled';
 import Header from '@/components/Header/Header';
 import { useNavigate } from 'react-router-dom';
-import { useDraggable } from '@/hooks/useDraggable';
 import PostingButton from '@/components/Board/PostingButton';
+import Loading from '@/components/common/Loading';
+import SlideNotice from '../components/Board/SlideNotice';
 
 interface Content {
   id: number;
@@ -29,24 +30,12 @@ const Board = () => {
   const [posts, setPosts] = useState<Content[]>([]);
   const [hasMore, setHasMore] = useState(true);
   const [pageNumber, setPageNumber] = useState(0);
-  const [isLoading, setIsLoading] = useState(false);
+  const [observerLoading, setObserverLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-  const { recentNotices, error } = useGetRecentNotice();
+  const { recentNotices, error, recentNoticeLoading } = useGetRecentNotice();
 
   const observerRef = useRef<HTMLDivElement | null>(null);
-
-  const scrollerRef1 = useRef<HTMLDivElement | null>(null);
-
-  const { onMouseDown, onMouseMove, onMouseUp, onMouseLeave } =
-    useDraggable(scrollerRef1);
-
-  const handleNoticeCard = (
-    e: React.MouseEvent<HTMLDivElement>,
-    id: number,
-  ) => {
-    e.preventDefault();
-    navigate(`/notice/${id}`);
-  };
 
   const handleAllNotice = () => {
     navigate('/notice');
@@ -56,25 +45,50 @@ const Board = () => {
     navigate('/board/post');
   };
 
-  // Intersection Observer 설정
+  const fetchData = async () => {
+    if (!observerLoading && hasMore) {
+      setObserverLoading(true);
+      await useGetBoardInfo(
+        path,
+        pageNumber,
+        setPosts,
+        setHasMore,
+        setObserverLoading,
+      );
+      setPageNumber((prevPage) => prevPage + 1);
+      setObserverLoading(false);
+      if (loading) setLoading(false);
+    }
+  };
+
   useEffect(() => {
+    // 초기 데이터 로드
+    fetchData();
     const observer = new IntersectionObserver(
       (entries) => {
         const firstEntry = entries[0];
-        if (firstEntry.isIntersecting && hasMore && !isLoading) {
-          useGetBoardInfo(path, pageNumber, setPosts, setHasMore, setIsLoading);
-          setPageNumber((prevPage) => prevPage + 1);
+        if (firstEntry.isIntersecting) {
+          // 추가 데이터 로드
+          fetchData();
         }
       },
       { root: null, rootMargin: '0px', threshold: 0.1 },
     );
 
-    if (observerRef.current) observer.observe(observerRef.current);
+    if (observerRef.current) {
+      observer.observe(observerRef.current);
+    }
 
     return () => {
-      if (observerRef.current) observer.unobserve(observerRef.current);
+      if (observerRef.current) {
+        observer.unobserve(observerRef.current);
+      }
     };
-  }, [hasMore, isLoading, pageNumber]);
+  }, [hasMore, observerLoading, pageNumber]);
+
+  if (loading || recentNoticeLoading) {
+    return <Loading />;
+  }
 
   return (
     <S.Container>
@@ -85,28 +99,7 @@ const Board = () => {
         <S.NoticeTitleText>📢 공지사항</S.NoticeTitleText>
         <S.AllText onClick={handleAllNotice}>전체보기 &gt;</S.AllText>
       </S.NoticeTextContainer>
-
-      {error ? (
-        <div>에러</div>
-      ) : (
-        <S.ScrollContainer
-          ref={scrollerRef1}
-          onMouseDown={onMouseDown}
-          onMouseMove={onMouseMove}
-          onMouseUp={onMouseUp}
-          onMouseLeave={onMouseLeave}
-        >
-          {recentNotices.map((notice) => (
-            <S.NoticeCard
-              key={notice.id}
-              onClick={(e) => handleNoticeCard(e, notice.id)}
-            >
-              <S.NoticeTitle>{notice.title}</S.NoticeTitle>
-              <S.NoticeContent>{notice.content}</S.NoticeContent>
-            </S.NoticeCard>
-          ))}
-        </S.ScrollContainer>
-      )}
+      <SlideNotice error={error} recentNotices={recentNotices} />
       <S.TabContainerWrapper>
         <S.TabContainer>
           <S.TabText>자유게시판</S.TabText>
@@ -138,8 +131,7 @@ const Board = () => {
           style={{ height: '20px', backgroundColor: 'transparent' }}
         />
       )}
-      {isLoading && <S.Text>로딩 중...</S.Text>}
-      {!hasMore && <S.Text>마지막 게시물입니다.</S.Text>}
+      {!hasMore && posts.length > 10 && <S.Text>마지막 게시물입니다.</S.Text>}
       <S.PostingButtonContainer>
         <PostingButton onClick={handlePosting} />
       </S.PostingButtonContainer>

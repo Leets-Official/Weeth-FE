@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import theme from '@/styles/theme';
 import CommentSend from '@/assets/images/ic_send.svg';
 import createComment from '@/api/postComment';
+import { toastError } from '@/components/common/ToastMessage';
 
 const Container = styled.div`
   width: 80%;
@@ -52,15 +53,13 @@ const CommentInput = ({
     setParentCommentId(initialParentCommentId);
   }, [initialParentCommentId]);
 
-  console.log('parentCommentId:', parentCommentId);
-
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
   };
 
   const onClickSend = async () => {
     if (inputValue.trim() === '') {
-      alert('댓글을 입력하세요.');
+      toastError('댓글을 입력하세요.');
       return;
     }
 
@@ -73,7 +72,7 @@ const CommentInput = ({
         '댓글 작성 중 에러:',
         error.response?.data?.message || error.message,
       );
-      alert('댓글 작성에 실패했습니다.');
+      toastError('댓글 작성에 실패했습니다.');
     }
   };
 
