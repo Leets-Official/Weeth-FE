@@ -52,11 +52,13 @@ export const Text = styled.div`
   display: inline-block;
 `;
 
-const HomeNotice = () => {
+const HomeNotice = ({ title, content }: { title: string; content: string }) => {
   const { recentNotices, isLoading } = useGetRecentNotice();
   const navi = useNavigate();
-  const formatContent = (content: string) => {
-    return content.length > 25 ? `${content.substring(0, 25)}...` : content;
+  const formatContent = (noticeContent: string) => {
+    return noticeContent.length > 25
+      ? `${noticeContent.substring(0, 25)}...`
+      : noticeContent;
   };
   console.log(recentNotices);
 
@@ -72,8 +74,8 @@ const HomeNotice = () => {
             <div>Loading...</div>
           ) : (
             <Text>
-              <Title>{recentNotices[0].title}</Title>
-              &nbsp;{formatContent(recentNotices[0].content)}
+              <Title>{title}</Title>
+              &nbsp;{formatContent(content)}
             </Text>
           )}
         </FlowText>

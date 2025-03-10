@@ -10,20 +10,19 @@ import BEChar from '@/assets/images/ic_char_BE.svg';
 import BECharHover from '@/assets/images/ic_char_BE_hover.svg';
 import DEChar from '@/assets/images/ic_char_DE.svg';
 import DECharHover from '@/assets/images/ic_char_DE_hover.svg';
-import useGetGlobaluserInfo from '@/api/useGetGlobaluserInfo';
 import AdminIcon from '@/assets/images/ic_Master_BW.svg';
 
 interface HomeInfoProps {
   position: string;
   cardinal: number | string;
   name: string;
+  isAdmin: boolean;
 }
 
-const HomeInfo = ({ position, cardinal, name }: HomeInfoProps) => {
+const HomeInfo = ({ position, cardinal, name, isAdmin }: HomeInfoProps) => {
   const navigate = useNavigate();
   const [characterImg, setCharacterImg] = useState('');
   const [userPart, setUserPart] = useState('');
-  const { isAdmin } = useGetGlobaluserInfo();
 
   useEffect(() => {
     if (position) {

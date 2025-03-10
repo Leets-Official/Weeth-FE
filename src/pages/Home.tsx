@@ -7,32 +7,59 @@ import HomeNotice from '@/components/home/HomeNotice';
 import HomeInfo from '@/components/home/HomeInfo';
 import useGetUserInfo from '@/api/useGetUserInfo';
 import { useGetRecentNotice } from '@/api/useGetBoardInfo';
+import useGetGlobaluserInfo from '@/api/useGetGlobaluserInfo';
 import Loading from '@/components/common/Loading';
+import styled from 'styled-components';
 
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 370px;
+  max-width: 370px;
+  margin-bottom: 50px;
+`;
+
+const HeaderContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-top: 25px;
+  align-items: center;
+`;
+
+const Header = styled.img`
+  padding-left: 5%;
+`;
 const Home: React.FC = () => {
   const { userInfo, isLoading: isLoadingUser } = useGetUserInfo();
   const { recentNotices, isLoading: isLoadingNotices } = useGetRecentNotice();
+  const { isAdmin, loading } = useGetGlobaluserInfo();
 
   useCustomBack('/home');
 
-  if (isLoadingUser || isLoadingNotices) {
+  if (isLoadingUser || isLoadingNotices || loading) {
     return <Loading />;
   }
 
   return (
-    <div>
-      <img src={logo} alt="leets로고" />
-      <LogoutButton />
-      <HomeNotice notices={recentNotices} />
+    <Container>
+      <HeaderContainer>
+        <Header src={logo} alt="leets로고" />
+        <LogoutButton />
+      </HeaderContainer>
+      <HomeNotice
+        title={recentNotices[0].title}
+        content={recentNotices[0].content}
+      />
       <HomeInfo
         position={userInfo?.position || ''}
         cardinal={userInfo?.cardinals?.[userInfo.cardinals.length - 1] || '0'}
         name={userInfo?.name || '...'}
+        isAdmin={isAdmin}
       />
 
       <HomeMain />
       <HomeFooter />
-    </div>
+    </Container>
   );
 };
 
