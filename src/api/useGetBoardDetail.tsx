@@ -32,15 +32,7 @@ interface BoardDetail {
 }
 
 const getBoardDetail = async (path: string, id: number) => {
-  const accessToken = localStorage.getItem('accessToken');
-  const refreshToken = localStorage.getItem('refreshToken');
-
-  return api.get(`${BASE_URL}/api/v1/${path}/${id}`, {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-      Authorization_refresh: `Bearer ${refreshToken}`,
-    },
-  });
+  return api.get(`${BASE_URL}/api/v1/${path}/${id}`, {});
 };
 
 export const useGetBoardDetail = (

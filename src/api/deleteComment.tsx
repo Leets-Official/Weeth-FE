@@ -7,17 +7,8 @@ const deleteComment = async (
   postId: number,
   commentId: number,
 ) => {
-  const accessToken = localStorage.getItem('accessToken');
-  const refreshToken = localStorage.getItem('refreshToken');
-
   return api.delete(
     `${BASE_URL}/api/v1/${path}/${postId}/comments/${commentId}`,
-    {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        Authorization_refresh: `Bearer ${refreshToken}`,
-      },
-    },
   );
 };
 

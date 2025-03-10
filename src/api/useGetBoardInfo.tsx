@@ -37,14 +37,7 @@ export const useGetBoardInfo = async (
   setObserverLoading(true);
 
   try {
-    const accessToken = localStorage.getItem('accessToken');
-    const refreshToken = localStorage.getItem('refreshToken');
-
     const response = await api.get<ApiResponse>(`${BASE_URL}/api/v1/${path}`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        Authorization_refresh: `Bearer ${refreshToken}`,
-      },
       params: { pageNumber, pageSize: 10 },
     });
 
@@ -68,16 +61,10 @@ export const useGetRecentNotice = () => {
     const fetchRecentNotice = async () => {
       try {
         setRecentNoticeLoading(true);
-        const accessToken = localStorage.getItem('accessToken');
-        const refreshToken = localStorage.getItem('refreshToken');
 
         const response = await api.get<ApiResponse>(
           `${BASE_URL}/api/v1/notices`,
           {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-              Authorization_refresh: `Bearer ${refreshToken}`,
-            },
             params: { pageNumber: 0, pageSize: 10 },
           },
         );
