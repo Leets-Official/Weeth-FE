@@ -33,20 +33,25 @@ const AttendMain: React.FC = () => {
   const [penaltyModalOpen, setPenaltyModalOpen] = useState<boolean>(false);
   const [hasPenalty, setHasPenalty] = useState<boolean>(false);
 
-  const { penaltyInfo } = useGetPenalty();
+  const { penaltyInfo, isLoading: penaltyLoading } = useGetPenalty();
   const [isAttend, setIsAttend] = useState(false);
   const {
     attendInfo,
     hasSchedule,
     isLoading: attendLoading,
   } = useGetAttend(isAttend);
-  console.log(attendInfo);
 
   useEffect(() => {
     setHasPenalty(
       penaltyInfo?.penaltyCount ? penaltyInfo.penaltyCount > 0 : false,
     );
   }, [penaltyInfo]);
+
+  useEffect(() => {
+    if (attendInfo?.status === 'ATTEND') {
+      setIsAttend(true);
+    }
+  }, [attendInfo?.status]);
 
   if (attendLoading || penaltyLoading) {
     return <Loading />;
@@ -74,12 +79,6 @@ const AttendMain: React.FC = () => {
     const currentTime = dayjs().format('h:mm A');
     isWithinTimeRange = currentTime >= startTime && currentTime <= endTime;
   }
-
-  useEffect(() => {
-    if (attendInfo?.status === 'ATTEND') {
-      setIsAttend(true);
-    }
-  }, [attendInfo?.status]);
 
   const handleOpenModal = () => {
     if (isWithinTimeRange) {
