@@ -7,6 +7,7 @@ import Header from '@/components/Header/Header';
 import { useNavigate } from 'react-router-dom';
 import { useDraggable } from '@/hooks/useDraggable';
 import PostingButton from '@/components/Board/PostingButton';
+import Loading from '@/components/common/Loading';
 
 interface Content {
   id: number;
@@ -29,7 +30,8 @@ const Board = () => {
   const [posts, setPosts] = useState<Content[]>([]);
   const [hasMore, setHasMore] = useState(true);
   const [pageNumber, setPageNumber] = useState(0);
-  const [isLoading, setIsLoading] = useState(false);
+  const [observerLoading, setObserverLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const { recentNotices, error } = useGetRecentNotice();
 
@@ -56,25 +58,48 @@ const Board = () => {
     navigate('/board/post');
   };
 
-  // Intersection Observer 설정
+  const fetchData = async () => {
+    if (!observerLoading && hasMore) {
+      setObserverLoading(true);
+      await useGetBoardInfo(
+        path,
+        pageNumber,
+        setPosts,
+        setHasMore,
+        setObserverLoading,
+      );
+      setPageNumber((prevPage) => prevPage + 1);
+      setObserverLoading(false);
+      if (loading) setLoading(false);
+    }
+  };
+
   useEffect(() => {
+    fetchData(); // 초기 데이터 로드
     const observer = new IntersectionObserver(
       (entries) => {
         const firstEntry = entries[0];
-        if (firstEntry.isIntersecting && hasMore && !isLoading) {
-          useGetBoardInfo(path, pageNumber, setPosts, setHasMore, setIsLoading);
-          setPageNumber((prevPage) => prevPage + 1);
+        if (firstEntry.isIntersecting) {
+          fetchData(); // 추가 데이터 로드
         }
       },
       { root: null, rootMargin: '0px', threshold: 0.1 },
     );
 
-    if (observerRef.current) observer.observe(observerRef.current);
+    if (observerRef.current) {
+      observer.observe(observerRef.current);
+    }
 
     return () => {
-      if (observerRef.current) observer.unobserve(observerRef.current);
+      if (observerRef.current) {
+        observer.unobserve(observerRef.current);
+      }
     };
-  }, [hasMore, isLoading, pageNumber]);
+  }, [hasMore, observerLoading, pageNumber]); // 의존성 배열
+
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <S.Container>

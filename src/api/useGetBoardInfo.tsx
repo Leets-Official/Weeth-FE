@@ -32,9 +32,9 @@ export const useGetBoardInfo = async (
   pageNumber: number,
   setPosts: React.Dispatch<React.SetStateAction<Content[]>>,
   setHasMore: React.Dispatch<React.SetStateAction<boolean>>,
-  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
+  setObserverLoading: React.Dispatch<React.SetStateAction<boolean>>,
 ) => {
-  setIsLoading(true);
+  setObserverLoading(true);
 
   try {
     const accessToken = localStorage.getItem('accessToken');
@@ -54,7 +54,7 @@ export const useGetBoardInfo = async (
   } catch (error) {
     console.error('Error fetching data:', error);
   } finally {
-    setIsLoading(false);
+    setObserverLoading(false);
   }
 };
 
