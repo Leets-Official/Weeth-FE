@@ -14,6 +14,7 @@ import {
   ContentWrapper,
   Container,
 } from '@/styles/admin/AdminLayout.styled';
+import { useState } from 'react';
 
 const columns: Column[] = [
   { key: 'name', header: '이름', width: '7%' },
@@ -43,6 +44,8 @@ const DynamicTopBar: React.FC = () => {
 };
 
 const AdminMember: React.FC = () => {
+  const [searchName, setSearchName] = useState<string>('');
+
   return (
     <MemberProvider>
       <AdminOnly isAdminPage />
@@ -51,7 +54,7 @@ const AdminMember: React.FC = () => {
         <ContentWrapper>
           <DynamicTopBar />
           <Container>
-            <SearchBar />
+            <SearchBar searchName={searchName} setSearchName={setSearchName} />
             <CardinalInfo />
             <MemberListTable columns={columns} />
           </Container>

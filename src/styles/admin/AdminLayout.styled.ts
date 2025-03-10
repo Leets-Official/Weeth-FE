@@ -13,12 +13,12 @@ export const PageWrapper = styled.div`
 
 export const Container = styled.div`
   width: 100%;
-  min-width: 1200px;
+  max-width: 1400px;
+  min-width: 1400px;
   margin: 20px 30px 0 30px;
   padding-bottom: 30px;
   box-sizing: border-box;
   flex-direction: column;
-  align-items: center;
 `;
 
 export const ContentWrapper = styled.div`

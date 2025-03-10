@@ -1,103 +1,119 @@
-import { postPenaltyApi } from '@/api/admin/penalty/getPenalty';
-import { useState } from 'react';
-import * as S from '@/styles/admin/penalty/Penalty.styled';
 import Button from '@/components/Admin/Button';
-import dayjs from 'dayjs';
+import * as S from '@/styles/admin/penalty/PenaltyAdd.styled';
+import { ButtonWrapper } from '@/styles/admin/DuesRegisterDropDown.styled';
+import { useState } from 'react';
+import { useMemberContext } from '@/components/Admin/context/MemberContext';
+import PenaltyMemberDropdown from '@/components/Admin/PenaltyMemberDropdown';
+import { postPenaltyApi } from '@/api/admin/penalty/getPenalty';
 
-interface PenaltyAddProps {
-  userId: number;
-  onCancel: () => void;
-  onSave: (data: {
-    penaltyId: number;
-    penaltyDescription: string;
-    time: string;
-  }) => void;
-  existingData?: {
-    penaltyId?: number;
-    penaltyDescription: string;
-    time: string;
+const PenaltyAdd: React.FC = () => {
+  const { members } = useMemberContext();
+  const [searchTerm, setSearchTerm] = useState('');
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [selectedMember, setSelectedMember] = useState<string>('');
+  const [penaltyDescription, setPenaltyDescription] = useState<string>('');
+
+  const filteredMembers = members.filter((member) =>
+    member.name.includes(searchTerm),
+  );
+
+  const handleSelectMember = (name: string) => {
+    setSelectedMember(name);
+    setSearchTerm(name);
+    setIsDropdownOpen(false);
   };
-}
 
-const PenaltyAdd: React.FC<PenaltyAddProps> = ({
-  userId,
-  onCancel,
-  onSave,
-  existingData,
-}) => {
-  const today = dayjs().format('YYYY.MM.DD');
-
-  const [formData, setFormData] = useState({
-    penaltyId: existingData?.penaltyId,
-    penaltyDescription: existingData?.penaltyDescription || '',
-    time: existingData?.time || today,
-  });
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: name === 'penalty' ? parseInt(value, 10) || 1 : value,
-    }));
+  const handleReset = () => {
+    setSelectedMember('');
+    setSearchTerm('');
+    setPenaltyDescription('');
   };
-  const handleSave = async () => {
-    if (!formData.penaltyDescription || !formData.time) {
-      alert('모든 필드를 작성해주세요.');
+
+  const handleAddPenalty = async () => {
+    const member = members.find((m) => m.name === selectedMember);
+    if (!member) {
+      alert('선택한 멤버를 찾을 수 없습니다.');
       return;
     }
+
+    if (!selectedMember || !penaltyDescription.trim()) {
+      alert(' 멤버 이름과 패널티 사유를 입력해주세요.');
+      return;
+    }
+
+    const requestData = {
+      userId: member.id,
+      penaltyDescription,
+    };
+
     try {
-      await postPenaltyApi(userId, formData.penaltyDescription); // API 요청
-      alert('패널티가 성공적으로 부여되었습니다.');
-      onSave({ ...formData, penaltyId: formData.penaltyId ?? 0 });
-      setFormData({
-        penaltyId: 0,
-        penaltyDescription: '',
-        time: today,
-      });
-      window.location.reload();
-    } catch (error: any) {
-      alert(error.message);
-      console.error('패널티 부여 실패:', error);
+      const res = await postPenaltyApi(
+        requestData.userId,
+        requestData.penaltyDescription,
+      );
+      if (res.code === 200) {
+        alert('패널티가 성공적으로 부여되었습니다.');
+        handleReset();
+      } else {
+        alert(`패널티 부여 실패: ${res.message}`);
+      }
+    } catch (error) {
+      console.error('패널티 부여 오류: ', error);
+      alert('패널티 부여 실패');
     }
   };
-
-  const fields = [
-    {
-      name: 'penaltyDescription',
-      placeholder: '추가할 패널티의 사유를 작성해주세요',
-    },
-    { name: 'penaltyId', placeholder: '' },
-    { name: 'time', placeholder: '' },
-  ];
-
   return (
-    <S.AddContainer>
-      {fields.map((field) => (
-        <S.Input
-          key={field.name}
-          type={field.name === 'penalty' ? 'number' : 'text'}
-          name={field.name}
-          placeholder={field.placeholder || undefined}
-          value={formData[field.name as keyof typeof formData]}
-          onChange={handleChange}
-        />
-      ))}
-      <div style={{ gridArea: 'empty' }} />
-      <S.ButtonWrapper>
-        <Button
-          color="#4d4d4d"
-          description="취소"
-          width="64px"
-          onClick={onCancel}
-        />
-        <Button
-          color="#508fff"
-          description="저장"
-          width="64px"
-          onClick={handleSave}
-        />
-      </S.ButtonWrapper>
-    </S.AddContainer>
+    <S.PenaltyWrapper>
+      <S.TitleWrapper>
+        <S.Title>패널티 추가</S.Title>
+      </S.TitleWrapper>
+      <S.Line />
+      <S.ItemWrapper>
+        <S.InputWrapper>
+          <S.SubTitle>이름</S.SubTitle>
+          <S.Input
+            placeholder="이름"
+            value={searchTerm}
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+              setIsDropdownOpen(true);
+            }}
+            onFocus={() => setIsDropdownOpen(true)}
+            onBlur={() => setIsDropdownOpen(false)}
+          />
+          {isDropdownOpen && (
+            <PenaltyMemberDropdown
+              members={filteredMembers}
+              onSelect={handleSelectMember}
+            />
+          )}
+        </S.InputWrapper>
+        <S.InputWrapper>
+          <S.SubTitle>패널티 사유</S.SubTitle>
+          <S.Input
+            placeholder="ex) 미션 과제 미제출"
+            value={penaltyDescription}
+            onChange={(e) => setPenaltyDescription(e.target.value)}
+          />
+        </S.InputWrapper>
+        <ButtonWrapper>
+          <Button
+            description="초기화"
+            color="#323232"
+            width="75px"
+            borderRadius="4px"
+            onClick={handleReset}
+          />
+          <Button
+            description="추가"
+            color="#ff5858"
+            width="62px"
+            borderRadius="4px"
+            onClick={handleAddPenalty}
+          />
+        </ButtonWrapper>
+      </S.ItemWrapper>
+    </S.PenaltyWrapper>
   );
 };
 

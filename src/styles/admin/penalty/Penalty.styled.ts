@@ -2,19 +2,26 @@ import theme from '@/styles/theme';
 import { styled } from 'styled-components';
 
 // penaltyListTable.tsx
-export const TableWrapper = styled.div`
+export const TableWrapper = styled.div<{ hasData: boolean }>`
   font-size: 18px;
   border-collapse: collapse;
 
   table {
     border-collapse: collapse;
     table-layout: fixed;
+    width: ${(props) => (props.hasData ? 'auto' : '100%')};
   }
+
+  margin: 0;
+`;
+
+export const Wrapper = styled.div`
+  display: flex;
+  gap: 20px;
 `;
 
 export const TableContainer = styled.div`
-  width: fit-content;
-  min-width: 750px;
+  min-width: 870px;
   background-color: #fff;
   border: 1px solid #f2f2f2;
   border-radius: 8px;
@@ -38,12 +45,6 @@ export const Cell = styled.td`
   white-space: nowrap;
 `;
 
-export const PlusButtonCell = styled.td`
-  padding: 10px;
-  text-align: center;
-  cursor: pointer;
-`;
-
 export const HeaderCell = styled.th`
   text-align: left;
   padding: 15px 25px;
@@ -52,57 +53,26 @@ export const HeaderCell = styled.th`
   white-space: nowrap;
 `;
 
-export const SubHeaderRow = styled.div`
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr 120px 120px;
-  grid-template-areas: 'reason  penalty penaltyDate empty actions';
-  border-bottom: 1px solid #dedede;
-  gap: 10px;
-  padding: 5px;
-  padding-left: 70px;
-  background-color: #e6fcf7;
-  font-weight: bold;
-`;
-
-export const GridCell = styled.div<{ area: string }>`
-  grid-area: ${(props) => props.area};
-  padding: 5px;
-  text-align: left;
-  white-space: nowrap;
-`;
-export const ExpandedRow = styled.tr`
-  td {
-    grid-column: 1 / -1;
-  }
-`;
-
 export const EmptyCell = styled.td`
   width: 150px;
 `;
 
-// penaltyAdd.tsx
-export const AddContainer = styled.div`
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr 120px 120px;
-  grid-template-areas: 'reason penalty penaltyDate empty actions';
-  border-bottom: 1px solid #dedede;
-  gap: 10px;
-  padding-left: 70px;
-  background-color: ${theme.color.gray[100]};
-  align-items: center;
-  box-sizing: border-box;
+export const NoDataCell = styled.div`
+  color: ${theme.color.gray[65]};
+  padding: 20px;
+  letter-spacing: 1px;
+  text-align: center;
 `;
 
 export const Input = styled.input`
-  font-weight: 500;
-  padding: 8px;
+  font-family: ${theme.font.regular};
   width: 100%;
   max-width: 300px;
   background-color: transparent;
-  text-overflow: ellipsis;
   border: none;
-  font-size: 14px;
+  font-size: 18px;
   outline: none;
+  box-sizing: border-box;
 `;
 
 export const ButtonWrapper = styled.div`
@@ -114,10 +84,9 @@ export const ButtonWrapper = styled.div`
 // penaltyDetail.tsx
 export const DetailContainer = styled.div`
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr 120px 120px;
-  grid-template-areas: 'reason penalty penaltyDate empty actions';
-  gap: 10px;
-  padding-left: 70px;
+  grid-template-columns: 5.3fr 1.3fr 1.5fr 1fr;
+  grid-template-areas: ' reason penalty penaltyDate actions';
+  padding-left: 125px;
   border-bottom: 1px solid #dedede;
   background-color: #ffffff;
   align-items: center;
@@ -125,5 +94,5 @@ export const DetailContainer = styled.div`
 `;
 
 export const DetailText = styled.div`
-  font-size: 16px;
+  font-size: 18px;
 `;
