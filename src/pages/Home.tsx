@@ -49,6 +49,7 @@ const Home: React.FC = () => {
       <HomeNotice
         title={recentNotices[0].title}
         content={recentNotices[0].content}
+        id={recentNotices[0].id}
       />
       <HomeInfo
         position={userInfo?.position || ''}
