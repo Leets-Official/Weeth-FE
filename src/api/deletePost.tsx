@@ -7,7 +7,7 @@ const deletePost = async (postId: number, path: string) => {
   const refreshToken = localStorage.getItem('refreshToken');
 
   const url =
-    path === 'posts'
+    path === 'board'
       ? `${BASE_URL}/api/v1/${path}/${postId}`
       : `${BASE_URL}/api/v1/admin/${path}/${postId}`;
 

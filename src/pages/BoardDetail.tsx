@@ -45,8 +45,11 @@ const TextButton = styled.div<{ $isLast?: boolean }>`
   color: ${(props) => (props.$isLast ? theme.color.negative : 'white')};
 `;
 
-const BoardPostDetail = () => {
+const BoardDetail = () => {
   const { postId } = useParams();
+  const url = new URL(window.location.href);
+  const pathArray = url.pathname.split('/');
+  const path = pathArray[1];
 
   // postId를 숫자로 변환
   const numericPostId = postId ? parseInt(postId, 10) : null;
@@ -63,7 +66,7 @@ const BoardPostDetail = () => {
 
   // refreshKey를 의존성으로 사용
   const { boardDetailInfo, error } = useGetBoardDetail(
-    'board',
+    path,
     numericPostId,
     refreshKey,
   );
@@ -87,7 +90,7 @@ const BoardPostDetail = () => {
 
   const confirmDelete = async () => {
     try {
-      await deletePost(numericPostId, 'posts');
+      await deletePost(numericPostId, path);
       toastInfo('게시물이 삭제되었습니다');
       setTimeout(() => {
         navigate('/board');
@@ -168,7 +171,7 @@ const BoardPostDetail = () => {
             <PostCommentList
               comments={boardDetailInfo.comments}
               postId={boardDetailInfo.id}
-              path="posts"
+              path={path}
               onCommentDelete={handleRefresh}
               onReply={handleReply}
               selectedComment={selectedComment}
@@ -189,4 +192,4 @@ const BoardPostDetail = () => {
   );
 };
 
-export default BoardPostDetail;
+export default BoardDetail;

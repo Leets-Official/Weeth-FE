@@ -31,8 +31,8 @@ import AdminPenalty from '@/pages/admin/AdminPenalty';
 import { Route, Routes } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 import Notice from '@/pages/Notice';
-import NoticePostDetail from '@/pages/NoticePostDetail';
-import BoardPostDetail from '@/pages/BoardPostDetail';
+import NoticeDetail from '@/pages/NoticeDetail';
+import BoardDetail from '@/pages/BoardDetail';
 import Board from '@/pages/Board';
 import BoardNoticePost from '@/pages/BoardNoticePost';
 import BoardNoticeEdit from '@/pages/BoardNoticeEdit';
@@ -69,11 +69,11 @@ const App = () => {
         <Route path="/:type/post" element={<BoardNoticePost />} />
 
         <Route path="/notice" element={<Notice />} />
-        <Route path="/notice/:postId" element={<NoticePostDetail />} />
+        <Route path="/notice/:postId" element={<NoticeDetail />} />
         <Route path="/notice/:postId/edit" element={<BoardNoticeEdit />} />
 
         <Route path="/board" element={<Board />} />
-        <Route path="/board/:postId" element={<BoardPostDetail />} />
+        <Route path="/board/:postId" element={<BoardDetail />} />
         <Route path="/board/:postId/edit" element={<BoardNoticeEdit />} />
 
         <Route path="/admin" element={<AdminMember />} />
