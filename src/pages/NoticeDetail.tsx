@@ -46,8 +46,10 @@ const TextButton = styled.div<{ $isLast?: boolean }>`
 `;
 
 const NoticePostDetail = () => {
-  const path = 'notices';
   const { postId } = useParams();
+  const url = new URL(window.location.href);
+  const pathArray = url.pathname.split('/');
+  const path = pathArray[1];
 
   const numericPostId = postId ? parseInt(postId, 10) : null;
 
@@ -65,6 +67,10 @@ const NoticePostDetail = () => {
     numericPostId,
     refreshKey,
   );
+
+  const [selectedComment, setSelectedComment] = useState<
+    Record<number, boolean>
+  >({});
 
   const navigate = useNavigate();
 
@@ -93,6 +99,22 @@ const NoticePostDetail = () => {
   const handleRefresh = () => {
     setRefreshKey((prev) => prev + 1);
     setParentCommentId(null);
+  };
+
+  const handleCommentSuccess = () => {
+    setTimeout(() => {
+      setParentCommentId(null);
+      setSelectedComment({});
+    }, 200);
+    handleRefresh();
+  };
+
+  const handleReply = (commentId: number) => {
+    setParentCommentId(commentId);
+    setSelectedComment((prev) => ({
+      ...prev,
+      [commentId]: !prev[commentId],
+    }));
   };
 
   const isMyPost = boardDetailInfo?.name === useGetUserName();
@@ -143,7 +165,8 @@ const NoticePostDetail = () => {
               postId={boardDetailInfo.id}
               path={path}
               onCommentDelete={handleRefresh}
-              onReply={(commentId) => setParentCommentId(commentId)}
+              onReply={handleReply}
+              selectedComment={selectedComment}
             />
           </>
         )}
@@ -152,8 +175,8 @@ const NoticePostDetail = () => {
         {boardDetailInfo && (
           <CommentInput
             postId={boardDetailInfo.id}
-            parentCommentId={parentCommentId}
-            onCommentSuccess={handleRefresh}
+            initialParentCommentId={parentCommentId}
+            onCommentSuccess={handleCommentSuccess}
           />
         )}
       </CommentInputContainer>

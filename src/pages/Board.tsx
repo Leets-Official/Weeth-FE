@@ -22,6 +22,9 @@ interface Content {
 
 const Board = () => {
   const navigate = useNavigate();
+  const url = new URL(window.location.href);
+  const pathArray = url.pathname.split('/');
+  const path = pathArray[1];
 
   const [posts, setPosts] = useState<Content[]>([]);
   const [hasMore, setHasMore] = useState(true);
@@ -29,8 +32,6 @@ const Board = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const { recentNotices, error } = useGetRecentNotice();
-
-  const path = 'posts';
 
   const observerRef = useRef<HTMLDivElement | null>(null);
 
@@ -74,8 +75,6 @@ const Board = () => {
       if (observerRef.current) observer.unobserve(observerRef.current);
     };
   }, [hasMore, isLoading, pageNumber]);
-
-  console.log(posts);
 
   return (
     <S.Container>
