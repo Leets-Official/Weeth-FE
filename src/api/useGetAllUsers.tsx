@@ -25,6 +25,8 @@ const useGetAllUsers = (
   setObserverLoading: React.Dispatch<React.SetStateAction<boolean>>,
 ) => {
   const [loading, setLoading] = useState(false);
+  const [isFirstRender, setIsFirstRender] = useState(true); // 최초 렌더링을 추적
+
   const fetchUsers = async () => {
     setLoading(true);
     setObserverLoading(true);
@@ -45,8 +47,12 @@ const useGetAllUsers = (
   };
 
   useEffect(() => {
-    fetchUsers();
-  }, [cardinal, pageNumber]);
+    if (isFirstRender) {
+      setIsFirstRender(false);
+    } else {
+      fetchUsers();
+    }
+  }, [cardinal, pageNumber, isFirstRender]); // 최초 렌더링 이후 실행
 
   return { loading };
 };

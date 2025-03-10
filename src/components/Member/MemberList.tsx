@@ -38,6 +38,8 @@ const MemberList = ({
   const [observerLoading, setObserverLoading] = useState(false);
   const observerRef = useRef<HTMLDivElement | null>(null);
 
+  console.log(pageNumber);
+
   useEffect(() => {
     setPageNumber(0);
     setMembers([]);
@@ -121,7 +123,8 @@ const MemberList = ({
           style={{ height: '20px', backgroundColor: 'transparent' }}
         />
       )}
-      {!hasMore && !isSearch && <Error>마지막 멤버입니다.</Error>}
+      {(!hasMore && !isSearch && pageNumber !== 1) ||
+        (members.length > 10 && <Error>마지막 멤버입니다.</Error>)}
     </List>
   );
 };
