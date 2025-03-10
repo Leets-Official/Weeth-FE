@@ -51,19 +51,14 @@ export const useGetBoardDetail = (
   const [boardDetailInfo, setBoardDetail] = useState<BoardDetail | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  let type = '';
-  if (path === 'editBoard' || path === 'posts') {
-    type = 'posts';
-  } else if (path === 'editNotice' || path === 'notices') {
-    type = 'notices';
-  }
+  // TODO: 수정 필요
+  const type = path === 'board' ? 'posts' : 'notices';
 
   useEffect(() => {
     const fetchBoardDetail = async () => {
       try {
         const response = await getBoardDetail(type, id);
         const { data } = response.data;
-        console.log('response', data);
 
         // children이 undefined면 빈 배열로 변환
         const formattedComments = data.comments.map((comment: any) => ({

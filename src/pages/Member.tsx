@@ -54,9 +54,11 @@ const Member = () => {
   );
   const [keyword, setKeyword] = useState<string>('');
   const [searchResults, setSearchResults] = useState<User[] | undefined>([]);
+  const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
 
   const handleSearch = async () => {
+    setLoading(true);
     try {
       const response = await getSearchMember(keyword);
       setSearchResults(response.data.data);
@@ -65,6 +67,8 @@ const Member = () => {
       toastError('데이터를 불러오지 못했습니다.');
       // eslint-disable-next-line no-console
       console.error(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -97,7 +101,7 @@ const Member = () => {
         />
         <SearchButton src={search} alt={search} onClick={handleSearch} />
       </Search>
-      <MemberList searchResults={searchResults} />
+      <MemberList searchResults={searchResults} loading={loading} />
     </Wrapper>
   );
 };

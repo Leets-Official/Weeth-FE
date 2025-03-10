@@ -3,6 +3,7 @@ import theme from '@/styles/theme';
 import styled from 'styled-components';
 import InfoItem from '@/components/MyPage/InfoItem';
 import CardinalTag from '@/components/common/CardinalTag';
+import Loading from '../common/Loading';
 
 const Container = styled.div`
   display: flex;
@@ -37,7 +38,7 @@ const Error = styled.div`
 `;
 
 const MyInfo = () => {
-  const { userInfo } = useGetUserInfo();
+  const { userInfo, loading } = useGetUserInfo();
 
   if (!userInfo) {
     return null;
@@ -50,6 +51,10 @@ const MyInfo = () => {
   };
 
   const position = positionMap[userInfo.position] || '';
+
+  if (loading) {
+    return <Loading />;
+  }
 
   return userInfo ? (
     <Container>

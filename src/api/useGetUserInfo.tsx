@@ -26,11 +26,11 @@ const getUserInfo = async () => {
 export const useGetUserInfo = () => {
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
   const [userError, setError] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchUserInfo = async () => {
-      setIsLoading(true);
+      setLoading(true);
       try {
         const response = await getUserInfo();
         const { data } = response.data;
@@ -40,14 +40,14 @@ export const useGetUserInfo = () => {
         toastError('데이터를 불러오지 못했습니다.');
         setError(err.response?.data?.message);
       } finally {
-        setIsLoading(false);
+        setLoading(false);
       }
     };
 
     fetchUserInfo();
   }, []);
 
-  return { userInfo, userError, isLoading };
+  return { userInfo, userError, loading };
 };
 
 export default useGetUserInfo;

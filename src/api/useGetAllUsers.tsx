@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import api from './api';
 
 export const getAllUsers = async (
@@ -22,10 +22,12 @@ const useGetAllUsers = (
   pageNumber: number,
   setUsers: React.Dispatch<React.SetStateAction<any[]>>,
   setHasMore: React.Dispatch<React.SetStateAction<boolean>>,
-  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
+  setObserverLoading: React.Dispatch<React.SetStateAction<boolean>>,
 ) => {
+  const [loading, setLoading] = useState(false);
   const fetchUsers = async () => {
-    setIsLoading(true);
+    setLoading(true);
+    setObserverLoading(true);
 
     try {
       const response = await getAllUsers(cardinal, pageNumber);
@@ -37,13 +39,16 @@ const useGetAllUsers = (
       // eslint-disable-next-line no-console
       console.error('Error fetching users:', error);
     } finally {
-      setIsLoading(false);
+      setLoading(false);
+      setObserverLoading(false);
     }
   };
 
   useEffect(() => {
     fetchUsers();
   }, [cardinal, pageNumber]);
+
+  return { loading };
 };
 
 export default useGetAllUsers;

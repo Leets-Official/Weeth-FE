@@ -16,6 +16,7 @@ export const TextButton = styled.div<{ isSignOut?: boolean }>`
   border-bottom: ${(props) =>
     props.isSignOut ? 'none' : `1px solid ${theme.color.gray[30]}`};
   color: ${(props) => (props.isSignOut ? theme.color.negative : 'white')};
+  cursor: pointer;
 `;
 
 export const ImgButton = styled.div`

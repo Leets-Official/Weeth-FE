@@ -11,6 +11,7 @@ import clipDE from '@/assets/images/ic_DE_clip.svg';
 import theme from '@/styles/theme';
 import styled from 'styled-components';
 import CardinalTag from '@/components/common/CardinalTag';
+import Loading from '@/components/common/Loading';
 
 const Wrapper = styled.div`
   display: flex;
@@ -121,7 +122,7 @@ const MemberDetail = () => {
   };
 
   if (loading) {
-    return null;
+    return <Loading />;
   }
 
   if (error) {

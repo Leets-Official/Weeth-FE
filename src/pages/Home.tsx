@@ -30,7 +30,7 @@ const Header = styled.img`
   padding-left: 5%;
 `;
 const Home: React.FC = () => {
-  const { userInfo, isLoading: isLoadingUser } = useGetUserInfo();
+  const { userInfo, loading: isLoadingUser } = useGetUserInfo();
   const { recentNotices, isLoading: isLoadingNotices } = useGetRecentNotice();
   const { isAdmin, loading } = useGetGlobaluserInfo();
 

@@ -31,27 +31,6 @@ const Container = styled.div`
   transform: translate(-50%, -50%);
   background-color: rgba(256, 256, 256, 0.3);
   animation: ${fadeIn} 0.3s ease-in-out;
-
-  .rdp-chevron {
-    fill: ${theme.color.main};
-  }
-
-  .rdp-selected {
-    color: ${theme.color.main};
-  }
-
-  .rdp-today {
-    color: ${theme.color.main};
-  }
-
-  .rdp-selected .rdp-day_button {
-    border: 2px solid ${theme.color.main};
-  }
-
-  .rdp-caption_label {
-    font-size: 20px;
-    margin-left: 3px;
-  }
 `;
 
 const Content = styled.div`
@@ -64,7 +43,8 @@ const Content = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
 
-  width: 325px;
+  width: 246px;
+  height: 248px;
   box-sizing: border-box;
 
   background-color: ${theme.color.gray[12]};
@@ -72,7 +52,7 @@ const Content = styled.div`
   font-size: 14px;
 
   gap: 20px;
-  padding: 12px;
+  // padding: 12px;
   animation: ${scaleIn} 0.3s ease-in-out;
 `;
 
