@@ -118,7 +118,7 @@ const MonthCalendar = () => {
           ref={calendarRef}
           selectable
           select={onDateSelect}
-          longPressDelay={10}
+          longPressDelay={100}
           plugins={[dayGridPlugin, interactionPlugin]}
           events={monthlySchedule}
           eventContent={renderEventContent}
