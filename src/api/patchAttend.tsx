@@ -1,4 +1,4 @@
-import axios from 'axios';
+import api from '@/api/api';
 
 interface AttendCheckType {
   code: string;
@@ -15,7 +15,7 @@ export const patchAttend = async (data: AttendCheckType) => {
   };
 
   try {
-    const response = await axios.patch(`${BASE_URL}/api/v1/attendances`, data, {
+    const response = await api.patch(`${BASE_URL}/api/v1/attendances`, data, {
       headers,
     });
     return response;

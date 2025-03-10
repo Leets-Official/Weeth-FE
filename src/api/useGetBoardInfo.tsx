@@ -1,4 +1,4 @@
-import axios from 'axios';
+import api from '@/api/api';
 import { useState, useEffect } from 'react';
 
 interface Content {
@@ -40,16 +40,13 @@ export const useGetBoardInfo = async (
     const accessToken = localStorage.getItem('accessToken');
     const refreshToken = localStorage.getItem('refreshToken');
 
-    const response = await axios.get<ApiResponse>(
-      `${BASE_URL}/api/v1/${path}`,
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          Authorization_refresh: `Bearer ${refreshToken}`,
-        },
-        params: { pageNumber, pageSize: 10 },
+    const response = await api.get<ApiResponse>(`${BASE_URL}/api/v1/${path}`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        Authorization_refresh: `Bearer ${refreshToken}`,
       },
-    );
+      params: { pageNumber, pageSize: 10 },
+    });
 
     const { data } = response.data;
     setPosts((prevPosts) => [...prevPosts, ...data.content]);
@@ -74,7 +71,7 @@ export const useGetRecentNotice = () => {
         const accessToken = localStorage.getItem('accessToken');
         const refreshToken = localStorage.getItem('refreshToken');
 
-        const response = await axios.get<ApiResponse>(
+        const response = await api.get<ApiResponse>(
           `${BASE_URL}/api/v1/notices`,
           {
             headers: {

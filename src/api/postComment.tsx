@@ -1,4 +1,4 @@
-import axios from 'axios';
+import api from '@/api/api';
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
@@ -16,7 +16,7 @@ const createComment = async (
   const currentPath = window.location.pathname;
   const boardType = currentPath.includes('/notice') ? 'notices' : 'posts';
 
-  return axios.post(
+  return api.post(
     `${BASE_URL}/api/v1/${boardType}/${postId}/comments`,
     { parentCommentId, content },
     {

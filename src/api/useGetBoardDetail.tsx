@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from '@/api/api';
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
@@ -35,7 +35,7 @@ const getBoardDetail = async (path: string, id: number) => {
   const accessToken = localStorage.getItem('accessToken');
   const refreshToken = localStorage.getItem('refreshToken');
 
-  return axios.get(`${BASE_URL}/api/v1/${path}/${id}`, {
+  return api.get(`${BASE_URL}/api/v1/${path}/${id}`, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
       Authorization_refresh: `Bearer ${refreshToken}`,
