@@ -30,8 +30,6 @@ const Board = () => {
 
   const { recentNotices, error } = useGetRecentNotice();
 
-  const path = 'posts';
-
   const observerRef = useRef<HTMLDivElement | null>(null);
 
   const scrollerRef1 = useRef<HTMLDivElement | null>(null);
@@ -61,7 +59,13 @@ const Board = () => {
       (entries) => {
         const firstEntry = entries[0];
         if (firstEntry.isIntersecting && hasMore && !isLoading) {
-          useGetBoardInfo(path, pageNumber, setPosts, setHasMore, setIsLoading);
+          useGetBoardInfo(
+            'posts',
+            pageNumber,
+            setPosts,
+            setHasMore,
+            setIsLoading,
+          );
           setPageNumber((prevPage) => prevPage + 1);
         }
       },
@@ -74,8 +78,6 @@ const Board = () => {
       if (observerRef.current) observer.unobserve(observerRef.current);
     };
   }, [hasMore, isLoading, pageNumber]);
-
-  console.log(posts);
 
   return (
     <S.Container>
@@ -139,7 +141,6 @@ const Board = () => {
           style={{ height: '20px', backgroundColor: 'transparent' }}
         />
       )}
-      {isLoading && <S.Text>로딩 중...</S.Text>}
       {!hasMore && <S.Text>마지막 게시물입니다.</S.Text>}
       <S.PostingButtonContainer>
         <PostingButton onClick={handlePosting} />

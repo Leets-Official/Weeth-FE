@@ -25,7 +25,6 @@ interface DuesInfo {
   receipts: Receipt[];
 }
 
-// 유저 정보 받아오는 API
 const getDuesInfo = async (paramsCardinal: number) => {
   return api.get(`/api/v1/account/${paramsCardinal}`);
 };
@@ -33,11 +32,12 @@ const getDuesInfo = async (paramsCardinal: number) => {
 export const useGetDuesInfo = (paramsCardinal: number) => {
   const [duesInfo, setDuesInfoInfo] = useState<DuesInfo | null>(null);
   const [DuesError, setError] = useState<string | null>(null);
-
+  const [loading, setLoading] = useState<boolean>(true);
   useEffect(() => {
     if (paramsCardinal === 0) return;
 
     const fetchDuesInfo = async () => {
+      setLoading(true);
       try {
         const response = await getDuesInfo(paramsCardinal);
         const { data } = response.data;
@@ -45,13 +45,15 @@ export const useGetDuesInfo = (paramsCardinal: number) => {
         setError(null);
       } catch (err: any) {
         setError(err.response?.data?.message);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchDuesInfo();
   }, [paramsCardinal]);
 
-  return { duesInfo, DuesError };
+  return { duesInfo, DuesError, loading };
 };
 
 export default useGetDuesInfo;
