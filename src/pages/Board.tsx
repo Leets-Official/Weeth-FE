@@ -75,12 +75,14 @@ const Board = () => {
   };
 
   useEffect(() => {
-    fetchData(); // 초기 데이터 로드
+    // 초기 데이터 로드
+    fetchData();
     const observer = new IntersectionObserver(
       (entries) => {
         const firstEntry = entries[0];
         if (firstEntry.isIntersecting) {
-          fetchData(); // 추가 데이터 로드
+          // 추가 데이터 로드
+          fetchData();
         }
       },
       { root: null, rootMargin: '0px', threshold: 0.1 },

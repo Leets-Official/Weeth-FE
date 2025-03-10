@@ -8,6 +8,7 @@ import Header from '@/components/Header/Header';
 import { useNavigate } from 'react-router-dom';
 import useGetGlobaluserInfo from '@/api/useGetGlobaluserInfo';
 import PostingButton from '@/components/Board/PostingButton';
+import Loading from '@/components/common/Loading';
 
 const Container = styled.div`
   display: flex;
@@ -46,31 +47,57 @@ const Notice = () => {
   const [posts, setPosts] = useState<Content[]>([]);
   const [hasMore, setHasMore] = useState(true);
   const [pageNumber, setPageNumber] = useState(0);
-  const [isLoading, setIsLoading] = useState(false);
+  const [observerLoading, setObserverLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const path = 'notices';
 
   const observerRef = useRef<HTMLDivElement | null>(null);
 
-  // Intersection Observer 설정
+  const fetchData = async () => {
+    if (!observerLoading && hasMore) {
+      setObserverLoading(true);
+      await useGetBoardInfo(
+        path,
+        pageNumber,
+        setPosts,
+        setHasMore,
+        setObserverLoading,
+      );
+      setPageNumber((prevPage) => prevPage + 1);
+      setObserverLoading(false);
+      if (loading) setLoading(false);
+    }
+  };
+
   useEffect(() => {
+    // 초기 데이터 로드드
+    fetchData();
     const observer = new IntersectionObserver(
       (entries) => {
         const firstEntry = entries[0];
-        if (firstEntry.isIntersecting && hasMore && !isLoading) {
-          useGetBoardInfo(path, pageNumber, setPosts, setHasMore, setIsLoading);
-          setPageNumber((prevPage) => prevPage + 1);
+        if (firstEntry.isIntersecting) {
+          // 추가 데이터 로드
+          fetchData();
         }
       },
       { root: null, rootMargin: '0px', threshold: 0.1 },
     );
 
-    if (observerRef.current) observer.observe(observerRef.current);
+    if (observerRef.current) {
+      observer.observe(observerRef.current);
+    }
 
     return () => {
-      if (observerRef.current) observer.unobserve(observerRef.current);
+      if (observerRef.current) {
+        observer.unobserve(observerRef.current);
+      }
     };
-  }, [hasMore, isLoading, pageNumber]);
+  }, [hasMore, observerLoading, pageNumber]);
+
+  if (loading) {
+    return <Loading />;
+  }
 
   const handlePosting = () => {
     navigate('/notice/post');
