@@ -34,6 +34,7 @@ const InputLine = styled.input`
   width: 58%;
   margin-right: 17%;
   border: none;
+  border-radius: 0;
   border-bottom: 1px solid #333333;
   background-color: transparent;
   color: #ffffff;
@@ -112,6 +113,8 @@ const SignupMemInput: React.FC<SignupMemInputProps> = ({
         placeholder={placeholderText}
         value={value}
         onChange={onChangeValue}
+        inputMode={inputType === 'number' ? 'numeric' : 'text'} // 숫자 입력 시 숫자 키패드 활성화
+        pattern={inputType === 'number' ? '[0-9]*' : undefined} // 숫자만 입력받도록 설정
       />
     </MemTextContainer>
   );
