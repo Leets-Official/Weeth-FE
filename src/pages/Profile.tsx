@@ -108,33 +108,9 @@ const Profile: React.FC = () => {
   const [isNextEnabled, setIsNextEnabled] = useState<boolean>(false);
 
   const validateEmail = (validEmail: string): boolean => {
-    // 이메일 형식을 검사하는 정규식 (기본적인 이메일 형식)
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/;
-
-    // 허용되는 도메인 확장자 목록
-    const allowedExtensions = [
-      'com',
-      'net',
-      'org',
-      'edu',
-      'ac.kr', // 학교 이메일 도메인 추가
-      'co.kr',
-      'go.kr',
-      'or.kr',
-      'kakao.com', // 추가적으로 원하는 도메인도 여기에 넣을 수 있음
-    ];
-
-    // 이메일 형식이 유효한지 먼저 체크
-    if (!emailRegex.test(validEmail)) {
-      return false;
-    }
-
-    // 이메일 주소에서 도메인 추출 (확장자 부분만 추출)
-    const emailDomain = validEmail.split('@')[1];
-    const domainExtension = emailDomain.split('.').pop(); // 마지막 확장자 부분을 추출
-
-    // 허용된 확장자 목록에 포함되는지 확인
-    return allowedExtensions.includes(domainExtension || '');
+    const emailRegex =
+      /^[^\s@]+@[^\s@]+\.(com|net|org|edu|ac\.kr|co\.kr|go\.kr|or\.kr|kakao\.com)$/;
+    return emailRegex.test(validEmail);
   };
 
   const handleNextClick = async () => {
