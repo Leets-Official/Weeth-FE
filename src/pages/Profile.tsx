@@ -275,7 +275,7 @@ const Profile: React.FC = () => {
         <InputWrapper>
           <SignupMemInput
             labelName="기수"
-            placeholderText="4"
+            placeholderText="5"
             origValue={memberInfo.cardinal || ''}
             inputType="number"
             onChange={(value) => handleChange('cardinal', value)}
