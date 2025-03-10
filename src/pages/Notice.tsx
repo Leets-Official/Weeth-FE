@@ -28,12 +28,6 @@ const PostList = styled.div`
   margin: 0 25px 0 25px;
 `;
 
-const Text = styled.div`
-  text-align: center;
-  margin: 10px;
-  font-family: ${theme.font.semiBold};
-`;
-
 interface Content {
   id: number;
   name: string;
@@ -110,8 +104,7 @@ const Notice = () => {
           style={{ height: '20px', backgroundColor: 'transparent' }}
         />
       )}
-      {isLoading && <Text>로딩 중...</Text>}
-      {!hasMore && <Text>마지막 게시물입니다.</Text>}
+      {!hasMore && posts.length > 10 && <S.Text>마지막 게시물입니다.</S.Text>}
       {isAdmin && (
         <S.PostingButtonContainer>
           <PostingButton onClick={handlePosting} />

@@ -141,7 +141,7 @@ const Board = () => {
           style={{ height: '20px', backgroundColor: 'transparent' }}
         />
       )}
-      {!hasMore && <S.Text>마지막 게시물입니다.</S.Text>}
+      {!hasMore && posts.length > 10 && <S.Text>마지막 게시물입니다.</S.Text>}
       <S.PostingButtonContainer>
         <PostingButton onClick={handlePosting} />
       </S.PostingButtonContainer>
