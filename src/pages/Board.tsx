@@ -5,9 +5,9 @@ import { useGetBoardInfo, useGetRecentNotice } from '@/api/useGetBoardInfo';
 import * as S from '@/styles/board/Board.styled';
 import Header from '@/components/Header/Header';
 import { useNavigate } from 'react-router-dom';
-import { useDraggable } from '@/hooks/useDraggable';
 import PostingButton from '@/components/Board/PostingButton';
 import Loading from '@/components/common/Loading';
+import SlideNotice from '../components/Board/SlideNotice';
 
 interface Content {
   id: number;
@@ -33,22 +33,13 @@ const Board = () => {
   const [observerLoading, setObserverLoading] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  const { recentNotices, error } = useGetRecentNotice();
+  const {
+    recentNotices,
+    error,
+    isLoading: recentNoticeLoading,
+  } = useGetRecentNotice();
 
   const observerRef = useRef<HTMLDivElement | null>(null);
-
-  const scrollerRef1 = useRef<HTMLDivElement | null>(null);
-
-  const { onMouseDown, onMouseMove, onMouseUp, onMouseLeave } =
-    useDraggable(scrollerRef1);
-
-  const handleNoticeCard = (
-    e: React.MouseEvent<HTMLDivElement>,
-    id: number,
-  ) => {
-    e.preventDefault();
-    navigate(`/notice/${id}`);
-  };
 
   const handleAllNotice = () => {
     navigate('/notice');
@@ -70,7 +61,7 @@ const Board = () => {
       );
       setPageNumber((prevPage) => prevPage + 1);
       setObserverLoading(false);
-      if (loading) setLoading(false);
+      if (loading || recentNoticeLoading) setLoading(false);
     }
   };
 
@@ -97,7 +88,7 @@ const Board = () => {
         observer.unobserve(observerRef.current);
       }
     };
-  }, [hasMore, observerLoading, pageNumber]); // 의존성 배열
+  }, [hasMore, observerLoading, pageNumber]);
 
   if (loading) {
     return <Loading />;
@@ -112,28 +103,7 @@ const Board = () => {
         <S.NoticeTitleText>📢 공지사항</S.NoticeTitleText>
         <S.AllText onClick={handleAllNotice}>전체보기 &gt;</S.AllText>
       </S.NoticeTextContainer>
-
-      {error ? (
-        <div>에러</div>
-      ) : (
-        <S.ScrollContainer
-          ref={scrollerRef1}
-          onMouseDown={onMouseDown}
-          onMouseMove={onMouseMove}
-          onMouseUp={onMouseUp}
-          onMouseLeave={onMouseLeave}
-        >
-          {recentNotices.map((notice) => (
-            <S.NoticeCard
-              key={notice.id}
-              onClick={(e) => handleNoticeCard(e, notice.id)}
-            >
-              <S.NoticeTitle>{notice.title}</S.NoticeTitle>
-              <S.NoticeContent>{notice.content}</S.NoticeContent>
-            </S.NoticeCard>
-          ))}
-        </S.ScrollContainer>
-      )}
+      <SlideNotice error={error} recentNotices={recentNotices} />
       <S.TabContainerWrapper>
         <S.TabContainer>
           <S.TabText>자유게시판</S.TabText>
