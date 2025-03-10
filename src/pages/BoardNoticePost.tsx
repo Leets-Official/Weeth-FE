@@ -67,16 +67,16 @@ const BoardNoticePost = () => {
       const postType = path === 'board' ? 'postBoard' : 'postNotice';
 
       // 서버 요청
-      await postBoardNotice(
+      await postBoardNotice({
         files,
-        {
+        postData: {
           title,
           content,
           files: [],
         },
         postType,
-        numericPostId,
-      );
+        id: numericPostId,
+      });
 
       // 게시글 생성 후 이동
       navi(path === 'board' ? '/board' : '/notice');
@@ -108,7 +108,7 @@ const BoardNoticePost = () => {
 
       <FileUploaderWrapper>
         <FileUploader files={files} setFiles={setFiles} />
-        {files.length === 0 && (
+        {files.length > 0 && (
           <>
             {files.map((file) => (
               <PostFile
