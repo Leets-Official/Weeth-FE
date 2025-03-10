@@ -2,10 +2,9 @@ import FileUploader from '@/components/Board/FileUploader';
 import PostEditor from '@/components/Board/PostEditor';
 import PostFile from '@/components/Board/PostFile';
 import Header from '@/components/Header/Header';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import useGetBoardDetail from '@/api/useGetBoardDetail';
 import postBoardNotice from '@/api/postBoard';
 import { toastError, toastInfo } from '@/components/common/ToastMessage';
 import Loading from '@/components/common/Loading';
@@ -27,7 +26,7 @@ const FileUploaderWrapper = styled.div`
   top: calc(var(--vh, 1vh) * 40 + 120px);
 `;
 
-const BoardPost = () => {
+const BoardNoticePost = () => {
   const navi = useNavigate();
   const { postId } = useParams();
 
@@ -41,20 +40,6 @@ const BoardPost = () => {
   const [loading, setLoading] = useState(false);
 
   const numericPostId = postId ? parseInt(postId, 10) : 0;
-
-  let type = '';
-  if (path === 'board') {
-    type = pathArray[3] === 'edit' ? 'editBoard' : 'posts';
-  } else if (path === 'notice') {
-    type = pathArray[3] === 'edit' ? 'editNotice' : 'notices';
-  }
-
-  const { boardDetailInfo } = useGetBoardDetail(type ?? '', numericPostId);
-
-  useEffect(() => {
-    setTitle(boardDetailInfo?.title ?? '');
-    setContent(boardDetailInfo?.content ?? '');
-  }, [boardDetailInfo]);
 
   const isTitleEmpty = title.trim() === '';
   const isContentEmpty = content.trim() === '';
@@ -79,32 +64,24 @@ const BoardPost = () => {
 
     try {
       // 요청 타입 결정
-      const postType =
-        // eslint-disable-next-line no-nested-ternary
-        path === 'board'
-          ? pathArray[3] === 'edit'
-            ? 'editBoard'
-            : 'postBoard'
-          : pathArray[3] === 'edit'
-            ? 'editNotice'
-            : 'postNotice';
+      const postType = path === 'board' ? 'postBoard' : 'postNotice';
 
       // 서버 요청
-      await postBoardNotice(
+      await postBoardNotice({
         files,
-        {
+        postData: {
           title,
           content,
           files: [],
         },
         postType,
-        numericPostId, // ✅ id를 postData 객체 안에 포함
-      );
+        id: numericPostId,
+      });
 
-      // 게시글 작성/수정 후 이동
+      // 게시글 생성 후 이동
       navi(path === 'board' ? '/board' : '/notice');
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
-      console.log(error);
       toastError('파일 업로드 중 문제가 발생했습니다.');
     } finally {
       setLoading(false);
@@ -148,4 +125,4 @@ const BoardPost = () => {
   );
 };
 
-export default BoardPost;
+export default BoardNoticePost;

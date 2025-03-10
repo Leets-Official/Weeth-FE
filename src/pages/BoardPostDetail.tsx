@@ -46,7 +46,6 @@ const TextButton = styled.div<{ $isLast?: boolean }>`
 `;
 
 const BoardPostDetail = () => {
-  const path = 'posts';
   const { postId } = useParams();
 
   // postId를 숫자로 변환
@@ -64,7 +63,7 @@ const BoardPostDetail = () => {
 
   // refreshKey를 의존성으로 사용
   const { boardDetailInfo, error } = useGetBoardDetail(
-    path,
+    'board',
     numericPostId,
     refreshKey,
   );
@@ -88,7 +87,7 @@ const BoardPostDetail = () => {
 
   const confirmDelete = async () => {
     try {
-      await deletePost(numericPostId, path);
+      await deletePost(numericPostId, 'posts');
       toastInfo('게시물이 삭제되었습니다');
       setTimeout(() => {
         navigate('/board');
@@ -169,7 +168,7 @@ const BoardPostDetail = () => {
             <PostCommentList
               comments={boardDetailInfo.comments}
               postId={boardDetailInfo.id}
-              path={path}
+              path="posts"
               onCommentDelete={handleRefresh}
               onReply={handleReply}
               selectedComment={selectedComment}

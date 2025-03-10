@@ -35,7 +35,7 @@ export const ContentInput = styled.textarea`
   outline: none;
   resize: none;
   margin: 0 20px;
-  padding-top: 20px;
+  padding: 20px 0 0 0;
   color: white;
   font-size: 16px;
   font-family: ${theme.font.regular};
