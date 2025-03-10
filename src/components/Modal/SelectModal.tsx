@@ -51,7 +51,11 @@ const CancelButton = styled(ModalButton)`
   }
 `;
 
-const ActionButton = styled(ModalButton)<{ type: 'positive' | 'negative' }>`
+const ActionButton = styled(ModalButton)<{
+  type: 'positive' | 'negative';
+  visible: boolean;
+}>`
+  display: ${(props) => (props.visible ? 'flex' : 'none')};
   background: ${(props) =>
     props.type === 'positive' ? theme.color.main : theme.color.negative};
   &:hover {
@@ -69,6 +73,8 @@ const SelectModal = ({
   onClose,
   onDelete,
   type = 'negative',
+  visibility = true,
+  cancleText = '취소',
 }: {
   title: string;
   content: string;
@@ -76,6 +82,8 @@ const SelectModal = ({
   onClose: () => void;
   onDelete?: () => void;
   type?: 'positive' | 'negative';
+  visibility?: boolean;
+  cancleText?: string;
 }) => {
   return (
     <Modal isDelete hasCloseButton={false} onClose={onClose}>
@@ -84,8 +92,8 @@ const SelectModal = ({
         <Description>{content}</Description>
       </Container>
       <ButtonContainer>
-        <CancelButton onClick={onClose}>취소</CancelButton>
-        <ActionButton onClick={onDelete} type={type}>
+        <CancelButton onClick={onClose}>{cancleText}</CancelButton>
+        <ActionButton onClick={onDelete} type={type} visible={visibility}>
           {buttonContent}
         </ActionButton>
       </ButtonContainer>
