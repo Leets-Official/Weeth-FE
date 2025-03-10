@@ -21,6 +21,7 @@ import 'dayjs/locale/ko';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import Loading from '../common/Loading';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -34,7 +35,11 @@ const AttendMain: React.FC = () => {
 
   const { penaltyInfo } = useGetPenalty();
   const [isAttend, setIsAttend] = useState(false);
-  const { attendInfo, hasSchedule, error } = useGetAttend(isAttend);
+  const {
+    attendInfo,
+    hasSchedule,
+    isLoading: attendLoading,
+  } = useGetAttend(isAttend);
   console.log(attendInfo);
 
   useEffect(() => {
@@ -43,28 +48,22 @@ const AttendMain: React.FC = () => {
     );
   }, [penaltyInfo]);
 
-  let title: string;
-  let location: string;
-  let startDateTime: string;
-  let endDateTime: string;
+  if (attendLoading || penaltyLoading) {
+    return <Loading />;
+  }
+
+  let title = 'Loading...';
+  let location = 'Loading...';
+  let startDateTime = 'Loading...';
+  let endDateTime = 'Loading...';
   let isWithinTimeRange = false;
 
-  if (error) {
-    title = 'error';
-    location = 'error';
-    startDateTime = 'error';
-    endDateTime = 'error';
-  } else if (!attendInfo) {
-    title = '로딩중';
-    location = '로딩중';
-    startDateTime = '로딩중';
-    endDateTime = '로딩중';
-  } else {
-    title = attendInfo.title;
-    location = attendInfo.location;
+  if (attendInfo) {
+    title = attendInfo.title || 'No title';
+    location = attendInfo.location || 'No location';
 
-    const startDate = dayjs(attendInfo.start);
-    const endDate = dayjs(attendInfo.end);
+    const startDate = attendInfo.start ? dayjs(attendInfo.start) : dayjs();
+    const endDate = attendInfo.end ? dayjs(attendInfo.end) : dayjs();
 
     startDateTime = startDate.format('YYYY년 MMMM D일');
     const startTime = startDate.locale('en').format('h:mm A');
@@ -75,6 +74,7 @@ const AttendMain: React.FC = () => {
     const currentTime = dayjs().format('h:mm A');
     isWithinTimeRange = currentTime >= startTime && currentTime <= endTime;
   }
+
   useEffect(() => {
     if (attendInfo?.status === 'ATTEND') {
       setIsAttend(true);
@@ -101,7 +101,7 @@ const AttendMain: React.FC = () => {
       <AttendRate attendRate={attendInfo?.attendanceRate} />
       <S.StyledBox>
         <img src={check} alt="v" />
-        {hasSchedule && attendInfo && !error ? (
+        {hasSchedule && attendInfo ? (
           <AttendInfo
             title={title}
             location={location}
