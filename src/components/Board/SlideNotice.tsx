@@ -1,7 +1,9 @@
 import { useDraggable } from '@/hooks/useDraggable';
 import * as S from '@/styles/board/Board.styled';
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import 'react-toastify/dist/ReactToastify.css';
+import { toastError } from '@/components/common/ToastMessage';
 
 interface Notice {
   id: number;
@@ -28,30 +30,34 @@ const SlideNotice = ({ error, recentNotices }: SlideNoticeProps) => {
     navigate(`/notice/${id}`);
   };
 
+  useEffect(() => {
+    if (error) {
+      toastError('데이터를 불러오지 못했습니다.');
+    }
+  }, [error]);
+
   return (
-    <div>
+    <S.ScrollContainer
+      ref={scrollerRef}
+      onMouseDown={onMouseDown}
+      onMouseMove={onMouseMove}
+      onMouseUp={onMouseUp}
+      onMouseLeave={onMouseLeave}
+    >
       {error ? (
-        <div>에러</div>
+        <S.NoticeCard>데이터를 불러오지 못했습니다.</S.NoticeCard>
       ) : (
-        <S.ScrollContainer
-          ref={scrollerRef}
-          onMouseDown={onMouseDown}
-          onMouseMove={onMouseMove}
-          onMouseUp={onMouseUp}
-          onMouseLeave={onMouseLeave}
-        >
-          {recentNotices.map((notice) => (
-            <S.NoticeCard
-              key={notice.id}
-              onClick={(e) => handleNoticeCard(e, notice.id)}
-            >
-              <S.NoticeTitle>{notice.title}</S.NoticeTitle>
-              <S.NoticeContent>{notice.content}</S.NoticeContent>
-            </S.NoticeCard>
-          ))}
-        </S.ScrollContainer>
+        recentNotices.map((notice) => (
+          <S.NoticeCard
+            key={notice.id}
+            onClick={(e) => handleNoticeCard(e, notice.id)}
+          >
+            <S.NoticeTitle>{notice.title}</S.NoticeTitle>
+            <S.NoticeContent>{notice.content}</S.NoticeContent>
+          </S.NoticeCard>
+        ))
       )}
-    </div>
+    </S.ScrollContainer>
   );
 };
 

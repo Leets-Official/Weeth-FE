@@ -85,10 +85,10 @@ const NoticePostDetail = () => {
 
   const confirmDelete = async () => {
     try {
-      await deletePost(numericPostId, path);
+      await deletePost(numericPostId, 'notices');
       toastInfo('게시물이 삭제되었습니다');
       setTimeout(() => {
-        navigate('/notice'); // 2초 후 공지지 목록 페이지로 이동
+        navigate('/notice'); // 2초 후 공지 목록 페이지로 이동
       }, 2000);
     } catch (err) {
       toastError('에러가 발생했습니다.');
@@ -156,7 +156,7 @@ const NoticePostDetail = () => {
             setIsModalOpen(true);
           }}
         >
-          게시판
+          📢 공지사항
         </Header>
 
         {boardDetailInfo && (
