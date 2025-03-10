@@ -65,7 +65,7 @@ const Comment = ({
   const isMyComment = name === useGetUserName();
 
   return (
-    <S.CommentContainer isHighlighted={selectedComment[commentId] || false}>
+    <S.CommentContainer $isSelect={selectedComment?.[commentId] || false}>
       <S.CommentContentContainer>
         <S.NameText>
           <S.PositionIcon
