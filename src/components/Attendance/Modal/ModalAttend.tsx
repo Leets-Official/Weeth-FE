@@ -74,7 +74,6 @@ const ModalAttend: React.FC<{
 
   const handleCompleteBtn = async () => {
     if (!inputValue) {
-      // TODO: 토스트 메시지로 알림 변경 예정
       toastInfo('코드를 입력해 주세요');
       return;
     }
