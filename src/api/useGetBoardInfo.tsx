@@ -61,13 +61,13 @@ export const useGetBoardInfo = async (
 // 최신 공지사항 10개를 가져오는 훅
 export const useGetRecentNotice = () => {
   const [recentNotices, setRecentNotices] = useState<Content[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [recentNoticeLoading, setRecentNoticeLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchRecentNotice = async () => {
       try {
-        setIsLoading(true);
+        setRecentNoticeLoading(true);
         const accessToken = localStorage.getItem('accessToken');
         const refreshToken = localStorage.getItem('refreshToken');
 
@@ -90,14 +90,14 @@ export const useGetRecentNotice = () => {
             '공지사항을 불러오는 중 오류가 발생했습니다.',
         );
       } finally {
-        setIsLoading(false);
+        setRecentNoticeLoading(false);
       }
     };
 
     fetchRecentNotice();
   }, []);
 
-  return { recentNotices, isLoading, error };
+  return { recentNotices, recentNoticeLoading, error };
 };
 
 export default useGetBoardInfo;

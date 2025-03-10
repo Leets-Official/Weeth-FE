@@ -31,12 +31,12 @@ const Header = styled.img`
 `;
 const Home: React.FC = () => {
   const { userInfo, loading: isLoadingUser } = useGetUserInfo();
-  const { recentNotices, isLoading: isLoadingNotices } = useGetRecentNotice();
+  const { recentNotices, recentNoticeLoading } = useGetRecentNotice();
   const { isAdmin, loading } = useGetGlobaluserInfo();
 
   useCustomBack('/home');
 
-  if (isLoadingUser || isLoadingNotices || loading) {
+  if (isLoadingUser || recentNoticeLoading || loading) {
     return <Loading />;
   }
 

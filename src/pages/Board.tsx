@@ -33,11 +33,7 @@ const Board = () => {
   const [observerLoading, setObserverLoading] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  const {
-    recentNotices,
-    error,
-    isLoading: recentNoticeLoading,
-  } = useGetRecentNotice();
+  const { recentNotices, error, recentNoticeLoading } = useGetRecentNotice();
 
   const observerRef = useRef<HTMLDivElement | null>(null);
 
@@ -61,7 +57,7 @@ const Board = () => {
       );
       setPageNumber((prevPage) => prevPage + 1);
       setObserverLoading(false);
-      if (loading || recentNoticeLoading) setLoading(false);
+      if (loading) setLoading(false);
     }
   };
 
@@ -90,7 +86,7 @@ const Board = () => {
     };
   }, [hasMore, observerLoading, pageNumber]);
 
-  if (loading) {
+  if (loading || recentNoticeLoading) {
     return <Loading />;
   }
 
