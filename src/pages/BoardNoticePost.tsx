@@ -5,7 +5,7 @@ import Header from '@/components/Header/Header';
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import postBoardNotice from '@/api/postBoard';
+import postBoardNotice from '@/api/postBoardNotice';
 import { toastError, toastInfo } from '@/components/common/ToastMessage';
 import Loading from '@/components/common/Loading';
 
@@ -47,6 +47,8 @@ const BoardNoticePost = () => {
   const handleDeleteFile = (fileName: string) => {
     setFiles((prevFiles) => prevFiles.filter((file) => file.name !== fileName));
   };
+
+  console.log('files', files);
 
   // onSave에서 파일 업로드 처리
   const onSave = async () => {

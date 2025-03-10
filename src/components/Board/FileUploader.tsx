@@ -25,19 +25,11 @@ const FileUploader = ({
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFiles = event.target.files;
     if (selectedFiles) {
-      let isUnique = true;
-      Array.from(selectedFiles).forEach((newFile) => {
-        // 파일 객체를 비교하도록 수정
-        if (files.some((file) => file.name === newFile.name)) {
-          isUnique = false;
-        }
-      });
-      if (isUnique) {
-        setFiles([
-          ...files,
-          ...Array.from(selectedFiles), // 파일 객체를 추가
-        ]);
-      }
+      setFiles([...files, ...Array.from(selectedFiles)]);
+    }
+
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
     }
   };
 

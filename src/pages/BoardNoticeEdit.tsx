@@ -8,7 +8,7 @@ import PostEditor from '@/components/Board/PostEditor';
 import PostFile from '@/components/Board/PostFile';
 import Loading from '@/components/common/Loading';
 import { toastError, toastInfo } from '@/components/common/ToastMessage';
-import postBoardNotice from '@/api/postBoard';
+import postBoardNotice from '@/api/postBoardNotice';
 
 interface originFile {
   fileId: number;
