@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import theme from '@/styles/theme';
-import { useState } from 'react';
 import icSearch from '@/assets/images/ic_admin_search.svg';
 import { useMemberContext } from '@/components/Admin/context/MemberContext';
 
@@ -51,11 +50,16 @@ export const SearchBarIcon = styled.img<{ isWrapped?: boolean }>`
 interface SearchBarProps {
   isWrapped?: boolean; // Wrapper css 사용 여부
   isPenaltyPage?: boolean; // 페널티 페이지 검색바 너비 조정
+  searchName: string;
+  setSearchName: (name: string) => void;
 }
 
-const SearchBar: React.FC<SearchBarProps> = ({ isWrapped = true }) => {
+const SearchBar: React.FC<SearchBarProps> = ({
+  isWrapped = true,
+  searchName,
+  setSearchName,
+}) => {
   const { members, setFilteredMembers, selectedCardinal } = useMemberContext();
-  const [searchName, setSearchName] = useState('');
 
   const handleSearchName = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.trim().toLowerCase();

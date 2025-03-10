@@ -30,13 +30,14 @@ const PenaltyAdd: React.FC = () => {
   };
 
   const handleAddPenalty = async () => {
-    if (!selectedMember || !penaltyDescription.trim()) {
-      alert('멤버와 패널티 사유를 입력해주세요.');
-    }
-
     const member = members.find((m) => m.name === selectedMember);
     if (!member) {
       alert('선택한 멤버를 찾을 수 없습니다.');
+      return;
+    }
+
+    if (!selectedMember || !penaltyDescription.trim()) {
+      alert(' 멤버 이름과 패널티 사유를 입력해주세요.');
       return;
     }
 

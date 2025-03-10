@@ -29,13 +29,15 @@ const columns = [
 
 interface PenaltyListTableProps {
   selectedCardinal: number | null;
+  searchName: string;
 }
 
 const PenaltyListTable: React.FC<PenaltyListTableProps> = ({
   selectedCardinal,
+  searchName,
 }) => {
   const { members } = useMemberContext();
-  const [filteredMembers, setFilteredMembers] = useState(members);
+  const [filteredMembers, setFilteredMembers] = useState<MemberData[]>([]);
   const [expandedRow, setExpandedRow] = useState<number | null>(null);
   const { isAdmin, loading } = useGetUserInfo();
   const [penaltyData, dispatch] = useReducer(
@@ -82,7 +84,13 @@ const PenaltyListTable: React.FC<PenaltyListTableProps> = ({
   };
 
   useEffect(() => {
-    const penalizedMembers = Object.keys(penaltyData)
+    fetchPenaltyData();
+  }, [isAdmin, loading]);
+
+  useEffect(() => {
+    if (!penaltyData || !members.length) return;
+
+    let penalizedMembers = Object.keys(penaltyData)
       .map((userId) => {
         const numericUserId = Number(userId);
 
@@ -100,26 +108,26 @@ const PenaltyListTable: React.FC<PenaltyListTableProps> = ({
       })
       .filter(Boolean) as MemberData[];
 
-    const filteredByCardinal = selectedCardinal
-      ? penalizedMembers.filter((member) => {
-          if (!member) return false;
+    if (selectedCardinal) {
+      penalizedMembers = penalizedMembers.filter((member) => {
+        let cardinalNumbers: number[] = [];
+        if (typeof member.cardinals === 'string') {
+          cardinalNumbers = (member.cardinals as string).split('.').map(Number);
+        } else if (Array.isArray(member.cardinals)) {
+          cardinalNumbers = member.cardinals;
+        }
+        return cardinalNumbers.includes(selectedCardinal);
+      });
+    }
 
-          let cardinalNumbers: number[] = [];
+    if (searchName.trim()) {
+      penalizedMembers = penalizedMembers.filter((member) =>
+        member.name.toLowerCase().includes(searchName.toLowerCase()),
+      );
+    }
 
-          if (typeof member.cardinals === 'string') {
-            cardinalNumbers = (member.cardinals as string)
-              .split('.')
-              .map(Number);
-          } else if (Array.isArray(member.cardinals)) {
-            cardinalNumbers = member.cardinals;
-          }
-
-          return cardinalNumbers.includes(selectedCardinal);
-        })
-      : penalizedMembers;
-
-    setFilteredMembers(filteredByCardinal);
-  }, [penaltyData, members, selectedCardinal, isAdmin, loading]);
+    setFilteredMembers(penalizedMembers);
+  }, [penaltyData, members, selectedCardinal, searchName, isAdmin, loading]);
 
   const handleRowClick = (userId: number) => {
     setExpandedRow((prev) => (prev === userId ? null : userId));
@@ -162,10 +170,6 @@ const PenaltyListTable: React.FC<PenaltyListTableProps> = ({
       return <S.Cell key={column.key}>{member[column.key]}</S.Cell>;
     });
 
-  useEffect(() => {
-    fetchPenaltyData();
-  }, [isAdmin, loading]);
-
   return (
     <S.TableContainer>
       <S.TableWrapper hasData={filteredMembers.length > 0}>
@@ -181,7 +185,7 @@ const PenaltyListTable: React.FC<PenaltyListTableProps> = ({
           <tbody>
             {filteredMembers.length === 0 ? (
               <tr>
-                <td colSpan={columns.length} style={{ textAlign: 'center' }}>
+                <td colSpan={columns.length}>
                   <S.NoDataCell>검색된 멤버가 없습니다.</S.NoDataCell>
                 </td>
               </tr>

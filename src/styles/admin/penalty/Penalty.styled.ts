@@ -59,8 +59,9 @@ export const EmptyCell = styled.td`
 
 export const NoDataCell = styled.div`
   color: ${theme.color.gray[65]};
-  padding: 10px;
+  padding: 20px;
   letter-spacing: 1px;
+  text-align: center;
 `;
 
 export const Input = styled.input`

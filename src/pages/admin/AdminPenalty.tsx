@@ -23,6 +23,7 @@ export const PenaltyContainer = styled(Container)`
 
 const AdminPenalty: React.FC = () => {
   const [selectedCardinal, setSelectedCardinal] = useState<null | number>(null);
+  const [searchName, setSearchName] = useState<string>('');
 
   return (
     <MemberProvider>
@@ -40,8 +41,13 @@ const AdminPenalty: React.FC = () => {
                 isPenaltyPage
                 selectedCardinal={selectedCardinal}
                 setSelectedCardinal={setSelectedCardinal}
+                searchName={searchName}
+                setSearchName={setSearchName}
               />
-              <PenaltyListTable selectedCardinal={selectedCardinal} />
+              <PenaltyListTable
+                selectedCardinal={selectedCardinal}
+                searchName={searchName}
+              />
             </div>
             <PenaltyAdd />
           </PenaltyContainer>
