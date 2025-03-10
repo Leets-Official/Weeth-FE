@@ -59,7 +59,7 @@ const PenaltyAdd: React.FC = () => {
       }
     } catch (error) {
       console.error('패널티 부여 오류: ', error);
-      alert(' 패널티 부여 실패');
+      alert('패널티 부여 실패');
     }
   };
   return (
