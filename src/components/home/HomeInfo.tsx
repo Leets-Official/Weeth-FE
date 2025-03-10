@@ -22,7 +22,7 @@ interface HomeInfoProps {
 
 const HomeInfo = ({ position, cardinal, name, isAdmin }: HomeInfoProps) => {
   const navigate = useNavigate();
-  const [characterImg, setCharacterImg] = useState('');
+  const [characterImg, setCharacterImg] = useState(DefaultIcon);
   const [userPart, setUserPart] = useState('');
 
   useEffect(() => {
@@ -41,7 +41,6 @@ const HomeInfo = ({ position, cardinal, name, isAdmin }: HomeInfoProps) => {
           setUserPart('D');
           break;
         default:
-          setCharacterImg(DefaultIcon);
           break;
       }
     }
