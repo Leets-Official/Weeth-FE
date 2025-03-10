@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import * as S from '@/styles/home/HomeInfo.styled';
 import { StyledHomeMain } from '@/styles/home/HomeMain.styled';
-import useGetUserInfo from '@/api/useGetUserInfo';
 
 import { useNavigate } from 'react-router-dom';
 import Caption from '@/components/Button/Caption';
@@ -14,16 +13,21 @@ import DECharHover from '@/assets/images/ic_char_DE_hover.svg';
 import useGetGlobaluserInfo from '@/api/useGetGlobaluserInfo';
 import AdminIcon from '@/assets/images/ic_Master_BW.svg';
 
-const HomeInfo = () => {
+interface HomeInfoProps {
+  position: string;
+  cardinal: number | string;
+  name: string;
+}
+
+const HomeInfo = ({ position, cardinal, name }: HomeInfoProps) => {
   const navigate = useNavigate();
-  const { userInfo, isLoading } = useGetUserInfo();
   const [characterImg, setCharacterImg] = useState('');
   const [userPart, setUserPart] = useState('');
   const { isAdmin } = useGetGlobaluserInfo();
 
   useEffect(() => {
-    if (!isLoading && userInfo) {
-      switch (userInfo.position) {
+    if (position) {
+      switch (position) {
         case 'FE':
           setCharacterImg(FEChar);
           setUserPart('FE');
@@ -41,11 +45,11 @@ const HomeInfo = () => {
           break;
       }
     }
-  }, [userInfo, isLoading]);
+  }, [position]);
 
   const handleMouseEnter = () => {
-    if (!isLoading && userInfo) {
-      switch (userInfo.position) {
+    if (position) {
+      switch (position) {
         case 'FE':
           setCharacterImg(FECharHover);
           break;
@@ -62,8 +66,8 @@ const HomeInfo = () => {
   };
 
   const handleMouseLeave = () => {
-    if (!isLoading && userInfo) {
-      switch (userInfo.position) {
+    if (position) {
+      switch (position) {
         case 'FE':
           setCharacterImg(FEChar);
           break;
@@ -78,32 +82,29 @@ const HomeInfo = () => {
       }
     }
   };
+
   return (
     <StyledHomeMain>
       <S.UserInfo>
         <S.UserContainer>
           <S.Name>
             <Caption color="#ffffff" textcolor="#000000">
-              {userInfo?.cardinals?.[userInfo.cardinals.length - 1] || '...'}기
+              {cardinal}기
             </Caption>
-            <div>{userInfo?.name || 'Loading...'}</div>
+            <div>{name}</div>
           </S.Name>
           <S.NickNameContainer>
             {isAdmin && <S.Admin src={AdminIcon} alt="어드민" />} {userPart}
           </S.NickNameContainer>
         </S.UserContainer>
         <S.RightButtonContainer>
-          {isLoading || !userInfo ? (
-            <S.LoadingContainer />
-          ) : (
-            <S.UserCharacter
-              src={characterImg}
-              onMouseEnter={handleMouseEnter}
-              onMouseLeave={handleMouseLeave}
-              onClick={() => navigate(`/mypage`)}
-              alt="User character icon"
-            />
-          )}
+          <S.UserCharacter
+            src={characterImg}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            onClick={() => navigate(`/mypage`)}
+            alt="User character icon"
+          />
         </S.RightButtonContainer>
       </S.UserInfo>
     </StyledHomeMain>

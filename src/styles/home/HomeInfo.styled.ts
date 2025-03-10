@@ -49,11 +49,6 @@ export const UserCharacter = styled.img`
   cursor: pointer;
 `;
 
-export const LoadingContainer = styled.div`
-  width: 153px;
-  height: 140px;
-`;
-
 export const Admin = styled.img`
   margin-bottom: -1.5px;
 `;
