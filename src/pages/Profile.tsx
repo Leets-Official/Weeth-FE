@@ -9,6 +9,7 @@ import PositionSector from '@/components/Signup/PositionSector';
 import SignupMemInput from '@/components/Signup/SignupMemInput';
 import useCustomBack from '@/hooks/useCustomBack';
 import api from '@/api/api';
+import SelectModal from '@/components/Modal/SelectModal';
 
 // Styled components
 const ProfileContainer = styled.div`
@@ -106,35 +107,18 @@ const Profile: React.FC = () => {
     email: '',
   });
   const [isNextEnabled, setIsNextEnabled] = useState<boolean>(false);
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
+  const [modalMessage, setModalMessage] = useState<string>('');
 
   const validateEmail = (validEmail: string): boolean => {
-    // 이메일 형식을 검사하는 정규식 (기본적인 이메일 형식)
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/;
+    const emailRegex =
+      /^[^\s@]+@[^\s@]+\.(com|net|org|edu|ac\.kr|co\.kr|go\.kr|or\.kr|kakao\.com)$/;
+    return emailRegex.test(validEmail);
+  };
 
-    // 허용되는 도메인 확장자 목록
-    const allowedExtensions = [
-      'com',
-      'net',
-      'org',
-      'edu',
-      'ac.kr', // 학교 이메일 도메인 추가
-      'co.kr',
-      'go.kr',
-      'or.kr',
-      'kakao.com', // 추가적으로 원하는 도메인도 여기에 넣을 수 있음
-    ];
-
-    // 이메일 형식이 유효한지 먼저 체크
-    if (!emailRegex.test(validEmail)) {
-      return false;
-    }
-
-    // 이메일 주소에서 도메인 추출 (확장자 부분만 추출)
-    const emailDomain = validEmail.split('@')[1];
-    const domainExtension = emailDomain.split('.').pop(); // 마지막 확장자 부분을 추출
-
-    // 허용된 확장자 목록에 포함되는지 확인
-    return allowedExtensions.includes(domainExtension || '');
+  const showModal = (message: string) => {
+    setModalMessage(message);
+    setModalVisible(true);
   };
 
   const handleNextClick = async () => {
@@ -153,20 +137,20 @@ const Profile: React.FC = () => {
     );
 
     if (memberInfo.studentId && memberInfo.studentId.trim().length < 9) {
-      alert('올바른 학번을 입력해 주세요.');
+      showModal('올바른 학번을 입력해 주세요.');
       return;
     }
     if (memberInfo.tel && memberInfo.tel.trim().length < 11) {
-      alert('올바른 휴대폰 번호를 입력해 주세요.');
+      showModal('올바른 휴대폰 번호를 입력해 주세요.');
       return;
     }
     if ((memberInfo.email && validateEmail(memberInfo.email)) === false) {
-      alert('올바른 이메일을 입력해 주세요.');
+      showModal('올바른 이메일을 입력해 주세요.');
       return;
     }
 
     if (!allFieldsFilled) {
-      alert('모든 항목을 입력해 주세요.');
+      showModal('모든 항목을 입력해 주세요.');
       return;
     }
 
@@ -183,14 +167,14 @@ const Profile: React.FC = () => {
         mappedMemberInfo,
       );
       if (response.data.code === 200) {
-        alert(`가입 신청이 완료되었습니다.
+        showModal(`가입 신청이 완료되었습니다.
         운영진의 승인 후 서비스 이용이 가능합니다.`);
         navigate('/register-success');
       } else {
-        alert(response.data.message);
+        showModal(response.data.message);
       }
     } catch (error: any) {
-      alert(error.response?.data.message || error.message);
+      showModal(error.response?.data.message || error.message);
     }
   };
 
@@ -294,6 +278,16 @@ const Profile: React.FC = () => {
           작성 완료
         </ProfileButton>
       </ProfileButtonContainer>
+      {modalVisible && (
+        <SelectModal
+          title="알림"
+          content={modalMessage}
+          onClose={() => setModalVisible(false)}
+          type="positive"
+          visibility={false}
+          cancleText="닫기"
+        />
+      )}
     </ProfileContainer>
   );
 };
