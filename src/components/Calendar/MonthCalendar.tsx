@@ -19,7 +19,7 @@ import ScheduleItem from '@/components/Calendar/ScheduleItem';
 import Line from '@/components/common/Line';
 import dayjs from 'dayjs';
 import { toastError } from '../common/ToastMessage';
-import Loading from '../common/Loading';
+// import Loading from '../common/Loading';
 
 const MonthCalendar = () => {
   const calendarRef = useRef<FullCalendar | null>(null);
@@ -37,7 +37,7 @@ const MonthCalendar = () => {
   else
     formattedEnd = new Date(year, month + 1, 1, 23, 59, 59, 999).toISOString();
 
-  const { data: monthlySchedule, loading } = useGetMonthlySchedule(
+  const { data: monthlySchedule } = useGetMonthlySchedule(
     `${year}-${String(month).padStart(2, '0')}-01T00:00:00.000Z`,
     formattedEnd,
   );
@@ -109,7 +109,7 @@ const MonthCalendar = () => {
     setSelectedDate(start);
   };
 
-  if (loading) return <Loading />;
+  // if (loading) return <Loading />;
 
   return (
     <S.Container>
@@ -118,7 +118,7 @@ const MonthCalendar = () => {
           ref={calendarRef}
           selectable
           select={onDateSelect}
-          longPressDelay={100}
+          longPressDelay={50}
           plugins={[dayGridPlugin, interactionPlugin]}
           events={monthlySchedule}
           eventContent={renderEventContent}

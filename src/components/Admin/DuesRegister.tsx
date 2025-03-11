@@ -5,9 +5,8 @@ import DownButton from '@/assets/images/ic_admin_cardinal.svg';
 import DuesRegisterDropDown from '@/components/Admin/DuesRegisterDropDown';
 
 export const Wrapper = styled.div`
-  width: 90%;
+  width: 100%;
   height: 72px;
-  margin-top: 50px;
   background-color: #fff;
   padding: 0 30px;
   box-sizing: border-box;

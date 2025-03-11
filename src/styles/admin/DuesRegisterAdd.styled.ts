@@ -7,7 +7,7 @@ export const flexMixin = (flexValue: number) => css`
 `;
 
 export const Wrapper = styled.div`
-  width: 90%;
+  width: 100%;
   margin-top: 50px;
   background-color: #fff;
   box-sizing: border-box;

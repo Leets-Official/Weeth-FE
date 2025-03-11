@@ -21,7 +21,7 @@ export const editEvent = async (data: EventRequestType, id: number) => {
   return response;
 };
 
-export const deleteEvent = async (id: number) => {
-  const response = await api.delete(`/api/v1/admin/events/${id}`);
+export const deleteEvent = async (id: number, type: string) => {
+  const response = await api.delete(`/api/v1/admin/${type}/${id}`);
   return response;
 };
