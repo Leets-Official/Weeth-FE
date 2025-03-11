@@ -3,7 +3,7 @@ import theme from '../theme';
 import { flexMixin } from './DuesRegisterAdd.styled';
 
 export const Wrapper = styled.div`
-  width: 90%;
+  width: 100%;
   background-color: white;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   padding: 30px;

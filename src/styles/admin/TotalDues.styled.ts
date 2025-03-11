@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import theme from '../theme';
 
 export const TotalDuesWrapper = styled.div`
-  width: 95%;
+  width: 100%;
   background-color: #fff;
   border-radius: 5px;
   border: 1px solid #dedede;
