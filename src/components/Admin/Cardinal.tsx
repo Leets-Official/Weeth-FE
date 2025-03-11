@@ -17,9 +17,15 @@ export const CardinalButton = styled.div`
   color: black;
 `;
 
-export const DropdownMenu = styled.div`
+export const DropdownMenu = styled.div.attrs<{ itemCount: number }>(
+  (props) => ({
+    style: {
+      maxHeight: props.itemCount > 4 ? '240px' : 'auto',
+      overflowY: props.itemCount > 4 ? 'auto' : 'hidden',
+    },
+  }),
+)`
   width: 118px;
-  height: 240px;
   background-color: #ffffff;
   border: 1px solid #dedede;
   border-radius: 5px;
@@ -27,7 +33,6 @@ export const DropdownMenu = styled.div`
   position: absolute;
   color: black;
   z-index: 5;
-  overflow-y: auto;
 `;
 
 export const DropdownItem = styled.div`
@@ -54,7 +59,9 @@ const CardinalDropdown: React.FC<CardinalProps> = ({
   const [isOpen, setIsOpen] = useState(false);
   const { allCardinals } = useGetAllCardinals();
 
-  const sortedCardinals = [...allCardinals].reverse();
+  const sortedCardinals = [...allCardinals].sort(
+    (a, b) => b.cardinalNumber - a.cardinalNumber,
+  );
 
   const toggleDropdown = () => setIsOpen(!isOpen);
 
@@ -78,19 +85,18 @@ const CardinalDropdown: React.FC<CardinalProps> = ({
         />
       </CardinalButton>
       {isOpen && (
-        <DropdownMenu>
+        <DropdownMenu itemCount={sortedCardinals.length}>
           {sortedCardinals.length === 0 && (
             <DropdownItem>기수 없음</DropdownItem>
           )}
-          {sortedCardinals.length > 0 &&
-            sortedCardinals.map((item) => (
-              <DropdownItem
-                key={item.id}
-                onClick={() => selectCardinal(item.cardinalNumber)}
-              >
-                {item.cardinalNumber}기
-              </DropdownItem>
-            ))}
+          {sortedCardinals.map((item) => (
+            <DropdownItem
+              key={item.id}
+              onClick={() => selectCardinal(item.cardinalNumber)}
+            >
+              {item.cardinalNumber}기
+            </DropdownItem>
+          ))}
         </DropdownMenu>
       )}
     </>
