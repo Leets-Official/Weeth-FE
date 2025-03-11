@@ -19,10 +19,6 @@ const HeaderCell = styled.th<{ width?: string }>`
   width: ${({ width }) => width || 'auto'};
 `;
 
-export const EmptyCell = styled.th`
-  border-bottom: 1px solid #dedede;
-`;
-
 const HeaderRow = styled.tr`
   border-bottom: 1px solid #dedede;
 `;
