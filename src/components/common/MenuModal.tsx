@@ -13,7 +13,7 @@ const Container = styled.div`
 
 const ModalContainer = styled.div`
   width: 370px;
-  position: fixed;
+  position: absolute;
   top: 55px;
   left: 50%;
   transform: translate(-50%);

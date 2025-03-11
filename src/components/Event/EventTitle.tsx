@@ -24,10 +24,15 @@ const EventTitle = ({
   const formattedDateTime = formatDateTime(data.createdAt);
 
   const { id, type } = useParams();
+  const url = new URL(window.location.href);
+  const pathArray = url.pathname.split('/');
+  const path = pathArray[1];
+
+  console.log(path);
 
   const handleDelete = async () => {
     try {
-      await deleteEvent(data.id);
+      await deleteEvent(data.id, path);
       toastSuccess('삭제가 완료되었습니다.');
       navigate('/calendar');
     } catch (err) {
@@ -43,7 +48,6 @@ const EventTitle = ({
       <Header
         isAccessible={isAdmin}
         onClickRightButton={() => {
-          console.log('Right button clicked!');
           setIsMenuModalOpen(true);
         }}
         RightButtonType="MENU"
@@ -82,7 +86,6 @@ const EventTitle = ({
 
         {isSelectModalOpen && (
           <SelectModal
-            type="positive"
             title="일정 삭제"
             content="정말 삭제하시겠습니까?"
             onClose={() => setIsSelectModalOpen(false)}
