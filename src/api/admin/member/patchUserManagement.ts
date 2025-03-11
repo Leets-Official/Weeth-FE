@@ -1,4 +1,4 @@
-import axios from 'axios';
+import api from '@/api/api';
 
 const PATH = '/api/v1/admin/users';
 const BASE_URL = import.meta.env.VITE_API_URL;
@@ -9,14 +9,9 @@ const sendPatchRequest = async (
   body: object,
   errorMessage: string,
 ) => {
-  const accessToken = localStorage.getItem('accessToken');
   try {
     const url = `${BASE_URL}${PATH}${endpoint}`;
-    const response = await axios.patch(url, body, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
+    const response = await api.patch(url, body, {});
     return response.data;
   } catch (error: any) {
     throw new Error(error.response?.data?.message || errorMessage);
