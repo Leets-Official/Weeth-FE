@@ -32,7 +32,7 @@ const DuesRegisterAdd: React.FC = () => {
       }
 
       if (!description.trim()) {
-        alert('회비 설명을 입력해주세요.');
+        alert('사용 내용을 입력해주세요.');
         return false;
       }
 
@@ -79,9 +79,9 @@ const DuesRegisterAdd: React.FC = () => {
       setCustomCardinal('');
       setSelectedCardinal(null);
       setUploadedFiles([]);
-    } catch (error) {
+    } catch (error: any) {
       console.error('등록 실패:', error);
-      alert('등록 중 오류가 발생했습니다.');
+      alert(error.message);
     }
   };
 
