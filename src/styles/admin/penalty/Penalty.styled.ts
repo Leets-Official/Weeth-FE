@@ -84,7 +84,7 @@ export const ButtonWrapper = styled.div`
 // penaltyDetail.tsx
 export const DetailContainer = styled.div`
   display: grid;
-  grid-template-columns: 5.3fr 1.3fr 1.5fr 1fr;
+  grid-template-columns: 4.6fr 1.1fr 1.5fr 1fr;
   grid-template-areas: ' reason penalty penaltyDate actions';
   padding-left: 125px;
   border-bottom: 1px solid #dedede;

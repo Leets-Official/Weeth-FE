@@ -2,7 +2,7 @@ import { styled } from 'styled-components';
 
 export const SubHeaderRow = styled.div`
   display: grid;
-  grid-template-columns: 4fr 1fr 1.5fr 1fr;
+  grid-template-columns: 4fr 1fr 1.5fr 1.3fr;
   grid-template-areas: 'reason penalty penaltyDate empty';
   border-bottom: 1px solid #dedede;
   padding: 5px;
