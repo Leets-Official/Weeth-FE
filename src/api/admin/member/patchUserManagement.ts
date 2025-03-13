@@ -1,7 +1,6 @@
 import api from '@/api/api';
 
 const PATH = '/api/v1/admin/users';
-const BASE_URL = import.meta.env.VITE_API_URL;
 
 // PATCH 공통함수
 const sendPatchRequest = async (
@@ -10,8 +9,7 @@ const sendPatchRequest = async (
   errorMessage: string,
 ) => {
   try {
-    const url = `${BASE_URL}${PATH}${endpoint}`;
-    const response = await api.patch(url, body, {});
+    const response = await api.patch(`${PATH}${endpoint}`, body, {});
     return response.data;
   } catch (error: any) {
     throw new Error(error.response?.data?.message || errorMessage);

@@ -1,6 +1,5 @@
-import axios from 'axios';
+import api from '@/api/api';
 
-const BASE_URL = import.meta.env.VITE_API_URL;
 const PATH = '/api/v1/admin/cardinals';
 
 // 새로운 기수 등록
@@ -10,18 +9,13 @@ const postCardinalApi = async (
   semester: number,
   inProgress: boolean,
 ) => {
-  const accessToken = localStorage.getItem('accessToken');
-
   try {
-    const response = await axios.post(
-      `${BASE_URL}${PATH}`,
-      { cardinalNumber, year, semester, inProgress },
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      },
-    );
+    const response = await api.post(PATH, {
+      cardinalNumber,
+      year,
+      semester,
+      inProgress,
+    });
 
     return response.data;
   } catch (error: any) {
@@ -36,18 +30,8 @@ const patchCardinalApi = async (
   semester: number,
   inProgress: boolean,
 ) => {
-  const accessToken = localStorage.getItem('accessToken');
-
   try {
-    const response = await axios.patch(
-      `${BASE_URL}${PATH}`,
-      { id, year, semester, inProgress },
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      },
-    );
+    const response = await api.patch(PATH, { id, year, semester, inProgress });
 
     return response.data;
   } catch (error: any) {
