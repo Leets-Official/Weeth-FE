@@ -54,6 +54,9 @@ const EventEditor = () => {
   } = useGetEventInfo('events', id);
   const isEditMode = Boolean(id);
   const navigate = useNavigate();
+  const url = new URL(window.location.href);
+  const pathArray = url.pathname.split('/');
+  const path = pathArray[1];
 
   const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
   const [isSelectModalOpen, setIsSelectModalOpen] = useState(false);
@@ -274,9 +277,13 @@ const EventEditor = () => {
       {isSelectModalOpen && (
         <SelectModal
           type="positive"
-          title="일정 생성"
-          content="일정을 생성하시겠습니까?"
-          buttonContent="생성"
+          title={path === 'edit' ? '일정 생성' : '일정 수정'}
+          content={
+            path === 'edit'
+              ? '일정을 생성하시겠습니까?'
+              : '일정을 수정하시겠습니까?'
+          }
+          buttonContent={path === 'edit' ? '생성' : '수정'}
           onClose={() => setIsSelectModalOpen(false)}
           onDelete={handleSave}
         />
