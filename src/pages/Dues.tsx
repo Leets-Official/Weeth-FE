@@ -48,7 +48,7 @@ const Dues: React.FC = () => {
       <S.CategoryWrapper>
         <DueCategory setSelectedDues={setSelectedDues} />
       </S.CategoryWrapper>
-      {duesInfo == null || duesInfo.receipts.length === 0 ? (
+      {duesInfo == null ? (
         <S.NullText>등록된 회비가 없습니다.</S.NullText>
       ) : (
         <S.DuesListBox>
