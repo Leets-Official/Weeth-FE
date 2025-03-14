@@ -22,14 +22,23 @@ export const ModalContent = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 315px;
-  min-width: 315px;
-  height: 489px;
+  width: 19.688rem;
+  min-width: 19.688rem;
+  height: 30.563rem;
+  max-height: 30.563rem;
   background-color: #2f2f2f;
   border-radius: 14px;
   padding: 15px;
   box-sizing: border-box;
   font-family: ${theme.font.regular};
+
+  overflow-y: auto;
+  scrollbar-width: none;
+
+  // For Webkit browsers like Chrome and Safari
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 export const ModalHeader = styled.div`
