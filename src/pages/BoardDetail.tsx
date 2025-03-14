@@ -92,10 +92,10 @@ const BoardDetail = () => {
   const confirmDelete = async () => {
     try {
       await deletePost(numericPostId, path);
-      toastInfo('게시물이 삭제되었습니다');
+      navigate('/board', { replace: true });
       setTimeout(() => {
-        navigate('/board');
-      }, 2000);
+        toastInfo('게시물이 삭제되었습니다');
+      }, 500);
     } catch (err) {
       toastError();
       console.error(err);

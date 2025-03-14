@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import useGetGlobaluserInfo from '@/api/useGetGlobaluserInfo';
 import PostingButton from '@/components/Board/PostingButton';
 import Loading from '@/components/common/Loading';
+import useCustomBack from '@/hooks/useCustomBack';
 
 const Container = styled.div`
   display: flex;
@@ -41,6 +42,7 @@ interface Content {
 }
 
 const Notice = () => {
+  useCustomBack('/home');
   const navigate = useNavigate();
   const { isAdmin } = useGetGlobaluserInfo();
 

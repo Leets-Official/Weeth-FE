@@ -86,12 +86,12 @@ const NoticePostDetail = () => {
   const confirmDelete = async () => {
     try {
       await deletePost(numericPostId, 'notices');
-      toastInfo('게시물이 삭제되었습니다');
+      navigate('/notice', { replace: true });
       setTimeout(() => {
-        navigate('/notice'); // 2초 후 공지 목록 페이지로 이동
-      }, 2000);
+        toastInfo('게시물이 삭제되었습니다');
+      }, 500);
     } catch (err) {
-      toastError('에러가 발생했습니다.');
+      toastError();
       console.error(err);
     }
     closeSelectModal();
