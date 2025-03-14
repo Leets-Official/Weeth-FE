@@ -10,7 +10,7 @@ const Container = styled.div`
   height: 37px;
   display: flex;
   align-items: center;
-  padding: 10px 0 10px 20px;
+  padding-left: 20px;
   border-radius: 15px;
   background-color: ${theme.color.main};
   color: white;
