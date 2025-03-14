@@ -47,6 +47,12 @@ const AttendMain: React.FC = () => {
     );
   }, [penaltyInfo]);
 
+  useEffect(() => {
+    if (attendInfo?.status === 'ATTEND') {
+      setIsAttend(true);
+    }
+  }, [attendInfo?.status]);
+
   if (attendLoading || penaltyLoading) {
     return <Loading />;
   }

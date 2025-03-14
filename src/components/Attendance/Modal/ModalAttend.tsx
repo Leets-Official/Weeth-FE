@@ -86,11 +86,11 @@ const ModalAttend: React.FC<{
       if (response.data.code === 200) {
         setCodeCheck(1); // Correct
         setMessage('출석 처리가 성공적으로 완료되었습니다.');
-        // 출석 처리 성공 후 3초 뒤 모달 닫기
+        // 출석 처리 성공 후 2초 뒤 모달 닫기
         setTimeout(() => {
           handleAttend(true);
           close();
-        }, 3000);
+        }, 2000);
       } else {
         setCodeCheck(2); // Wrong
         setMessage(response.data.message || '출석 처리에 실패했습니다.');
