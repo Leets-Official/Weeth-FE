@@ -87,27 +87,38 @@ const Edit = () => {
 
   const { updateInfo } = usePatchUserInfo();
 
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  const validateUserData = (data: any[]) => {
+    if (data.some((item) => !item.value)) {
+      toastInfo('모든 항목을 입력해 주세요.');
+      return false;
+    }
+    // eslint-disable-next-line no-restricted-syntax
+    for (const item of userData) {
+      if (item.key === 'email' && !emailRegex.test(item.value)) {
+        toastInfo('올바른 이메일 형식이 아닙니다.');
+        return false;
+      }
+      if (item.key === 'tel' && item.value.length < 11) {
+        toastInfo('올바른 전화번호 형식이 아닙니다');
+        return false;
+      }
+      if (item.key === 'studentId' && item.value.length < 9) {
+        toastInfo('올바른 학번 형식이 아닙니다');
+        return false;
+      }
+    }
+
+    return true;
+  };
+
   const onSave = async () => {
     try {
       const data = userData.reduce((acc: any, item: any) => {
         acc[item.key] = item.value;
         return acc;
       }, {});
-
-      if (userData.some((item) => !item.value)) {
-        toastInfo('모든 항목을 입력해 주세요.');
-        return;
-      }
-
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      // eslint-disable-next-line no-restricted-syntax
-      for (const item of userData) {
-        if (item.key === 'email' && !emailRegex.test(item.value)) {
-          toastInfo('올바른 이메일 형식이 아닙니다.');
-          return;
-        }
-        // TODO: 여기에 항목별 유효성 검사 추가
-      }
 
       const response = await updateInfo(data);
 
@@ -139,7 +150,9 @@ const Edit = () => {
     <Container>
       <Header
         onClickRightButton={() => {
-          setIsSelectModalOpen(true);
+          if (validateUserData(userData)) {
+            setIsSelectModalOpen(true);
+          }
         }}
         RightButtonType="TEXT"
         isAccessible
