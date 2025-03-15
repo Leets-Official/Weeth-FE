@@ -34,8 +34,9 @@ const MemberList = ({
 
   const [pageNumber, setPageNumber] = useState(0);
   const [members, setMembers] = useState<User[]>([]);
-  const [hasMore, setHasMore] = useState(true);
+  const [hasMore, setHasMore] = useState(false);
   const [observerLoading, setObserverLoading] = useState(false);
+  const [hasNoMember, setHasNoMember] = useState(false);
   const observerRef = useRef<HTMLDivElement | null>(null);
 
   console.log(pageNumber);
@@ -52,14 +53,17 @@ const MemberList = ({
     setMembers,
     setHasMore,
     setObserverLoading,
+    setHasNoMember,
   );
+
+  console.log('hasNomember', hasNoMember);
 
   // Intersection Observer 설정
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting && hasMore && !observerLoading) {
-          setPageNumber((prevPage) => prevPage + 1);
+          setPageNumber((prevPage) => (hasMore ? prevPage + 1 : prevPage));
         }
       },
       { threshold: 0.1 },
@@ -99,7 +103,7 @@ const MemberList = ({
         role={user.role}
       />
     ));
-  } else if (members.length === 0) {
+  } else if (members.length === 0 && !hasNoMember) {
     content = <Loading />;
   } else {
     content = members.map((user: User) => (
@@ -117,7 +121,7 @@ const MemberList = ({
   return (
     <List>
       {content}
-      {hasMore && !observerLoading && (
+      {hasMore && !observerLoading && !hasNoMember && (
         <div
           ref={observerRef}
           style={{ height: '20px', backgroundColor: 'transparent' }}
@@ -125,6 +129,9 @@ const MemberList = ({
       )}
       {(!hasMore && !isSearch && pageNumber !== 1) ||
         (members.length > 10 && <Error>마지막 멤버입니다.</Error>)}
+      {members.length === 0 && hasNoMember && (
+        <Error>{selectedCardinal}기 멤버가 존재하지 않습니다.</Error>
+      )}
     </List>
   );
 };
