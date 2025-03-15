@@ -4,8 +4,12 @@ import { ButtonWrapper } from '@/styles/admin/DuesRegisterDropDown.styled';
 import { useState } from 'react';
 import { useMemberContext } from '@/components/Admin/context/MemberContext';
 import PenaltyMemberDropdown from '@/components/Admin/PenaltyMemberDropdown';
-import { postPenaltyApi } from '@/api/admin/penalty/getPenalty';
-import { PenaltyAction } from '@/components/Admin/context/PenaltyReducer';
+import { getPenaltyApi, postPenaltyApi } from '@/api/admin/penalty/getPenalty';
+import {
+  Penalty,
+  PenaltyAction,
+  PenaltyState,
+} from '@/components/Admin/context/PenaltyReducer';
 import formatDate from '@/utils/admin/dateUtils';
 
 interface PenaltyAddProps {
@@ -71,6 +75,23 @@ const PenaltyAdd: React.FC<PenaltyAddProps> = ({ dispatch }) => {
             time: penaltyTime,
           },
         });
+
+        const response = await getPenaltyApi();
+        if (response.code === 200) {
+          dispatch({
+            type: 'REFRESH_PENALTY_DATA',
+            payload: response.data.reduce(
+              (
+                acc: PenaltyState,
+                item: { userId: number; Penalties: Penalty[] },
+              ) => {
+                acc[item.userId] = item.Penalties;
+                return acc;
+              },
+              {} as PenaltyState,
+            ),
+          });
+        }
         handleReset();
       } else {
         alert(`패널티 부여 실패: ${res.message}`);

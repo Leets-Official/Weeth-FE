@@ -9,7 +9,12 @@ export interface PenaltyState {
 }
 
 export interface PenaltyAction {
-  type: 'SET_PENALTY' | 'ADD_PENALTY' | 'EDIT_PENALTY' | 'DELETE_PENALTY';
+  type:
+    | 'SET_PENALTY'
+    | 'ADD_PENALTY'
+    | 'EDIT_PENALTY'
+    | 'DELETE_PENALTY'
+    | 'REFRESH_PENALTY_DATA';
   userId?: number;
   payload?: Penalty | PenaltyState;
   index?: number;
@@ -53,6 +58,11 @@ export const penaltyReducer = (
         ),
       };
 
+    case 'REFRESH_PENALTY_DATA':
+      return {
+        ...state,
+        ...(action.payload as PenaltyState),
+      };
     default:
       return state;
   }
