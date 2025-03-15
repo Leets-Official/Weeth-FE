@@ -15,6 +15,7 @@ const useGetAdminUsers = () => {
     const fetchUsers = async () => {
       try {
         const response = await getAllUsers();
+        console.log('멤버 조회 response', response);
         setAllUsers(response.data.data);
       } catch (err: any) {
         setError(
