@@ -88,10 +88,6 @@ const Edit = () => {
   const { updateInfo } = usePatchUserInfo();
 
   const onSave = async () => {
-    setIsSelectModalOpen(true);
-  };
-
-  const handleSave = async () => {
     try {
       const data = userData.reduce((acc: any, item: any) => {
         acc[item.key] = item.value;
@@ -110,6 +106,7 @@ const Edit = () => {
           toastInfo('올바른 이메일 형식이 아닙니다.');
           return;
         }
+        // TODO: 여기에 항목별 유효성 검사 추가
       }
 
       const response = await updateInfo(data);
@@ -140,7 +137,13 @@ const Edit = () => {
 
   return (
     <Container>
-      <Header onClickRightButton={onSave} RightButtonType="TEXT" isAccessible>
+      <Header
+        onClickRightButton={() => {
+          setIsSelectModalOpen(true);
+        }}
+        RightButtonType="TEXT"
+        isAccessible
+      >
         MY 수정
       </Header>
       {userInfo ? (
@@ -187,7 +190,7 @@ const Edit = () => {
           title="정보 수정"
           content="변경사항을 저장하시겠습니까?"
           onClose={() => setIsSelectModalOpen(false)}
-          onDelete={handleSave}
+          onDelete={onSave}
           buttonContent="저장"
         />
       )}
