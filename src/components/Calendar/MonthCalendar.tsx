@@ -70,8 +70,15 @@ const MonthCalendar = () => {
   const renderDayCell = (arg: any) => {
     const isToday =
       format(arg.date, 'yyyy-MM-dd') === format(new Date(), 'yyyy-MM-dd');
+    const isSelected =
+      format(arg.date, 'yyyy-MM-dd') === format(selectedDate, 'yyyy-MM-dd');
     return (
       <div>
+        {isSelected && (
+          <S.SelectedDateOnCalendar>
+            {arg.date.getDate()}
+          </S.SelectedDateOnCalendar>
+        )}
         {isToday && <S.Today>{arg.date.getDate()}</S.Today>}
         <div>{arg.date.getDate()}</div>
       </div>
