@@ -23,6 +23,7 @@ const useGetAllUsers = (
   setUsers: React.Dispatch<React.SetStateAction<any[]>>,
   setHasMore: React.Dispatch<React.SetStateAction<boolean>>,
   setObserverLoading: React.Dispatch<React.SetStateAction<boolean>>,
+  setHasNoMember: React.Dispatch<React.SetStateAction<boolean>>,
 ) => {
   const [loading, setLoading] = useState(false);
   const [isFirstRender, setIsFirstRender] = useState(true); // 최초 렌더링을 추적
@@ -37,8 +38,14 @@ const useGetAllUsers = (
 
       setUsers((prevUsers) => [...prevUsers, ...data.content]);
       setHasMore(!data.last);
-    } catch (error) {
+    } catch (error: any) {
       // eslint-disable-next-line no-console
+      if (error.status === 404) {
+        setHasNoMember(true);
+        setLoading(false);
+        return;
+      }
+      setLoading(false);
       console.error('Error fetching users:', error);
     } finally {
       setLoading(false);

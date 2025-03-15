@@ -72,7 +72,7 @@ const SignupMemInput: React.FC<SignupMemInputProps> = ({
     const numberRegex = /^[0-9]*$/;
     switch (inputType) {
       case 'text':
-        return /^[ㄱ-힣]*$/.test(val) && val.length <= 7; // 한글만, 최대 7자
+        return /^[ㄱ-힣a-zA-Z]*$/.test(val) && val.length <= 7; // 한글, 영어만
       case 'number':
         if (labelName === '학번') {
           return numberRegex.test(val) && val.length <= 9; // 숫자만, 최대 9자리
