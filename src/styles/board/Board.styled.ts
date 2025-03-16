@@ -28,6 +28,7 @@ export const AllText = styled.div`
   font-family: ${theme.font.regular};
   color: ${theme.color.gray[65]};
   cursor: pointer;
+  margin-top: 3px;
 `;
 
 export const ScrollContainer = styled.div`
