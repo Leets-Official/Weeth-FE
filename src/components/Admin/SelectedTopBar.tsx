@@ -67,11 +67,17 @@ const SelectedTopBar: React.FC = () => {
 
   const allAdmins = selectedRoles.every((role) => role === 'ADMIN');
   const allUsers = selectedRoles.every((role) => role === 'USER');
+
+  const selectedStatuses = selectedMembers.map(
+    (id) => members.find((m) => m.id === Number(id))?.status,
+  );
+  const hasApprovedMembers = selectedStatuses.includes('승인 완료');
+
   const buttons = [
     {
       label: '가입 승인',
       onClick: () => handleAction('가입 승인', selectedMembers.map(Number)),
-      disabled: false,
+      disabled: hasApprovedMembers,
     },
     {
       label: '관리자로 변경',

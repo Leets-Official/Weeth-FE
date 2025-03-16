@@ -58,11 +58,18 @@ const CardinalEditModal: React.FC<CardinalChangeModalProps> = ({
     try {
       const newCardinalNumber = Number(cardinalNumber);
 
-      const isExistingCardinal =
-        existingCardinalNumbers.includes(newCardinalNumber);
+      // 기존 기수 중 최대값
+      const maxExistingCardinal = Math.max(...existingCardinalNumbers);
 
-      if (isCustomInput && isExistingCardinal) {
-        alert('이미 존재하는 기수입니다.');
+      // 기존 기수 or 기존 기수 중 최대 기수 +1 인 경우만 허용
+      const isValidCardinal =
+        existingCardinalNumbers.includes(newCardinalNumber) ||
+        newCardinalNumber === maxExistingCardinal + 1;
+
+      if (!isValidCardinal) {
+        alert(
+          `새로운 기수는 ${maxExistingCardinal + 1}기만 입력할 수 있습니다.`,
+        );
         return;
       }
 
