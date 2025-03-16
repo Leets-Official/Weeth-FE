@@ -18,10 +18,9 @@ export const Calendar = styled.div`
     background-color: transparent !important;
   }
 
-  // 선택한 날짜 표시 스타일링
+  // // 선택한 날짜 표시 스타일링
   .fc-highlight {
-    background-color: ${theme.color.main} !important;
-    border-radius: 10px;
+    background-color: transparent !important;
   }
 
   // 월화수목금토일 표시 스타일링
@@ -145,7 +144,6 @@ export const Today = styled.div`
   padding-top: 2px;
   width: 52px;
   height: 94px;
-  z-index: 0;
 `;
 
 export const ScheduleList = styled.div`
