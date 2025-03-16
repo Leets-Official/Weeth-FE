@@ -25,7 +25,6 @@ export const NoticeTitleText = styled.div`
 
 export const AllText = styled.div`
   font-size: 12px;
-  font-family: ${theme.font.regular};
   color: ${theme.color.gray[65]};
   cursor: pointer;
   margin-top: 3px;
@@ -84,7 +83,6 @@ export const NoticeTitle = styled.div`
 
 export const NoticeContent = styled.p`
   font-size: 10px;
-  font-family: ${theme.font.regular};
   color: ${theme.color.gray[65]};
   margin: 5px 25px 13px 15px;
   white-space: nowrap;

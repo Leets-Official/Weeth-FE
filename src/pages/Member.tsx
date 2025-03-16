@@ -13,7 +13,6 @@ import { toastError } from '@/components/common/ToastMessage';
 
 const Wrapper = styled.div`
   width: 370px;
-  font-family: ${theme.font.regular};
   margin-bottom: 50px;
 `;
 
@@ -35,7 +34,6 @@ const SearchInput = styled.input`
   color: #fff;
 
   &::placeholder {
-    font-family: ${theme.font.regular};
     font-size: 16px;
     color: ${theme.color.gray[65]};
   }

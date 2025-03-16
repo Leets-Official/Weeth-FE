@@ -4,7 +4,6 @@ import styled from 'styled-components';
 export const StyledReceipt = styled.div`
   width: 370px;
   height: calc(var(--vh, 1vh) * 100);
-  font-family: ${theme.font.regular};
 `;
 
 export const Line = styled.div`

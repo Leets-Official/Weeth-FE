@@ -18,7 +18,6 @@ const CustomToastContainer = styled(ToastContainer).attrs({})`
     min-height: 2.5rem;
     max-height: 2.5rem;
     padding: 0.938rem;
-    font-family: ${theme.font.regular};
   }
 
   .Toastify__toast--success {

@@ -39,10 +39,8 @@ export const ModalInput = styled.input`
   color: ${theme.color.gray[100]};
   font-size: 16px;
   box-sizing: border-box;
-  font-family: ${theme.font.regular};
   &::placeholder {
     color: ${theme.color.gray[65]};
-    font-family: ${theme.font.regular};
     font-size: 16px;
   }
 `;
@@ -60,7 +58,6 @@ export const RegularConatiner = styled.div`
   display: flex;
   flex-direction: column;
   margin: 15px 0 30px 0;
-  font-family: ${theme.font.regular};
   font-size: 14px;
   gap: 8px;
 `;

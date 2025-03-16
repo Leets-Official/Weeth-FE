@@ -5,7 +5,6 @@ export const PostMainContainer = styled.div`
   display: flex;
   flex-direction: column;
   margin: 5px 23px 0 23px;
-  font-family: ${theme.font.regular};
   word-break: break-all;
 `;
 
@@ -43,7 +42,6 @@ export const PositionIcon = styled.img`
 `;
 
 export const PostingContianer = styled.div`
-  font-family: ${theme.font.regular};
   font-size: 16px;
   line-height: 19.09px;
   white-space: pre-wrap;

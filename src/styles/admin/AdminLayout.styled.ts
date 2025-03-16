@@ -1,11 +1,9 @@
 import styled from 'styled-components';
-import theme from '@/styles/theme';
 
 export const PageWrapper = styled.div`
   display: flex;
   min-width: 100vw;
   min-height: 100vh;
-  font-family: ${theme.font.regular};
   color: #000000;
   background-color: #f2f9f8;
   display: flex;

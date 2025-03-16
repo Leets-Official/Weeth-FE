@@ -46,12 +46,13 @@ function checkEmpty(field: string | number, message: string) {
 const EventEditor = () => {
   useCustomBack('/calendar');
 
+  const url = new URL(window.location.href);
+  const pathArray = url.pathname.split('/');
+  const type = pathArray[1];
+  const path = pathArray[3];
+
   const { id } = useParams();
-  const {
-    data: eventDetailData,
-    loading,
-    error,
-  } = useGetEventInfo('events', id);
+  const { data: eventDetailData, loading, error } = useGetEventInfo(type, id);
   const isEditMode = Boolean(id);
   const navigate = useNavigate();
 
@@ -274,9 +275,13 @@ const EventEditor = () => {
       {isSelectModalOpen && (
         <SelectModal
           type="positive"
-          title="일정 생성"
-          content="일정을 생성하시겠습니까?"
-          buttonContent="생성"
+          title={path === 'edit' ? '일정 수정' : '일정 생성'}
+          content={
+            path === 'edit'
+              ? '일정을 수정하시겠습니까?'
+              : '일정을 생성하시겠습니까?'
+          }
+          buttonContent={path === 'edit' ? '수정' : '생성'}
           onClose={() => setIsSelectModalOpen(false)}
           onDelete={handleSave}
         />

@@ -7,7 +7,6 @@ const DropdownContainer = styled.div<{ type: 'mypage' | 'signup' }>`
   position: relative;
   display: flex;
   align-items: center;
-  font-family: ${theme.font.regular};
   font-size: 16px;
   ${(props) =>
     props.type === 'mypage' &&

@@ -19,7 +19,6 @@ export const Input = styled.input<{
   margin-right: ${(props) => props.$margin || '0px'};
   padding: 0px;
   font-size: 16px;
-  font-family: ${theme.font.regular};
 
   /* Custom CSS to remove arrows in number input */
   /* Chrome, Safari, Edge, Opera */

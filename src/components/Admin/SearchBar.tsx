@@ -25,7 +25,6 @@ export const StyledInput = styled.input`
   width: 100%;
   height: 48px;
   font-size: 18px;
-  font-family: ${theme.font.regular};
   box-sizing: border-box;
   padding: 12px 12px 12px 40px;
   border: 1px solid #dedede;

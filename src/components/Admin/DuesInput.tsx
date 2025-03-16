@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import theme from '@/styles/theme';
 import { forwardRef } from 'react';
 
 interface InputProps {
@@ -18,12 +17,10 @@ const Input = styled.input<InputProps>`
   border-radius: 5px;
   border: 1px solid #dedede;
   padding-left: 10px;
-  font-family: ${theme.font.regular};
   font-size: 18px;
   cursor: ${(props) => (props.readOnly ? 'not-allowed' : 'text')};
 
   &::placeholder {
-    font-family: ${theme.font.regular};
     font-size: 18px;
     color: #a6a6a6;
     margin-left: 5px;

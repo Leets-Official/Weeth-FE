@@ -3,7 +3,6 @@ import styled from 'styled-components';
 
 export const StyledDues = styled.div`
   width: 370px;
-  font-family: ${theme.font.regular};
 `;
 
 export const CategoryWrapper = styled.div`

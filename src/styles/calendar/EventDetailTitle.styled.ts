@@ -19,13 +19,11 @@ export const Title = styled.div`
 `;
 
 export const Writer = styled.div`
-  font-family: ${theme.font.regular};
   font-size: 12px;
   color: ${theme.color.gray[65]};
 `;
 
 export const WrittenTime = styled.div`
-  font-family: ${theme.font.regular};
   font-size: 12px;
   color: ${theme.color.gray[65]};
 `;
@@ -38,7 +36,6 @@ export const WriteInfo = styled.div`
 `;
 
 export const Cardinal = styled.div`
-  font-family: ${theme.font.regular};
   font-size: 12px;
   color: ${theme.color.gray[65]};
   padding-right: 5px;

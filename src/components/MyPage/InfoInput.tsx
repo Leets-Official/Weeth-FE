@@ -7,7 +7,6 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   gap: 26px;
-  font-family: ${theme.font.regular};
   font-size: 16px;
 `;
 
@@ -29,7 +28,6 @@ const Input = styled.input`
   background-color: ${theme.color.gray[18]};
   color: #fff;
 
-  font-family: ${theme.font.regular};
   font-size: 16px;
 
   &::-webkit-inner-spin-button,
@@ -39,7 +37,6 @@ const Input = styled.input`
   }
 
   &::placeholder {
-    font-family: ${theme.font.regular};
   }
 `;
 
@@ -67,14 +64,22 @@ const InfoInput = ({
     case '메일':
       inputType = 'no-korean';
       break;
+    case '이름':
+      inputType = 'korean-english';
+      break;
     default:
       inputType = 'text';
   }
 
+  /*
+    아래 정규식은 사용자 입력을 제한하기 위함.
+    최소치는 저장 버튼을 눌렀을 시에 다시한번 유효성 검사를 진행
+  */
   const validateValue = (val: string): boolean => {
     if (val === '') return true;
     const numberRegex = /^[0-9]*$/;
     const koreanRegex = /^[ㄱ-ㅎ가-힣]*$/;
+    const koreanEnglishRegex = /^[가-힣a-zA-Z]+$/;
 
     switch (inputType) {
       case 'text':
@@ -87,6 +92,8 @@ const InfoInput = ({
           return numberRegex.test(val) && val.length <= 11;
         }
         return numberRegex.test(val);
+      case 'korean-english':
+        return koreanEnglishRegex.test(val) && val.length <= 5;
       case 'no-korean':
         return !koreanRegex.test(val);
       default:

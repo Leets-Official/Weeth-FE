@@ -6,7 +6,6 @@ export const TitleWrapper = styled.div`
   padding: 25px 30px;
 `;
 export const SubTitle = styled.div`
-  font-family: ${theme.font.regular};
   font-size: 16px;
   margin-left: 10px;
   margin-bottom: 10px;
@@ -33,7 +32,6 @@ export const InputWrapper = styled.div`
 export const Input = styled.input`
   width: 100%;
   font-size: 18px;
-  font-family: ${theme.font.regular};
   border: 1px solid #dedede;
   border-radius: 4px;
   padding: 12px 16px;

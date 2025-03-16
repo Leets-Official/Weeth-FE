@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import theme from '../theme';
 
 export const AttendanceTable = styled.div`
   width: 95%;
@@ -31,14 +30,12 @@ export const DateInfoWrapper = styled.div`
 `;
 
 export const DateText = styled.span`
-  font-family: ${theme.font.regular};
   font-size: 20px;
   color: black;
   margin-right: 15px;
 `;
 
 export const ContentText = styled.span`
-  font-family: ${theme.font.regular};
   font-size: 20px;
   color: black;
 `;

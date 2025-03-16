@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import theme from '@/styles/theme';
 import { useState } from 'react';
 import DownButton from '@/assets/images/ic_admin_cardinal.svg';
 import DuesRegisterDropDown from '@/components/Admin/DuesRegisterDropDown';
@@ -21,7 +20,6 @@ export const Title = styled.div`
   justify-content: space-between;
   align-items: center;
   font-size: 24px;
-  font-family: ${theme.font.regular};
   cursor: pointer;
 `;
 

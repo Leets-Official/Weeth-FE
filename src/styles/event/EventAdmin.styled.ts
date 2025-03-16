@@ -7,7 +7,6 @@ export const EventAdminWrapper = styled.div`
   justify-content: center;
   width: 370px;
   padding-bottom: 183px;
-  font-family: ${theme.font.regular};
 `;
 
 export const Error = styled.div`

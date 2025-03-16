@@ -34,7 +34,6 @@ export const SearchBar = styled.div`
   display: flex;
   align-items: center;
   color: #4e4e4e;
-  font-family: ${theme.font.regular};
   font-size: 18px;
   padding-left: 10px;
 `;
@@ -56,7 +55,6 @@ export const Edit = styled.div`
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  font-family: ${theme.font.regular};
 `;
 
 export const ButtonWrapper = styled.div`
@@ -68,7 +66,6 @@ export const CancelButton = styled.div`
   width: 64px;
   height: 48px;
   background-color: #a6a6a6;
-  font-family: ${theme.font.regular};
 
   color: ${theme.color.gray[100]};
   border-radius: 5px;
@@ -89,7 +86,6 @@ export const SaveButton = styled.div`
   align-items: center;
   cursor: pointer;
   font-size: 18px;
-  font-family: ${theme.font.regular};
 `;
 
 export const UserWrapper = styled.div`
@@ -178,7 +174,6 @@ export const UserName = styled.div`
 `;
 
 export const UserInfo = styled.div`
-  font-family: ${theme.font.regular};
   font-size: 14px;
 `;
 

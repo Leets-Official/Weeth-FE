@@ -1,5 +1,4 @@
 import SignupWhite from '@/components/Signup/SignupWhite';
-import theme from '@/styles/theme';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
@@ -43,7 +42,6 @@ const InputLine = styled.input`
 
   &::placeholder {
     color: #333333;
-    font-family: ${theme.font.regular};
   }
 
   /* 숫자 입력 시 화살표 제거 */

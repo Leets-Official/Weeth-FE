@@ -3,7 +3,6 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
   width: 100%;
-  font-family: ${theme.font.regular};
   font-size: 16px;
   z-index: 2;
 `;
@@ -19,10 +18,9 @@ export const Calendar = styled.div`
     background-color: transparent !important;
   }
 
-  // 선택한 날짜 표시 스타일링
+  // // 선택한 날짜 표시 스타일링
   .fc-highlight {
-    background-color: ${theme.color.gray[30]} !important;
-    border-radius: 10px;
+    background-color: transparent !important;
   }
 
   // 월화수목금토일 표시 스타일링
@@ -37,7 +35,9 @@ export const Calendar = styled.div`
     border: 1.5px solid ${theme.color.gray[20]};
   }
 
-  .fc .fc-scrollgrid-section, .fc .fc-scrollgrid-section table, .fc .fc-scrollgrid-section > td {
+  .fc .fc-scrollgrid-section,
+  .fc .fc-scrollgrid-section table,
+  .fc .fc-scrollgrid-section > td {
     padding-top: 15px;
   }
 
@@ -48,7 +48,7 @@ export const Calendar = styled.div`
   // 셀 테두리 제거
   .fc-scrollgrid,
   .fc-theme-standard td,
-  .fc-theme-standard th{
+  .fc-theme-standard th {
     border: none;
   }
 
@@ -119,7 +119,7 @@ export const Calendar = styled.div`
   }
 `;
 
-export const Today = styled.div`
+export const SelectedDateOnCalendar = styled.div`
   display: flex;
   justify-content: center;
   position: absolute;
@@ -130,7 +130,20 @@ export const Today = styled.div`
   padding-top: 2px;
   width: 52px;
   height: 94px;
-  z-index: 0;
+  z-index: 10;
+`;
+
+export const Today = styled.div`
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  top: 1px;
+  right: 0.5px;
+  background: ${theme.color.gray[30]};
+  border-radius: 10px;
+  padding-top: 2px;
+  width: 52px;
+  height: 94px;
 `;
 
 export const ScheduleList = styled.div`

@@ -4,7 +4,6 @@ import styled from 'styled-components';
 export const Container = styled.div`
   width: 370px;
   padding-bottom: 50px;
-  font-family: ${theme.font.regular};
   font-size: 16px;
 `;
 
@@ -39,7 +38,6 @@ export const LeaveButton = styled.button`
   border-radius: 10px;
   color: ${theme.color.gray[65]};
   background-color: ${theme.color.gray[18]};
-  font-family: ${theme.font.regular};
   margin-right: 5px;
 `;
 
@@ -55,6 +53,5 @@ export const LogoutButton = styled.button`
   border-radius: 10px;
   color: white;
   background-color: ${theme.color.gray[30]};
-  font-family: ${theme.font.regular};
   cursor: pointer;
 `;

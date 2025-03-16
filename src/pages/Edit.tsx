@@ -87,30 +87,38 @@ const Edit = () => {
 
   const { updateInfo } = usePatchUserInfo();
 
-  const onSave = async () => {
-    setIsSelectModalOpen(true);
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  const validateUserData = (data: any[]) => {
+    if (data.some((item) => !item.value)) {
+      toastInfo('모든 항목을 입력해 주세요.');
+      return false;
+    }
+    // eslint-disable-next-line no-restricted-syntax
+    for (const item of userData) {
+      if (item.key === 'email' && !emailRegex.test(item.value)) {
+        toastInfo('올바른 이메일 형식이 아닙니다.');
+        return false;
+      }
+      if (item.key === 'tel' && item.value.length < 11) {
+        toastInfo('올바른 전화번호 형식이 아닙니다');
+        return false;
+      }
+      if (item.key === 'studentId' && item.value.length < 9) {
+        toastInfo('올바른 학번 형식이 아닙니다');
+        return false;
+      }
+    }
+
+    return true;
   };
 
-  const handleSave = async () => {
+  const onSave = async () => {
     try {
       const data = userData.reduce((acc: any, item: any) => {
         acc[item.key] = item.value;
         return acc;
       }, {});
-
-      if (userData.some((item) => !item.value)) {
-        toastInfo('모든 항목을 입력해 주세요.');
-        return;
-      }
-
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      // eslint-disable-next-line no-restricted-syntax
-      for (const item of userData) {
-        if (item.key === 'email' && !emailRegex.test(item.value)) {
-          toastInfo('올바른 이메일 형식이 아닙니다.');
-          return;
-        }
-      }
 
       const response = await updateInfo(data);
 
@@ -140,7 +148,15 @@ const Edit = () => {
 
   return (
     <Container>
-      <Header onClickRightButton={onSave} RightButtonType="TEXT" isAccessible>
+      <Header
+        onClickRightButton={() => {
+          if (validateUserData(userData)) {
+            setIsSelectModalOpen(true);
+          }
+        }}
+        RightButtonType="TEXT"
+        isAccessible
+      >
         MY 수정
       </Header>
       {userInfo ? (
@@ -187,7 +203,7 @@ const Edit = () => {
           title="정보 수정"
           content="변경사항을 저장하시겠습니까?"
           onClose={() => setIsSelectModalOpen(false)}
-          onDelete={handleSave}
+          onDelete={onSave}
           buttonContent="저장"
         />
       )}

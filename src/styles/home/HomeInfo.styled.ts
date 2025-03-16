@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import theme from '@/styles/theme';
 
 export const UserInfo = styled.div`
   display: flex;
@@ -26,7 +25,6 @@ export const Name = styled.div`
 
 export const NickNameContainer = styled.div`
   font-size: 14px;
-  font-family: ${theme.font.regular};
   margin-left: 8px;
   align-self: flex-end;
   padding-bottom: 5px;

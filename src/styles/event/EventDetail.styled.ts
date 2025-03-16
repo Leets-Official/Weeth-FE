@@ -4,7 +4,6 @@ import styled from 'styled-components';
 export const EventDetailWrapper = styled.div`
   width: 370px;
   margin-bottom: 50px;
-  font-family: ${theme.font.regular};
 `;
 
 export const Line = styled.div`

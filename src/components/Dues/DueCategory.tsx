@@ -8,7 +8,6 @@ interface DueCategoryProps {
 
 const StyledCategory = styled.div`
   padding-top: 30px;
-  font-family: ${theme.font.regular};
   display: flex;
   justify-content: space-around;
 `;
