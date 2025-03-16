@@ -151,7 +151,7 @@ const DuesRegisterAdd: React.FC = () => {
             <input
               id="file-upload"
               type="file"
-              accept="image/*,application/pdf"
+              accept="image/jpeg, image/png, image/heic"
               style={{ display: 'none' }}
               multiple
               onChange={(e) => {
