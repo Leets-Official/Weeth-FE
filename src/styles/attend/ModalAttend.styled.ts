@@ -34,6 +34,7 @@ export const ModalInput = styled.input`
   margin: 15px auto;
   border-radius: 4px;
   border: none;
+  outline: none;
   background-color: ${theme.color.gray[12]};
   color: ${theme.color.gray[100]};
   font-size: 16px;
