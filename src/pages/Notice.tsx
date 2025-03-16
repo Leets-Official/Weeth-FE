@@ -42,7 +42,7 @@ interface Content {
 }
 
 const Notice = () => {
-  useCustomBack('/home');
+  useCustomBack('/board');
   const navigate = useNavigate();
   const { isAdmin } = useGetGlobaluserInfo();
 
