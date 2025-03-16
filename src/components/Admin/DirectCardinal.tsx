@@ -56,7 +56,7 @@ const DirectCardinalDropdown: React.FC<DirectCardinalProps> = ({
         />
       </CardinalButton>
       {isOpen && (
-        <DropdownMenu>
+        <DropdownMenu itemCount={sortedCardinals.length}>
           {sortedCardinals.length === 0 && (
             <DropdownItem>기수 없음</DropdownItem>
           )}

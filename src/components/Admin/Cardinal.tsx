@@ -30,8 +30,8 @@ export const DropdownMenu = styled.div.attrs<{ itemCount: number }>(
   border: 1px solid #dedede;
   border-radius: 5px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  position: absolute;
   color: black;
+  position: absolute;
   z-index: 5;
 `;
 
@@ -59,9 +59,7 @@ const CardinalDropdown: React.FC<CardinalProps> = ({
   const [isOpen, setIsOpen] = useState(false);
   const { allCardinals } = useGetAllCardinals();
 
-  const sortedCardinals = [...allCardinals].sort(
-    (a, b) => b.cardinalNumber - a.cardinalNumber,
-  );
+  const sortedCardinals = [...allCardinals].reverse();
 
   const toggleDropdown = () => setIsOpen(!isOpen);
 
