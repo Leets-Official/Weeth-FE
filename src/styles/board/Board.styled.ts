@@ -66,6 +66,12 @@ export const NoticeCard = styled.div`
     background-color: ${theme.color.mainMiddle};
     color: white;
   }
+
+  &:hover {
+    filter: brightness(1.2);
+  }
+
+  transition: filter 0.2s ease-in-out;
 `;
 
 export const NoticeTitle = styled.div`
