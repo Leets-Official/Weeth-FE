@@ -1,5 +1,9 @@
 import CardinalSearchBar from '@/components/Admin/CardinalSearchBar';
 import { MemberProvider } from '@/components/Admin/context/MemberContext';
+import {
+  penaltyReducer,
+  PenaltyState,
+} from '@/components/Admin/context/PenaltyReducer';
 import NavMenu from '@/components/Admin/NavMenu';
 import PenaltyAdd from '@/components/Admin/PenaltyAdd';
 import PenaltyListTable from '@/components/Admin/PenaltyListTable';
@@ -10,7 +14,7 @@ import {
   ContentWrapper,
   Container,
 } from '@/styles/admin/AdminLayout.styled';
-import { useState } from 'react';
+import { useReducer, useState } from 'react';
 import styled from 'styled-components';
 
 export const PenaltyContainer = styled(Container)`
@@ -24,6 +28,10 @@ export const PenaltyContainer = styled(Container)`
 const AdminPenalty: React.FC = () => {
   const [selectedCardinal, setSelectedCardinal] = useState<null | number>(null);
   const [searchName, setSearchName] = useState<string>('');
+  const [penaltyData, dispatch] = useReducer(
+    penaltyReducer,
+    {} as PenaltyState,
+  );
 
   return (
     <MemberProvider>
@@ -47,9 +55,11 @@ const AdminPenalty: React.FC = () => {
               <PenaltyListTable
                 selectedCardinal={selectedCardinal}
                 searchName={searchName}
+                penaltyData={penaltyData}
+                dispatch={dispatch}
               />
             </div>
-            <PenaltyAdd />
+            <PenaltyAdd dispatch={dispatch} />
           </PenaltyContainer>
         </ContentWrapper>
       </PageWrapper>

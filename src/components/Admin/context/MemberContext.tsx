@@ -98,9 +98,7 @@ export const MemberProvider: React.FC<{ children: React.ReactNode }> = ({
           return {
             ...user,
             cardinals:
-              user.cardinals.length > 0
-                ? user.cardinals.reverse().join('.')
-                : '',
+              user.cardinals.length > 0 ? user.cardinals.join('.') : '',
             status: statusMapping[user.status] || '대기 중',
             attendanceCount: user.attendanceCount ?? 0,
             absenceCount: user.absenceCount ?? 0,

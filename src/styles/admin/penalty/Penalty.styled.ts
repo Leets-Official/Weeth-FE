@@ -82,11 +82,13 @@ export const ButtonWrapper = styled.div`
 `;
 
 // penaltyDetail.tsx
-export const DetailContainer = styled.div`
+export const DetailContainer = styled.td`
   display: grid;
-  grid-template-columns: 5.3fr 1.3fr 1.5fr 1fr;
+  grid-template-columns:
+    minmax(390px, auto) minmax(40px, 0.9fr) minmax(70px, 1fr)
+    minmax(60px, 1fr);
   grid-template-areas: ' reason penalty penaltyDate actions';
-  padding-left: 125px;
+  padding-left: 155px;
   border-bottom: 1px solid #dedede;
   background-color: #ffffff;
   align-items: center;
