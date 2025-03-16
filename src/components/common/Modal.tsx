@@ -10,8 +10,8 @@ const Container = styled.div`
   top: 0;
   left: 0;
   background-color: rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(2px);
-  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
 `;
 
 const Content = styled.div<{
