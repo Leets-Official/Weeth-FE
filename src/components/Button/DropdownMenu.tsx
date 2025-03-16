@@ -108,6 +108,11 @@ const DropdownMenu = ({
     { value: '소프트웨어전공', label: '소프트웨어전공' },
     { value: '인공지능전공', label: '인공지능전공' },
     { value: '컴퓨터공학과', label: '컴퓨터공학과' },
+    { value: '한국어문학과', label: '한국어문학과' },
+    { value: '도시계획학전공', label: '도시계획학전공' },
+    { value: '글로벌경영학과', label: '글로벌경영학과' },
+    { value: '금융수학전공', label: '금융수학전공' },
+    { value: '의료산업경영학과', label: '의료산업경영학과' },
   ];
 
   const handleToggle = () => {
