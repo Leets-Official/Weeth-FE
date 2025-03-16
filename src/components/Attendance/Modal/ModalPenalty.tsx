@@ -58,8 +58,6 @@ const ModalPenalty: React.FC<ModalPenaltyProps> = ({ open, close }) => {
 
   const userName = useGetUserName();
 
-  console.log(penaltyInfo);
-
   return (
     <StyledModal open={open}>
       <ModalContent>
@@ -71,7 +69,7 @@ const ModalPenalty: React.FC<ModalPenaltyProps> = ({ open, close }) => {
           {error ? (
             <div>Error loading penalty data</div>
           ) : !penaltyInfo || !penaltyInfo.Penalties.length ? (
-            <div>저장된 패널티가 없습니다.</div>
+            <S.NullBox>저장된 패널티가 없습니다.</S.NullBox>
           ) : (
             <>
               <S.Title>

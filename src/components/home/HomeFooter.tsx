@@ -3,6 +3,7 @@ import { useDraggable } from '@/hooks/useDraggable';
 import * as S from '@/styles/home/HomeFooter.styled';
 
 import leets from '@/assets/images/ic_leets.svg';
+import notion from '@/assets/images/ic_notion.svg';
 import insta from '@/assets/images/ic_insta.svg';
 import discord from '@/assets/images/ic_discord.svg';
 import github from '@/assets/images/ic_github.svg';
@@ -39,6 +40,15 @@ const HomeFooter: React.FC = () => {
             <img src={leets} alt="leets" />
           </S.ImgContainer>
           홈페이지
+        </S.GridItem>
+        <S.GridItem
+          href="https://www.notion.so/Leets-Study-1a9299491e3d80149234ef2f4b9ee968?pvs=4"
+          target="_blank"
+        >
+          <S.ImgContainer>
+            <img src={notion} alt="notion" />
+          </S.ImgContainer>
+          Notion
         </S.GridItem>
         <S.GridItem
           href="https://www.instagram.com/leets.official/"

@@ -68,7 +68,7 @@ const HomeNotice = ({
   };
 
   const handleNotice = () => {
-    if (!id) {
+    if (id) {
       navi(`/notice/${id}`);
     }
   };

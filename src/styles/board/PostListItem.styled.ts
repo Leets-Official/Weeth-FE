@@ -25,15 +25,18 @@ export const PostRightSection = styled.div`
 export const CommentContainer = styled.div`
   display: flex;
   align-items: center;
-  margin-top: 5px;
+  margin: 5px 5px 0 0;
 `;
 
 export const TitleText = styled.div`
-  color: whi
   font-family: ${theme.font.semiBold};
   font-size: 16px;
   line-height: 1.4;
   margin-bottom: 6px;
+  width: 20.313rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 `;
 
 export const Divider = styled.span`
@@ -47,6 +50,10 @@ export const ContentText = styled.div`
   font-family: ${theme.font.regular};
   font-size: 14px;
   line-height: 1.5;
+  width: 20.313rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 `;
 
 export const LightText = styled.div`

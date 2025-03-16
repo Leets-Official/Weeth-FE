@@ -3,16 +3,15 @@ import close from '@/assets/images/ic_close.svg';
 import theme from '@/styles/theme';
 
 const Container = styled.div`
-  position: absolute;
+  position: fixed;
   z-index: 15;
   width: 100vw;
   height: 100vh;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  top: 0;
+  left: 0;
   background-color: rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(2px);
-  webkitbackdropfilter: 'blur(2px)';
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
 `;
 
 const Content = styled.div<{

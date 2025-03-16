@@ -4,9 +4,7 @@ import * as S from '@/styles/receipt/ReceiptMain.styled';
 import useGetDuesInfo, { Receipt } from '@/api/useGetDuesInfo';
 import useGetGlobaluserInfo from '@/api/useGetGlobaluserInfo';
 import ReceiptImageModal from '@/components/Receipt/ReceiptImageModal';
-import ReceiptPdfModal from '@/components/Receipt/ReceiptPdfModal';
-import PdfViewer from '@/components/Receipt/PdfViewer';
-import Loading from '../common/Loading';
+import Loading from '@/components/common/Loading';
 
 interface GroupedByMonth {
   [key: string]: Receipt[];
@@ -20,27 +18,16 @@ const ReceiptMain: React.FC = () => {
 
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
   const [selectedImage, setSelectedImage] = useState<string>('');
-  const [pdfModalOpen, setPdfModalOpen] = useState<boolean>(false);
-  const [selectedPdf, setSelectedPdf] = useState<string>('');
 
   const openImageModal = (image: string) => {
     setSelectedImage(image);
     setModalIsOpen(true);
   };
 
-  const openPdfModal = (pdfUrl: string) => {
-    setSelectedPdf(pdfUrl);
-    setPdfModalOpen(true);
-  };
-
   const closeModals = () => {
     setModalIsOpen(false);
-    setPdfModalOpen(false);
     setSelectedImage('');
-    setSelectedPdf('');
   };
-
-  const isPdfUrl = (url: string) => url.toLowerCase().endsWith('.pdf');
 
   const groupedByMonth: GroupedByMonth =
     duesInfo?.receipts?.reduce<GroupedByMonth>((acc, curr) => {
@@ -81,29 +68,17 @@ const ReceiptMain: React.FC = () => {
                   memo={receipt.description}
                 />
                 <S.ScrollContainer>
-                  {receipt.fileUrls.length > 0 ? (
-                    receipt.fileUrls.map((file) =>
-                      isPdfUrl(file.fileUrl) ? (
-                        <PdfViewer
-                          key={file.fileId}
-                          fileUrl={file.fileUrl}
-                          onClick={() => openPdfModal(file.fileUrl)}
-                        />
-                      ) : (
-                        <S.GridItem
-                          key={file.fileId}
-                          onClick={() => openImageModal(file.fileUrl)}
-                        >
-                          <S.GridItemImage
-                            src={file.fileUrl}
-                            title="영수증 이미지"
-                          />
-                        </S.GridItem>
-                      ),
-                    )
-                  ) : (
-                    <div> </div>
-                  )}
+                  {receipt.fileUrls.map((file) => (
+                    <S.GridItem
+                      key={file.fileId}
+                      onClick={() => openImageModal(file.fileUrl)}
+                    >
+                      <S.GridItemImage
+                        src={file.fileUrl}
+                        title="영수증 이미지"
+                      />
+                    </S.GridItem>
+                  ))}
                 </S.ScrollContainer>
               </div>
             ))
@@ -118,13 +93,6 @@ const ReceiptMain: React.FC = () => {
       <ReceiptImageModal
         isOpen={modalIsOpen}
         selectedImage={selectedImage}
-        onRequestClose={closeModals}
-      />
-
-      {/* PDF 미리보기 모달 */}
-      <ReceiptPdfModal
-        isOpen={pdfModalOpen}
-        selectedPdf={selectedPdf}
         onRequestClose={closeModals}
       />
     </S.StyledReceipt>
