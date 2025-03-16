@@ -1,5 +1,5 @@
 /* eslint-disable no-alert */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -109,6 +109,13 @@ const Profile: React.FC = () => {
   const [isNextEnabled, setIsNextEnabled] = useState<boolean>(false);
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [modalMessage, setModalMessage] = useState<string>('');
+
+  useEffect(() => {
+    const kakaoId = localStorage.getItem('kakaoId');
+    if (!kakaoId) {
+      navigate('/');
+    }
+  }, []);
 
   const validateEmail = (validEmail: string): boolean => {
     const emailRegex =

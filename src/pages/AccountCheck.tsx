@@ -1,4 +1,5 @@
-import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import Header from '@/components/Header/Header';
 import Title from '@/components/AccountCheck/Title';
@@ -12,6 +13,14 @@ const Container = styled.div`
 `;
 
 const AccountCheck: React.FC = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const kakaoId = localStorage.getItem('kakaoId');
+    if (!kakaoId) {
+      navigate('/');
+    }
+  }, []);
   return (
     <Container>
       <Header isAccessible RightButtonType="none" />

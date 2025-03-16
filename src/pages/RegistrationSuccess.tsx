@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import weeth from '@/assets/images/ic_register_weeth.svg';
 import success from '@/assets/images/ic_register_success.svg';
 import styled from 'styled-components';
@@ -66,6 +68,15 @@ const Button = styled.button<{ type: string }>`
 `;
 
 const RegistrationSuccess = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const kakaoId = localStorage.getItem('kakaoId');
+    if (!kakaoId) {
+      navigate('/');
+    }
+  }, []);
+
   return (
     <Container>
       <Header RightButtonType="none" isAccessible={false} />
