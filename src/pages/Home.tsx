@@ -53,7 +53,7 @@ const Home: React.FC = () => {
       />
       <HomeInfo
         position={userInfo?.position || ''}
-        cardinal={userInfo?.cardinals?.[userInfo.cardinals.length - 1] || '0'}
+        cardinal={userInfo?.cardinals?.length ? userInfo.cardinals[0] : '0'}
         name={userInfo?.name || '...'}
         isAdmin={isAdmin}
       />
