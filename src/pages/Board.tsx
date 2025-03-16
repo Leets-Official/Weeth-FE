@@ -110,8 +110,8 @@ const Board = () => {
       </S.TabContainerWrapper>
 
       {posts.map((post) => (
-        <S.PostListContainer>
-          <S.PostListItemContainer key={post.id}>
+        <S.PostListContainer key={post.id}>
+          <S.PostListItemContainer>
             <PostListItem
               name={post.name}
               time={formatDate(post.time)}

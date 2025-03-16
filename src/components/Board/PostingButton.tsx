@@ -3,13 +3,13 @@ import styled from 'styled-components';
 import PostingIcon from '@/assets/images/ic_posting_button.svg';
 import theme from '@/styles/theme';
 
-const ButtonContainer = styled.button<{ shrink: boolean }>`
+const ButtonContainer = styled.button<{ $shrink: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
   margin-right: 15px;
-  padding: ${({ shrink }) => (shrink ? '12px' : '12px 16px')};
+  padding: ${({ $shrink }) => ($shrink ? '12px' : '12px 16px')};
   border-radius: 40px;
   background-color: ${theme.color.main};
   border: none;
@@ -32,11 +32,11 @@ const Icon = styled.img`
 `;
 
 const PostingButton = ({ onClick }: { onClick: () => void }) => {
-  const [shrink, setShrink] = useState(false);
+  const [$shrink, set$Shrink] = useState(false);
 
   const handleScroll = () => {
     const scrolled = window.scrollY > 50;
-    setShrink(scrolled);
+    set$Shrink(scrolled);
   };
 
   useEffect(() => {
@@ -47,8 +47,8 @@ const PostingButton = ({ onClick }: { onClick: () => void }) => {
   }, []);
 
   return (
-    <ButtonContainer onClick={onClick} shrink={shrink}>
-      {!shrink && '글쓰기'}
+    <ButtonContainer onClick={onClick} $shrink={$shrink}>
+      {!$shrink && '글쓰기'}
       <Icon src={PostingIcon} alt="글쓰기 아이콘" />
     </ButtonContainer>
   );
