@@ -43,7 +43,7 @@ const SignupDropDownButton = styled.div<{ $hasValue: boolean }>`
   height: 25px;
   font-size: 16px;
   outline: none;
-  padding-bottom: 1px;
+  padding: 1px 2px;
   border-bottom: 1px solid ${theme.color.gray[20]};
   background-color: ${theme.color.gray[12]};
   color: ${(props) => (props.$hasValue ? 'white' : theme.color.gray[20])};

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import api from '@/api/api';
@@ -9,6 +9,7 @@ import Header from '@/components/Header/Header';
 import SignupTextComponent from '@/components/Signup/SignupTextComponent';
 import useCustomBack from '@/hooks/useCustomBack';
 import theme from '@/styles/theme';
+import SelectModal from '@/components/Modal/SelectModal';
 
 const Container = styled.div`
   display: flex;
@@ -86,6 +87,15 @@ const Login: React.FC = () => {
   const [password, setPassword] = useState<string>('');
   const [passwordVisible, setPasswordVisible] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
+  const [modalMessage, setModalMessage] = useState<string>('');
+
+  useEffect(() => {
+    const kakaoId = localStorage.getItem('kakaoId');
+    if (!kakaoId) {
+      navigate('/');
+    }
+  }, []);
 
   const validateEmail = (validEmail: string): boolean => {
     return (
@@ -120,21 +130,26 @@ const Login: React.FC = () => {
     setError(null);
   };
 
+  const showModal = (message: string) => {
+    setModalMessage(message);
+    setModalVisible(true);
+  };
+
   const handleLogin = async () => {
     if (email === '') {
-      alert('이메일을 입력해 주세요.');
+      showModal('이메일을 입력해 주세요.');
       return;
     }
     if (!validateEmail(email)) {
-      alert('올바른 이메일 형식이 아닙니다.');
+      showModal('올바른 이메일 형식이 아닙니다.');
       return;
     }
     if (password === '') {
-      alert('비밀번호를 입력해 주세요.');
+      showModal('비밀번호를 입력해 주세요.');
       return;
     }
     if (password.length < 6 || password.length > 12) {
-      alert('비밀번호를 6~12자리로 입력해 주세요.');
+      showModal('비밀번호를 6~12자리로 입력해 주세요.');
       return;
     }
     const params = {
@@ -215,6 +230,16 @@ const Login: React.FC = () => {
       <LoginButtonContainer>
         <LoginButton onClick={handleLogin}>연동하기</LoginButton>
       </LoginButtonContainer>
+      {modalVisible && (
+        <SelectModal
+          title="알림"
+          content={modalMessage}
+          onClose={() => setModalVisible(false)}
+          type="positive"
+          visibility={false}
+          cancleText="닫기"
+        />
+      )}
     </Container>
   );
 };
