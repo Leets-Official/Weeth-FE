@@ -15,7 +15,6 @@ const AnimationLayout = styled.div`
   display: flex;
   flex-direction: row;
   background-color: ${theme.color.mainDark};
-  font-family: ${theme.font.regular};
   margin-top: 15px;
   cursor: pointer;
 `;

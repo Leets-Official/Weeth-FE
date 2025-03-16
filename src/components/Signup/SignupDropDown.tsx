@@ -13,7 +13,6 @@ const SignupDropdownContainer = styled.div`
   position: relative;
   display: flex;
   align-items: center;
-  font-family: ${theme.font.regular};
   font-size: 16px;
 `;
 

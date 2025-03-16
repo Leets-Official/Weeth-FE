@@ -26,7 +26,6 @@ const Wrapper = styled.div<{
 
 const Description = styled.div`
   font-size: 18px;
-  font-family: ${theme.font.regular};
   color: ${theme.color.gray[100]};
 `;
 

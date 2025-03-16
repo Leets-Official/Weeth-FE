@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import theme from '../theme';
 import { flexMixin } from './DuesRegisterAdd.styled';
 
 export const Wrapper = styled.div`
@@ -12,7 +11,6 @@ export const Wrapper = styled.div`
 `;
 
 export const Title = styled.div`
-  font-family: ${theme.font.regular};
   font-size: 16px;
   margin-left: 10px;
   margin-bottom: 10px;
@@ -34,7 +32,6 @@ export const DescriptionWrapper = styled.div`
 
 export const Description = styled.div`
   color: red;
-  font-family: ${theme.font.regular};
   font-size: 18px;
   margin-left: 100px;
   margin-top: 15px;

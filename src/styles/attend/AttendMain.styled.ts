@@ -6,7 +6,6 @@ export const StyledAttend = styled.div`
   flex-direction: column;
   align-items: center;
   width: 100%;
-  font-family: ${theme.font.regular};
   include-font-padding: false;
 `;
 

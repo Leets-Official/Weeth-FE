@@ -24,7 +24,6 @@ const DuesTextBox = styled.div`
 `;
 
 const UpdateText = styled.div`
-  font-family: ${theme.font.regular};
   color: ${theme.color.gray[65]};
   font-size: 14px;
   margin-top: 14px;

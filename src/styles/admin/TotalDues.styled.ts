@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import theme from '../theme';
 
 export const TotalDuesWrapper = styled.div`
   width: 100%;
@@ -18,7 +17,6 @@ export const TopDues = styled.div`
   height: 72px;
   border-bottom: 1px solid #dedede;
   font-size: 24px;
-  font-family: ${theme.font.regular};
   display: flex;
   align-items: center;
   margin-bottom: 3%;

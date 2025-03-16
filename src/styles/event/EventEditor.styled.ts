@@ -9,7 +9,6 @@ export const EventEditorWrapper = styled.div`
   width: 370px;
   gap: 23px;
   padding-bottom: 40px;
-  font-family: ${theme.font.regular};
 `;
 
 export const Bold = styled.div`
@@ -113,12 +112,10 @@ export const TextArea = styled.textarea`
   outline: none;
   background-color: ${theme.color.gray[18]};
   color: white;
-  font-family: ${theme.font.regular};
   font-size: 16px;
 
   &::placeholder {
     color: ${theme.color.gray[65]};
-    font-family: ${theme.font.regular};
   }
 
   &::-webkit-scrollbar {
@@ -140,5 +137,4 @@ export const Error = styled.div`
   display: flex;
   justify-content: center;
   margin: 50px 0px;
-  font-family: ${theme.font.regular};
 `;

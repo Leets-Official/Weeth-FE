@@ -10,7 +10,6 @@ const Container = styled.div`
 `;
 const Title = styled.div`
   font-size: 16px;
-  font-family: ${theme.font.regular};
   font-weight: 600;
   margin-top: 15px;
 `;
@@ -18,7 +17,6 @@ const Title = styled.div`
 const Description = styled.div`
   font-size: 14px;
   color: ${theme.color.gray[65]};
-  font-family: ${theme.font.regular};
   font-weight: 500;
   margin-top: 15px;
 `;

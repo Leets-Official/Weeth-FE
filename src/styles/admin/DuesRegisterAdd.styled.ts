@@ -1,6 +1,5 @@
 import styled, { css } from 'styled-components';
 import DuesInput from '@/components/Admin/DuesInput';
-import theme from '../theme';
 
 export const flexMixin = (flexValue: number) => css`
   flex: ${flexValue};
@@ -53,11 +52,9 @@ export const Title = styled.div`
   display: flex;
   align-items: center;
   font-size: 24px;
-  font-family: ${theme.font.regular};
 `;
 
 export const SubTitle = styled.div`
-  font-family: ${theme.font.regular};
   font-size: 16px;
   padding: 20px 30px;
   color: black;

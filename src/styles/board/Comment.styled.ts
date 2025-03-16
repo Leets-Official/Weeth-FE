@@ -41,7 +41,6 @@ export const PositionIcon = styled.img`
 `;
 
 export const ContentText = styled.div`
-  font-family: ${theme.font.regular};
   font-size: 16px;
   line-height: 19.09px;
   margin-top: 10px;

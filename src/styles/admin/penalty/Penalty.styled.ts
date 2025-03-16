@@ -65,7 +65,6 @@ export const NoDataCell = styled.div`
 `;
 
 export const Input = styled.input`
-  font-family: ${theme.font.regular};
   width: 100%;
   max-width: 300px;
   background-color: transparent;

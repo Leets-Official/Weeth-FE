@@ -27,7 +27,6 @@ const StyledInput = styled.input`
 
   &::placeholder {
     color: ${theme.color.gray[65]};
-    font-family: ${theme.font.regular};
   }
 `;
 

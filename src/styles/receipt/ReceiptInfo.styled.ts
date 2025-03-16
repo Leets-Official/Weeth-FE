@@ -1,10 +1,8 @@
-import theme from '@/styles/theme';
 import styled from 'styled-components';
 
 export const MemberWrapper = styled.div`
   width; 88%;
   margin: 16px 6% 0 6%;
-  font-family: ${theme.font.regular};
 `;
 
 export const StyledReceiptBox = styled.div`

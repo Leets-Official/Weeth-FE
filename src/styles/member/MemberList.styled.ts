@@ -3,7 +3,6 @@ import styled from 'styled-components';
 
 export const Wrapper = styled.div`
   width: 370px;
-  font-family: ${theme.font.regular};
   margin-bottom: 50px;
 `;
 

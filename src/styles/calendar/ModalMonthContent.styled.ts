@@ -11,7 +11,6 @@ export const StyledContent = styled.div<{ $isMonth: boolean }>`
   border-radius: 14px;
   padding: 20px;
   margin: auto;
-  font-family: ${theme.font.regular};
   font-size: 16px;
 `;
 

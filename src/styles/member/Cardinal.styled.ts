@@ -6,7 +6,6 @@ export const Cardinal = styled.div`
   padding-top: 20px;
   overflow-x: auto;
   white-space: nowrap;
-  font-family: ${theme.font.regular};
   font-size: 16px;
 `;
 

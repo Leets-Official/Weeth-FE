@@ -7,7 +7,6 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   gap: 26px;
-  font-family: ${theme.font.regular};
   font-size: 16px;
 `;
 
@@ -29,7 +28,6 @@ const Input = styled.input`
   background-color: ${theme.color.gray[18]};
   color: #fff;
 
-  font-family: ${theme.font.regular};
   font-size: 16px;
 
   &::-webkit-inner-spin-button,
@@ -39,7 +37,6 @@ const Input = styled.input`
   }
 
   &::placeholder {
-    font-family: ${theme.font.regular};
   }
 `;
 

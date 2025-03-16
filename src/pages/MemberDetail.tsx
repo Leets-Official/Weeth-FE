@@ -18,7 +18,6 @@ const Wrapper = styled.div`
   align-items: center;
   flex-direction: column;
   width: 370px;
-  font-family: ${theme.font.regular};
 `;
 
 const PostionCharicter = styled.img`

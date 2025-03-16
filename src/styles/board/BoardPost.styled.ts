@@ -38,10 +38,8 @@ export const ContentInput = styled.textarea`
   padding: 20px 0 0 0;
   color: white;
   font-size: 16px;
-  font-family: ${theme.font.regular};
 
   &::placeholder {
     font-size: 16px;
-    font-family: ${theme.font.regular};
   }
 `;

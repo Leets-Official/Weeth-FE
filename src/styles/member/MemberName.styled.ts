@@ -3,7 +3,6 @@ import styled from 'styled-components';
 
 export const Wrapper = styled.div`
   padding: 14px;
-  font-family: ${theme.font.regular};
   background-color: ${theme.color.gray[18]};
   border-radius: 10px;
 `;

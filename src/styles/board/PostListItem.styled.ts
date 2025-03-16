@@ -44,14 +44,12 @@ export const Divider = styled.span`
 
 export const ContentText = styled.div`
   color: ${theme.color.gray[65]};
-  font-family: ${theme.font.regular};
   font-size: 14px;
   line-height: 1.5;
 `;
 
 export const LightText = styled.div`
   color: ${theme.color.gray[65]};
-  font-family: ${theme.font.regular};
   font-size: 12px;
 `;
 

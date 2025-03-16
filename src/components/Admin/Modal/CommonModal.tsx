@@ -15,7 +15,6 @@ interface CommonModalProps {
 }
 
 const ModalContainer = styled.div`
-  font-family: ${theme.font.regular};
   position: relative;
   display: flex;
   flex-direction: column;
@@ -24,7 +23,6 @@ const ModalContainer = styled.div`
 `;
 
 const Title = styled.div`
-  font-family: ${theme.font.regular};
   color: #000;
   font-weight: 700;
   font-size: 24px;

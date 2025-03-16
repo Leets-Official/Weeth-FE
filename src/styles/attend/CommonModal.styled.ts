@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import theme from '../theme';
 
 export const OpenModal = styled.div`
   display: block;
@@ -29,7 +28,6 @@ export const ModalContent = styled.div`
   border-radius: 14px;
   padding: 15px;
   box-sizing: border-box;
-  font-family: ${theme.font.regular};
 `;
 
 export const ModalHeader = styled.div`

@@ -19,7 +19,6 @@ export const DateWrapper = styled.div`
   border-bottom: 1px solid #dedede;
   display: flex;
   justify-content: space-between;
-  font-family: ${theme.font.regular};
   font-size: 18px;
   align-items: center;
 `;
@@ -50,7 +49,6 @@ export const Master = styled.div`
 `;
 
 export const ExpenditureMaster = styled.div`
-  font-family: ${theme.font.regular};
   font-size: 18px;
   margin-top: 40px;
   display: flex;
