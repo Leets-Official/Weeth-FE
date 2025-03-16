@@ -1,11 +1,11 @@
 import theme from '@/styles/theme';
 import styled from 'styled-components';
 
-// PostDetailMain
 export const PostMainContainer = styled.div`
   display: flex;
   flex-direction: column;
   margin: 5px 23px 0 23px;
+  word-break: break-all;
 `;
 
 export const PostMainTitleText = styled.div`

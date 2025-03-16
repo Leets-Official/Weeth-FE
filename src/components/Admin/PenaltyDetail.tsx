@@ -73,7 +73,6 @@ const PenaltyDetail: React.FC<PenaltyDetailProps> = ({
       setIsEditing(true);
     } else {
       try {
-        console.log(typeof newDescription, newDescription);
         await patchPenaltyApi(penaltyData.penaltyId, newDescription);
         alert('패널티가 성공적으로 수정되었습니다.');
 

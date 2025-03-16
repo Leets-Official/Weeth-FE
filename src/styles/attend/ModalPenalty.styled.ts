@@ -66,3 +66,8 @@ export const PenaltyCount = styled.div`
   font-size: 32px;
   margin-top: 19px;
 `;
+
+export const NullBox = styled.div`
+  margin-top: 30px;
+  text-align: center;
+`;

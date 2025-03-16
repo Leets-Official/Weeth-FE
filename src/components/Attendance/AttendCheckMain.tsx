@@ -5,7 +5,7 @@ import * as S from '@/styles/attend/AttendCheck.styled';
 import useGetAttendCheck from '@/api/useGetAttendCheck';
 import useGetUserName from '@/hooks/useGetUserName';
 import { formatMeetingDates } from '@/hooks/formatDate';
-import Loading from '../common/Loading';
+import Loading from '@/components/common/Loading';
 
 interface SmallBoxProps {
   title: string;

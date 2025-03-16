@@ -27,6 +27,7 @@ export const AllText = styled.div`
   font-size: 12px;
   color: ${theme.color.gray[65]};
   cursor: pointer;
+  margin-top: 3px;
 `;
 
 export const ScrollContainer = styled.div`
@@ -65,6 +66,12 @@ export const NoticeCard = styled.div`
     background-color: ${theme.color.mainMiddle};
     color: white;
   }
+
+  &:hover {
+    filter: brightness(1.2);
+  }
+
+  transition: filter 0.2s ease-in-out;
 `;
 
 export const NoticeTitle = styled.div`
@@ -136,10 +143,10 @@ export const Text = styled.div`
 
 export const PostingButtonContainer = styled.div`
   position: fixed;
-  bottom: 15px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 10;
   display: flex;
-  justify-content: center;
+  bottom: 15px;
+  justify-content: end;
+  width: 100%;
+  max-width: 23.438rem;
+  z-index: 10;
 `;

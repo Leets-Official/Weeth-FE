@@ -81,7 +81,7 @@ const CommonModal: React.FC<CommonModalProps> = ({
       style={{
         overlay: {
           backgroundColor: 'rgba(0,0,0,0.5)',
-          zIndex: 2000,
+          zIndex: 900,
         },
         content: {
           top,

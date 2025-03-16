@@ -7,7 +7,8 @@ import Header from '@/components/Header/Header';
 import { useNavigate } from 'react-router-dom';
 import PostingButton from '@/components/Board/PostingButton';
 import Loading from '@/components/common/Loading';
-import SlideNotice from '../components/Board/SlideNotice';
+import SlideNotice from '@/components/Board/SlideNotice';
+import useCustomBack from '@/hooks/useCustomBack';
 
 interface Content {
   id: number;
@@ -22,6 +23,7 @@ interface Content {
 }
 
 const Board = () => {
+  useCustomBack('/home');
   const navigate = useNavigate();
   const url = new URL(window.location.href);
   const pathArray = url.pathname.split('/');
@@ -108,8 +110,8 @@ const Board = () => {
       </S.TabContainerWrapper>
 
       {posts.map((post) => (
-        <S.PostListContainer>
-          <S.PostListItemContainer key={post.id}>
+        <S.PostListContainer key={post.id}>
+          <S.PostListItemContainer>
             <PostListItem
               name={post.name}
               time={formatDate(post.time)}

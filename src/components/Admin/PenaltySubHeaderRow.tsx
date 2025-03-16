@@ -1,18 +1,20 @@
 import { styled } from 'styled-components';
 
-export const SubHeaderRow = styled.div`
+export const SubHeaderRow = styled.td`
   display: grid;
-  grid-template-columns: 4fr 1fr 1.5fr 1fr;
+  grid-template-columns:
+    minmax(390px, auto) minmax(40px, 0.7fr) minmax(70px, 1fr)
+    minmax(60px, auto);
   grid-template-areas: 'reason penalty penaltyDate empty';
   border-bottom: 1px solid #dedede;
   padding: 5px;
-  padding-left: 120px;
+  padding-left: 149px;
   background-color: #e6fcf7;
   font-weight: bold;
   align-items: center;
 `;
 
-export const GridCell = styled.div<{ area: string }>`
+export const GridCell = styled.th<{ area: string }>`
   grid-area: ${(props) => props.area};
   padding: 5px;
   text-align: left;

@@ -22,11 +22,29 @@ interface AttendDropdownProps {
 }
 
 const formatStatus = (status: string) => {
-  return status === 'ATTEND' ? '출석' : '결석';
+  switch (status) {
+    case 'ATTEND':
+      return '출석';
+    case 'ABSENT':
+      return '결석';
+    case 'PENDING':
+      return '미결';
+    default:
+      return status;
+  }
 };
 
 const formatStatusForAPI = (status: string) => {
-  return status === '출석' ? 'ATTEND' : 'PENDING';
+  switch (status) {
+    case '출석':
+      return 'ATTEND';
+    case '결석':
+      return 'ABSENT';
+    case '미결':
+      return 'PENDING';
+    default:
+      return status;
+  }
 };
 
 const AttendDropdown: React.FC<AttendDropdownProps> = ({ meetingId }) => {
@@ -44,6 +62,7 @@ const AttendDropdown: React.FC<AttendDropdownProps> = ({ meetingId }) => {
       if (!isAdmin) return;
 
       const res = await fetchAttendances(meetingId);
+      console.log(res);
 
       if (res.code === 200) {
         const formattedData = res.data.map((item: any) => ({

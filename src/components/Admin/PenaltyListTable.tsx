@@ -1,7 +1,7 @@
-import React, { useEffect, useReducer, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as S from '@/styles/admin/penalty/Penalty.styled';
 import {
-  penaltyReducer,
+  PenaltyAction,
   PenaltyState,
 } from '@/components/Admin/context/PenaltyReducer';
 import { getPenaltyApi } from '@/api/admin/penalty/getPenalty';
@@ -30,20 +30,20 @@ const columns = [
 interface PenaltyListTableProps {
   selectedCardinal: number | null;
   searchName: string;
+  penaltyData: PenaltyState;
+  dispatch: React.Dispatch<PenaltyAction>;
 }
 
 const PenaltyListTable: React.FC<PenaltyListTableProps> = ({
   selectedCardinal,
   searchName,
+  penaltyData,
+  dispatch,
 }) => {
   const { members } = useMemberContext();
   const [filteredMembers, setFilteredMembers] = useState<MemberData[]>([]);
   const [expandedRow, setExpandedRow] = useState<number | null>(null);
   const { isAdmin, loading } = useGetUserInfo();
-  const [penaltyData, dispatch] = useReducer(
-    penaltyReducer,
-    {} as PenaltyState,
-  );
 
   const getLatestPenaltyDate = (penalties: { time: string }[] | undefined) => {
     if (!penalties || penalties.length === 0) return '없음';
@@ -61,6 +61,7 @@ const PenaltyListTable: React.FC<PenaltyListTableProps> = ({
       const response = await getPenaltyApi();
 
       if (response.code === 200) {
+        console.log('패널티 조회 결과:', response.data);
         const penalties = response.data.reduce(
           (
             acc: { [x: string]: any },

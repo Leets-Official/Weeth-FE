@@ -51,6 +51,7 @@ const NoticePostDetail = () => {
   const url = new URL(window.location.href);
   const pathArray = url.pathname.split('/');
   const path = pathArray[1];
+  const type = path === 'board' ? 'board' : 'notices';
 
   const numericPostId = postId ? parseInt(postId, 10) : null;
 
@@ -64,7 +65,7 @@ const NoticePostDetail = () => {
   const [isSelectModalOpen, setIsSelectModalOpen] = useState(false);
 
   const { boardDetailInfo, error, loading } = useGetBoardDetail(
-    path,
+    type,
     numericPostId,
     refreshKey,
   );
@@ -85,13 +86,13 @@ const NoticePostDetail = () => {
 
   const confirmDelete = async () => {
     try {
-      await deletePost(numericPostId, 'notices');
-      toastInfo('게시물이 삭제되었습니다');
+      await deletePost(numericPostId, type);
+      navigate('/notice', { replace: true });
       setTimeout(() => {
-        navigate('/notice'); // 2초 후 공지 목록 페이지로 이동
-      }, 2000);
+        toastInfo('게시물이 삭제되었습니다');
+      }, 500);
     } catch (err) {
-      toastError('에러가 발생했습니다.');
+      toastError();
       console.error(err);
     }
     closeSelectModal();
@@ -165,7 +166,7 @@ const NoticePostDetail = () => {
             <PostCommentList
               comments={boardDetailInfo.comments}
               postId={boardDetailInfo.id}
-              path={path}
+              path={type}
               onCommentDelete={handleRefresh}
               onReply={handleReply}
               selectedComment={selectedComment}

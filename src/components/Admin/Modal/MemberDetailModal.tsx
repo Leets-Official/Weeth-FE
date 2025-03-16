@@ -22,6 +22,8 @@ const MemberDetailModal: React.FC<MemberDetailModalProps> = ({
   const { handleAction } = useAdminActions();
   const [isCardinalModalOpen, setIsCardinalModalOpen] = useState(false);
 
+  const isApproved = data.status === '승인 완료';
+
   const roleChangeButton =
     data.role === 'ADMIN'
       ? {
@@ -37,6 +39,7 @@ const MemberDetailModal: React.FC<MemberDetailModalProps> = ({
     {
       label: '가입 승인',
       onClick: () => handleAction('가입 승인', [data.id]),
+      disabled: isApproved,
     },
     roleChangeButton,
     {
