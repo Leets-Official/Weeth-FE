@@ -1,5 +1,5 @@
 /* eslint-disable no-alert */
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -73,9 +73,10 @@ const InputWrapper = styled.div`
 `;
 
 const roleMapping: Record<string, string> = {
-  프론트: 'FE',
-  백: 'BE',
-  디자인: 'D',
+  FE: 'FE',
+  BE: 'BE',
+  DE: 'D',
+  PM: 'PM',
 };
 
 // Member info state type
@@ -110,12 +111,12 @@ const Profile: React.FC = () => {
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [modalMessage, setModalMessage] = useState<string>('');
 
-  useEffect(() => {
-    const kakaoId = localStorage.getItem('kakaoId');
-    if (!kakaoId) {
-      navigate('/');
-    }
-  }, []);
+  // useEffect(() => {
+  //   const kakaoId = localStorage.getItem('kakaoId');
+  //   if (!kakaoId) {
+  //     navigate('/');
+  //   }
+  // }, []);
 
   const validateEmail = (validEmail: string): boolean => {
     const emailRegex =
