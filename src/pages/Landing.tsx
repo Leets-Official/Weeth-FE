@@ -96,7 +96,6 @@ const Landing: React.FC = () => {
           color={theme.color.kakao}
           textcolor="#000000"
           onClick={() => {
-            console.log(kakaoURL);
             window.location.href = kakaoURL;
           }}
         >

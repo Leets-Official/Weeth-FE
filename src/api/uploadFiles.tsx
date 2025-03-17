@@ -2,7 +2,10 @@
 import axios from 'axios';
 import qs from 'qs';
 
-const BASE_URL = import.meta.env.VITE_API_URL;
+const BASE_URL =
+  window.location.hostname === 'weeth.site'
+    ? import.meta.env.VITE_API_URL
+    : import.meta.env.VITE_API_URL_DEV;
 const accessToken = localStorage.getItem('accessToken');
 const refreshToken = localStorage.getItem('refreshToken');
 

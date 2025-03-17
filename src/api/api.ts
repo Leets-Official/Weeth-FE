@@ -1,7 +1,10 @@
 import axios, { AxiosHeaders, type InternalAxiosRequestConfig } from 'axios';
 
 // API URL
-const BASE_URL = import.meta.env.VITE_API_URL;
+const BASE_URL =
+  window.location.hostname === 'weeth.site'
+    ? import.meta.env.VITE_API_URL
+    : import.meta.env.VITE_API_URL_DEV;
 
 // Axios 인스턴스 생성
 const api = axios.create({
