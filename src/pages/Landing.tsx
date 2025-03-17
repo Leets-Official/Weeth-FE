@@ -54,6 +54,10 @@ const SignUpbutton = styled.button`
   all: unset;
   text-color: ${theme.color.gray[100]};
   border-bottom: 1px solid ${theme.color.gray[100]};
+
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const Landing: React.FC = () => {
