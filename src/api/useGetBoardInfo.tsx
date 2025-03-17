@@ -25,7 +25,10 @@ interface ApiResponse {
   };
 }
 
-const BASE_URL = import.meta.env.VITE_API_URL;
+const BASE_URL =
+  window.location.hostname === 'weeth.site'
+    ? import.meta.env.VITE_API_URL
+    : import.meta.env.VITE_API_URL_DEV;
 
 export const useGetBoardInfo = async (
   path: string,

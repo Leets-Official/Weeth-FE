@@ -1,6 +1,9 @@
 import api from '@/api/api';
 
-const BASE_URL = import.meta.env.VITE_API_URL;
+const BASE_URL =
+  window.location.hostname === 'weeth.site'
+    ? import.meta.env.VITE_API_URL
+    : import.meta.env.VITE_API_URL_DEV;
 
 // 대댓글일 경우만 parentCommentId 보내주기
 const createComment = async (
