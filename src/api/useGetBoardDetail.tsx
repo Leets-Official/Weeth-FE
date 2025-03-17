@@ -1,10 +1,7 @@
 import { useEffect, useState } from 'react';
 import api from '@/api/api';
 
-const BASE_URL =
-  window.location.hostname === 'weeth.site'
-    ? import.meta.env.VITE_API_URL
-    : import.meta.env.VITE_API_URL_DEV;
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 interface Comments {
   id: number;
