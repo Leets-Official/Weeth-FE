@@ -1,6 +1,7 @@
 import useGetDuesInfo from '@/api/useGetDuesInfo';
 import useGetGlobaluserInfo from '@/api/useGetGlobaluserInfo';
 import Loading from '@/components/common/Loading';
+import { toastError } from '@/components/common/ToastMessage';
 import DueCategory from '@/components/Dues/DueCategory';
 import DuesInfo from '@/components/Dues/DuesInfo';
 import DuesTitle from '@/components/Dues/DuesTitle';
@@ -23,6 +24,12 @@ const Dues: React.FC = () => {
     setCardinal(globalInfo?.cardinals?.[globalInfo.cardinals[0]] ?? 0);
   }, [globalInfo]);
 
+  useEffect(() => {
+    if (duesError) {
+      toastError(duesError);
+    }
+  }, [duesError]);
+
   const filteredDues =
     selected === null
       ? duesInfo?.receipts
@@ -38,9 +45,6 @@ const Dues: React.FC = () => {
     setSelectedDues('회비');
   }
   if (loading || userLoading) return <Loading />;
-
-  // eslint-disable-next-line no-console
-  console.error(duesError);
 
   return (
     <S.StyledDues>
