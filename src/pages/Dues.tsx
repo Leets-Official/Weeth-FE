@@ -17,7 +17,7 @@ const Dues: React.FC = () => {
   const [selected, setSelectedDues] = useState<string | null>(null);
   const [cardinal, setCardinal] = useState(0);
 
-  const { duesInfo, loading } = useGetDuesInfo(cardinal);
+  const { duesInfo, duesError, loading } = useGetDuesInfo(cardinal);
 
   useEffect(() => {
     setCardinal(globalInfo?.cardinals?.[globalInfo.cardinals[0]] ?? 0);
@@ -38,6 +38,9 @@ const Dues: React.FC = () => {
     setSelectedDues('회비');
   }
   if (loading || userLoading) return <Loading />;
+
+  // eslint-disable-next-line no-console
+  console.error(duesError);
 
   return (
     <S.StyledDues>
