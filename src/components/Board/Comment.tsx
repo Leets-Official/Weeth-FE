@@ -1,3 +1,4 @@
+import parse from 'html-react-parser';
 import ReplyImage from '@/assets/images/ic_reply_comment.svg';
 import MenuImage from '@/assets/images/ic_comment_delete.svg';
 import * as S from '@/styles/board/Comment.styled';
@@ -7,6 +8,7 @@ import formatDateTime from '@/hooks/formatDateTime';
 import useGetUserName from '@/hooks/useGetUserName';
 import setPositionIcon from '@/hooks/setPositionIcon';
 import SelectModal from '@/components/Modal/SelectModal';
+import convertLinksInText from '@/hooks/convertLinksInText';
 
 interface CommentProps {
   name: string;
@@ -74,7 +76,7 @@ const Comment = ({
           />
           {name}
         </S.NameText>
-        <S.ContentText>{content}</S.ContentText>
+        <S.ContentText>{parse(convertLinksInText(content))}</S.ContentText>
         <S.DateText>{formattedTime}</S.DateText>
       </S.CommentContentContainer>
       <S.ButtonContainer>
