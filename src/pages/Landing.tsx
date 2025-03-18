@@ -54,6 +54,10 @@ const SignUpbutton = styled.button`
   all: unset;
   text-color: ${theme.color.gray[100]};
   border-bottom: 1px solid ${theme.color.gray[100]};
+
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const Landing: React.FC = () => {
@@ -63,7 +67,9 @@ const Landing: React.FC = () => {
   const [showButtonWrapper, setShowButtonWrapper] = useState(false);
 
   const CLIENT_ID = import.meta.env.VITE_KAKAO_CLIENT_ID;
-  const REDIRECT_URI = import.meta.env.VITE_KAKAO_REDIRECT_URI;
+  const BASE_URL = window.location.origin;
+  const KAKAO_REDIRECT_URI = import.meta.env.VITE_KAKAO_REDIRECT_URI;
+  const REDIRECT_URI = BASE_URL + KAKAO_REDIRECT_URI;
   const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code`;
 
   useEffect(() => {
