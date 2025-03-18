@@ -48,8 +48,6 @@ const BoardNoticePost = () => {
     setFiles((prevFiles) => prevFiles.filter((file) => file.name !== fileName));
   };
 
-  console.log('files', files);
-
   // onSave에서 파일 업로드 처리
   const onSave = async () => {
     setLoading(true);
