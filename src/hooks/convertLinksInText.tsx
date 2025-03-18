@@ -1,9 +1,12 @@
 const convertLinksInText = (text: string) => {
-  const linkRegex = /(https?:\/\/[^\s]+)/g;
-  return text.replace(
-    linkRegex,
-    (link) => `<a href="${link}" target="_blank">${link}</a>`,
-  );
+  const linkRegex = /(https?:\/\/[^\s]+|www\.[^\s]+)/g;
+  return text.replace(linkRegex, (link) => {
+    let modifiedLink = link;
+    if (modifiedLink.startsWith('www.')) {
+      modifiedLink = `http://${modifiedLink}`;
+    }
+    return `<a href="${modifiedLink}" target="_blank">${modifiedLink}</a>`;
+  });
 };
 
 export default convertLinksInText;
