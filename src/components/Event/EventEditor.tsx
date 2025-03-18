@@ -191,6 +191,7 @@ const EventEditor = () => {
     try {
       if (isEditMode) await editEvent(eventRequest, Number(id));
       else await createEvent(eventRequest);
+
       toastSuccess('저장이 완료되었습니다.');
       navigate('/calendar');
     } catch (err: any) {
