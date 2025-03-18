@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import parse from 'html-react-parser';
 import icCalendar from '@/assets/images/ic_date.svg';
 import { WEEK_DAYS } from '@/constants/dateConstants';
 import { EventDetailData } from '@/pages/EventDetail';
@@ -119,7 +120,7 @@ const EventContent = ({
         <div>준비물 : {data.requiredItem}</div>
       </S.ContentBlock>
       <S.ContentBlock>
-        <div>{data.content}</div>
+        <div>{parse(data.content)}</div>
       </S.ContentBlock>
     </S.Container>
   );
