@@ -73,7 +73,10 @@ interface PositionCheckboxProps {
   onChange: () => void;
 }
 
-const PositionCheckbox: React.FC<PositionCheckboxProps> = ({ checked, onChange }) => (
+const PositionCheckbox: React.FC<PositionCheckboxProps> = ({
+  checked,
+  onChange,
+}) => (
   <>
     <HiddenCheckbox checked={checked} onChange={onChange} />
     <StyledCheckbox checked={checked} onClick={onChange} />
@@ -81,7 +84,7 @@ const PositionCheckbox: React.FC<PositionCheckboxProps> = ({ checked, onChange }
 );
 
 // List of positions
-const positions = ['프론트', '백', '디자인'];
+const positions = ['FE', 'BE', 'DE', 'PM'];
 
 // Type definitions for PositionSector props
 interface PositionSectorProps {
@@ -90,7 +93,11 @@ interface PositionSectorProps {
   onChange: (position: string) => void;
 }
 
-const PositionSector: React.FC<PositionSectorProps> = ({ labelName, value, onChange }) => {
+const PositionSector: React.FC<PositionSectorProps> = ({
+  labelName,
+  value,
+  onChange,
+}) => {
   return (
     <PositionContainer>
       <PositionLabel>

@@ -81,7 +81,10 @@ const Signup: React.FC = () => {
     DuplicatedEmail: string,
   ): Promise<boolean | null> => {
     try {
-      const BASE_URL = import.meta.env.VITE_API_URL;
+      const BASE_URL =
+        window.location.hostname === 'weeth.site'
+          ? import.meta.env.VITE_API_URL
+          : import.meta.env.VITE_API_URL_DEV;
       const response = await axios.get(
         `${BASE_URL}/api/v1/users/email?email=${DuplicatedEmail}`,
       );

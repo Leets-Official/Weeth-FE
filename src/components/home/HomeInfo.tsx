@@ -40,6 +40,11 @@ const HomeInfo = ({ position, cardinal, name, isAdmin }: HomeInfoProps) => {
           setCharacterImg(DEChar);
           setUserPart('D');
           break;
+        // TODO: PM 아이콘으로 변경
+        case 'PM':
+          setCharacterImg(DEChar);
+          setUserPart('PM');
+          break;
         default:
           break;
       }
@@ -58,6 +63,11 @@ const HomeInfo = ({ position, cardinal, name, isAdmin }: HomeInfoProps) => {
         case 'D':
           setCharacterImg(DECharHover);
           break;
+        // TODO: PM 아이콘으로 변경
+        case 'PM':
+          setCharacterImg(DECharHover);
+          setUserPart('PM');
+          break;
         default:
           break;
       }
@@ -75,6 +85,11 @@ const HomeInfo = ({ position, cardinal, name, isAdmin }: HomeInfoProps) => {
           break;
         case 'D':
           setCharacterImg(DEChar);
+          break;
+        // TODO: PM 아이콘으로 변경
+        case 'PM':
+          setCharacterImg(DEChar);
+          setUserPart('PM');
           break;
         default:
           break;
