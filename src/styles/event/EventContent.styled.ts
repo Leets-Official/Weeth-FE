@@ -61,6 +61,15 @@ export const ContentBlock = styled.div`
   padding: 15px;
   border-radius: 10px;
   white-space: pre-wrap;
+
+  a {
+    color: ${theme.color.main};
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: ${theme.color.mainDark};
+  }
 `;
 
 export const Time = styled.div`
