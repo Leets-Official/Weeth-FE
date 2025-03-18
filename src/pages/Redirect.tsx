@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '@/api/api';
+import { toastError } from '@/components/common/ToastMessage';
 
 const Redirect: React.FC = () => {
   const navigate = useNavigate();
@@ -31,6 +32,7 @@ const Redirect: React.FC = () => {
           if ((err.response.data as { code: number }).code === 403) {
             navigate('/waiting-approval');
           } else {
+            toastError('로그인에 실패했습니다.');
             navigate('/');
           }
         });
