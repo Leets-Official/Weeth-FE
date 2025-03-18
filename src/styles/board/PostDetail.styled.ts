@@ -46,4 +46,12 @@ export const PostingContianer = styled.div`
   line-height: 19.09px;
   white-space: pre-wrap;
   margin: 20px 0 20px 0;
+
+  a {
+    color: #00dda8;
+  }
+
+  a:hover {
+    color: #097154;
+  }
 `;

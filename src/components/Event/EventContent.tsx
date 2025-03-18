@@ -12,6 +12,7 @@ import fullscreen from '@/assets/images/ic_fullscreen.svg';
 import smallscreen from '@/assets/images/ic_smallscreen.svg';
 import close from '@/assets/images/ic_close.svg';
 import { useParams } from 'react-router-dom';
+import convertLinksInText from '@/hooks/convertLinksInText';
 
 const EventContent = ({
   data,
@@ -120,7 +121,7 @@ const EventContent = ({
         <div>준비물 : {data.requiredItem}</div>
       </S.ContentBlock>
       <S.ContentBlock>
-        <div>{parse(data.content)}</div>
+        <div>{parse(convertLinksInText(data.content))}</div>
       </S.ContentBlock>
     </S.Container>
   );

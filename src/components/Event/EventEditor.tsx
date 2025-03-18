@@ -90,14 +90,6 @@ const EventEditor = () => {
     }));
   };
 
-  const convertLinksInText = (text: string) => {
-    const linkRegex = /(https?:\/\/[^\s]+)/g;
-    return text.replace(
-      linkRegex,
-      (link) => `<a href="${link}" target="_blank">${link}</a>`,
-    );
-  };
-
   useEffect(() => {
     if (startDate && startTime) {
       const [time, period] = startTime.split(' ');
@@ -197,13 +189,8 @@ const EventEditor = () => {
 
   const handleSave = async () => {
     try {
-      const updatedEventRequest = {
-        ...eventRequest,
-        content: convertLinksInText(eventRequest.content),
-      };
-
-      if (isEditMode) await editEvent(updatedEventRequest, Number(id));
-      else await createEvent(updatedEventRequest);
+      if (isEditMode) await editEvent(eventRequest, Number(id));
+      else await createEvent(eventRequest);
 
       toastSuccess('저장이 완료되었습니다.');
       navigate('/calendar');
