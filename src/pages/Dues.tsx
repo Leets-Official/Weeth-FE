@@ -20,7 +20,7 @@ const Dues: React.FC = () => {
   const { duesInfo, loading } = useGetDuesInfo(cardinal);
 
   useEffect(() => {
-    setCardinal(globalInfo?.cardinals?.[globalInfo.cardinals.length - 1] ?? 0);
+    setCardinal(globalInfo?.cardinals?.[globalInfo.cardinals[0]] ?? 0);
   }, [globalInfo]);
 
   const filteredDues =
