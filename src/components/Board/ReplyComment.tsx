@@ -1,3 +1,4 @@
+import parse from 'html-react-parser';
 import ReplyArrowImage from '@/assets/images/ic_reply.svg';
 import MenuImage from '@/assets/images/ic_comment_delete.svg';
 import * as S from '@/styles/board/Comment.styled';
@@ -7,6 +8,7 @@ import useGetUserName from '@/hooks/useGetUserName';
 import setPositionIcon from '@/hooks/setPositionIcon';
 import { useState } from 'react';
 import SelectModal from '@/components/Modal/SelectModal';
+import convertLinksInText from '@/hooks/convertLinksInText';
 
 interface ReplyCommentProps {
   name: string;
@@ -64,7 +66,7 @@ const ReplyComment = ({
           />
           {name}
         </S.NameText>
-        <S.ContentText>{content}</S.ContentText>
+        <S.ContentText>{parse(convertLinksInText(content))}</S.ContentText>
         <S.DateText>{formattedTime}</S.DateText>
         {isMyComment && (
           <S.ReplyImageButton onClick={onClickMenu}>

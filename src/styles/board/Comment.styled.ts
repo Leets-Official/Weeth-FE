@@ -44,6 +44,15 @@ export const ContentText = styled.div`
   font-size: 16px;
   line-height: 19.09px;
   margin-top: 10px;
+
+  a {
+    color: ${theme.color.main};
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: ${theme.color.mainDark};
+  }
 `;
 
 export const DateText = styled.div`

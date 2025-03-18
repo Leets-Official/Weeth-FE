@@ -48,10 +48,11 @@ export const PostingContianer = styled.div`
   margin: 20px 0 20px 0;
 
   a {
-    color: #00dda8;
+    color: ${theme.color.main};
+    text-decoration: none;
   }
 
   a:hover {
-    color: #097154;
+    color: ${theme.color.mainDark};
   }
 `;
