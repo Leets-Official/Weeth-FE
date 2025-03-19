@@ -1,5 +1,5 @@
 import useGetDuesInfo from '@/api/useGetDuesInfo';
-import useGetGlobaluserInfo from '@/api/useGetGlobaluserInfo';
+import useGetUserInfo from '@/api/useGetUserInfo';
 import Loading from '@/components/common/Loading';
 import { toastError } from '@/components/common/ToastMessage';
 import DueCategory from '@/components/Dues/DueCategory';
@@ -13,7 +13,7 @@ import { useEffect, useState } from 'react';
 const Dues: React.FC = () => {
   useCustomBack('/home');
 
-  const { globalInfo, loading: userLoading } = useGetGlobaluserInfo();
+  const { userInfo, loading: isLoadingUser } = useGetUserInfo();
 
   const [selected, setSelectedDues] = useState<string | null>(null);
   const [cardinal, setCardinal] = useState(0);
@@ -21,8 +21,8 @@ const Dues: React.FC = () => {
   const { duesInfo, duesError, loading } = useGetDuesInfo(cardinal);
 
   useEffect(() => {
-    setCardinal(globalInfo?.cardinals?.[globalInfo.cardinals[0]] ?? 0);
-  }, [globalInfo]);
+    setCardinal(userInfo?.cardinals?.length ? userInfo.cardinals[0] : 0);
+  }, [userInfo]);
 
   useEffect(() => {
     if (duesError) {
@@ -44,7 +44,7 @@ const Dues: React.FC = () => {
   ) {
     setSelectedDues('회비');
   }
-  if (loading || userLoading) return <Loading />;
+  if (loading || isLoadingUser) return <Loading />;
 
   return (
     <S.StyledDues>
