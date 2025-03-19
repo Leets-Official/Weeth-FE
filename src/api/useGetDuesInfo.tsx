@@ -25,32 +25,34 @@ interface DuesInfo {
   receipts: Receipt[];
 }
 
-const getDuesInfo = (paramsCardinal: number) =>
-  api.get(`/api/v1/account/${paramsCardinal}`).then((res) => res.data);
+const getDuesInfo = async (paramsCardinal: number | null) => {
+  return api.get(`/api/v1/account/${paramsCardinal}`);
+};
 
-export const useGetDuesInfo = (paramsCardinal: number) => {
+export const useGetDuesInfo = (paramsCardinal: number | null) => {
   const [duesInfo, setDuesInfo] = useState<DuesInfo | null>(null);
   const [duesError, setDuesError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
-
+  const [loading, setLoading] = useState<boolean>(true);
   useEffect(() => {
-    if (paramsCardinal === 0) {
-      setDuesInfo(null);
-      setDuesError('기수가 올바르지 않습니다.');
+    if (paramsCardinal === null) {
       setLoading(false);
+      return;
+    }
+    if (paramsCardinal === 0) {
+      setLoading(false);
+      setDuesError('기수가 올바르지 않습니다.');
       return;
     }
 
     const fetchDuesInfo = async () => {
+      setLoading(true);
       try {
-        setLoading(true);
-        const data = await getDuesInfo(paramsCardinal);
+        const response = await getDuesInfo(paramsCardinal);
+        const { data } = response.data;
         setDuesInfo(data);
         setDuesError(null);
       } catch (err: any) {
-        setDuesError(
-          err.response?.data?.message || '회비 정보를 불러오지 못했습니다.',
-        );
+        setDuesError(err.response?.data?.message);
       } finally {
         setLoading(false);
       }
