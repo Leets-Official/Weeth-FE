@@ -1,5 +1,3 @@
-import useGetDuesInfo from '@/api/useGetDuesInfo';
-import useGetGlobaluserInfo from '@/api/useGetGlobaluserInfo';
 import receipt from '@/assets/images/ic_receipt.svg';
 import formatDateTime from '@/hooks/formatDateTime';
 import theme from '@/styles/theme';
@@ -45,6 +43,9 @@ const BasicCaption = styled.button`
 interface ImgCaptionProps {
   navi: (path: string) => void;
 }
+interface DuesTitleProps {
+  time: string;
+}
 
 const ImgCaption: React.FC<ImgCaptionProps> = ({ navi }) => (
   <BasicCaption onClick={() => navi('/receipt')}>
@@ -52,7 +53,7 @@ const ImgCaption: React.FC<ImgCaptionProps> = ({ navi }) => (
   </BasicCaption>
 );
 
-const DuesTitle: React.FC = () => {
+const DuesTitle: React.FC<DuesTitleProps> = ({ time }) => {
   const navi = useNavigate();
 
   const currentDate = new Date();
@@ -71,12 +72,7 @@ const DuesTitle: React.FC = () => {
     }
   }
 
-  const { globalInfo } = useGetGlobaluserInfo();
-  const cardinal =
-    globalInfo?.cardinals?.[globalInfo.cardinals.length - 1] ?? 0;
-  const { duesInfo } = useGetDuesInfo(cardinal);
-
-  const formattedTime = duesInfo ? formatDateTime(duesInfo.time) : 'N/A';
+  const formattedTime = time ? formatDateTime(time) : 'N/A';
 
   return (
     <DuesBox>

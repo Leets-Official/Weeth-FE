@@ -12,8 +12,9 @@ interface GroupedByMonth {
 
 const ReceiptMain: React.FC = () => {
   const { globalInfo } = useGetGlobaluserInfo();
-  const cardinal =
-    globalInfo?.cardinals?.[globalInfo.cardinals.length - 1] ?? 0;
+  const cardinal = globalInfo?.cardinals?.length
+    ? globalInfo.cardinals[0]
+    : null;
   const { duesInfo, loading } = useGetDuesInfo(cardinal);
 
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
