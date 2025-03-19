@@ -10,6 +10,8 @@ import BEChar from '@/assets/images/ic_char_BE.svg';
 import BECharHover from '@/assets/images/ic_char_BE_hover.svg';
 import DEChar from '@/assets/images/ic_char_DE.svg';
 import DECharHover from '@/assets/images/ic_char_DE_hover.svg';
+import PMChar from '@/assets/images/ic_char_PM.svg';
+import PMCharHover from '@/assets/images/ic_char_PM_hover.svg';
 import AdminIcon from '@/assets/images/ic_Master_BW.svg';
 import DefaultIcon from '@/assets/images/ic_default_position.svg';
 
@@ -40,9 +42,8 @@ const HomeInfo = ({ position, cardinal, name, isAdmin }: HomeInfoProps) => {
           setCharacterImg(DEChar);
           setUserPart('D');
           break;
-        // TODO: PM 아이콘으로 변경
         case 'PM':
-          setCharacterImg(DEChar);
+          setCharacterImg(PMChar);
           setUserPart('PM');
           break;
         default:
@@ -63,9 +64,8 @@ const HomeInfo = ({ position, cardinal, name, isAdmin }: HomeInfoProps) => {
         case 'D':
           setCharacterImg(DECharHover);
           break;
-        // TODO: PM 아이콘으로 변경
         case 'PM':
-          setCharacterImg(DECharHover);
+          setCharacterImg(PMCharHover);
           setUserPart('PM');
           break;
         default:
@@ -86,9 +86,8 @@ const HomeInfo = ({ position, cardinal, name, isAdmin }: HomeInfoProps) => {
         case 'D':
           setCharacterImg(DEChar);
           break;
-        // TODO: PM 아이콘으로 변경
         case 'PM':
-          setCharacterImg(DEChar);
+          setCharacterImg(PMChar);
           setUserPart('PM');
           break;
         default:

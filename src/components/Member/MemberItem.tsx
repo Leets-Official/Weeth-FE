@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import BE from '@/assets/images/ic_BE.svg';
 import D from '@/assets/images/ic_DE.svg';
 import FE from '@/assets/images/ic_FE.svg';
+import PM from '@/assets/images/ic_PM.svg';
 
 import Master from '@/assets/images/ic_Master_BW.svg';
 
@@ -36,6 +37,9 @@ const MemberItem: React.FC<MemberItemProps> = ({
   } else if (position === 'D') {
     positionName = '디자이너';
     positionIcon = D;
+  } else if (position === 'PM') {
+    positionName = 'PM';
+    positionIcon = PM;
   }
 
   const onClickMember = () => {
