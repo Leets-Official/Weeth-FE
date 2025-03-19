@@ -25,7 +25,7 @@ const DuesInfo: React.FC<DuseInfoProps> = ({ dues, category, date, memo }) => {
           </S.StyledTextBox>
         </S.StyledCaptionBox>
         <S.StyledMemoBox>
-          <S.Text>{dues.toLocaleString()}원</S.Text>
+          <S.Text>{dues}원</S.Text>
           <S.SmallTextMemo>{memo}</S.SmallTextMemo>
         </S.StyledMemoBox>
       </S.StyledDuesBox>
