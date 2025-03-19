@@ -48,6 +48,7 @@ const MyInfo = () => {
     FE: '프론트엔드',
     BE: '백엔드',
     D: '디자인',
+    PM: 'PM',
   };
 
   const position = positionMap[userInfo.position] || '';
