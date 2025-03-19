@@ -31,11 +31,16 @@ const getDuesInfo = async (paramsCardinal: number | null) => {
 
 export const useGetDuesInfo = (paramsCardinal: number | null) => {
   const [duesInfo, setDuesInfo] = useState<DuesInfo | null>(null);
-  const [duesError, setError] = useState<string | null>(null);
+  const [duesError, setDuesError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   useEffect(() => {
     if (paramsCardinal === null) {
       setLoading(false);
+      return;
+    }
+    if (paramsCardinal === 0) {
+      setLoading(false);
+      setDuesError('기수가 올바르지 않습니다.');
       return;
     }
 
@@ -45,9 +50,9 @@ export const useGetDuesInfo = (paramsCardinal: number | null) => {
         const response = await getDuesInfo(paramsCardinal);
         const { data } = response.data;
         setDuesInfo(data);
-        setError(null);
+        setDuesError(null);
       } catch (err: any) {
-        setError(err.response?.data?.message);
+        setDuesError(err.response?.data?.message);
       } finally {
         setLoading(false);
       }
