@@ -3,10 +3,12 @@ import useGetMemberDetail from '@/api/useGetMemberDetail';
 import FE from '@/assets/images/ic_char_FE.svg';
 import BE from '@/assets/images/ic_char_BE.svg';
 import D from '@/assets/images/ic_char_DE.svg';
+import PM from '@/assets/images/ic_char_PM.svg';
 import Master from '@/assets/images/ic_Master.svg';
 import clipFE from '@/assets/images/ic_FE_clip.svg';
 import clipBE from '@/assets/images/ic_BE_clip.svg';
 import clipDE from '@/assets/images/ic_DE_clip.svg';
+import clipPM from '@/assets/images/ic_PM_clip.svg';
 
 import theme from '@/styles/theme';
 import styled from 'styled-components';
@@ -22,6 +24,7 @@ const Wrapper = styled.div`
 
 const PostionCharicter = styled.img`
   margin-top: 52px;
+  width: 14.313rem;
 `;
 
 const ClipContainer = styled.div`
@@ -117,6 +120,12 @@ const MemberDetail = () => {
       clip: clipDE,
       name: '디자인 파트',
       color: theme.color.pointPink,
+    },
+    PM: {
+      char: PM,
+      clip: clipPM,
+      name: 'PM 파트',
+      color: theme.color.pointPurple,
     },
   };
 
