@@ -1,6 +1,7 @@
 import useGetDuesInfo from '@/api/useGetDuesInfo';
 import useGetGlobaluserInfo from '@/api/useGetGlobaluserInfo';
 import Loading from '@/components/common/Loading';
+import { toastError } from '@/components/common/ToastMessage';
 import DueCategory from '@/components/Dues/DueCategory';
 import DuesInfo from '@/components/Dues/DuesInfo';
 import DuesTitle from '@/components/Dues/DuesTitle';
@@ -17,11 +18,17 @@ const Dues: React.FC = () => {
   const [selected, setSelectedDues] = useState<string | null>(null);
   const [cardinal, setCardinal] = useState(0);
 
-  const { duesInfo, loading } = useGetDuesInfo(cardinal);
+  const { duesInfo, duesError, loading } = useGetDuesInfo(cardinal);
 
   useEffect(() => {
     setCardinal(globalInfo?.cardinals?.[globalInfo.cardinals[0]] ?? 0);
   }, [globalInfo]);
+
+  useEffect(() => {
+    if (duesError) {
+      toastError(duesError);
+    }
+  }, [duesError]);
 
   const filteredDues =
     selected === null
