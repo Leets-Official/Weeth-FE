@@ -4,7 +4,7 @@ import theme from '@/styles/theme';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled, { keyframes, css } from 'styled-components';
-import logo from '@/assets/images/logo/logo_full_Origin.svg';
+import logo from '@/assets/images/logo/logo_full_Spring.svg';
 import kakao from '@/assets/images/ic_KAKAO_symbol.svg';
 
 const fadeIn = keyframes`
