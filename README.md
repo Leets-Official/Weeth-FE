@@ -18,43 +18,26 @@ Weeth는 가천대학교 IT 학술동아리 Leets를 위한 동아리 관리 서
 <br>  
   
 ## 🤝 FE 팀원 소개  
-  
-<table>  
-<tr>  
-<td align="center" width="200px">  
-<a href="https://github.com/yezzan9" target="_blank">  
-<img src="https://avatars.githubusercontent.com/u/92977621?v=4" alt="박예진" />  
-</a>  
-</td>  
-<td align="center" width="200px">  
-<a href="https://github.com/JIN921" target="_blank">  
-<img src="https://avatars.githubusercontent.com/u/84452202?v=4" alt="이유진" />  
-</a>  
-</td>  
-<td align="center" width="200px">  
-<a href="https://github.com/hyewonimdang" target="_blank">  
-<img src="https://avatars.githubusercontent.com/u/154235509?v=4" alt="양혜원" />  
-</a>  
-</td>  
-</tr>  
-<tr>  
-<td align="center">  
-<a href="https://github.com/yezzan9" target="_blank">  
-박예진
-</a>  
-</td>  
-<td align="center">  
-<a href="https://github.com/JIN921" target="_blank">  
-이유진  
-</a>  
-</td>  
-<td align="center">  
-<a href="https://github.com/hyewonimdang" target="_blank">  
-양혜원  
-</a>  
-</td>  
-</tr>  
-</table>  
+
+<details>
+  <summary>v1 팀원</summary>
+
+| <img src="https://avatars.githubusercontent.com/u/92977621?v=4" width="150" height="150"/> | <img src="https://avatars.githubusercontent.com/u/84452202?v=4" width="150" height="150"/> | <img src="https://avatars.githubusercontent.com/u/154235509?v=4" width="150" height="150"/> |
+|:-:|:-:|:-:|
+| 박예진<br/>[@yezzan9](https://github.com/yezzan9) | 이유진<br/>[@JIN921](https://github.com/JIN921) | 양혜원<br/>[@hyewonimdang](https://github.com/hyewonimdang) |
+
+</details>
+
+
+### 유저 페이지
+|<img src="https://avatars.githubusercontent.com/u/92977621?v=4" width="150" height="150"/>|<img src="https://avatars.githubusercontent.com/u/84452202?v=4" width="150" height="150"/>|<img src="https://avatars.githubusercontent.com/u/101498350?v=4" width="150" height="150"/>|
+|:-:|:-:|:-:|
+|박예진<br/>[@yezzan9](https://github.com/yezzan9)|이유진<br/>[@JIN921](https://github.com/JIN921)|조혜원<br/>[@One-HyeWon](https://github.com/One-HyeWon)|
+### 어드민 페이지
+|<img src="https://avatars.githubusercontent.com/u/134191693?v=4" width="150" height="150"/>|<img src="https://avatars.githubusercontent.com/u/143994508?v=4" width="150" height="150"/>|
+|:-:|:-:|
+|계다현<br/>[@dalzzy](https://github.com/dalzzy)|김지원<br/>[@woneeeee](https://github.com/woneeeee)|
+
   
 <br/>  
   
