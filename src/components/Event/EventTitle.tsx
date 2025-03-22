@@ -1,7 +1,6 @@
 /* eslint-disable no-console */
 import { deleteEvent } from '@/api/EventAdminAPI';
 import Header from '@/components/Header/Header';
-import formatDateTime from '@/hooks/formatDateTime';
 import { EventDetailData } from '@/pages/EventDetail';
 import * as S from '@/styles/calendar/EventDetailTitle.styled';
 import { useState } from 'react';
@@ -21,7 +20,6 @@ const EventTitle = ({
   const [isMenuModalOpen, setIsMenuModalOpen] = useState(false);
   const [isSelectModalOpen, setIsSelectModalOpen] = useState(false);
   const navigate = useNavigate();
-  const formattedDateTime = formatDateTime(data.createdAt);
 
   const { id, type } = useParams();
   const url = new URL(window.location.href);
@@ -62,7 +60,6 @@ const EventTitle = ({
         <S.SpaceBetween>
           <S.WriteInfo>
             <S.Writer>{data.name}</S.Writer>
-            <S.WrittenTime>{formattedDateTime}</S.WrittenTime>
           </S.WriteInfo>
           <S.Cardinal>{data.cardinal}기</S.Cardinal>
         </S.SpaceBetween>
