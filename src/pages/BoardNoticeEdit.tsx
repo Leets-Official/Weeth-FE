@@ -104,8 +104,15 @@ const BoardNoticeEdit = () => {
       // 게시글 수정 후 이동
       navi(path === 'board' ? '/board' : '/notice');
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    } catch (error) {
-      toastError('파일 업로드 중 문제가 발생했습니다.');
+    } catch (error: any) {
+      if (error.response.status === 500) {
+        toastError('제목을 n자 이내로 입력해주세요.');
+      } else
+        toastError(
+          path === 'board'
+            ? '게시글 작성 중 문제가 발생했습니다.'
+            : '공지사항 작성 중 문제가 발생했습니다.',
+        );
     } finally {
       setLoading(false);
     }
