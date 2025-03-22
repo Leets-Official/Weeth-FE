@@ -11,6 +11,7 @@ export const CommentContainer = styled.div<{ $isSelect: boolean }>`
   background-color: ${(props) =>
     props.$isSelect ? '#508FFF1A' : 'transparent'};
   transition: background-color 0.3s ease;
+  word-break: break-all;
 `;
 
 export const CommentContentContainer = styled.div`
@@ -76,6 +77,7 @@ export const ReplyCommentContainer = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   padding: 10px 0;
+  word-break: break-all;
 `;
 
 export const ReplyArrow = styled.img`
