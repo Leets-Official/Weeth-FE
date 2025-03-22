@@ -11,7 +11,7 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(31, 31, 31, 0.5);
   z-index: 1000;
 `;
 
