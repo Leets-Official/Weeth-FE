@@ -5,6 +5,7 @@ import CheckBox from '@/assets/images/ic_admin_check.svg';
 import Absence from '@/assets/images/ic_admin_absence.svg';
 import updateAttendanceStatus from '@/api/admin/attendance/updateAttendanceStatus';
 import useGetGlobaluserInfo from '@/api/useGetGlobaluserInfo';
+import department from '@/constants/departmentConstatns';
 import RadioButton from './RadioButton';
 import SearchInput from './SearchInput';
 
@@ -160,7 +161,7 @@ const AttendDropdown: React.FC<AttendDropdownProps> = ({ meetingId }) => {
             <S.Member>
               <S.UserName>{item.name}</S.UserName>
               <S.UserInfo>
-                {item.position} {item.department} {item.studentId}
+                {item.position} {department[item.department]} {item.studentId}
               </S.UserInfo>
             </S.Member>
             <S.Check>
