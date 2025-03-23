@@ -18,8 +18,6 @@ export interface EventDetailData {
   requiredItem: string;
   start: string;
   end: string;
-  createdAt: string;
-  modifiedAt: string;
 }
 
 const EventDetail = () => {
