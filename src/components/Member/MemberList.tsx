@@ -45,6 +45,7 @@ const MemberList = ({
   useEffect(() => {
     setPageNumber(0);
     setMembers([]);
+    setHasNoMember(false);
     setHasMore(true);
   }, [selectedCardinal]);
 
