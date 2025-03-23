@@ -88,6 +88,16 @@ const BoardNoticeEdit = () => {
       // 요청 타입 결정
       const postType = path === 'board' ? 'editBoard' : 'editNotice';
 
+      if (title.length > 255) {
+        toastError('제목을 255자 이내로 작성해주세요.');
+        return;
+      }
+
+      if (content.length > 65000) {
+        toastError('내용을 65,000자 이내로 작성해주세요.');
+        return;
+      }
+
       // 서버 요청
       await postBoardNotice({
         originFiles,
@@ -105,14 +115,11 @@ const BoardNoticeEdit = () => {
       navi(path === 'board' ? '/board' : '/notice');
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error: any) {
-      if (error.response.status === 500) {
-        toastError('제목을 n자 이내로 입력해주세요.');
-      } else
-        toastError(
-          path === 'board'
-            ? '게시글 작성 중 문제가 발생했습니다.'
-            : '공지사항 작성 중 문제가 발생했습니다.',
-        );
+      toastError(
+        path === 'board'
+          ? '게시글 작성 중 문제가 발생했습니다.'
+          : '공지사항 작성 중 문제가 발생했습니다.',
+      );
     } finally {
       setLoading(false);
     }
