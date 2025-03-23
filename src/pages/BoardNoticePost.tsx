@@ -66,6 +66,16 @@ const BoardNoticePost = () => {
       // 요청 타입 결정
       const postType = path === 'board' ? 'postBoard' : 'postNotice';
 
+      if (title.length > 255) {
+        toastError('제목을 255자 이내로 작성해주세요.');
+        return;
+      }
+
+      if (content.length > 65000) {
+        toastError('내용을 65,000자 이내로 작성해주세요.');
+        return;
+      }
+
       // 서버 요청
       await postBoardNotice({
         files,
@@ -81,8 +91,12 @@ const BoardNoticePost = () => {
       // 게시글 생성 후 이동
       navi(path === 'board' ? '/board' : '/notice');
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    } catch (error) {
-      toastError('파일 업로드 중 문제가 발생했습니다.');
+    } catch (error: any) {
+      toastError(
+        path === 'board'
+          ? '게시글 작성 중 문제가 발생했습니다.'
+          : '공지사항 작성 중 문제가 발생했습니다.',
+      );
     } finally {
       setLoading(false);
     }

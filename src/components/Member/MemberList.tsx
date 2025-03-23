@@ -27,6 +27,7 @@ const MemberList = ({
   searchResults: User[] | undefined;
   loading: boolean;
 }) => {
+  // TODO: 조건별 컴포넌트 분리
   const [searchParams] = useSearchParams();
   const cardinal = searchParams.get('cardinal');
   const isSearch = searchParams.get('search') !== null; // search parameter가 존재하면 true
@@ -44,6 +45,7 @@ const MemberList = ({
   useEffect(() => {
     setPageNumber(0);
     setMembers([]);
+    setHasNoMember(false);
     setHasMore(true);
   }, [selectedCardinal]);
 

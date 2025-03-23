@@ -13,6 +13,7 @@ import deletePost from '@/api/deletePost';
 import { toastError, toastInfo } from '@/components/common/ToastMessage';
 import SelectModal from '@/components/Modal/SelectModal';
 import Loading from '@/components/common/Loading';
+import useCustomBack from '@/hooks/useCustomBack';
 
 const Container = styled.div`
   display: flex;
@@ -47,6 +48,7 @@ const TextButton = styled.div<{ $isLast?: boolean }>`
 `;
 
 const NoticePostDetail = () => {
+  useCustomBack('/notice');
   const { postId } = useParams();
   const url = new URL(window.location.href);
   const pathArray = url.pathname.split('/');
