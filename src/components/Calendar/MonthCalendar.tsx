@@ -95,7 +95,6 @@ const MonthCalendar = () => {
       <div
         style={{
           display: 'flex',
-          justifyContent: 'center',
           alignItems: 'center',
         }}
       >
@@ -125,6 +124,10 @@ const MonthCalendar = () => {
     setSelectedDate(start);
   };
 
+  const onDateClick = (clickInfo: any) => {
+    setSelectedDate(clickInfo.event.start);
+  };
+
   // if (loading) return <Loading />;
 
   return (
@@ -138,6 +141,7 @@ const MonthCalendar = () => {
           plugins={[dayGridPlugin, interactionPlugin]}
           events={monthlySchedule}
           eventContent={renderEventContent}
+          eventClick={onDateClick}
           dayMaxEvents={3}
           moreLinkClick="none"
           locale="ko"
