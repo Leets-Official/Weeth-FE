@@ -18,7 +18,7 @@ export const Calendar = styled.div`
     background-color: transparent !important;
   }
 
-  // // 선택한 날짜 표시 스타일링
+  // 선택한 날짜 표시 스타일링
   .fc-highlight {
     background-color: transparent !important;
   }
@@ -125,7 +125,7 @@ export const SelectedDateOnCalendar = styled.div`
   position: absolute;
   top: 1px;
   right: 0.5px;
-  background: ${theme.color.main};
+  background: ${theme.color.mainMiddle};
   border-radius: 10px;
   padding-top: 2px;
   width: 52px;
@@ -139,7 +139,7 @@ export const Today = styled.div`
   position: absolute;
   top: 1px;
   right: 0.5px;
-  background: ${theme.color.gray[30]};
+  background: ${theme.color.gray[9]};
   border-radius: 10px;
   padding-top: 2px;
   width: 52px;
