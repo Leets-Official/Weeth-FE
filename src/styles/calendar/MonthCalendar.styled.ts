@@ -105,6 +105,14 @@ export const Calendar = styled.div`
     border-radius: 1px;
   }
 
+  .fc-event::after {
+    display: none !important;
+  }
+
+  .fc-event-selected, .fc-event:focus {
+    box-shadow: none;
+}
+
   .fc-event-main {
     overflow: hidden;
   }
@@ -130,8 +138,8 @@ export const SelectedDateOnCalendar = styled.div`
   display: flex;
   justify-content: center;
   position: absolute;
-  top: 1px;
-  right: 0.5px;
+  top: 0px;
+  right: 0px;
   background: ${theme.color.mainMiddle};
   border-radius: 10px;
   padding-top: 2px;
