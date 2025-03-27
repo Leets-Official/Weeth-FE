@@ -7,6 +7,14 @@ export const Container = styled.div`
   z-index: 2;
 `;
 
+export const Bar = styled.div<{ isMeeting: boolean }>`
+  width: 1.5px;
+  height: 10px;
+  background-color: ${(props) => (props.isMeeting ? theme.color.main : '#fff')};
+  border-radius: 20px;
+  margin: 0 2px;
+`;
+
 export const Calendar = styled.div`
 
   div {
@@ -78,8 +86,9 @@ export const Calendar = styled.div`
   // 기본 일정 표시 스타일링
   .fc-event,
   .fc-event-dot {
-    padding: 0 1px;
+    padding-right: 2px;
     display: flex;
+    width: 50px !important;
     height: 16px;
     background-color: rgba(255, 255, 255, 0.03); !important;
     border: none;
@@ -102,7 +111,7 @@ export const Calendar = styled.div`
 
   // 각 날짜 셀 스타일링
   .fc .fc-daygrid-day-events {
-    height: 72px;
+    height: 46px;
     margin: 0;
   }
 
@@ -127,7 +136,7 @@ export const SelectedDateOnCalendar = styled.div`
   border-radius: 10px;
   padding-top: 2px;
   width: 52px;
-  height: 94px;
+  height: 70px;
   z-index: 10;
 `;
 
@@ -141,7 +150,7 @@ export const Today = styled.div`
   border-radius: 10px;
   padding-top: 2px;
   width: 52px;
-  height: 94px;
+  height: 70px;
 `;
 
 export const ScheduleList = styled.div`
