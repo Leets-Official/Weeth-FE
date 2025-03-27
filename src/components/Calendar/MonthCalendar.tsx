@@ -37,7 +37,7 @@ const MonthCalendar = () => {
   else
     formattedEnd = new Date(year, month + 1, 1, 23, 59, 59, 999).toISOString();
 
-  const { data: monthlySchedule } = useGetMonthlySchedule(
+  const { monthlySchedule } = useGetMonthlySchedule(
     `${year}-${String(month).padStart(2, '0')}-01T00:00:00.000Z`,
     formattedEnd,
   );
@@ -94,12 +94,21 @@ const MonthCalendar = () => {
     return (
       <div
         style={{
-          color: isTodayIncluded ? theme.color.main : '#fff',
-          overflow: 'hidden',
-          textOverflow: 'ellipsis',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
         }}
       >
-        {eventInfo.event.title}
+        <S.Bar isMeeting={eventInfo.event.extendedProps?.isMeeting} />
+        <div
+          style={{
+            color: isTodayIncluded ? theme.color.main : '#fff',
+            overflow: 'hidden',
+            width: '42px',
+          }}
+        >
+          {eventInfo.event.title}
+        </div>
       </div>
     );
   };
