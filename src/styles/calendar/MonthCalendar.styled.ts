@@ -8,6 +8,11 @@ export const Container = styled.div`
 `;
 
 export const Calendar = styled.div`
+
+  div {
+    text-overflow: clip !important;
+  }
+
   .fc {
     font-size: 12px;
     border: none;
@@ -59,6 +64,7 @@ export const Calendar = styled.div`
     align-items: center;
     height: 100%;
     width: 100%;
+    font-family: ${theme.font.semiBold};
   }
 
   // 주말 색상 변경
@@ -72,12 +78,13 @@ export const Calendar = styled.div`
   // 기본 일정 표시 스타일링
   .fc-event,
   .fc-event-dot {
-    padding: 0 10px;
+    padding: 0 1px;
     display: flex;
-    height: 20px;
-    background-color: ${theme.color.gray[18]}; !important;
+    height: 16px;
+    background-color: rgba(255, 255, 255, 0.03); !important;
     border: none;
-    border-radius: 20px;
+    border-radius: 1px;
+    font-family: ${theme.font.semiBold};
   }
 
   // 2일 이상 일정 표시 스타일링
@@ -86,12 +93,11 @@ export const Calendar = styled.div`
     height: 20px;
     align-items: center;
     margin-left: 2px;
-    border-radius: 20px;
+    border-radius: 1px;
   }
 
   .fc-event-main {
     overflow: hidden;
-    text-overflow: ellipsis;
   }
 
   // 각 날짜 셀 스타일링
@@ -108,14 +114,6 @@ export const Calendar = styled.div`
   // 일정 시간 표시 제거
   .fc-event-time {
     display: none;
-  }
-
-  .fc-event-title {
-    padding: 0px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    font-size: 8px;
-    font-weight: 400; //볼드가 자동으로 생겨서 강제로 굵기를 조절했음
   }
 `;
 
