@@ -7,7 +7,20 @@ export const Container = styled.div`
   z-index: 2;
 `;
 
+export const Bar = styled.div<{ isMeeting: boolean }>`
+  width: 1.5px;
+  height: 10px;
+  background-color: ${(props) => (props.isMeeting ? theme.color.main : '#fff')};
+  border-radius: 20px;
+  margin: 0 2px;
+`;
+
 export const Calendar = styled.div`
+
+  div {
+    text-overflow: clip !important;
+  }
+
   .fc {
     font-size: 12px;
     border: none;
@@ -18,7 +31,7 @@ export const Calendar = styled.div`
     background-color: transparent !important;
   }
 
-  // // 선택한 날짜 표시 스타일링
+  // 선택한 날짜 표시 스타일링
   .fc-highlight {
     background-color: transparent !important;
   }
@@ -59,6 +72,7 @@ export const Calendar = styled.div`
     align-items: center;
     height: 100%;
     width: 100%;
+    font-family: ${theme.font.semiBold};
   }
 
   // 주말 색상 변경
@@ -72,12 +86,14 @@ export const Calendar = styled.div`
   // 기본 일정 표시 스타일링
   .fc-event,
   .fc-event-dot {
-    padding: 0 10px;
+    padding-right: 2px;
     display: flex;
-    height: 20px;
-    background-color: ${theme.color.gray[18]}; !important;
+    width: 50px !important;
+    height: 16px;
+    background-color: rgba(255, 255, 255, 0.03); !important;
     border: none;
-    border-radius: 20px;
+    border-radius: 1px;
+    font-family: ${theme.font.semiBold};
   }
 
   // 2일 이상 일정 표시 스타일링
@@ -86,17 +102,24 @@ export const Calendar = styled.div`
     height: 20px;
     align-items: center;
     margin-left: 2px;
-    border-radius: 20px;
+    border-radius: 1px;
   }
+
+  .fc-event::after {
+    display: none !important;
+  }
+
+  .fc-event-selected, .fc-event:focus {
+    box-shadow: none;
+}
 
   .fc-event-main {
     overflow: hidden;
-    text-overflow: ellipsis;
   }
 
   // 각 날짜 셀 스타일링
   .fc .fc-daygrid-day-events {
-    height: 72px;
+    height: 46px;
     margin: 0;
   }
 
@@ -109,27 +132,19 @@ export const Calendar = styled.div`
   .fc-event-time {
     display: none;
   }
-
-  .fc-event-title {
-    padding: 0px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    font-size: 8px;
-    font-weight: 400; //볼드가 자동으로 생겨서 강제로 굵기를 조절했음
-  }
 `;
 
 export const SelectedDateOnCalendar = styled.div`
   display: flex;
   justify-content: center;
   position: absolute;
-  top: 1px;
-  right: 0.5px;
-  background: ${theme.color.main};
+  top: 0px;
+  right: 0px;
+  background: ${theme.color.mainMiddle};
   border-radius: 10px;
   padding-top: 2px;
   width: 52px;
-  height: 94px;
+  height: 70px;
   z-index: 10;
 `;
 
@@ -139,11 +154,11 @@ export const Today = styled.div`
   position: absolute;
   top: 1px;
   right: 0.5px;
-  background: ${theme.color.gray[30]};
+  background: ${theme.color.gray[9]};
   border-radius: 10px;
   padding-top: 2px;
   width: 52px;
-  height: 94px;
+  height: 70px;
 `;
 
 export const ScheduleList = styled.div`

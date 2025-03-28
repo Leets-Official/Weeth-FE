@@ -12,7 +12,7 @@ export const getMonthlySchedule = async (start: string, end: string) => {
 };
 
 export const useGetMonthlySchedule = (start: string, end: string) => {
-  const [data, setData] = useState<any[]>([]);
+  const [monthlySchedule, setMonthlySchedule] = useState<any[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -22,7 +22,7 @@ export const useGetMonthlySchedule = (start: string, end: string) => {
       try {
         const response = await getMonthlySchedule(start, end);
         if (response.data.code === 200) {
-          setData(response.data.data);
+          setMonthlySchedule(response.data.data);
           setError(null);
         } else {
           setError(response.data.message);
@@ -40,7 +40,7 @@ export const useGetMonthlySchedule = (start: string, end: string) => {
     fetchData();
   }, [start, end]);
 
-  return { data, loading, error };
+  return { monthlySchedule, loading, error };
 };
 
 export default useGetMonthlySchedule;
