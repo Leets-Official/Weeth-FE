@@ -138,8 +138,8 @@ export const SelectedDateOnCalendar = styled.div`
   display: flex;
   justify-content: center;
   position: absolute;
-  top: 0px;
-  right: 0px;
+  top: 2px;
+  right: 0.5px;
   background: ${theme.color.mainMiddle};
   border-radius: 10px;
   padding-top: 2px;
