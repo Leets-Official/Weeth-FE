@@ -2,7 +2,6 @@ import useGetMonthlySchedule, {
   getMonthlySchedule,
 } from '@/api/useGetMonthSchedule';
 import * as S from '@/styles/calendar/MonthCalendar.styled';
-import theme from '@/styles/theme';
 import interactionPlugin from '@fullcalendar/interaction';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import FullCalendar from '@fullcalendar/react';
@@ -14,7 +13,7 @@ import {
   CURRENT_YEAR,
   WEEK_DAYS,
 } from '@/constants/dateConstants';
-import TodayIncluded from '@/hooks/TodayIncluded';
+// import TodayIncluded from '@/hooks/TodayIncluded';
 import ScheduleItem from '@/components/Calendar/ScheduleItem';
 import Line from '@/components/common/Line';
 import dayjs from 'dayjs';
@@ -97,10 +96,10 @@ const MonthCalendar = () => {
   };
 
   const renderEventContent = (eventInfo: any) => {
-    const isTodayIncluded = TodayIncluded(
-      eventInfo.event.start,
-      eventInfo.event.end,
-    );
+    // const isTodayIncluded = TodayIncluded(
+    //   eventInfo.event.start,
+    //   eventInfo.event.end,
+    // );
 
     return (
       <div
@@ -112,7 +111,7 @@ const MonthCalendar = () => {
         <S.Bar isMeeting={eventInfo.event.extendedProps?.isMeeting} />
         <div
           style={{
-            color: isTodayIncluded ? theme.color.main : '#fff',
+            // color: isTodayIncluded ? theme.color.main : '#fff',
             overflow: 'hidden',
             width: '42px',
           }}
