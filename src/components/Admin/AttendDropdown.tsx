@@ -5,7 +5,7 @@ import CheckBox from '@/assets/images/ic_admin_check.svg';
 import Absence from '@/assets/images/ic_admin_absence.svg';
 import updateAttendanceStatus from '@/api/admin/attendance/updateAttendanceStatus';
 import useGetGlobaluserInfo from '@/api/useGetGlobaluserInfo';
-import department from '@/constants/departmentConstatns';
+import department from '@/constants/departmentConstants';
 import RadioButton from './RadioButton';
 import SearchInput from './SearchInput';
 
