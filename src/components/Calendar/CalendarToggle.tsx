@@ -6,7 +6,6 @@ export const Switch = styled.label`
   display: inline-block;
   width: 343px;
   height: 32px;
-  margin-top: 15px;
   margin-bottom: 15px;
 `;
 

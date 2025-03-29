@@ -146,6 +146,7 @@ export const SelectedDateOnCalendar = styled.div`
   width: 52px;
   height: 70px;
   z-index: 10;
+  color: white !important;
 `;
 
 export const Today = styled.div`
