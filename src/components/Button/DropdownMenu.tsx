@@ -64,6 +64,8 @@ const Label = styled.div`
 const DropdownList = styled.div<{ type: 'mypage' | 'signup' }>`
   position: absolute;
   width: ${(props) => (props.type === 'mypage' ? '257px' : '244px')};
+  max-height: 135px;
+  overflow-y: auto;
   top: calc(100% - 8px);
   right: ${(props) => (props.type === 'mypage' ? '22.5px' : '25px')};
   margin-top: 5px;

@@ -66,6 +66,7 @@ export const Description = styled.div<{ isIncomplete?: boolean }>`
   color: ${({ isIncomplete }) =>
     isIncomplete ? theme.color.gray[18] : theme.color.gray[100]};
   margin-top: 20px;
+  white-space: nowrap;
 `;
 
 export const Last = styled.div<{ lastColor?: string; isIncomplete?: boolean }>`
