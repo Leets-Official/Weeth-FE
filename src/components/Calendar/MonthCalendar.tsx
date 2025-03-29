@@ -42,6 +42,17 @@ const MonthCalendar = () => {
     formattedEnd,
   );
 
+  const eventListRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (selectedEventList.length > 0 && eventListRef.current) {
+      eventListRef.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      });
+    }
+  }, [selectedEventList]);
+
   useEffect(() => {
     const selectedYear = selectedDate.getFullYear();
     const selectedMonth = selectedDate.getMonth() + 1;
@@ -160,7 +171,7 @@ const MonthCalendar = () => {
       </S.SelectedDate>
 
       {selectedEventList.length > 0 ? (
-        <S.ScheduleList>
+        <S.ScheduleList ref={eventListRef}>
           {selectedEventList.map((item: any) => (
             <ScheduleItem
               key={item.id}
