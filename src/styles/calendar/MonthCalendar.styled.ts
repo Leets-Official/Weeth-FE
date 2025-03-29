@@ -16,6 +16,7 @@ export const Bar = styled.div<{ isMeeting: boolean }>`
 `;
 
 export const Calendar = styled.div`
+  margin-bottom: 5px;
 
   div {
     text-overflow: clip !important;
@@ -88,7 +89,6 @@ export const Calendar = styled.div`
   .fc-event-dot {
     padding-right: 2px;
     display: flex;
-    width: 50px !important;
     height: 16px;
     background-color: rgba(255, 255, 255, 0.03); !important;
     border: none;
@@ -138,27 +138,28 @@ export const SelectedDateOnCalendar = styled.div`
   display: flex;
   justify-content: center;
   position: absolute;
-  top: 0px;
-  right: 0px;
+  top: 2px;
+  right: 0.5px;
   background: ${theme.color.mainMiddle};
   border-radius: 10px;
   padding-top: 2px;
   width: 52px;
-  height: 70px;
+  height: 66px;
   z-index: 10;
+  color: white !important;
 `;
 
 export const Today = styled.div`
   display: flex;
   justify-content: center;
   position: absolute;
-  top: 1px;
+  top: 2px;
   right: 0.5px;
   background: ${theme.color.gray[9]};
   border-radius: 10px;
   padding-top: 2px;
   width: 52px;
-  height: 70px;
+  height: 66px;
 `;
 
 export const ScheduleList = styled.div`

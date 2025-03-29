@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import theme from '@/styles/theme';
 import { formatDateTime } from '@/hooks/formatDate';
-import TodayIncluded from '@/hooks/TodayIncluded';
 import { useNavigate } from 'react-router-dom';
 
 const Container = styled.div`
@@ -22,11 +21,11 @@ const Container = styled.div`
   }
 `;
 
-const Line = styled.div<{ $isTodayIncluded: boolean }>`
+const Line = styled.div<{ $isMeeting: boolean }>`
   width: 5px;
   height: 53px;
   background-color: ${(props) =>
-    props.$isTodayIncluded ? theme.color.main : '#fff'};
+    props.$isMeeting ? theme.color.main : '#fff'};
   border-radius: 11px;
   margin-left: 5px;
 `;
@@ -63,7 +62,6 @@ const ScheduleItem = ({
   year: number;
   month: number;
 }) => {
-  const isTodayIncluded = TodayIncluded(start, end);
   const navi = useNavigate();
 
   const onClick = () => {
@@ -76,7 +74,7 @@ const ScheduleItem = ({
 
   return (
     <Container onClick={onClick}>
-      <Line $isTodayIncluded={isTodayIncluded} />
+      <Line $isMeeting={isMeeting} />
       <Text>
         <Title>{title}</Title>
         <Date>

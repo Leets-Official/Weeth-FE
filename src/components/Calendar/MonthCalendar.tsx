@@ -2,7 +2,6 @@ import useGetMonthlySchedule, {
   getMonthlySchedule,
 } from '@/api/useGetMonthSchedule';
 import * as S from '@/styles/calendar/MonthCalendar.styled';
-import theme from '@/styles/theme';
 import interactionPlugin from '@fullcalendar/interaction';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import FullCalendar from '@fullcalendar/react';
@@ -14,7 +13,7 @@ import {
   CURRENT_YEAR,
   WEEK_DAYS,
 } from '@/constants/dateConstants';
-import TodayIncluded from '@/hooks/TodayIncluded';
+// import TodayIncluded from '@/hooks/TodayIncluded';
 import ScheduleItem from '@/components/Calendar/ScheduleItem';
 import Line from '@/components/common/Line';
 import dayjs from 'dayjs';
@@ -41,6 +40,17 @@ const MonthCalendar = () => {
     `${year}-${String(month).padStart(2, '0')}-01T00:00:00.000Z`,
     formattedEnd,
   );
+
+  const eventListRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (selectedEventList.length > 0 && eventListRef.current) {
+      eventListRef.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      });
+    }
+  }, [selectedEventList]);
 
   useEffect(() => {
     const selectedYear = selectedDate.getFullYear();
@@ -86,10 +96,10 @@ const MonthCalendar = () => {
   };
 
   const renderEventContent = (eventInfo: any) => {
-    const isTodayIncluded = TodayIncluded(
-      eventInfo.event.start,
-      eventInfo.event.end,
-    );
+    // const isTodayIncluded = TodayIncluded(
+    //   eventInfo.event.start,
+    //   eventInfo.event.end,
+    // );
 
     return (
       <div
@@ -101,7 +111,7 @@ const MonthCalendar = () => {
         <S.Bar isMeeting={eventInfo.event.extendedProps?.isMeeting} />
         <div
           style={{
-            color: isTodayIncluded ? theme.color.main : '#fff',
+            // color: isTodayIncluded ? theme.color.main : '#fff',
             overflow: 'hidden',
             width: '42px',
           }}
@@ -160,7 +170,7 @@ const MonthCalendar = () => {
       </S.SelectedDate>
 
       {selectedEventList.length > 0 ? (
-        <S.ScheduleList>
+        <S.ScheduleList ref={eventListRef}>
           {selectedEventList.map((item: any) => (
             <ScheduleItem
               key={item.id}
