@@ -21,18 +21,13 @@ const Wrapper = styled.div`
 
 const Search = styled.div`
   display: flex;
+  justify-content: space-between;
   border: 1px solid ${theme.color.gray[18]};
   border-radius: 4px;
   padding: 7px 10px;
   margin-bottom: 10px;
   width: 345px;
   box-sizing: border-box;
-`;
-
-const Align = styled.div`
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
 `;
 
 const SearchInput = styled.input`
@@ -42,6 +37,7 @@ const SearchInput = styled.input`
   font-size: 16px;
   color: #fff;
   padding: 0;
+  width: 211px;
   margin-left: 10px;
 
   &::placeholder {
@@ -102,15 +98,13 @@ const Member = () => {
           editValue={setSelectedCardinal}
           isMember
         />
-        <Align>
-          <SearchInput
-            placeholder="멤버 이름을 검색하세요"
-            value={keyword}
-            onChange={(e) => setKeyword(e.target.value)}
-            onKeyDown={handleEnter}
-          />
-          <SearchButton src={search} alt={search} onClick={handleSearch} />
-        </Align>
+        <SearchInput
+          placeholder="멤버 이름을 검색하세요"
+          value={keyword}
+          onChange={(e) => setKeyword(e.target.value)}
+          onKeyDown={handleEnter}
+        />
+        <SearchButton src={search} alt={search} onClick={handleSearch} />
       </Search>
       <MemberList searchResults={searchResults} loading={loading} />
     </Wrapper>
