@@ -3,6 +3,8 @@ import styled from 'styled-components';
 
 export const Wrapper = styled.div`
   padding: 14px;
+  width: 345px;
+  box-sizing: border-box;
   background-color: ${theme.color.gray[18]};
   border-radius: 10px;
 `;

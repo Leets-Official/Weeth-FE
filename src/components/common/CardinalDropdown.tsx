@@ -9,6 +9,7 @@ const DropdownContainer = styled.div`
   position: relative;
   display: flex;
   width: 76px;
+  min-width: 76px;
   height: 31px;
   box-sizing: border-box;
   font-family: ${theme.font.semiBold};
