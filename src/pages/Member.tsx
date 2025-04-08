@@ -14,24 +14,35 @@ import { toastError } from '@/components/common/ToastMessage';
 const Wrapper = styled.div`
   width: 370px;
   margin-bottom: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const Search = styled.div`
   display: flex;
-  justify-content: space-between;
   border: 1px solid ${theme.color.gray[18]};
   border-radius: 4px;
   padding: 7px 10px;
   margin-bottom: 10px;
+  width: 345px;
+  box-sizing: border-box;
+`;
+
+const Align = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
 `;
 
 const SearchInput = styled.input`
-  width: 230px;
   border: none;
   outline: none;
   background-color: transparent;
   font-size: 16px;
   color: #fff;
+  padding: 0;
+  margin-left: 10px;
 
   &::placeholder {
     font-size: 16px;
@@ -91,13 +102,15 @@ const Member = () => {
           editValue={setSelectedCardinal}
           isMember
         />
-        <SearchInput
-          placeholder="멤버 이름을 검색하세요"
-          value={keyword}
-          onChange={(e) => setKeyword(e.target.value)}
-          onKeyDown={handleEnter}
-        />
-        <SearchButton src={search} alt={search} onClick={handleSearch} />
+        <Align>
+          <SearchInput
+            placeholder="멤버 이름을 검색하세요"
+            value={keyword}
+            onChange={(e) => setKeyword(e.target.value)}
+            onKeyDown={handleEnter}
+          />
+          <SearchButton src={search} alt={search} onClick={handleSearch} />
+        </Align>
       </Search>
       <MemberList searchResults={searchResults} loading={loading} />
     </Wrapper>
