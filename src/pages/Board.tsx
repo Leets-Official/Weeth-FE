@@ -10,7 +10,7 @@ import Loading from '@/components/common/Loading';
 import SlideNotice from '@/components/Board/SlideNotice';
 import useCustomBack from '@/hooks/useCustomBack';
 
-interface Content {
+export interface BoardContent {
   id: number;
   name: string;
   title: string;
@@ -29,7 +29,7 @@ const Board = () => {
   const pathArray = url.pathname.split('/');
   const path = pathArray[1];
 
-  const [posts, setPosts] = useState<Content[]>([]);
+  const [posts, setPosts] = useState<BoardContent[]>([]);
   const [hasMore, setHasMore] = useState(true);
   const [pageNumber, setPageNumber] = useState(0);
   const [observerLoading, setObserverLoading] = useState(false);
