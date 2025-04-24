@@ -92,9 +92,17 @@ const Board = () => {
     return <Loading />;
   }
 
+  const handleRightButton = () => {
+    navigate('/boardSearch');
+  };
+
   return (
     <S.Container>
-      <Header isAccessible RightButtonType="none">
+      <Header
+        isAccessible
+        RightButtonType="SEARCH"
+        onClickRightButton={handleRightButton}
+      >
         게시판
       </Header>
       <S.NoticeTextContainer>
