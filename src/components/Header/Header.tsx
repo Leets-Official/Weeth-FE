@@ -41,12 +41,13 @@ import TextButton from '@/components/Header/TextButton';
 import LeftButton from '@/components/Header/LeftButton';
 import MenuButton from '@/components/Header/MenuButton';
 import PlusButton from '@/components/Header/PlusButton';
+import SearchButton from './SearchBUtton';
 // import EditButton from '@/components/Header/EditButton';
 
 interface HeaderProps {
   children?: React.ReactNode;
   onClickRightButton?: () => void;
-  RightButtonType: 'TEXT' | 'MENU' | 'PLUS' | 'EDIT' | 'none';
+  RightButtonType: 'TEXT' | 'MENU' | 'PLUS' | 'EDIT' | 'SEARCH' | 'none';
   isComplete?: boolean;
   isAccessible: boolean;
   isWaiting?: boolean;
@@ -100,6 +101,10 @@ const Header = ({
       {/* {RightButtonType === 'EDIT' && onClickRightButton && (
         <EditButton onClick={onClickRightButton} />
       )} */}
+
+      {RightButtonType === 'SEARCH' && onClickRightButton && isAccessible && (
+        <SearchButton onClick={onClickRightButton} />
+      )}
 
       {RightButtonType !== 'none' && !isAccessible && <None />}
       {RightButtonType === 'none' && <None />}
