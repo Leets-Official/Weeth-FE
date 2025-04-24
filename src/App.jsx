@@ -37,6 +37,7 @@ import Board from '@/pages/Board';
 import BoardNoticePost from '@/pages/BoardNoticePost';
 import BoardNoticeEdit from '@/pages/BoardNoticeEdit';
 import { CustomToastContainer } from '@/components/common/ToastMessage';
+import BoardSearch from './pages/BoardSearch';
 
 const App = () => {
   return (
@@ -75,6 +76,7 @@ const App = () => {
         <Route path="/board" element={<Board />} />
         <Route path="/board/:postId" element={<BoardDetail />} />
         <Route path="/board/:postId/edit" element={<BoardNoticeEdit />} />
+        <Route path="/board/search" element={<BoardSearch />} />
 
         <Route path="/admin" element={<AdminMember />} />
         <Route path="/admin/attendance" element={<AdminAttendance />} />
