@@ -93,7 +93,7 @@ const Board = () => {
   }
 
   const handleRightButton = () => {
-    navigate('/boardSearch');
+    navigate('/board/search');
   };
 
   return (
