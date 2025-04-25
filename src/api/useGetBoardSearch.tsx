@@ -29,7 +29,7 @@ const BASE_URL = import.meta.env.VITE_API_URL;
 const useGetBoardSearch = async (
   keyword: string,
   pageNumber: number,
-  setPosts: React.Dispatch<React.SetStateAction<Content[]>>,
+  appendPosts: (newPosts: Content[]) => void,
   setHasMore: React.Dispatch<React.SetStateAction<boolean>>,
   setObserverLoading: React.Dispatch<React.SetStateAction<boolean>>,
 ) => {
@@ -44,7 +44,7 @@ const useGetBoardSearch = async (
     );
 
     const { data } = response.data;
-    setPosts((prevPosts) => [...prevPosts, ...data.content]);
+    appendPosts(data.content);
     setHasMore(!data.last);
   } catch (error) {
     console.error('Error fetching data:', error);
