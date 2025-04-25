@@ -20,19 +20,19 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 370px;
-  max-width: 370px;
-  padding-bottom: 50px;
+  width: 23.125rem;
+  max-width: 23.125rem;
+  padding-bottom: 3.125rem;
 `;
 
 const Search = styled.div`
   display: flex;
   justify-content: space-between;
   border: 1px solid ${theme.color.gray[18]};
-  border-radius: 4px;
-  padding: 7px 12px;
-  margin-top: 20px;
-  width: 345px;
+  border-radius: 0.25rem;
+  padding: 0.4375rem 0.75rem;
+  margin-top: 1.25rem;
+  width: 21.5625rem;
   box-sizing: border-box;
   transition: border 0.2s;
 
@@ -45,19 +45,19 @@ export const SearchInput = styled.input`
   border: none;
   outline: none;
   background-color: transparent;
-  font-size: 16px;
+  font-size: 1rem;
   color: #fff;
   padding: 0;
-  width: 230px;
+  width: 14.375rem;
 
   &::placeholder {
-    font-size: 16px;
+    font-size: 1rem;
     color: ${theme.color.gray[65]};
   }
 `;
 
 const Divider = styled.img`
-  margin: 0 12px;
+  margin: 0 0.75rem;
 `;
 
 const SearchButton = styled.img`
@@ -65,22 +65,22 @@ const SearchButton = styled.img`
 `;
 
 const TotalSearch = styled.div`
-  margin: 15px 0 0 23px;
-  font-size: 12px;
+  margin: 0.9375rem 0 0 1.4375rem;
+  font-size: 0.75rem;
   color: ${theme.color.gray[65]};
   align-self: start;
 `;
 
 const NoResultBox = styled.div`
-  margin: 15px 0;
-  width: 345px;
-  height: 63px;
+  margin: 0.9375rem 0;
+  width: 21.5625rem;
+  height: 3.9375rem;
   border: none;
-  border-radius: 5px;
+  border-radius: 0.3125rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 500;
   color: ${theme.color.gray[65]};
   background-color: ${theme.color.gray[18]};
