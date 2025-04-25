@@ -2,7 +2,7 @@
 import Header from '@/components/Header/Header';
 import theme from '@/styles/theme';
 import PostListItem from '@/components/Board/PostListItem';
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 import search from '@/assets/images/ic_search.svg';
 import * as S from '@/styles/board/Board.styled';
@@ -32,9 +32,6 @@ const Search = styled.div`
   margin-top: 20px;
   width: 345px;
   box-sizing: border-box;
-  &:focus {
-    border: 1px solid ${theme.color.gray[65]};
-  }
 `;
 
 export const SearchInput = styled.input`
@@ -81,80 +78,41 @@ const NoResultBox = styled.div`
 const BoardSearch = () => {
   const [keyword, setKeyword] = useState('');
   const [posts, setPosts] = useState<BoardContent[]>([]);
-  const [hasMore, setHasMore] = useState(true);
   const [isSearched, setIsSearched] = useState(false);
-  const [pageNumber, setPageNumber] = useState(0);
   const [loading, setLoading] = useState(false);
-  const observerRef = useRef<HTMLDivElement | null>(null);
-  const isFetchingRef = useRef(false);
   const navigate = useNavigate();
 
   useCustomBack('/board');
 
   const fetchData = async () => {
-    if (isFetchingRef.current || !hasMore || !keyword.trim()) return;
+    if (!keyword.trim()) return;
 
-    isFetchingRef.current = true;
+    setLoading(true);
     try {
-      await useGetBoardSearch(
-        keyword,
-        pageNumber,
-        (newPosts) => {
-          setPosts((prev) => {
-            const existingIds = new Set(prev.map((p) => p.id));
-            const unique = newPosts.filter((p) => !existingIds.has(p.id));
-            return [...prev, ...unique];
-          });
-        },
-        setHasMore,
-        () => {},
-      );
+      await useGetBoardSearch(keyword, 0, (newPosts) => {
+        setPosts(newPosts);
+      });
     } catch (error) {
       toastError('데이터를 불러오지 못했습니다.');
       console.log(error);
     } finally {
-      isFetchingRef.current = false;
       setLoading(false);
     }
   };
 
   const handleSearch = () => {
     if (!keyword.trim()) return;
-    setPosts([]);
-    setHasMore(true);
-    setPageNumber(0);
     setIsSearched(true);
-    setLoading(true);
-  };
-
-  useEffect(() => {
-    if (!keyword.trim()) return;
+    setPosts([]); // 검색할 때 이전 결과 초기화
     fetchData();
-  }, [pageNumber]);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const firstEntry = entries[0];
-        if (firstEntry.isIntersecting && hasMore && !isFetchingRef.current) {
-          setPageNumber((prev) => prev + 1);
-        }
-      },
-      { root: null, rootMargin: '0px', threshold: 0.1 },
-    );
-
-    if (observerRef.current) observer.observe(observerRef.current);
-
-    return () => {
-      if (observerRef.current) observer.unobserve(observerRef.current);
-    };
-  }, [hasMore]);
+  };
 
   return (
     <Container>
       <Header RightButtonType="none" isAccessible>
         게시판 검색
       </Header>
+
       <Search>
         <SearchInput
           placeholder="제목, 내용 검색"
@@ -202,15 +160,6 @@ const BoardSearch = () => {
               <S.Line />
             </S.PostListContainer>
           ))}
-          {hasMore && (
-            <div
-              ref={observerRef}
-              style={{ height: '20px', backgroundColor: 'transparent' }}
-            />
-          )}
-          {!hasMore && posts.length > 10 && (
-            <S.Text>마지막 게시물입니다.</S.Text>
-          )}
         </>
       )}
     </Container>
