@@ -42,7 +42,6 @@ export const TitleText = styled.div`
 export const Divider = styled.span`
   color: ${theme.color.gray[30]};
   font-size: 12px;
-  padding-bottom: 3px;
 `;
 
 export const ContentText = styled.div`
@@ -83,9 +82,7 @@ export const ImgContainer = styled.img`
 `;
 
 export const FileIcon = styled.img`
-  padding-top: 3px;
-  height: 8.92px;
-  width: 10px;
+  height: 12px;
 `;
 
 export const PositionIcon = styled.img`
