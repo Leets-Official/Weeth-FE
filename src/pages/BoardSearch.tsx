@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import Header from '@/components/Header/Header';
 import theme from '@/styles/theme';
 import PostListItem from '@/components/Board/PostListItem';
@@ -10,18 +11,30 @@ import useCustomBack from '@/hooks/useCustomBack';
 import Loading from '@/components/common/Loading';
 import { useNavigate } from 'react-router-dom';
 import formatDate from '@/hooks/formatDate';
-import { BoardContent } from './Board';
 import { toastError } from '@/components/common/ToastMessage';
+import { BoardContent } from './Board';
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 370px;
+  max-width: 370px;
+  padding-top: 0;
+`;
 
 const Search = styled.div`
   display: flex;
   justify-content: space-between;
   border: 1px solid ${theme.color.gray[18]};
   border-radius: 4px;
-  padding: 7px 10px;
+  padding: 7px 12px;
   margin-top: 20px;
   width: 345px;
   box-sizing: border-box;
+  &:focus {
+    border: 1px solid ${theme.color.gray[65]};
+  }
 `;
 
 export const SearchInput = styled.input`
@@ -32,7 +45,6 @@ export const SearchInput = styled.input`
   color: #fff;
   padding: 0;
   width: 211px;
-  margin-left: 10px;
 
   &::placeholder {
     font-size: 16px;
@@ -48,87 +60,98 @@ const TotalSearch = styled.div`
   margin: 15px 0 0 15px;
   font-size: 12px;
   color: ${theme.color.gray[65]};
+  align-self: start;
+`;
+
+const NoResultBox = styled.div`
+  margin: 15px 0;
+  width: 345px;
+  height: 63px;
+  border: none;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 500;
+  color: ${theme.color.gray[65]};
+  background-color: ${theme.color.gray[18]};
 `;
 
 const BoardSearch = () => {
   const [keyword, setKeyword] = useState('');
   const [posts, setPosts] = useState<BoardContent[]>([]);
-  const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
+  const [isSearched, setIsSearched] = useState(false);
   const [pageNumber, setPageNumber] = useState(0);
-  const [observerLoading, setObserverLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const observerRef = useRef<HTMLDivElement | null>(null);
+  const isFetchingRef = useRef(false);
   const navigate = useNavigate();
 
   useCustomBack('/board');
 
-  const handleSearch = async () => {
-    setLoading(true);
+  const fetchData = async () => {
+    if (isFetchingRef.current || !hasMore || !keyword.trim()) return;
+
+    isFetchingRef.current = true;
     try {
       await useGetBoardSearch(
         keyword,
         pageNumber,
-        setPosts,
+        (newPosts) => {
+          setPosts((prev) => {
+            const existingIds = new Set(prev.map((p) => p.id));
+            const unique = newPosts.filter((p) => !existingIds.has(p.id));
+            return [...prev, ...unique];
+          });
+        },
         setHasMore,
-        setObserverLoading,
+        () => {},
       );
     } catch (error) {
       toastError('데이터를 불러오지 못했습니다.');
-      // eslint-disable-next-line no-console
-      console.error(error);
+      console.log(error);
     } finally {
+      isFetchingRef.current = false;
       setLoading(false);
     }
   };
 
-  console.log(posts);
+  const handleSearch = () => {
+    if (!keyword.trim()) return;
+    setPosts([]);
+    setHasMore(true);
+    setPageNumber(0);
+    setIsSearched(true);
+    setLoading(true);
+  };
 
-  // const isFetchingRef = useRef(false);
+  useEffect(() => {
+    if (!keyword.trim()) return;
+    fetchData();
+  }, [pageNumber]);
 
-  // const fetchData = async () => {
-  //   if (isFetchingRef.current || !hasMore) return;
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const firstEntry = entries[0];
+        if (firstEntry.isIntersecting && hasMore && !isFetchingRef.current) {
+          setPageNumber((prev) => prev + 1);
+        }
+      },
+      { root: null, rootMargin: '0px', threshold: 0.1 },
+    );
 
-  //   isFetchingRef.current = true;
+    if (observerRef.current) observer.observe(observerRef.current);
 
-  //   await useGetBoardSearch(
-  //     keyword,
-  //     pageNumber,
-  //     setPosts,
-  //     setHasMore,
-  //     setObserverLoading,
-  //   );
-
-  //   isFetchingRef.current = false;
-  //   if (loading) setLoading(false);
-  // };
-
-  // useEffect(() => {
-  //   if (pageNumber === 0 && !loading) return; // 초기 진입 시 제외
-  //   fetchData();
-  // }, [pageNumber]);
-
-  // useEffect(() => {
-  //   const observer = new IntersectionObserver(
-  //     (entries) => {
-  //       const firstEntry = entries[0];
-  //       if (firstEntry.isIntersecting && hasMore && !isFetchingRef.current) {
-  //         setPageNumber((prev) => prev + 1);
-  //       }
-  //     },
-  //     { root: null, rootMargin: '0px', threshold: 0.1 },
-  //   );
-
-  //   if (observerRef.current) observer.observe(observerRef.current);
-
-  //   return () => {
-  //     if (observerRef.current) observer.unobserve(observerRef.current);
-  //   };
-  // }, [hasMore, observerLoading]);
-
-  if (loading) return <Loading />;
+    return () => {
+      if (observerRef.current) observer.unobserve(observerRef.current);
+    };
+  }, [hasMore]);
 
   return (
-    <div>
+    <Container>
       <Header RightButtonType="none" isAccessible>
         게시판 검색
       </Header>
@@ -143,33 +166,54 @@ const BoardSearch = () => {
         />
         <SearchButton src={search} alt="search" onClick={handleSearch} />
       </Search>
-      <TotalSearch>검색 결과 {posts.length}개</TotalSearch>
-      {posts.map((post) => (
-        <S.PostListContainer key={post.id}>
-          <S.PostListItemContainer>
-            <PostListItem
-              name={post.name}
-              time={formatDate(post.time)}
-              title={post.title}
-              content={post.content}
-              totalComments={post.commentCount}
-              hasFile={post.hasFile}
-              position={post.position}
-              role={post.role}
-              onClick={() => navigate(`/board/${post.id}`)}
-            />
-          </S.PostListItemContainer>
-          <S.Line />
-        </S.PostListContainer>
-      ))}
-      {hasMore && (
-        <div
-          ref={observerRef}
-          style={{ height: '20px', backgroundColor: 'transparent' }}
-        />
+
+      {!isSearched || (isSearched && posts.length === 0) ? (
+        <>
+          <TotalSearch>
+            찾으려는 게시판의 제목이나 내용을 작성하고 검색하세요.
+          </TotalSearch>
+          {isSearched && posts.length === 0 && !loading && (
+            <NoResultBox>검색 결과가 없습니다</NoResultBox>
+          )}
+        </>
+      ) : (
+        <TotalSearch>검색 결과 {posts.length}개</TotalSearch>
       )}
-      {!hasMore && posts.length > 10 && <S.Text>마지막 게시물입니다.</S.Text>}
-    </div>
+
+      {loading ? (
+        <Loading />
+      ) : (
+        <>
+          {posts.map((post) => (
+            <S.PostListContainer key={post.id}>
+              <S.PostListItemContainer>
+                <PostListItem
+                  name={post.name}
+                  time={formatDate(post.time)}
+                  title={post.title}
+                  content={post.content}
+                  totalComments={post.commentCount}
+                  hasFile={post.hasFile}
+                  position={post.position}
+                  role={post.role}
+                  onClick={() => navigate(`/board/${post.id}`)}
+                />
+              </S.PostListItemContainer>
+              <S.Line />
+            </S.PostListContainer>
+          ))}
+          {hasMore && (
+            <div
+              ref={observerRef}
+              style={{ height: '20px', backgroundColor: 'transparent' }}
+            />
+          )}
+          {!hasMore && posts.length > 10 && (
+            <S.Text>마지막 게시물입니다.</S.Text>
+          )}
+        </>
+      )}
+    </Container>
   );
 };
 
