@@ -46,6 +46,8 @@ const Dues: React.FC = () => {
   }
   if (loading || userLoading) return <Loading />;
 
+  console.log(duesInfo);
+
   return (
     <S.StyledDues>
       <Header RightButtonType="none" isAccessible>
@@ -71,6 +73,7 @@ const Dues: React.FC = () => {
                 category="회비"
                 date="2024-04-01"
                 memo={duesInfo.description}
+                source={duesInfo.description}
               />
             )}
             {selected !== '회비' &&
@@ -81,6 +84,7 @@ const Dues: React.FC = () => {
                   category="지출"
                   date={receipt.date}
                   memo={receipt.description}
+                  source={receipt.source}
                 />
               ))}
           </S.DuesList>
