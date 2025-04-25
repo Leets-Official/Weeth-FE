@@ -32,8 +32,7 @@ export const AllText = styled.div`
 
 export const ScrollContainer = styled.div`
   display: flex;
-  width: calc(100% - 60px);
-  padding: 0 20px;
+  margin-left: 15px;
   overflow-x: auto;
   gap: 10px;
   cursor: grab;
@@ -93,7 +92,7 @@ export const NoticeContent = styled.p`
 export const TabContainerWrapper = styled.div`
   display: flex;
   align-items: start;
-  margin: 30px 25px 10px 18px;
+  margin: 30px 25px 10px 15px;
 `;
 
 export const TabContainer = styled.div`
@@ -117,7 +116,7 @@ export const Underline = styled.div`
 `;
 
 export const PostListContainer = styled.div`
-  margin: 0px 20px;
+  margin: 0px 7.5px;
 `;
 
 export const PostListItemContainer = styled.div`
@@ -131,8 +130,8 @@ export const PostListItemContainer = styled.div`
 
 export const Line = styled.div`
   border: 1px solid;
-  color: ${(props) => props.theme.color.gray[30]};
-  margin-top: 2px;
+  margin: 0px 5px;
+  color: ${(props) => props.theme.color.gray[18]};
 `;
 
 export const Text = styled.div`
