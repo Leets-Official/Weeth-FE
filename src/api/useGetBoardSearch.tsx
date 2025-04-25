@@ -35,7 +35,7 @@ const useGetBoardSearch = async (
     const response = await api.get<ApiResponse>(
       `${BASE_URL}/api/v1/board/search`,
       {
-        params: { keyword, pageNumber, pageSize: 10 },
+        params: { keyword, pageNumber, pageSize: 50 },
       },
     );
 

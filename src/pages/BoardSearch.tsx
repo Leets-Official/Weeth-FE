@@ -12,6 +12,8 @@ import Loading from '@/components/common/Loading';
 import { useNavigate } from 'react-router-dom';
 import formatDate from '@/hooks/formatDate';
 import { toastError } from '@/components/common/ToastMessage';
+import DividerLine from '@/assets/images/ic_search_divider.svg';
+import Delete from '@/assets/images/ic_circle_close.svg';
 import { BoardContent } from './Board';
 
 const Container = styled.div`
@@ -20,7 +22,7 @@ const Container = styled.div`
   align-items: center;
   width: 370px;
   max-width: 370px;
-  padding-top: 0;
+  padding-bottom: 50px;
 `;
 
 const Search = styled.div`
@@ -32,6 +34,11 @@ const Search = styled.div`
   margin-top: 20px;
   width: 345px;
   box-sizing: border-box;
+  transition: border 0.2s;
+
+  &:focus-within {
+    border: 1px solid ${theme.color.gray[65]};
+  }
 `;
 
 export const SearchInput = styled.input`
@@ -41,7 +48,7 @@ export const SearchInput = styled.input`
   font-size: 16px;
   color: #fff;
   padding: 0;
-  width: 211px;
+  width: 230px;
 
   &::placeholder {
     font-size: 16px;
@@ -49,12 +56,16 @@ export const SearchInput = styled.input`
   }
 `;
 
+const Divider = styled.img`
+  margin: 0 12px;
+`;
+
 const SearchButton = styled.img`
   cursor: pointer;
 `;
 
 const TotalSearch = styled.div`
-  margin: 15px 0 0 15px;
+  margin: 15px 0 0 23px;
   font-size: 12px;
   color: ${theme.color.gray[65]};
   align-self: start;
@@ -103,8 +114,14 @@ const BoardSearch = () => {
   const handleSearch = () => {
     if (!keyword.trim()) return;
     setIsSearched(true);
-    setPosts([]); // 검색할 때 이전 결과 초기화
+    setPosts([]);
     fetchData();
+  };
+
+  const handleDelete = () => {
+    setKeyword('');
+    setPosts([]);
+    setIsSearched(false);
   };
 
   return (
@@ -122,7 +139,17 @@ const BoardSearch = () => {
             if (e.key === 'Enter') handleSearch();
           }}
         />
-        <SearchButton src={search} alt="search" onClick={handleSearch} />
+        <div>
+          {keyword && (
+            <SearchButton
+              src={Delete}
+              alt="검색어 삭제"
+              onClick={handleDelete}
+            />
+          )}
+          <Divider src={DividerLine} alt="구분선" />
+          <SearchButton src={search} alt="search" onClick={handleSearch} />
+        </div>
       </Search>
 
       {!isSearched || (isSearched && posts.length === 0) ? (
