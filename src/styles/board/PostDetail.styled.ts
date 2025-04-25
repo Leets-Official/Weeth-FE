@@ -4,48 +4,49 @@ import styled from 'styled-components';
 export const PostMainContainer = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 5px 23px 0 23px;
+  margin: 0.3125rem 1.4375rem 0 1.4375rem;
   word-break: break-all;
 `;
 
 export const PostMainTitleText = styled.div`
   font-family: ${theme.font.semiBold};
-  font-size: 24px;
+  font-size: 1.5rem;
 `;
 
 export const SmallText = styled.div`
   color: ${theme.color.gray[65]};
-  font-size: 12px;
+  font-size: 0.75rem;
   display: flex;
   flex-direction: row;
-  margin-top: 10px;
+  margin-top: 0.625rem;
   align-items: center;
 `;
 
 export const DateText = styled.div`
-  margin-left: 10px;
+  margin-left: 0.625rem;
 `;
 
 export const CommentText = styled.div`
-  font-size: 12px;
+  font-size: 0.75rem;
   display: flex;
   flex-direction: row;
-  line-height: 14.32px;
-  gap: 4px;
+  line-height: 0.895rem;
+  gap: 0.25rem;
   font-family: ${theme.font.semiBold};
-  margin: 14px 0 10px 0;
+  margin: 0.875rem 0 0.625rem 0;
 `;
+
 export const PositionIcon = styled.img`
-  height: 16px;
-  width: 16px;
-  margin-right: 5px;
+  height: 1rem;
+  width: 1rem;
+  margin-right: 0.3125rem;
 `;
 
 export const PostingContianer = styled.div`
-  font-size: 16px;
-  line-height: 19.09px;
+  font-size: 1rem;
+  line-height: 1.1931rem;
   white-space: pre-wrap;
-  margin: 20px 0 20px 0;
+  margin: 1.25rem 0 1.25rem 0;
 
   a {
     color: ${theme.color.main};
