@@ -4,13 +4,13 @@ import styled from 'styled-components';
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  width: 370px;
-  max-width: 370px;
-  margin-bottom: 50px;
+  width: 23.125rem;
+  max-width: 23.125rem;
+  margin-bottom: 3.125rem;
 `;
 
 export const NoticeTextContainer = styled.div`
-  margin: 10px 25px 10px 15px;
+  margin: 0.625rem 1.5625rem 0.625rem 0.9375rem;
   display: flex;
   flex-direction: row;
   text-align: center;
@@ -18,30 +18,31 @@ export const NoticeTextContainer = styled.div`
 `;
 
 export const NoticeTitleText = styled.div`
-  font-size: 16px;
+  font-size: 1rem;
   font-family: ${theme.font.semiBold};
-  line-height: 19.2px;
+  line-height: 1.2rem;
 `;
 
 export const AllText = styled.div`
-  font-size: 12px;
+  font-size: 0.75rem;
   color: ${theme.color.gray[65]};
   cursor: pointer;
-  margin-top: 3px;
+  margin-top: 0.1875rem;
 `;
 
 export const ScrollContainer = styled.div`
   display: flex;
-  margin-left: 15px;
+  margin-left: 0.9375rem;
   overflow-x: auto;
-  gap: 10px;
+  gap: 0.625rem;
   cursor: grab;
+
   &::-webkit-scrollbar {
     display: none;
   }
 
   &::-webkit-scrollbar-thumb {
-    border-radius: 4px;
+    border-radius: 0.25rem;
     background: ${theme.color.gray[65]};
   }
 `;
@@ -51,14 +52,14 @@ export const NoticeCard = styled.div`
   background-color: ${theme.color.gray[30]};
   color: white;
   font-family: ${theme.font.semiBold};
-  border-radius: 10px;
-  width: 212px;
-  height: 60px;
+  border-radius: 0.625rem;
+  width: 13.25rem;
+  height: 3.75rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
   text-decoration: none;
-  font-size: 14px;
+  font-size: 0.875rem;
   line-height: 1.4;
 
   &:nth-child(1) {
@@ -74,16 +75,16 @@ export const NoticeCard = styled.div`
 `;
 
 export const NoticeTitle = styled.div`
-  font-size: 12px;
+  font-size: 0.75rem;
   font-family: ${theme.font.semiBold};
-  line-height: 14.4px;
-  margin: 15px 21px 0 15px;
+  line-height: 0.9rem;
+  margin: 0.9375rem 1.3125rem 0 0.9375rem;
 `;
 
 export const NoticeContent = styled.p`
-  font-size: 10px;
+  font-size: 0.625rem;
   color: ${theme.color.gray[65]};
-  margin: 5px 25px 13px 15px;
+  margin: 0.3125rem 1.5625rem 0.8125rem 0.9375rem;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -92,7 +93,7 @@ export const NoticeContent = styled.p`
 export const TabContainerWrapper = styled.div`
   display: flex;
   align-items: start;
-  margin: 30px 25px 10px 15px;
+  margin: 1.875rem 1.5625rem 0.625rem 0.9375rem;
 `;
 
 export const TabContainer = styled.div`
@@ -103,24 +104,24 @@ export const TabContainer = styled.div`
 `;
 
 export const TabText = styled.div`
-  font-size: 16px;
+  font-size: 1rem;
   color: white;
   font-family: ${theme.font.semiBold};
 `;
 
 export const Underline = styled.div`
-  width: 90px;
-  height: 2px;
+  width: 5.625rem;
+  height: 0.125rem;
   background-color: ${theme.color.main};
-  margin-top: 5px;
+  margin-top: 0.3125rem;
 `;
 
 export const PostListContainer = styled.div`
-  margin: 0px 7.5px;
+  margin: 0 0.46875rem;
 `;
 
 export const PostListItemContainer = styled.div`
-  padding: 0px 5px;
+  padding: 0 0.3125rem;
   transition: background-color 0.2s ease-in-out;
 
   &:hover {
@@ -130,22 +131,22 @@ export const PostListItemContainer = styled.div`
 
 export const Line = styled.div`
   border: 1px solid;
-  margin: 0px 5px;
+  margin: 0 0.3125rem;
   color: ${(props) => props.theme.color.gray[18]};
 `;
 
 export const Text = styled.div`
   text-align: center;
-  margin: 10px;
+  margin: 0.625rem;
   font-family: ${theme.font.semiBold};
 `;
 
 export const PostingButtonContainer = styled.div`
   position: fixed;
   display: flex;
-  bottom: 15px;
+  bottom: 0.9375rem;
   justify-content: end;
   width: 100%;
-  max-width: 23.438rem;
+  max-width: 23.4375rem;
   z-index: 10;
 `;
