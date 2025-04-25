@@ -14,7 +14,7 @@ import formatDate from '@/hooks/formatDate';
 import { toastError } from '@/components/common/ToastMessage';
 import DividerLine from '@/assets/images/ic_search_divider.svg';
 import Delete from '@/assets/images/ic_circle_close.svg';
-import { BoardContent } from './Board';
+import { BoardContent } from '@/pages/Board';
 
 const Container = styled.div`
   display: flex;
