@@ -60,8 +60,12 @@ const Divider = styled.img`
   margin: 0 0.75rem;
 `;
 
-const SearchButton = styled.img`
+const SearchButton = styled.img<{ disabled?: boolean }>`
   cursor: pointer;
+  filter: ${(props) =>
+    props.disabled
+      ? 'brightness(0) saturate(100%) invert(67%) sepia(0%) saturate(0%) hue-rotate(180deg) brightness(93%) contrast(86%)'
+      : 'none'};
 `;
 
 const TotalSearch = styled.div`
@@ -148,7 +152,12 @@ const BoardSearch = () => {
             />
           )}
           <Divider src={DividerLine} alt="구분선" />
-          <SearchButton src={search} alt="search" onClick={handleSearch} />
+          <SearchButton
+            src={search}
+            alt="search"
+            onClick={handleSearch}
+            disabled={!keyword}
+          />
         </div>
       </Search>
 
