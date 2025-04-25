@@ -30,11 +30,7 @@ const useGetBoardSearch = async (
   keyword: string,
   pageNumber: number,
   appendPosts: (newPosts: Content[]) => void,
-  setHasMore: React.Dispatch<React.SetStateAction<boolean>>,
-  setObserverLoading: React.Dispatch<React.SetStateAction<boolean>>,
 ) => {
-  setObserverLoading(true);
-
   try {
     const response = await api.get<ApiResponse>(
       `${BASE_URL}/api/v1/board/search`,
@@ -45,11 +41,8 @@ const useGetBoardSearch = async (
 
     const { data } = response.data;
     appendPosts(data.content);
-    setHasMore(!data.last);
   } catch (error) {
     console.error('Error fetching data:', error);
-  } finally {
-    setObserverLoading(false);
   }
 };
 
