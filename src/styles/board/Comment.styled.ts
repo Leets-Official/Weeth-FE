@@ -1,13 +1,12 @@
 import theme from '@/styles/theme';
 import styled from 'styled-components';
 
-// Comment.tsx
 export const CommentContainer = styled.div<{ $isSelect: boolean }>`
-  width: calc(100% - 20px);
+  width: calc(100% - 1.25rem);
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
-  padding: 10px;
+  padding: 0.625rem;
   background-color: ${(props) =>
     props.$isSelect ? '#508FFF1A' : 'transparent'};
   transition: background-color 0.3s ease;
@@ -23,28 +22,28 @@ export const CommentContentContainer = styled.div`
 export const ButtonContainer = styled.div`
   display: flex;
   flex-direction: row;
-  gap: 5px;
+  gap: 0.3125rem;
   align-items: start;
 `;
 
 export const NameText = styled.div`
   font-family: ${theme.font.semiBold};
-  font-size: 14px;
+  font-size: 0.875rem;
   display: flex;
   flex-direction: row;
   align-items: center;
 `;
 
 export const PositionIcon = styled.img`
-  height: 20px;
-  width: 20px;
-  margin-right: 5px;
+  height: 1.25rem;
+  width: 1.25rem;
+  margin-right: 0.3125rem;
 `;
 
 export const ContentText = styled.div`
-  font-size: 16px;
-  line-height: 19.09px;
-  margin-top: 10px;
+  font-size: 1rem;
+  line-height: 1.1931rem;
+  margin-top: 0.625rem;
 
   a {
     color: ${theme.color.main};
@@ -58,8 +57,8 @@ export const ContentText = styled.div`
 
 export const DateText = styled.div`
   color: ${theme.color.gray[65]};
-  font-size: 12px;
-  margin-top: 5px;
+  font-size: 0.75rem;
+  margin-top: 0.3125rem;
 `;
 
 export const ImageButton = styled.button`
@@ -69,28 +68,27 @@ export const ImageButton = styled.button`
   cursor: pointer;
 `;
 
-// ReplyComment.tsx
 export const ReplyCommentContainer = styled.div`
   width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   align-items: flex-start;
-  padding: 10px 0;
+  padding: 0.625rem 0;
   word-break: break-all;
 `;
 
 export const ReplyArrow = styled.img`
-  width: 16px;
-  height: 16px;
-  margin-right: 5px;
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.3125rem;
 `;
 
 export const ReplyContentContainer = styled.div`
   flex: 1;
   background-color: ${theme.color.gray[18]};
-  border-radius: 8px;
-  padding: 10px;
+  border-radius: 0.5rem;
+  padding: 0.625rem;
   display: flex;
   flex-direction: column;
   position: relative;
@@ -102,6 +100,6 @@ export const ReplyImageButton = styled.button`
   padding: 0;
   cursor: pointer;
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 0.625rem;
+  right: 0.625rem;
 `;

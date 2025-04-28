@@ -14,6 +14,9 @@ import { toastError } from '@/components/common/ToastMessage';
 const Wrapper = styled.div`
   width: 370px;
   margin-bottom: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const Search = styled.div`
@@ -23,15 +26,19 @@ const Search = styled.div`
   border-radius: 4px;
   padding: 7px 10px;
   margin-bottom: 10px;
+  width: 345px;
+  box-sizing: border-box;
 `;
 
-const SearchInput = styled.input`
-  width: 230px;
+export const SearchInput = styled.input`
   border: none;
   outline: none;
   background-color: transparent;
   font-size: 16px;
   color: #fff;
+  padding: 0;
+  width: 211px;
+  margin-left: 10px;
 
   &::placeholder {
     font-size: 16px;

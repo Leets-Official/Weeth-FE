@@ -1,13 +1,10 @@
 import { useNavigate } from 'react-router-dom';
-
 import BE from '@/assets/images/ic_BE.svg';
 import D from '@/assets/images/ic_DE.svg';
 import FE from '@/assets/images/ic_FE.svg';
 import PM from '@/assets/images/ic_PM.svg';
-
 import Master from '@/assets/images/ic_Master_BW.svg';
-
-import * as S from '@/styles/member/MemberName.styled';
+import * as S from '@/styles/member/MemberItem.styled';
 
 interface MemberItemProps {
   userId: number;
