@@ -37,7 +37,7 @@ import Board from '@/pages/Board';
 import BoardNoticePost from '@/pages/BoardNoticePost';
 import BoardNoticeEdit from '@/pages/BoardNoticeEdit';
 import { CustomToastContainer } from '@/components/common/ToastMessage';
-import BoardSearch from './pages/BoardSearch';
+import BoardSearch from '@/pages/BoardSearch';
 
 import PrivateRoute from './components/common/PrivateRoute';
 
