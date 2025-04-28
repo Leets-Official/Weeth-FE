@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-
 import search from '@/assets/images/ic_search.svg';
 
 const ImgButton = styled.div`
