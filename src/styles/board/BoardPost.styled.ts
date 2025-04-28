@@ -5,8 +5,9 @@ export const PostWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 370px;
-  padding-bottom: 20px;
+  width: 23.125rem;
+  padding-bottom: 1.25rem;
+
   ul {
     margin: 0;
   }
@@ -16,14 +17,14 @@ export const TitleInput = styled.input`
   background-color: transparent;
   border: none;
   outline: none;
-  margin: 0 20px;
-  padding: 20px 0;
+  margin: 0 1.25rem;
+  padding: 1.25rem 0;
   color: white;
-  font-size: 16px;
+  font-size: 1rem;
   font-family: ${theme.font.semiBold};
 
   &::placeholder {
-    font-size: 16px;
+    font-size: 1rem;
     font-family: ${theme.font.semiBold};
   }
 `;
@@ -34,12 +35,12 @@ export const ContentInput = styled.textarea`
   border: none;
   outline: none;
   resize: none;
-  margin: 0 20px;
-  padding: 20px 0 0 0;
+  margin: 0 1.25rem;
+  padding: 1.25rem 0 0 0;
   color: white;
-  font-size: 16px;
+  font-size: 1rem;
 
   &::placeholder {
-    font-size: 16px;
+    font-size: 1rem;
   }
 `;

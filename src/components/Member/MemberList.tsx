@@ -10,6 +10,7 @@ import Loading from '../common/Loading';
 const List = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 10px;
 `;
 
@@ -40,8 +41,6 @@ const MemberList = ({
   const [hasNoMember, setHasNoMember] = useState(false);
   const observerRef = useRef<HTMLDivElement | null>(null);
 
-  console.log(pageNumber);
-
   useEffect(() => {
     setPageNumber(0);
     setMembers([]);
@@ -57,8 +56,6 @@ const MemberList = ({
     setObserverLoading,
     setHasNoMember,
   );
-
-  console.log('hasNomember', hasNoMember);
 
   // Intersection Observer 설정
   useEffect(() => {

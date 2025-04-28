@@ -7,9 +7,16 @@ interface DuseInfoProps {
   category: string;
   date: string;
   memo: string;
+  source: string;
 }
 
-const DuesInfo: React.FC<DuseInfoProps> = ({ dues, category, date, memo }) => {
+const DuesInfo: React.FC<DuseInfoProps> = ({
+  dues,
+  category,
+  date,
+  memo,
+  source,
+}) => {
   return (
     <S.DuesWrapper>
       <S.StyledDuesBox>
@@ -20,13 +27,13 @@ const DuesInfo: React.FC<DuseInfoProps> = ({ dues, category, date, memo }) => {
             <Caption color={theme.color.negative}>지출</Caption>
           )}
           <S.StyledTextBox>
-            <S.Text>금액</S.Text>
+            <S.Text>{memo}</S.Text>
             <S.SmallText>{date}</S.SmallText>
           </S.StyledTextBox>
         </S.StyledCaptionBox>
         <S.StyledMemoBox>
           <S.Text>{dues}원</S.Text>
-          <S.SmallTextMemo>{memo}</S.SmallTextMemo>
+          <S.SmallTextMemo>{source}</S.SmallTextMemo>
         </S.StyledMemoBox>
       </S.StyledDuesBox>
     </S.DuesWrapper>
