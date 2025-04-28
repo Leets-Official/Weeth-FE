@@ -13,6 +13,7 @@ export interface Receipt {
   description: string;
   fileUrls: ImageInfo[];
   date: string;
+  source: string;
 }
 
 interface DuesInfo {

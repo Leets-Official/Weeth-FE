@@ -30,7 +30,7 @@ const Search = styled.div`
   box-sizing: border-box;
 `;
 
-const SearchInput = styled.input`
+export const SearchInput = styled.input`
   border: none;
   outline: none;
   background-color: transparent;
