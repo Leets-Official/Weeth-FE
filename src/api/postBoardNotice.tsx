@@ -11,8 +11,9 @@ interface originFile {
 
 // 파일을 업로드할 수 있는 presigned URL을 요청하는 함수
 const getPresignedUrl = async (file: File, fileName: string) => {
+  const encodedName = encodeURIComponent(fileName);
   const res = await api.get(`/files/`, {
-    params: { fileName },
+    params: { fileName: encodedName },
     data: file,
   });
   return res.data;
