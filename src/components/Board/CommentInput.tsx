@@ -6,11 +6,11 @@ import createComment from '@/api/postComment';
 import { toastError } from '@/components/common/ToastMessage';
 
 const Container = styled.div`
-  width: 80%;
+  width: 314px;
   height: 37px;
   display: flex;
   align-items: center;
-  padding-left: 20px;
+  padding: 0 11px 0 20px;
   border-radius: 15px;
   background-color: ${theme.color.main};
   color: white;
