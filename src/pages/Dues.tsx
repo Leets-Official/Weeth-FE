@@ -46,8 +46,6 @@ const Dues: React.FC = () => {
   }
   if (loading || userLoading) return <Loading />;
 
-  console.log(duesInfo);
-
   return (
     <S.StyledDues>
       <Header RightButtonType="none" isAccessible>
