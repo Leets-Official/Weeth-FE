@@ -33,6 +33,7 @@ export const StyledInput = styled.input`
     color: ${theme.color.gray[20]};
   }
   &:focus {
+    border: none;
     outline: 1.5px solid ${theme.color.gray[18]};
   }
 `;
