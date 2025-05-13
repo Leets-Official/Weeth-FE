@@ -85,9 +85,12 @@ const NavMenuList: React.FC = () => {
   const handleExternalNavigation = (id: string, path: string) => {
     setActiveMenu(id);
     if (id === 'service') {
-      window.location.href = path;
+      window.open(path, '_blank');
     } else if (id === 'manual') {
-      console.log('추후 추가');
+      window.open(
+        'https://weeth-develop-2.s3.ap-northeast-2.amazonaws.com/Weeth+관리자+메뉴얼(v2).pdf',
+        '_blank',
+      );
     }
   };
 
