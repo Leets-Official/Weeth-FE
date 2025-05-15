@@ -18,16 +18,16 @@ const SCROLL_DURATION = 20;
 const AnimationLayout = styled.div`
   display: flex;
   background-color: ${theme.color.mainDark};
-  margin-top: 15px;
+  margin-top: 0.9375rem;
   cursor: pointer;
-  height: 30px;
+  height: 1.875rem;
   align-items: center;
 `;
 
 const FlowBox = styled.div`
   position: relative;
   width: 100%;
-  height: 30px;
+  height: 1.875rem;
   overflow: hidden;
 `;
 
@@ -35,20 +35,20 @@ const FlowText = styled.div`
   display: flex;
   align-items: center;
   height: 100%;
-  padding-left: 16px;
+  padding-left: 1rem;
   position: relative;
 `;
 
 const Label = styled.div`
   display: flex;
   font-family: ${theme.font.semiBold};
-  font-size: 13px;
+  font-size: 0.8125rem;
   color: white;
 `;
 
 const TextWrapper = styled.div`
   position: absolute;
-  left: 65px;
+  left: 4.0625rem;
   right: 0;
   top: 0;
   bottom: 0;
@@ -61,8 +61,8 @@ const TextTrack = styled.div`
   display: inline-flex;
   white-space: nowrap;
   animation: ${flowing} ${SCROLL_DURATION}s linear infinite;
-  font-size: 13px;
   animation-delay: 0.5s;
+  font-size: 0.8125rem;
 `;
 
 const BoldText = styled.span`
@@ -72,13 +72,13 @@ const BoldText = styled.span`
 
 const NormalText = styled.span`
   font-family: ${theme.font.regular};
-  margin-left: 6px;
+  margin-left: 0.375rem;
   color: white;
 `;
 
 const Spacer = styled.span`
   display: inline-block;
-  width: 20px;
+  width: 0.9375rem;
 `;
 
 const HomeNotice = ({
