@@ -19,7 +19,6 @@ export const TopDues = styled.div`
   font-size: 24px;
   display: flex;
   align-items: center;
-  margin-bottom: 3%;
 `;
 
 export const Title = styled.div`
