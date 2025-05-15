@@ -3,6 +3,7 @@ import { styled } from 'styled-components';
 import { DirectCardinalProps } from '@/types/adminCardinal';
 import useGetAllCardinals from '@/api/useGetCardinals';
 import CardinalSVG from '@/assets/images/ic_admin_column_meatball.svg';
+import DuesCardinalSVG from '@/assets/images/ic_admin_cardinal.svg';
 import {
   CardinalButton,
   DropdownItem,
@@ -18,6 +19,7 @@ export const StyledCardinal = styled.div`
 const DirectCardinalDropdown: React.FC<DirectCardinalProps> = ({
   selectedCardinal,
   setSelectedCardinal,
+  isForDues,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const { allCardinals } = useGetAllCardinals();
@@ -50,7 +52,7 @@ const DirectCardinalDropdown: React.FC<DirectCardinalProps> = ({
         <div>{getDisplayText()}</div>
 
         <img
-          src={CardinalSVG}
+          src={isForDues ? DuesCardinalSVG : CardinalSVG}
           alt="cardinal"
           className={isOpen ? 'open' : ''}
         />
