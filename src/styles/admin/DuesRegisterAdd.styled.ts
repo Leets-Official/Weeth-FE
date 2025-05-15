@@ -12,7 +12,6 @@ export const Wrapper = styled.div`
   box-sizing: border-box;
   border-radius: 5px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-
   padding-bottom: 30px;
   margin-bottom: 30px;
 `;
@@ -71,6 +70,7 @@ export const CardinalWrapper = styled.div`
 export const DuesInputWrapper = styled.div`
   ${flexMixin(7)};
 `;
+
 export const DescriptionWrapper = styled.div`
   margin-left: 30px;
 `;
@@ -148,5 +148,5 @@ export const ModalFileWrapper = styled.div`
 `;
 
 export const DuesWrapper = styled.div`
-  margin-top: 2%;
+  margin-top: 2px;
 `;
