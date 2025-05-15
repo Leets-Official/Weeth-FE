@@ -48,6 +48,7 @@ const AdminAttendance: React.FC = () => {
             <TotalCardinal
               selectedCardinal={selectedCardinal}
               setSelectedCardinal={setSelectedCardinal}
+              autoSelectLatest
             />
             <AttendanceWrapper>
               <Attendance selectedCardinal={selectedCardinal} />
