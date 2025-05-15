@@ -62,6 +62,7 @@ const TextTrack = styled.div`
   white-space: nowrap;
   animation: ${flowing} ${SCROLL_DURATION}s linear infinite;
   font-size: 13px;
+  animation-delay: 0.5s;
 `;
 
 const BoldText = styled.span`
