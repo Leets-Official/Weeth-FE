@@ -112,7 +112,9 @@ const DropdownMenu = ({
     { value: '글로벌경영학과', label: '글로벌경영학과' },
     { value: '금융수학전공', label: '금융수학전공' },
     { value: '의료산업경영학과', label: '의료산업경영학과' },
-  ];
+  ].sort((a, b) =>
+    a.label.localeCompare(b.label, 'ko', { sensitivity: 'base' }),
+  );
 
   const handleToggle = () => {
     setIsOpen(!isOpen);
