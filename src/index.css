@@ -27,8 +27,13 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-body::-webkit-scrollbar {
+*::-webkit-scrollbar {
   display: none;
+}
+
+* {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 input,
