@@ -177,7 +177,7 @@ const Profile: React.FC = () => {
       if (response.data.code === 200) {
         showModal(`가입 신청이 완료되었습니다.
         운영진의 승인 후 서비스 이용이 가능합니다.`);
-        navigate('/register-success');
+        navigate('/register-success', { replace: true });
       } else {
         showModal(response.data.message);
       }
