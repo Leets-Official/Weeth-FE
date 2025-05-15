@@ -60,7 +60,6 @@ const AdminDues: React.FC = () => {
           title="회비 관리"
           description="기수 시작시 이월된 회비와 해당 기수 회비를 종합해 회비를 등록해주시기 바랍니다. 회비 등록은 기수당 한 번만 가능합니다."
         />
-
         <Container>
           <CardinalWrapper>
             <TotalCardinal
