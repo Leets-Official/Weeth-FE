@@ -38,7 +38,7 @@ const DynamicTopBar: React.FC = () => {
   return (
     <TopBar
       title="멤버 관리"
-      description="가입 승인 등 멤버를 관리하는 페이지입니다. 정기모임을 모두 입력하신 후에 가입 승인을 해주시길 바랍니다."
+      description="가입 승인 등 멤버를 관리하는 페이지입니다."
     />
   );
 };
