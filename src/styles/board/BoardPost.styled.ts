@@ -35,7 +35,7 @@ export const ContentInput = styled.textarea`
   border: none;
   outline: none;
   resize: none;
-  margin: 0 1.25rem 50px 1.25rem;
+  margin: 0 1.25rem 3.125rem 1.25rem;
   padding: 1.25rem 0 0 0;
   color: white;
   font-size: 1rem;
@@ -45,10 +45,10 @@ export const ContentInput = styled.textarea`
   }
   overflow-y: auto;
   &::-webkit-scrollbar {
-    width: 4px;
+    width: 0.25rem;
   }
   &::-webkit-scrollbar-thumb {
     border-radius: 2px;
-    background: #ccc;
+    background: ${theme.color.gray[65]};
   }
 `;

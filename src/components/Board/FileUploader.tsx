@@ -4,7 +4,7 @@ import AddPostFile from '@/components/Board/AddPostFile';
 
 export const FileButton = styled.img`
   cursor: pointer;
-  margin-bottom: 20px;
+  margin-bottom: 1.25rem;
 `;
 
 const FileUploader = ({
