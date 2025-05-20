@@ -35,12 +35,20 @@ export const ContentInput = styled.textarea`
   border: none;
   outline: none;
   resize: none;
-  margin: 0 1.25rem;
+  margin: 0 1.25rem 50px 1.25rem;
   padding: 1.25rem 0 0 0;
   color: white;
   font-size: 1rem;
 
   &::placeholder {
     font-size: 1rem;
+  }
+  overflow-y: auto;
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 2px;
+    background: #ccc;
   }
 `;

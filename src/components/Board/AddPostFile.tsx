@@ -33,7 +33,7 @@ const AddPostFile = ({ onClick }: { onClick: () => void }) => {
   return (
     <Container onClick={onClick}>
       <FolderIcon src={FolderImage} alt="파일 폴더 아이콘" />
-      <FileName>파일 추가가</FileName>
+      <FileName>파일 추가</FileName>
     </Container>
   );
 };
