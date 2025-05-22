@@ -39,6 +39,8 @@ import BoardNoticeEdit from '@/pages/BoardNoticeEdit';
 import { CustomToastContainer } from '@/components/common/ToastMessage';
 import BoardSearch from '@/pages/BoardSearch';
 
+import PrivateRoute from './components/common/PrivateRoute';
+
 const App = () => {
   return (
     <ThemeProvider theme={theme}>
@@ -78,11 +80,26 @@ const App = () => {
         <Route path="/board/:postId/edit" element={<BoardNoticeEdit />} />
         <Route path="/board/search" element={<BoardSearch />} />
 
-        <Route path="/admin" element={<AdminMember />} />
-        <Route path="/admin/attendance" element={<AdminAttendance />} />
-        <Route path="/admin/member" element={<AdminMember />} />
-        <Route path="/admin/dues" element={<AdminDues />} />
-        <Route path="/admin/penalty" element={<AdminPenalty />} />
+        <Route
+          path="/admin"
+          element={<PrivateRoute element={<AdminMember />} />}
+        />
+        <Route
+          path="/admin/attendance"
+          element={<PrivateRoute element={<AdminAttendance />} />}
+        />
+        <Route
+          path="/admin/member"
+          element={<PrivateRoute element={<AdminMember />} />}
+        />
+        <Route
+          path="/admin/dues"
+          element={<PrivateRoute element={<AdminDues />} />}
+        />
+        <Route
+          path="/admin/penalty"
+          element={<PrivateRoute element={<AdminPenalty />} />}
+        />
       </Routes>
     </ThemeProvider>
   );

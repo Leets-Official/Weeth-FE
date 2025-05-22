@@ -38,6 +38,7 @@ const DropdownList = styled.div`
   margin-top: 5px;
   z-index: 1000;
   overflow-y: auto;
+  border-radius: 10px;
 `;
 
 const DropdownItem = styled.div`

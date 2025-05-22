@@ -1,7 +1,10 @@
+/* eslint-disable no-underscore-dangle */
 import axios, { AxiosHeaders, type InternalAxiosRequestConfig } from 'axios';
 
 // API URL
 const BASE_URL = import.meta.env.VITE_API_URL;
+
+let refreshTokenPromise: Promise<any> | null = null;
 
 // Axios 인스턴스 생성
 const api = axios.create({
@@ -56,20 +59,31 @@ api.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
-    if (error.response?.status === 401 && !originalRequest.retry) {
-      originalRequest.retry = true;
+
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+
+      // 이미 리프레시 중이라면, 그 Promise를 기다리게 함
+      if (!refreshTokenPromise) {
+        refreshTokenPromise = getRefreshToken();
+      }
+
       try {
-        const { newAccessToken, newRefreshToken } = await getRefreshToken();
+        const { newAccessToken, newRefreshToken } = await refreshTokenPromise;
+        refreshTokenPromise = null; // 완료 후 초기화
+
         originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
         originalRequest.headers.Authorization_refresh = `Bearer ${newRefreshToken}`;
         return api(originalRequest);
-      } catch (refreshError) {
-        console.error('리프레시 토큰도 만료되었습니다.', refreshError);
+      } catch (err) {
+        refreshTokenPromise = null;
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
-        window.location.href = '/'; // 로그인 페이지로 이동
+        window.location.href = '/';
+        return Promise.reject(err);
       }
     }
+
     return Promise.reject(error);
   },
 );

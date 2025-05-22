@@ -16,9 +16,10 @@ const DropdownContainer = styled.div<{ type: 'mypage' | 'signup' }>`
     `}
 `;
 
-const Title = styled.div`
+const Title = styled.div<{ isProfile?: boolean }>`
   width: 42px;
-  color: ${theme.color.gray[65]};
+  color: ${(props) =>
+    props.isProfile ? theme.color.gray[100] : theme.color.gray[65]};
 `;
 
 const DropdownButton = styled.div`
@@ -64,10 +65,13 @@ const Label = styled.div`
 const DropdownList = styled.div<{ type: 'mypage' | 'signup' }>`
   position: absolute;
   width: ${(props) => (props.type === 'mypage' ? '257px' : '244px')};
-  max-height: 135px;
+  top: calc(100%);
+  border: 1px solid #2c2c2c;
+  border-radius: 4px;
+  max-height: 200px;
   overflow-y: auto;
-  top: calc(100% - 8px);
-  right: ${(props) => (props.type === 'mypage' ? '22.5px' : '25px')};
+  right: ${(props) => (props.type === 'mypage' ? '22.5px' : '30px')};
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   margin-top: 5px;
   z-index: 1000;
   background-color: ${(props) =>
@@ -91,11 +95,15 @@ const DropdownMenu = ({
   origValue,
   editValue,
   type,
+  isProfile,
+  isCardinal,
 }: {
   text: string;
   origValue: string;
   editValue: (value: string) => void;
   type: string;
+  isProfile?: boolean;
+  isCardinal?: boolean;
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState(origValue);
@@ -114,7 +122,19 @@ const DropdownMenu = ({
     { value: '글로벌경영학과', label: '글로벌경영학과' },
     { value: '금융수학전공', label: '금융수학전공' },
     { value: '의료산업경영학과', label: '의료산업경영학과' },
-  ];
+  ].sort((a, b) =>
+    a.label.localeCompare(b.label, 'ko', { sensitivity: 'base' }),
+  );
+
+  const cardinalOptions = [
+    { value: '1', label: '1' },
+    { value: '2', label: '2' },
+    { value: '3', label: '3' },
+    { value: '4', label: '4' },
+    { value: '5', label: '5' },
+  ].sort((a, b) =>
+    b.label.localeCompare(a.label, 'ko', { sensitivity: 'base' }),
+  );
 
   const handleToggle = () => {
     setIsOpen(!isOpen);
@@ -147,9 +167,10 @@ const DropdownMenu = ({
     <DropdownContainer ref={dropdownRef} type={type as 'mypage' | 'signup'}>
       {type === 'mypage' ? (
         <>
-          <Title>{text}</Title>
+          <Title isProfile={isProfile}>{text}</Title>
           <DropdownButton onClick={handleToggle}>
-            {selectedValue}
+            {selectedValue ||
+              (isCardinal ? '기수를 선택해주세요' : '학과를 선택해주세요')}
           </DropdownButton>
         </>
       ) : (
@@ -167,7 +188,7 @@ const DropdownMenu = ({
       )}
       {isOpen && (
         <DropdownList type={type as 'mypage' | 'signup'}>
-          {options.map((option) => (
+          {(isCardinal ? cardinalOptions : options).map((option) => (
             <DropdownItem
               key={option.value}
               onClick={() => handleSelect(option.label, option.value)}

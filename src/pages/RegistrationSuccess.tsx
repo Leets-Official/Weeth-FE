@@ -79,7 +79,7 @@ const RegistrationSuccess = () => {
 
   return (
     <Container>
-      <Header RightButtonType="none" isAccessible={false} />
+      <Header isWaiting RightButtonType="none" isAccessible={false} />
       <Content>
         <img
           src={weeth}
