@@ -8,13 +8,17 @@ const ImgButton = styled.div`
   cursor: pointer;
 `;
 
-const LeftButton = () => {
+const LeftButton = ({ isWaiting }: { isWaiting?: boolean }) => {
   const navi = useNavigate();
 
   return (
     <ImgButton
       onClick={() => {
-        navi(-1);
+        if (isWaiting) {
+          navi('/');
+        } else {
+          navi(-1);
+        }
       }}
     >
       <img src={prev} alt="prev" />

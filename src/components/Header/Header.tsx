@@ -49,6 +49,7 @@ interface HeaderProps {
   RightButtonType: 'TEXT' | 'MENU' | 'PLUS' | 'EDIT' | 'none';
   isComplete?: boolean;
   isAccessible: boolean;
+  isWaiting?: boolean;
 }
 
 const HeaderWrapper = styled.div`
@@ -75,10 +76,11 @@ const Header = ({
   RightButtonType,
   isComplete = true,
   isAccessible = false,
+  isWaiting = false,
 }: HeaderProps) => {
   return (
     <HeaderWrapper>
-      <LeftButton />
+      <LeftButton isWaiting={isWaiting} />
       <Title>{children}</Title>
 
       {RightButtonType === 'TEXT' && onClickRightButton && (
