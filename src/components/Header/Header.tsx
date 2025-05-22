@@ -41,7 +41,7 @@ import TextButton from '@/components/Header/TextButton';
 import LeftButton from '@/components/Header/LeftButton';
 import MenuButton from '@/components/Header/MenuButton';
 import PlusButton from '@/components/Header/PlusButton';
-import SearchButton from '@/components/Header/Searchbutton';
+import SearchButton from '@/components/Header/SearchButton';
 // import EditButton from '@/components/Header/EditButton';
 
 interface HeaderProps {
