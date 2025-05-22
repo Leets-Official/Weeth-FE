@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import api from '@/api/api';
 
@@ -83,6 +83,7 @@ const Login: React.FC = () => {
   useCustomBack('/accountcheck');
 
   const navigate = useNavigate();
+  const location = useLocation();
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [passwordVisible, setPasswordVisible] = useState<boolean>(false);
@@ -164,7 +165,15 @@ const Login: React.FC = () => {
         setError(null);
         localStorage.setItem('accessToken', response.data.data.accessToken);
         localStorage.setItem('refreshToken', response.data.data.refreshToken);
-        navigate('/home');
+
+        const searchParams = new URLSearchParams(location.search);
+        const redirectUrl = searchParams.get('redirect');
+
+        if (redirectUrl) {
+          navigate(redirectUrl, { replace: true });
+        } else {
+          navigate('/home', { replace: true });
+        }
       }
     } catch (err: any) {
       setError(err.response?.data.message);

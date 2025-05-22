@@ -16,9 +16,10 @@ const DropdownContainer = styled.div<{ type: 'mypage' | 'signup' }>`
     `}
 `;
 
-const Title = styled.div`
+const Title = styled.div<{ isProfile?: boolean }>`
   width: 42px;
-  color: ${theme.color.gray[65]};
+  color: ${(props) =>
+    props.isProfile ? theme.color.gray[100] : theme.color.gray[65]};
 `;
 
 const DropdownButton = styled.div`
@@ -94,11 +95,15 @@ const DropdownMenu = ({
   origValue,
   editValue,
   type,
+  isProfile,
+  isCardinal,
 }: {
   text: string;
   origValue: string;
   editValue: (value: string) => void;
   type: string;
+  isProfile?: boolean;
+  isCardinal?: boolean;
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState(origValue);
@@ -119,6 +124,16 @@ const DropdownMenu = ({
     { value: '의료산업경영학과', label: '의료산업경영학과' },
   ].sort((a, b) =>
     a.label.localeCompare(b.label, 'ko', { sensitivity: 'base' }),
+  );
+
+  const cardinalOptions = [
+    { value: '1', label: '1' },
+    { value: '2', label: '2' },
+    { value: '3', label: '3' },
+    { value: '4', label: '4' },
+    { value: '5', label: '5' },
+  ].sort((a, b) =>
+    b.label.localeCompare(a.label, 'ko', { sensitivity: 'base' }),
   );
 
   const handleToggle = () => {
@@ -152,9 +167,10 @@ const DropdownMenu = ({
     <DropdownContainer ref={dropdownRef} type={type as 'mypage' | 'signup'}>
       {type === 'mypage' ? (
         <>
-          <Title>{text}</Title>
+          <Title isProfile={isProfile}>{text}</Title>
           <DropdownButton onClick={handleToggle}>
-            {selectedValue}
+            {selectedValue ||
+              (isCardinal ? '기수를 선택해주세요' : '학과를 선택해주세요')}
           </DropdownButton>
         </>
       ) : (
@@ -172,7 +188,7 @@ const DropdownMenu = ({
       )}
       {isOpen && (
         <DropdownList type={type as 'mypage' | 'signup'}>
-          {options.map((option) => (
+          {(isCardinal ? cardinalOptions : options).map((option) => (
             <DropdownItem
               key={option.value}
               onClick={() => handleSelect(option.label, option.value)}

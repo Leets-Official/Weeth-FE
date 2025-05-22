@@ -1,29 +1,27 @@
+import theme from '@/styles/theme';
 import React from 'react';
 import styled from 'styled-components';
-import SignupWhite from '@/components/Signup/SignupWhite';
 
-// Styled components
 const PositionContainer = styled.div`
   display: flex;
-  flex-direction: row;
   align-items: center;
-  width: 370px;
-  max-width: 370px;
-  margin: 8px 0 33px 0;
+  justify-content: center;
+  gap: 26px;
+  font-size: 16px;
 `;
 
 const PositionLabel = styled.div`
-  width: 10%;
-  height: 19px;
-  margin-left: 10%;
-  margin-right: 5%;
-  font-size: 16px;
-  line-height: 19.09px;
+  width: 42px;
+  text-align: left;
+  color: ${theme.color.gray[65]};
 `;
 
 const Positions = styled.div`
   display: flex;
+  width: 257px;
+  height: 45px;
   align-items: center;
+  justify-content: center;
   flex-direction: row;
 `;
 
@@ -100,9 +98,7 @@ const PositionSector: React.FC<PositionSectorProps> = ({
 }) => {
   return (
     <PositionContainer>
-      <PositionLabel>
-        <SignupWhite text={labelName} />
-      </PositionLabel>
+      <PositionLabel>{labelName}</PositionLabel>
       <Positions>
         {positions.map((position) => (
           <div
@@ -110,7 +106,7 @@ const PositionSector: React.FC<PositionSectorProps> = ({
             style={{
               display: 'flex',
               alignItems: 'center',
-              marginRight: '10px',
+              marginLeft: '10px',
             }}
           >
             <PositionCheckbox

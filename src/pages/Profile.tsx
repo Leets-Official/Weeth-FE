@@ -6,17 +6,18 @@ import styled from 'styled-components';
 import DropdownMenu from '@/components/Button/DropdownMenu';
 import Header from '@/components/Header/Header';
 import PositionSector from '@/components/Signup/PositionSector';
-import SignupMemInput from '@/components/Signup/SignupMemInput';
 import useCustomBack from '@/hooks/useCustomBack';
 import api from '@/api/api';
 import SelectModal from '@/components/Modal/SelectModal';
+import theme from '@/styles/theme';
+import Line from '@/components/common/Line';
+import InfoInput from '@/components/MyPage/InfoInput';
 
-// Styled components
 const ProfileContainer = styled.div`
   width: 370px;
-  height: 812px;
   max-width: 370px;
-  overflow-x: hidden; /* Prevent horizontal scroll */
+  overflow-x: hidden;
+  margin-bottom: 70px;
 `;
 
 const ProfileTitle = styled.div`
@@ -24,7 +25,8 @@ const ProfileTitle = styled.div`
   font-weight: 600;
   line-height: 40px;
   margin-left: 7%;
-  margin-top: 30px;
+  margin-top: 25px;
+  margin-bottom: 15px;
 `;
 
 const ProfileSubTitle = styled.div`
@@ -35,9 +37,14 @@ const ProfileSubTitle = styled.div`
   text-align: center;
   align-items: center;
   margin-left: 7%;
+  color: #a6a6a6;
 `;
 
 const ProfileButtonContainer = styled.div`
+  position: fixed;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -54,23 +61,41 @@ const ProfileButton = styled.button<{ disabled: boolean }>`
   font-size: 16px;
   font-weight: 600;
   line-height: 19px;
-  margin-top: 100px;
   border: none;
-  cursor: ${(props: { disabled: boolean }) =>
-    props.disabled ? 'not-allowed' : 'pointer'};
+  cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
   outline: none;
   display: flex;
   justify-content: center;
   align-items: center;
 `;
 
+const InfoWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+`;
+
+const Content = styled.div``;
+
+const Text = styled.div`
+  font-size: 20px;
+  font-family: ${theme.font.semiBold};
+  margin: 24px 0 10px 25px;
+  color: #a6a6a6;
+`;
+
 const InputContainer = styled.div`
   margin-top: 30px;
 `;
 
-const InputWrapper = styled.div`
-  margin-bottom: 33px; /* Spacing between elements */
-`;
+const Title = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <Content>
+      <Text>{children}</Text>
+      <Line />
+    </Content>
+  );
+};
 
 const roleMapping: Record<string, string> = {
   FE: 'FE',
@@ -124,6 +149,8 @@ const Profile: React.FC = () => {
     return emailRegex.test(validEmail);
   };
 
+  const validatePhone = (tel: string): boolean => /^\d{10,11}$/.test(tel);
+
   const showModal = (message: string) => {
     setModalMessage(message);
     setModalVisible(true);
@@ -144,11 +171,11 @@ const Profile: React.FC = () => {
         memberInfo[field as keyof MemberInfo]?.trim() !== '',
     );
 
-    if (memberInfo.studentId && memberInfo.studentId.trim().length < 9) {
+    if (!/^\d{9}$/.test(memberInfo.studentId || '')) {
       showModal('올바른 학번을 입력해 주세요.');
       return;
     }
-    if (memberInfo.tel && memberInfo.tel.trim().length < 11) {
+    if (!validatePhone(memberInfo.tel || '')) {
       showModal('올바른 휴대폰 번호를 입력해 주세요.');
       return;
     }
@@ -186,7 +213,7 @@ const Profile: React.FC = () => {
     }
   };
 
-  const handleChange = (key: MemberInfoKeys, value: string) => {
+  const handleChange = (key: MemberInfoKeys, value: string | number) => {
     const newMemberInfo = { ...memberInfo, [key]: value };
     setMemberInfo(newMemberInfo);
 
@@ -220,66 +247,55 @@ const Profile: React.FC = () => {
         합니다.
       </ProfileSubTitle>
       <InputContainer>
-        <InputWrapper>
-          <SignupMemInput
-            labelName="이름"
-            placeholderText="홍길동"
+        <InfoWrapper>
+          <Title>개인정보</Title>
+          <InfoInput
+            isProfile
+            text="이름"
             origValue={memberInfo.name || ''}
-            inputType="text"
-            onChange={(value) => handleChange('name', value)}
+            editValue={(value) => handleChange('name', value)}
           />
-        </InputWrapper>
-        <InputWrapper>
-          <SignupMemInput
-            labelName="학번"
-            placeholderText="202412345"
-            origValue={memberInfo.studentId || ''}
-            inputType="number"
-            onChange={(value) => handleChange('studentId', value)}
+          <InfoInput
+            isProfile
+            text="핸드폰"
+            origValue={memberInfo.tel || ''}
+            editValue={(value) => handleChange('tel', value)}
           />
-        </InputWrapper>
-        <InputWrapper>
+          <InfoInput
+            isProfile
+            text="메일"
+            origValue={memberInfo.email || ''}
+            editValue={(value) => handleChange('email', value)}
+          />
+
+          <Title>활동정보</Title>
           <DropdownMenu
+            isProfile
             text="학과"
             origValue={memberInfo.department || ''}
             editValue={(value) => handleChange('department', value)}
-            type="signup"
+            type="mypage"
           />
-        </InputWrapper>
-        <InputWrapper>
-          <SignupMemInput
-            labelName="핸드폰"
-            placeholderText="01012341234"
-            origValue={memberInfo.tel || ''}
-            inputType="number"
-            onChange={(value) => handleChange('tel', value)}
+          <InfoInput
+            isProfile
+            text="학번"
+            origValue={memberInfo.studentId || ''}
+            editValue={(value) => handleChange('studentId', value)}
           />
-        </InputWrapper>
-        <InputWrapper>
-          <SignupMemInput
-            labelName="이메일"
-            placeholderText="aaa123@example.com"
-            origValue={memberInfo.email || ''}
-            inputType="email"
-            onChange={(value) => handleChange('email', value)}
-          />
-        </InputWrapper>
-        <InputWrapper>
-          <SignupMemInput
-            labelName="기수"
-            placeholderText="5"
+          <DropdownMenu
+            isProfile
+            isCardinal
+            text="기수"
             origValue={memberInfo.cardinal || ''}
-            inputType="number"
-            onChange={(value) => handleChange('cardinal', value)}
+            editValue={(value) => handleChange('cardinal', value)}
+            type="mypage"
           />
-        </InputWrapper>
-        <InputWrapper>
           <PositionSector
             labelName="역할"
             value={memberInfo.position || ''}
             onChange={(value) => handleChange('position', value)}
           />
-        </InputWrapper>
+        </InfoWrapper>
       </InputContainer>
       <ProfileButtonContainer>
         <ProfileButton onClick={handleNextClick} disabled={!isNextEnabled}>

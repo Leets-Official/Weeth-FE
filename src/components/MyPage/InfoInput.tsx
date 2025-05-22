@@ -10,10 +10,11 @@ const Container = styled.div`
   font-size: 16px;
 `;
 
-const Label = styled.div`
+const Label = styled.div<{ isProfile?: boolean }>`
   width: 42px;
   text-align: left;
-  color: ${theme.color.gray[65]};
+  color: ${(props) =>
+    props.isProfile ? theme.color.gray[100] : theme.color.gray[65]};
 `;
 
 const Input = styled.input`
@@ -48,10 +49,12 @@ const InfoInput = ({
   text,
   origValue,
   editValue = () => {},
+  isProfile,
 }: {
   text: string;
   origValue: string | number[];
   editValue?: (val: string | number) => void;
+  isProfile?: boolean;
 }) => {
   const [value, setValue] = useState(origValue);
 
@@ -79,7 +82,7 @@ const InfoInput = ({
     if (val === '') return true;
     const numberRegex = /^[0-9]*$/;
     const koreanRegex = /^[ㄱ-ㅎ가-힣]*$/;
-    const koreanEnglishRegex = /^[가-힣a-zA-Z]+$/;
+    const koreanEnglishRegex = /^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z]*$/;
 
     switch (inputType) {
       case 'text':
@@ -115,7 +118,7 @@ const InfoInput = ({
 
   return (
     <Container>
-      <Label>{text}</Label>
+      <Label isProfile={isProfile}>{text}</Label>
       {text === '로그인' || text === '기수' || text === '역할' ? (
         <NoEdit
           value={value as string}
