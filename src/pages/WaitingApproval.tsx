@@ -88,7 +88,7 @@ const WaitingApproval = () => {
           height={49.7}
           style={{ marginBottom: '20px' }}
         />
-        <img src={wait} alt="wait" width={215} height={148} />
+        <img src={wait} alt="wait" width={283} height={148} />
         <Title>승인 대기중</Title>
         <SubTitle>운영진이 회원님의 정보를 확인 중입니다!</SubTitle>
         <SubTitle>
