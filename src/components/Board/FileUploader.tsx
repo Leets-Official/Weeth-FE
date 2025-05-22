@@ -1,10 +1,10 @@
-import icClip from '@/assets/images/ic_clip.svg';
 import React, { useRef } from 'react';
 import styled from 'styled-components';
+import AddPostFile from '@/components/Board/AddPostFile';
 
 export const FileButton = styled.img`
   cursor: pointer;
-  margin-bottom: 20px;
+  margin-bottom: 1.25rem;
 `;
 
 const FileUploader = ({
@@ -35,7 +35,7 @@ const FileUploader = ({
 
   return (
     <>
-      <FileButton src={icClip} onClick={handleClick} alt="파일 업로드" />
+      <AddPostFile onClick={handleClick} />
       <input
         type="file"
         ref={fileInputRef}

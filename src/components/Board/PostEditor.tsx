@@ -25,6 +25,7 @@ const PostEditor = ({
         value={content}
         onChange={(e) => setContent(e.target.value)}
       />
+      <Line />
     </S.PostWrapper>
   );
 };

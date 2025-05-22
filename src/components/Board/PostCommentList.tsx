@@ -15,7 +15,7 @@ interface CommentType {
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 5px 23px 0 23px;
+  margin: 5px 5px 0 5px;
 `;
 
 const ReplyWrapper = styled.div`

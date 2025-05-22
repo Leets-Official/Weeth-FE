@@ -4,7 +4,7 @@ import styled from 'styled-components';
 export const PostMainContainer = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 0.3125rem 1.4375rem 0 1.4375rem;
+  margin: 5px 15px 0 15px;
   word-break: break-all;
 `;
 

@@ -34,6 +34,9 @@ export const StyledMemoBox = styled.div`
 
 export const Text = styled.div`
   font-size: 16px;
+  word-break: break-word;
+  white-space: pre-wrap;
+  max-width: 180px;
 `;
 
 export const SmallText = styled.div`

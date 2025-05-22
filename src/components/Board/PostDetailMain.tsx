@@ -94,7 +94,7 @@ const PostDetailMain = ({ info }: PostDetailMainProps) => {
         <img src={CommentImage} alt="댓글 이미지" />
         <div>{info.commentCount}</div>
       </S.CommentText>
-      <Line />
+      <Line width="340px" />
     </S.PostMainContainer>
   );
 };
