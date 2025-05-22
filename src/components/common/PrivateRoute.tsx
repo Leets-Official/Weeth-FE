@@ -9,7 +9,7 @@ const PrivateRoute = ({ element }: PrivateRouteProps) => {
   const location = useLocation();
 
   if (!isLoggedIn) {
-    return <Navigate to={`/login?redirect=${location.pathname}`} replace />;
+    return <Navigate to={`/?redirect=${location.pathname}`} replace />;
   }
   return element;
 };

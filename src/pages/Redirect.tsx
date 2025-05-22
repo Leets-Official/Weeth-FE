@@ -9,6 +9,7 @@ const Redirect: React.FC = () => {
   useEffect(() => {
     const queryParams = new URLSearchParams(window.location.search);
     const code = queryParams.get('code');
+    const redirectPath = queryParams.get('state') || '/home';
 
     if (code) {
       api
@@ -20,7 +21,7 @@ const Redirect: React.FC = () => {
             if (status === 'LOGIN') {
               localStorage.setItem('accessToken', accessToken);
               localStorage.setItem('refreshToken', refreshToken);
-              navigate('/home');
+              navigate(redirectPath, { replace: true });
             } else {
               navigate('/accountcheck');
             }

@@ -2,7 +2,7 @@ import Button from '@/components/Button/Button';
 import useCustomBack from '@/hooks/useCustomBack';
 import theme from '@/styles/theme';
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import styled, { keyframes, css } from 'styled-components';
 import logo from '@/assets/images/logo/logo_full_Spring.svg';
 import kakao from '@/assets/images/ic_KAKAO_symbol.svg';
@@ -63,21 +63,28 @@ const SignUpbutton = styled.button`
 const Landing: React.FC = () => {
   useCustomBack('/');
 
+  const location = useLocation();
   const navigate = useNavigate();
   const [showButtonWrapper, setShowButtonWrapper] = useState(false);
+
+  const params = new URLSearchParams(location.search);
+  const redirectPath = params.get('redirect') || '/home';
 
   const CLIENT_ID = import.meta.env.VITE_KAKAO_CLIENT_ID;
   const BASE_URL = window.location.origin;
   const KAKAO_REDIRECT_URI = import.meta.env.VITE_KAKAO_REDIRECT_URI;
   const REDIRECT_URI = BASE_URL + KAKAO_REDIRECT_URI;
-  const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+  const stateParam = encodeURIComponent(redirectPath);
+  const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&response_type=code&state=${stateParam}`;
 
   useEffect(() => {
     const accessToken = localStorage.getItem('accessToken');
     if (accessToken) {
-      navigate('/home');
+      navigate(redirectPath, {
+        replace: true,
+      });
     }
-  }, [navigate]);
+  }, [navigate, redirectPath]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
