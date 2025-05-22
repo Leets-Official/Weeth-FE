@@ -75,7 +75,7 @@ const Landing: React.FC = () => {
   const KAKAO_REDIRECT_URI = import.meta.env.VITE_KAKAO_REDIRECT_URI;
   const REDIRECT_URI = BASE_URL + KAKAO_REDIRECT_URI;
   const stateParam = encodeURIComponent(redirectPath);
-  const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&response_type=code&state=${stateParam}`;
+  const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code&state=${stateParam}`;
 
   useEffect(() => {
     const accessToken = localStorage.getItem('accessToken');
