@@ -11,6 +11,9 @@ export const department: { [key: string]: string } = {
   GLOBAL_BUSINESS: '글로벌경영학과',
   FINANCIAL_MATHMATICS: '금융수학전공',
   HEALTHCARE_MANAGEMENT: '의료산업경영학과',
+  GAME_AND_INTERACTIVE_MEDIA: '게임영상학과',
+  ENGLISH_LANGUAGE: '영미어문학과',
+  PSYCHOLOGY: '심리학과',
 };
 
 export default department;
